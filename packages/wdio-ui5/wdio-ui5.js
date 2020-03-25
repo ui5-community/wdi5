@@ -96,7 +96,7 @@ function setup(context) {
     // only used internally via .asControl() facade
     context.ui5.addCommand("_getProperty", async (ui5control, property) => {
         const ui5controlProperty = await getProperty(ui5control, property, context)
-        console.info(`[node wdio-ui5] retrieved property ${property} of wdio-internal element ${ui5control}`)
+        console.info(`[node wdio-ui5] retrieved property ${property} of wdio-internal element ${JSON.stringify(ui5control)}`)
         return ui5controlProperty
     })
 
