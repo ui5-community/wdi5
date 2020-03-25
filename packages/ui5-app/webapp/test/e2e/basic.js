@@ -1,5 +1,5 @@
 const assert = require("assert")
-const wdioUI5 = require("../../../../wdio-ui5/wdio-ui5")
+const wdioUI5 = require("wdio-ui5")
 
 before(() => {
     wdioUI5.setup(browser) // use wdio hooks for setting up wdio<->ui5 bridge
@@ -28,7 +28,7 @@ describe("ui5 app", () => {
         $(ui5Button).click()
 
         const listSelector = {
-            wdio_ui5_key: "PeopleList", // plugin-internal
+            wdio_ui5_key: "PeopleList", // plugin-internal, not part of RecordReplay.ControlSelector
             selector: {
                 id: "PeopleList",
                 viewName: "test.Sample.view.Other"
