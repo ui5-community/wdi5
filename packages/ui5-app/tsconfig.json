@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "none",
+    "noEmit": true,
+    "checkJs": true,
+    "allowJs": true,
+    "types": [
+      "@openui5/ts-types",
+      "mocha",
+      "node",
+      "webdriverio",
+      "@wdio/sync",
+      "@wdio/mocha-framework"
+    ]
+  }
+}

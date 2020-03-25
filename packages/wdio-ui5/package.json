@@ -1,0 +1,12 @@
+{
+  "name": "wdio-ui5",
+  "version": "0.0.1",
+  "description": "webdriverio extension w/ ui5 recordreplay api",
+  "main": "wdio-ui5.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "volker.buzek@js-soft.com",
+  "license": "ISC",
+  "private": true
+}

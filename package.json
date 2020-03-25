@@ -1,0 +1,20 @@
+{
+  "name": "wdio-ui5-showcase",
+  "version": "0.0.1",
+  "description": "A repository showcasing the UI5 playing together with WebdriverIO",
+  "private": true,
+  "author": "Volker Buzek, Dominik Feininger",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petermuessig/ui5-ecosystem-showcase.git"
+  },
+  "scripts": {
+    "dev": "cd packages/ui5-app && yarn dev",
+    "test": "cd packages/ui5-app && wdio wdio.conf.js",
+    "test:watch": "cd packages/ui5-app && wdio wdio.conf.js --watch"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
