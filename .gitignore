@@ -1,3 +1,4 @@
+
 # Ignore Mac files
 .DS_Store
 
@@ -61,3 +62,7 @@ dist
 
 # WebStorm/IntelliJ IDE
 .idea
+
+# Report
+*.png
+!/**/.gitkeep

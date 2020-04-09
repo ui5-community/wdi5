@@ -1,0 +1,23 @@
+# editorconfig.org
+
+# editors shouldn't look in parent directories for more .editorconfig files
+root = true
+
+# this is true for all files. override below for more precise matches
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# some variables that should be allowed through the no-undef rule:
+# https://eslint.org/docs/user-guide/configuring#specifying-globals
+globals = sap, browser, driver
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.json]
+indent_size = 2
