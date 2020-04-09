@@ -1,9 +1,10 @@
 const assert = require("assert")
-const wdi5 = require("wdio-ui5")
+const wdi5 = require("../../../../index")
 
 describe("ui5 showcase app", () => {
     it("should have the right button text", () => {
         // make DOM
+        // TODO: https://wiki.selfhtml.org/wiki/JavaScript/DOM/Node
         const buttonAsDom = $("//body/div[2]/div/div/div/div/div[3]/div/div/div[2]/div/section/div/div[3]/button");
 
         // get selector as HTML as the class sap.ui.test.RecordReplay want to receive an Element
@@ -24,6 +25,7 @@ describe("ui5 showcase app", () => {
         // set new Username
         const newUsername = "my New Username";
 
+        // TODO:https://sapui5.hana.ondemand.com/#/api/sap.ui.model.odata.v2.ODataModelhttps://sapui5.hana.ondemand.com/#/api/sap.ui.model.odata.v2.ODataModel
         // create selector
         const inputSelector = {
             wdio_ui5_key: "mainUserInput",

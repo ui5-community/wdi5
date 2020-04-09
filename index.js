@@ -15,14 +15,14 @@ class WDI5 {
     constructor(webcontext) {
 
         // create new instance
-        // doe not matter if read from browser or dervice -> device independent
+        // doesn't matter if read from browser or dervice -> device independent
         if (browser.config) {
             this.deviceType = browser.config.wdi5 ? browser.config.wdi5.deviceType : "native"; // {web | native}
         } else if (driver.config) {
             // just to make sure anyways
             this.deviceType = driver.config.wdi5 ? driver.config.wdi5.deviceType : "native"; // {web | native}
         } else {
-            console.error("no config found somewthing went terribly wrong during the initialitation of the wdconf !");
+            console.error("no config found something went terribly wrong during the initialitation of the wdconf !");
         }
 
         if (this.deviceType === "web") {

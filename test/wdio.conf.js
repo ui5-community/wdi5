@@ -1,3 +1,4 @@
+
 exports.config = {
     // ==================================
     // Where should your test be launched
@@ -202,6 +203,7 @@ exports.config = {
      * @param {Object} test test details
      */
     beforeTest: function (test) {
+        // TODO: clarify why this is needed and what about `wdi5().getWDioUi5().setup(browser)`
         // load module
         const wdi5 = require("../index")
         // specific for the browser environment this setup needs to run otherwise the 'bridge' will get lost between the test scripts

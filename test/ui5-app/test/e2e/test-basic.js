@@ -24,7 +24,6 @@ describe("ui5 showcase app", () => {
      * test for not using the wdio-ui5
      */
     it("should have the right version", () => {
-        // todo: remove
         var sapV = driver.executeAsync((done) => {
             done(sap.ui.version)
         })

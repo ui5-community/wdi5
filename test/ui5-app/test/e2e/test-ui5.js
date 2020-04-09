@@ -4,7 +4,7 @@ const wdi5 = require('../../../../index')
 describe("ui5 showcase app", () => {
 
     beforeEach(() => {
-        // todo: take screenshot always and compare
+        // TODO: take screenshot always and compare
         wdi5().getUtils().takeScreenshot("test-ui5");
     });
 
@@ -12,6 +12,7 @@ describe("ui5 showcase app", () => {
 
         // see sap documetation
         const buttonSelector = {
+            wdio_ui5_key: "NavFwdButton",
             selector: {
                 id: "NavFwdButton",
                 viewName: "test.Sample.view.Main"
@@ -25,6 +26,7 @@ describe("ui5 showcase app", () => {
     it("should navigate via button click to list page", () => {
 
         const buttonSelector = {
+            wdio_ui5_key: "NavFwdButton",
             selector: {
                 id: "NavFwdButton",
                 viewName: "test.Sample.view.Main"
@@ -33,7 +35,7 @@ describe("ui5 showcase app", () => {
         // poc:
         // - retrieve control by ui5 locator
         // - interact with wdio
-        const ui5Button = browser.getControl(buttonSelector)
+        const ui5Button = browser.getControl(buttonSelector.selector)
         // wdio
         $(ui5Button).click()
 

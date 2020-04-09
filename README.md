@@ -1,9 +1,9 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-A repository showcasing UI5's RecordReplay API in conjuntion with WebdriverIO
-
 # Overview
+
+A repository showcasing UI5's RecordReplay API in conjuntion with WebdriverIO
 
 End to end enhancement testing package for UI5 with Webdriver
 
@@ -14,17 +14,16 @@ End to end enhancement testing package for UI5 with Webdriver
 
 # Environment
 
--   WebDriverIO > v5
+-   WebDriverIO v5
 -   UI5
 -   Selenium
 -   Mocha
 
-## Package
 The package contains wdio and selenium dependencies.
 
 ## Prerequisites
 
-TBD
+UI5 Webapplication running in any browser or on any or multiple of appium and electron supported devices.
 
 # Getting Started
 
@@ -37,6 +36,7 @@ in your `wdio.conf.js` a config object `wdi5` following optional properties
 | -------------  | ------------- |
 | screenshotPath | location for screenshot ouput from project root |
 
+custom properties can be set and will be available via the `utils.getConfig` method.
 
 ## UI5 Bridge
 
@@ -53,11 +53,16 @@ For different platforms a set of specifically implemented utils.
 
 `wdi.<Utils>.init()`
 
-### Contexts
+### Appium
+
+#### Contexts
 
 [Context in Appium](http://appium.io/docs/en/commands/context/set-context/)
 Context switching and generated context IDs.
 For some reason the contexts were "NATIVE_APP" and "WEBAPP_<webcontext>" until April 2. Then it changed to "NATIVE_APP" and "WEBAPP_<some generated number>". Which is also fine after a fix was implemented.
+
+### Electron
+Known pitfall is the chromedriver version. Make sure you run the fitting `electron-chromedriver` version to your electron version. Conflicts may occur with the browser `chromedriver` version.
 
 # Contribute
 
