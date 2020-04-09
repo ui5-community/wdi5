@@ -182,7 +182,7 @@ exports.config = {
      */
     before: function (capabilities, specs) {
         // load module
-        const wdi5 = require("wdio-ui5")
+        const wdi5 = require("../index")
         // create instance without param -> for browser
         wdi5()
 
@@ -203,7 +203,7 @@ exports.config = {
      */
     beforeTest: function (test) {
         // load module
-        const wdi5 = require("wdio-ui5")
+        const wdi5 = require("../index")
         // specific for the browser environment this setup needs to run otherwise the 'bridge' will get lost between the test scripts
         wdi5().getWDioUi5().injectUI5(browser) // needed to let the instance know that UI5 is now available for work
     }
