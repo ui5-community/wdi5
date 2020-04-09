@@ -13,7 +13,7 @@
     "ach": "ach",
     "dataSources": {
       "BackendDataSource": {
-        "uri": "https://services.odata.org/V4/(S(fdng4tbvlxgzpdtpfap2rqss))/TripPinServiceRW/",
+        "uri": "/V4/(S(fdng4tbvlxgzpdtpfap2rqss))/TripPinServiceRW/",
         "type": "OData",
         "settings": {
           "odataVersion": "4.0"
@@ -80,7 +80,6 @@
         "type": "sap.ui.model.json.JSONModel",
         "dataSource": "LatestUI5Datasource"
       }
-
     },
     "routing": {
       "config": {
@@ -95,16 +94,12 @@
         {
           "name": "RouteMain",
           "pattern": "",
-          "target": [
-            "TargetMain"
-          ]
+          "target": ["TargetMain"]
         },
         {
           "name": "RouteOther",
           "pattern": "other",
-          "target": [
-            "TargetOther"
-          ]
+          "target": ["TargetOther"]
         }
       ],
       "targets": {

@@ -67,7 +67,7 @@ exports.config = {
     //
     // The property basically handles how many capabilities from the same test should run tests.
     //
-    maxInstances: 5,
+    maxInstances: 1,
     //
     // Or set a limit to run tests with a specific capability.
     maxInstancesPerCapability: 5,
@@ -81,7 +81,7 @@ exports.config = {
             // maxInstances can get overwritten per capability. So if you have an in-house Selenium
             // grid with only 5 firefox instances available you can make sure that not more than
             // 5 instances get started at a time.
-            maxInstances: 5,
+            maxInstances: 1,
 
             browserName: "chrome"
         }
@@ -135,7 +135,7 @@ exports.config = {
     baseUrl: "http://localhost:8888/",
     //
     // Default timeout for all waitForXXX commands.
-    waitforTimeout: 10000,
+    waitforTimeout: 100000,
     //
     // Add files to watch (e.g. application code or page objects) when running `wdio` command
     // with `--watch` flag. Globbing is supported.
@@ -155,7 +155,7 @@ exports.config = {
     // specFileRetries: 1,
     // Default timeout in milliseconds for request
     // if browser driver or grid doesn't send response
-    connectionRetryTimeout: 90000,
+    connectionRetryTimeout: 100000,
     //
     // Default request retries count
     connectionRetryCount: 3,

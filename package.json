@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "git@bitbucket.org:dominikfeininger/testing-wdi5.git",
   "scripts": {
-    "_startApp": "http-server ./test/ui5-app --p 8888",
+    "_startApp": "http-server ./test/ui5-app --p 8888 --proxy https://services.odata.org",
     "_test": "wdio ./test/wdio.conf.js",
     "test": "run-p _startApp _test"
   },
