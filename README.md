@@ -46,6 +46,45 @@ Init the needed package parts
 
 Return values of the `done function of executeAsync` are 'Likewise, any WebElements in the script result will be returned to the client as WebElement JSON objects.' -> https://github.com/webdriverio/webdriverio/issues/2728#issuecomment-388330067
 
+| Method | SAP RecordReplay Method | Description |
+| ------ | ----------------------- | ----------- |
+| getSelectorForElement | findControlSelectorByDOMElement | Find the best control selector for a DOM element. A selector uniquely represents a single element. The 'best' selector is the one with which it is most likely to uniquely identify a control with the least possible inspection of the control tree. |
+| getControl | findDOMElementByControlSelector | Find DOM element representation of a control specified by a selector object. |
+| interactWithControl | interactWithControl | Interact with specific control. |
+| waitForUI5 | waitForUI5 | Wait for UI5 to complete processing, poll until all asynchronous work is finished, or timeout. |
+
+### Types of Control Selectors
+sap.ui.test.RecordReplay.ControlSelector
+
+| selector | description |
+| -------- | ----------- |
+| id | supported |
+| viewName | supported |
+| controlType | supported |
+| bindingPath | not supported, but implemented |
+| I18NText | not supported |
+| labelFor | not supported |
+| properties | supported |
+
+### Create Control Selector
+```javascript
+// create selector
+const selector = {
+    wdio_ui5_key: "mainUserInput", // unique internal key to map and find a control
+    selector: {
+        id: "mainUserInput", // ID of a control (global or within viewName, if viewName is defined)
+        bindingPath: { // internally object of sap.ui.test.matchers.BindingPath is created
+            propertyPath: "/Customers('TRAIH')/ContactName"
+        },
+        properties: { // internally object of sap.ui.test.matchers.Properites is created
+            value: "Helvetius Nagy"
+        },
+        viewName: "test.Sample.view.Main",
+        controlType: "sap.m.Input"
+    }
+}
+```
+
 ## Utils
 
 Due to different platform implementations you need to instantiate the correct Util class.
