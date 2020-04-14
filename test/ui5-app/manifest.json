@@ -13,10 +13,10 @@
     "ach": "ach",
     "dataSources": {
       "BackendDataSource": {
-        "uri": "/V4/(S(fdng4tbvlxgzpdtpfap2rqss))/TripPinServiceRW/",
+        "uri": "/V2/Northwind/Northwind.svc/",
         "type": "OData",
         "settings": {
-          "odataVersion": "4.0"
+          "odataVersion": "2.0"
         }
       },
       "LatestUI5Datasource": {
@@ -67,9 +67,10 @@
           "bundleName": "test.Sample.i18n.i18n"
         }
       },
-      "Backend": {
+      "": {
         "dataSource": "BackendDataSource",
         "settings": {
+          "useBatch": false,
           "autoExpandSelect": true,
           "operationMode": "Server",
           "groupId": "$direct",

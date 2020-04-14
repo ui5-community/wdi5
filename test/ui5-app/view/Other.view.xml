@@ -4,8 +4,8 @@
 
 	<Page title="{i18n>otherPage.title}" showNavButton="true" navButtonPress="onNavBack">
 		<content>
-			<List id="PeopleList" headerText="{i18n>otherPage.listHeader}" items="{Backend>/People}">
-				<StandardListItem title="{Backend>FirstName} {Backend>LastName}" />
+			<List id="PeopleList" headerText="{i18n>otherPage.listHeader}" items="{/Employees}">
+				<StandardListItem title="{FirstName} {LastName}" />
 			</List>
 		</content>
 	</Page>

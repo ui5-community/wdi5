@@ -9,7 +9,7 @@
       "type": "node",
       "program": "${workspaceFolder}/node_modules/.bin/wdio",
       "request": "launch",
-      "args": ["${workspaceFolder}/test/wdio.conf.js", "--watch", "--spec", "${file}"],
+      "args": ["${workspaceFolder}/test/wdio.conf.js", "--spec", "${file}"], // "--watch",
       "skipFiles": ["<node_internals>/**"],
       "internalConsoleOptions": "openOnSessionStart",
       "console": "internalConsole",

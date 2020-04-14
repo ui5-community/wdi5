@@ -14,7 +14,7 @@
 				<Button icon="sap-icon://forward" id="NavFwdButton" text="{i18n>startPage.navButton.text}" press="navFwd" />
 				<Button text="IA Sync" press="onPress" />
 				<Text text="{i18n>startPage.text.username}"/>
-				<Input value="{Backend>/Me/FirstName}"/>
+				<Input id="mainUserInput" value="{/Customers('TRAIH')/ContactName}"/>
 				<Panel expandable="true">
 					<headerToolbar>
 						<OverflowToolbar>
