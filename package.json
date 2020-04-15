@@ -3,7 +3,10 @@
   "version": "0.0.5",
   "description": "package to enhance appium driven wdio test for cordova wrapped ui5 applications",
   "main": "index.js",
-  "repository": "git@bitbucket.org:dominikfeininger/testing-wdi5.git",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:js-soft/wdio-ui5.git"
+  },
   "scripts": {
     "_startApp": "http-server ./test/ui5-app --p 8888 --proxy https://services.odata.org",
     "_test": "wdio ./test/wdio.conf.js",
@@ -11,7 +14,7 @@
   },
   "screenshotPath": "./test/report/screenshots",
   "publishConfig": {
-    "registry": "https://nexus.js-soft.com/repository/npm-private/"
+    "registry": ""
   },
   "keywords": [
     "cordova",
