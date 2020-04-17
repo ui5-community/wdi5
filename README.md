@@ -137,6 +137,7 @@ husky > done
 
 # Todos
 - make use of the Chrome Testrecorder extention: https://chrome.google.com/webstore/detail/ui5-test-recorder/hcpkckcanianjcbiigbklddcpfiljmhj
+- Change Arrow functions in tests to regular `function()` calls.
 
 # Test
 The ui5 app used for the package test is based on [ui5-ecosystem-showcase](https://github.com/petermuessig/ui5-ecosystem-showcase)
