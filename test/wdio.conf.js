@@ -120,8 +120,8 @@ exports.config = {
     // Set specific log levels per logger
     // use 'silent' level to disable logger
     logLevels: {
-        webdriver: "info",
-        "@wdio/applitools-service": "info"
+        webdriver: "silent",
+        "@wdio/applitools-service": "silent"
     },
     //
     // If you only want to run your tests until a specific amount of tests have failed use

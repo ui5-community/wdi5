@@ -5,15 +5,15 @@ describe("ui5 showcase app", () => {
     it("should have the right button text", () => {
 
         // TODO: not sure if this is neede or is helpful
-        // wdi5().getWDioUi5().waitForUI5();
+        wdi5().getWDioUi5().waitForUI5();
 
         // make DOM
-        // TODO: https://wiki.selfhtml.org/wiki/JavaScript/DOM/Node
-        // both not working for any reason ...
-        // const buttonAsDom = $("//body/div[2]/div/div/div/div/div[3]/div/div/div[2]/div/section/div/div[3]/button");
-        // const buttonAsDom = $('container-Sample---Main--NavFwdButton');
-        const buttonAsDom = $('bdi=IA Sync').$('..').$('..')
-
+        // TODO: this needs to go like this if we do get the button direktly it wont work
+        const buttonAsDom = $('/html/body/div[2]/div/div/div/div/div[3]/div/div/div[2]/div/section/div/div[3]/button/span/span/bdi').$('..').$('..');
+        if (buttonAsDom.error) {
+            console.error("buttonAsDom.error: " + buttonAsDom.error);
+            throw new Error("buttonAsDom.error: " + buttonAsDom.error);
+        }
         // get selector as HTML as the class sap.ui.test.RecordReplay want to receive an Element
         // TODO: due to the need of wdio_ui5_key
         const buttonSelector = {

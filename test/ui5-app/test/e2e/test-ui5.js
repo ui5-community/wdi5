@@ -35,7 +35,7 @@ describe("ui5 showcase app", () => {
         // poc:
         // - retrieve control by ui5 locator
         // - interact with wdio
-        const ui5Button = browser.getControl(buttonSelector.selector)
+        const ui5Button = browser.getControl(buttonSelector)
         // wdio
         $(ui5Button).click()
 

@@ -13,9 +13,6 @@
     "test": "run-p _startApp _test"
   },
   "screenshotPath": "./test/report/screenshots",
-  "publishConfig": {
-    "registry": ""
-  },
   "keywords": [
     "cordova",
     "ui5",
