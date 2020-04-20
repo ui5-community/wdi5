@@ -3,7 +3,7 @@ const wdi5 = require("../../../../index")
 
 describe("ui5 showcase app", () => {
     beforeEach(() => {
-        console.log("beforeEach")
+        wdi5().getLogger().log("beforeEach")
         wdi5().getUtils().takeScreenshot("test-basic")
     })
 
@@ -28,7 +28,7 @@ describe("ui5 showcase app", () => {
             done(sap.ui.version)
         })
 
-        console.log(sapV)
+        wdi5().getLogger().log(sapV)
         assert.strictEqual(sapV, "1.76.0")
     })
 })

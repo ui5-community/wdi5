@@ -7,6 +7,7 @@ declare global {
     sap: any;
     bridge: any;
     wdi5: any;
+    driver: any;
   }
 }
 

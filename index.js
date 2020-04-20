@@ -1,6 +1,7 @@
 const BrowserUtils = require('./lib/BrowserUtils');
 const NativeUtils = require('./lib/NativeUtils');
 const wdioUI5 = require("./lib/wdio-ui5");
+const logger = require("./lib/Logger");
 let _instance = null;
 
 class WDI5 {
@@ -22,7 +23,7 @@ class WDI5 {
             // just to make sure anyways
             this.deviceType = driver.config.wdi5 ? driver.config.wdi5.deviceType : "native"; // {web | native}
         } else {
-            console.error("no config found something went terribly wrong during the initialitation of the wdconf !");
+            logger.error("no config found something went terribly wrong during the initialitation of the wdconf !");
         }
 
         if (this.deviceType === "web") {
@@ -30,11 +31,11 @@ class WDI5 {
         } else if (this.deviceType === "native") {
             this._utilInstance = new NativeUtils(webcontext);
         } else {
-            console.error(`requested device type: ${deviceType} is not supported use one of type (String): {web | native} instead`)
+            logger.error(`requested device type: ${deviceType} is not supported use one of type (String): {web | native} instead`)
         }
 
         if (!this._utilInstance) {
-            console.error("WDI5 Utils were not created correctly");
+            logger.error("WDI5 Utils were not created correctly");
         }
         return this;
     }
@@ -52,6 +53,13 @@ class WDI5 {
     getWDioUi5() {
         return wdioUI5;
     }
+
+    /**
+     *
+     */
+    getLogger() {
+        return logger;
+    }
 }
 
 module.exports = (webcontext) => {
@@ -60,9 +68,11 @@ module.exports = (webcontext) => {
         _instance = new WDI5(webcontext);
     } else if (webcontext && (_instance.getUtils() instanceof NativeUtils)) {
         // WDI5 instance already exists but new webcontext is provided
-        console.log("update with provided webcontext")
-        _instance.getUtils().webcontext = webcontext;
+        logger.log("update with provided webcontext")
+        _instance._setWebcontext(webcontext);
     }
+
+    logger.setLoglevel(_instance.getUtils("logLevel"))
 
     return _instance;
 }

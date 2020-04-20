@@ -11,7 +11,7 @@ describe("ui5 showcase app", () => {
         // TODO: this needs to go like this if we do get the button direktly it wont work
         const buttonAsDom = $('/html/body/div[2]/div/div/div/div/div[3]/div/div/div[2]/div/section/div/div[3]/button/span/span/bdi').$('..').$('..');
         if (buttonAsDom.error) {
-            console.error("buttonAsDom.error: " + buttonAsDom.error);
+            wdi5().getLogger().error("buttonAsDom.error: " + buttonAsDom.error);
             throw new Error("buttonAsDom.error: " + buttonAsDom.error);
         }
         // get selector as HTML as the class sap.ui.test.RecordReplay want to receive an Element
@@ -22,7 +22,7 @@ describe("ui5 showcase app", () => {
         }
 
         // compare text in DOM
-        console.log("buttonSelector: " + JSON.stringify(buttonSelector));
+        wdi5().getLogger().log("buttonSelector: " + JSON.stringify(buttonSelector));
         const ui5Button = browser.asControl(buttonSelector);
 
         assert.strictEqual(ui5Button.getProperty("text"), "IA Sync");
@@ -58,7 +58,6 @@ describe("ui5 showcase app", () => {
         const ui5Input = browser.asControl(inputSelector)
 
         // test for wokring binding
-        // console.log("ui5Input: " + JSON.stringify(ui5Input))
         assert.strictEqual(ui5Input.getProperty("value"), newUsername)
     })
 })

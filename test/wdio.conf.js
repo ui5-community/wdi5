@@ -91,6 +91,7 @@ exports.config = {
     wdi5: {
         screenshotPath: "./test/report/screenshots",
         test: "test",
+        logLevel: "error",
         deviceType: "web",
         capabilities: {
             rotate: true,
@@ -191,7 +192,7 @@ exports.config = {
         browser.url("index.html")
 
         // then use the get* Calls
-        console.log("configurations: " + JSON.stringify(wdi5().getUtils().getConfig()))
+        wdi5().getLogger().log("configurations: " + JSON.stringify(wdi5().getUtils().getConfig()))
 
         // ui5 shim setup
         wdi5().getWDioUi5().setup(browser) // use wdio hooks for setting up wdio<->ui5 bridge

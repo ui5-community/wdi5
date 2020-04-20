@@ -29,12 +29,13 @@ UI5 Webapplication running in any browser or on any or multiple of appium and el
 
 ## How to use
 ### Config
-in your `wdio.conf.js` a config object `wdi5` following optional properties
+in your `wdio.conf.js` a config object `wdi5` following optional, but recommended, properties to use all functionality.
 
 
 | Property       | Description   |
 | -------------  | ------------- |
 | screenshotPath | location for screenshot ouput from project root |
+| logLevel | possible values: verbose, error (default) |
 
 custom properties can be set and will be available via the `utils.getConfig` method.
 
@@ -84,6 +85,11 @@ const selector = {
     }
 }
 ```
+
+## Logger
+You can also use the WDI5 logger by calling `wdi5().getLogger()` it supports all console logging functions.
+
+The log level is set by the config or by `wdi5().getLogger().setLoglevel()`
 
 ## Utils
 

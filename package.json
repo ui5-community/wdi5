@@ -1,6 +1,6 @@
 {
   "name": "wdio-ui5",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "package to enhance appium driven wdio test for cordova wrapped ui5 applications",
   "main": "index.js",
   "repository": {
@@ -8,7 +8,7 @@
     "url": "git+ssh://git@github.com:js-soft/wdio-ui5.git"
   },
   "scripts": {
-    "_startApp": "http-server ./test/ui5-app --p 8888 --proxy https://services.odata.org",
+    "_startApp": "http-server ./test/ui5-app --p 8888 --proxy https://services.odata.org -s",
     "_test": "wdio ./test/wdio.conf.js",
     "test": "run-p _startApp _test"
   },
