@@ -1,7 +1,7 @@
 const assert = require("assert");
 const wdi5 = require('../../../../index')
 
-describe("ui5 showcase app", () => {
+describe("ui5 showcase app - ui5 standard", () => {
 
     beforeEach(() => {
         // TODO: take screenshot always and compare

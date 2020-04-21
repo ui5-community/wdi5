@@ -1,7 +1,7 @@
 const assert = require("assert")
 const wdi5 = require("../../../../index")
 
-describe("ui5 showcase app", () => {
+describe("ui5 showcase app - ui5 advanced", () => {
     it("should have the right button text", () => {
 
         // TODO: not sure if this is neede or is helpful
@@ -32,20 +32,17 @@ describe("ui5 showcase app", () => {
         // set new Username
         const newUsername = "my New Username";
 
-        // TODO:https://sapui5.hana.ondemand.com/#/api/sap.ui.model.odata.v2.ODataModel
-
         // create selector
         const inputSelector = {
             wdio_ui5_key: "mainUserInput",
             selector: {
-                // TODO: both not working
                 // id: "mainUserInput",
-                // bindingPath: {
-                //     propertyPath: "/Customers('TRAIH')/ContactName"
-                // },
-                properties: {
-                    value: "Helvetius Nagy"
+                bindingPath: {
+                    propertyPath: "/Customers('TRAIH')/ContactName"
                 },
+                // properties: {
+                //     value: "Helvetius Nagy"
+                // },
                 viewName: "test.Sample.view.Main",
                 controlType: "sap.m.Input"
             }
@@ -54,10 +51,56 @@ describe("ui5 showcase app", () => {
         // set text
         browser.interactWithControl({ selector: inputSelector.selector, clearTextFirst: true, interactionType: "ENTER_TEXT", enterText: newUsername })
 
+        // #1 assert
         // get ui5 control
         const ui5Input = browser.asControl(inputSelector)
-
-        // test for wokring binding
+        // test for working binding
         assert.strictEqual(ui5Input.getProperty("value"), newUsername)
+
+        // #2 assert
+        const testForUI5Control = browser.getControl(inputSelector)
+        assert.strictEqual($(testForUI5Control).getValue(), newUsername)
+    })
+
+    it("should test the named json model", () => {
+        // #1 button test
+        const buttonSelector = {
+            wdio_ui5_key: "buttonSelector",
+            selector: {
+                bindingPath: {
+                    modelName: "testModel",
+                    propertyPath: "//buttonText"
+                },
+                viewName: "test.Sample.view.Main",
+                controlType: "sap.m.Button"
+            }
+        }
+
+        const ui5Button = browser.getControl(buttonSelector)
+        $(ui5Button).click()
+
+        // #2 input test
+        const inputSelector = {
+            wdio_ui5_key: "inputSelector",
+            selector: {
+                bindingPath: {
+                    modelName: "testModel",
+                    propertyPath: "//inputValue"
+                },
+                viewName: "test.Sample.view.Main",
+                controlType: "sap.m.Input"
+            }
+        }
+
+        const inputText = "new Input Value §§§"
+        browser.interactWithControl({
+            selector: inputSelector.selector,
+            clearTextFirst: true,
+            interactionType: "ENTER_TEXT",
+            enterText: inputText
+        })
+
+        const ui5Input = browser.asControl(inputSelector)
+        assert.strictEqual(ui5Input.getProperty("value"), inputText)
     })
 })
