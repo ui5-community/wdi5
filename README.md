@@ -62,9 +62,9 @@ sap.ui.test.RecordReplay.ControlSelector
 | id | supported |
 | viewName | supported |
 | controlType | supported |
-| bindingPath | not supported, but implemented |
-| I18NText | not supported |
-| labelFor | not supported |
+| bindingPath | supported |
+| I18NText | tbd |
+| labelFor | tbd |
 | properties | supported |
 
 ### Create Control Selector
@@ -91,11 +91,13 @@ If you use a named model and a root property there is an issue in UI5 control se
 ```
         bindingPath: { // internally object of sap.ui.test.matchers.BindingPath is created
             modelName: "myModelName",
-            propertyPath: "//Value" // note the double slash instead of single
+            propertyPath: "/Value" // note the double slash instead of single
         },
 ```
 
 The function `_getFormattedPath` in [`BindingPath.js`](https://github.com/SAP/openui5/blob/master/src/sap.ui.core/src/sap/ui/test/matchers/BindingPath.js) does `substring(1)` if it is a named model.
+
+This was tmp fixed in `wdio-ui5 - createMatchers` function. In case this will be fixed by UI5 this need to be adjusted.
 
 ## Logger
 You can also use the WDI5 logger by calling `wdi5().getLogger()` it supports all console logging functions.

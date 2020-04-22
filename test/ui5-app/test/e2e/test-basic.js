@@ -29,6 +29,6 @@ describe("ui5 showcase app - basic", () => {
         })
 
         wdi5().getLogger().log(sapV)
-        assert.strictEqual(sapV, "1.76.0")
+        assert.strictEqual(sapV, "1.77.0")
     })
 })

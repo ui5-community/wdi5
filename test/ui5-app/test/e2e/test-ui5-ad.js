@@ -2,30 +2,45 @@ const assert = require("assert")
 const wdi5 = require("../../../../index")
 
 describe("ui5 showcase app - ui5 advanced", () => {
-    it("should have the right button text", () => {
+    it.only("should have the right button text", () => {
 
         // TODO: not sure if this is neede or is helpful
         wdi5().getWDioUi5().waitForUI5();
 
         // make DOM
         // TODO: this needs to go like this if we do get the button direktly it wont work
-        const buttonAsDom = $('/html/body/div[2]/div/div/div/div/div[3]/div/div/div[2]/div/section/div/div[3]/button/span/span/bdi').$('..').$('..');
+        const buttonAsDom = $('/html/body/div[2]/div/div/div/div/div[3]/div/div/div[2]/div/section/div/div[3]/button/span/span/bdi').$('../..');
+        // const buttonAsDom = $('/html/body/div[2]/div/div/div/div/div[3]/div/div/div[2]/div/section/div/div[2]/button/span/span[2]/bdi').$('..').$('..'); // to Other view
+        const expButtonText = "IA Sync"; // IA Sync // to Other view
+
         if (buttonAsDom.error) {
-            wdi5().getLogger().error("buttonAsDom.error: " + buttonAsDom.error);
-            throw new Error("buttonAsDom.error: " + buttonAsDom.error);
+            // button was not found by wdio
+            const error = "buttonAsDom.error: " + JSON.stringify(buttonAsDom.error);
+            wdi5().getLogger().error(error);
+            throw new Error("buttonAsDom.error: " + error);
         }
         // get selector as HTML as the class sap.ui.test.RecordReplay want to receive an Element
         // TODO: due to the need of wdio_ui5_key
         const buttonSelector = {
             wdio_ui5_key: "btmIASync",
             selector: browser.getSelectorForElement({ domElement: buttonAsDom, settings: { preferViewId: true } })
+            // alternative -> create selector yourself
+            /* selector: {
+                properties: {
+                    text: "IA Sync"
+                },
+                viewName: "test.Sample.view.Main",
+                controlType: "sap.m.Button"
+            } */
         }
 
         // compare text in DOM
-        wdi5().getLogger().log("buttonSelector: " + JSON.stringify(buttonSelector));
         const ui5Button = browser.asControl(buttonSelector);
+        assert.strictEqual(ui5Button.getProperty("text"), expButtonText);
 
-        assert.strictEqual(ui5Button.getProperty("text"), "IA Sync");
+        // #2 webdriver way
+        const wdio5Button = browser.getControl(buttonSelector)
+        assert.strictEqual($(wdio5Button).$('<bdi />').getText(), expButtonText);
     })
 
     it("check the binding of the username input", () => {
@@ -69,7 +84,7 @@ describe("ui5 showcase app - ui5 advanced", () => {
             selector: {
                 bindingPath: {
                     modelName: "testModel",
-                    propertyPath: "//buttonText"
+                    propertyPath: "/buttonText"
                 },
                 viewName: "test.Sample.view.Main",
                 controlType: "sap.m.Button"
@@ -80,12 +95,13 @@ describe("ui5 showcase app - ui5 advanced", () => {
         $(ui5Button).click()
 
         // #2 input test
+
         const inputSelector = {
             wdio_ui5_key: "inputSelector",
             selector: {
                 bindingPath: {
                     modelName: "testModel",
-                    propertyPath: "//inputValue"
+                    propertyPath: "/inputValue"
                 },
                 viewName: "test.Sample.view.Main",
                 controlType: "sap.m.Input"

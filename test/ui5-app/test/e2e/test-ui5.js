@@ -11,31 +11,36 @@ describe("ui5 showcase app - ui5 standard", () => {
     it('should have the button to navigate with text', () => {
 
         // see sap documetation
-        const buttonSelector = {
+        const bs1 = {
             wdio_ui5_key: "NavFwdButton",
             selector: {
                 id: "NavFwdButton",
                 viewName: "test.Sample.view.Main"
             }
         }
-        const ui5Button = browser.asControl(buttonSelector)
+        // #1 wdio-ui5 way
+        const wdioui5Button = browser.asControl(bs1)
+        assert.strictEqual(wdioui5Button.getProperty("text"), "to Other view");
 
-        assert.strictEqual(ui5Button.getProperty("text"), "to Other view");
+        // #2 webdriver way
+        const ui5Button = browser.getControl(bs1)
+        assert.strictEqual($(ui5Button).$('<bdi />').getText(), "to Other view");
     });
 
     it("should navigate via button click to list page", () => {
 
-        const buttonSelector = {
+        const bs2 = {
             wdio_ui5_key: "NavFwdButton",
             selector: {
                 id: "NavFwdButton",
                 viewName: "test.Sample.view.Main"
             }
         }
+
         // poc:
         // - retrieve control by ui5 locator
         // - interact with wdio
-        const ui5Button = browser.getControl(buttonSelector)
+        const ui5Button = browser.getControl(bs2)
         // wdio
         $(ui5Button).click()
 
