@@ -66,13 +66,15 @@ module.exports = (webcontext) => {
     if (!_instance) {
         // create new if parameters are supplied
         _instance = new WDI5(webcontext);
+        // set loglevel once
+        logger.setLoglevel(_instance.getUtils().getConfig("logLevel"))
     } else if (webcontext && (_instance.getUtils() instanceof NativeUtils)) {
         // WDI5 instance already exists but new webcontext is provided
         logger.log("update with provided webcontext")
         _instance._setWebcontext(webcontext);
+    } else {
+        logger.log("reusing instance of WDI5");
     }
-
-    logger.setLoglevel(_instance.getUtils("logLevel"))
 
     return _instance;
 }

@@ -35,7 +35,7 @@ in your `wdio.conf.js` a config object `wdi5` following optional, but recommende
 | Property       | Description   |
 | -------------  | ------------- |
 | screenshotPath | location for screenshot ouput from project root |
-| logLevel | possible values: verbose, error (default) |
+| logLevel | possible values: verbose, error (default), silent |
 
 custom properties can be set and will be available via the `utils.getConfig` method.
 
