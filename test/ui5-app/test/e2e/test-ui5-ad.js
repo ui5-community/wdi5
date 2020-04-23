@@ -2,7 +2,10 @@ const assert = require("assert")
 const wdi5 = require("../../../../index")
 
 describe("ui5 showcase app - ui5 advanced", () => {
-    it.only("should have the right button text", () => {
+
+    globalThis.viewName = "test.Sample.view.Main"
+
+    it("should have the right button text", () => {
 
         // TODO: not sure if this is neede or is helpful
         wdi5().getWDioUi5().waitForUI5();
@@ -20,7 +23,6 @@ describe("ui5 showcase app - ui5 advanced", () => {
             throw new Error("buttonAsDom.error: " + error);
         }
         // get selector as HTML as the class sap.ui.test.RecordReplay want to receive an Element
-        // TODO: due to the need of wdio_ui5_key
         const buttonSelector = {
             wdio_ui5_key: "btmIASync",
             selector: browser.getSelectorForElement({ domElement: buttonAsDom, settings: { preferViewId: true } })
@@ -29,7 +31,7 @@ describe("ui5 showcase app - ui5 advanced", () => {
                 properties: {
                     text: "IA Sync"
                 },
-                viewName: "test.Sample.view.Main",
+                viewName: globalThis.viewName,
                 controlType: "sap.m.Button"
             } */
         }
@@ -58,7 +60,7 @@ describe("ui5 showcase app - ui5 advanced", () => {
                 // properties: {
                 //     value: "Helvetius Nagy"
                 // },
-                viewName: "test.Sample.view.Main",
+                viewName: globalThis.viewName,
                 controlType: "sap.m.Input"
             }
         }
@@ -81,21 +83,13 @@ describe("ui5 showcase app - ui5 advanced", () => {
         // #1 button test
         const buttonSelector = {
             wdio_ui5_key: "buttonSelector",
-            selector: {
-                bindingPath: {
-                    modelName: "testModel",
-                    propertyPath: "/buttonText"
-                },
-                viewName: "test.Sample.view.Main",
-                controlType: "sap.m.Button"
-            }
+            selector: wdi5().cerateBindingPathSelector(globalThis.viewName, "sap.m.Button", "testModel", "/buttonText")
         }
 
         const ui5Button = browser.getControl(buttonSelector)
         $(ui5Button).click()
 
         // #2 input test
-
         const inputSelector = {
             wdio_ui5_key: "inputSelector",
             selector: {
@@ -103,7 +97,7 @@ describe("ui5 showcase app - ui5 advanced", () => {
                     modelName: "testModel",
                     propertyPath: "/inputValue"
                 },
-                viewName: "test.Sample.view.Main",
+                viewName: globalThis.viewName,
                 controlType: "sap.m.Input"
             }
         }

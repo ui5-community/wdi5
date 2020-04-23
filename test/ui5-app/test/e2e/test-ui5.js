@@ -4,7 +4,7 @@ const wdi5 = require('../../../../index')
 describe("ui5 showcase app - ui5 standard", () => {
 
     beforeEach(() => {
-        // TODO: take screenshot always and compare
+        // take screenshot always and compare
         wdi5().getUtils().takeScreenshot("test-ui5");
     });
 
