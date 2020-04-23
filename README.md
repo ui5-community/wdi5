@@ -31,7 +31,6 @@ UI5 Webapplication running in any browser or on any or multiple of appium and el
 ### Config
 in your `wdio.conf.js` a config object `wdi5` following optional, but recommended, properties to use all functionality.
 
-
 | Property       | Description   |
 | -------------  | ------------- |
 | screenshotPath | location for screenshot ouput from project root |
@@ -64,15 +63,16 @@ sap.ui.test.RecordReplay.ControlSelector
 | controlType | supported |
 | bindingPath | supported |
 | I18NText | tbd |
+| Anchestor | tbd |
 | labelFor | tbd |
 | properties | supported |
 
 ### Create Control Selector
 ```javascript
 // create selector
-const selector = {
+const selector = { // wdio-ui5 selector
     wdio_ui5_key: "mainUserInput", // unique internal key to map and find a control
-    selector: {
+    selector: { // sap.ui.test.RecordReplay.ControlSelector
         id: "mainUserInput", // ID of a control (global or within viewName, if viewName is defined)
         bindingPath: { // internally object of sap.ui.test.matchers.BindingPath is created
             propertyPath: "/Customers('TRAIH')/ContactName"
@@ -86,12 +86,14 @@ const selector = {
 }
 ```
 
+WDI5 can help you to create a `sap.ui.test.RecordReplay.ControlSelector` selector by calling eg. `wdi5().createBindingPathSelector(...)` with your parameters.
+
 #### Flaws
 If you use a named model and a root property there is an issue in UI5 control selector.
-```
+```javascript
         bindingPath: { // internally object of sap.ui.test.matchers.BindingPath is created
             modelName: "myModelName",
-            propertyPath: "/Value" // note the double slash instead of single
+            propertyPath: "/Value" // a double slash in created internally to fix the issue
         },
 ```
 

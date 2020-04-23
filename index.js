@@ -57,14 +57,14 @@ class WDI5 {
     }
 
     /**
-     *
+     * @retun logger
      */
     getLogger() {
         return logger;
     }
 
     /**
-     *
+     * @return SelectorHelper
      */
     getSelectorHelper() {
         return selectorHelper;
