@@ -193,6 +193,7 @@ exports.config = {
 
         // then use the get* Calls
         wdi5().getLogger().log("configurations: " + JSON.stringify(wdi5().getUtils().getConfig()))
+        wdi5().getLogger().log("logger test", "more test", "1", 2, "last args")
 
         // ui5 shim setup
         wdi5().getWDioUi5().setup(browser) // use wdio hooks for setting up wdio<->ui5 bridge
