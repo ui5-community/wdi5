@@ -42,6 +42,7 @@ in your `wdio.conf.js` a config object `wdi5` following optional, but recommende
 | -------------  | ------------- |
 | screenshotPath | location for screenshot ouput from project root |
 | logLevel | possible values: verbose, error (default), silent |
+| platform | possible values: android, electron, ios, browser |
 
 custom properties can be set and will be available via the `utils.getConfig` method.
 
@@ -166,8 +167,11 @@ husky > done
 ```
 
 # Todos
+- Webdriver Update -> Version 6.*.*
 - make use of the Chrome Testrecorder extention: https://chrome.google.com/webstore/detail/ui5-test-recorder/hcpkckcanianjcbiigbklddcpfiljmhj
 - Change Arrow functions in tests to regular `function()` calls. (https://mochajs.org/#arrow-functions)
+- Check winston logger (https://www.npmjs.com/package/winston)
+- export sap.ui.router to make navigation more easy
 
 # Test
 The ui5 app used for the package test is based on [ui5-ecosystem-showcase](https://github.com/petermuessig/ui5-ecosystem-showcase)

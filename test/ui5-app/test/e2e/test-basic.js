@@ -13,8 +13,6 @@ describe("ui5 showcase app - basic", () => {
      * track down what is causing a test to fail.
      */
     it("should have the right title", () => {
-        // just for appium
-        wdi5().getUtils().logContexts()
 
         const title = browser.getTitle()
         assert.strictEqual(title, "Sample UI5 Application")

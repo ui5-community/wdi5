@@ -136,8 +136,8 @@ exports.config = {
     // gets prepended directly.
     baseUrl: "http://localhost:8888/",
     //
-    // Default timeout for all waitForXXX commands.
-    waitforTimeout: 100000,
+    // Default timeout for all waitForXXX commands. This is the timeout used for the `executeAsync`funciton
+    waitforTimeout: 10000,
     //
     // Add files to watch (e.g. application code or page objects) when running `wdio` command
     // with `--watch` flag. Globbing is supported.
@@ -157,7 +157,7 @@ exports.config = {
     // specFileRetries: 1,
     // Default timeout in milliseconds for request
     // if browser driver or grid doesn't send response
-    connectionRetryTimeout: 100000,
+    connectionRetryTimeout: 10000,
     //
     // Default request retries count
     connectionRetryCount: 3,
