@@ -10,7 +10,14 @@ End to end enhancement testing package for UI5 with Webdriver
 # When to use
 
 -   Uiveri5 is not working due to eg. use of appium
--   You still would like to make use of UI5 control selectors known from the sap.ui.test namespace.
+-   You still would like to make use of UI5 handy functions like
+    - control selectors and other function known from the sap.ui.test namespace.
+    - make sure ui5 is already ready to start testing
+    -  etc.
+
+# How it works
+
+To access the application's runtime environment this framework uses Webdriver API function `executeAsync`. This allows to write and call methods in the environment of the running application. The two objects `wdi5` and `bridge` are attached to the browser's `window` object to enhance the capabilities.
 
 # Environment
 
@@ -86,9 +93,11 @@ const selector = { // wdio-ui5 selector
 }
 ```
 
-WDI5 can help you to create a `sap.ui.test.RecordReplay.ControlSelector` selector by calling eg. `wdi5().createBindingPathSelector(...)` with your parameters.
+WDI5 can help you to create a `sap.ui.test.RecordReplay.ControlSelector` selector by calling eg. `wdi5().createBindingPathSelector(...)` with your parameters in the order: `viewName, controlType, modelName, propertyPath, path`.
 
 #### Flaws
+[OpenUI5 Issue](https://github.com/SAP/openui5/issues/2887) sap/ui/test/matchers/BindingPath cannot locate control by named model and root property
+
 If you use a named model and a root property there is an issue in UI5 control selector.
 ```javascript
         bindingPath: { // internally object of sap.ui.test.matchers.BindingPath is created
@@ -158,7 +167,7 @@ husky > done
 
 # Todos
 - make use of the Chrome Testrecorder extention: https://chrome.google.com/webstore/detail/ui5-test-recorder/hcpkckcanianjcbiigbklddcpfiljmhj
-- Change Arrow functions in tests to regular `function()` calls.
+- Change Arrow functions in tests to regular `function()` calls. (https://mochajs.org/#arrow-functions)
 
 # Test
 The ui5 app used for the package test is based on [ui5-ecosystem-showcase](https://github.com/petermuessig/ui5-ecosystem-showcase)
