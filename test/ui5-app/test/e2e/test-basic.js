@@ -2,6 +2,9 @@ const assert = require("assert")
 const wdi5 = require("../../../../index")
 
 describe("ui5 showcase app - basic", () => {
+
+    globalThis.viewName = "test.Sample.view.Main"
+
     beforeEach(() => {
         wdi5().getLogger().log("beforeEach")
         wdi5().getUtils().takeScreenshot("test-basic")
@@ -28,5 +31,19 @@ describe("ui5 showcase app - basic", () => {
 
         wdi5().getLogger().log(sapV)
         assert.strictEqual(sapV, "1.77.0")
+    })
+
+    it.only("should have the class", () => {
+        // webdriver
+        const className = "sapMBtn"
+        assert.ok($("#__button1").hasClass(className));
+
+        // ui5
+        const selector = {
+            wdio_ui5_key: "buttonSelector",
+            selector: wdi5().cerateBindingPathSelector(globalThis.viewName, "sap.m.Button", "testModel", "/buttonText")
+        };
+        const control = browser.asControl(selector)
+        assert.ok(control.hasClass(className))
     })
 })

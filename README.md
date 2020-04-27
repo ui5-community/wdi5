@@ -50,7 +50,7 @@ custom properties can be set and will be available via the `utils.getConfig` met
 
 Bridge to ui5
 Init the needed package parts
-`wdi.wdioui5.init()`
+`wdi().getWDioUi5().init()`
 
 Return values of the `done function of executeAsync` are 'Likewise, any WebElements in the script result will be returned to the client as WebElement JSON objects.' -> https://github.com/webdriverio/webdriverio/issues/2728#issuecomment-388330067
 
