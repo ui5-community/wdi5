@@ -39,10 +39,6 @@ describe("ui5 showcase app - ui5 advanced", () => {
         // compare text in DOM
         const ui5Button = browser.asControl(buttonSelector);
         assert.strictEqual(ui5Button.getProperty("text"), expButtonText);
-
-        // #2 webdriver way
-        const wdio5Button = browser.getControl(buttonSelector)
-        assert.strictEqual($(wdio5Button).$('<bdi />').getText(), expButtonText);
     })
 
     it("check the binding of the username input", () => {
@@ -64,19 +60,16 @@ describe("ui5 showcase app - ui5 advanced", () => {
                 controlType: "sap.m.Input"
             }
         }
+        const mainUserInput = browser.asControl(inputSelector);
 
         // set text
-        browser.interactWithControl({ selector: inputSelector.selector, clearTextFirst: true, interactionType: "ENTER_TEXT", enterText: newUsername })
+        mainUserInput.enterText(newUsername)
 
         // #1 assert
         // get ui5 control
         const ui5Input = browser.asControl(inputSelector)
         // test for working binding
         assert.strictEqual(ui5Input.getProperty("value"), newUsername)
-
-        // #2 assert
-        const testForUI5Control = browser.getControl(inputSelector)
-        assert.strictEqual($(testForUI5Control).getValue(), newUsername)
     })
 
     it("should test the named json model", () => {
@@ -86,8 +79,8 @@ describe("ui5 showcase app - ui5 advanced", () => {
             selector: wdi5().cerateBindingPathSelector(globalThis.viewName, "sap.m.Button", "testModel", "/buttonText")
         }
 
-        const ui5Button = browser.getControl(buttonSelector)
-        $(ui5Button).click()
+        const ui5Button = browser.asControl(buttonSelector)
+        ui5Button.press()
 
         // #2 input test
         const inputSelector = {
@@ -101,16 +94,11 @@ describe("ui5 showcase app - ui5 advanced", () => {
                 controlType: "sap.m.Input"
             }
         }
+        const ui5Input = browser.asControl(inputSelector)
 
         const inputText = "new Input Value §§§"
-        browser.interactWithControl({
-            selector: inputSelector.selector,
-            clearTextFirst: true,
-            interactionType: "ENTER_TEXT",
-            enterText: inputText
-        })
+        ui5Input.enterText(inputText)
 
-        const ui5Input = browser.asControl(inputSelector)
         assert.strictEqual(ui5Input.getProperty("value"), inputText)
     })
 })

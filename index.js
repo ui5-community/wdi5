@@ -6,7 +6,7 @@ const logger = require("./lib/Logger");
 const selectorHelper = require("./lib/SelectorHelper");
 let _instance = null;
 
-class WDI5 {
+class _ {
 
     _utilInstance = null;
     deviceType = "";
@@ -81,7 +81,7 @@ class WDI5 {
 module.exports = (webcontext) => {
     if (!_instance) {
         // create new if parameters are supplied
-        _instance = new WDI5(webcontext);
+        _instance = new _(webcontext);
         // set loglevel once
         logger.setLoglevel(_instance.getUtils().getConfig("logLevel"))
     } else if (webcontext && (_instance.getUtils() instanceof NativeUtils)) {

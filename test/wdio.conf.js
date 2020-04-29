@@ -89,6 +89,7 @@ exports.config = {
     ],
 
     wdi5: {
+        // path: "", // commented out to use the default paths
         screenshotPath: "./test/report/screenshots",
         test: "test",
         logLevel: "error",

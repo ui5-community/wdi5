@@ -30,13 +30,12 @@ describe("ui5 showcase app - basic", () => {
         })
 
         wdi5().getLogger().log(sapV)
-        assert.strictEqual(sapV, "1.77.0")
+        assert.strictEqual(sapV, "1.77.2")
     })
 
-    it.only("should have the class", () => {
+    it("should have the class", () => {
         // webdriver
-        const className = "sapMBtn"
-        assert.ok($("#__button1").hasClass(className));
+        const className = "myTestClass"
 
         // ui5
         const selector = {
@@ -44,6 +43,6 @@ describe("ui5 showcase app - basic", () => {
             selector: wdi5().cerateBindingPathSelector(globalThis.viewName, "sap.m.Button", "testModel", "/buttonText")
         };
         const control = browser.asControl(selector)
-        assert.ok(control.hasClass(className))
+        assert.ok(control.hasStyleClass(className))
     })
 })

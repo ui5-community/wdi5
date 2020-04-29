@@ -22,9 +22,6 @@ describe("ui5 showcase app - ui5 standard", () => {
         const wdioui5Button = browser.asControl(bs1)
         assert.strictEqual(wdioui5Button.getProperty("text"), "to Other view");
 
-        // #2 webdriver way
-        const ui5Button = browser.getControl(bs1)
-        assert.strictEqual($(ui5Button).$('<bdi />').getText(), "to Other view");
     });
 
     it("should navigate via button click to list page", () => {
@@ -40,9 +37,9 @@ describe("ui5 showcase app - ui5 standard", () => {
         // poc:
         // - retrieve control by ui5 locator
         // - interact with wdio
-        const ui5Button = browser.getControl(bs2)
+        const ui5Button = browser.asControl(bs2)
         // wdio
-        $(ui5Button).click()
+        ui5Button.press()
 
         const listSelector = {
             wdio_ui5_key: "PeopleList", // plugin-internal, not part of RecordReplay.ControlSelector

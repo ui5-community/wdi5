@@ -26,7 +26,7 @@
 					</content>
 				</Panel>
 				<DateTimePicker placeholder="Enter Date ..." />
-				<Button text="{testModel>/buttonText}" press="onTest" />
+				<Button text="{testModel>/buttonText}" press="onTest" class="myTestClass"/>
 				<Input value="{testModel>/inputValue}"/>
 			</VBox>
 		</content>
