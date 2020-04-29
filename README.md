@@ -36,6 +36,12 @@ You are looking for a end-to-end testing framework for crossplatform UI5 applica
 
 To access the application's runtime environment this framework uses Webdriver API function `executeAsync`. This allows to write and call methods in the environment of the running application. The two objects `wdi5` and `bridge` are attached to the browser's `window` object to enhance the capabilities.
 
+## WDI5Selector
+// TODO:
+
+## WDI5
+// TODO:
+
 ## Utils
 
 To be able to support different platforms the util classes create an abstraction layer of distinctive supported functionality.
@@ -217,7 +223,12 @@ Known pitfall is the chromedriver version. Make sure you run the fitting `electr
 `Logger.js` wraps the basic JS native console statements to use the loglevel config.
 
 ## Webdriver - UI5 bridge
+
 To add functionality to the bridge you need to enhance and add code in the bridge class. Enhance the `WebUI5` class to make the new methods available to the tester when using this framework.
+
+## Return Type of the `executeAsync` function
+
+The function `executeAsync` has defined return types [mentioned here](https://github.com/webdriverio/webdriverio/issues/999). So the return type is custom defined as an array of two elements first is a string representing the status, second is the value for the status.
 
 ## Commitlint
 
@@ -246,6 +257,8 @@ husky > done
 - make use of the Chrome Testrecorder extention: https://chrome.google.com/webstore/detail/ui5-test-recorder/hcpkckcanianjcbiigbklddcpfiljmhj
 - Check winston logger (https://www.npmjs.com/package/winston)
 - export sap.ui.router to make navigation more easy
+- use other method than jQuery (`jQuery(ui5Control).control(0)`) to get UI5 control, since jQuery will be dropped by UI5
+
 
 # Test
 

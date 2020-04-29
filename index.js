@@ -1,7 +1,6 @@
 const BrowserUtils = require('./lib/BrowserUtils');
 const NativeUtils = require('./lib/NativeUtils');
-const wdioUI5 = require("./lib/wdio-ui5");
-// TODO: make call shortcuts
+const wdioUI5 = require("./lib/wdioUi5-index");
 const logger = require("./lib/Logger");
 const selectorHelper = require("./lib/SelectorHelper");
 let _instance = null;
@@ -68,13 +67,6 @@ class _ {
      */
     getSelectorHelper() {
         return selectorHelper;
-    }
-
-    /**
-     * abstract to make call more easy
-     */
-    cerateBindingPathSelector(viewName, controlType, modelName, propertyPath, path) {
-        return selectorHelper.cerateBindingPathSelector(viewName, controlType, modelName, propertyPath, path)
     }
 }
 

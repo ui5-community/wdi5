@@ -40,9 +40,12 @@ describe("ui5 showcase app - basic", () => {
         // ui5
         const selector = {
             wdio_ui5_key: "buttonSelector",
-            selector: wdi5().cerateBindingPathSelector(globalThis.viewName, "sap.m.Button", "testModel", "/buttonText")
+            selector: wdi5().getSelectorHelper().cerateBindingPathSelector(globalThis.viewName, "sap.m.Button", "testModel", "/buttonText")
         };
         const control = browser.asControl(selector)
-        assert.ok(control.hasStyleClass(className))
+        const retrievedClassNameStatus = control.hasStyleClass(className)
+
+        wdi5().getLogger().log("retrievedClassNameStatus", retrievedClassNameStatus)
+        assert.ok(retrievedClassNameStatus)
     })
 })

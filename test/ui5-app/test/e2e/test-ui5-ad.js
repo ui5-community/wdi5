@@ -7,7 +7,7 @@ describe("ui5 showcase app - ui5 advanced", () => {
 
     it("should have the right button text", () => {
 
-        // TODO: not sure if this is neede or is helpful
+        // as example to make sure if no other wdi5 functions are used that the SAPUI5 application is fully up and running
         wdi5().getWDioUi5().waitForUI5();
 
         // make DOM
@@ -76,7 +76,7 @@ describe("ui5 showcase app - ui5 advanced", () => {
         // #1 button test
         const buttonSelector = {
             wdio_ui5_key: "buttonSelector",
-            selector: wdi5().cerateBindingPathSelector(globalThis.viewName, "sap.m.Button", "testModel", "/buttonText")
+            selector: wdi5().getSelectorHelper().cerateBindingPathSelector(globalThis.viewName, "sap.m.Button", "testModel", "/buttonText")
         }
 
         const ui5Button = browser.asControl(buttonSelector)
