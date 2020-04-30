@@ -9,7 +9,7 @@ End to end enhancement testing package for UI5 with Webdriver
 
 This test framework has different parts of provided functionality.
 - webdriver to UI5 bridge
-- utils for platform abstraction
+- Utils for platform abstraction
 
 # When to use
 
@@ -37,10 +37,17 @@ You are looking for a end-to-end testing framework for crossplatform UI5 applica
 To access the application's runtime environment this framework uses Webdriver API function `executeAsync`. This allows to write and call methods in the environment of the running application. The two objects `wdi5` and `bridge` are attached to the browser's `window` object to enhance the capabilities.
 
 ## WDI5Selector
-// TODO:
+
+Is a plain Javascript object to enhance a `sap.ui.test.RecordReplay.ControlSelector` with the property `wdio_ui5_key`.
+```Javascript
+const wdi5Selector = {
+    wdio_ui5_key: „someCutomControlIdentifier“,
+    selector: <sap.ui.test.RecordReplay.ControlSelector>
+}
+```
 
 ## WDI5
-// TODO:
+This class is instantiated by the `asControl` function located in `wdioUi5-index` and returned to the test as object containing the request selector and the reference to the corresponding UI5 control.
 
 ## Utils
 
@@ -50,7 +57,6 @@ To be able to support different platforms the util classes create an abstraction
 
 -   WebDriverIO v5
 -   UI5
--   Selenium
 -   Mocha
 
 The package contains wdio and selenium dependencies.
@@ -79,7 +85,7 @@ custom properties can be set and will be available via the `utils.getConfig` met
 
 After initialization the functionality is attached to the Webdriver browser/ device object and can be called from there.
 
-The main featue is devilerd with the provided `asControl` function which returns the WDIO frameworks own bridge object of a UI5 control. This return object of instance `webui5` provides multiple functions bridged to the UI5 control under the hood.
+The main featue is devilerd with the provided `asControl` function which returns the WDIO frameworks own bridge object of a UI5 control. This return object of instance `WDI5` provides multiple functions bridged to the UI5 control under the hood.
 
 Methods to check status of a control.
 - hasStyleClass
@@ -158,7 +164,7 @@ const selector = { // wdio-ui5 selector
 }
 ```
 
-WDI5 can help you to create a `sap.ui.test.RecordReplay.ControlSelector` selector by calling eg. `wdi5().createBindingPathSelector(...)` with your parameters in the order: `viewName, controlType, modelName, propertyPath, path`.
+WDI5 can help you to create a `sap.ui.test.RecordReplay.ControlSelector` selector by calling eg. `wdi5().getSelectorHelper().createBindingPathSelector(...)` with your parameters in the order: `viewName, controlType, modelName, propertyPath, path`.
 
 #### Flaws
 
@@ -184,10 +190,7 @@ The log level is set by the config or by `wdi5().getLogger().setLoglevel()`
 
 ## Utils
 
-Due to different platform implementations you need to instantiate the correct Util class.
-For different platforms a set of specifically implemented utils.
-
-`wdi.<Utils>.init()`
+The `Utils` allow to have platform specific implementations of features such as screenshot or navigation, but rely on the same method call for the test. 
 
 ### Appium
 
@@ -229,6 +232,13 @@ To add functionality to the bridge you need to enhance and add code in the bridg
 ## Return Type of the `executeAsync` function
 
 The function `executeAsync` has defined return types [mentioned here](https://github.com/webdriverio/webdriverio/issues/999). So the return type is custom defined as an array of two elements first is a string representing the status, second is the value for the status.
+
+## Utils
+Due to different platform implementations you need to instantiate the correct Util class.
+For different platforms a set of specifically implemented utils.
+
+`wdi.<Utils>.init()`
+
 
 ## Commitlint
 
