@@ -99,6 +99,7 @@ Methods to change the status of a control.
 Methods to execute an action on a control. These functions return the the object of type WebUi5 to allow method chaning.
 - enterText
 - press
+- fireEvent
 
 Make sure when you call a method on a control the underlying UI5 control type supports the method. Eg. call `press()` action on a `sap.m.Button` but not on a `sap.m.Text`.
 
@@ -190,7 +191,7 @@ The log level is set by the config or by `wdi5().getLogger().setLoglevel()`
 
 ## Utils
 
-The `Utils` allow to have platform specific implementations of features such as screenshot or navigation, but rely on the same method call for the test. 
+The `Utils` allow to have platform specific implementations of features such as screenshot or navigation, but rely on the same method call for the test.
 
 ### Appium
 
