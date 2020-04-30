@@ -226,6 +226,9 @@ Known pitfall is the chromedriver version. Make sure you run the fitting `electr
 
 `Logger.js` wraps the basic JS native console statements to use the loglevel config.
 
+## Class Diagram
+![Class Diagram](./docs/class_diagram.png)
+
 ## Webdriver - UI5 bridge
 
 To add functionality to the bridge you need to enhance and add code in the bridge class. Enhance the `WebUI5` class to make the new methods available to the tester when using this framework.
@@ -239,7 +242,6 @@ Due to different platform implementations you need to instantiate the correct Ut
 For different platforms a set of specifically implemented utils.
 
 `wdi.<Utils>.init()`
-
 
 ## Commitlint
 
