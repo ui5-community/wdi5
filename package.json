@@ -1,6 +1,6 @@
 {
   "name": "wdi5",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "package to enhance appium driven wdio test for cordova wrapped ui5 applications",
   "main": "index.js",
   "repository": {

@@ -49,7 +49,7 @@ exports.config = {
     //
     specs: ["./test/ui5-app/test/e2e/**/*.js"],
     // Patterns to exclude.
-    exclude: ["test/spec/multibrowser/**", "test/spec/mobile/**"],
+    exclude: [],
     //
     // ============
     // Capabilities
@@ -90,10 +90,9 @@ exports.config = {
     wdi5: {
         // path: "", // commented out to use the default paths
         screenshotPath: "./test/report/screenshots",
-        test: "test",
-        logLevel: "error",
+        logLevel: "error", // error | verbose | silent
         deviceType: "web",
-        capabilities: {
+        capabilities: { // test
             rotate: true,
             camera: 2
         }
@@ -136,7 +135,7 @@ exports.config = {
     // gets prepended directly.
     baseUrl: "http://localhost:8888/",
     //
-    // Default timeout for all waitForXXX commands. This is the timeout used for the `executeAsync`funciton
+    // Default timeout for all waitForUI5 commands. This is the timeout used for the `executeAsync`funciton
     waitforTimeout: 10000,
     //
     // Add files to watch (e.g. application code or page objects) when running `wdio` command
@@ -194,20 +193,8 @@ exports.config = {
         // then use the get* Calls
         wdi5().getLogger().log("configurations: " + JSON.stringify(wdi5().getUtils().getConfig()))
 
-        // ui5 shim setup
+        // UI5 bridge setup
         wdi5().getWDioUi5().setup(browser) // use wdio hooks for setting up wdio<->ui5 bridge
-        wdi5().getWDioUi5().injectUI5(browser) // needed to let the instance know that UI5 is now available for work
-    },
-
-    /**
-     * Function to be executed before a test (in Mocha/Jasmine) or a step (in Cucumber) starts.
-     * @param {Object} test test details
-     */
-    beforeTest: function (test) {
-        // TODO: clarify why this is needed and what about `wdi5().getWDioUi5().setup(browser)`
-        // load module
-        const wdi5 = require("../index")
-        // specific for the browser environment this setup needs to run otherwise the 'bridge' will get lost between the test scripts
         wdi5().getWDioUi5().injectUI5(browser) // needed to let the instance know that UI5 is now available for work
     }
 }

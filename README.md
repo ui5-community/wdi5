@@ -25,10 +25,10 @@ You are looking for a end-to-end testing framework for crossplatform UI5 applica
 
 | Platform | Notes |
 | -------- | ----- |
-| Browser | Google Chrome (latest) |
-| Electron |  |
-| Android |  |
-| Apple iOS |  |
+| Browser | Google Chrome > 80 |
+| Electron | latest major version |
+| Android | latest major version |
+| Apple iOS | latest major version |
 
 # How it works
 
@@ -125,10 +125,10 @@ Return values of the `done function of executeAsync` are 'Likewise, any WebEleme
 
 | Method | SAP RecordReplay Method | Description |
 | ------ | ----------------------- | ----------- |
-| getSelectorForElement | findControlSelectorByDOMElement | Find the best control selector for a DOM element. A selector uniquely represents a single element. The 'best' selector is the one with which it is most likely to uniquely identify a control with the least possible inspection of the control tree. |
-| getControl | findDOMElementByControlSelector | Find DOM element representation of a control specified by a selector object. |
-| interactWithControl | interactWithControl | Interact with specific control. |
-| waitForUI5 | waitForUI5 | Wait for UI5 to complete processing, poll until all asynchronous work is finished, or timeout. |
+| + getSelectorForElement | findControlSelectorByDOMElement | Find the best control selector for a DOM element. A selector uniquely represents a single element. The 'best' selector is the one with which it is most likely to uniquely identify a control with the least possible inspection of the control tree. |
+| - getControl | findDOMElementByControlSelector | Find DOM element representation of a control specified by a selector object. |
+| + interactWithControl | interactWithControl | Interact with specific control. |
+| + waitForUI5 | waitForUI5 | Wait for UI5 to complete processing, poll until all asynchronous work is finished, or timeout. |
 
 ### Types of Control Selectors
 
