@@ -30,7 +30,9 @@ You are looking for a end-to-end testing framework for crossplatform UI5 applica
 | Android | latest major version |
 | Apple iOS | latest major version |
 
-# How it works
+## How it works
+
+![Call History](./docs/CallHistory.png)
 
 ## webdriver - UI5 bridge
 
@@ -129,6 +131,9 @@ Return values of the `done function of executeAsync` are 'Likewise, any WebEleme
 | - getControl | findDOMElementByControlSelector | Find DOM element representation of a control specified by a selector object. |
 | + interactWithControl | interactWithControl | Interact with specific control. |
 | + waitForUI5 | waitForUI5 | Wait for UI5 to complete processing, poll until all asynchronous work is finished, or timeout. |
+
+### How it works
+
 
 ### Types of Control Selectors
 
