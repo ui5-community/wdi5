@@ -9,7 +9,7 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 # Prerequisites
 
--   for browser-based testing: running UI5 app that is accessbile via `http(s)://host.ext:port`
+-   for browser-based testing: running UI5 app that is accessbile via `http(s)://host.ext:port`  
     recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like [`soerver`](https://github.com/vobu/soerver) or [`http-server`](https://www.npmjs.com/package/http-server)
 -   for hybrid app testing:
     -   iOS: `.ipa` + emulator
@@ -104,11 +104,11 @@ Spec Files:      1 passed, 1 total (100% completed) in 00:00:15
 
 ## iOS, Android
 
-<tbd>
+> in progress
 
 ## Electron
 
-<tbd>
+> in progress
 
 # Control selectors
 
