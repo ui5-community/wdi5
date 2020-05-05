@@ -1,14 +1,16 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-`wdi5` (/vdif5/)is a wrapper around [`Webdriver.IO`](https://webdriver.io) utilizing [`UI5`’s test API](https://ui5.sap.com/#/api/sap.ui.test).
+`wdi5` (/vdif5/)is a wrapper around [appium](http://appium.io)-driven [`Webdriver.IO`](https://webdriver.io)-tests, utilizing [`UI5`’s test API](https://ui5.sap.com/#/api/sap.ui.test).
 
-It is designed to run OPA5-/UIveri5-style integration tests for a UI5 application cross-platform - in the browser, in a hybrid (iOS + Android) container and as an Electron application.
+It is designed to run cross-platform, executing OPA5-/UIveri5-style integration tests on a UI5 application  - in the browser, in a hybrid ([cordova](https://cordova.apache.org)) container or as an Electron application.
+
+`wdi5` = UI5 Test API + Webdriver.IO + appium
 
 # Prerequisites
 
-- for browser-based testing: running UI5 app running that is accessbile via `http(s)://host.ext:port`
-  recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like [`soerver`](https://github.com/vobu/soerver)
+- for browser-based testing: running UI5 app that is accessbile via `http(s)://host.ext:port`
+  recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like [`soerver`](https://github.com/vobu/soerver) or [`http-server`](https://www.npmjs.com/package/http-server)
 - for hybrid app testing:
   -  iOS: `.ipa` + emulator
   - Android: `.apk` + emulator
@@ -85,18 +87,30 @@ Execution of 1 spec files started at ...
 [chrome  mac os x #0-0] Running: chrome on mac os x
 [chrome  mac os x #0-0] Session ID: ab244b205b737ceee9c95499b1cc0236
 [chrome  mac os x #0-0]
-[chrome  mac os x #0-0] ui5 showcase app - basic
-[chrome  mac os x #0-0]    ✓ should have the right title
-[chrome  mac os x #0-0]    ✓ should have the right version
-[chrome  mac os x #0-0]    ✓ should have the class
+[chrome  mac os x #0-0] ui5 basics: properties and navigation
+[chrome  mac os x #0-0]    ✓ navigation button w/ text exists
+[chrome  mac os x #0-0]    ✓ getProperty("text") and getText() are equivalent
+[chrome  mac os x #0-0]    ✓ sets the property of a control successfully
+[chrome  mac os x #0-0]    ✓ should navigate via button click to list page
+[chrome  mac os x #0-0]    ✓ control id retrieval methods are equivalent
 [chrome  mac os x #0-0]
-[chrome  mac os x #0-0] 3 passing (2.5s)
+[chrome  mac os x #0-0] 5 passing (9.4s)
 
 
-Spec Files:      1 passed, 1 total (100% completed) in 00:00:06 
+Spec Files:      1 passed, 1 total (100% completed) in 00:00:15 
 ```
 
-# API methods
+# Advanced configuration
+
+## iOS, Android
+
+<tbd>
+
+## Electron
+
+<tbd>
+
+# Control selectors
 
 The entry point to retrieve a control is always `browser.asControl(oSelector)`.
 
@@ -104,8 +118,8 @@ The entry point to retrieve a control is always `browser.asControl(oSelector)`.
 
 ```javascript
 const oSelector = {
-    wdio_ui5_key: "wdi5_button",
-    selector: {
+    wdio_ui5_key: "wdi5_button", // unique internal key to map and find a control
+    selector: { // sap.ui.test.RecordReplay.ControlSelector
         id: "UI5control_ID",
         viewName: "your.namespace.App"
     }
@@ -113,6 +127,37 @@ const oSelector = {
 const control = browser.asControl(oSelector)
 // now use one of the below API methods on `control`
 ```
+These are the supported selectors from [sap.ui.test.RecordReplay.ControlSelector](https://ui5.sap.com/#/api/sap.ui.test.RecordReplay.ControlSelector):
+| selector    | description |
+| ----------- | ----------- |
+| id          | supported   |
+| viewName    | supported   |
+| controlType | supported   |
+| bindingPath | supported   |
+| I18NText    | tbd         |
+| Anchestor   | tbd         |
+| labelFor    | tbd         |
+| properties  | supported   |
+
+```javascript
+const bindingPathSelector = {
+    wdio_ui5_key: "byBindingPath", // unique internal key to map and find a control
+    selector: { // sap.ui.test.RecordReplay.ControlSelector
+        bindingPath: { 
+            propertyPath: "/Customers('TRAIH')/ContactName"
+        },
+        properties: {
+            value: "Helvetius Nagy"
+        },
+        viewName: "test.Sample.view.Main",
+        controlType: "sap.m.Input"
+    }
+}
+const control = browser.asControl(bindingPathSelector)
+// now use one of the below API methods on `control`
+```
+
+
 
 In case you are not able to create an explicit selector for a control, but you are able to find it via any [webdriver strategy](https://www.w3.org/TR/webdriver/#locator-strategies), you can use the `getSelectorForElement` method of the UI5-wdio-bridge. 
 This function gets the webdriver element as parameter and returns a selector which can then used in the `asControl` function.
@@ -128,6 +173,8 @@ const webdriverLocatorSelector = {
 const control = browser.asControl(webdriverLocatorSelector)
 // now use one of the below API methods on `control`
 ```
+
+# API methods
 
 Once the control is retrieved in a test, use these API methods on it:
 
@@ -248,10 +295,42 @@ This works _cross-device_ and puts a `png` into the configured `wdi5.screenshotP
 The file name is prepended with a date indicator (M-d-hh-mm-ss), holds `screenshot` in the filname and is appended with the id you provice (here: `some-id`). 
 Example: `5-5-17-46-47-screenshot--some-id.png`
 
+# Logger
+
+For convenient console output, use `wdi5().getLogger()`. It supports the `syslog`-like levels `log`,`info`, `warn` and `error`: 
+
+```javascript
+const wdi5 = require("wdi5")
+wdi5().getLogger().log("any", "number", "of", "log", "parts")
+```
+
+The log level is set by the either in `wdio.conf.js` via `wdi5.logLevel` or by `wdi5().getLogger().setLoglevel(level = {String} error | verbose | silent)` 
+
 # FAQ/hints
 
+- sample configurations: `wdi5` tests itself with `wdi5` - see the `test/`- and `test/ui5-app/test/e2e/` directory for a sample `wdio.conf.js` and sample tests.
+  Run `npm run test` for `wdi5` testing itself.
+  
 - performance: integration/e2e-tests are rarely fast. `wdi5` tags along that line, remote-controlling a browser with code and all
   -> watch your timeouts and refer to the [`wdio`-documentation](https://webdriver.io/docs/timeouts.html#webdriverio-related-timeouts) on how to tweak them
+  
+- UI5 bug: [OpenUI5 Issue](https://github.com/SAP/openui5/issues/2887) `sap/ui/test/matchers/BindingPath cannot locate control by named model and root property`
+  
+  If you use a named model and a root property there is an issue in UI5 control selector.
+  
+  ```javascript
+  bindingPath: { // internally object of sap.ui.test.matchers.BindingPath is created
+      modelName: "myModelName",
+      propertyPath: "/Value" // a double slash is created internally to fix the issue
+  },
+  ```
+  
+  The function `_getFormattedPath` in [`BindingPath.js`](https://github.com/SAP/openui5/blob/master/src/sap.ui.core/src/sap/ui/test/matchers/BindingPath.js) does `substring(1)` if it is a named model.
+  
+  There’s a tmp fixed in `wdio-ui5 - createMatchers` function. In case the OpenUI5 issue will be fixed this need to be adjusted.
+  
+-  Electron: a known pitfall is the chromedriver version. Make sure you run the fitting `electron-chromedriver` version to your electron version used for the binary. 
+
 
 # License
 
