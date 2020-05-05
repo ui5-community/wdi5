@@ -1,21 +1,21 @@
 const assert = require('assert');
 const wdi5 = require('../../../../index');
 
-describe('ui5 showcase app - ui5 standard', () => {
+describe('ui5 basics: properties and navigation', () => {
     const buttonSelector = {
         wdio_ui5_key: 'NavFwdButton',
         selector: {
             id: 'NavFwdButton',
-            viewName: 'test.Sample.view.Main',
-        },
+            viewName: 'test.Sample.view.Main'
+        }
     };
 
     const listSelector = {
         wdio_ui5_key: 'PeopleList',
         selector: {
             id: 'PeopleList',
-            viewName: 'test.Sample.view.Other',
-        },
+            viewName: 'test.Sample.view.Other'
+        }
     };
 
     beforeEach(() => {
@@ -27,11 +27,18 @@ describe('ui5 showcase app - ui5 standard', () => {
         assert.strictEqual(browser.asControl(buttonSelector).getProperty('text'), 'to Other view');
     });
 
-    it('control text retrieval methods are equivalent', () => {
+    it('getProperty("text") and getText() are equivalent', () => {
         assert.strictEqual(
             browser.asControl(buttonSelector).getProperty('text'),
-            browser.asControl(buttonSelector).getText(),
+            browser.asControl(buttonSelector).getText()
         );
+    });
+
+    it('sets the property of a control successfully', () => {
+        const oButton = browser.asControl(buttonSelector);
+        oButton.setProperty('text', 'new button text');
+        
+        assert.strictEqual(oButton.getText(), 'new button text');
     });
 
     it('should navigate via button click to list page', () => {
