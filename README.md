@@ -31,10 +31,15 @@ You are looking for a end-to-end testing framework for crossplatform UI5 applica
 | Apple iOS | latest major version |
 
 # Getting Started
+run `npm i -D wdi5`
+
+Check [Webdriver.io](https://webdriver.io/) for the general setup of tests with webdriver.
+
+This framework is leaned on OPA5 tests.
 
 ## How to use
 ### Config
-in your `wdio.conf.js` a config object `wdi5` following optional, but recommended, properties to use all functionality.
+In your `wdio.conf.js` (can be copied from test folder) a config object `wdi5` following optional, but recommended, properties to use all functionality.
 
 | Property       | Description   |
 | -------------  | ------------- |
@@ -43,6 +48,20 @@ in your `wdio.conf.js` a config object `wdi5` following optional, but recommende
 | platform | possible values: android, electron, ios, browser |
 
 custom properties can be set and will be available via the `utils.getConfig` method.
+
+#### Framework Setup
+You can find a example in the `test`folder.
+```javascript
+    before: function (capabilities, specs) {
+        // load module
+        const wdi5 = require("../index")
+        // create instance without param -> for browser
+        wdi5()
+        // UI5 bridge setup
+        wdi5().getWDioUi5().setup(browser) // use wdio hooks for setting up wdio<->ui5 bridge
+        wdi5().getWDioUi5().injectUI5(browser) // needed to let the instance know that UI5 is now available for work
+    }
+```
 
 ## UI5 Bridge
 
@@ -71,14 +90,6 @@ Make sure when you call a method on a control the underlying UI5 control type su
 ### Helper
 
 In case you are not able to create an explicit selector to your control, but you are able to find it via any webdriver strategy, you can use the `getSelectorForElement` method of the bridge. This function gets the webdriver element as parameter and returns a selector which can then beeing used in the `asControl` function.
-
-#### Example calls
-
-```javascript
-const selector = {...} // cerate selector for a sap.m.Input on a view
-const oTinput = browser.asControl(selector) // retuns a WebUi5 obejct
-oTinput.enterText('some Text').hasStyleClass("customStyleClass")
-```
 
 ## How it works
 
@@ -132,9 +143,6 @@ Return values of the `done function of executeAsync` are 'Likewise, any WebEleme
 | + interactWithControl | interactWithControl | Interact with specific control. |
 | + waitForUI5 | waitForUI5 | Wait for UI5 to complete processing, poll until all asynchronous work is finished, or timeout. |
 
-### How it works
-
-
 ### Types of Control Selectors
 
 sap.ui.test.RecordReplay.ControlSelector
@@ -154,7 +162,7 @@ sap.ui.test.RecordReplay.ControlSelector
 
 ```javascript
 // create selector
-const selector = { // wdio-ui5 selector
+const wdi5Selector = { //  WDI5Selector
     wdio_ui5_key: "mainUserInput", // unique internal key to map and find a control
     selector: { // sap.ui.test.RecordReplay.ControlSelector
         id: "mainUserInput", // ID of a control (global or within viewName, if viewName is defined)
@@ -172,7 +180,18 @@ const selector = { // wdio-ui5 selector
 
 WDI5 can help you to create a `sap.ui.test.RecordReplay.ControlSelector` selector by calling eg. `wdi5().getSelectorHelper().createBindingPathSelector(...)` with your parameters in the order: `viewName, controlType, modelName, propertyPath, path`.
 
-#### Flaws
+### Retrieve Control
+By using the `asControl` function, which is attached to the `browser` object, the framework returns a WDI5 object.
+
+### Example call
+
+```javascript
+const selector = {...} // cerate selector for a sap.m.Input on a view
+const oInput = browser.asControl(selector) // returns a WebUi5 obejct
+oTinput.enterText('some Text').hasStyleClass("customStyleClass")
+```
+
+#### Flaws - UI5 Issues
 
 [OpenUI5 Issue](https://github.com/SAP/openui5/issues/2887) sap/ui/test/matchers/BindingPath cannot locate control by named model and root property
 
@@ -276,6 +295,7 @@ husky > done
 - Check winston logger (https://www.npmjs.com/package/winston)
 - export sap.ui.router to make navigation more easy
 - use other method than jQuery (`jQuery(ui5Control).control(0)`) to get UI5 control, since jQuery will be dropped by UI5
+- caching of controls (wdio_ui5_key)
 
 
 # Test
