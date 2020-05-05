@@ -331,6 +331,8 @@ The log level is set by the either in `wdio.conf.js` via `wdi5.logLevel` or by `
   
 -  Electron: a known pitfall is the chromedriver version. Make sure you run the fitting `electron-chromedriver` version to your electron version used for the binary. 
 
+- `Webdriver.IO`'s watch mode is running, but subsequent `context.executeAsync()`-calls fail - exact cause unknown, likely candidate is `fibers` from `@wdio/sync`
+
 
 # License
 
