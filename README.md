@@ -30,6 +30,56 @@ You are looking for a end-to-end testing framework for crossplatform UI5 applica
 | Android | latest major version |
 | Apple iOS | latest major version |
 
+# Getting Started
+
+## How to use
+### Config
+in your `wdio.conf.js` a config object `wdi5` following optional, but recommended, properties to use all functionality.
+
+| Property       | Description   |
+| -------------  | ------------- |
+| screenshotPath | location for screenshot ouput from project root |
+| logLevel | possible values: verbose, error (default), silent |
+| platform | possible values: android, electron, ios, browser |
+
+custom properties can be set and will be available via the `utils.getConfig` method.
+
+## UI5 Bridge
+
+### How to use it
+
+After initialization the functionality is attached to the Webdriver browser/ device object and can be called from there.
+
+The main feature is delivered with the provided `asControl` function which returns the WDIO frameworks own bridge object of a UI5 control. This return object of instance `WDI5` provides multiple functions bridged to the UI5 control under the hood.
+
+Methods to check status of a control.
+- hasStyleClass
+- getProperty
+- getAggregation
+- isVisible
+
+Methods to change the status of a control.
+- setProperty
+
+Methods to execute an action on a control. These functions return the the object of type WebUi5 to allow method chaning.
+- enterText
+- press
+- fireEvent
+
+Make sure when you call a method on a control the underlying UI5 control type supports the method. Eg. call `press()` action on a `sap.m.Button` but not on a `sap.m.Text`.
+
+### Helper
+
+In case you are not able to create an explicit selector to your control, but you are able to find it via any webdriver strategy, you can use the `getSelectorForElement` method of the bridge. This function gets the webdriver element as parameter and returns a selector which can then beeing used in the `asControl` function.
+
+#### Example calls
+
+```javascript
+const selector = {...} // cerate selector for a sap.m.Input on a view
+const oTinput = browser.asControl(selector) // retuns a WebUi5 obejct
+oTinput.enterText('some Text').hasStyleClass("customStyleClass")
+```
+
 ## How it works
 
 ![Call History](./docs/CallHistory.png)
@@ -66,56 +116,6 @@ The package contains wdio and selenium dependencies.
 ## Prerequisites
 
 UI5 Webapplication running in any browser or on any or multiple of appium and electron supported devices.
-
-# Getting Started
-
-## How to use
-### Config
-in your `wdio.conf.js` a config object `wdi5` following optional, but recommended, properties to use all functionality.
-
-| Property       | Description   |
-| -------------  | ------------- |
-| screenshotPath | location for screenshot ouput from project root |
-| logLevel | possible values: verbose, error (default), silent |
-| platform | possible values: android, electron, ios, browser |
-
-custom properties can be set and will be available via the `utils.getConfig` method.
-
-## UI5 Bridge
-
-### How to use it
-
-After initialization the functionality is attached to the Webdriver browser/ device object and can be called from there.
-
-The main featue is devilerd with the provided `asControl` function which returns the WDIO frameworks own bridge object of a UI5 control. This return object of instance `WDI5` provides multiple functions bridged to the UI5 control under the hood.
-
-Methods to check status of a control.
-- hasStyleClass
-- getProperty
-- getAggregation
-- isVisible
-
-Methods to change the status of a control.
-- setProperty
-
-Methods to execute an action on a control. These functions return the the object of type WebUi5 to allow method chaning.
-- enterText
-- press
-- fireEvent
-
-Make sure when you call a method on a control the underlying UI5 control type supports the method. Eg. call `press()` action on a `sap.m.Button` but not on a `sap.m.Text`.
-
-### Helper
-
-In case you are not able to create an explicit selector to your control, but you are able to find it via any webdriver strategy, you can use the `getSelectorForElement` method of the bridge. This function gets the webdriver element as parameter and returns a selector which can then beeing used in the `asControl` function.
-
-#### Example calls
-
-```javascript
-const selector = {...} // cerate selector for a sap.m.Input on a view
-const oTinput = browser.asControl(selector) // retuns a WebUi5 obejct
-oTinput.enterText('some Text').hasStyleClass("customStyleClass")
-```
 
 ### Under the Hood
 

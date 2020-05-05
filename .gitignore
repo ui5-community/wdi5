@@ -64,7 +64,6 @@ dist
 .idea
 
 # Report
-*.png
 !/**/.gitkeep
 
 # Testing
