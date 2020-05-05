@@ -10,8 +10,10 @@
   "scripts": {
     "_startApp": "http-server ./test/ui5-app --p 8888 --proxy https://services.odata.org -s",
     "_test": "wdio ./test/wdio.conf.js",
+    "_test:w": "sleep 10s && wdio ./test/wdio.conf.js --watch",
     "_testWT": "sleep 10s && wdio ./test/wdio.conf.js",
-    "test": "run-p _startApp _testWT"
+    "test": "run-p _startApp _testWT",
+    "test:w": "run-p _startApp _test:w"
   },
   "screenshotPath": "./test/report/screenshots",
   "keywords": [
