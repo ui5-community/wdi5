@@ -1,39 +1,30 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "run test:browser",
+      "type": "node",
+      "program": "${workspaceFolder}/node_modules/.bin/wdio",
+      "request": "launch",
+      "args": ["${workspaceFolder}/test/wdio.conf.js", "--spec", "${file}"],
+      "skipFiles": ["<node_internals>/**"],
+      "internalConsoleOptions": "openOnSessionStart",
+      "console": "internalConsole",
+      "autoAttachChildProcesses": true
+    },
 
-        {
-            "name": "run select wdio test",
-            "type": "node",
-            "request": "launch",
-            "args": ["wdio.conf.js", "--spec", "${file}"],
-            "cwd": "${workspaceFolder}/packages/ui5-app",
-            "autoAttachChildProcesses": true,
-            "program": "${workspaceRoot}/node_modules/@wdio/cli/bin/wdio.js",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "run all wdio tests",
-            "type": "node",
-            "request": "launch",
-            "args": ["wdio.conf.js"],
-            "cwd": "${workspaceFolder}/packages/ui5-app",
-            "autoAttachChildProcesses": true,
-            "program": "${workspaceRoot}/node_modules/@wdio/cli/bin/wdio.js",
-            "console": "integratedTerminal"
-        },
-        {
-            "type": "chrome",
-            "request": "launch",
-            "name": "Debug with Chrome",
-            "url": "http://localhost:1081",
-            "webRoot": "${workspaceFolder}/packages/ui5-app/webapp",
-            "sourceMaps": true,
-            "disableNetworkCache": true,
-            "showAsyncStacks": true
-        }
-    ]
+    {
+      "name": "watch selected spec",
+    "type": "node",
+    "request": "launch",
+    "args": ["${workspaceFolder}/test/wdio.conf.js", "--watch", "--spec", "${file}"],
+    "cwd": "${workspaceFolder}",
+    "autoAttachChildProcesses": true,
+    "program": "${workspaceRoot}/node_modules/@wdio/cli/bin/wdio.js",
+    "console": "integratedTerminal"
+    }
+  ]
 }

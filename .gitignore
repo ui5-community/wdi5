@@ -1,3 +1,4 @@
+
 # Ignore Mac files
 .DS_Store
 
@@ -61,3 +62,14 @@ dist
 
 # WebStorm/IntelliJ IDE
 .idea
+
+# Report
+!/**/.gitkeep
+
+# Testing
+!test/report/screenshots/.gitkeep
+test/report/screenshots/*.png
+test/report/logs/*.*
+!test/report/logs/.gitkeep
+test/report/appium/*.*
+!test/report/appium/.gitkeep
