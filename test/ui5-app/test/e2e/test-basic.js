@@ -1,9 +1,12 @@
 const assert = require("assert")
 const wdi5 = require("../../../../index")
 
-describe("ui5 showcase app", () => {
+describe("ui5 showcase app - basic", () => {
+
+    globalThis.viewName = "test.Sample.view.Main"
+
     beforeEach(() => {
-        console.log("beforeEach")
+        wdi5().getLogger().log("beforeEach")
         wdi5().getUtils().takeScreenshot("test-basic")
     })
 
@@ -13,8 +16,6 @@ describe("ui5 showcase app", () => {
      * track down what is causing a test to fail.
      */
     it("should have the right title", () => {
-        // just for appium
-        wdi5().getUtils().logContexts()
 
         const title = browser.getTitle()
         assert.strictEqual(title, "Sample UI5 Application")
@@ -28,7 +29,23 @@ describe("ui5 showcase app", () => {
             done(sap.ui.version)
         })
 
-        console.log(sapV)
-        assert.strictEqual(sapV, "1.76.0")
+        wdi5().getLogger().log(sapV)
+        assert.strictEqual(sapV, "1.77.2")
+    })
+
+    it("should have the class", () => {
+        // webdriver
+        const className = "myTestClass"
+
+        // ui5
+        const selector = {
+            wdio_ui5_key: "buttonSelector",
+            selector: wdi5().getSelectorHelper().cerateBindingPathSelector(globalThis.viewName, "sap.m.Button", "testModel", "/buttonText")
+        };
+        const control = browser.asControl(selector)
+        const retrievedClassNameStatus = control.hasStyleClass(className)
+
+        wdi5().getLogger().log("retrievedClassNameStatus", retrievedClassNameStatus)
+        assert.ok(retrievedClassNameStatus)
     })
 })

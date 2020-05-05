@@ -64,5 +64,12 @@ dist
 .idea
 
 # Report
-*.png
 !/**/.gitkeep
+
+# Testing
+!test/report/screenshots/.gitkeep
+test/report/screenshots/*.png
+test/report/logs/*.*
+!test/report/logs/.gitkeep
+test/report/appium/*.*
+!test/report/appium/.gitkeep

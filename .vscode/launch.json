@@ -9,11 +9,22 @@
       "type": "node",
       "program": "${workspaceFolder}/node_modules/.bin/wdio",
       "request": "launch",
-      "args": ["${workspaceFolder}/test/wdio.conf.js", "--spec", "${file}"], // "--watch",
+      "args": ["${workspaceFolder}/test/wdio.conf.js", "--spec", "${file}"],
       "skipFiles": ["<node_internals>/**"],
       "internalConsoleOptions": "openOnSessionStart",
       "console": "internalConsole",
       "autoAttachChildProcesses": true
+    },
+
+    {
+      "name": "watch selected spec",
+    "type": "node",
+    "request": "launch",
+    "args": ["${workspaceFolder}/test/wdio.conf.js", "--watch", "--spec", "${file}"],
+    "cwd": "${workspaceFolder}",
+    "autoAttachChildProcesses": true,
+    "program": "${workspaceRoot}/node_modules/@wdio/cli/bin/wdio.js",
+    "console": "integratedTerminal"
     }
   ]
 }

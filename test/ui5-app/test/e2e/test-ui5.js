@@ -1,58 +1,56 @@
-const assert = require("assert");
-const wdi5 = require('../../../../index')
+const assert = require('assert');
+const wdi5 = require('../../../../index');
 
-describe("ui5 showcase app", () => {
+describe('ui5 basics: properties and navigation', () => {
+    const buttonSelector = {
+        wdio_ui5_key: 'NavFwdButton',
+        selector: {
+            id: 'NavFwdButton',
+            viewName: 'test.Sample.view.Main'
+        }
+    };
+
+    const listSelector = {
+        wdio_ui5_key: 'PeopleList',
+        selector: {
+            id: 'PeopleList',
+            viewName: 'test.Sample.view.Other'
+        }
+    };
 
     beforeEach(() => {
-        // TODO: take screenshot always and compare
-        wdi5().getUtils().takeScreenshot("test-ui5");
+        // take screenshot always and compare
+        wdi5().getUtils().takeScreenshot('test-ui5');
     });
 
-    it('should have the button to navigate with text', () => {
-
-        // see sap documetation
-        const buttonSelector = {
-            wdio_ui5_key: "NavFwdButton",
-            selector: {
-                id: "NavFwdButton",
-                viewName: "test.Sample.view.Main"
-            }
-        }
-        const ui5Button = browser.asControl(buttonSelector)
-
-        assert.strictEqual(ui5Button.getProperty("text"), "to Other view");
+    it('navigation button w/ text exists', () => {
+        assert.strictEqual(browser.asControl(buttonSelector).getProperty('text'), 'to Other view');
     });
 
-    it("should navigate via button click to list page", () => {
+    it('getProperty("text") and getText() are equivalent', () => {
+        assert.strictEqual(
+            browser.asControl(buttonSelector).getProperty('text'),
+            browser.asControl(buttonSelector).getText()
+        );
+    });
 
-        const buttonSelector = {
-            wdio_ui5_key: "NavFwdButton",
-            selector: {
-                id: "NavFwdButton",
-                viewName: "test.Sample.view.Main"
-            }
-        }
-        // poc:
-        // - retrieve control by ui5 locator
-        // - interact with wdio
-        const ui5Button = browser.getControl(buttonSelector.selector)
-        // wdio
-        $(ui5Button).click()
+    it('sets the property of a control successfully', () => {
+        const oButton = browser.asControl(buttonSelector);
+        oButton.setProperty('text', 'new button text');
+        
+        assert.strictEqual(oButton.getText(), 'new button text');
+    });
 
-        const listSelector = {
-            wdio_ui5_key: "PeopleList", // plugin-internal, not part of RecordReplay.ControlSelector
-            selector: {
-                id: "PeopleList",
-                viewName: "test.Sample.view.Other"
-            }
-        }
-        // poc: get any property of a ui5 control
-        const ui5ListHeader = browser.asControl(listSelector).getProperty("headerText")
-        const ui5ListId = browser.asControl(listSelector).getProperty("id")
+    it('should navigate via button click to list page', () => {
+        browser.asControl(buttonSelector).press();
 
-        // assert.ok(typeof ui5List === "object")
-        assert.ok(ui5ListId !== "")
-        assert.ok(ui5ListId.includes("PeopleList"))
-        assert.equal(ui5ListHeader, "...bites the dust!");
-    })
-})
+        assert.equal(browser.asControl(listSelector).getProperty('headerText'), '...bites the dust!');
+    });
+
+    it('control id retrieval methods are equivalent', () => {
+        list = browser.asControl(listSelector);
+
+        assert.ok(list.getId().includes('PeopleList'));
+        assert.equal(list.getProperty('id'), list.getId());
+    });
+});
