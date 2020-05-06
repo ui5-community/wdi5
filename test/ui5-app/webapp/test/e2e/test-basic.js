@@ -1,5 +1,5 @@
 const assert = require("assert")
-const wdi5 = require("../../../../index")
+const wdi5 = require("../../../../../index")
 
 describe("ui5 showcase app - basic", () => {
 
@@ -30,6 +30,7 @@ describe("ui5 showcase app - basic", () => {
         })
 
         wdi5().getLogger().log(sapV)
+
         assert.strictEqual(sapV, "1.77.2")
     })
 

@@ -1,0 +1,11 @@
+{
+  "name": "ui5-app",
+  "version": "1.0.0",
+  "description": "sample ui5 app for testing wdi5",
+  "main": "webapp/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
