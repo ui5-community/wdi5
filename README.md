@@ -7,6 +7,10 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 `wdi5` = UI5 Test API + Webdriver.IO + appium
 
+# Table of Contents
+
+[TOC]
+
 # Prerequisites
 
 -   for browser-based testing: running UI5 app that is accessbile via `http(s)://host.ext:port`  
@@ -45,8 +49,8 @@ In your actual test(s), kick-off `wdi5`:
 const wdi5 = require('wdi5')()
 
 it("should find a button's texts and click it", () => {
-    // UI5 bridge setup
-    wdi5().getWDioUi5().setup(browser) // wire up wdio<->ui5
+    // wire up wdio<->ui5
+    wdi5().getWDioUi5().setup(browser) // browser is a global object from webdriver.io
     wdi5().getWDioUi5().injectUI5(browser) // let webdriver.io know UI5 is available
 
     browser.url('index.html') // navigate to UI5 bootstrap page relative to "baseUrl"
@@ -60,7 +64,7 @@ it("should find a button's texts and click it", () => {
         }
     }
 
-    const oButton = browser.asControl(selector) // browser is a global object
+    const oButton = browser.asControl(selector)
     const sText = oButton.getProperty('text') // UI5 API syntax!
 
     assert.strictEqual(sText, 'to Other view')
