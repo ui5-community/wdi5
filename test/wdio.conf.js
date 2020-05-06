@@ -1,10 +1,9 @@
-
 exports.config = {
     // ==================================
     // Where should your test be launched
     // ==================================
     //
-    runner: "local",
+    runner: 'local',
     //
     // =====================
     // Server Configurations
@@ -17,7 +16,7 @@ exports.config = {
     // backend, you should define the `hostname`, `port`, and `path` here.
     //
     // Override default path ('/wd/hub') for chromedriver service.
-    path: "/",
+    path: '/',
     // hostname: 'localhost',
     // port: 4444,
     // Protocol: http | https
@@ -47,7 +46,7 @@ exports.config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: ["./test/ui5-app/test/e2e/**/*.js"],
+    specs: ['./test/ui5-app/test/e2e/**/*.js'],
     // Patterns to exclude.
     exclude: [],
     //
@@ -83,16 +82,17 @@ exports.config = {
             // grid with only 5 firefox instances available you can make sure that not more than
             // 5 instances get started at a time.
             maxInstances: 1,
-            browserName: "chrome"
+            browserName: 'chrome'
         }
     ],
 
     wdi5: {
         // path: "", // commented out to use the default paths
-        screenshotPath: "./test/report/screenshots",
-        logLevel: "verbose", // error | verbose | silent
-        deviceType: "web",
-        capabilities: { // test
+        screenshotPath: './test/report/screenshots',
+        logLevel: 'error', // error | verbose | silent
+        deviceType: 'web',
+        capabilities: {
+            // test
             rotate: true,
             camera: 2
         }
@@ -104,7 +104,7 @@ exports.config = {
     // commands. Instead, they hook themselves up into the test process.
     // Use the Appium plugin for Webdriver. Without this, we would need to run appium
     // separately on the command line.
-    services: ["chromedriver"], // cannot beeing started standalone // ./node_modules/chromedriver80/bin/chromedriver"
+    services: ['chromedriver'], // cannot beeing started standalone // ./node_modules/chromedriver80/bin/chromedriver"
     //
     // Additional list of node arguments to use when starting child processes
     execArgv: [],
@@ -115,13 +115,13 @@ exports.config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: "error",
+    logLevel: 'error',
     //
     // Set specific log levels per logger
     // use 'silent' level to disable logger
     logLevels: {
-        webdriver: "silent",
-        "@wdio/applitools-service": "silent"
+        webdriver: 'silent',
+        '@wdio/applitools-service': 'silent'
     },
     //
     // If you only want to run your tests until a specific amount of tests have failed use
@@ -133,7 +133,7 @@ exports.config = {
     //
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the `baseUrl`
     // gets prepended directly.
-    baseUrl: "http://localhost:8888/",
+    baseUrl: 'http://localhost:8888/',
     //
     // Default timeout for all waitForUI5 commands. This is the timeout used for the `executeAsync`funciton
     waitforTimeout: 10000,
@@ -150,7 +150,7 @@ exports.config = {
     // See also: https://webdriver.io/docs/frameworks.html
     //
     // Make sure you have the wdio adapter package for the specific framework installed before running any tests.
-    framework: "mocha",
+    framework: 'mocha',
     mochaOpts: {
         timeout: 30000
     },
@@ -167,7 +167,7 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // See also: https://webdriver.io/docs/dot-reporter.html , and click on "Reporters" in left column
-    reporters: ["spec"],
+    reporters: ['spec'],
 
     //
     // =====
@@ -186,18 +186,20 @@ exports.config = {
      */
     before: function (capabilities, specs) {
         // load module
-        const wdi5 = require("../index")
+        const wdi5 = require('../index');
         // create instance without param -> for browser
-        wdi5()
+        wdi5();
 
         // can this be done in config?
-        browser.url("index.html")
+        browser.url('index.html');
 
         // then use the get* Calls
-        wdi5().getLogger().log("configurations: " + JSON.stringify(wdi5().getUtils().getConfig()))
+        wdi5()
+            .getLogger()
+            .log('configurations: ' + JSON.stringify(wdi5().getUtils().getConfig()));
 
         // UI5 bridge setup
-        wdi5().getWDioUi5().setup(browser) // use wdio hooks for setting up wdio<->ui5 bridge
-        wdi5().getWDioUi5().injectUI5(browser) // needed to let the instance know that UI5 is now available for work
+        wdi5().getWDioUi5().setup(browser); // use wdio hooks for setting up wdio<->ui5 bridge
+        wdi5().getWDioUi5().injectUI5(browser); // needed to let the instance know that UI5 is now available for work
     }
 }
