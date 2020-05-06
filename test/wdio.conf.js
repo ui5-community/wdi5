@@ -201,5 +201,22 @@ exports.config = {
         // UI5 bridge setup
         wdi5().getWDioUi5().setup(browser); // use wdio hooks for setting up wdio<->ui5 bridge
         wdi5().getWDioUi5().injectUI5(browser); // needed to let the instance know that UI5 is now available for work
+    },
+    /*
+     * Gets executed after all tests are done. You still have access to all global variables from
+     * the test.
+     * @param {Number} result 0 - test pass, 1 - test fail
+     * @param {Array.<Object>} capabilities list of capabilities details
+     * @param {Array.<String>} specs List of spec file paths that ran
+     */
+    after: function (result, capabilities, specs) {
+        if (result === 1) {
+            // test failed
+            const wdi5 = require('../index');
+            if (wdi5().getUtils().getConfig('logLevel') !== 'verbose') {
+                // write log if loglevel is other than verbose
+                wdi5().getLogger().printLogStorage();
+            }
+        }
     }
-}
+};
