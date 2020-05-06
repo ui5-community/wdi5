@@ -3,6 +3,7 @@ const wdi5 = require('../../../../index');
 
 describe('ui5 showcase app - ui5 checkbox test', () => {
     before(() => {
+        // example navigation call
         // wdi5().getutils().goTo('');
     });
 
@@ -10,11 +11,7 @@ describe('ui5 showcase app - ui5 checkbox test', () => {
         const cbSelector1 = {
             wdio_ui5_key: 'cbSelector1',
             selector: {
-                // id: "idCheckbox",
-                bindingPath: {
-                    modelName: 'testModel',
-                    propertyPath: '/checkbox'
-                },
+                id: 'idCheckbox',
                 viewName: 'test.Sample.view.Main',
                 controlType: 'sap.m.CheckBox'
             }
@@ -22,7 +19,7 @@ describe('ui5 showcase app - ui5 checkbox test', () => {
         const ui5checkBox1 = browser.asControl(cbSelector1);
 
         ui5checkBox1.setProperty('selected', true);
-        ui5checkBox1.fireEvent('select'), { selected: true };
+        ui5checkBox1.fireEvent('select'), {selected: true};
 
         assert.ok(ui5checkBox1.getProperty('selected'));
     });
@@ -31,7 +28,6 @@ describe('ui5 showcase app - ui5 checkbox test', () => {
         const cbSelector2 = {
             wdio_ui5_key: 'cbSelector2',
             selector: {
-                // id: "idCheckbox",
                 bindingPath: {
                     modelName: 'testModel',
                     propertyPath: '/checkbox'
@@ -42,9 +38,14 @@ describe('ui5 showcase app - ui5 checkbox test', () => {
         };
         const ui5checkBox2 = browser.asControl(cbSelector2);
 
-        ui5checkBox2.setProperty('selected', false);
-        ui5checkBox2.fireEvent('select', { selected: false });
+        // working with web element can make it more easy than UI5 directly
+        const webCheckBox2 = ui5checkBox2.getWebElement();
+        $(webCheckBox2).click();
 
+        wdi5()
+            .getLogger()
+            .log("ui5checkBox2.getProperty('selected') returned: " + ui5checkBox2.getProperty('selected'));
+        // expect false and assert true
         assert.ok(!ui5checkBox2.getProperty('selected'));
     });
 });

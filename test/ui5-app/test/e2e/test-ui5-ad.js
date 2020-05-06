@@ -20,7 +20,6 @@ describe('ui5-wdio: advanced tests', () => {
             // button was not found by wdio
             const error = 'buttonAsDom.error: ' + JSON.stringify(buttonAsDom.error);
             wdi5().getLogger().error(error);
-            throw new Error('buttonAsDom.error: ' + error);
         }
         // get selector as HTML as the class sap.ui.test.RecordReplay want to receive an Element
         const buttonSelector = {
