@@ -11,7 +11,7 @@ describe("ui5 showcase app - ui5 advanced", () => {
         wdi5().getWDioUi5().waitForUI5();
 
         // make DOM
-        // TODO: this needs to go like this if we do get the button direktly it wont work
+        // this needs to go like this if we do get the button direktly it wont work
         const buttonAsDom = $('/html/body/div[2]/div/div/div/div/div[3]/div/div/div[2]/div/section/div/div[3]/button/span/span/bdi').$('../..');
         // const buttonAsDom = $('/html/body/div[2]/div/div/div/div/div[3]/div/div/div[2]/div/section/div/div[2]/button/span/span[2]/bdi').$('..').$('..'); // to Other view
         const expButtonText = "IA Sync"; // IA Sync // to Other view

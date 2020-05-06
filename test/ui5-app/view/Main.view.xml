@@ -28,6 +28,7 @@
 				<DateTimePicker placeholder="Enter Date ..." />
 				<Button text="{testModel>/buttonText}" press="onTest" class="myTestClass"/>
 				<Input value="{testModel>/inputValue}"/>
+				<CheckBox id="idCheckbox" selected="{testModel>/checkbox}" text="test checkbox"/>
 			</VBox>
 		</content>
 	</Page>

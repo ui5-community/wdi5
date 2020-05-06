@@ -11,7 +11,8 @@ sap.ui.define([
 
             const jData = {
                 inputValue: "test Input Value !!!",
-                buttonText: "Don't press me !!! -> binded"
+                buttonText: "Don't press me !!! -> binded",
+                checkbox: false
             };
 
             let testModel = new JSONModel(jData)
