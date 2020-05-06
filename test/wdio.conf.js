@@ -90,7 +90,7 @@ exports.config = {
     wdi5: {
         // path: "", // commented out to use the default paths
         screenshotPath: "./test/report/screenshots",
-        logLevel: "error", // error | verbose | silent
+        logLevel: "verbose", // error | verbose | silent
         deviceType: "web",
         capabilities: { // test
             rotate: true,
@@ -151,12 +151,15 @@ exports.config = {
     //
     // Make sure you have the wdio adapter package for the specific framework installed before running any tests.
     framework: "mocha",
+    mochaOpts: {
+        timeout: 30000
+    },
     //
     // The number of times to retry the entire specfile when it fails as a whole
     // specFileRetries: 1,
     // Default timeout in milliseconds for request
     // if browser driver or grid doesn't send response
-    connectionRetryTimeout: 10000,
+    connectionRetryTimeout: 60000,
     //
     // Default request retries count
     connectionRetryCount: 3,

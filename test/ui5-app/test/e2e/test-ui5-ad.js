@@ -1,7 +1,7 @@
 const assert = require("assert")
 const wdi5 = require("../../../../index")
 
-describe("ui5 showcase app - ui5 advanced", () => {
+describe("ui5-wdio: advanced tests", () => {
 
     globalThis.viewName = "test.Sample.view.Main"
 

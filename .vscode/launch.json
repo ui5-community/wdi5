@@ -14,6 +14,17 @@
       "internalConsoleOptions": "openOnSessionStart",
       "console": "internalConsole",
       "autoAttachChildProcesses": true
+    },
+
+    {
+      "name": "watch selected spec",
+    "type": "node",
+    "request": "launch",
+    "args": ["${workspaceFolder}/test/wdio.conf.js", "--watch", "--spec", "${file}"],
+    "cwd": "${workspaceFolder}",
+    "autoAttachChildProcesses": true,
+    "program": "${workspaceRoot}/node_modules/@wdio/cli/bin/wdio.js",
+    "console": "integratedTerminal"
     }
   ]
 }

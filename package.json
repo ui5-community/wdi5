@@ -1,65 +1,62 @@
 {
-  "name": "wdi5",
-  "version": "0.0.14",
-  "description": "package to enhance appium driven wdio test for cordova wrapped ui5 applications",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com:js-soft/wdio-ui5.git"
-  },
-  "scripts": {
-    "_startApp": "http-server ./test/ui5-app --p 8888 --proxy https://services.odata.org -s",
-    "_test": "wdio ./test/wdio.conf.js",
-    "_testWT": "sleep 10s && wdio ./test/wdio.conf.js",
-    "test": "run-p _startApp _testWT"
-  },
-  "screenshotPath": "./test/report/screenshots",
-  "keywords": [
-    "cordova",
-    "ui5",
-    "wdio",
-    "webdriver",
-    "appium"
-  ],
-  "author": "js-soft <dominik.feininger@js-soft.com> (https://www.js-soft.com/)",
-  "license": "ISC",
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
-  "lint-staged": {
-    "*.{js,jsx}": [
-      "eslint --fix"
+    "name": "wdi5",
+    "version": "0.0.14",
+    "description": "e2e testing framework for hybrid- (cordova-), Electron- and web-apps written in UI5. wdi5 = Webdriver.IO + UI5 Test API + appium",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com:js-soft/wdio-ui5.git"
+    },
+    "scripts": {
+        "_startApp": "http-server ./test/ui5-app --p 8888 --proxy https://services.odata.org -s",
+        "_test": "wdio ./test/wdio.conf.js",
+        "_test:w": "sleep 10s && wdio ./test/wdio.conf.js --watch",
+        "_testWT": "sleep 10s && wdio ./test/wdio.conf.js",
+        "test": "run-p _startApp _testWT",
+        "test:w": "run-p _startApp _test:w"
+    },
+    "screenshotPath": "./test/report/screenshots",
+    "keywords": [
+        "cordova",
+        "ui5",
+        "wdio",
+        "webdriver",
+        "appium"
     ],
-    "*.{json,md,scss,yaml,yml}": [
-      "prettier --write"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged"
+    "author": "Dominik Feininger <dominik.feininger@js-soft.com> (https://www.js-soft.com/)",
+    "contributors": [
+        "Volker Buzek <volker.buzek@js-soft.com> (https://www.js-soft.com/)",
+        "Simon Coen <simon.coen@js-soft.com> (https://www.js-soft.com/)"
+    ],
+    "license": "(DERIVED BEER-WARE OR Apache-2.0)",
+    "commitlint": {
+        "extends": [
+            "@commitlint/config-conventional"
+        ]
+    },
+    "husky": {
+        "hooks": {
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+        }
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^8.3.5",
+        "@commitlint/config-conventional": "^8.3.4",
+        "git-cz": "^4.3.1",
+        "http-server": "^0.12.1",
+        "husky": "^4.2.3",
+        "npm-run-all": "^4.1.5"
+    },
+    "dependencies": {
+        "@wdio/cli": "^5.22.4",
+        "@wdio/local-runner": "^5.22.4",
+        "@wdio/mocha-framework": "5.18.7",
+        "@wdio/selenium-standalone-service": "^5.16.10",
+        "@wdio/spec-reporter": "^5.22.4",
+        "@wdio/sync": "^5.20.1",
+        "chromedriver": "^80.0.2",
+        "selenium-webdriver": "^3.6.0",
+        "wdio-chromedriver-service": "^5.0.2",
+        "webdriverio": "^5.19.0"
     }
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^8.3.5",
-    "@commitlint/config-conventional": "^8.3.4",
-    "git-cz": "^4.3.1",
-    "http-server": "^0.12.1",
-    "husky": "^4.2.3",
-    "npm-run-all": "^4.1.5"
-  },
-  "dependencies": {
-    "@wdio/cli": "^5.22.4",
-    "@wdio/local-runner": "^5.22.4",
-    "@wdio/mocha-framework": "5.18.7",
-    "@wdio/selenium-standalone-service": "^5.16.10",
-    "@wdio/spec-reporter": "^5.22.4",
-    "@wdio/sync": "^5.20.1",
-    "chromedriver": "^80.0.2",
-    "selenium-webdriver": "^3.6.0",
-    "wdio-chromedriver-service": "^5.0.2",
-    "webdriverio": "^5.19.0"
-  }
 }
