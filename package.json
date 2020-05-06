@@ -8,12 +8,14 @@
         "url": "git+ssh://git@github.com:js-soft/wdio-ui5.git"
     },
     "scripts": {
-        "_startApp": "http-server ./test/ui5-app --p 8888 --proxy https://services.odata.org -s",
+        "_startApp": "http-server ./test/ui5-app/webapp --p 8888 --proxy https://services.odata.org -s",
+        "_startApp:dist": "http-server ./test/ui5-app/dist --p 8888 --proxy https://services.odata.org -s",
         "_test": "wdio ./test/wdio.conf.js",
-        "_test:w": "sleep 10s && wdio ./test/wdio.conf.js --watch",
-        "_testWT": "sleep 10s && wdio ./test/wdio.conf.js",
-        "test": "run-p _startApp _testWT",
-        "test:w": "run-p _startApp _test:w"
+        "_test:w": "sleep 2s && wdio ./test/wdio.conf.js --watch",
+        "_testWT": "sleep 2s && wdio ./test/wdio.conf.js",
+        "test": "run-p _startApp:dist _testWT",
+        "test:w": "run-p _startApp:dist _test:w",
+        "_build:ui5_app": "cd test/ui5-app && ui5 build --all --exclude-task=* --include-task=generateComponentPreload"
     },
     "screenshotPath": "./test/report/screenshots",
     "keywords": [
@@ -42,6 +44,7 @@
     "devDependencies": {
         "@commitlint/cli": "^8.3.5",
         "@commitlint/config-conventional": "^8.3.4",
+        "@ui5/cli": "^2.2.0",
         "git-cz": "^4.3.1",
         "http-server": "^0.12.1",
         "husky": "^4.2.3",
