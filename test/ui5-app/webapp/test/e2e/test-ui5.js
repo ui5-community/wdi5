@@ -1,5 +1,5 @@
 const assert = require('assert');
-const wdi5 = require('../../../../index');
+const wdi5 = require('../../../../../index');
 
 describe('ui5 basics: properties and navigation', () => {
     const buttonSelector = {
@@ -37,7 +37,7 @@ describe('ui5 basics: properties and navigation', () => {
     it('sets the property of a control successfully', () => {
         const oButton = browser.asControl(buttonSelector);
         oButton.setProperty('text', 'new button text');
-        
+
         assert.strictEqual(oButton.getText(), 'new button text');
     });
 

@@ -1,5 +1,5 @@
 const assert = require('assert');
-const wdi5 = require('../../../../index');
+const wdi5 = require('../../../../../index');
 
 describe('ui5 showcase app - ui5 checkbox test', () => {
     before(() => {

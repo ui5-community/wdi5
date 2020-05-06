@@ -1,5 +1,5 @@
 const assert = require('assert');
-const wdi5 = require('../../../../index');
+const wdi5 = require('../../../../../index');
 
 describe('aggregation retrieval', () => {
     const allNames = [

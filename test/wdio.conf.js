@@ -46,7 +46,7 @@ exports.config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: ['./test/ui5-app/test/e2e/**/*.js'],
+    specs: ['./test/ui5-app/webapp/test/e2e/**/*.js'],
     // Patterns to exclude.
     exclude: [],
     //
@@ -210,10 +210,12 @@ exports.config = {
      * @param {Array.<String>} specs List of spec file paths that ran
      */
     after: function (result, capabilities, specs) {
+        console.log('after hook');
         if (result === 1) {
+            wdi5().getLogger().error('some tests failed');
             // test failed
-            const wdi5 = require('../index');
             if (wdi5().getUtils().getConfig('logLevel') !== 'verbose') {
+                wdi5().getLogger().error('here is the full log');
                 // write log if loglevel is other than verbose
                 wdi5().getLogger().printLogStorage();
             }
