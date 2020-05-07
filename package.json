@@ -57,7 +57,7 @@
         "@wdio/selenium-standalone-service": "^5.16.10",
         "@wdio/spec-reporter": "^5.22.4",
         "@wdio/sync": "^5.20.1",
-        "chromedriver": "^80.0.2",
+        "chromedriver": "^81.0.0",
         "selenium-webdriver": "^3.6.0",
         "wdio-chromedriver-service": "^5.0.2",
         "webdriverio": "^5.19.0"
