@@ -11,8 +11,8 @@
         "_startApp": "http-server ./test/ui5-app/webapp --p 8888 --proxy https://services.odata.org -s",
         "_startApp:dist": "http-server ./test/ui5-app/dist --p 8888 --proxy https://services.odata.org -s",
         "_test": "wdio ./test/wdio.conf.js",
-        "_test:w": "sleep 5s && wdio ./test/wdio.conf.js --watch",
-        "_testWT": "sleep 5s && wdio ./test/wdio.conf.js",
+        "_test:w": "sleep 2s && wdio ./test/wdio.conf.js --watch",
+        "_testWT": "sleep 2s && wdio ./test/wdio.conf.js",
         "test": "run-p _startApp:dist _testWT",
         "test:w": "run-p _startApp:dist _test:w",
         "_build:ui5_app": "cd test/ui5-app && ui5 build --all --exclude-task=* --include-task=generateComponentPreload"
