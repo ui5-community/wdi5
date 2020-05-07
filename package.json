@@ -15,6 +15,7 @@
         "_testWT": "sleep 2s && wdio ./test/wdio.conf.js",
         "test": "run-p _startApp:dist _testWT",
         "test:w": "run-p _startApp:dist _test:w",
+        "test:ios": "wdio ./test/wdio-ios.conf.js",
         "_build:ui5_app": "cd test/ui5-app && ui5 build --all --exclude-task=* --include-task=generateComponentPreload",
         "_build:ios_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-ios.js"
     },
@@ -46,6 +47,7 @@
         "@commitlint/cli": "^8.3.5",
         "@commitlint/config-conventional": "^8.3.4",
         "@ui5/cli": "^2.2.0",
+        "appium-doctor": "^1.15.1",
         "cordova": "^9.0.0",
         "fs-extra": "^9.0.0",
         "git-cz": "^4.3.1",
@@ -55,12 +57,15 @@
         "soerver": "0.0.1"
     },
     "dependencies": {
+        "@wdio/appium-service": "^6.1.0",
         "@wdio/cli": "^5.22.4",
         "@wdio/local-runner": "^5.22.4",
         "@wdio/mocha-framework": "5.18.7",
         "@wdio/selenium-standalone-service": "^5.16.10",
         "@wdio/spec-reporter": "^5.22.4",
         "@wdio/sync": "^5.20.1",
+        "appium": "^1.17.1",
+        "appium-chromedriver": "^4.24.0",
         "chromedriver": "^81.0.0",
         "selenium-webdriver": "^3.6.0",
         "wdio-chromedriver-service": "^5.0.2",
