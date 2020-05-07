@@ -1,7 +1,7 @@
 const assert = require('assert');
 const wdi5 = require('../../../../../index');
 
-describe('aggregation retrieval', () => {
+describe('ui5 aggregation retrieval', () => {
     const allNames = [
         'Nancy Davolio',
         'Andrew Fuller',

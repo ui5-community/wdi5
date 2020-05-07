@@ -1,7 +1,7 @@
 const assert = require('assert');
 const wdi5 = require('../../../../../index');
 
-describe('ui5-wdio: advanced tests', () => {
+describe('wdio-ui5 bridge: advanced tests', () => {
     globalThis.viewName = 'test.Sample.view.Main';
 
     it('should have the right button text', () => {
