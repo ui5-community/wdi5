@@ -37,7 +37,7 @@ describe('ui5 basics: properties and navigation', () => {
     it('sets the property of a control successfully', () => {
         const oButton = browser.asControl(buttonSelector);
         oButton.setProperty('text', 'new button text');
-        
+
         assert.strictEqual(oButton.getText(), 'new button text');
     });
 
