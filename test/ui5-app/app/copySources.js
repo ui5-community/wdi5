@@ -10,7 +10,7 @@ console.log('copying sources...');
 
 
 const filterFunc = (src, dest) => {
-    return !(src.endsWith('.map') || src.endsWith('-dbg.js') || src.includes('index.html'));
+    return !(src.endsWith('.map') || src.endsWith('-dbg.js'));
 };
 
 const options = {
