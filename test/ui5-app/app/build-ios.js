@@ -6,10 +6,11 @@ const {execSync} = require('child_process');
 
 console.log(`[build:ios] Preparing installation ...`);
 
-const iosPlatformFolderPath = path.resolve('app', 'platforms', 'ios');
+const iosPlatformFolderPath = path.resolve('platforms', 'ios');
 
 if (fs.existsSync(iosPlatformFolderPath)) {
     console.log(`\t> Cleaning ...`);
+    fs.removeSync(path.resolve(iosPlatformFolderPath, 'build'));
     execSync(`cordova clean ios`, {stdio: 'inherit'});
 } else {
     console.log(`\t> Installing ios platform ...`);
@@ -17,6 +18,9 @@ if (fs.existsSync(iosPlatformFolderPath)) {
 }
 
 console.log(`[build:ios] Starting develop build ...`);
-execSync(`cordova build ios --no-telemetry --debug --device --buildConfig=${buildJsonPath}`, {
+// execSync(`cordova build ios --no-telemetry --debug`, {
+//     stdio: 'inherit'
+// });
+execSync(`cordova run ios --no-telemetry`, {
     stdio: 'inherit'
 });
