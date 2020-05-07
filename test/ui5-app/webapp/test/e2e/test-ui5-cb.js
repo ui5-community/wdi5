@@ -1,42 +1,35 @@
 const assert = require('assert');
 const wdi5 = require('../../../../../index');
 
-describe('ui5 showcase app - ui5 checkbox test', () => {
-    before(() => {
-        // example navigation call
-        // wdi5().getutils().goTo('');
+describe('ui5 checkbox test', () => {
+    const cbSelector1 = {
+        wdio_ui5_key: 'cbSelector1',
+        selector: {
+            id: 'idCheckbox',
+            viewName: 'test.Sample.view.Main',
+            controlType: 'sap.m.CheckBox'
+        }
+    };
+
+    it('should check the checkbox', () => {
+        browser.asControl(cbSelector1).check();
+
+        assert.ok(browser.asControl(cbSelector1).getProperty('selected'));
+    });
+    it('should uncheck the checkbox', () => {
+        browser.asControl(cbSelector1).uncheck();
+
+        assert.ok(!browser.asControl(cbSelector1).getProperty('selected'));
+    });
+    it('should toggle the checkbox', () => {
+        browser.asControl(cbSelector1).toggle();
+
+        assert.ok(browser.asControl(cbSelector1).getProperty('selected'));
     });
 
-    it('should CHECK the checkbox', () => {
-        const cbSelector1 = {
-            wdio_ui5_key: 'cbSelector1',
-            selector: {
-                id: 'idCheckbox',
-                viewName: 'test.Sample.view.Main',
-                controlType: 'sap.m.CheckBox'
-            }
-        };
-        const ui5checkBox1 = browser.asControl(cbSelector1);
+    it('should uncheck the checkbox via wdio-native .click()', () => {
 
-        ui5checkBox1.setProperty('selected', true);
-        ui5checkBox1.fireEvent('select'), {selected: true};
-
-        assert.ok(ui5checkBox1.getProperty('selected'));
-    });
-
-    it('should unCHECK the checkbox', () => {
-        const cbSelector2 = {
-            wdio_ui5_key: 'cbSelector2',
-            selector: {
-                bindingPath: {
-                    modelName: 'testModel',
-                    propertyPath: '/checkbox'
-                },
-                viewName: 'test.Sample.view.Main',
-                controlType: 'sap.m.CheckBox'
-            }
-        };
-        const ui5checkBox2 = browser.asControl(cbSelector2);
+        const ui5checkBox2 = browser.asControl(cbSelector1);
 
         // working with web element can make it more easy than UI5 directly
         const webCheckBox2 = ui5checkBox2.getWebElement();
