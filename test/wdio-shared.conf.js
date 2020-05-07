@@ -98,7 +98,7 @@ exports.config = {
     wdi5: {
         screenshotPath: path.join('test', 'report', 'screenshots'),
         deviceType: 'native',
-        logLevel: 'error',
+        logLevel: 'verbose',
         capabilities: {
             rotate: true,
             camera: 2
