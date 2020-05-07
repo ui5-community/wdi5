@@ -210,6 +210,8 @@ exports.config = {
      * @param {Array.<String>} specs List of spec file paths that ran
      */
     after: function (result, capabilities, specs) {
+        // load module
+        const wdi5 = require('../index');
         console.log('after hook');
         if (result === 1) {
             wdi5().getLogger().error('some tests failed');
