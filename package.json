@@ -15,7 +15,8 @@
         "_testWT": "sleep 2s && wdio ./test/wdio.conf.js",
         "test": "run-p _startApp:dist _testWT",
         "test:w": "run-p _startApp:dist _test:w",
-        "_build:ui5_app": "cd test/ui5-app && ui5 build --all --exclude-task=* --include-task=generateComponentPreload"
+        "_build:ui5_app": "cd test/ui5-app && ui5 build --all --exclude-task=* --include-task=generateComponentPreload",
+        "_build:ios_app": "cd test/ui5-app/app && node copySources.js && node build-ios.js"
     },
     "screenshotPath": "./test/report/screenshots",
     "keywords": [
