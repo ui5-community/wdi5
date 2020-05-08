@@ -55,6 +55,8 @@
     ]
     ```
 
+    refer to the [xcuitest-driver capabilities documentation](https://github.com/appium/appium-xcuitest-driver#desired-capabilities) for a complete list of possible settings
+
 - `appium` needs to run prior to the tests starting
 
     ```shell
