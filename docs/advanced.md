@@ -1,3 +1,74 @@
+# `wdi5`: advanced usage an configuration
+
+## iOS
+
+-   install `appium` and all prerequisites mentioned in <http://appium.io/docs/en/drivers/ios-xcuitest/index.html> for `XCUITest`-based testing
+
+- adjust basic config to use `appium` (see `tests/wdio-shared.config.js` for an example)
+
+    ```javascript
+    config = {
+        // 4723 is the default port for Appium
+        port: 4723,
+
+        // let appium-driver take care of the mapping
+        // path: '/'
+
+        services: [
+            [ 'appium' ]
+        ]
+    }
+    ```
+
+-   enhance configuration with iOS-specific settings (see `tests/wdio-ios.config.js` for an example):
+
+    ```javascript
+    wdi5: {
+        platform: 'ios'
+    }
+    capabilities = [
+        {
+            automationName: 'XCUITest',
+            platformName: 'iOS',
+
+            // iOS system
+            platformVersion: '13.4',
+
+            // For iOS, this must exactly match the device name as seen in Xcode.
+            deviceName: 'iPhone SE (2nd generation)',
+
+            // .ipa or .app file
+            app: 'test/ui5-app/app/platforms/ios/build/emulator/UI5.app',
+
+            // By default, Appium runs tests in the native context.
+            // By setting autoWebview to true,
+            // it runs our tests in the cordova context.
+            autoWebview: true,
+
+            // When set to true, it will not show permission dialogs,
+            // but instead grant all permissions automatically.
+            autoGrantPermissions: true,
+
+            // display iOS simultator window
+            isHeadless: false
+        }
+    ]
+    ```
+
+- `appium` needs to run prior to the tests starting
+
+    ```shell
+    $> appium
+    [Appium] Welcome to Appium v1.17.1
+    [Appium] Appium REST http interface listener started on 0.0.0.0:4723
+
+    $> wdio wdio-ios.conf.js
+  
+    Execution of 5 spec files started at ...
+    ...
+    ```
+
+    there's example `npm scripts` available for the above in `/package.json`
 
 
 # When to use `wdi5`
@@ -6,9 +77,9 @@ You are looking for a end-to-end testing framework for crossplatform UI5 applica
 
 -   Uiveri5 is not working due to eg. use of appium
 -   You still would like to make use of UI5 handy functions like
-    - control selectors and other function known from the sap.ui.test namespace.
-    - make sure UI5 is already ready to start testing
-    - etc.
+    -   control selectors and other function known from the sap.ui.test namespace.
+    -   make sure UI5 is already ready to start testing
+    -   etc.
 
 ## Supported Platforms
 
@@ -84,20 +155,20 @@ The main featue is devilerd with the provided `asControl` function which returns
 
 Methods to check status of a control.
 
-- hasStyleClass
-- getProperty
-- getAggregation
-- isVisible
+-   hasStyleClass
+-   getProperty
+-   getAggregation
+-   isVisible
 
 Methods to change the status of a control.
 
-- setProperty
+-   setProperty
 
 Methods to execute an action on a control. These functions return the the object of type WebUi5 to allow method chaning.
 
-- enterText
-- press
-- fireEvent
+-   enterText
+-   press
+-   fireEvent
 
 Make sure when you call a method on a control the underlying UI5 control type supports the method. Eg. call `press()` action on a `sap.m.Button` but not on a `sap.m.Text`.
 
@@ -121,15 +192,14 @@ Init the needed package parts
 
 Return values of the `done function of executeAsync` are 'Likewise, any WebElements in the script result will be returned to the client as WebElement JSON objects.' -> https://github.com/webdriverio/webdriverio/issues/2728#issuecomment-388330067
 
-| Method                  | SAP RecordReplay Method         | Description                                                  |
-| ----------------------- | ------------------------------- | ------------------------------------------------------------ |
+| Method                  | SAP RecordReplay Method         | Description                                                                                                                                                                                                                                           |
+| ----------------------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | + getSelectorForElement | findControlSelectorByDOMElement | Find the best control selector for a DOM element. A selector uniquely represents a single element. The 'best' selector is the one with which it is most likely to uniquely identify a control with the least possible inspection of the control tree. |
-| - getControl            | findDOMElementByControlSelector | Find DOM element representation of a control specified by a selector object. |
-| + interactWithControl   | interactWithControl             | Interact with specific control.                              |
-| + waitForUI5            | waitForUI5                      | Wait for UI5 to complete processing, poll until all asynchronous work is finished, or timeout. |
+| - getControl            | findDOMElementByControlSelector | Find DOM element representation of a control specified by a selector object.                                                                                                                                                                          |
+| + interactWithControl   | interactWithControl             | Interact with specific control.                                                                                                                                                                                                                       |
+| + waitForUI5            | waitForUI5                      | Wait for UI5 to complete processing, poll until all asynchronous work is finished, or timeout.                                                                                                                                                        |
 
 ### How it works
-
 
 ### Types of Control Selectors
 
@@ -150,20 +220,24 @@ sap.ui.test.RecordReplay.ControlSelector
 
 ```javascript
 // create selector
-const selector = { // wdio-ui5 selector
-    wdio_ui5_key: "mainUserInput", // unique internal key to map and find a control
-    selector: { // sap.ui.test.RecordReplay.ControlSelector
-        id: "mainUserInput", // ID of a control (global or within viewName, if viewName is defined)
-        bindingPath: { // internally object of sap.ui.test.matchers.BindingPath is created
+const selector = {
+    // wdio-ui5 selector
+    wdio_ui5_key: 'mainUserInput', // unique internal key to map and find a control
+    selector: {
+        // sap.ui.test.RecordReplay.ControlSelector
+        id: 'mainUserInput', // ID of a control (global or within viewName, if viewName is defined)
+        bindingPath: {
+            // internally object of sap.ui.test.matchers.BindingPath is created
             propertyPath: "/Customers('TRAIH')/ContactName"
         },
-        properties: { // internally object of sap.ui.test.matchers.Properites is created
-            value: "Helvetius Nagy"
+        properties: {
+            // internally object of sap.ui.test.matchers.Properites is created
+            value: 'Helvetius Nagy'
         },
-        viewName: "test.Sample.view.Main",
-        controlType: "sap.m.Input"
+        viewName: 'test.Sample.view.Main',
+        controlType: 'sap.m.Input'
     }
-}
+};
 ```
 
 WDI5 can help you to create a `sap.ui.test.RecordReplay.ControlSelector` selector by calling eg. `wdi5().getSelectorHelper().createBindingPathSelector(...)` with your parameters in the order: `viewName, controlType, modelName, propertyPath, path`.
@@ -201,7 +275,7 @@ The `Utils` allow to have platform specific implementations of features such as 
 
 [Context in Appium](http://appium.io/docs/en/commands/context/set-context/)
 Context switching and generated context IDs.
-For some reason the contexts were "NATIVE_APP" and "WEBAPP_<webcontext>" until April 2. Then it changed to "NATIVE_APP" and "WEBAPP_<some generated number>". Which is also fine after a fix was implemented.
+For some reason the contexts were "NATIVE*APP" and "WEBAPP*<webcontext>" until April 2. Then it changed to "NATIVE*APP" and "WEBAPP*<some generated number>". Which is also fine after a fix was implemented.
 
 ### Electron
 
@@ -270,12 +344,11 @@ husky > done
 
 # Todos
 
-- Webdriver Update -> Version 6.*.*
-- make use of the Chrome Testrecorder extention: https://chrome.google.com/webstore/detail/ui5-test-recorder/hcpkckcanianjcbiigbklddcpfiljmhj
-- Check winston logger (https://www.npmjs.com/package/winston)
-- export sap.ui.router to make navigation more easy
-- use other method than jQuery (`jQuery(ui5Control).control(0)`) to get UI5 control, since jQuery will be dropped by UI5
-
+-   Webdriver Update -> Version 6._._
+-   make use of the Chrome Testrecorder extention: https://chrome.google.com/webstore/detail/ui5-test-recorder/hcpkckcanianjcbiigbklddcpfiljmhj
+-   Check winston logger (https://www.npmjs.com/package/winston)
+-   export sap.ui.router to make navigation more easy
+-   use other method than jQuery (`jQuery(ui5Control).control(0)`) to get UI5 control, since jQuery will be dropped by UI5
 
 # Test
 
