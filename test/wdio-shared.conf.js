@@ -66,8 +66,7 @@ exports.config = {
                 // Appium service options here
                 logPath: path.join('test', 'report', 'appium')
             }
-        ],
-        'selenium-standalone'
+        ]
     ],
 
     waitforTimeout: 60000,
@@ -98,7 +97,7 @@ exports.config = {
     wdi5: {
         screenshotPath: path.join('test', 'report', 'screenshots'),
         deviceType: 'native',
-        logLevel: 'verbose',
+        logLevel: 'error',
         capabilities: {
             rotate: true,
             camera: 2
