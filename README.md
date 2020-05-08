@@ -1,3 +1,5 @@
+# wdi5
+
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
@@ -7,20 +9,22 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 `wdi5` = UI5 Test API + Webdriver.IO + appium
 
-# Table of Contents
+![demo testing iOS + browser in parallel](./docs/demo-testing.gif)
+
+## Table of Contents
 
 [TOC]
 
-# Prerequisites
+## Prerequisites
 
 -   for browser-based testing: running UI5 app that is accessbile via `http(s)://host.ext:port`  
     recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like [`soerver`](https://github.com/vobu/soerver) or [`http-server`](https://www.npmjs.com/package/http-server)
 -   for hybrid app testing:
-    -   iOS: `.ipa` + emulator
+    -   iOS: `.ipa` (device-type build) or `.app` (emulator-type build) + iOS simulator
     -   Android: `.apk` + emulator
     -   Electron: binary
 
-# Getting Started
+## Getting Started
 
 ```zsh
 # install the node module
@@ -104,17 +108,11 @@ Execution of 1 spec files started at ...
 Spec Files:      1 passed, 1 total (100% completed) in 00:00:15
 ```
 
-# Advanced configuration
+## Advanced configuration
 
-## iOS, Android
+please see the `advanced`-doc for setting up native + eletron platforms.
 
-> in progress
-
-## Electron
-
-> in progress
-
-# Control selectors
+## Control selectors
 
 The entry point to retrieve a control is always `browser.asControl(oSelector)`.
 
@@ -179,11 +177,11 @@ const control = browser.asControl(webdriverLocatorSelector)
 // now use one of the below API methods on `control`
 ```
 
-# API methods
+## API methods
 
 Once the control is retrieved in a test, use these API methods on it:
 
-## hasStyleClass
+### hasStyleClass
 
 `hasStyleClass(sClassName) => Boolean(true|false)`: check whether the UI5 control has a certain class attached (https://ui5.sap.com/#/api/sap.ui.core.Control%23methods/hasStyleClass)
 
@@ -191,7 +189,7 @@ Once the control is retrieved in a test, use these API methods on it:
 assert.ok(browser.asControl(oSelector).hasStyleClass('active'))
 ```
 
-## getProperty
+### getProperty
 
 `getProperty(sName) => String`: retrieve the value of a control’s property (https://ui5.sap.com/#/api/sap.ui.base.ManagedObject%23methods/getProperty)
 
@@ -223,7 +221,7 @@ assert.strictEqual(browser.asControl(oButtonSelector).getProperty('text'), 'Clic
     assert.ok(browser.asControl(oSelector).isVisible())
     ```
 
-## getAggregation
+### getAggregation
 
 `getAggregation(sAggregationName) => wdi5Controls[]`: retrieve the elements of aggregation `sAggregationName` of a control (https://ui5.sap.com/#/api/sap.ui.base.ManagedObject%23methods/getAggregation)
 
@@ -234,7 +232,7 @@ ui5ListItems.forEach((listItem) => {
 })
 ```
 
-## setProperty
+### setProperty
 
 `setProperty(sName, vValue) => void`: sets the property `sName` of a control to `vValue` (https://ui5.sap.com/#/api/sap.ui.base.ManagedObject%23methods/setProperty)
 
@@ -245,7 +243,7 @@ oButton.setProperty('text', 'new button text')
 assert.strictEqual(oButton.getText(), 'new button text')
 ```
 
-## enterText
+### enterText
 
 `enterText(sText) => void`: input `sText` into a (input-capable) control (https://ui5.sap.com/#/api/sap.ui.test.actions.EnterText)
 
@@ -253,7 +251,7 @@ assert.strictEqual(oButton.getText(), 'new button text')
 browser.asControl(inputSelector).enterText('new Text')
 ```
 
-## press
+### press
 
 `press() => void`: click/press on a (capable) control (https://ui5.sap.com/#/api/sap.ui.test.actions.Press)
 
@@ -261,7 +259,7 @@ browser.asControl(inputSelector).enterText('new Text')
 browser.asControl(buttonSelector).press()
 ```
 
-## fireEvent
+### fireEvent
 
 `fireEvent(sName) => void`: trigger the event `sName` on a (capable) control (https://ui5.sap.com/#/api/sap.ui.base.EventProvider%23methods/fireEvent)
 
@@ -269,7 +267,7 @@ browser.asControl(buttonSelector).press()
 browser.asControl(listElement).fireEvent('swipe')
 ```
 
-# Screenshots
+## Screenshots
 
 At any point in your test(s), you can screenshot the current state of the UI:
 
@@ -287,7 +285,7 @@ This works _cross-device_ and puts a `png` into the configured `wdi5.screenshotP
 The file name is prepended with a date indicator (M-d-hh-mm-ss), holds `screenshot` in the filname and is appended with the id you provice (here: `some-id`).
 Example: `5-5-17-46-47-screenshot--some-id.png`
 
-# Logger
+## Logger
 
 For convenient console output, use `wdi5().getLogger()`. It supports the `syslog`-like levels `log`,`info`, `warn` and `error`:
 
@@ -298,7 +296,7 @@ wdi5().getLogger().log('any', 'number', 'of', 'log', 'parts')
 
 The log level is set by the either in `wdio.conf.js` via `wdi5.logLevel` or by `wdi5().getLogger().setLoglevel(level = {String} error | verbose | silent)`
 
-# FAQ/hints
+## FAQ/hints
 
 -   sample configurations: `wdi5` tests itself with `wdi5` - see the `test/`- and `test/ui5-app/test/e2e/` directory for a sample `wdio.conf.js` and sample tests.
     Run `npm run test` for `wdi5` testing itself.
@@ -325,7 +323,7 @@ The log level is set by the either in `wdio.conf.js` via `wdi5.logLevel` or by `
 
 -   `Webdriver.IO`'s watch mode is running, but subsequent `context.executeAsync()`-calls fail - exact cause unknown, likely candidate is `fibers` from `@wdio/sync`
 
-# License
+## License
 
 This work is dual-licensed under Apache 2.0 and the Derived Beer-ware License. The official license will be Apache 2.0 but finally you can choose between one of them if you use this work.
 
