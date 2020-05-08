@@ -73,6 +73,8 @@
     there's example `npm scripts` available for the above in `/package.json`
 
 
+# *** attic from here on ***
+
 # When to use `wdi5`
 
 You are looking for a end-to-end testing framework for crossplatform UI5 application build with corodva and UI5. Your application is an UI5 web application running on different platforms like Android, iOS and Electron using cordova as a wrapper.
