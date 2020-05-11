@@ -10,7 +10,8 @@ console.log('copying sources...');
 
 
 const filterFunc = (src, dest) => {
-    return !(src.endsWith('.map') || src.endsWith('-dbg.js'));
+    console.log(src)
+    return !(src.endsWith('.map') || src.endsWith('-dbg.js') || src.includes("e2e"));
 };
 
 const options = {
