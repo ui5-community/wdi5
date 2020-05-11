@@ -13,7 +13,7 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 # Prerequisites
 
--   for browser-based testing: running UI5 app that is accessbile via `http(s)://host.ext:port`  
+-   for browser-based testing: running UI5 app that is accessbile via `http(s)://host.ext:port`
     recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like [`soerver`](https://github.com/vobu/soerver) or [`http-server`](https://www.npmjs.com/package/http-server)
 -   for hybrid app testing:
     -   iOS: `.ipa` + emulator
@@ -236,7 +236,7 @@ ui5ListItems.forEach((listItem) => {
 
 ## setProperty
 
-`setProperty(sName, vValue) => void`: sets the property `sName` of a control to `vValue` (https://ui5.sap.com/#/api/sap.ui.base.ManagedObject%23methods/setProperty)
+`setProperty(sName, vValue) => this {WDI5}`: sets the property `sName` of a control to `vValue` (https://ui5.sap.com/#/api/sap.ui.base.ManagedObject%23methods/setProperty)
 
 ```javascript
 const oButton = browser.asControl(buttonSelector)
@@ -247,7 +247,7 @@ assert.strictEqual(oButton.getText(), 'new button text')
 
 ## enterText
 
-`enterText(sText) => void`: input `sText` into a (input-capable) control (https://ui5.sap.com/#/api/sap.ui.test.actions.EnterText)
+`enterText(sText) => this {WDI5}`: input `sText` into a (input-capable) control (https://ui5.sap.com/#/api/sap.ui.test.actions.EnterText)
 
 ```javascript
 browser.asControl(inputSelector).enterText('new Text')
@@ -255,7 +255,7 @@ browser.asControl(inputSelector).enterText('new Text')
 
 ## press
 
-`press() => void`: click/press on a (capable) control (https://ui5.sap.com/#/api/sap.ui.test.actions.Press)
+`press() => this {WDI5}`: click/press on a (capable) control (https://ui5.sap.com/#/api/sap.ui.test.actions.Press)
 
 ```javascript
 browser.asControl(buttonSelector).press()
@@ -263,10 +263,33 @@ browser.asControl(buttonSelector).press()
 
 ## fireEvent
 
-`fireEvent(sName) => void`: trigger the event `sName` on a (capable) control (https://ui5.sap.com/#/api/sap.ui.base.EventProvider%23methods/fireEvent)
+`fireEvent(sName) => this {WDI5}`: trigger the event `sName` on a (capable) control (https://ui5.sap.com/#/api/sap.ui.base.EventProvider%23methods/fireEvent)
 
 ```javascript
 browser.asControl(listElement).fireEvent('swipe')
+```
+
+### check
+
+`check() => this {WDI5}`: click/press on a checkbox to select (https://ui5.sap.com/#/api/sap.m.CheckBox). Internally calls the `setProperty` method of the WDI5 object with `selected: true` and fires the `select` event with `selected: true`.
+
+```javascript
+browser.asControl(checkboxSelector).check()
+```
+
+### uncheck
+
+`uncheck() => this {WDI5}`: click/press on a checkbox to unselect (https://ui5.sap.com/#/api/sap.m.CheckBox). Internally calls the `setProperty` method of the WDI5 object with `selected: false` and fires the `select` event with `selected: false`.
+
+```javascript
+browser.asControl(checkboxSelector).uncheck()
+```
+
+### toogle
+`toogle() => this {WDI5}`: click/press on a checkbox to toggle its current status (https://ui5.sap.com/#/api/sap.m.CheckBox). Internally calls the `setProperty` method of the WDI5 object with `selected: !oldState` and fires the `select` event with `selected: !oldState`.
+
+```javascript
+browser.asControl(checkboxSelector).toggle()
 ```
 
 # Screenshots
