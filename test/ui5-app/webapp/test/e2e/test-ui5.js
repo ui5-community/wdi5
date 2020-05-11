@@ -19,7 +19,6 @@ describe('ui5 basics: properties and navigation', () => {
     };
 
     beforeEach(() => {
-        // take screenshot always and compare
         wdi5().getUtils().takeScreenshot('test-ui5');
     });
 
