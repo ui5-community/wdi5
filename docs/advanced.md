@@ -25,7 +25,7 @@
     ```javascript
     wdi5: {
         platform: 'ios'
-    }
+    },
     capabilities = [
         {
             automationName: 'XCUITest',
@@ -57,7 +57,8 @@
 
     refer to the [xcuitest-driver capabilities documentation](https://github.com/appium/appium-xcuitest-driver#desired-capabilities) for a complete list of possible settings
 
-- `appium` needs to run prior to the tests starting
+- `appium` may be started as a standalone service prior to the tests starting, but doesn't have to.  
+  if not started separately, `webdriver.io` will start it "under the hood" automatically.
 
     ```shell
     $> appium
@@ -71,6 +72,13 @@
     ```
 
     there's example `npm scripts` available for the above in `/package.json`
+
+On a general note, we like to always have the applications running in parallel:  
+- manually started simulator
+- `appium` e.g. via `npm run _startApp:ios`
+- test execution, e.g. `npm run _test:ios` 
+
+You can combine all of the above by running `npm run test:ios`, e.g. in a ci environment, at the cost of losing the flexibility of each tooling.
 
 
 # *** attic from here on ***
