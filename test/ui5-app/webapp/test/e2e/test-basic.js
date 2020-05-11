@@ -1,7 +1,7 @@
 const assert = require('assert');
 const wdi5 = require('../../../../../index');
 
-describe('ui5 showcase app - basic', () => {
+describe('ui5 basic', () => {
     globalThis.viewName = 'test.Sample.view.Main';
 
     beforeEach(() => {
@@ -19,20 +19,20 @@ describe('ui5 showcase app - basic', () => {
         assert.strictEqual(title, 'Sample UI5 Application');
     });
 
-    /**
-     * test for not using the wdio-ui5
-     */
-    it('should have the right version', () => {
-        var sapV = driver.executeAsync((done) => {
-            done(sap.ui.version);
-        });
+    // /**
+    //  * test for not using the wdio-ui5
+    //  */
+    // it('should have the right version', () => {
+    //     var sapV = driver.executeAsync((done) => {
+    //         done(sap.ui.version);
+    //     });
 
-        wdi5().getLogger().log(sapV);
+    //     wdi5().getLogger().log(sapV);
 
-        assert.strictEqual(sapV, '1.77.2');
-    });
+    //     assert.strictEqual(sapV, '1.77.2');
+    // });
 
-    it('should have the class', () => {
+    it('should find a ui5 control class via .hasStyleClass', () => {
         // webdriver
         const className = 'myTestClass';
 
