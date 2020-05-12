@@ -98,14 +98,14 @@
                     "target": ["TargetMain"]
                 },
                 {
-                  "name": "RouteMain",
-                  "pattern": "main",
-                  "target": ["TargetMain"]
-              }
+                    "name": "RouteMain",
+                    "pattern": "main",
+                    "target": ["TargetMain"]
+                },
                 {
                     "name": "RouteOther",
                     "pattern": "other",
-                    "target": ["TargetOther"]
+                    "target": ["Target"]
                 }
             ],
             "targets": {
