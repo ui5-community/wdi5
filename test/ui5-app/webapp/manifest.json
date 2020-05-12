@@ -98,14 +98,14 @@
                     "target": ["TargetMain"]
                 },
                 {
-                    "name": "RouteMain",
+                    "name": "RouteMainNamed",
                     "pattern": "main",
                     "target": ["TargetMain"]
                 },
                 {
                     "name": "RouteOther",
                     "pattern": "other",
-                    "target": ["Target"]
+                    "target": ["TargetOther"]
                 }
             ],
             "targets": {
@@ -116,7 +116,7 @@
                     "viewId": "Main",
                     "viewName": "Main"
                 },
-                "Target": {
+                "TargetOther": {
                     "viewType": "XML",
                     "transition": "slide",
                     "clearControlAggregation": false,
