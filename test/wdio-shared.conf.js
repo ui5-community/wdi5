@@ -126,16 +126,12 @@ exports.config = {
         // call once to init
         // assume the start context is the webcontext -> "js.appiumTest"
         // first call need to be with the webcontext
-        wdi5(driver.getContext());
+        wdi5(driver, driver.getContext());
 
-        // then use the getInstance Call
+        // log the config
         wdi5()
             .getLogger()
             .log('configurations: ' + JSON.stringify(wdi5().getUtils().getConfig()));
-
-        // ui5 shim setup
-        wdi5().getWDioUi5().injectUI5(browser); // needed to let the instance know that UI5 is now available for work
-        wdi5().getWDioUi5().setup(browser); // use wdio hooks for setting up wdio<->ui5 bridge
     },
     /*
      * Gets executed after all tests are done. You still have access to all global variables from
