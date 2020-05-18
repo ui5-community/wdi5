@@ -28,6 +28,7 @@ describe('ui5 plugin', () => {
 
         const input = browser.asControl(inputSelector);
         // the app function passes the scan into the model and bind to the input value
-        assert.equal('some test scan test', input.getProperty('value'));
+        // 123123 is as configured in the wdio.conf file
+        assert.equal('123123', input.getProperty('value'));
     });
 });
