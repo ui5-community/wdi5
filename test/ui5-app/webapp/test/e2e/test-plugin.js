@@ -1,7 +1,7 @@
 const assert = require('assert');
 const wdi5 = require('../../../../../index');
 
-describe('ui5 basic', () => {
+describe('ui5 plugin', () => {
     const viewName = 'test.Sample.view.Main';
 
     it('test the cordova barcodescanner plugin', () => {
@@ -27,7 +27,7 @@ describe('ui5 basic', () => {
         button.press();
 
         const input = browser.asControl(inputSelector);
-
+        // the app function passes the scan into the model and bind to the input value
         assert.equal('some test scan test', input.getProperty('value'));
     });
 });

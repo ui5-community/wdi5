@@ -98,7 +98,9 @@ exports.config = {
             camera: 2
         },
         plugins: {
-            'phonegap-plugin-barcodescanner': {}
+            'phonegap-plugin-barcodescanner': {
+                scanCode: '123123'
+            }
         }
     },
 
