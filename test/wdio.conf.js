@@ -99,13 +99,6 @@ exports.config = {
         },
         plugins: {
             'phonegap-plugin-barcodescanner': {}
-            // '@jss-cordova/plugin-database': {},
-            // '@jss-cordova/plugin-filesystem': {},
-            // '@jss-cordova/plugin-keychain': {},
-            // '@jss-cordova/plugin-local-notifications': {},
-            // 'phonegap-plugin-push': {},
-            // 'cordova-plugin-fingerprint-aio': {},
-            // 'cordova-plugin-badge': {}
         }
     },
 
