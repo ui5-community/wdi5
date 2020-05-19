@@ -39,7 +39,10 @@ config.capabilities = [
         // permissions automatically.
         autoGrantPermissions: true,
 
-        isHeadless: false
+        isHeadless: false,
+
+        // name this to the AVD emulator of your liking
+        avd: "Pixel_3a_API_29"
     }
 ];
 
