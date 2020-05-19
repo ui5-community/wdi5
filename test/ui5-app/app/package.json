@@ -16,6 +16,7 @@
     "cordova-plugin-whitelist": "^1.3.4"
   },
   "dependencies": {
+    "cordova-android": "^8.1.0",
     "cordova-ios": "^5.1.1",
     "cordova-plugin-barcodescanner": "^0.7.4",
     "cordova-plugin-compat": "^1.2.0"
@@ -26,7 +27,8 @@
       "cordova-plugin-barcodescanner": {}
     },
     "platforms": [
-      "ios"
+      "ios",
+      "android"
     ]
   }
 }
