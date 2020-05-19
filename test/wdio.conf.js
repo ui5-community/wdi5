@@ -89,12 +89,20 @@ exports.config = {
     wdi5: {
         // path: "", // commented out to use the default paths
         screenshotPath: './test/report/screenshots',
-        logLevel: 'error', // error | verbose | silent
+        logLevel: 'verbose', // error | verbose | silent
+        platform: 'browser', // electron, browser, android, ios
         deviceType: 'web',
         capabilities: {
             // test
             rotate: true,
             camera: 2
+        },
+        plugins: {
+            'phonegap-plugin-barcodescanner': {
+                scanCode: '123123',
+                format: 'EAN',
+                cancelled: 'some cancel stuff'
+            }
         }
     },
 
@@ -187,20 +195,17 @@ exports.config = {
     before: function (capabilities, specs) {
         // load module
         const wdi5 = require('../index');
-        // create instance without param -> for browser
-        wdi5();
 
         // can this be done in config?
         browser.url('index.html');
 
-        // then use the get* Calls
+        // create instance
+        wdi5(browser);
+
+        // log the config
         wdi5()
             .getLogger()
             .log('configurations: ' + JSON.stringify(wdi5().getUtils().getConfig()));
-
-        // UI5 bridge setup
-        wdi5().getWDioUi5().setup(browser); // use wdio hooks for setting up wdio<->ui5 bridge
-        wdi5().getWDioUi5().injectUI5(browser); // needed to let the instance know that UI5 is now available for work
     },
     /*
      * Gets executed after all tests are done. You still have access to all global variables from

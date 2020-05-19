@@ -29,6 +29,8 @@
 				<Button text="{testModel>/buttonText}" press="onTest" class="myTestClass"/>
 				<Input value="{testModel>/inputValue}"/>
 				<CheckBox id="idCheckbox" selected="{testModel>/checkbox}" text="test checkbox" select="onSelect"/>
+				<Button text="open Barcodescanner" press="scanBarcode" id="barcodescannerplugin"/>
+				<Input id="barcodeValue" value="{testModel>/barcode}"/>
 			</VBox>
 		</content>
 	</Page>
