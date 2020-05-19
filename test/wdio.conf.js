@@ -101,7 +101,7 @@ exports.config = {
             'phonegap-plugin-barcodescanner': {
                 scanCode: '123123',
                 format: 'EAN',
-                cancelled: 'some cancel stuff'
+                cancelled: ''
             }
         }
     },
