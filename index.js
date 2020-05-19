@@ -1,7 +1,7 @@
 const BrowserUtils = require('./lib/BrowserUtils');
 const NativeUtils = require('./lib/NativeUtils');
 const wdioUI5 = require('./lib/wdioUi5-index');
-const cordovaPluginFactory = require('./lib/cordova-plugins/factory');
+const cordovaMockPluginFactory = require('./lib/cordova-plugin-mocks/factory');
 const logger = require('./lib/Logger');
 const selectorHelper = require('./lib/SelectorHelper');
 let _instance = null;
@@ -84,8 +84,8 @@ module.exports = (context, webcontext) => {
         _instance.getWDioUi5().setup(context); // use wdio hooks for setting up wdio<->ui5 bridge
         _instance.getWDioUi5().injectUI5(context); // needed to let the instance know that UI5 is now available for work
 
-        // create plugins
-        cordovaPluginFactory.setup(_instance, context);
+        // create mocks for plugins
+        cordovaMockPluginFactory.setup(_instance, context);
 
         // set loglevel once
         logger.setLoglevel(_instance.getUtils().getConfig('logLevel'));

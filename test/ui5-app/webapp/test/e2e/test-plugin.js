@@ -4,7 +4,7 @@ const wdi5 = require('../../../../../index');
 describe('ui5 plugin', () => {
     const viewName = 'test.Sample.view.Main';
 
-    it('test the cordova barcodescanner plugin', () => {
+    it('test the mocked cordova barcodescanner plugin', () => {
         // ui5
         const buttonselector = {
             wdio_ui5_key: 'barcodescannerplugin',
