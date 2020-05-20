@@ -8,7 +8,7 @@ exports.config = {
     specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', '**', '*.js')],
     // bail: 0,
     // directConnect: true,
-    services: ['chromedriver'], 
+    // services: ['chromedriver'], 
     chromeDriverLogs: path.join('test', 'report', 'logs'),
     maxInstances: 1,
     reporters: ['spec'],
@@ -44,7 +44,7 @@ exports.config = {
     ],
     wdi5: {
         deviceType: 'web',
-        logLevel: 'error',
+        logLevel: 'verbose',
         platform: 'electron',
         plugins: {
             'phonegap-plugin-barcodescanner': {
