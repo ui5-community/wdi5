@@ -24,7 +24,8 @@
         "_testWT:ios": "sleep 5s && wdio ./test/wdio-ios.conf.js",
         "_build:ui5_app": "cd test/ui5-app && ui5 build --all --exclude-task=* --include-task=generateComponentPreload",
         "_build:ios_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-ios.js",
-        "_build:android_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-android.js"
+        "_build:android_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-android.js",
+        "toc": "docs/gh-md-toc --insert README.md && rm README.md.orig* README.md.toc*"
     },
     "screenshotPath": "./test/report/screenshots",
     "keywords": [

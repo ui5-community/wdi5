@@ -13,7 +13,30 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 ## Table of Contents
 
-[TOC]
+<!--ts-->
+   * [wdi5](#wdi5)
+      * [Table of Contents](#table-of-contents)
+      * [Prerequisites](#prerequisites)
+      * [Getting Started](#getting-started)
+      * [Advanced configuration](#advanced-configuration)
+      * [Control selectors](#control-selectors)
+      * [API methods](#api-methods)
+         * [hasStyleClass](#hasstyleclass)
+         * [getProperty](#getproperty)
+         * [getAggregation](#getaggregation)
+         * [setProperty](#setproperty)
+         * [enterText](#entertext)
+         * [press](#press)
+         * [fireEvent](#fireevent)
+         * [check](#check)
+         * [uncheck](#uncheck)
+         * [toogle](#toogle)
+      * [Screenshots](#screenshots)
+      * [Logger](#logger)
+      * [FAQ/hints](#faqhints)
+      * [License](#license)
+
+<!--te-->
 
 ## Prerequisites
 
