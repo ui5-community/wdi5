@@ -45,7 +45,16 @@ exports.config = {
     wdi5: {
         deviceType: 'web',
         logLevel: 'error',
-        platform: 'browser'
+        platform: 'electron',
+        plugins: {
+            'phonegap-plugin-barcodescanner': {
+                respObjElectron: {
+                    text: '123123',
+                    format: 'EAN',
+                    cancelled: ''
+                }
+            }
+        }
     },
     before: function (capabilities, specs) {
         const wdi5 = require('../index');
