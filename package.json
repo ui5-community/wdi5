@@ -89,6 +89,6 @@
         "webdriverio": "^5.19.0"
     },
     "optionalDependencies": {
-        "cordova-electron-chromedriver": "npm:chromedriver@^2.44.1"
+        "cordova-electron-chromedriver": "npm:chromedriver@2.44.1"
     }
 }
