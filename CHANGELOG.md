@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.17](https://github.com/js-soft/wdio-ui5/compare/v0.0.16...v0.0.17) (2020-05-20)
+
+
+### Features
+
+* **build,test:** Android platform ([#12](https://github.com/js-soft/wdio-ui5/issues/12)) ([a80ca8b](https://github.com/js-soft/wdio-ui5/commit/a80ca8b93427b0e1451b63587701ce0c819d94e0))
+* **cordovaplugin:** writer proper test ([bf05e14](https://github.com/js-soft/wdio-ui5/commit/bf05e14abaaeac8ac74d8594429db7b936e3bbb7))
+* **navigation:** deep entry, hash nav ([da9ac70](https://github.com/js-soft/wdio-ui5/commit/da9ac703ec872a421b20d18219e8a6d0c931af14))
+* **options:** plugin options ([ac82227](https://github.com/js-soft/wdio-ui5/commit/ac822274ea3b6ff116b607eb6d11f949567b2ebd))
+* **plugin:** add config object ([428a2e3](https://github.com/js-soft/wdio-ui5/commit/428a2e34d7b9b9bd804e2ce752d1f94784430367))
+* **plugin:** wip conzept ([2870faa](https://github.com/js-soft/wdio-ui5/commit/2870faa762595ae2745ec3d1ddebb8a93dc829fd))
+
+
+### Bug Fixes
+
+* **codereview:** changed requested changes ([af6d675](https://github.com/js-soft/wdio-ui5/commit/af6d675d799aafc326b571fd4de0ec4c9ed4f0d6))
+* **revert:** arrow functions ([857fba7](https://github.com/js-soft/wdio-ui5/commit/857fba7750ae6fdf06db407c54a1664dda9ba568))
+
 ### 0.0.16 (2020-05-11)
 
 
