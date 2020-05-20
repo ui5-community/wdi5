@@ -108,6 +108,11 @@ exports.config = {
                     text: '123123',
                     format: 'EAN',
                     cancelled: ''
+                },
+                respObjAndroid: {
+                    text: '123123',
+                    format: 'EAN',
+                    cancelled: ''
                 }
             }
         }

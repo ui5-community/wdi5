@@ -1,4 +1,12 @@
-# `wdi5`: advanced usage an configuration
+# `wdi5`: advanced usage and configuration
+
+On a general note, we like to always have all parts of the test-environment running in parallel:
+
+- manually started simulator/emulator
+- `appium` e.g. via `npm run _startApp:ios` (except for Android, see below)
+- test execution, e.g. `npm run _test:ios`
+
+You can combine all of the above by running `npm run test:ios`, e.g. in a ci environment, at the cost of losing the flexibility of each tooling.
 
 ## iOS
 
@@ -65,7 +73,7 @@
     [Appium] Welcome to Appium v1.17.1
     [Appium] Appium REST http interface listener started on 0.0.0.0:4723
 
-    $> wdio wdio-ios.conf.js
+    $> npx wdio wdio-ios.conf.js
   
     Execution of 5 spec files started at ...
     ...
@@ -73,12 +81,69 @@
 
     there's example `npm scripts` available for the above in `/package.json`
 
-On a general note, we like to always have the applications running in parallel:  
-- manually started simulator
-- `appium` e.g. via `npm run _startApp:ios`
-- test execution, e.g. `npm run _test:ios` 
+## Android
 
-You can combine all of the above by running `npm run test:ios`, e.g. in a ci environment, at the cost of losing the flexibility of each tooling.
+-   install `appium` and all prerequisites mentioned in <http://appium.io/docs/en/drivers/android-uiautomator2/> for `UiAutomator2`-based testing
+
+
+- adjust basic config to use `appium` (see `tests/wdio-shared.config.js` for an example)
+
+    ```javascript
+    config = {
+        // 4723 is the default port for Appium
+        port: 4723,
+
+        // let appium-driver take care of the mapping
+        // path: '/'
+
+        services: [
+            [ 'appium' ]
+        ]
+    }
+    ```
+    
+-   enhance configuration with `android`-specific settings (see `tests/wdio-android.config.js` for an example):
+
+    ```javascript
+    wdi5: {
+        platform: 'android'
+    },
+    capabilities = [
+        {
+            automationName: 'UiAutomator2',
+            platformName: 'Android',
+
+            // OS version emulator is running on
+            platformVersion: '10',
+
+            // For Android, Appium uses the first device it finds using "adb devices". So, this string simply needs to be non-empty.
+            deviceName: 'any',
+
+            // .ipa or .app file
+            app: 'test/ui5-app/app/platforms/android/app/build/outputs/apk/debug/app-debug.apk',
+
+            // By default, Appium runs tests in the native context.
+            // By setting autoWebview to true,
+            // it runs our tests in the cordova context.
+            autoWebview: true,
+
+            // When set to true, it will not show permission dialogs,
+            // but instead grant all permissions automatically.
+            autoGrantPermissions: true,
+
+            // display emulator window
+            isHeadless: false
+        }
+    ]
+    ```
+
+- launch desired emulator  
+  `$> emulator -avd <avd_name>`
+
+- run the tests:  
+  `$> npx wdio ./test/wdio-android.conf.js`  
+  > note that `UiAutomator2` seems to always start `appium` under the hood -  
+  > no need to start `appium` manually
 
 
 # *** attic from here on ***
