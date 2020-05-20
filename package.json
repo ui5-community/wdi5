@@ -20,11 +20,13 @@
         "test:w": "run-p _startApp:dist _test:w",
         "test:ios": "run-p _startApp:ios _testWT:ios",
         "test:android": "wdio ./test/wdio-android.conf.js",
+        "test:electron": "wdio ./test/wdio-electron.conf.js",
         "_test:ios": "wdio ./test/wdio-ios.conf.js",
         "_testWT:ios": "sleep 5s && wdio ./test/wdio-ios.conf.js",
         "_build:ui5_app": "cd test/ui5-app && ui5 build --all --exclude-task=* --include-task=generateComponentPreload",
         "_build:ios_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-ios.js",
         "_build:android_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-android.js",
+        "_build:electron_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-electron.js",
         "toc": "docs/gh-md-toc --insert README.md && rm README.md.orig* README.md.toc*"
     },
     "screenshotPath": "./test/report/screenshots",
@@ -74,7 +76,7 @@
         "@wdio/sync": "^5.20.1",
         "appium": "^1.17.1",
         "appium-chromedriver": "^4.24.0",
-        "chromedriver": "^81.0.0",
+        "chromedriver": "^2.44.1",
         "selenium-webdriver": "^3.6.0",
         "wdio-chromedriver-service": "^5.0.2",
         "webdriverio": "^5.19.0"
