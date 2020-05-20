@@ -17,7 +17,7 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 ## Prerequisites
 
--   for browser-based testing: running UI5 app that is accessbile via `http(s)://host.ext:port`
+-   for browser-based testing: running UI5 app that is accessbile via `http(s)://host.ext:port`  
     recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like [`soerver`](https://github.com/vobu/soerver) or [`http-server`](https://www.npmjs.com/package/http-server)
 -   for hybrid app testing:
     -   iOS: `.ipa` (device-type build) or `.app` (emulator-type build) + iOS simulator
@@ -53,10 +53,6 @@ In your actual test(s), kick-off `wdi5`:
 const wdi5 = require('wdi5')()
 
 it("should find a button's texts and click it", () => {
-    // wire up wdio<->ui5
-    wdi5().getWDioUi5().setup(browser) // browser is a global object from webdriver.io
-    wdi5().getWDioUi5().injectUI5(browser) // let webdriver.io know UI5 is available
-
     browser.url('index.html') // navigate to UI5 bootstrap page relative to "baseUrl"
 
     const selector = {
@@ -162,6 +158,14 @@ const control = browser.asControl(bindingPathSelector)
 // now use one of the below API methods on `control`
 ```
 
+**`wdi5` supports method chaining**, so you can do:
+```javascript
+browser.asControl(selector)
+    .getText()
+    .getId()
+    .setProperty("title", "new title")
+```
+
 In case you are not able to create an explicit selector for a control, but you are able to find it via any [webdriver strategy](https://www.w3.org/TR/webdriver/#locator-strategies), you can use the `getSelectorForElement` method of the UI5-wdio-bridge.
 This function gets the webdriver element as parameter and returns a selector which can then used in the `asControl` function.
 
@@ -197,25 +201,25 @@ assert.ok(browser.asControl(oSelector).hasStyleClass('active'))
 assert.strictEqual(browser.asControl(oButtonSelector).getProperty('text'), 'Click me now!')
 ```
 
--   `getId() => String`: get the Id of the control as issued by the UI5 framework; convenience wrapper for `getProperty("id")` (see above)
+-   **`getId() => String`**: get the Id of the control as issued by the UI5 framework; convenience wrapper for `getProperty("id")` (see above)
 
     ```javascript
     assert.ok(browser.asControl(oButtonSelector).getId().includes('NavButton'))
     ```
 
--   `getText() => String`: get the text label of a control; convenience wrapper for `getProperty("text")` (see above)
+-   **`getText() => String`**: get the text label of a control; convenience wrapper for `getProperty("text")` (see above)
 
     ```javascript
     assert.strictEqual(browser.asControl(oButtonSelector).getText(), 'Click me now!')
     ```
 
--   `getTitle() => String`: get the title text of a control; convenience wrapper for `getProperty("title")` (see above)
+-   **`getTitle() => String`**: get the title text of a control; convenience wrapper for `getProperty("title")` (see above)
 
     ```javascript
     assert.strictEqual(browser.asControl(oListItemSelector).getTitle(), 'some list item title')
     ```
 
--   `isVisible() => Boolean(true|false)`: validate visibilty status of a control; convenience wrapper for `getProperty("visible")` (see above)
+-   **`isVisible() => Boolean(true|false)`**: validate visibilty status of a control; convenience wrapper for `getProperty("visible")` (see above)
 
     ```javascript
     assert.ok(browser.asControl(oSelector).isVisible())
