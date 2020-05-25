@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "cordova-android": "^8.1.0",
+    "cordova-electron": "^1.1.1",
     "cordova-ios": "^5.1.1",
     "cordova-plugin-barcodescanner": "^0.7.4",
     "cordova-plugin-compat": "^1.2.0"
@@ -28,7 +29,8 @@
     },
     "platforms": [
       "ios",
-      "android"
+      "android",
+      "electron"
     ]
   }
 }

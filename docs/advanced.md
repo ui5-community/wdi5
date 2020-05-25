@@ -145,6 +145,80 @@ You can combine all of the above by running `npm run test:ios`, e.g. in a ci env
   > note that `UiAutomator2` seems to always start `appium` under the hood -  
   > no need to start `appium` manually
 
+## electron
+
+- **make sure you have the version of `chromedriver` installed that matches the one your electron app is build with.**  
+  for this example repo (and at the time of this writing):
+  - `cordova-electron` in version `1.1.1`
+  - that uses `electron` in version `4.x`
+  - which uses `chromium` in version `69`
+  - -> node module `chromedriver` in version `2.44.1` is needed to run the tests
+    (note that meanwhile the node module `chromedriver` has started to align its' version numbers to the official `chromium` versions)
+  
+  at the same time, you need a **current** version of `chromedriver` to run browser-based tests.  
+  that's why we've installed two versions of `chromedriver` in this example repo,  
+  the once specific to the electron app as optional dependency:  
+  `"cordova-electron-chromedriver": "npm:chromedriver@^2.44.1"`
+
+  - in order to use `chromedriver` with browser-based tests, the binary from the `chromedriver` is used
+  - in order to run electron-app tests, the older version of `chromedriver` is linked to `node_modules/.bin/electron-chromedriver` and launched separately in the tests
+
+  of course the above should only serve as a guide to you if you need both browser- and electron-based tests.  
+  if one is sufficient, adjust your environment to the corresponding `chromedriver` node module.
+
+- adjust `wdio`-config to work with electron (see `tests/wdio-electron.config.js` for an example):
+  ```javascript
+  exports.config = {
+    host: 'localhost', // Use localhost as chrome driver server
+    port: 9515, // "9515" is the port opened by chrome driver.
+    specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', '**', '*.js')],
+    // services: ['chromedriver'], // NOT USED, but launched separatley, see above 
+    maxInstances: 1,
+    reporters: ['spec'],
+    framework: 'mocha',
+    mochaOpts: {
+        timeout: 60000
+    },
+    capabilities: [
+        {
+            browserName: 'chrome',
+            'goog:chromeOptions': {
+                binary: path.join(
+                    'test',
+                    'ui5-app',
+                    'app',
+                    'platforms',
+                    'electron',
+                    'build',
+                    'mac',
+                    'UI5.app',
+                    'Contents',
+                    'MacOS',
+                    'UI5'
+                ),
+                args: ['remote-debugging-port=9222'] // this is important!
+            }
+        }
+    ],
+    wdi5: {
+        deviceType: 'web',
+        logLevel: 'verbose',
+        platform: 'electron',
+        // this for mocking a cordova plugin
+        plugins: {
+            'phonegap-plugin-barcodescanner': {
+                respObjElectron: {
+                    text: '123123',
+                    format: 'EAN',
+                    cancelled: ''
+                }
+            }
+        }
+    }
+  ```
+
+- run the tests:
+  `$> npx wdio ./test/wdio-cordova.conf.js`
 
 # *** attic from here on ***
 

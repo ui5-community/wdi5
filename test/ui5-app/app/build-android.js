@@ -18,8 +18,7 @@ if (fs.existsSync(androidPlatformFolderPath)) {
 }
 
 console.log(`[android] Starting build ...`);
-// execSync(`cordova build android --no-telemetry --emulator`, {
-execSync(`cordova run android --no-telemetry --emulator`, {
+execSync(`cordova build android --no-telemetry --emulator`, {
     stdio: 'inherit'
 });
 
