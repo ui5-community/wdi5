@@ -5,34 +5,65 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "run test:browser",
+            "name": "run test:electron",
             "type": "node",
             "program": "${workspaceFolder}/node_modules/.bin/wdio",
             "request": "launch",
-            "args": ["${workspaceFolder}/test/wdio.conf.js", "--spec", "${file}"],
-            "skipFiles": ["<node_internals>/**"],
+            "args": [
+                "${workspaceFolder}/test/wdio-electron.conf.js"
+            ],
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
             "internalConsoleOptions": "openOnSessionStart",
             "console": "internalConsole",
             "autoAttachChildProcesses": true
         },
-
         {
-            "name": "watch selected spec",
+            "name": "run test:browser",
+            "type": "node",
+            "program": "${workspaceFolder}/node_modules/.bin/wdio",
+            "request": "launch",
+            "args": [
+                "${workspaceFolder}/test/wdio.conf.js",
+                "--spec",
+                "${file}"
+            ],
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "console": "internalConsole",
+            "autoAttachChildProcesses": true
+        },
+        {
+            "name": "watch selected spec:browser",
             "type": "node",
             "request": "launch",
-            "args": ["${workspaceFolder}/test/wdio.conf.js", "--watch", "--spec", "${file}"],
+            "args": [
+                "${workspaceFolder}/test/wdio.conf.js",
+                "--watch",
+                "--spec",
+                "${file}"
+            ],
             "cwd": "${workspaceFolder}",
             "autoAttachChildProcesses": true,
             "program": "${workspaceRoot}/node_modules/@wdio/cli/bin/wdio.js",
             "console": "integratedTerminal"
         },
         {
-            "name": "test:ios",
+            "name": "run test:ios",
             "type": "node",
             "program": "${workspaceFolder}/node_modules/.bin/wdio",
             "request": "launch",
-            "args": ["${workspaceFolder}/test/wdio-ios.conf.js", "--spec", "${file}"],
-            "skipFiles": ["<node_internals>/**"],
+            "args": [
+                "${workspaceFolder}/test/wdio-ios.conf.js",
+                "--spec",
+                "${file}"
+            ],
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
             "internalConsoleOptions": "openOnSessionStart",
             "console": "internalConsole",
             "autoAttachChildProcesses": true
