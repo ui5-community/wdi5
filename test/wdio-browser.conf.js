@@ -1,4 +1,3 @@
-const path = require('path');
 exports.config = {
     // ==================================
     // Where should your test be launched
@@ -47,7 +46,7 @@ exports.config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', '**', '*.js')],
+    specs: ['./test/ui5-app/webapp/test/e2e/**/*.js'],
     // Patterns to exclude.
     exclude: [],
     //
@@ -83,13 +82,17 @@ exports.config = {
             // grid with only 5 firefox instances available you can make sure that not more than
             // 5 instances get started at a time.
             maxInstances: 1,
-            browserName: 'chrome'
+            browserName: 'chrome',
+            "goog:chromeOptions": {
+                w3c: false,
+                args: ["window-size=1440,800"]
+            }
         }
     ],
 
     wdi5: {
         // path: "", // commented out to use the default paths
-        screenshotPath: path.join('test', 'report', 'screenshots'),
+        screenshotPath: './test/report/screenshots',
         logLevel: 'verbose', // error | verbose | silent
         platform: 'browser', // electron, browser, android, ios
         deviceType: 'web',
