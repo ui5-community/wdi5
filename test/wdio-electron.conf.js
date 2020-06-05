@@ -8,7 +8,7 @@ exports.config = {
     specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', '**', '*.js')],
     // bail: 0,
     // directConnect: true,
-    // services: ['chromedriver'], 
+    // services: ['chromedriver'],
     chromeDriverLogs: path.join('test', 'report', 'logs'),
     maxInstances: 1,
     reporters: ['spec'],
@@ -23,8 +23,10 @@ exports.config = {
     },
     capabilities: [
         {
+            isHeadless: false,
             browserName: 'chrome',
             'goog:chromeOptions': {
+                w3c: false,
                 binary: path.join(
                     'test',
                     'ui5-app',
@@ -38,7 +40,7 @@ exports.config = {
                     'MacOS',
                     'UI5'
                 ),
-                args: ['remote-debugging-port=9222']
+                args: ['remote-debugging-port=9222', "--window-size=1920,1080"]
             }
         }
     ],

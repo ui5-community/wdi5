@@ -20,7 +20,7 @@ exports.config = {
     bail: 0,
 
     // Override default path ('/wd/hub') for chromedriver service.
-    // path: '/',
+    path: '/wd/hub',
 
     // ============
     // Capabilities
