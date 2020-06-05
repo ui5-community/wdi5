@@ -21,10 +21,6 @@ config.capabilities = [
         // true, it runs our tests in the Cordova context.
         autoWebview: true,
 
-        // When set to true, it will not show permission dialogs, but instead grant all
-        // permissions automatically.
-        autoGrantPermissions: true,
-
         // display sim window - seems to default to true
         // w/ macOS 10.15.4, iOS sim 11.4.1 (921.9), appium 1.17.1
         isHeadless: false
