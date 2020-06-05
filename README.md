@@ -40,7 +40,7 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 ## Prerequisites
 
--   for browser-based testing: running UI5 app that is accessbile via `http(s)://host.ext:port`  
+-   for browser-based testing: running UI5 app that is accessbile via `http(s)://host.ext:port`
     recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like [`soerver`](https://github.com/vobu/soerver) or [`http-server`](https://www.npmjs.com/package/http-server)
 -   for hybrid app testing:
     -   iOS: `.ipa` (device-type build) or `.app` (emulator-type build) + iOS simulator
@@ -49,6 +49,13 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 ## Getting Started
 
+To support these four different platforms of android, ios, electron and browser we wanted to find the congruences. Android and ios tests are driven by appium, electron and brwoser by chromedriver directly, therefore we separate them with the two device types of `native` for appium driven and `web` for driven by chromedriver.
+```javascript
+    platform: "", // android | ios | electron | browser
+    deviceType: "" // native | web
+```
+
+### Installation
 ```zsh
 # install the node module
 $> npm install wdi5
