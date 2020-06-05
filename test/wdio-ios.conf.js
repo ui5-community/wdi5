@@ -8,7 +8,7 @@ config.capabilities = [
         platformName: 'iOS',
 
         // The version of the Android or iOS system
-        platformVersion: '13.4',
+        platformVersion: '13.5',
 
         // For iOS, this must exactly match the device name as seen in Xcode.
         deviceName: 'iPhone SE (2nd generation)',
@@ -20,10 +20,6 @@ config.capabilities = [
         // By default, Appium runs tests in the native context. By setting autoWebview to
         // true, it runs our tests in the Cordova context.
         autoWebview: true,
-
-        // When set to true, it will not show permission dialogs, but instead grant all
-        // permissions automatically.
-        autoGrantPermissions: true,
 
         // display sim window - seems to default to true
         // w/ macOS 10.15.4, iOS sim 11.4.1 (921.9), appium 1.17.1
