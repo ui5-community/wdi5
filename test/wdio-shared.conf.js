@@ -60,13 +60,7 @@ exports.config = {
     // Use the Appium plugin for Webdriver. Without this, we would need to run appium
     // separately on the command line.
     services: [
-        [
-            'appium',
-            {
-                // Appium service options here
-                logPath: path.join('test', 'report', 'appium')
-            }
-        ]
+
     ],
 
     waitforTimeout: 60000,
