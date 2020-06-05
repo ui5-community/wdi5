@@ -40,7 +40,7 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 ## Prerequisites
 
--   for browser-based testing: running UI5 app that is accessbile via `http(s)://host.ext:port`  
+-   for browser-based testing: running UI5 app that is accessbile via `http(s)://host.ext:port`
     recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like [`soerver`](https://github.com/vobu/soerver) or [`http-server`](https://www.npmjs.com/package/http-server)
 -   for hybrid app testing:
     -   iOS: `.ipa` (device-type build) or `.app` (emulator-type build) + iOS simulator
@@ -372,6 +372,8 @@ The log level is set by the either in `wdio.conf.js` via `wdi5.logLevel` or by `
 -   Electron: a known pitfall is the chromedriver version. Make sure you run the fitting `electron-chromedriver` version to your electron version used for the binary.
 
 -   `Webdriver.IO`'s watch mode is running, but subsequent `context.executeAsync()`-calls fail - exact cause unknown, likely candidate is `fibers` from `@wdio/sync`
+
+-    In case `... bind() returned an error, errno=0: Address already in use (48)` error shows up during test execution any `chromedriver` service is already running. You need to quit this process eg. by force quiting it in the activity monitor.
 
 ## License
 
