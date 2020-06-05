@@ -49,6 +49,13 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 ## Getting Started
 
+To support these four different platforms of android, ios, electron and browser we wanted to find the congruences. Android and ios tests are driven by appium, electron and brwoser by chromedriver directly, therefore we separate them with the two device types of `native` for appium driven and `web` for driven by chromedriver.
+```javascript
+    platform: "", // android | ios | electron | browser
+    deviceType: "" // native | web
+```
+
+### Installation
 ```zsh
 # install the node module
 $> npm install wdi5
