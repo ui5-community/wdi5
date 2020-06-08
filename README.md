@@ -18,6 +18,7 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
       * [Table of Contents](#table-of-contents)
       * [Prerequisites](#prerequisites)
       * [Getting Started](#getting-started)
+         * [Installation](#installation)
       * [Advanced configuration](#advanced-configuration)
       * [Control selectors](#control-selectors)
       * [API methods](#api-methods)
@@ -35,6 +36,8 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
       * [Logger](#logger)
       * [FAQ/hints](#faqhints)
       * [License](#license)
+
+<!-- Added by: vbuzek, at: Mo  8 Jun 2020 09:37:58 CEST -->
 
 <!--te-->
 
