@@ -17,9 +17,9 @@ describe('hash-based nav', () => {
         assert.ok(items.length === 9);
     });
 
-    it ('should navigate to Main view via #/', () => {
+    it('should navigate to Main view via #/', () => {
         wdi5().getUtils().goTo('#/');
-        
+
         const buttonSelector = {
             wdio_ui5_key: 'NavFwdButton',
             selector: {

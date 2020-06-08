@@ -46,10 +46,6 @@ config.capabilities = [
     }
 ];
 
-config.appium = {
-    args: ['--allow-insecure', 'chromedriver_autodownload']
-};
-
 config.wdi5.platform = 'android';
 
 exports.config = config;
