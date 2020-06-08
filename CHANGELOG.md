@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.19](https://github.com/js-soft/wdio-ui5/compare/v0.0.18...v0.0.19) (2020-06-08)
+
+
+### Features
+
+* **minor:** tweaks and updates ([ea15c47](https://github.com/js-soft/wdio-ui5/commit/ea15c479650109ed18f89966fbd132e8e2e9515a))
+* **navigation:** electron adjustments goto: ([df128c1](https://github.com/js-soft/wdio-ui5/commit/df128c15f39278fa54daf3d9e524abacc19446b1))
+* **wdio:** upgrade to version 6 ([4972a74](https://github.com/js-soft/wdio-ui5/commit/4972a7441e0e925fb7a1b8b5b0c38735dd44050b))
+
+
+### Bug Fixes
+
+* **ios:** adjustments in config ([f6bf57b](https://github.com/js-soft/wdio-ui5/commit/f6bf57bca87497da22da04d6155b0c53aa9c3b10))
+* **pullrequest:** comments for electron ([8b20430](https://github.com/js-soft/wdio-ui5/commit/8b2043054fabc30773f573b542a5081b272f58e0))
+
 ### [0.0.18](https://github.com/js-soft/wdio-ui5/compare/v0.0.17...v0.0.18) (2020-05-25)
 
 
