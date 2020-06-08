@@ -48,6 +48,7 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
     -   Electron: binary
 
 ### iOS Permissions
+To manually set permissions for your application under test like file access or notifications. This way the native iOS alert wont show up during test execution.
 See: https://github.com/wix/AppleSimulatorUtils
 
 Install brew, then:
