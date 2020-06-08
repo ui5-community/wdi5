@@ -23,7 +23,12 @@ config.capabilities = [
 
         // display sim window - seems to default to true
         // w/ macOS 10.15.4, iOS sim 11.4.1 (921.9), appium 1.17.1
-        isHeadless: false
+        isHeadless: false,
+
+        // http://appium.io/docs/en/drivers/ios-xcuitest/#capabilities
+        // https://appiumpro.com/editions/43-setting-ios-app-permissions-automatically
+        // https://github.com/wix/AppleSimulatorUtils
+        permissions: "{\"sample.app\": {\"camera\": \"yes\",\"notifications\": \"yes\"}}"
     }
 ];
 

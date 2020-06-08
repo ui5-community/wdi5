@@ -47,6 +47,20 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
     -   Android: `.apk` + emulator
     -   Electron: binary
 
+### iOS Permissions
+See: https://github.com/wix/AppleSimulatorUtils
+
+Install brew, then:
+
+```zsh
+# add module to Homebrew
+brew tap wix/brew
+# install module
+brew install applesimutils
+```
+
+Set permissions in `wdio-ios.conf.js`.
+
 ## Getting Started
 
 To support these four different platforms of android, ios, electron and browser we wanted to find the congruences. Android and ios tests are driven by appium, electron and brwoser by chromedriver directly, therefore we separate them with the two device types of `native` for appium driven and `web` for driven by chromedriver.
