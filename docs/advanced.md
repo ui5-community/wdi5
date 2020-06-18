@@ -81,6 +81,21 @@ You can combine all of the above by running `npm run test:ios`, e.g. in a ci env
 
     there's example `npm scripts` available for the above in `/package.json`
 
+### iOS Permissions
+To manually set permissions for your application under test like file access or notifications. This way the native iOS alert wont show up during test execution.
+See: https://github.com/wix/AppleSimulatorUtils
+
+Install brew, then:
+
+```zsh
+# add module to Homebrew
+brew tap wix/brew
+# install module
+brew install applesimutils
+```
+
+Set permissions in `wdio-ios.conf.js`.
+
 ## Android
 
 -   install `appium` and all prerequisites mentioned in <http://appium.io/docs/en/drivers/android-uiautomator2/> for `UiAutomator2`-based testing
