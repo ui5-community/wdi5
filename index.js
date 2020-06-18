@@ -73,6 +73,10 @@ class _ {
     getSelectorHelper() {
         return selectorHelper;
     }
+
+    getCordovaMockPluginFactory() {
+        return cordovaMockPluginFactory;
+    }
 }
 
 module.exports = (context, webcontext) => {
