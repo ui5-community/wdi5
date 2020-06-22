@@ -8,6 +8,19 @@ On a general note, we like to always have all parts of the test-environment runn
 
 You can combine all of the above by running `npm run test:ios`, e.g. in a ci environment, at the cost of losing the flexibility of each tooling.
 
+## Cordova plugins
+
+This framework comes with a set of plugin mocks.
+
+List of plugin mocks:
+- phonegap-plugin-barcodescanner
+
+You can configure each plugin in the wdi5 config object. See example config.
+
+To add a new cordova plugin mock in your project specify a plugin object in the wdi5 object of config file and use the `path` property to point to your implementation javascript file.
+
+Check the `Cordova Plugin Mock Development` section under `How it works` in this documentation for further information.
+
 ## iOS
 
 -   install `appium` and all prerequisites mentioned in <http://appium.io/docs/en/drivers/ios-xcuitest/index.html> for `XCUITest`-based testing
@@ -182,6 +195,7 @@ Set permissions in `wdio-ios.conf.js`.
   if one is sufficient, adjust your environment to the corresponding `chromedriver` node module.
 
 - adjust `wdio`-config to work with electron (see `tests/wdio-electron.config.js` for an example):
+
   ```javascript
   exports.config = {
     host: 'localhost', // Use localhost as chrome driver server
@@ -222,6 +236,7 @@ Set permissions in `wdio-ios.conf.js`.
         // this for mocking a cordova plugin
         plugins: {
             'phonegap-plugin-barcodescanner': {
+                path: "./test/plugins/custom-plugin.js",
                 respObjElectron: {
                     text: '123123',
                     format: 'EAN',
@@ -424,6 +439,22 @@ If you use a named model and a root property there is an issue in UI5 control se
 The function `_getFormattedPath` in [`BindingPath.js`](https://github.com/SAP/openui5/blob/master/src/sap.ui.core/src/sap/ui/test/matchers/BindingPath.js) does `substring(1)` if it is a named model.
 
 This was tmp fixed in `wdio-ui5 - createMatchers` function. In case this will be fixed by UI5 this need to be adjusted.
+
+## Cordova Plugin Mock Development
+
+The plugin file gets loaded by the plugin factory as it is defined in the wdi5 config object.
+
+Register the plugin at the factory:
+```javascript
+factory.registerPlugin('plugin name', 'platform name', 'function');
+```
+
+The third parameter is a function passed to the browser context and executed. It should override the plugin function in the cordova namespace eg. `cordova.plugins.barcodeScanner.scan`.
+
+Be aware that the context differs inside the passed function to factory.registerPlugin to this files' context. This means, that eg. the member `_pluginName` is not available.
+
+Get the config
+Function window.wdi5.getPluginConfigForPluginWithProperty(pluginName, property) can be used to retrieve a property form the plugin config. Function window.wdi5.getPluginConfigForPlugin(pluginName) can be used to retrieve the whole config form the plugin config.
 
 ## Logger
 
