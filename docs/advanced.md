@@ -12,12 +12,26 @@ You can combine all of the above by running `npm run test:ios`, e.g. in a ci env
 
 This framework comes with a set of plugin mocks.
 
-List of plugin mocks:
+List of provided plugin mocks:
 - phonegap-plugin-barcodescanner
 
-You can configure each plugin in the wdi5 config object. See example config.
+To add a new cordova plugin mock, specify a `plugins` object in the `wdi5` object of the config file. Name it _exactly_ as the cordova plugin is named (e.g. "phonegap-plugin-barcodescanner") and use the `path` property to point to your mock implementation file. Additionally, you can define custom properties for programmatic "responses" during test execution (here: `mockedPluginResponse`).
 
-To add a new cordova plugin mock in your project specify a plugin object in the wdi5 object of config file and use the `path` property to point to your implementation javascript file.
+```javascript
+plugins: {
+        'phonegap-plugin-barcodescanner': {
+            path: "./to/mock/implementation.js",
+            mockedPluginResponse: {
+                text: '123123',
+                format: 'EAN',
+                cancelled: ''
+            }
+        },
+        'other-cordova-plugin': {
+            path: "./other/mock/implementation/path.js"
+        }
+    }
+```
 
 Check the `Cordova Plugin Mock Development` section under `How it works` in this documentation for further information.
 
