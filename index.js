@@ -3,7 +3,6 @@ const NativeUtils = require('./lib/NativeUtils');
 const wdioUI5 = require('./lib/wdioUi5-index');
 const cordovaMockPluginFactory = require('./lib/cordova-plugin-mocks/factory');
 const logger = require('./lib/Logger');
-const selectorHelper = require('./lib/SelectorHelper');
 let _instance = null;
 
 class _ {
@@ -67,12 +66,6 @@ class _ {
         return logger;
     }
 
-    /**
-     * @return SelectorHelper
-     */
-    getSelectorHelper() {
-        return selectorHelper;
-    }
 }
 
 module.exports = (context, webcontext) => {

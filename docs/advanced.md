@@ -406,8 +406,6 @@ const selector = {
 };
 ```
 
-WDI5 can help you to create a `sap.ui.test.RecordReplay.ControlSelector` selector by calling eg. `wdi5().getSelectorHelper().createBindingPathSelector(...)` with your parameters in the order: `viewName, controlType, modelName, propertyPath, path`.
-
 #### Flaws
 
 [OpenUI5 Issue](https://github.com/SAP/openui5/issues/2887) sap/ui/test/matchers/BindingPath cannot locate control by named model and root property

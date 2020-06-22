@@ -39,9 +39,14 @@ describe('ui5 basic', () => {
         // ui5
         const selector = {
             wdio_ui5_key: 'buttonSelector',
-            selector: wdi5()
-                .getSelectorHelper()
-                .cerateBindingPathSelector(globalThis.viewName, 'sap.m.Button', 'testModel', '/buttonText')
+            selector: {
+                bindingPath: {
+                    modelName: 'testModel',
+                    propertyPath: '/buttonText'
+                },
+                viewName: globalThis.viewName,
+                controlType: 'sap.m.Button'
+            }
         };
         const control = browser.asControl(selector);
         const retrievedClassNameStatus = control.hasStyleClass(className);
