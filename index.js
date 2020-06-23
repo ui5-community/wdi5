@@ -66,6 +66,12 @@ class _ {
         return logger;
     }
 
+    /**
+     * @retun plugin factory for cordova plugins
+     */
+    getCordovaMockPluginFactory() {
+        return cordovaMockPluginFactory;
+    }
 }
 
 module.exports = (context, webcontext) => {

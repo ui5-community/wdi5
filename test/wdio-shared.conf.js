@@ -97,6 +97,7 @@ exports.config = {
             camera: 2
         },
         plugins: {
+            // TODO: custom path to plugins
             'phonegap-plugin-barcodescanner': {
                 respObjIos: {
                     text: '123123',
@@ -108,6 +109,9 @@ exports.config = {
                     format: 'EAN',
                     cancelled: ''
                 }
+            },
+            'custom-plugin': {
+                path: "./test/plugins/custom-plugin.js"
             }
         }
     },
