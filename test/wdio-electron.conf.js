@@ -5,7 +5,7 @@ exports.config = {
     path: '/', // Path to driver server endpoint.
     host: 'localhost', // Use localhost as chrome driver server
     port: 9515, // "9515" is the port opened by chrome driver.
-    specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', '**', '*.js')],
+    specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', '*.js')],
     // bail: 0,
     // directConnect: true,
     // services: ['chromedriver'],

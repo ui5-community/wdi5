@@ -51,7 +51,7 @@ exports.config = {
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
     // Where the files we are testing can be found.
-    specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', '**', '*.js')],
+    specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', '*.js')],
 
     exclude: [
         // 'path/to/excluded/files'
