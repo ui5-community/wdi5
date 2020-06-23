@@ -1,35 +1,28 @@
 const assert = require('assert');
 const wdi5 = require('../../../../../index');
+const Main = require('./pageObjects/Main');
 
 describe('ui5 checkbox test', () => {
-    const cbSelector1 = {
-        wdio_ui5_key: 'cbSelector1',
-        selector: {
-            id: 'idCheckbox',
-            viewName: 'test.Sample.view.Main',
-            controlType: 'sap.m.CheckBox'
-        }
-    };
 
     it('should check the checkbox', () => {
-        browser.asControl(cbSelector1).check();
+        Main.getCheckbox().check();
 
-        assert.ok(browser.asControl(cbSelector1).getProperty('selected'));
+        assert.ok(Main.getCheckbox().getProperty('selected'));
     });
     it('should uncheck the checkbox', () => {
-        browser.asControl(cbSelector1).uncheck();
+        Main.getCheckbox().uncheck();
 
-        assert.ok(!browser.asControl(cbSelector1).getProperty('selected'));
+        assert.ok(!Main.getCheckbox().getProperty('selected'));
     });
     it('should toggle the checkbox', () => {
-        browser.asControl(cbSelector1).toggle();
+        Main.getCheckbox().toggle();
 
-        assert.ok(browser.asControl(cbSelector1).getProperty('selected'));
+        assert.ok(Main.getCheckbox().getProperty('selected'));
     });
 
     it('should uncheck the checkbox via wdio-native .click()', () => {
 
-        const ui5checkBox2 = browser.asControl(cbSelector1);
+        const ui5checkBox2 = Main.getCheckbox();
 
         // working with web element can make it more easy than UI5 directly
         const webCheckBox2 = ui5checkBox2.getWebElement();
