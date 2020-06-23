@@ -3,7 +3,6 @@ const wdi5 = require('../../../../../index');
 
 describe('ui5 checkbox test', () => {
     const cbSelector1 = {
-        wdio_ui5_key: 'cbSelector1',
         selector: {
             id: 'idCheckbox',
             viewName: 'test.Sample.view.Main',

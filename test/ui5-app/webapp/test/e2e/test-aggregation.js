@@ -15,7 +15,6 @@ describe('ui5 aggregation retrieval', () => {
     ];
 
     const listSelector = {
-        wdio_ui5_key: 'PeopleList',
         selector: {
             id: 'PeopleList',
             viewName: 'test.Sample.view.Other'
@@ -31,7 +30,6 @@ describe('ui5 aggregation retrieval', () => {
         // navigate to the "Other" view, containing the list,
         // by pressing the nav button
         const buttonSelector = {
-            wdio_ui5_key: 'NavFwdButton',
             selector: {
                 id: 'NavFwdButton',
                 viewName: 'test.Sample.view.Main'

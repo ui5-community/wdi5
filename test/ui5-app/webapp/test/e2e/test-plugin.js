@@ -7,7 +7,6 @@ describe('ui5 plugin', () => {
     it('test the mocked cordova barcodescanner plugin', () => {
         // ui5
         const buttonselector = {
-            wdio_ui5_key: 'barcodescannerplugin',
             selector: {
                 id: 'barcodescannerplugin',
                 viewName: viewName
@@ -15,7 +14,6 @@ describe('ui5 plugin', () => {
         };
 
         const inputSelector = {
-            wdio_ui5_key: 'barcodeValue',
             selector: {
                 id: 'barcodeValue',
                 viewName: viewName

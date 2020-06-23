@@ -266,7 +266,7 @@ To access the application's runtime environment this framework uses Webdriver AP
 
 ## WDI5Selector
 
-Is a plain Javascript object to enhance a `sap.ui.test.RecordReplay.ControlSelector` with the property `wdio_ui5_key`.
+Is a plain Javascript object to enhance a `sap.ui.test.RecordReplay.ControlSelector` with the optional properties `wdio_ui5_key` and `forceSelect`.
 
 ```Javascript
 const wdi5Selector = {
