@@ -32,11 +32,12 @@ describe('ui5 checkbox test', () => {
 
         // working with web element can make it more easy than UI5 directly
         const webCheckBox2 = ui5checkBox2.getWebElement();
-        $(webCheckBox2).click();
+        webCheckBox2.click();
 
         wdi5()
             .getLogger()
             .log("ui5checkBox2.getProperty('selected') returned: " + ui5checkBox2.getProperty('selected'));
+
         // expect false and assert true
         assert.ok(!ui5checkBox2.getProperty('selected'));
     });
