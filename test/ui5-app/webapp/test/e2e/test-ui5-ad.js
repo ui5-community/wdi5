@@ -37,7 +37,6 @@ describe('wdio-ui5 bridge: advanced tests', () => {
 
         // create selector
         const inputSelector = {
-            forceSelect: true,
             selector: {
                 id: "mainUserInput",
                 viewName: viewName,
@@ -52,26 +51,6 @@ describe('wdio-ui5 bridge: advanced tests', () => {
         // get ui5 control
         const ui5Input = browser.asControl(inputSelector);
         // test for working binding
-        assert.strictEqual(ui5Input.getProperty('value'), newUsername);
-    });
-
-    it('check the the force property of Wdi5Selector', () => {
-
-        const newUsername = 'third Username';
-
-        // create selector iwth force false to check if control is loaded locally
-        const inputSelector = {
-            forceSelect: true,
-            selector: {
-                id: "mainUserInput",
-                viewName: viewName,
-                controlType: 'sap.m.Input'
-            }
-        };
-
-        // get ui5 control
-        const ui5Input = browser.asControl(inputSelector);
-        // test for old value
         assert.strictEqual(ui5Input.getProperty('value'), newUsername);
     });
 
