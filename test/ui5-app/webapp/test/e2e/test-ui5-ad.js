@@ -39,9 +39,15 @@ describe('wdio-ui5 bridge: advanced tests', () => {
         // #1 button test
         const buttonSelector = {
             wdio_ui5_key: 'buttonSelector',
-            selector: wdi5()
-                .getSelectorHelper()
-                .cerateBindingPathSelector(globalThis.viewName, 'sap.m.Button', 'testModel', '/buttonText')
+            selector:
+            {
+                bindingPath: {
+                    modelName: 'testModel',
+                    propertyPath: '/buttonText'
+                },
+                viewName: globalThis.viewName,
+                controlType: 'sap.m.Button'
+            }
         };
 
         const ui5Button = browser.asControl(buttonSelector);
