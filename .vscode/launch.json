@@ -20,7 +20,7 @@
             "autoAttachChildProcesses": true
         },
         {
-            "name": "run test:browser",
+            "name": "test:browser w static file",
             "type": "node",
             "program": "${workspaceFolder}/node_modules/.bin/wdio",
             "request": "launch",
@@ -37,7 +37,7 @@
             "autoAttachChildProcesses": true
         },
         {
-            "name": "run test:browser with current file",
+            "name": "test:browser w current file",
             "type": "node",
             "program": "${workspaceFolder}/node_modules/.bin/wdio",
             "request": "launch",
