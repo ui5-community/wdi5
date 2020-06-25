@@ -3,7 +3,6 @@ const wdi5 = require('../../../../../index');
 
 describe('ui5 basics: properties and navigation', () => {
     const buttonSelector = {
-        wdio_ui5_key: 'NavFwdButton',
         selector: {
             id: 'NavFwdButton',
             viewName: 'test.Sample.view.Main'
@@ -11,7 +10,6 @@ describe('ui5 basics: properties and navigation', () => {
     };
 
     const listSelector = {
-        wdio_ui5_key: 'PeopleList',
         selector: {
             id: 'PeopleList',
             viewName: 'test.Sample.view.Other'

@@ -6,7 +6,6 @@ describe('hash-based nav', () => {
         wdi5().getUtils().goTo('#/Other');
 
         const listSelector = {
-            wdio_ui5_key: 'PeopleList',
             selector: {
                 id: 'PeopleList',
                 viewName: 'test.Sample.view.Other'
@@ -21,7 +20,6 @@ describe('hash-based nav', () => {
         wdi5().getUtils().goTo('#/');
 
         const buttonSelector = {
-            wdio_ui5_key: 'NavFwdButton',
             selector: {
                 id: 'NavFwdButton',
                 viewName: 'test.Sample.view.Main'

@@ -89,7 +89,6 @@ it("should find a button's texts and click it", () => {
     browser.url('index.html') // navigate to UI5 bootstrap page relative to "baseUrl"
 
     const selector = {
-        wdio_ui5_key: 'NavFwdButton', // wdi5 specific - you need a unique key for any UI5 control you want to retrieve
         // standard OPA5/UIveri5-selectors!
         selector: {
             id: 'NavFwdButton',
@@ -139,17 +138,22 @@ Spec Files:      1 passed, 1 total (100% completed) in 00:00:15
 
 ## Advanced configuration
 
-please see the `advanced`-doc for setting up native + eletron platforms.
+please see the `advanced`-doc for setting up native + electron platforms.
 
 ## Control selectors
 
 The entry point to retrieve a control is always `browser.asControl(oSelector)`.
 
-`oSelector` re-uses the [OPA5 control selectors](https://ui5.sap.com/#/api/sap.ui.test.Opa5%23methods/waitFor), supplemented by a unique `wdio_ui5_key` property:
+`oSelector` re-uses the [OPA5 control selectors](https://ui5.sap.com/#/api/sap.ui.test.Opa5%23methods/waitFor), supplemented by the optional `wdio_ui5_key` and `forceSelect` properties.  
+
+`wdi5` stores control references internally in order to save browser roundtrip time on repeatedly using a control across different test cases. For that, `wdi5` computes unique identifiers for controls - with `wdio_ui5_key`, you can assign such an ID manually if required.  
+
+The `forceSelcet` (default: false) property can be set to true to force `wdi5` to again retrieve the control from the browser context and update the internally stored reference.
 
 ```javascript
 const oSelector = {
-    wdio_ui5_key: 'wdi5_button', // unique internal key to map and find a control
+    wdio_ui5_key: 'wdi5_button', // optional unique internal key to map and find a control
+    forceSelect: true, // forces the test framework to retrieve the control freshly from the browser context
     selector: {
         // sap.ui.test.RecordReplay.ControlSelector
         id: 'UI5control_ID',
@@ -174,7 +178,6 @@ These are the supported selectors from [sap.ui.test.RecordReplay.ControlSelector
 
 ```javascript
 const bindingPathSelector = {
-    wdio_ui5_key: 'byBindingPath', // unique internal key to map and find a control
     selector: {
         // sap.ui.test.RecordReplay.ControlSelector
         bindingPath: {
@@ -204,7 +207,6 @@ This function gets the webdriver element as parameter and returns a selector whi
 
 ```javascript
 const webdriverLocatorSelector = {
-    wdio_ui5_key: 'webdriverButton',
     selector: browser.getSelectorForElement({
         domElement: $('/xpath/to/button'),
         settings: {preferViewId: true}

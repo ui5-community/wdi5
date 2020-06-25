@@ -20,7 +20,24 @@
             "autoAttachChildProcesses": true
         },
         {
-            "name": "run test:browser",
+            "name": "test:browser w static file",
+            "type": "node",
+            "program": "${workspaceFolder}/node_modules/.bin/wdio",
+            "request": "launch",
+            "args": [
+                "${workspaceFolder}/test/wdio-browser.conf.js",
+                "--spec",
+                "test-ui5-ad.js"
+            ],
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "console": "internalConsole",
+            "autoAttachChildProcesses": true
+        },
+        {
+            "name": "test:browser w current file",
             "type": "node",
             "program": "${workspaceFolder}/node_modules/.bin/wdio",
             "request": "launch",

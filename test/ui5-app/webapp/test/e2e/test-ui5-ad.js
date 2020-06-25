@@ -2,24 +2,21 @@ const assert = require('assert');
 const wdi5 = require('../../../../../index');
 
 describe('wdio-ui5 bridge: advanced tests', () => {
-    globalThis.viewName = 'test.Sample.view.Main';
+    const viewName = 'test.Sample.view.Main';
 
-    it('check the binding of the username input', () => {
+    it('check the binding of the username input with custom wdio_ui5_key', () => {
         // set new Username
         const newUsername = 'my New Username';
 
         // create selector
         const inputSelector = {
+            forceSelect: true,
             wdio_ui5_key: 'mainUserInput',
             selector: {
-                // id: "mainUserInput",
                 bindingPath: {
                     propertyPath: "/Customers('TRAIH')/ContactName"
                 },
-                // properties: {
-                //     value: "Helvetius Nagy"
-                // },
-                viewName: globalThis.viewName,
+                viewName: viewName,
                 controlType: 'sap.m.Input'
             }
         };
@@ -28,7 +25,29 @@ describe('wdio-ui5 bridge: advanced tests', () => {
         // set text
         mainUserInput.enterText(newUsername);
 
-        // #1 assert
+        // get ui5 control
+        const ui5Input = browser.asControl(inputSelector);
+        // test for working binding
+        assert.strictEqual(ui5Input.getProperty('value'), newUsername);
+    });
+
+    it('check the binding of the username input with generated wdio_ui5_key', () => {
+        // set new Username
+        const newUsername = 'second new Username';
+
+        // create selector
+        const inputSelector = {
+            selector: {
+                id: "mainUserInput",
+                viewName: viewName,
+                controlType: 'sap.m.Input'
+            }
+        };
+        const mainUserInput = browser.asControl(inputSelector);
+
+        // set text
+        mainUserInput.enterText(newUsername);
+
         // get ui5 control
         const ui5Input = browser.asControl(inputSelector);
         // test for working binding
@@ -61,7 +80,7 @@ describe('wdio-ui5 bridge: advanced tests', () => {
                     modelName: 'testModel',
                     propertyPath: '/inputValue'
                 },
-                viewName: globalThis.viewName,
+                viewName: viewName,
                 controlType: 'sap.m.Input'
             }
         };
