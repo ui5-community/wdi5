@@ -106,6 +106,9 @@ exports.config = {
                 scanCode: '123123',
                 format: 'EAN',
                 cancelled: ''
+            },
+            'custom-plugin': {
+                path: "./test/plugins/custom-plugin.js"
             }
         }
     },
