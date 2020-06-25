@@ -1,11 +1,11 @@
-# wdi5
-
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+# wdi5 ![npm](https://img.shields.io/npm/v/wdi5)  
 
 `wdi5` (/vdif5/) is a wrapper around [appium](http://appium.io)-driven [`Webdriver.IO`](https://webdriver.io)-tests, utilizing [`UI5`’s test API](https://ui5.sap.com/#/api/sap.ui.test).
 
+
 It is designed to run cross-platform, executing OPA5-/UIveri5-style integration tests on a UI5 application - in the browser, in a hybrid ([cordova](https://cordova.apache.org)) container or as an Electron application.
+
+![npm (scoped)](https://img.shields.io/npm/v/@openui5/sap.ui.core?label=ui5) ![npm (prod) dependency version](https://img.shields.io/npm/dependency-version/wdi5/webdriverio) ![npm (prod) dependency version](https://img.shields.io/npm/dependency-version/wdi5/appium)
 
 `wdi5` = UI5 Test API + Webdriver.IO + appium
 
@@ -37,7 +37,7 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
       * [FAQ/hints](#faqhints)
       * [License](#license)
 
-<!-- Added by: vbuzek, at: Mo  8 Jun 2020 09:37:58 CEST -->
+<!-- Added by: vbuzek, at: Do 25 Jun 2020 14:31:39 CEST -->
 
 <!--te-->
 
