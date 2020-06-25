@@ -145,11 +145,12 @@ please see the `advanced`-doc for setting up native + eletron platforms.
 
 The entry point to retrieve a control is always `browser.asControl(oSelector)`.
 
-`oSelector` re-uses the [OPA5 control selectors](https://ui5.sap.com/#/api/sap.ui.test.Opa5%23methods/waitFor), supplemented by a unique `wdio_ui5_key` property:
+`oSelector` re-uses the [OPA5 control selectors](https://ui5.sap.com/#/api/sap.ui.test.Opa5%23methods/waitFor), supplemented by a unique `wdio_ui5_key` and `forceSelect` properties. These two properties enable wdi5 to interally store control references for alreay retrieved controls. This can save a browser roundtrip when the same control is used across different testcases. The `forceSelcet` (default: false) property can be set to true to newly retrieve the control from the browser context and update the internally stored reference.
 
 ```javascript
 const oSelector = {
     wdio_ui5_key: 'wdi5_button', // optional unique internal key to map and find a control
+    forceSelect: true, // forces the test framework to retrieve the control freshly from the browser context
     selector: {
         // sap.ui.test.RecordReplay.ControlSelector
         id: 'UI5control_ID',
@@ -175,6 +176,7 @@ These are the supported selectors from [sap.ui.test.RecordReplay.ControlSelector
 ```javascript
 const bindingPathSelector = {
     wdio_ui5_key: 'byBindingPath', // optional unique internal key to map and find a control
+    forceSelect: true, // forces the test framework to retrieve the control freshly from the browser context
     selector: {
         // sap.ui.test.RecordReplay.ControlSelector
         bindingPath: {

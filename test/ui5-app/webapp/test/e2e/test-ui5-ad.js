@@ -10,7 +10,7 @@ describe('wdio-ui5 bridge: advanced tests', () => {
 
         // create selector
         const inputSelector = {
-            force: true,
+            forceSelect: true,
             wdio_ui5_key: 'mainUserInput',
             selector: {
                 bindingPath: {
