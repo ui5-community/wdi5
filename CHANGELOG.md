@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.21](https://github.com/js-soft/wdio-ui5/compare/v0.0.20...v0.0.21) (2020-06-25)
+
+
+### Features
+
+* **customplugin:** path in wdi5 config ([ae484e2](https://github.com/js-soft/wdio-ui5/commit/ae484e271b7d9ff751df40cfeb5a3a2e1ade06d3))
+* **ios:** permissions ([0511094](https://github.com/js-soft/wdio-ui5/commit/0511094eb5f33d5bc7a2f40c0f870242b8c1ca98))
+* **pageobjects:** create main and other ([#24](https://github.com/js-soft/wdio-ui5/issues/24)) ([d63e7c5](https://github.com/js-soft/wdio-ui5/commit/d63e7c51f8a656fd3501f469edfe4528b1686785))
+
+
+### Bug Fixes
+
+* **comments:** remove ([6a6f3c4](https://github.com/js-soft/wdio-ui5/commit/6a6f3c4ffa4e88c2acd4789e26ecb87a90d035ac))
+* **config:** spec with path ([#22](https://github.com/js-soft/wdio-ui5/issues/22)) ([1a7ba1a](https://github.com/js-soft/wdio-ui5/commit/1a7ba1ad44e08c1cc8c91fbfe3c4da570e10a1a4))
+* **navpath:** using webdriver variable ([b366ce4](https://github.com/js-soft/wdio-ui5/commit/b366ce465efaacfabe4fec9f43a59da9359a9b87))
+* **pr18:** move docs to advanced.md ([0d717ea](https://github.com/js-soft/wdio-ui5/commit/0d717ea5f5e9285d999694331e7d3bb2a15b2991))
+
 ### [0.0.20](https://github.com/js-soft/wdio-ui5/compare/v0.0.19...v0.0.20) (2020-06-08)
 
 ### [0.0.19](https://github.com/js-soft/wdio-ui5/compare/v0.0.18...v0.0.19) (2020-06-08)
