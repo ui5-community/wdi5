@@ -89,7 +89,7 @@ it("should find a button's texts and click it", () => {
     browser.url('index.html') // navigate to UI5 bootstrap page relative to "baseUrl"
 
     const selector = {
-        wdio_ui5_key: 'NavFwdButton', // wdi5 specific - you need a unique key for any UI5 control you want to retrieve
+        wdio_ui5_key: 'NavFwdButton', // wdi5 specific - optional unique key for any UI5 control you want to retrieve
         // standard OPA5/UIveri5-selectors!
         selector: {
             id: 'NavFwdButton',
@@ -149,7 +149,7 @@ The entry point to retrieve a control is always `browser.asControl(oSelector)`.
 
 ```javascript
 const oSelector = {
-    wdio_ui5_key: 'wdi5_button', // unique internal key to map and find a control
+    wdio_ui5_key: 'wdi5_button', // optional unique internal key to map and find a control
     selector: {
         // sap.ui.test.RecordReplay.ControlSelector
         id: 'UI5control_ID',
@@ -174,7 +174,7 @@ These are the supported selectors from [sap.ui.test.RecordReplay.ControlSelector
 
 ```javascript
 const bindingPathSelector = {
-    wdio_ui5_key: 'byBindingPath', // unique internal key to map and find a control
+    wdio_ui5_key: 'byBindingPath', // optional unique internal key to map and find a control
     selector: {
         // sap.ui.test.RecordReplay.ControlSelector
         bindingPath: {
@@ -204,7 +204,7 @@ This function gets the webdriver element as parameter and returns a selector whi
 
 ```javascript
 const webdriverLocatorSelector = {
-    wdio_ui5_key: 'webdriverButton',
+    wdio_ui5_key: 'webdriverButton', // optional
     selector: browser.getSelectorForElement({
         domElement: $('/xpath/to/button'),
         settings: {preferViewId: true}
