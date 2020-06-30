@@ -9,6 +9,7 @@
     },
     "scripts": {
         "test": "run-p _startApp:dist _test:wt",
+        "test:wap": "run-p _startApp _test:wt",
         "test:ios": "run-p _startApp:ios _testWT:ios",
         "test:android": "run-p _startApp:android _test:android",
         "//test:electron": "first link the correct chromedriver binary, then start it and run the tests",
