@@ -1,4 +1,4 @@
-# wdi5 ![npm](https://img.shields.io/npm/v/wdi5)  
+# wdi5 ![npm](https://img.shields.io/npm/v/wdi5)
 
 `wdi5` (/vdif5/) is a wrapper around [appium](http://appium.io)-driven [`Webdriver.IO`](https://webdriver.io)-tests, utilizing [`UI5`’s test API](https://ui5.sap.com/#/api/sap.ui.test).
 
@@ -144,9 +144,9 @@ please see the `advanced`-doc for setting up native + electron platforms.
 
 The entry point to retrieve a control is always `browser.asControl(oSelector)`.
 
-`oSelector` re-uses the [OPA5 control selectors](https://ui5.sap.com/#/api/sap.ui.test.Opa5%23methods/waitFor), supplemented by the optional `wdio_ui5_key` and `forceSelect` properties.  
+`oSelector` re-uses the [OPA5 control selectors](https://ui5.sap.com/#/api/sap.ui.test.Opa5%23methods/waitFor), supplemented by the optional `wdio_ui5_key` and `forceSelect` properties.
 
-`wdi5` stores control references internally in order to save browser roundtrip time on repeatedly using a control across different test cases. For that, `wdi5` computes unique identifiers for controls - with `wdio_ui5_key`, you can assign such an ID manually if required.  
+`wdi5` stores control references internally in order to save browser roundtrip time on repeatedly using a control across different test cases. For that, `wdi5` computes unique identifiers for controls - with `wdio_ui5_key`, you can assign such an ID manually if required.
 
 The `forceSelcet` (default: false) property can be set to true to force `wdi5` to again retrieve the control from the browser context and update the internally stored reference.
 
@@ -215,6 +215,9 @@ const webdriverLocatorSelector = {
 const control = browser.asControl(webdriverLocatorSelector)
 // now use one of the below API methods on `control`
 ```
+
+### Hint
+- Use the available [TestRecorder](https://blogs.sap.com/2020/01/23/test-recording-with-ui5-test-recorder/) and copy paste the suggested control selector.
 
 ## API methods
 

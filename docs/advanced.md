@@ -556,8 +556,7 @@ husky > done
 - make use of the Chrome Testrecorder extention: https://chrome.google.com/webstore/detail/ui5-test-recorder/hcpkckcanianjcbiigbklddcpfiljmhj
 - Check winston logger (https://www.npmjs.com/package/winston)
 - export sap.ui.router to make navigation more easy
-- use other method than jQuery (`jQuery(ui5Control).control(0)`) to get UI5 control, since jQuery will be dropped by UI5
-- Spread Testfiles in multiple modules (jest like)
+- fix: use other method than jQuery (`jQuery(ui5Control).control(0)`) to get UI5 control, since jQuery will be dropped by UI5
 
 # Test
 
