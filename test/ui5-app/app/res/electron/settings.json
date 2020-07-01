@@ -1,0 +1,16 @@
+{
+    "browserWindow": {
+        "width": 1440,
+        "height": 800
+    },
+    "webPreferences": {
+        "devTools": false
+    },
+    "electron": {
+        "mac": {
+            "package": [
+                "dmg"
+            ]
+        }
+    }
+}

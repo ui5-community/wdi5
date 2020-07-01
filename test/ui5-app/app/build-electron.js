@@ -18,6 +18,6 @@ if (fs.existsSync(electronPlatformFolderPath)) {
 }
 
 console.log(`[electron] Starting build ...`);
-execSync(`cordova build electron --no-telemetry`, {
+execSync(`cordova build electron --no-telemetry --release`, {
     stdio: 'inherit'
 });

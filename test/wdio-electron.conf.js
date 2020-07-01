@@ -40,7 +40,7 @@ exports.config = {
                     'MacOS',
                     'UI5'
                 ),
-                args: ['remote-debugging-port=9222', "--window-size=1920,1080"]
+                args: ['remote-debugging-port=9222', "window-size=1440,800"]
             }
         }
     ],
