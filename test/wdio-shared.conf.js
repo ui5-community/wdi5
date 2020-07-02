@@ -97,7 +97,6 @@ exports.config = {
             camera: 2
         },
         plugins: {
-            // TODO: custom path to plugins
             'phonegap-plugin-barcodescanner': {
                 respObjIos: {
                     text: '123123',
@@ -112,6 +111,10 @@ exports.config = {
             },
             'custom-plugin': {
                 path: "./test/plugins/custom-plugin.js"
+            },
+            'cordova-plugin-fingerprint-aio': {
+                id: "test id",
+                path: "./test/plugins/cordova-plugin-fingerprint-aio.js"
             }
         }
     },
