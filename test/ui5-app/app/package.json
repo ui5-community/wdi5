@@ -20,12 +20,16 @@
     "cordova-electron": "^1.1.1",
     "cordova-ios": "^5.1.1",
     "cordova-plugin-barcodescanner": "^0.7.4",
-    "cordova-plugin-compat": "^1.2.0"
+    "cordova-plugin-compat": "^1.2.0",
+    "cordova-plugin-fingerprint-aio": "3.0.1"
   },
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
-      "cordova-plugin-barcodescanner": {}
+      "cordova-plugin-barcodescanner": {},
+      "cordova-plugin-fingerprint-aio": {
+        "FACEID_USAGE_DESCRIPTION": " "
+      }
     },
     "platforms": [
       "ios",

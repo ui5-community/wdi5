@@ -9,12 +9,19 @@
 			<Text text="{LatestUI5>/latest}" />
 		</headerContent>
 		<content>
-			<VBox alignItems="Center" justifyContent="Center" height="100%">
-				<Title level="H1" titleStyle="H1" text="{i18n>startPage.title.text}" width="100%" textAlign="Center" />
-				<Button icon="sap-icon://forward" id="NavFwdButton" text="{i18n>startPage.navButton.text}" press="navFwd" />
-				<Button text="IA Sync" press="onPress" />
-				<Text text="{i18n>startPage.text.username}"/>
-				<Input id="mainUserInput" value="{/Customers('TRAIH')/ContactName}"/>
+			<VBox alignItems="Center"
+				justifyContent="Center"
+				height="100%">
+				<Title level="H1"
+							titleStyle="H1"
+							text="{i18n>startPage.title.text}"
+							width="100%"
+							textAlign="Center" />
+				<Button icon="sap-icon://forward"
+					text="{i18n>startPage.navButton.text}"
+					press="navFwd" />
+				<Button text="IA Sync"
+					press="onPress" />
 				<Panel expandable="true">
 					<headerToolbar>
 						<OverflowToolbar>
@@ -26,11 +33,11 @@
 					</content>
 				</Panel>
 				<DateTimePicker placeholder="Enter Date ..." />
-				<Button text="{testModel>/buttonText}" press="onTest" class="myTestClass"/>
-				<Input value="{testModel>/inputValue}"/>
-				<CheckBox id="idCheckbox" selected="{testModel>/checkbox}" text="test checkbox" select="onSelect"/>
-				<Button text="open Barcodescanner" press="scanBarcode" id="barcodescannerplugin"/>
-				<Input id="barcodeValue" value="{testModel>/barcode}"/>
+				<Button text="Don't press me!"
+					press="onBoo"
+					id="onBoo"/>
+
+				<Text text="{testModel>/fingerprint}" ></Text>
 			</VBox>
 		</content>
 	</Page>

@@ -11,13 +11,30 @@ const _ = require('../../index');
  */
 module.exports = (() => {
     // name as in cordova
-    _pluginName = 'custom-plugin';
+    _pluginName = 'cordova-plugin-fingerprint-aio';
 
     /**
      * call to init plugin mock feature for Browser
      */
     _setup = () => {
-        console.log("custom-plugin loaded")
+        console.log("cordova-plugin-fingerprint-aio loaded")
+
+        // mock funtions
+        window.Fingerprint.show = (desc, success, error) => {
+            console.log(desc);
+
+            if (success) {
+                const result = {
+                    text: window.wdi5.getPluginConfigForPluginWithProperty(
+                        'cordova-plugin-fingerprint-aio',
+                        'id'
+                    )
+                };
+                success(result);
+            } else if (error) {
+                error('cordova-plugin-fingerprint-aio: mocking error');
+            }
+        };
     };
 
     /**
@@ -26,7 +43,7 @@ module.exports = (() => {
      */
     _register = () => {
         _().getCordovaMockPluginFactory().registerPlugin(_pluginName, 'android', _setup);
-        _().getCordovaMockPluginFactory().registerPlugin(_pluginName, 'browser', _setup);
+        _().getCordovaMockPluginFactory().registerPlugin(_pluginName, 'ios', _setup);
     };
 
     // execute the _register function

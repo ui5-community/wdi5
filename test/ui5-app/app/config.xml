@@ -26,4 +26,5 @@
     <platform name="electron">
         <preference name="ElectronSettingsFilePath" value="res/electron/settings.json" />
     </platform>
+    <preference name="UseSwiftLanguageVersion" value="4.0"></preference>
 </widget>

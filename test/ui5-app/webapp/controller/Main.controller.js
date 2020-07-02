@@ -13,7 +13,8 @@ sap.ui.define(['test/Sample/controller/BaseController', 'sap/m/MessageToast', 's
                 inputValue: 'test Input Value !!!',
                 buttonText: "Don't press me !!! -> binded",
                 checkbox: false,
-                barcode: ''
+                barcode: '',
+                fingerprint: "not authenticated"
             };
 
             let testModel = new JSONModel(jData);
@@ -29,6 +30,35 @@ sap.ui.define(['test/Sample/controller/BaseController', 'sap/m/MessageToast', 's
         },
         onBoo: function (oEvent) {
             MessageToast.show(`👻`);
+
+            // fingerprint
+            if (window.Fingerprint) {
+                // android + ios
+                var _self = this;
+
+                /* window.Fingerprint.isAvailable((e) => {
+                    // result depends on device and os.
+                    console.log("Fingerprint available");
+                }, (error) => {
+                    // 'error' will be an object with an error code and message
+                    console.log(error.message);
+                }); */
+
+                window.Fingerprint.show({
+                    description: "Some biometric description"
+                }, event => {
+                    console.log("Authentication successful: " + event);
+                    _self.getModel('testModel').setProperty("/fingerprint", "Authentication successful");
+                    // alert("Authentication successful");
+                }, error => {
+                    console.log("Authentication invalid " + error.message);
+                    _self.getModel('testModel').setProperty("/fingerprint", "Authentication invalid");
+                    // alert("Authentication invalid");
+                });
+            } else {
+                // browser + electron
+                console.warn("Fingerprint not available")
+            }
         },
 
         onTest: function (oEvent) {
@@ -49,14 +79,14 @@ sap.ui.define(['test/Sample/controller/BaseController', 'sap/m/MessageToast', 's
 
                         MessageToast.show(
                             'We got a barcode\n' +
-                                'Result: ' +
-                                result.text +
-                                '\n' +
-                                'Format: ' +
-                                result.format +
-                                '\n' +
-                                'Cancelled: ' +
-                                result.cancelled
+                            'Result: ' +
+                            result.text +
+                            '\n' +
+                            'Format: ' +
+                            result.format +
+                            '\n' +
+                            'Cancelled: ' +
+                            result.cancelled
                         );
                     },
                     function (error) {

@@ -75,9 +75,7 @@
             "program": "${workspaceFolder}/node_modules/.bin/wdio",
             "request": "launch",
             "args": [
-                "${workspaceFolder}/test/wdio-ios.conf.js",
-                "--spec",
-                "${file}"
+                "${workspaceFolder}/test/wdio-ios.conf.js"
             ],
             "skipFiles": [
                 "<node_internals>/**"

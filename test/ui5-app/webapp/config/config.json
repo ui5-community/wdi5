@@ -1,0 +1,5 @@
+{
+    "name": "test",
+    "description": "this is a testfile to read with the cordova file plugin",
+    "string": "if you read this it was successfully read"
+}
