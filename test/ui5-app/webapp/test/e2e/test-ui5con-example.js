@@ -29,6 +29,25 @@ describe('test-ui5con-example', () => {
         }
         const fwdButton = browser.asControl(buttonSelector);
         fwdButton.press();
+
+        const elem = $('//*[@id="sap-ui-static"]/div');
+        expect(elem).toHaveAttr("class", "sapMMessageToast sapUiSelectable sapContrast sapContrastPlus")
+        expect(elem).toBeVisible();
+
+        const textSelector = {
+            selector: {
+                controlType: "sap.m.Text",
+                viewName: "test.Sample.view.Main",
+                bindingPath: {
+                    modelName: 'testModel',
+                    propertyPath: '/fingerprint'
+                },
+            }
+        }
+
+        const ui5Text = browser.asControl(textSelector);
+        expect(ui5Text.getText() === 'Authentication successful').toBeTruthy();
+
     });
 
     it('should navigate to "Other" view by button press', () => {
