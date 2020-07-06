@@ -1,7 +1,7 @@
 {
     "name": "wdi5",
     "version": "0.0.22",
-    "description": "e2e testing framework for hybrid- (cordova-), Electron- and web-apps written in UI5. wdi5 = Webdriver.IO + UI5 Test API + appium",
+    "description": "cross-platform test framework for hybrid UI5 apps. wdi5 = Webdriver.IO + UI5 Test API + appium",
     "main": "index.js",
     "repository": {
         "type": "git",
