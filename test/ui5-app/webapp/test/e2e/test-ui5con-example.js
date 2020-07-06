@@ -1,57 +1,47 @@
-const wdi5 = require('../../../../../index');
+const wdi5 = require('../../../../../index'); // require('wdi5')
 
-describe('test-ui5con-example', () => {
-
-    // expected names in the list
-    const allNames = [
-        'Nancy Davolio',
-        'Andrew Fuller',
-        'Janet Leverling',
-        'Margaret Peacock',
-        'Steven Buchanan',
-        'Michael Suyama',
-        'Robert King',
-        'Laura Callahan',
-        'Anne Dodsworth'
-    ];
+describe('ui5con example - screenshot, plugin mock, interaction, control aggregation', () => {
 
     beforeEach(() => {
         wdi5().getUtils().takeScreenshot('test-ui5con-example');
     });
 
-    it.only('should showcase the fingerprint', () => {
-        const buttonSelector = {
-            selector: {
-                id: "onBoo",
-                viewName: 'test.Sample.view.Main',
-                controlType: 'sap.m.Button'
+    it('should showcase the fingerprint', () => {
+        // the tested plugin is only available for android and ios -> test if current test execution runs on a native device
+        const deviceType = wdi5().getUtils().getConfig("deviceType");
+        if (deviceType === "native") {
+
+            // 1. press the button identified with BOO
+            const buttonSelector = {
+                selector: {
+                    id: 'onBoo',
+                    viewName: 'test.Sample.view.Main',
+                    controlType: 'sap.m.Button'
+                }
             }
-        }
-        const fwdButton = browser.asControl(buttonSelector);
-        fwdButton.press();
+            // 2. retrieve the button
+            const booButton = browser.asControl(buttonSelector); // `browser` is wdio-native, `asControl` is wdi5 (~UIveri5)
+            booButton.press();
 
-        const elem = $('//*[@id="sap-ui-static"]/div');
-        expect(elem).toHaveAttr("class", "sapMMessageToast sapUiSelectable sapContrast sapContrastPlus")
-        expect(elem).toBeVisible();
-
-        const textSelector = {
-            selector: {
-                controlType: "sap.m.Text",
-                viewName: "test.Sample.view.Main",
-                bindingPath: {
-                    modelName: 'testModel',
-                    propertyPath: '/fingerprint'
-                },
+            // 3. check the text change
+            const textSelector = {
+                selector: {
+                    controlType: "sap.m.Text",
+                    viewName: "test.Sample.view.Main",
+                    bindingPath: {
+                        modelName: 'testModel',
+                        propertyPath: '/fingerprint'
+                    },
+                }
             }
+
+            const ui5AuthenticationMessage = browser.asControl(textSelector);
+            // 4. expect the text to display an successfull authentication
+            expect(ui5AuthenticationMessage.getText()).toStrictEqual('Authentication successful');
         }
-
-        const ui5Text = browser.asControl(textSelector);
-        expect(ui5Text.getText() === 'Authentication successful').toBeTruthy();
-
     });
 
     it('should navigate to "Other" view by button press', () => {
-
         // Three step process
         // 1. create selector
         const buttonSelector = {
@@ -67,14 +57,24 @@ describe('test-ui5con-example', () => {
         // 2. retrieve the button from browser context
         const fwdButton = browser.asControl(buttonSelector);
 
-        // this API provides wdi5
-        // 3. press the button
+        // 3. press the button via wdi5 press()
         fwdButton.press();
     });
 
+    // expected names in the list
+    const allNames = [
+        'Nancy Davolio',
+        'Andrew Fuller',
+        'Janet Leverling',
+        'Margaret Peacock',
+        'Steven Buchanan',
+        'Michael Suyama',
+        'Robert King',
+        'Laura Callahan',
+        'Anne Dodsworth'
+    ];
+
     it('get aggregation and validate items', () => {
-
-
         // expect to be on the Other view
         const listSelector = {
             selector: {
@@ -84,23 +84,23 @@ describe('test-ui5con-example', () => {
         };
 
         // action:
-        // get the aggreagation -> returns array of WDI5 controls
+        // get the aggregation -> returns array of WDI5 controls
         const items = browser.asControl(listSelector).getAggregation('items');
 
         // assertions:
         // check all items are bound
-        expect(items.length === 9).toBeTruthy();
+        expect(items.length).toStrictEqual(9);
 
         // loop though controls and validate entries
-        // loop assumes the same order !
-        for (let i = 0; i < items.length - 1; i++) {
-            expect(allNames[i] === items[i].getProperty('title')).toBeTruthy();
-        }
+        items.forEach((item, i) => {
+            expect(allNames[i]).toStrictEqual(item.getProperty('title'));
+        })
 
-        // check the list length again after newly retrieving the list
-        // show the internal control mapping works
-        const items2 = browser.asControl(listSelector).getAggregation('items');
-        expect(items2.length === items.length).toBeTruthy()
+        // // Bonus -> One more thing
+        // // check the list length again after newly retrieving the list
+        // // showcase internal control re-use! (no additional roundtrips)
+        // const items2 = browser.asControl(listSelector).getAggregation('items');
+        // expect(items2.length === items.length).toBeTruthy()
     });
 
 });

@@ -29,7 +29,7 @@
         "//_startApp:electron": "run a custom version of chromedriver that matches the chromium engine one used in the electron app",
         "_startApp:electron": "chromedriver-electron",
         "//_startApp": "ios | android - starts appium separately",
-        "_startApp:ios": "appium",
+        "_startApp:ios": "appium --log-level info:info",
         "_startApp:android": "appium --allow-insecure chromedriver_autodownload",
         "_build:ui5_app": "cd test/ui5-app && ui5 build --all --exclude-task=* --include-task=generateComponentPreload",
         "_build:ios_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-ios.js",

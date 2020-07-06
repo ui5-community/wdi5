@@ -10,8 +10,6 @@ const _ = require('../../index');
  * 2. function window.wdi5.getPluginConfigForPlugin(pluginName) can be used to retrieve the whole config form the plugin config.
  */
 module.exports = (() => {
-    // name as in cordova
-    _pluginName = 'cordova-plugin-fingerprint-aio';
 
     /**
      * call to init plugin mock feature for Browser
@@ -25,10 +23,7 @@ module.exports = (() => {
 
             if (success) {
                 const result = {
-                    text: window.wdi5.getPluginConfigForPluginWithProperty(
-                        'cordova-plugin-fingerprint-aio',
-                        'id'
-                    )
+                    text: "cordova-plugin-fingerprint-aio: mock sucessfull called"
                 };
                 success(result);
             } else if (error) {
@@ -38,12 +33,13 @@ module.exports = (() => {
     };
 
     /**
-     * register plugin on factory
+     * register mock plugin implementation on factory
      * the passed function will be executed in the webcontext and thus all defined objects will be attached to the webcontext
      */
     _register = () => {
-        _().getCordovaMockPluginFactory().registerPlugin(_pluginName, 'android', _setup);
-        _().getCordovaMockPluginFactory().registerPlugin(_pluginName, 'ios', _setup);
+        _().getCordovaMockPluginFactory().registerPlugin('cordova-plugin-fingerprint-aio', 'android', _setup);
+        _().getCordovaMockPluginFactory().registerPlugin('cordova-plugin-fingerprint-aio', 'ios', _setup);
+        // plugin for electron not available
     };
 
     // execute the _register function

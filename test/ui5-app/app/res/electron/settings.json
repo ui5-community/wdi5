@@ -1,7 +1,7 @@
 {
     "browserWindow": {
-        "width": 1440,
-        "height": 800
+        "width": 720,
+        "height": 480
     },
     "webPreferences": {
         "devTools": false
