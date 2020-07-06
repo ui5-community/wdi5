@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.22](https://github.com/js-soft/wdio-ui5/compare/v0.0.21...v0.0.22) (2020-07-06)
+
+
+### Features
+
+* **electron:** build settings for screensize ([4a6c3b0](https://github.com/js-soft/wdio-ui5/commit/4a6c3b005dd35b23cbe2cfedcd6cba8356b7f1a5))
+* **npmtask:** end server after test ([f85a35b](https://github.com/js-soft/wdio-ui5/commit/f85a35bcba37cc6ee9d081d665c5d45df4d32f20))
+* **npmtask:** run test with webapp folder ([1495626](https://github.com/js-soft/wdio-ui5/commit/1495626139f917841bbbe8f25e298392afbac51b))
+
+
+### Bug Fixes
+
+* **screenshot:** all devices white screenshot ([baa9084](https://github.com/js-soft/wdio-ui5/commit/baa9084e8ea7c83b3501829e28645d0fe514150d))
+* **typo:** package.json command ([14fc79e](https://github.com/js-soft/wdio-ui5/commit/14fc79e2c5ac328f962d5711287810ee0aa2c517))
+
 ### [0.0.21](https://github.com/js-soft/wdio-ui5/compare/v0.0.20...v0.0.21) (2020-06-25)
 
 
