@@ -1,8 +1,10 @@
 const wdi5 = require('../../../../../index'); // require('wdi5')
 
+// describe the tests we do
 describe('ui5con example - screenshot, plugin mock, interaction, control aggregation', () => {
 
     beforeEach(() => {
+        // take screenshot with string: test-ui5con-example
         wdi5().getUtils().takeScreenshot('test-ui5con-example');
     });
 
@@ -24,6 +26,9 @@ describe('ui5con example - screenshot, plugin mock, interaction, control aggrega
             booButton.press();
 
             // 3. check the text change
+            // 3.1 create text selector by binding path
+
+            // 4. get the control -> ui5AuthenticationMessage
             const textSelector = {
                 selector: {
                     controlType: "sap.m.Text",
@@ -36,7 +41,7 @@ describe('ui5con example - screenshot, plugin mock, interaction, control aggrega
             }
 
             const ui5AuthenticationMessage = browser.asControl(textSelector);
-            // 4. expect the text to display an successfull authentication
+            // 5. expect the text to display an successfull authentication with string "Authentication successful"
             expect(ui5AuthenticationMessage.getText()).toStrictEqual('Authentication successful');
         }
     });

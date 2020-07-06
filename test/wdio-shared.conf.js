@@ -6,14 +6,10 @@ exports.config = {
     runner: 'local',
     bail: 0,
     path: '/wd/hub',
-    capabilities: [
-        // defined in platform config files
-    ],
+    capabilities: [], // defined in platform config files
     specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', '*.js')],     // Where the files we are testing can be found.
     exclude: [],
-    services: [
-        // Use the Appium plugin for Webdriver separately. Run appium separately on the command line.
-    ],
+    services: [], // Use the Appium plugin for Webdriver separately. Run appium separately on the command line.
     waitforTimeout: 60000,
     reporters: ['spec'], // Test runner services
     framework: 'mocha',     // Framework you want to run your specs with.
