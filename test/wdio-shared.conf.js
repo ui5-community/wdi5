@@ -19,7 +19,7 @@ exports.config = {
     wdi5: { // wdi5 specific config in this file
         screenshotPath: path.join('test', 'report', 'screenshots'),
         deviceType: 'native', // native | web
-        logLevel: 'error', // silent | error | verbose
+        logLevel: 'verbose', // silent | error | verbose
         plugins: { // mock
             'phonegap-plugin-barcodescanner': {
                 respObjIos: {
