@@ -7,6 +7,9 @@
         "type": "git",
         "url": "git+ssh://git@github.com:js-soft/wdio-ui5.git"
     },
+    "engines": {
+        "node": ">=12"
+    },
     "scripts": {
         "test": "run-p -r _startApp:dist _test:wt",
         "test:wap": "run-p -r _startApp _test:wt",

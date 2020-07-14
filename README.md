@@ -49,6 +49,7 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
     -   iOS: `.ipa` (device-type build) or `.app` (emulator-type build) + iOS simulator
     -   Android: `.apk` + emulator
     -   Electron: binary
+- node version >= `12.x` (`lts/erbium`)
 
 ## Getting Started
 
