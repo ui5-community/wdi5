@@ -6,7 +6,7 @@
 	<Page title="{i18n>otherPage.title}" showNavButton="true" navButtonPress="onNavBack">
 		<content>
 			<List id="PeopleList" headerText="{i18n>otherPage.listHeader}" items="{/Employees}" itemPress="onItemPress">
-				<StandardListItem title="{FirstName} {LastName}" data:key="some key"/>
+				<StandardListItem title="{FirstName} {LastName}" type="Navigation" data:key="some key"/>
 			</List>
 		</content>
 	</Page>
