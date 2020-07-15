@@ -52,11 +52,8 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 ## Getting Started
 
-To support these four different platforms of android, ios, electron and browser we wanted to find the congruences. Android and ios tests are driven by appium, electron and brwoser by chromedriver directly, therefore we separate them with the two device types of `native` for appium driven and `web` for driven by chromedriver.
-```javascript
-    platform: "", // android | ios | electron | browser
-    deviceType: "" // native | web
-```
+Using `wdi5` is essentially configuring `wdio` with `wdi5`-specific options on top.  
+The recommended development approach is to first write and execute the tests in the browser-context, then run the tests on native devices/emulators or against the `electron`-app.
 
 ### Installation
 ```zsh
@@ -76,7 +73,8 @@ baseUrl: "http://localhost:8080", // standard webdriver.io
 wdi5: {
     screenshotPath: "./test/report/screenshots",
     logLevel: "verbose", // error | silent | verbose
-    platform: "browser" // android | browser | electron | ios
+    platform: "browser", // android | browser | electron | ios
+    deviceType: "web" // native (ios, android) | web (browser, electron)
 }
 ```
 
@@ -97,9 +95,9 @@ it("should find a button's texts and click it", () => {
     }
 
     const oButton = browser.asControl(selector)
-    const sText = oButton.getProperty('text') // UI5 API syntax!
+    const sText = oButton.getText() // UI5 API syntax!
 
-    assert.strictEqual(sText, 'to Other view')
+    expect(sText).toStrictEqual('to Other view')
 
     oButton.press() // UI5 API syntax!
 
