@@ -6,8 +6,13 @@
 	<Page title="{i18n>otherPage.title}" showNavButton="true" navButtonPress="onNavBack">
 		<content>
 			<List id="PeopleList" headerText="{i18n>otherPage.listHeader}" items="{/Employees}" itemPress="onItemPress">
-				<StandardListItem title="{FirstName} {LastName}" type="Navigation" data:key="some key"/>
+				<StandardListItem title="{FirstName} {LastName}" type="Navigation" data:key="{FirstName} {LastName}"/>
 			</List>
+
+			<VBox class="sapUiMediumMargin">
+				<Label text="Pressed List Item Selection"/>
+				<Text id="idTextFieldClickResult" text="some text to be replaced by the selection"/>
+			</VBox>
 		</content>
 	</Page>
 </mvc:View>

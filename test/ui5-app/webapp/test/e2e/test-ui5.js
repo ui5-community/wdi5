@@ -57,7 +57,8 @@ describe('ui5 basics: properties and navigation', () => {
 
     it('press an list item an show the name', () => {
 
-        // nav to relation ship
+        // fire click event on a list item.
+        // the event handler function checks the data:key property of the list item -> manually add this property to the event.
         browser.asControl(listSelector).fireEvent("itemPress", {
             eval: () => {
                 return {
@@ -67,5 +68,14 @@ describe('ui5 basics: properties and navigation', () => {
                 }
             }
         })
+
+        const resultTetSelector = {
+            selector: {
+                id: "idTextFieldClickResult",
+                viewName: "test.Sample.view.Other"
+            }
+        }
+
+        assert.equal(browser.asControl(resultTetSelector).getText(), "Mock Name");
     })
 });

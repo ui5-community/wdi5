@@ -312,7 +312,8 @@ browser.asControl(listElement).fireEvent('swipe')
 
 `oOptions?` optional passed object to the UI5 event.
 
-Special case if oOptions contains a property `eval`. Example for the [sap.m.List](https://sapui5.hana.ondemand.com/#/api/sap.m.ListBase%23events/itemPress) event `itemPress`. If the item has a custom attribute defined eg. `data:key="exampleKey"` which is needed in the event handler function the access of the `data()` function to retrieve the key can be done by using the `eval` property which can handle this special case of having a function in the parameter obejct. Can be accessed in std. UI5 manner `oEvent.getParameter("listItem").data("key")`.
+#### Function mock for evnet handler:
+Special case if oOptions contains a property `eval`. Example for the [sap.m.List](https://sapui5.hana.ondemand.com/#/api/sap.m.ListBase%23events/itemPress) event `itemPress`. If the item has a custom attribute defined eg. `data:key="exampleKey"` which is needed in the event handler function the access of the `data()` function to retrieve the key can be done by using the `eval` property which can handle this special case of having a function in the parameter object. Can be accessed in std. UI5 manner `oEvent.getParameter("listItem").data("key")`.
 
 ```javascript
 browser.asControl(listSelector).fireEvent("itemPress", {

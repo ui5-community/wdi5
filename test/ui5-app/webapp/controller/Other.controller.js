@@ -5,8 +5,10 @@ sap.ui.define(["test/Sample/controller/BaseController", 'sap/m/MessageToast'], f
         onInit: function () { },
 
         onItemPress(oEvent) {
-            MessageToast.show(oEvent.getParameter("listItem").data("key"))
-        }
 
+            this.getView().byId("idTextFieldClickResult").setText(oEvent.getParameter("listItem").data("key"))
+
+            MessageToast.show(oEvent.getParameter("listItem").data("key"));
+        }
     })
 })
