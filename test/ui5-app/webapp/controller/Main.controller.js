@@ -45,18 +45,18 @@ sap.ui.define(['test/Sample/controller/BaseController', 'sap/m/MessageToast', 's
                 cordova.plugins.barcodeScanner.scan(
                     function (result) {
                         // update in model
-                        _self.getView().getModel('testModel').setProperty('/barcode', result.text);
+                        _self.getView().getModel('testModel').setProperty('/barcode', result.scanCode);
 
                         MessageToast.show(
                             'We got a barcode\n' +
-                                'Result: ' +
-                                result.text +
-                                '\n' +
-                                'Format: ' +
-                                result.format +
-                                '\n' +
-                                'Cancelled: ' +
-                                result.cancelled
+                            'Result: ' +
+                            result.scanCode +
+                            '\n' +
+                            'Format: ' +
+                            result.format +
+                            '\n' +
+                            'Cancelled: ' +
+                            result.cancelled
                         );
                     },
                     function (error) {
