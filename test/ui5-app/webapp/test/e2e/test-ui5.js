@@ -20,6 +20,10 @@ describe('ui5 basics: properties and navigation', () => {
         wdi5().getUtils().takeScreenshot('test-ui5');
     });
 
+    afterEach(() => {
+        wdi5().getUtils().takeScreenshot('test-ui5');
+    });
+
     it('navigation button w/ text exists', () => {
         assert.strictEqual(browser.asControl(buttonSelector).getProperty('text'), 'to Other view');
     });
@@ -50,4 +54,18 @@ describe('ui5 basics: properties and navigation', () => {
         assert.ok(list.getId().includes('PeopleList'));
         assert.equal(list.getProperty('id'), list.getId());
     });
+
+    it('press an list item an show the name', () => {
+
+        // nav to relation ship
+        browser.asControl(listSelector).fireEvent("itemPress", {
+            eval: () => {
+                return {
+                    listItem: {
+                        data: () => { return "Mock Name" }
+                    }
+                }
+            }
+        })
+    })
 });
