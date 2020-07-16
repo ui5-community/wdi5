@@ -375,7 +375,7 @@ In case you are not able to create an explicit selector to your control, but you
 
 ```javascript
 const selector = {...} // cerate selector for a sap.m.Input on a view
-const oTinput = browser.asControl(selector) // retuns a WebUi5 obejct
+const oTinput = browser.asControl(selector) // retuns a WebUi5 object
 oTinput.enterText('some Text').hasStyleClass("customStyleClass")
 ```
 
