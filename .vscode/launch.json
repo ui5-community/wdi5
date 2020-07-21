@@ -27,7 +27,7 @@
             "args": [
                 "${workspaceFolder}/test/wdio-browser.conf.js",
                 "--spec",
-                "test-ui5-ad.js"
+                "test-ui5.js"
             ],
             "skipFiles": [
                 "<node_internals>/**"
