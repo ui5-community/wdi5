@@ -53,7 +53,7 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 ## Getting Started
 
-Using `wdi5` is essentially configuring `wdio` with `wdi5`-specific options on top.  
+Using `wdi5` is essentially configuring `wdio` with `wdi5`-specific options on top.
 The recommended development approach is to first write and execute the tests in the browser-context, then run the tests on native devices/emulators or against the `electron`-app.
 
 ### Installation
@@ -217,6 +217,9 @@ const control = browser.asControl(webdriverLocatorSelector)
 
 ### Hint
 - Use the available [TestRecorder](https://blogs.sap.com/2020/01/23/test-recording-with-ui5-test-recorder/) and copy paste the suggested control selector.
+
+## Assertions
+Recommendation is to use the WDIO extension of JEST [expect](https://jestjs.io/docs/en/expect) and [matchers](https://jestjs.io/docs/en/using-matchers).
 
 ## API methods
 
