@@ -51,10 +51,12 @@ exports.config = {
         plugins: {
             'phonegap-plugin-barcodescanner': {
                 respObjElectron: {
-                    text: '123123',
+                    text: '123-123-asd',
                     format: 'EAN',
                     cancelled: ''
-                }
+                },
+                scanCode: '123-123-asd',
+                format: 'EAN'
             }
         }
     },
