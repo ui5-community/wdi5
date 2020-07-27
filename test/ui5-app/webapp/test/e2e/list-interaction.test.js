@@ -1,5 +1,5 @@
-const assert = require('assert');
 const wdi5 = require('../../../../../index');
+const Other = require("./pageObjects/Other")
 
 describe('ui5 basics: properties and navigation', () => {
     const buttonSelector = {
@@ -16,6 +16,10 @@ describe('ui5 basics: properties and navigation', () => {
         }
     };
 
+    before(() => {
+        Other.open();
+    })
+
     beforeEach(() => {
         wdi5().getUtils().takeScreenshot('test-ui5');
     });
@@ -24,25 +28,11 @@ describe('ui5 basics: properties and navigation', () => {
         wdi5().getUtils().takeScreenshot('test-ui5');
     });
 
-    it('should navigate via button click to list page', () => {
-        const button = browser.asControl(buttonSelector)
-        button.press();
-        assert.equal(browser.asControl(listSelector).getProperty('headerText'), '...bites the dust!');
+    it('should have the correct list header', () => {
+        expect(browser.asControl(listSelector).getProperty('headerText')).toEqual('...bites the dust!');
     });
 
     it('press an list item an show the name', () => {
-
-        const listItemSelector = {
-            selector: {
-                controlType: "sap.m.StandardListItem",
-                viewName: "test.Sample.view.Other"
-            }
-        }
-
-        const listitem = browser.asControl(listItemSelector)
-
-        // TODO:
-        // browser.asControl(listSelector).asControl ....
 
         // fire click event on a list item.
         // the event handler function checks the data:key property of the list item -> manually add this property to the event.
@@ -63,6 +53,6 @@ describe('ui5 basics: properties and navigation', () => {
             }
         }
 
-        assert.equal(browser.asControl(resultTetSelector).getText(), "Mock Name");
+        expect(browser.asControl(resultTetSelector).getText()).toEqual("Mock Name");
     })
 });

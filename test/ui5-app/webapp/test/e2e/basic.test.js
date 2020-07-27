@@ -1,8 +1,12 @@
-const assert = require('assert');
 const wdi5 = require('../../../../../index');
+const Main = require("./pageObjects/Main")
 
 describe('ui5 basic', () => {
     globalThis.viewName = 'test.Sample.view.Main';
+
+    before(() => {
+        Main.open();
+    })
 
     beforeEach(() => {
         wdi5().getLogger().log('beforeEach');
@@ -16,21 +20,8 @@ describe('ui5 basic', () => {
      */
     it('should have the right title', () => {
         const title = browser.getTitle();
-        assert.strictEqual(title, 'Sample UI5 Application');
+        expect(title).toEqual('Sample UI5 Application');
     });
-
-    // /**
-    //  * test for not using the wdio-ui5
-    //  */
-    // it('should have the right version', () => {
-    //     var sapV = driver.executeAsync((done) => {
-    //         done(sap.ui.version);
-    //     });
-
-    //     wdi5().getLogger().log(sapV);
-
-    //     assert.strictEqual(sapV, '1.77.2');
-    // });
 
     it('should find a ui5 control class via .hasStyleClass', () => {
         // webdriver
@@ -52,6 +43,6 @@ describe('ui5 basic', () => {
         const retrievedClassNameStatus = control.hasStyleClass(className);
 
         wdi5().getLogger().log('retrievedClassNameStatus', retrievedClassNameStatus);
-        assert.ok(retrievedClassNameStatus);
+        expect(retrievedClassNameStatus).toBeTruthy();
     });
 });

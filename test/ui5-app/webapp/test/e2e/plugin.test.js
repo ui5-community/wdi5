@@ -1,8 +1,12 @@
-const assert = require('assert');
 const wdi5 = require('../../../../../index');
+const Main = require("./pageObjects/Main")
 
 describe('ui5 plugin', () => {
     const viewName = 'test.Sample.view.Main';
+
+    before(() => {
+        Main.open();
+    })
 
     it('test the mocked cordova barcodescanner plugin', () => {
 
@@ -23,12 +27,12 @@ describe('ui5 plugin', () => {
 
         const button = browser.asControl(buttonselector);
         // open the barcode scanner
-        button.press();
+        button.firePress();
 
         const input = browser.asControl(inputSelector);
         // the app function passes the scan into the model and bind to the input value
         // 123123 is as configured in the wdio.conf file
-        assert.equal('123-123-asd', input.getProperty('value'));
+        expect('123-123-asd').toEqual(input.getProperty('value'));
     });
 
     it('test the mocked cordova barcodescanner plugin with dynamic response', () => {
@@ -63,11 +67,13 @@ describe('ui5 plugin', () => {
 
         const button = browser.asControl(buttonselector);
         // open the barcode scanner
-        button.press();
+        button.firePress();
 
         const input = browser.asControl(inputSelector);
         // the app function passes the scan into the model and bind to the input value
         // 123123 is as configured in the wdio.conf file
-        assert.equal(res.scanCode, input.getProperty('value'));
+        expect(res.scanCode).toEqual(input.getProperty('value'));
+
+
     });
 });

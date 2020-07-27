@@ -1,4 +1,5 @@
 const wdi5 = require('../../../../../index');
+const Main = require("./pageObjects/Main")
 
 describe('check the generated methods on the control -> ', () => {
     const buttonSelector = {
@@ -35,6 +36,10 @@ describe('check the generated methods on the control -> ', () => {
             viewName: 'test.Sample.view.Main'
         }
     };
+
+    before(() => {
+        Main.open();
+    })
 
     beforeEach(() => {
         wdi5().getUtils().takeScreenshot('test-ui5');

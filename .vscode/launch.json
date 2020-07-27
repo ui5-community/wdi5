@@ -27,7 +27,7 @@
             "args": [
                 "${workspaceFolder}/test/wdio-browser.conf.js",
                 "--spec",
-                "test-generated-methods.js"
+                "list-interaction.test.js"
             ],
             "skipFiles": [
                 "<node_internals>/**"
