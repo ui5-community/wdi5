@@ -5,6 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "test new browser",
+            "type": "node",
+            "request": "launch",
+            "args": [
+                "./test/test-browser.js"
+            ],
+            "cwd": "${workspaceFolder}",
+            "autoAttachChildProcesses": true,
+            "console": "integratedTerminal"
+        },
+        {
             "name": "run test:electron",
             "type": "node",
             "program": "${workspaceFolder}/node_modules/.bin/wdio",

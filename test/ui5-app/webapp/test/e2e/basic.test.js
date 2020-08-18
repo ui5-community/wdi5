@@ -5,20 +5,20 @@ describe('ui5 basic', () => {
     globalThis.viewName = 'test.Sample.view.Main';
 
     before(() => {
-        Main.open();
+        // Main.open();
     })
 
-    beforeEach(() => {
-        wdi5().getLogger().log('beforeEach');
-        wdi5().getUtils().takeScreenshot('test-basic');
-    });
+    // beforeEach(() => {
+    //     wdi5().getLogger().log('beforeEach');
+    //     wdi5().getUtils().takeScreenshot('test-basic');
+    // });
 
     /*
      * It is important that we run each test in isolation. The running of a previous test
      * should not affect the next one. Otherwise, it could end up being very difficult to
      * track down what is causing a test to fail.
      */
-    it('should have the right title', () => {
+    it.only('should have the right title', () => {
         const title = browser.getTitle();
         expect(title).toEqual('Sample UI5 Application');
     });
