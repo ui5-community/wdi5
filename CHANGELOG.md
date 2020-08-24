@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://github.com/js-soft/wdio-ui5/compare/v0.0.22...v0.1.0) (2020-08-24)
+
+
+### Features
+
+* proxy UI5 controls' methods to test-time ([#27](https://github.com/js-soft/wdio-ui5/issues/27)) ([9ca6672](https://github.com/js-soft/wdio-ui5/commit/9ca66722ce244a2da6cd46abb2209319ab95be90))
+* **cordova,plugins:** dynamic mock return values ([#25](https://github.com/js-soft/wdio-ui5/issues/25)) ([f052fc2](https://github.com/js-soft/wdio-ui5/commit/f052fc29718ad2b1b08ea6c321a1ac8ee487169c))
+* **fireevent:** app test setup ([e506c43](https://github.com/js-soft/wdio-ui5/commit/e506c43233838f8caf4938397307b15b1a873d09))
+* **fireevent:** with function parameter ([893120a](https://github.com/js-soft/wdio-ui5/commit/893120aec26f7c5f672e1291210d0f019ab693b7))
+
+
+### Bug Fixes
+
+* **fireevent:** test app item press ([d3e961b](https://github.com/js-soft/wdio-ui5/commit/d3e961bd802b847e5af9187b0c77b01d2a0eb488))
+* **pr26:** improve test demo ([9bc62a2](https://github.com/js-soft/wdio-ui5/commit/9bc62a2103b5fc2ee977de11822aea266ce730a9))
+
 ### [0.0.22](https://github.com/js-soft/wdio-ui5/compare/v0.0.21...v0.0.22) (2020-07-06)
 
 
