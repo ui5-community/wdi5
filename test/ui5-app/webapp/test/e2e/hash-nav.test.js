@@ -1,4 +1,3 @@
-const assert = require('assert');
 const wdi5 = require('../../../../../index');
 
 describe('hash-based nav', () => {
@@ -13,7 +12,7 @@ describe('hash-based nav', () => {
         };
 
         const items = browser.asControl(listSelector).getAggregation('items');
-        assert.ok(items.length === 9);
+        expect(items.length).toEqual(9);
     });
 
     it('should navigate to Main view via #/', () => {
@@ -26,6 +25,6 @@ describe('hash-based nav', () => {
             }
         };
 
-        assert.ok(browser.asControl(buttonSelector).isVisible())
+        expect(browser.asControl(buttonSelector).getProperty("visible")).toBeTruthy()
     })
 });

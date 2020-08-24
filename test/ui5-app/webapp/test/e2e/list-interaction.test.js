@@ -1,5 +1,5 @@
-const assert = require('assert');
 const wdi5 = require('../../../../../index');
+const Other = require("./pageObjects/Other")
 
 describe('ui5 basics: properties and navigation', () => {
     const buttonSelector = {
@@ -16,6 +16,10 @@ describe('ui5 basics: properties and navigation', () => {
         }
     };
 
+    before(() => {
+        Other.open();
+    })
+
     beforeEach(() => {
         wdi5().getUtils().takeScreenshot('test-ui5');
     });
@@ -24,35 +28,8 @@ describe('ui5 basics: properties and navigation', () => {
         wdi5().getUtils().takeScreenshot('test-ui5');
     });
 
-    it('navigation button w/ text exists', () => {
-        assert.strictEqual(browser.asControl(buttonSelector).getProperty('text'), 'to Other view');
-    });
-
-    it('getProperty("text") and getText() are equivalent', () => {
-        assert.strictEqual(
-            browser.asControl(buttonSelector).getProperty('text'),
-            browser.asControl(buttonSelector).getText()
-        );
-    });
-
-    it('sets the property of a control successfully', () => {
-        const oButton = browser.asControl(buttonSelector);
-        oButton.setProperty('text', 'new button text');
-
-        assert.strictEqual(oButton.getText(), 'new button text');
-    });
-
-    it('should navigate via button click to list page', () => {
-        browser.asControl(buttonSelector).press();
-
-        assert.equal(browser.asControl(listSelector).getProperty('headerText'), '...bites the dust!');
-    });
-
-    it('control id retrieval methods are equivalent', () => {
-        list = browser.asControl(listSelector);
-
-        assert.ok(list.getId().includes('PeopleList'));
-        assert.equal(list.getProperty('id'), list.getId());
+    it('should have the correct list header', () => {
+        expect(browser.asControl(listSelector).getProperty('headerText')).toEqual('...bites the dust!');
     });
 
     it('press an list item an show the name', () => {
@@ -76,6 +53,6 @@ describe('ui5 basics: properties and navigation', () => {
             }
         }
 
-        assert.equal(browser.asControl(resultTetSelector).getText(), "Mock Name");
+        expect(browser.asControl(resultTetSelector).getText()).toEqual("Mock Name");
     })
 });

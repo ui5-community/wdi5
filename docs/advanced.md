@@ -557,6 +557,7 @@ husky > done
 - Check winston logger (https://www.npmjs.com/package/winston)
 - export sap.ui.router to make navigation more easy
 - fix: use other method than jQuery (`jQuery(ui5Control).control(0)`) to get UI5 control, since jQuery will be dropped by UI5
+- generated control method bridge does generate wrong property parameter.
 
 # Test
 

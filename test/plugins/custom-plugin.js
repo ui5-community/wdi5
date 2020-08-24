@@ -17,7 +17,6 @@ module.exports = (() => {
      * call to init plugin mock feature for Browser
      */
     _setup = () => {
-        debugger;
         console.log("custom-plugin loaded")
     };
 

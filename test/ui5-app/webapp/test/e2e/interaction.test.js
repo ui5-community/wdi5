@@ -1,8 +1,12 @@
-const assert = require('assert');
 const wdi5 = require('../../../../../index');
+const Main = require("./pageObjects/Main")
 
 describe('wdio-ui5 bridge: advanced tests', () => {
     const viewName = 'test.Sample.view.Main';
+
+    before(() => {
+        Main.open();
+    })
 
     it('check the binding of the username input with custom wdio_ui5_key', () => {
         // set new Username
@@ -28,7 +32,7 @@ describe('wdio-ui5 bridge: advanced tests', () => {
         // get ui5 control
         const ui5Input = browser.asControl(inputSelector);
         // test for working binding
-        assert.strictEqual(ui5Input.getProperty('value'), newUsername);
+        expect(ui5Input.getProperty('value')).toEqual(newUsername);
     });
 
     it('check the binding of the username input with generated wdio_ui5_key', () => {
@@ -51,7 +55,7 @@ describe('wdio-ui5 bridge: advanced tests', () => {
         // get ui5 control
         const ui5Input = browser.asControl(inputSelector);
         // test for working binding
-        assert.strictEqual(ui5Input.getProperty('value'), newUsername);
+        expect(ui5Input.getProperty('value')).toEqual(newUsername);
     });
 
     it('should test the named json model', () => {
@@ -70,7 +74,7 @@ describe('wdio-ui5 bridge: advanced tests', () => {
         };
 
         const ui5Button = browser.asControl(buttonSelector);
-        ui5Button.press();
+        ui5Button.firePress();
 
         // #2 input test
         const inputSelector = {
@@ -89,6 +93,6 @@ describe('wdio-ui5 bridge: advanced tests', () => {
         const inputText = 'new Input Value §§§';
         ui5Input.enterText(inputText);
 
-        assert.strictEqual(ui5Input.getProperty('value'), inputText);
+        expect(ui5Input.getProperty('value')).toEqual(inputText);
     });
 });

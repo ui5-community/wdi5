@@ -10,7 +10,26 @@
             "program": "${workspaceFolder}/node_modules/.bin/wdio",
             "request": "launch",
             "args": [
-                "${workspaceFolder}/test/wdio-electron.conf.js"
+                "${workspaceFolder}/test/wdio-electron.conf.js",
+                "--spec",
+                "plugin.test.js"
+            ],
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "console": "internalConsole",
+            "autoAttachChildProcesses": true
+        },
+        {
+            "name": "run test:android",
+            "type": "node",
+            "program": "${workspaceFolder}/node_modules/.bin/wdio",
+            "request": "launch",
+            "args": [
+                "${workspaceFolder}/test/wdio-android.conf.js",
+                "--spec",
+                "plugin.test.js"
             ],
             "skipFiles": [
                 "<node_internals>/**"
@@ -27,7 +46,7 @@
             "args": [
                 "${workspaceFolder}/test/wdio-browser.conf.js",
                 "--spec",
-                "test-ui5-ad.js"
+                "list-interaction.test.js"
             ],
             "skipFiles": [
                 "<node_internals>/**"

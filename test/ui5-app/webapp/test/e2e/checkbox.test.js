@@ -1,23 +1,21 @@
-const assert = require('assert');
 const wdi5 = require('../../../../../index');
 const Main = require('./pageObjects/Main');
 
 describe('ui5 checkbox test', () => {
 
-    it('should check the checkbox', () => {
-        Main.getCheckbox().check();
+    before(() => {
+        Main.open();
+    })
 
-        assert.ok(Main.getCheckbox().getProperty('selected'));
+    it('should check the checkbox', () => {
+        Main.getCheckbox().setSelected(true);
+
+        expect(Main.getCheckbox().getProperty('selected')).toBeTruthy;
     });
     it('should uncheck the checkbox', () => {
-        Main.getCheckbox().uncheck();
+        Main.getCheckbox().setSelected(false);
 
-        assert.ok(!Main.getCheckbox().getProperty('selected'));
-    });
-    it('should toggle the checkbox', () => {
-        Main.getCheckbox().toggle();
-
-        assert.ok(Main.getCheckbox().getProperty('selected'));
+        expect(Main.getCheckbox().getProperty('selected')).toBeFalsy();
     });
 
     it('should uncheck the checkbox via wdio-native .click()', () => {
@@ -33,6 +31,6 @@ describe('ui5 checkbox test', () => {
             .log("ui5checkBox2.getProperty('selected') returned: " + ui5checkBox2.getProperty('selected'));
 
         // expect false and assert true
-        assert.ok(!ui5checkBox2.getProperty('selected'));
+        expect(ui5checkBox2.getProperty('selected')).toBeTruthy();
     });
 });

@@ -100,15 +100,17 @@ exports.config = {
             // TODO: custom path to plugins
             'phonegap-plugin-barcodescanner': {
                 respObjIos: {
-                    text: '123123',
+                    text: '123-123-asd',
                     format: 'EAN',
                     cancelled: ''
                 },
                 respObjAndroid: {
-                    text: '123123',
+                    text: '123-123-asd',
                     format: 'EAN',
                     cancelled: ''
-                }
+                },
+                scanCode: '123-123-asd',
+                format: 'EAN'
             },
             'custom-plugin': {
                 path: "./test/plugins/custom-plugin.js"

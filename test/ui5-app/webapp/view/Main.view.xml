@@ -25,7 +25,7 @@
 						<Text text="Lorem ipsum dolor st amet" />
 					</content>
 				</Panel>
-				<DateTimePicker placeholder="Enter Date ..." />
+				<DateTimePicker id="idDateTime" placeholder="Enter Date ..." />
 				<Button text="{testModel>/buttonText}" press="onTest" class="myTestClass"/>
 				<Input value="{testModel>/inputValue}"/>
 				<CheckBox id="idCheckbox" selected="{testModel>/checkbox}" text="test checkbox" select="onSelect"/>
