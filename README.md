@@ -2,7 +2,6 @@
 
 `wdi5` (/vdif5/) is a wrapper around [appium](http://appium.io)-driven [`Webdriver.IO`](https://webdriver.io)-tests, utilizing [`UI5`’s test API](https://ui5.sap.com/#/api/sap.ui.test).
 
-
 It is designed to run cross-platform, executing OPA5-/UIveri5-style integration tests on a UI5 application - in the browser, in a hybrid ([cordova](https://cordova.apache.org)) container or as an Electron application.
 
 ![npm (scoped)](https://img.shields.io/npm/v/@openui5/sap.ui.core?label=ui5) ![npm (prod) dependency version](https://img.shields.io/npm/dependency-version/wdi5/webdriverio) ![npm (prod) dependency version](https://img.shields.io/npm/dependency-version/wdi5/appium)
@@ -14,30 +13,24 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 ## Table of Contents
 
 <!--ts-->
-   * [wdi5](#wdi5)
-      * [Table of Contents](#table-of-contents)
-      * [Prerequisites](#prerequisites)
-      * [Getting Started](#getting-started)
-         * [Installation](#installation)
-      * [Advanced configuration](#advanced-configuration)
-      * [Control selectors](#control-selectors)
-      * [API methods](#api-methods)
-         * [hasStyleClass](#hasstyleclass)
-         * [getProperty](#getproperty)
-         * [getAggregation](#getaggregation)
-         * [setProperty](#setproperty)
-         * [enterText](#entertext)
-         * [press](#press)
-         * [fireEvent](#fireevent)
-         * [check](#check)
-         * [uncheck](#uncheck)
-         * [toogle](#toogle)
-      * [Screenshots](#screenshots)
-      * [Logger](#logger)
-      * [FAQ/hints](#faqhints)
-      * [License](#license)
+* [Prerequisites](#prerequisites)
+* [Getting Started](#getting-started)
+    * [Installation](#installation)
+* [Advanced configuration](#advanced-configuration)
+* [Control selectors](#control-selectors)
+    * [Hint](#hint)
+* [API methods](#api-methods)
+    * [all UI5 control's native methods](#all-ui5-controls-native-methods)
+    * [getAggregation](#getaggregation)
+    * [enterText](#entertext)
+    * [Function mock for event handler](#function-mock-for-event-handler)
+* [Assertions](#assertions)
+* [Screenshots](#screenshots)
+* [Logger](#logger)
+* [FAQ/hints](#faqhints)
+* [License](#license)
 
-<!-- Added by: vbuzek, at: Do 25 Jun 2020 14:31:39 CEST -->
+<!-- Added by: vbuzek, at: Mo 24 Aug 2020 18:14:23 CEST -->
 
 <!--te-->
 
@@ -49,7 +42,7 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
     -   iOS: `.ipa` (device-type build) or `.app` (emulator-type build) + iOS simulator
     -   Android: `.apk` + emulator
     -   Electron: binary
-- node version >= `12.x` (`lts/erbium`)
+-   node version >= `12.x` (`lts/erbium`)
 
 ## Getting Started
 
@@ -57,6 +50,7 @@ Using `wdi5` is essentially configuring `wdio` with `wdi5`-specific options on t
 The recommended development approach is to first write and execute the tests in the browser-context, then run the tests on native devices/emulators or against the `electron`-app.
 
 ### Installation
+
 ```zsh
 # install the node module
 $> npm install wdi5
@@ -82,10 +76,13 @@ wdi5: {
 In your actual test(s), kick-off `wdi5`:
 
 ```javascript
-const wdi5 = require('wdi5')()
+const wdi5 = require('wdi5')();
 
 it("should find a button's texts and click it", () => {
-    browser.url('index.html') // navigate to UI5 bootstrap page relative to "baseUrl"
+    // "browser" is a wdio-native global variable
+    // and applies both in the web- and native-context
+    // as a pointer to the client
+    browser.url('index.html'); // navigate to UI5 bootstrap page relative to "baseUrl"
 
     const selector = {
         // standard OPA5/UIveri5-selectors!
@@ -93,18 +90,18 @@ it("should find a button's texts and click it", () => {
             id: 'NavFwdButton',
             viewName: 'test.Sample.view.Main'
         }
-    }
+    };
 
-    const oButton = browser.asControl(selector)
-    const sText = oButton.getText() // UI5 API syntax!
+    const oButton = browser.asControl(selector);
+    const sText = oButton.getText(); // UI5 API syntax!
 
-    expect(sText).toStrictEqual('to Other view')
+    expect(sText).toStrictEqual('to Other view');
 
-    oButton.press() // UI5 API syntax!
+    oButton.press(); // UI5 API syntax!
 
     // do sth after navigation has taken place
     // ...
-})
+});
 ```
 
 Given there's setup work for `wdi5`, it is recommended to externalize this into the outermost `before()`-hook, which is ommitted for brevity here. Please see the `tests` folder for advanced examples of using `wdi5`.
@@ -147,7 +144,7 @@ The entry point to retrieve a control is always `browser.asControl(oSelector)`.
 
 `wdi5` stores control references internally in order to save browser roundtrip time on repeatedly using a control across different test cases. For that, `wdi5` computes unique identifiers for controls - with `wdio_ui5_key`, you can assign such an ID manually if required.
 
-The `forceSelcet` (default: false) property can be set to true to force `wdi5` to again retrieve the control from the browser context and update the internally stored reference.
+The `forceSelcet` (default: `false`) property can be set to true to force `wdi5` to again retrieve the control from the browser context and update the internally stored reference.
 
 ```javascript
 const oSelector = {
@@ -158,9 +155,9 @@ const oSelector = {
         id: 'UI5control_ID',
         viewName: 'your.namespace.App'
     }
-}
-const control = browser.asControl(oSelector)
-// now use one of the below API methods on `control`
+};
+const control = browser.asControl(oSelector);
+// now use one of the below API methods on <control>
 ```
 
 These are the supported selectors from [sap.ui.test.RecordReplay.ControlSelector](https://ui5.sap.com/#/api/sap.ui.test.RecordReplay.ControlSelector):
@@ -188,21 +185,20 @@ const bindingPathSelector = {
         viewName: 'test.Sample.view.Main',
         controlType: 'sap.m.Input'
     }
-}
-const control = browser.asControl(bindingPathSelector)
+};
+const control = browser.asControl(bindingPathSelector);
 // now use one of the below API methods on `control`
 ```
 
 **`wdi5` supports method chaining**, so you can do:
+
 ```javascript
-browser.asControl(selector)
-    .getText()
-    .getId()
-    .setProperty("title", "new title")
+browser.asControl(selector).getText().getId().setProperty('title', 'new title');
 ```
 
 In case you are not able to create an explicit selector for a control, but you are able to find it via any [webdriver strategy](https://www.w3.org/TR/webdriver/#locator-strategies), you can use the `getSelectorForElement` method of the UI5-wdio-bridge.
-This function gets the webdriver element as parameter and returns a selector which can then used in the `asControl` function.
+
+This function gets the webdriver element as parameter and returns a selector which can then be used in the `asControl` function.
 
 ```javascript
 const webdriverLocatorSelector = {
@@ -210,81 +206,105 @@ const webdriverLocatorSelector = {
         domElement: $('/xpath/to/button'),
         settings: {preferViewId: true}
     })
-}
-const control = browser.asControl(webdriverLocatorSelector)
-// now use one of the below API methods on `control`
+};
+const control = browser.asControl(webdriverLocatorSelector);
+// now use any of the UI5 native controls' API methods on `control`
 ```
 
 ### Hint
-- Use the available [TestRecorder](https://blogs.sap.com/2020/01/23/test-recording-with-ui5-test-recorder/) and copy paste the suggested control selector.
 
 ## Assertions
 Recommendation is to use the WDIO extension of JEST [expect](https://jestjs.io/docs/en/expect) and [matchers](https://jestjs.io/docs/en/using-matchers).
 
 ## API methods
+-   Use the available [TestRecorder](https://blogs.sap.com/2020/01/23/test-recording-with-ui5-test-recorder/) and copy paste the suggested control selector.
 
-Once the control is retrieved in a test, use these API methods on it:
+### all UI5 control's native methods
 
-### hasStyleClass
+Once the control is retrieved in a test, use any of the native UI5 control's methods on it.
+This is possible because of a runtime proxy `wdi5` provides that transistions the UI5 control's method from browser- to Node.js-runtime.
 
-`hasStyleClass(sClassName) => Boolean(true|false)`: check whether the UI5 control has a certain class attached (https://ui5.sap.com/#/api/sap.ui.core.Control%23methods/hasStyleClass)
+```zsh
+# terminal 1: run webapp on port 8888
+$> npx soerver -d <path/to/webapp> -p 8888
 
-```javascript
-assert.ok(browser.asControl(oSelector).hasStyleClass('active'))
+# terminal 2: run test
+$> npx wdio run <path/to/conf> --spec <path/to/test>
+
+Execution of 1 spec files started at 2020-08-24T15:49:54.625Z
+# ...
+
+# breakpoint is hit after retrieving a control
+# in the test via "browser.asControl(buttonSelector)"
+
+# snippet of output of "Object.getOwnPropertyNames(ui5Button)"
+length: 220
+[
+  // ...
+  "extractBindingInfo",
+  "findAggregatedObjects",
+  "findElements",
+  "fireEvent",
+  "fireFormatError",
+  "fireModelContextChange",
+  "fireParseError",
+  "firePress",
+  "fireTap",
+  "fireValidateFieldGroup",
+  "fireValidationError",
+  "fireValidationSuccess",
+  "focus",
+  // ...
+  "getBinding",
+  "getBindingContext",
+  "getBindingInfo",
+  "getBindingPath",
+  "getBlocked",
+  "getBusy",
+  "getBusyIndicatorDelay",
+  "getBusyIndicatorSize",
+  "getContextMenu",
+  "getControlsByFieldGroupId",
+  "getCustomData",
+  "getDependents",
+  "getDomRef",
+  "getDomRefForSetting",
+  "getDragDropConfig",
+  // ...
+  "getLayoutData",
+  "getModel",
+  "getObjectBinding",
+  "getOriginInfo",
+  "getParent",
+  "getPopupAnchorDomRef",
+  "getPropagationListeners",
+  "getProperty",
+  "getText",
+  "getTextDirection",
+  "getTooltip",
+  "getTooltip_AsString",
+  "getTooltip_Text",
+  "getType",
+  "getUIArea",
+  "getVisible",
+  "getWidth",
+  "hasListeners",
+  // ...
+]
 ```
 
-### getProperty
-
-`getProperty(sName) => String`: retrieve the value of a control’s property (https://ui5.sap.com/#/api/sap.ui.base.ManagedObject%23methods/getProperty)
-
-```javascript
-assert.strictEqual(browser.asControl(oButtonSelector).getProperty('text'), 'Click me now!')
-```
-
--   **`getId() => String`**: get the Id of the control as issued by the UI5 framework; convenience wrapper for `getProperty("id")` (see above)
-
-    ```javascript
-    assert.ok(browser.asControl(oButtonSelector).getId().includes('NavButton'))
-    ```
-
--   **`getText() => String`**: get the text label of a control; convenience wrapper for `getProperty("text")` (see above)
-
-    ```javascript
-    assert.strictEqual(browser.asControl(oButtonSelector).getText(), 'Click me now!')
-    ```
-
--   **`getTitle() => String`**: get the title text of a control; convenience wrapper for `getProperty("title")` (see above)
-
-    ```javascript
-    assert.strictEqual(browser.asControl(oListItemSelector).getTitle(), 'some list item title')
-    ```
-
--   **`isVisible() => Boolean(true|false)`**: validate visibilty status of a control; convenience wrapper for `getProperty("visible")` (see above)
-
-    ```javascript
-    assert.ok(browser.asControl(oSelector).isVisible())
-    ```
+This method bridge **does not** proxy private control methods (starting with `_`), `getAggregation` (and `getMetadata`) though.
+`getAggregation` is provided by `wdi5` separately with a UI5-compatible API signature:
 
 ### getAggregation
 
 `getAggregation(sAggregationName) => wdi5Controls[]`: retrieve the elements of aggregation `sAggregationName` of a control (https://ui5.sap.com/#/api/sap.ui.base.ManagedObject%23methods/getAggregation)
 
 ```javascript
-const ui5ListItems = browser.asControl(oListSelector).getAggregation('items')
+const ui5ListItems = browser.asControl(oListSelector).getAggregation('items');
 ui5ListItems.forEach((listItem) => {
-    assert.ok(listItem.getTitle() !== '')
-})
-```
-
-### setProperty
-
-`setProperty(sName, vValue) => this {WDI5}`: sets the property `sName` of a control to `vValue` (https://ui5.sap.com/#/api/sap.ui.base.ManagedObject%23methods/setProperty)
-
-```javascript
-const oButton = browser.asControl(buttonSelector)
-oButton.setProperty('text', 'new button text')
-
-assert.strictEqual(oButton.getText(), 'new button text')
+    expect(listItem.getTitle()).not.toBe('');
+});
 ```
 
 ### enterText
@@ -292,81 +312,51 @@ assert.strictEqual(oButton.getText(), 'new button text')
 `enterText(sText) => this {WDI5}`: input `sText` into a (input-capable) control (https://ui5.sap.com/#/api/sap.ui.test.actions.EnterText)
 
 ```javascript
-browser.asControl(inputSelector).enterText('new Text')
+browser.asControl(inputSelector).enterText('new Text');
 ```
 
-### press
+#### Function mock for event handler
 
-`press() => this {WDI5}`: click/press on a (capable) control (https://ui5.sap.com/#/api/sap.ui.test.actions.Press)
+If an item has a custom attribute defined eg. `data:key="exampleKey"` which is needed in the event handler function, the access of the `data()` function to retrieve the key can be done by specifying an `eval` property as (object) argument to the event handler.
 
-```javascript
-browser.asControl(buttonSelector).press()
-```
-
-### fireEvent
-
-`fireEvent(sName) => this {WDI5}`: trigger the event `sName` on a (capable) control (https://ui5.sap.com/#/api/sap.ui.base.EventProvider%23methods/fireEvent)
+Can be accessed in standard UI5 manner `oEvent.getParameter("listItem").data("key")`.
 
 ```javascript
-browser.asControl(listElement).fireEvent('swipe')
-```
-
-`oOptions?` optional passed object to the UI5 event.
-
-#### Function mock for evnet handler:
-Special case if oOptions contains a property `eval`. Example for the [sap.m.List](https://sapui5.hana.ondemand.com/#/api/sap.m.ListBase%23events/itemPress) event `itemPress`. If the item has a custom attribute defined eg. `data:key="exampleKey"` which is needed in the event handler function the access of the `data()` function to retrieve the key can be done by using the `eval` property which can handle this special case of having a function in the parameter object. Can be accessed in std. UI5 manner `oEvent.getParameter("listItem").data("key")`.
-
-```javascript
-browser.asControl(listSelector).fireEvent("itemPress", {
+// use in wdi5 test
+// example for the [sap.m.List](https://sapui5.hana.ondemand.com/#/api/sap.m.ListBase%23events/itemPress) event `itemPress`
+browser.asControl(listSelector).fireEvent('itemPress', {
     eval: () => {
         return {
             listItem: {
-                data: () => { return "account.relationships" }
+                data: () => {
+                    return 'account.relationships';
+                }
             }
-        }
+        };
     }
-})
+});
 ```
 
-### check
+## Assertions
 
-`check() => this {WDI5}`: click/press on a checkbox to select (https://ui5.sap.com/#/api/sap.m.CheckBox). Internally calls the `setProperty` method of the WDI5 object with `selected: true` and fires the `select` event with `selected: true`.
-
-```javascript
-browser.asControl(checkboxSelector).check()
-```
-
-### uncheck
-
-`uncheck() => this {WDI5}`: click/press on a checkbox to unselect (https://ui5.sap.com/#/api/sap.m.CheckBox). Internally calls the `setProperty` method of the WDI5 object with `selected: false` and fires the `select` event with `selected: false`.
-
-```javascript
-browser.asControl(checkboxSelector).uncheck()
-```
-
-### toogle
-`toogle() => this {WDI5}`: click/press on a checkbox to toggle its current status (https://ui5.sap.com/#/api/sap.m.CheckBox). Internally calls the `setProperty` method of the WDI5 object with `selected: !oldState` and fires the `select` event with `selected: !oldState`.
-
-```javascript
-browser.asControl(checkboxSelector).toggle()
-```
+Recommendation is to use the WDIO extension of JEST [expect](https://jestjs.io/docs/en/expect) and [matchers](https://jestjs.io/docs/en/using-matchers).
 
 ## Screenshots
 
 At any point in your test(s), you can screenshot the current state of the UI:
 
 ```javascript
-const wdi5 = require('wdi5')
+const wdi5 = require('wdi5');
 it('...', () => {
     // ...
-    wdi5().getUtils().takeScreenshot('some-id')
+    wdi5().getUtils().takeScreenshot('some-id');
     // ...
-})
+});
 ```
 
 This works _cross-device_ and puts a `png` into the configured `wdi5.screenshotPath` (in `wdio.conf.js`).
 
-The file name is prepended with a date indicator (M-d-hh-mm-ss), holds `screenshot` in the filname and is appended with the id you provice (here: `some-id`).
+The file name is prepended with a date indicator (M-d-hh-mm-ss), holds `screenshot` in the filename and is appended with the id you provide (here: `some-id`).
 Example: `5-5-17-46-47-screenshot--some-id.png`
 
 ## Logger
@@ -374,8 +364,8 @@ Example: `5-5-17-46-47-screenshot--some-id.png`
 For convenient console output, use `wdi5().getLogger()`. It supports the `syslog`-like levels `log`,`info`, `warn` and `error`:
 
 ```javascript
-const wdi5 = require('wdi5')
-wdi5().getLogger().log('any', 'number', 'of', 'log', 'parts')
+const wdi5 = require('wdi5');
+wdi5().getLogger().log('any', 'number', 'of', 'log', 'parts');
 ```
 
 The log level is set by the either in `wdio.conf.js` via `wdi5.logLevel` or by `wdi5().getLogger().setLoglevel(level = {String} error | verbose | silent)`
@@ -388,7 +378,7 @@ The log level is set by the either in `wdio.conf.js` via `wdi5.logLevel` or by `
 -   performance: integration/e2e-tests are rarely fast. `wdi5` tags along that line, remote-controlling a browser with code and all
     -> watch your timeouts and refer to the [`wdio`-documentation](https://webdriver.io/docs/timeouts.html#webdriverio-related-timeouts) on how to tweak them
 
--   UI5 bug: [OpenUI5 Issue](https://github.com/SAP/openui5/issues/2887) `sap/ui/test/matchers/BindingPath cannot locate control by named model and root property`
+-   UI5 bug in UI5 < 1.81: [OpenUI5 Issue](https://github.com/SAP/openui5/issues/2887) `sap/ui/test/matchers/BindingPath cannot locate control by named model and root property`
 
     If you use a named model and a root property there is an issue in UI5 control selector.
 
@@ -407,7 +397,7 @@ The log level is set by the either in `wdio.conf.js` via `wdi5.logLevel` or by `
 
 -   `Webdriver.IO`'s watch mode is running, but subsequent `context.executeAsync()`-calls fail - exact cause unknown, likely candidate is `fibers` from `@wdio/sync`
 
--    In case `... bind() returned an error, errno=0: Address already in use (48)` error shows up during test execution any `chromedriver` service is already running. You need to quit this process eg. by force quiting it in the activity monitor.
+-   In case `... bind() returned an error, errno=0: Address already in use (48)` error shows up during test execution any `chromedriver` service is already running. You need to quit this process eg. by force quiting it in the activity monitor.
 
 ## License
 
