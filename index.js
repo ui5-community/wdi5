@@ -83,6 +83,12 @@ module.exports = (context, webcontext) => {
         _instance.getWDioUi5().setup(context); // use wdio hooks for setting up wdio<->ui5 bridge
         _instance.getWDioUi5().injectUI5(context); // needed to let the instance know that UI5 is now available for work
 
+
+        const result = context.executeAsync((done) => {
+            done(window.location.href);
+        });
+        console.log(`window.location.href: ${result}`)
+
         // create mocks for plugins
         cordovaMockPluginFactory.setup(_instance, context);
 

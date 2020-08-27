@@ -12,6 +12,7 @@
     },
     "scripts": {
         "test": "run-p -r _startApp:dist _test:wt",
+        "test:android:bs": "wdio ./test/wdio-bs-android.conf.js",
         "testNew": "run-p -r _startApp:dist _test:wtNew",
         "test:wap": "run-p -r _startApp _test:wt",
         "test:ios": "run-p -r _startApp:ios _testWT:ios",
@@ -76,6 +77,7 @@
         "@wdio/spec-reporter": "^6.4.0",
         "@wdio/sync": "^6.4.0",
         "appium-doctor": "^1.15.3",
+        "browserstack-local": "^1.4.5",
         "chromedriver": "^83.0.1",
         "cordova": "^9.0.0",
         "fs-extra": "^9.0.0",
@@ -84,7 +86,9 @@
         "npm-run-all": "^4.1.5",
         "replace-in-file": "^6.0.0",
         "soerver": "0.0.1",
-        "wdio-chromedriver-service": "^6.0.3"
+        "wd": "^1.12.1",
+        "wdio-chromedriver-service": "^6.0.3",
+        "webdriverio": "^6.4.0"
     },
     "dependencies": {
         "@wdio/appium-service": "^6.1.14",
@@ -92,8 +96,9 @@
         "@wdio/selenium-standalone-service": "^6.1.14",
         "appium": "^1.17.1",
         "appium-chromedriver": "^4.24.1",
-        "selenium-webdriver": "^3.6.0",
-        "webdriverio": "^6.1.14"
+        "browserstack": "^1.6.0",
+        "saucelabs": "^4.4.4",
+        "selenium-webdriver": "^3.6.0"
     },
     "peerDependencies": {
         "@wdio/appium-service": "^5.18.2"

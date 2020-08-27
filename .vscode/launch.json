@@ -16,6 +16,19 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "test browserstack android",
+            "type": "node",
+            "program": "${workspaceFolder}/node_modules/.bin/wdio",
+            "request": "launch",
+            "args": [
+                "./test/wdio-bs-android.conf.js"
+            ],
+            "cwd": "${workspaceFolder}",
+            "internalConsoleOptions": "openOnSessionStart",
+            "autoAttachChildProcesses": true,
+            "console": "internalConsole"
+        },
+        {
             "name": "run test:electron",
             "type": "node",
             "program": "${workspaceFolder}/node_modules/.bin/wdio",
@@ -57,7 +70,7 @@
             "args": [
                 "${workspaceFolder}/test/wdio-browser.conf.js",
                 "--spec",
-                "list-interaction.test.js"
+                "basic.test.js"
             ],
             "skipFiles": [
                 "<node_internals>/**"
