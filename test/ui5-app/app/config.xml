@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="sample.app" version="1.0.0"
+<widget id="jss.wdi5.sample" version="1.0.0"
     xmlns="http://www.w3.org/ns/widgets"
     xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>UI5</name>
@@ -11,17 +11,18 @@
     </author>
     <content src="index.html" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
+
     <access origin="*" />
-    <access origin="file:*" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    <allow-intent href="tel:*" />
-    <allow-intent href="sms:*" />
-    <allow-intent href="mailto:*" />
-    <allow-intent href="geo:*" />
-    <allow-intent href="file:*" />
-    <access origin="cdvfile://*" />
-    <allow-navigation href="file:*"/>
+
+    <allow-intent href="http://*/*" launch-external="yes" />
+    <allow-intent href="https://*/*" launch-external="yes" />
+    <allow-intent href="mailto:*" launch-external="yes" />
+    <allow-intent href="tel:*" launch-external="yes" />
+    <allow-intent href="sms:*" launch-external="yes" />
+    <allow-intent href="geo:*" launch-external="yes" />
+
+    <allow-navigation href="http://localhost:8080/*" />
+
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
