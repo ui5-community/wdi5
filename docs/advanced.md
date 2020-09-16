@@ -490,6 +490,17 @@ For some reason the contexts were "NATIVE*APP" and "WEBAPP*<webcontext>" until A
 
 Known pitfall is the chromedriver version. Make sure you run the fitting `electron-chromedriver` version to your electron version. Conflicts may occur with the browser `chromedriver` version.
 
+# CD/ CI Pipeline Integration
+
+## Jenkins
+
+## Browserstack
+0. Create a Browserstack account.
+1. Upload app (Android or iOS) via `curl` to Bowserstack.
+1.1 curl -u <usewrname>:<accessKey> -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@<path-to-build-folder>/<bundle-name>.<apk|ipa>". Put the response ahsh into your onfig file option `app`.
+2. Modify the browserstack testconfiguration `wdio-bs-<android|ios>.conf.js` with your username and accessKey. Furthermore the device you would like to run your tests on.
+3. Execute the testscripts regularly
+
 # Contribute
 
 ## Debug

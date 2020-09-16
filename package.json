@@ -13,6 +13,7 @@
     "scripts": {
         "test": "run-p -r _startApp:dist _test:wt",
         "test:android:bs": "wdio ./test/wdio-bs-android.conf.js",
+        "test:ios:bs": "wdio ./test/wdio-bs-ios.conf.js",
         "testNew": "run-p -r _startApp:dist _test:wtNew",
         "test:wap": "run-p -r _startApp _test:wt",
         "test:ios": "run-p -r _startApp:ios _testWT:ios",
@@ -36,7 +37,7 @@
         "_startApp:electron": "chromedriver-electron",
         "//_startApp": "ios | android - starts appium separately",
         "_startApp:ios": "appium",
-        "_startApp:android": "appium --allow-insecure chromedriver_autodownload",
+        "_startApp:android": "appium --allow-insecure chromedriver_autodownload -g ./test/report/appium --log-level debug",
         "_build:ui5_app": "cd test/ui5-app && ui5 build --all --exclude-task=* --include-task=generateComponentPreload",
         "_build:ios_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-ios.js",
         "_build:android_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-android.js",
@@ -98,11 +99,10 @@
         "appium-chromedriver": "^4.24.1",
         "browserstack": "^1.6.0",
         "saucelabs": "^4.4.4",
-        "selenium-webdriver": "^3.6.0"
+        "selenium-webdriver": "^3.6.0",
+        "dotenv": "^8.2.0"
     },
-    "peerDependencies": {
-        "@wdio/appium-service": "^5.18.2"
-    },
+    "peerDependencies": {},
     "optionalDependencies": {
         "cordova-electron-chromedriver": "npm:chromedriver@2.44.1"
     }

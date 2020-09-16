@@ -51,15 +51,13 @@
             "program": "${workspaceFolder}/node_modules/.bin/wdio",
             "request": "launch",
             "args": [
-                "${workspaceFolder}/test/wdio-android.conf.js",
-                "--spec",
-                "plugin.test.js"
+                "${workspaceFolder}/test/wdio-android.conf.js"
             ],
             "skipFiles": [
                 "<node_internals>/**"
             ],
             "internalConsoleOptions": "openOnSessionStart",
-            "console": "internalConsole",
+            "console": "integratedTerminal",
             "autoAttachChildProcesses": true
         },
         {
