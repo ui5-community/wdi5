@@ -4,18 +4,18 @@ require('dotenv').config()
 
 const _userName = process.env.USERNAME
 const _accessKey = process.env.ACCESSKEY
-const _apphash = process.env.APPHASH_ANDROID;
+const _apphash = process.env.APPHASH_IOS
 
 exports.config = {
 
     // https://www.browserstack.com/docs/automate/selenium/getting-started/nodejs/webdriverio
-    user: _userName,
-    key: _accessKey,
+    user: userName,
+    key: accessKey,
     // forceLocal: true,
 
     capabilities: [
         {
-            'browserstack.use_w3c': true,
+            'browserstack.use_w3c': false,
             // "browserstack.local": true,
             // https://github.com/webdriverio/webdriverio/issues/3264
             'browserstack.appium_version': '1.17.0',
@@ -23,14 +23,12 @@ exports.config = {
             'browserstack.video': true,
             "browserstack.acceptInsecureCerts": true,
             "browserstack.deviceLogs": true,
-            automationName: 'UiAutomator2',
+            automationName: 'XCUITest',
             project: 'wdi5',
-            build: '0.1.0',
-            name: 'wdi5',
-            build: 'Android',
-            os_version: "10.0",
-            name: 'wdi5 Android',
-            device: 'Google Pixel 3',
+            build: 'iOS',
+            os_version: "14.0",
+            name: 'wdi5 iOS',
+            device: 'iPhone 11',
             app: 'bs://' + _apphash,
             chromeOptions: { "w3c": false },
             autoWebview: true,

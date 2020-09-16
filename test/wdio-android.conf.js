@@ -1,5 +1,6 @@
 const path = require('path');
 let config = require('./wdio-shared.conf').config;
+require('dotenv').config()
 
 // This defines which kind of device we want to test on, as well as how it should be
 // configured.
@@ -14,6 +15,8 @@ config.capabilities = [
 
         // For Android, Appium uses the first device it finds using "adb devices". So, this string simply needs to be non-empty.
         deviceName: 'any',
+
+        chromeOptions: { "w3c": false },
 
         // Where to find the .apk or .ipa file to install on the device. The exact location
         // of the file may change depending on your Cordova version.

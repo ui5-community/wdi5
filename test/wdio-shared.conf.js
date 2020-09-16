@@ -1,4 +1,6 @@
 const path = require('path');
+require('dotenv').config()
+
 exports.config = {
     // http://appium.io/docs/en/writing-running-appium/caps/
 
@@ -157,7 +159,7 @@ exports.config = {
     after: function (result, capabilities, specs) {
         // load module
         const wdi5 = require('../index');
-        console.log('after hook');
+        wdi5().getLogger().log('after hook');
         if (result === 1) {
             wdi5().getLogger().error('some tests failed');
             // test failed
@@ -167,5 +169,9 @@ exports.config = {
                 wdi5().getLogger().printLogStorage();
             }
         }
+
+        // optional retrieve appium logs
+        // let logs_1 = driver.getLogs('driver');
+        // wdi5().getLogger().log(logs_1.length + " logs retrieved")
     }
 };

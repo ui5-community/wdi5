@@ -1,4 +1,6 @@
 const path = require('path');
+require('dotenv').config()
+
 // https://github.com/electron-userland/spectron/issues/74
 exports.config = {
     // runner: 'local',
