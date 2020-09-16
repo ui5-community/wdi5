@@ -67,8 +67,6 @@ describe('ui5 plugin', () => {
         const input = browser.asControl(inputSelector);
         // the app function passes the scan into the model and bind to the input value
         // 123123 is as configured in the wdio.conf file
-        expect(input.getProperty('value').toEqual(res.scanCode));
-
-
+        expect(input.getProperty('value')).toEqual(res.scanCode);
     });
 });
