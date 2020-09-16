@@ -81,3 +81,9 @@ test/ui5-app/app/platforms
 test/ui5-app/app/plugins
 test/ui5-app/app/www
 
+# .env
+.env
+!.env.example
+
+# ios build
+test/ui5-app/app/build.json
