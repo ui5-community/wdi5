@@ -1,5 +1,5 @@
 {
-  "name": "sample.app",
+  "name": "jss.wdi5.sample",
   "displayName": "sample UI5 app",
   "version": "1.0.0",
   "description": "A sample Apache Cordova application that responds to the deviceready event.",
@@ -25,12 +25,13 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
-      "cordova-plugin-barcodescanner": {}
+      "cordova-plugin-barcodescanner": {},
+      "cordova-plugin-file": {}
     },
     "platforms": [
+      "electron",
       "ios",
-      "android",
-      "electron"
+      "android"
     ]
   }
 }

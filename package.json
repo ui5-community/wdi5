@@ -12,6 +12,9 @@
     },
     "scripts": {
         "test": "run-p -r _startApp:dist _test:wt",
+        "test:android:bs": "wdio ./test/wdio-bs-android.conf.js",
+        "test:ios:bs": "wdio ./test/wdio-bs-ios.conf.js",
+        "testNew": "run-p -r _startApp:dist _test:wtNew",
         "test:wap": "run-p -r _startApp _test:wt",
         "test:ios": "run-p -r _startApp:ios _testWT:ios",
         "test:android": "run-p -r _startApp:android _test:android",
@@ -22,6 +25,7 @@
         "appium-doctor": "appium-doctor",
         "_test": "wdio ./test/wdio-browser.conf.js",
         "_test:wt": "sleep 2s && wdio ./test/wdio-browser.conf.js",
+        "_test:wtNew": "sleep 2s && node ./test/test-browser.js",
         "_test:android": "wdio ./test/wdio-android.conf.js",
         "_test:electron": "wdio ./test/wdio-electron.conf.js",
         "_testWT:electron": "sleep 2s && wdio ./test/wdio-electron.conf.js",
@@ -33,7 +37,7 @@
         "_startApp:electron": "chromedriver-electron",
         "//_startApp": "ios | android - starts appium separately",
         "_startApp:ios": "appium",
-        "_startApp:android": "appium --allow-insecure chromedriver_autodownload",
+        "_startApp:android": "appium --allow-insecure chromedriver_autodownload -g ./test/report/appium --log-level debug",
         "_build:ui5_app": "cd test/ui5-app && ui5 build --all --exclude-task=* --include-task=generateComponentPreload",
         "_build:ios_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-ios.js",
         "_build:android_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-android.js",
@@ -69,33 +73,35 @@
         "@commitlint/cli": "^8.3.5",
         "@commitlint/config-conventional": "^8.3.4",
         "@ui5/cli": "^2.2.6",
+        "@wdio/local-runner": "^6.4.0",
+        "@wdio/mocha-framework": "^6.1.14",
+        "@wdio/spec-reporter": "^6.4.0",
+        "@wdio/sync": "^6.4.0",
         "appium-doctor": "^1.15.3",
+        "browserstack-local": "^1.4.5",
+        "chromedriver": "^83.0.1",
         "cordova": "^9.0.0",
         "fs-extra": "^9.0.0",
         "git-cz": "^4.6.2",
         "husky": "^4.2.5",
         "npm-run-all": "^4.1.5",
         "replace-in-file": "^6.0.0",
-        "soerver": "0.0.1"
+        "soerver": "0.0.1",
+        "wd": "^1.12.1",
+        "wdio-chromedriver-service": "^6.0.3",
+        "webdriverio": "^6.4.0",
+        "browserstack": "^1.6.0"
     },
     "dependencies": {
         "@wdio/appium-service": "^6.1.14",
         "@wdio/cli": "^6.1.15",
-        "@wdio/local-runner": "^6.1.14",
-        "@wdio/mocha-framework": "6.1.14",
         "@wdio/selenium-standalone-service": "^6.1.14",
-        "@wdio/spec-reporter": "^6.1.14",
-        "@wdio/sync": "^6.1.14",
         "appium": "^1.17.1",
         "appium-chromedriver": "^4.24.1",
-        "chromedriver": "^83.0.0",
         "selenium-webdriver": "^3.6.0",
-        "wdio-chromedriver-service": "^6.0.3",
-        "webdriverio": "^6.1.14"
+        "dotenv": "^8.2.0"
     },
-    "peerDependencies": {
-        "@wdio/appium-service": "^5.18.2"
-    },
+    "peerDependencies": {},
     "optionalDependencies": {
         "cordova-electron-chromedriver": "npm:chromedriver@2.44.1"
     }

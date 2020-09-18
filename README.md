@@ -47,7 +47,6 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 ## Getting Started
 
 Using `wdi5` is essentially configuring `wdio` with `wdi5`-specific options on top.
-
 The recommended development approach is to first write and execute the tests in the browser-context, then run the tests on native devices/emulators or against the `electron`-app.
 
 ### Installation
@@ -214,13 +213,15 @@ const control = browser.asControl(webdriverLocatorSelector);
 
 ### Hint
 
--   Use the available [TestRecorder](https://blogs.sap.com/2020/01/23/test-recording-with-ui5-test-recorder/) and copy paste the suggested control selector.
+## Assertions
+Recommendation is to use the WDIO extension of JEST [expect](https://jestjs.io/docs/en/expect) and [matchers](https://jestjs.io/docs/en/using-matchers).
 
 ## API methods
+-   Use the available [TestRecorder](https://blogs.sap.com/2020/01/23/test-recording-with-ui5-test-recorder/) and copy paste the suggested control selector.
 
 ### all UI5 control's native methods
 
-Once the control is retrieved in a test, use any of the native UI5 control's methods on it.  
+Once the control is retrieved in a test, use any of the native UI5 control's methods on it.
 This is possible because of a runtime proxy `wdi5` provides that transistions the UI5 control's method from browser- to Node.js-runtime.
 
 ```zsh
@@ -292,7 +293,7 @@ length: 220
 ]
 ```
 
-This method bridge **does not** proxy private control methods (starting with `_`), `getAggregation` (and `getMetadata`) though.  
+This method bridge **does not** proxy private control methods (starting with `_`), `getAggregation` (and `getMetadata`) though.
 `getAggregation` is provided by `wdi5` separately with a UI5-compatible API signature:
 
 ### getAggregation
@@ -355,7 +356,7 @@ it('...', () => {
 
 This works _cross-device_ and puts a `png` into the configured `wdi5.screenshotPath` (in `wdio.conf.js`).
 
-The file name is prepended with a date indicator (M-d-hh-mm-ss), holds `screenshot` in the filename and is appended with the id you provide (here: `some-id`).  
+The file name is prepended with a date indicator (M-d-hh-mm-ss), holds `screenshot` in the filename and is appended with the id you provide (here: `some-id`).
 Example: `5-5-17-46-47-screenshot--some-id.png`
 
 ## Logger
