@@ -89,7 +89,8 @@
         "soerver": "0.0.1",
         "wd": "^1.12.1",
         "wdio-chromedriver-service": "^6.0.3",
-        "webdriverio": "^6.4.0"
+        "webdriverio": "^6.4.0",
+        "browserstack": "^1.6.0"
     },
     "dependencies": {
         "@wdio/appium-service": "^6.1.14",
@@ -97,8 +98,6 @@
         "@wdio/selenium-standalone-service": "^6.1.14",
         "appium": "^1.17.1",
         "appium-chromedriver": "^4.24.1",
-        "browserstack": "^1.6.0",
-        "saucelabs": "^4.4.4",
         "selenium-webdriver": "^3.6.0",
         "dotenv": "^8.2.0"
     },
