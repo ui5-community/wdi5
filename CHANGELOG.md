@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/js-soft/wdio-ui5/compare/v0.1.0...v0.2.0) (2020-09-21)
+
+
+### Features
+
+* **browserstack:** basic test for android ([f872e9f](https://github.com/js-soft/wdio-ui5/commit/f872e9f779c68fc077d153d6f1aa02c5a24543f1))
+* **bs:** browserstack enablement ([4fa4c75](https://github.com/js-soft/wdio-ui5/commit/4fa4c758ae7467fe9b835a92bd902fca72a0a7f1))
+* **env:** using environment variables ([8753750](https://github.com/js-soft/wdio-ui5/commit/875375063dc36a10bee0bfcf965c95226ff339bb))
+* **gitignore:** update for env ([67f1798](https://github.com/js-soft/wdio-ui5/commit/67f1798e99a92de3c9260915e3004793e5880c70))
+* **methodbridge:** first version ([ddc9819](https://github.com/js-soft/wdio-ui5/commit/ddc9819f824062d04d10d331c30d3d68cbcbb732))
+* **methodbridge:** working state ([ab1f81c](https://github.com/js-soft/wdio-ui5/commit/ab1f81c5070e162dc5ae275c8cd9c1f971fe9fa8))
+* **navigation:** change hash based navigation to custom ([#30](https://github.com/js-soft/wdio-ui5/issues/30)) ([147a6d6](https://github.com/js-soft/wdio-ui5/commit/147a6d68433301bc2d211366e354dc78c963c571))
+* **script:** for dual browser test ([63cc1dc](https://github.com/js-soft/wdio-ui5/commit/63cc1dc5edf0210d58add4fa4302259d60593845))
+* **struc:** new testfile structure ([30964c4](https://github.com/js-soft/wdio-ui5/commit/30964c47d21db8d5e748315ad22727957aa44946))
+
+
+### Bug Fixes
+
+* **native:** test for ios ([648974b](https://github.com/js-soft/wdio-ui5/commit/648974be87dfa7e7f24b08bfd82ff8e0ab1c499a))
+* **pr:** quotes and dependencies ([ad9120f](https://github.com/js-soft/wdio-ui5/commit/ad9120f104b6fff084d31e0c410a8853216bfe43))
+* **typo:** missing bracket ([016468f](https://github.com/js-soft/wdio-ui5/commit/016468fb8fd237a807d11bb1066c4d55bb52d2b1))
+
 ## [0.1.0](https://github.com/js-soft/wdio-ui5/compare/v0.0.22...v0.1.0) (2020-08-24)
 
 
