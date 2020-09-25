@@ -498,8 +498,8 @@ Known pitfall is the chromedriver version. Make sure you run the fitting `electr
 0. Create a Browserstack account.
 1. Upload app (Android or iOS) via `curl` to Bowserstack.
 1.1 curl -u <usewrname>:<accessKey> -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@<path-to-build-folder>/<bundle-name>.<apk|ipa>". Put the response ahsh into your onfig file option `app`.
-2. Modify the browserstack testconfiguration `wdio-bs-<android|ios>.conf.js` with your username and accessKey. Furthermore the device you would like to run your tests on.
-3. Execute the testscripts regularly
+2. Modify the browserstack testconfiguration `wdio-bs-<android|ios>.conf.js` with your username and accessKey. Furthermore the app hash you would like to run your tests on.
+3. Execute the testscripts `npm run test:android:bs`or `npm run test:ios:bs`
 
 # Contribute
 

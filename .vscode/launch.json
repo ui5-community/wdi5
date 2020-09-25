@@ -57,7 +57,7 @@
                 "<node_internals>/**"
             ],
             "internalConsoleOptions": "openOnSessionStart",
-            "console": "integratedTerminal",
+            "console": "internalConsole",
             "autoAttachChildProcesses": true
         },
         {
