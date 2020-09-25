@@ -78,50 +78,8 @@ exports.config = {
             }
         }
     },
-
     before: function (capabilities, specs) {
-        const wdi5 = require('../index');
-
-        // todo -> move to wdi5?
-        driver.setAsyncTimeout(6000);
-
-        // call once to init
-        // assume the start context is the webcontext -> "js.appiumTest"
-        // first call need to be with the webcontext
-        wdi5(driver, driver.getContext());
-
+        // needs to be done for Browserstack
         driver.switchContext(driver.getContext());
-
-        // log the config
-        wdi5()
-            .getLogger()
-            .log('configurations: ' + JSON.stringify(wdi5().getUtils().getConfig()));
-
-        wdi5()
-            .getLogger()
-            .log('driver context url: ' + driver.getUrl());
-    },
-    /*
-     * Gets executed after all tests are done. You still have access to all global variables from
-     * the test.
-     * @param {Number} result 0 - test pass, 1 - test fail
-     * @param {Array.<Object>} capabilities list of capabilities details
-     * @param {Array.<String>} specs List of spec file paths that ran
-     */
-    after: function (result, capabilities, specs) {
-        // load module
-        const wdi5 = require('../index');
-        console.log('after hook');
-        if (result === 1) {
-            wdi5().getLogger().error('some tests failed');
-            // test failed
-            if (wdi5().getUtils().getConfig('logLevel') !== 'verbose') {
-                wdi5().getLogger().error('here is the full log');
-                // write log if loglevel is other than verbose
-                wdi5().getLogger().printLogStorage();
-            }
-        } else {
-            request({ uri: "https://dominikfeininger1:UALtTysmS7U8ve56Zb12@api.browserstack.com/automate/sessions/<session-id>.json", method: "PUT", form: { "status": "completed", "reason": "" } })
-        }
     }
 };

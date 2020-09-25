@@ -61,12 +61,5 @@ exports.config = {
                 format: 'EAN'
             }
         }
-    },
-    before: function (capabilities, specs) {
-        const wdi5 = require('../index');
-        wdi5(browser);
-        wdi5()
-            .getLogger()
-            .log('configurations: ' + JSON.stringify(wdi5().getUtils().getConfig()));
     }
 };
