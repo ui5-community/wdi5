@@ -1,0 +1,31 @@
+{
+    "name": "wdio-ui5-service",
+    "description": "WebdriverIO service that provides an integration of Openui5 with control selectors",
+    "author": "Dominik Feininger <dominik.feininger@js-soft.com> (https://www.js-soft.com/)",
+    "contributors": [
+        "Volker Buzek <volker.buzek@js-soft.com> (https://www.js-soft.com/)",
+        "Simon Coen <simon.coen@js-soft.com> (https://www.js-soft.com/)"
+    ],
+    "license": "(DERIVED BEER-WARE OR Apache-2.0)",
+    "version": "0.0.1",
+    "dependencies": {},
+    "main": "./index.js",
+    "peerDependencies": {},
+    "screenshotPath": "./../test/report/screenshots",
+    "keywords": [
+        "webdriver",
+        "wdio",
+        "wdio-service",
+        "ui5",
+        "openui5"
+    ],
+    "scripts": {},
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com:js-soft/wdio-ui5.git"
+    },
+    "engines": {
+        "node": ">=12"
+    },
+    "devDependencies": {}
+}
