@@ -20,7 +20,10 @@ config.capabilities = [
 
         // Where to find the .apk or .ipa file to install on the device. The exact location
         // of the file may change depending on your Cordova version.
-        app: path.join('test', 'ui5-app', 'app', 'platforms', 'ios', 'build', 'device', 'UI5.app'),
+        // emulator -> check build script !!!
+        app: path.join('test', 'ui5-app', 'app', 'platforms', 'ios', 'build', 'emulator', 'UI5.app'),
+        // device -> change build parameter in script to build for device with "--device"
+        // app: path.join('test', 'ui5-app', 'app', 'platforms', 'ios', 'build', 'device', 'UI5.ipa'),
 
         // By default, Appium runs tests in the native context. By setting autoWebview to
         // true, it runs our tests in the Cordova context.

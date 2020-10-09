@@ -1,6 +1,7 @@
 const path = require('path');
 const request = require("request");
 require('dotenv').config()
+const WDI5Service = require('../wdi5/lib/service/wdi5.service')
 
 const _userName = process.env.USERNAME
 const _accessKey = process.env.ACCESSKEY
@@ -39,6 +40,9 @@ exports.config = {
     reporters: ['spec'],
     framework: 'mocha',
     logLevel: 'trace',
+    services: [
+        [WDI5Service]
+    ],
     waitforTimeout: 10000,
     connectionRetryTimeout: 90000,
     connectionRetryCount: 3,
@@ -58,7 +62,6 @@ exports.config = {
             camera: 2
         },
         plugins: {
-            // TODO: custom path to plugins
             'phonegap-plugin-barcodescanner': {
                 respObjIos: {
                     text: '123-123-asd',
@@ -74,7 +77,7 @@ exports.config = {
                 format: 'EAN'
             },
             'custom-plugin': {
-                path: "./test/plugins/custom-plugin.js"
+                path: path.join('test', 'plugins', 'custom-plugin.js')
             }
         }
     },

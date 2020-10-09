@@ -1,24 +1,21 @@
 const path = require('path');
 require('dotenv').config()
+const WDI5Service = require('../wdi5/lib/service/wdi5.service')
 
 // https://github.com/electron-userland/spectron/issues/74
 exports.config = {
-    // runner: 'local',
     path: '/', // Path to driver server endpoint.
     host: 'localhost', // Use localhost as chrome driver server
     port: 9515, // "9515" is the port opened by chrome driver.
     specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', '*.js')],
-    // bail: 0,
-    // directConnect: true,
-    // services: ['chromedriver'],
+    services: [
+        [WDI5Service]
+    ],
     chromeDriverLogs: path.join('test', 'report', 'logs'),
     maxInstances: 1,
     reporters: ['spec'],
-    // logLevel: 'debug',
-    // sync: false,
     outputDir: path.join('test', 'report', 'logs'),
     coloredLogs: true,
-    screenshotPath: path.join('test', 'report', 'screenshots'),
     framework: 'mocha',
     mochaOpts: {
         timeout: 60000
@@ -48,6 +45,7 @@ exports.config = {
     ],
     wdi5: {
         deviceType: 'web',
+        screenshotPath: path.join('report', 'screenshots'),
         logLevel: 'verbose',
         platform: 'electron',
         plugins: {

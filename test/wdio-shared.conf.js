@@ -1,5 +1,6 @@
 const path = require('path');
 require('dotenv').config()
+const WDI5Service = require('../wdi5/lib/service/wdi5.service')
 
 exports.config = {
     // http://appium.io/docs/en/writing-running-appium/caps/
@@ -62,7 +63,7 @@ exports.config = {
     // Use the Appium plugin for Webdriver. Without this, we would need to run appium
     // separately on the command line.
     services: [
-
+        [WDI5Service]
     ],
 
     waitforTimeout: 60000,
@@ -91,7 +92,7 @@ exports.config = {
     },
 
     wdi5: {
-        screenshotPath: path.join('test', 'report', 'screenshots'),
+        screenshotPath: path.join('report', 'screenshots'),
         deviceType: 'native',
         logLevel: 'verbose',
         capabilities: {
@@ -99,7 +100,6 @@ exports.config = {
             camera: 2
         },
         plugins: {
-            // TODO: custom path to plugins
             'phonegap-plugin-barcodescanner': {
                 respObjIos: {
                     text: '123-123-asd',
@@ -115,8 +115,9 @@ exports.config = {
                 format: 'EAN'
             },
             'custom-plugin': {
+                // path: path.join('test', 'plugins', 'custom-plugin.js')
                 path: "./test/plugins/custom-plugin.js"
             }
         }
-    },
+    }
 };
