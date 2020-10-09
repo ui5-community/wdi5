@@ -5,17 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "test new browser",
-            "type": "node",
-            "request": "launch",
-            "args": [
-                "./test/test-browser.js"
-            ],
-            "cwd": "${workspaceFolder}",
-            "autoAttachChildProcesses": true,
-            "console": "integratedTerminal"
-        },
-        {
             "name": "test browserstack android",
             "type": "node",
             "program": "${workspaceFolder}/node_modules/.bin/wdio",
@@ -61,15 +50,51 @@
             "autoAttachChildProcesses": true
         },
         {
+            "name": "test:ui5 app",
+            "program": "${workspaceFolder}/node_modules/.bin/wdio",
+            "cwd": "${workspaceFolder}",
+            "type": "node",
+            "request": "launch",
+            "args": [
+                "${workspaceFolder}/test/wdio-ui5.conf.js"
+            ],
+            "runtimeExecutable": "/Users/dominikfeininger/.nvm/versions/node/v12.16.2/bin/node",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "console": "internalConsole",
+            "autoAttachChildProcesses": true
+        },
+        {
             "name": "test:browser w static file",
             "type": "node",
             "program": "${workspaceFolder}/node_modules/.bin/wdio",
+            "cwd": "${workspaceFolder}",
             "request": "launch",
             "args": [
                 "${workspaceFolder}/test/wdio-browser.conf.js",
                 "--spec",
                 "basic.test.js"
             ],
+            "runtimeExecutable": "/Users/dominikfeininger/.nvm/versions/node/v12.16.2/bin/node",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "console": "internalConsole",
+            "autoAttachChildProcesses": true
+        },
+        {
+            "name": "test:browser all",
+            "type": "node",
+            "program": "${workspaceFolder}/node_modules/.bin/wdio",
+            "cwd": "${workspaceFolder}",
+            "request": "launch",
+            "args": [
+                "${workspaceFolder}/test/wdio-browser.conf.js"
+            ],
+            "runtimeExecutable": "/Users/dominikfeininger/.nvm/versions/node/v12.16.2/bin/node",
             "skipFiles": [
                 "<node_internals>/**"
             ],
@@ -82,6 +107,7 @@
             "type": "node",
             "program": "${workspaceFolder}/node_modules/.bin/wdio",
             "request": "launch",
+            "runtimeExecutable": "/Users/dominikfeininger/.nvm/versions/node/v12.16.2/bin/node",
             "args": [
                 "${workspaceFolder}/test/wdio-browser.conf.js",
                 "--spec",
@@ -93,22 +119,6 @@
             "internalConsoleOptions": "openOnSessionStart",
             "console": "internalConsole",
             "autoAttachChildProcesses": true
-        },
-        {
-            "name": "watch selected spec:browser",
-            "type": "node",
-            "request": "launch",
-            "args": [
-                "${workspaceFolder}/test/wdio.conf.js",
-                "${workspaceFolder}/test/wdio-browser.conf.js",
-                "--watch",
-                "--spec",
-                "${file}"
-            ],
-            "cwd": "${workspaceFolder}",
-            "autoAttachChildProcesses": true,
-            "program": "${workspaceRoot}/node_modules/@wdio/cli/bin/wdio.js",
-            "console": "integratedTerminal"
         },
         {
             "name": "run test:ios",
