@@ -1,8 +1,8 @@
 const BrowserUtils = require('./lib/BrowserUtils');
 const NativeUtils = require('./lib/NativeUtils');
-const wdioUI5 = require('./lib/wdioUi5-index');
 const cordovaMockPluginFactory = require('./lib/cordova-plugin-mocks/factory');
 const logger = require('./lib/Logger');
+const wdioUI5Service = require('wdio-ui5-service');
 let _instance = null;
 
 class _ {
@@ -53,13 +53,6 @@ class _ {
     }
 
     /**
-     * retrun the static wdioUI5 bridge
-     */
-    getWDioUi5() {
-        return wdioUI5;
-    }
-
-    /**
      * @retun logger
      */
     getLogger() {
@@ -79,10 +72,14 @@ module.exports = (context, webcontext) => {
         // create new if parameters are supplied
         _instance = new _(webcontext);
 
-        // UI5 bridge setup
-        _instance.getWDioUi5().setup(context); // use wdio hooks for setting up wdio<->ui5 bridge
-        _instance.getWDioUi5().injectUI5(context); // needed to let the instance know that UI5 is now available for work
+        // wdio-ui5-service setup
+        if (wdioUI5Service) {
+            /* TODO: const capabilities = {}
+            const specs = {};
+            wdioUI5Service.before(capabilities, specs) */
 
+            wdioUI5Service.startWDI5()
+        }
 
         const result = context.executeAsync((done) => {
             done(window.location.href);
