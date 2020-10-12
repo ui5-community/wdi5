@@ -74,10 +74,6 @@ module.exports = (context, webcontext) => {
 
         // wdio-ui5-service setup
         if (wdioUI5Service) {
-            /* TODO: const capabilities = {}
-            const specs = {};
-            wdioUI5Service.before(capabilities, specs) */
-
             wdioUI5Service.startWDI5()
         }
 

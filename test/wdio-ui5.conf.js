@@ -106,7 +106,7 @@ exports.config = {
     // Use the Appium plugin for Webdriver. Without this, we would need to run appium
     // separately on the command line.
     services: [
-        // 'ui5', TODO: future as soon as service is officially registered "as a service" with webdriver.io
+        // 'ui5', // service is officially registered "as a service" with webdriver.io
         [ui5Service],
         'chromedriver', // cannot beeing started standalone // ./node_modules/chromedriver80/bin/chromedriver"
     ],

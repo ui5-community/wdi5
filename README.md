@@ -1,6 +1,6 @@
 # wdio-cordova-ui5
 
-**this is not an npm module !**
+**this is not an npm module anymore!**
 
 ## Demo
 

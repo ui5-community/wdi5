@@ -20,7 +20,7 @@ module.exports = class Service {
         const context = driver ? driver : browser;
         const wdi5config = context.config.wdi5;
 
-        // TODO: this is only to run in browser
+        // this is only to run in browser
         if (wdi5config && wdi5config.url) {
             browser.url(wdi5config.url);
         }
