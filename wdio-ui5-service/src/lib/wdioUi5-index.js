@@ -569,23 +569,23 @@ function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace
                 window.wdi5.Log.info(`[browser wdio-ui5] navigation to ${sName} triggered`);
 
                 const router = sap.ui.getCore().getComponent(sComponentId).getRouter();
+                const hashChanger = router.getHashChanger();
+
+                // on success result is the router
+                router.getHashChanger().attachEvent('hashChanged', function (oEvent) {
+                    done(['success', hashChanger.hash]);
+                });
 
                 // get component and trigger router
                 // sName, oParameters?, oComponentTargetInfo?, bReplace?
-                const result = router.navTo(sName, oParameters, oComponentTargetInfo, bReplace);
+                router.navTo(sName, oParameters, oComponentTargetInfo, bReplace);
+                return hashChanger.hash;
 
-                // on success result is the router
-                done(['success', router.oHashChanger.hash]);
-                return router.oHashChanger.hash;
+                // if the navigation was not executed the done event wont be called -> running into the wdio timout
+                const error = 'Navigation via UI5 router failed';
+                window.wdi5.Log.error(`[browser wdio-ui5] ERR: ${error}`);
+                done(['error', error]);
 
-                // TODO: not working result can be undefined when it is working -> find a way to check if the navigation worked
-                if (result) {
-                    // undefined on error
-                    const error = 'Navigation via UI5 router failed';
-                    window.wdi5.Log.error(`[browser wdio-ui5] ERR: ${error}`);
-                    done(['error', error]);
-                    return error;
-                }
             });
     }, sComponentId, sName, oParameters, oComponentTargetInfo, bReplace);
 
