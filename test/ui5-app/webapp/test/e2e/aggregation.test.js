@@ -1,4 +1,4 @@
-const wdi5 = require('../../../../../index');
+const wdi5 = require('wdi5');
 const Other = require("./pageObjects/Other")
 
 describe('ui5 aggregation retrieval', () => {

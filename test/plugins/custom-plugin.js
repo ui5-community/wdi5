@@ -1,5 +1,5 @@
 
-const _ = require('../../index');
+const wdi5 = require('wdi5');
 
 /**
  *
@@ -15,9 +15,10 @@ module.exports = (() => {
 
     /**
      * call to init plugin mock feature for Browser
+     * this lives in browser context
      */
     _setup = () => {
-        console.log("custom-plugin loaded")
+        console.log('custom-plugin' + " loaded")
     };
 
     /**
@@ -25,8 +26,9 @@ module.exports = (() => {
      * the passed function will be executed in the webcontext and thus all defined objects will be attached to the webcontext
      */
     _register = () => {
-        _().getCordovaMockPluginFactory().registerPlugin(_pluginName, 'android', _setup);
-        _().getCordovaMockPluginFactory().registerPlugin(_pluginName, 'browser', _setup);
+        wdi5().getLogger().log(_pluginName + " register")
+        wdi5().getCordovaMockPluginFactory().registerPlugin(_pluginName, 'android', _setup);
+        wdi5().getCordovaMockPluginFactory().registerPlugin(_pluginName, 'browser', _setup);
     };
 
     // execute the _register function

@@ -3,7 +3,6 @@ const fs = require('fs');
 const logger = require('./Logger');
 const path = require('path');
 const Utils = require('./Utils');
-const wdioUi5 = require('./wdioUi5-index')
 
 // Singleton
 module.exports = class BrowserUtil extends Utils {
@@ -45,17 +44,26 @@ module.exports = class BrowserUtil extends Utils {
      * navigates in the application to a given hash
      * @param {String} hash
      */
-    goTo(hash) {
-        logger.log(`Navigating to: ${this.path.currentPath}${hash}`);
-        this.context.url(`${this.path.currentPath}${hash}`);
+    goTo(hash, oRoute) {
+        if (hash) {
+            logger.log(`Navigating to: ${this.path.currentPath}${hash}`);
+            // used for electron and browser
+            this.context.url(`${this.path.currentPath}${hash}`);
 
-        // electron needs to have the wdi5 injected after navigation
-        if (this.getConfig('platform') === 'electron') {
-            wdioUi5.injectUI5(browser);
+            // electron needs to have the wdi5 injected after navigation
+            if (this.getConfig('platform') === 'electron') {
+                this.context.injectUI5(browser);
+            }
+        } else {
+            logger.log(`Navigating to: ${oRoute.sName}`);
+
+            // only for ui5 router based navigation use this function
+            this.context.goTo({ oRoute: oRoute });
         }
     }
 
     /**
+     * @deprecated use screenshot instead
      * store a screenshot (as png) in a directory
      * @param {String} fileAppendix postfixed (to screenshot filename) custom identifier for the screenshot
      */
@@ -63,34 +71,19 @@ module.exports = class BrowserUtil extends Utils {
         if (this.initSuccess) {
 
             // make sure the ui is fully loaded
-            wdioUi5.waitForUI5();
+            this.context.waitForUI5();
 
-            // browser.screenshot returns the screenshot as a base64 string
-            const screenshot = this.context.takeScreenshot();
-            const seed = this.getDateString();
-
-            let _path = this.getConfig('screenshotPath');
-            if (_path === undefined || _path.length === 0) {
-                _path = this.pjsonPackage.screenshotPath;
-            }
-
-            if (fileAppendix.length > 0) {
-                fileAppendix = '-' + fileAppendix;
-            }
-
-            const platform = this.getConfig('platform');
-
-            // make path cross-platform
-            _path = path.resolve(_path, `${seed}-${platform}-${fileAppendix}.png`);
-            fs.writeFile(_path, screenshot, 'base64', function (err) {
-                if (err) {
-                    logger.error(err);
-                } else {
-                    logger.log(`screenshot at ${_path} created`);
-                }
-            });
+            this._writeScreenshot(fileAppendix)
         } else {
             logger.error('init of utils failed');
         }
+    }
+
+    /**
+     *
+     * @param {*} fileAppendix
+     */
+    screenshot(fileAppendix) {
+        this.takeScreenshot(fileAppendix);
     }
 };

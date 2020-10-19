@@ -1,6 +1,7 @@
 // @ts-check
-const logger = require('./Logger');
 const WDI5 = require('./WDI5');
+const path = require('path');
+const fs = require('fs');
 
 /** @type {WebdriverIO.BrowserObject} store the context */
 let _context = null;
@@ -8,16 +9,22 @@ let _context = null;
 let _isInitialized = false;
 /** @type {Boolean} store the status of UI5.waitForUI5 */
 let _isUI5Ready = false;
+/** @type {Boolean} stores the status of the setup process */
+let _setupComplete = false;
+
+/** @type {Object} */
+const pjsonPackage = require(`./../../package.json`);
+
+// --------- public functions ------------ //
 
 /**
  * function library to setup the webdriver to UI5 bridge, it runs alle the initial setup
  * make sap/ui/test/RecordReplay accessible via wdio
  * attach the sap/ui/test/RecordReplay object to the application context window object as 'bridge'
- * @param {WebdriverIO.BrowserObject} context
  */
-function injectUI5(context) {
+function injectUI5() {
     // expect boolean
-    const result = context.executeAsync((done) => {
+    const result = _context.executeAsync((done) => {
         if (window.bridge) {
             // setup sap testing already done
             done(true);
@@ -32,7 +39,7 @@ function injectUI5(context) {
         }
 
         // attach the function to be able to use the extracted method later
-        if (!window.wdi5 && !window.bridge) {
+        if (!window.bridge) {
             // create empty
             window.wdi5 = {
                 createMatcher: null,
@@ -228,51 +235,35 @@ function injectUI5(context) {
     if (result) {
         // set when call returns
         _isInitialized = true;
-        logger.log('sucessfully initialized wdio-ui5 bridge');
+        console.log('sucessfully initialized wdio-ui5 bridge');
     } else {
-        logger.error('bridge was not initialized correctly');
+        console.error('bridge was not initialized correctly');
     }
     return result;
 }
 
 /**
- * check for UI5 via the RecordReplay.waitForUI5 method
- * @param {WebdriverIO.BrowserObject} context
+ *
  */
-function _checkForUI5Ready(context) {
-    if (_isInitialized) {
-        // can only be executed when RecordReplay is attached
-        const result = context.executeAsync((done) => {
-            window.bridge
-                .waitForUI5()
-                .then(() => {
-                    window.wdi5.Log.info('[browser wdio-ui5] UI5 is ready');
-                    console.log('[browser wdio-ui5] UI5 is ready');
-                    done(true);
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-        });
-        return result;
-    }
-    return false;
-}
+async function checkForUI5Page() {
+    _context.waitUntil(() => {
+        const readyState = _context.executeAsync((done) => {
+            setTimeout(() => {
+                if (document.location.href != 'data:,') {
+                    // make sure we are not on the initial page
+                    done(document.readyState)
+                }
+            }, 400)
+        })
+        return readyState === 'complete';
+    }, { interval: 500, timeout: 8000 });
 
-/**
- * can be called to make sure before you access any eg. DOM Node the ui5 framework is done loading
- */
-function waitForUI5() {
-    if (_isInitialized) {
-        // injectUI5 was already called and was successful attached
-        return _checkForUI5Ready(_context);
-    } else {
-        if (injectUI5(_context)) {
-            return _checkForUI5Ready(_context);
-        } else {
-            return false;
-        }
-    }
+    // test for ui5
+    let result = _context.execute(() => {
+        // browser context - you may not access client or console
+        return !!window.sap;
+    })
+    return result;
 }
 
 /**
@@ -282,6 +273,12 @@ function waitForUI5() {
  * @param {WebdriverIO.BrowserObject} context
  */
 function setup(context) {
+
+    if (_setupComplete) {
+        // already setup done
+        return;
+    }
+
     if (!_context) {
         _context = context;
     }
@@ -289,9 +286,9 @@ function setup(context) {
     // create an internal store of already retrieved UI5 elements
     // in the form of their wdio counterparts
     // for faster subsequent access
-    if (!context._controls) {
-        logger.info('creating internal control map');
-        context._controls = {};
+    if (!_context._controls) {
+        console.info('creating internal control map');
+        _context._controls = {};
     }
 
     /**
@@ -301,10 +298,10 @@ function setup(context) {
      * @param {object} oOptions.domElement - DOM Element to search for
      * @param {object} oOptions.settings - ui5 settings object
      * @param {boolean} oOptions.settings.preferViewId
-     * @param {WebdriverIO.BrowserObject} context
+     * @param {WebdriverIO.BrowserObject} _context
      */
-    context.addCommand('getSelectorForElement', (oOptions) => {
-        const result = context.executeAsync((oOptions, done) => {
+    _context.addCommand('getSelectorForElement', (oOptions) => {
+        const result = _context.executeAsync((oOptions, done) => {
             window.bridge
                 .waitForUI5()
                 .then(() => {
@@ -325,10 +322,10 @@ function setup(context) {
 
         if (Array.isArray(result)) {
             if (result[0] === 'error') {
-                logger.error('ERROR: getSelectorForElement() failed because of: ' + result[1]);
+                console.error('ERROR: getSelectorForElement() failed because of: ' + result[1]);
                 return result[1];
             } else if (result[0] === 'success') {
-                logger.log(`SUCCESS: getSelectorForElement() returned:  ${JSON.stringify(result[0])}`);
+                console.log(`SUCCESS: getSelectorForElement() returned:  ${JSON.stringify(result[0])}`);
                 return result[1];
             }
         } else {
@@ -338,45 +335,43 @@ function setup(context) {
     });
 
     /**
-     * creates a string valid as object key from a selector
-     * @param {sap.ui.test.RecordReplay.ControlSelector} selector
-     * @returns {String} wdio_ui5_key
+     * The _waitForUI5 function can be usefull for multiple operations
      */
-    function createWdioUI5KeyFromSelector(selector) {
-        const orEmpty = (string) => {
-            return string || '-';
-        };
-        const wdi5_ui5_key = stripNonValidCharactersForKey(
-            `${orEmpty(selector.id)}_${orEmpty(selector.viewName)}_${orEmpty(selector.controlType)}_${orEmpty(
-                JSON.stringify(selector.bindingPath)
-            )}_${orEmpty(JSON.stringify(selector.I18NText))}_${orEmpty(selector.labelFor)}_${orEmpty(
-                JSON.stringify(selector.properties)
-            )}`
-        );
-        return wdi5_ui5_key;
-    }
+    _context.addCommand('waitForUI5', () => {
+        return _waitForUI5();
+    });
 
     /**
-     * to generate an object key from any string
-     * @param {String} key
-     * @returns {String}
+     * wait for ui5 and take a screenshot
      */
-    function stripNonValidCharactersForKey(key) {
-        return key
-            .split('.')
-            .join('')
-            .split('/')
-            .join('')
-            .split(' ')
-            .join('')
-            .split('>')
-            .join('')
-            .split('_-')
-            .join('')
-            .split('-')
-            .join('')
-            .toLowerCase();
-    }
+    _context.addCommand('screenshot', (fileAppendix) => {
+        _waitForUI5();
+        _writeScreenshot(fileAppendix);
+    });
+
+    /**
+     * do a navigation by changing the url hash
+     * or
+     * using the UI5 router with full standard parameter set
+     * @param {Object} oOptions {sHash: '#/test', oRoute: {sComponentId, sName, oParameters, oComponentTargetInfo, bReplace}}
+     */
+    _context.addCommand('goTo', (oOptions) => {
+
+        // destruct the oOptions
+        const sHash = oOptions.sHash;
+        const oRoute = oOptions.oRoute;
+
+        if (sHash && sHash.length > 0) {
+            // navigate via hash if defined
+            _context.url(`${sHash}`);
+        } else if (oRoute && oRoute.sName) {
+            // navigate using the ui5 router
+            // sComponentId, sName, oParameters, oComponentTargetInfo, bReplace
+            _navTo(oRoute.sComponentId, oRoute.sName, oRoute.oParameters, oRoute.oComponentTargetInfo, oRoute.bReplace);
+        } else {
+            console.error("ERROR: navigaing to another page");
+        }
+    });
 
     /**
      * this function is the main method to enable the communication with the UI5 application
@@ -396,34 +391,214 @@ function setup(context) {
      *
      * @param {WDI5Selector} wdi5Selector custom selector object with property wdio_ui5_key and sap.ui.test.RecordReplay.ControlSelector
      */
-    context.addCommand('asControl', (wdi5Selector) => {
+    _context.addCommand('asControl', (wdi5Selector) => {
         if (!wdi5Selector.hasOwnProperty('wdio_ui5_key')) {
             // has not a wdio_ui5_key -> generate one
-            wdi5Selector['wdio_ui5_key'] = createWdioUI5KeyFromSelector(wdi5Selector.selector);
+            wdi5Selector['wdio_ui5_key'] = _createWdioUI5KeyFromSelector(wdi5Selector.selector);
         }
 
         const internalKey = wdi5Selector.wdio_ui5_key;
-        if (!context._controls[internalKey] || wdi5Selector['forceSelect']) {
+        if (!_context._controls[internalKey] || wdi5Selector['forceSelect']) {
             // if control is not yet existent or force parameter is set -> load control
 
             // create WDI5 control
-            const wdi5Control = new WDI5(wdi5Selector, context);
+            const wdi5Control = new WDI5(wdi5Selector, _context);
 
             // save control
-            context._controls[internalKey] = wdi5Control;
-            logger.info(`creating internal control with id ${internalKey}`);
+            _context._controls[internalKey] = wdi5Control;
+            console.info(`creating internal control with id ${internalKey}`);
 
             return wdi5Control;
         } else {
-            logger.info(`reusing internal control with id ${internalKey}`);
+            console.info(`reusing internal control with id ${internalKey}`);
             // return webui5 control from storage map
-            return context._controls[internalKey];
+            return _context._controls[internalKey];
+        }
+    });
+
+    // store the status
+    _setupComplete = true;
+}
+
+
+// public
+module.exports = {
+    injectUI5,
+    setup,
+    checkForUI5Page
+};
+
+// --------- private functions ------------ //
+
+/**
+ * can be called to make sure before you access any eg. DOM Node the ui5 framework is done loading
+ * @returns {Boolean} if the UI5 page is fully loaded and ready to interact.
+ */
+function _waitForUI5() {
+    if (_isInitialized) {
+        // injectUI5 was already called and was successful attached
+        return _checkForUI5Ready();
+    } else {
+        if (injectUI5()) {
+            return _checkForUI5Ready();
+        } else {
+            return false;
+        }
+    }
+}
+
+/**
+ * check for UI5 via the RecordReplay.waitForUI5 method
+ */
+function _checkForUI5Ready() {
+    if (_isInitialized) {
+        // can only be executed when RecordReplay is attached
+        const result = _context.executeAsync((done) => {
+            window.bridge
+                .waitForUI5()
+                .then(() => {
+                    window.wdi5.Log.info('[browser wdio-ui5] UI5 is ready');
+                    console.log('[browser wdio-ui5] UI5 is ready');
+                    done(true);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        });
+        return result;
+    }
+    return false;
+}
+
+/**
+   * generates date string with format M-d-hh-mm-ss
+   * @returns {String}
+   */
+function _getDateString() {
+    var x = new Date();
+    return `${x.getMonth() + 1}-${x.getDate()}-${x.getHours()}-${x.getMinutes()}-${x.getSeconds()}`;
+}
+
+/**
+ *
+ * @param {*} fileAppendix
+ */
+function _writeScreenshot(fileAppendix) {
+
+    // browser.screenshot returns the screenshot as a base64 string
+    const screenshot = _context.takeScreenshot();
+    const seed = _getDateString();
+
+    let _path = _context.config.wdi5['screenshotPath'];
+    if (_path === undefined || _path.length === 0) {
+        _path = this.pjsonPackage.screenshotPath;
+    }
+
+    if (fileAppendix.length > 0) {
+        fileAppendix = '-' + fileAppendix;
+    }
+
+    const platform = _context.config.wdi5['platform'];
+
+    // make path cross-platform
+    _path = path.resolve(_path, `${seed}-${platform}-${fileAppendix}.png`);
+    // async
+    fs.writeFile(_path, screenshot, 'base64', function (err) {
+        if (err) {
+            console.error(err);
+        } else {
+            console.log(`screenshot at ${_path} created`);
         }
     });
 }
 
-module.exports = {
-    injectUI5,
-    setup,
-    waitForUI5
-};
+/**
+ * creates a string valid as object key from a selector
+ * @param {sap.ui.test.RecordReplay.ControlSelector} selector
+ * @returns {String} wdio_ui5_key
+ */
+function _createWdioUI5KeyFromSelector(selector) {
+    const orEmpty = (string) => {
+        return string || '-';
+    };
+    const wdi5_ui5_key = _stripNonValidCharactersForKey(
+        `${orEmpty(selector.id)}_${orEmpty(selector.viewName)}_${orEmpty(selector.controlType)}_${orEmpty(
+            JSON.stringify(selector.bindingPath)
+        )}_${orEmpty(JSON.stringify(selector.I18NText))}_${orEmpty(selector.labelFor)}_${orEmpty(
+            JSON.stringify(selector.properties)
+        )}`
+    );
+    return wdi5_ui5_key;
+}
+
+/**
+ * to generate an object key from any string
+ * @param {String} key
+ * @returns {String}
+ */
+function _stripNonValidCharactersForKey(key) {
+    return key
+        .split('.')
+        .join('')
+        .split('/')
+        .join('')
+        .split(' ')
+        .join('')
+        .split('>')
+        .join('')
+        .split('_-')
+        .join('')
+        .split('-')
+        .join('')
+        .toLowerCase();
+}
+
+/**
+ * navigates to a UI5 route using the Component router
+ * @param {String} sComponentId
+ * @param {String} sName
+ * @param {Object} oParameters
+ * @param {Object} oComponentTargetInfo
+ * @param {Boolean} bReplace
+ */
+function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) {
+    const result = _context.executeAsync((sComponentId, sName, oParameters, oComponentTargetInfo, bReplace, done) => {
+        window.bridge
+            .waitForUI5()
+            .then(() => {
+                window.wdi5.Log.info(`[browser wdio-ui5] navigation to ${sName} triggered`);
+
+                const router = sap.ui.getCore().getComponent(sComponentId).getRouter();
+                const hashChanger = router.getHashChanger();
+
+                // on success result is the router
+                router.getHashChanger().attachEvent('hashChanged', function (oEvent) {
+                    done(['success', hashChanger.hash]);
+                });
+
+                // get component and trigger router
+                // sName, oParameters?, oComponentTargetInfo?, bReplace?
+                router.navTo(sName, oParameters, oComponentTargetInfo, bReplace);
+                return hashChanger.hash;
+
+                // if the navigation was not executed the done event wont be called -> running into the wdio timout
+                const error = 'Navigation via UI5 router failed';
+                window.wdi5.Log.error(`[browser wdio-ui5] ERR: ${error}`);
+                done(['error', error]);
+
+            });
+    }, sComponentId, sName, oParameters, oComponentTargetInfo, bReplace);
+
+    if (Array.isArray(result)) {
+        if (result[0] === 'error') {
+            console.error('ERROR: navigation using UI5 router failed because of: ' + result[1]);
+            return result[1];
+        } else if (result[0] === 'success') {
+            console.log(`SUCCESS: navigation using UI5 router to hash:  ${JSON.stringify(result[0])} was successfull`);
+            return result[1];
+        }
+    } else {
+        // Guess: was directly returned
+        return result;
+    }
+}
