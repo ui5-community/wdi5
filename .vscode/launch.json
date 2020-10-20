@@ -58,7 +58,7 @@
             "args": [
                 "${workspaceFolder}/test/wdio-ui5.conf.js"
             ],
-            "runtimeExecutable": "/Users/dominikfeininger/.nvm/versions/node/v12.16.2/bin/node",
+            "runtimeVersion": "12",
             "skipFiles": [
                 "<node_internals>/**"
             ],
@@ -77,7 +77,7 @@
                 "--spec",
                 "basic.test.js"
             ],
-            "runtimeExecutable": "/Users/dominikfeininger/.nvm/versions/node/v12.16.2/bin/node",
+            "runtimeVersion": "12",
             "skipFiles": [
                 "<node_internals>/**"
             ],
@@ -94,7 +94,7 @@
             "args": [
                 "${workspaceFolder}/test/wdio-browser.conf.js"
             ],
-            "runtimeExecutable": "/Users/dominikfeininger/.nvm/versions/node/v12.16.2/bin/node",
+            "runtimeVersion": "12",
             "skipFiles": [
                 "<node_internals>/**"
             ],
@@ -107,7 +107,7 @@
             "type": "node",
             "program": "${workspaceFolder}/node_modules/.bin/wdio",
             "request": "launch",
-            "runtimeExecutable": "/Users/dominikfeininger/.nvm/versions/node/v12.16.2/bin/node",
+            "runtimeVersion": "12",
             "args": [
                 "${workspaceFolder}/test/wdio-browser.conf.js",
                 "--spec",
