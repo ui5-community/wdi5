@@ -1,46 +1,35 @@
-# wdio-cordova-ui5
+# wdi5 ![npm](https://img.shields.io/npm/v/wdi5)
 
-**this is not an npm module anymore!**
+`wdi5` (/vdif5/) is a wrapper around [appium](http://appium.io)-driven [`Webdriver.IO`](https://webdriver.io)-tests, utilizing [`UI5`’s test API](https://ui5.sap.com/#/api/sap.ui.test).
 
-## Demo
+It is designed to run cross-platform, executing OPA5-/UIveri5-style integration tests on a UI5 application - in the browser, in a hybrid ([cordova](https://cordova.apache.org)) container or as an Electron application.
+
+![npm (scoped)](https://img.shields.io/npm/v/@openui5/sap.ui.core?label=ui5) ![npm (prod) dependency version](https://img.shields.io/npm/dependency-version/wdi5/webdriverio) ![npm (prod) dependency version](https://img.shields.io/npm/dependency-version/wdi5/appium)
+
+`wdi5` = UI5 Test API + Webdriver.IO + appium
 
 ![demo testing iOS + browser in parallel](./docs/demo-testing.gif)
 
-This package was updated to separate the preceding UI5 part into a new package `wdio-ui-service`.
+## about
 
-Contains the native cordova part.
-Depends on `wdio-ui5-service`.
-Use this package to test a UI5 hybrid app on iOS, Android and Electron.
+`wdi5` comes in two flavours:
+- `wdio-ui5-service`: a browser-based plugin to `Webdriver.IO`
+- `wdi5`: an extension to `Webdriver.IO`, using `appium` to communicate with the hybrid app on iOS, Android and Electron.  
+  The `wdi5`-extension contains `wdio-ui5-service`, allowing for both browser-based and hybrid-app-testing.
 
-This packages uses [Yarn](https://yarnpkg.com/).
+`wdio-ui5-service` allows for a lightweight setup if test scope is on the browser. As to where the `wdi5`-extension gives you the full "app-package".
 
-## wdio-ui5-service
+## Installation, Setup + Usage
 
-Focus on UI5 - browser interaction.
-This module enables your WDIO setup to interact with UI5 applications. It provides control selectors and the ability to wait for the UI5 ready event before interacting with the page.
+* brower-based "Webdriver.IO"-plugin: [wdio-ui5-service](./wdio-ui-service/README.md)
+* hybrid app extension: [wdi5](./wdi5/README.md)
 
-## Prerequisites
-
-* for browser-based testing: running UI5 app that is accessbile via `http(s)://host.ext:port`
-  * recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like * [`soerver`](https://github.com/vobu/soerver) or [`http-server`](https://www.npmjs.com/package/http-server)
-
-## Documentation
-
-You can find the extended documentation in:
-
-* [advanced](./docs/advanced.md)
-* [wdi5](./wdi5/README.md)
-* [wdi5 advanced](./wdi5/docs/advanced.md)
-* [wdio-ui5-service](./wdio-ui-service/README.md)
-
-## Test
-
-Package to self test the wdi5 framework with its wdio-ui5-service childpackage.
 
 ## FAQ/hints
 
-* sample configurations: `wdi5` tests itself with `wdi5` - see the `test/`- and `test/ui5-app/test/e2e/` directory for a sample `wdio.conf.js` and sample tests.
-    Run `npm run test` for `wdi5` testing itself.
+`wdi5` tests itself with `wdi5` - see the `test/`- and `test/ui5-app/test/e2e/` directory for a sample `wdio.conf.js`-files and sample tests.  
+
+Run `yarn test` for `wdi5` testing itself 😊
 
 ## License
 
