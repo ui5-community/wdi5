@@ -1,11 +1,11 @@
 {
     "name": "wdi5",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "cross-platform test framework for hybrid UI5 apps. wdi5 = Webdriver.IO + UI5 Test API + appium",
     "main": "index.js",
     "repository": {
         "type": "git",
-        "url": "git+ssh://git@github.com:js-soft/wdio-ui5.git"
+        "url": "git+ssh://git@github.com:js-soft/wdi5.git"
     },
     "engines": {
         "node": ">=12"

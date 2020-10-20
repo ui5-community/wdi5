@@ -1,8 +1,8 @@
 {
-  "name": "wdi5-wdioui5",
+  "name": "wdi5",
   "private": true,
-  "version": "0.0.1",
-  "description": "Development project to combine the cross platform power of wdi5 and the special capabilities of the ui5 integration of wdio-ui5",
+  "version": "0.0.1-never-used",
+  "description": "cross-platform test framework for hybrid UI5 apps. wdi5 = Webdriver.IO + UI5 Test API + appium (mama package)",
   "main": "",
   "engines": {
     "node": ">=12"
@@ -45,7 +45,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:js-soft/wdio-ui5.git"
+    "url": "git+ssh://git@github.com:js-soft/wdi5.git"
   },
   "keywords": [
     "cordova",
