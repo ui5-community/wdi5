@@ -13,7 +13,7 @@ config.capabilities = [
         platformName: 'iOS',
 
         // The version of the Android or iOS system
-        platformVersion: '13.2',
+        platformVersion: '14.0',
 
         // For iOS, this must exactly match the device name as seen in Xcode.
         deviceName: 'iPhone 11',
