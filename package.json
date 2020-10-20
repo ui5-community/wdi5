@@ -1,108 +1,97 @@
 {
-    "name": "wdi5",
-    "version": "0.2.0",
-    "description": "cross-platform test framework for hybrid UI5 apps. wdi5 = Webdriver.IO + UI5 Test API + appium",
-    "main": "index.js",
-    "repository": {
-        "type": "git",
-        "url": "git+ssh://git@github.com:js-soft/wdio-ui5.git"
-    },
-    "engines": {
-        "node": ">=12"
-    },
-    "scripts": {
-        "test": "run-p -r _startApp:dist _test:wt",
-        "test:android:bs": "wdio ./test/wdio-bs-android.conf.js",
-        "test:ios:bs": "wdio ./test/wdio-bs-ios.conf.js",
-        "testNew": "run-p -r _startApp:dist _test:wtNew",
-        "test:wap": "run-p -r _startApp _test:wt",
-        "test:ios": "run-p -r _startApp:ios _testWT:ios",
-        "test:android": "run-p -r _startApp:android _test:android",
-        "//test:electron": "first link the correct chromedriver binary, then start it and run the tests",
-        "test:electron": "npm-run-all _link_cd --parallel _startApp:electron _testWT:electron",
-        "allTests": "run-s test test:ios test:android test:electron",
-        "toc": "docs/gh-md-toc --insert README.md && rm README.md.orig* README.md.toc*",
-        "appium-doctor": "appium-doctor",
-        "_test": "wdio ./test/wdio-browser.conf.js",
-        "_test:wt": "sleep 2s && wdio ./test/wdio-browser.conf.js",
-        "_test:wtNew": "sleep 2s && node ./test/test-browser.js",
-        "_test:android": "wdio ./test/wdio-android.conf.js",
-        "_test:electron": "wdio ./test/wdio-electron.conf.js",
-        "_testWT:electron": "sleep 2s && wdio ./test/wdio-electron.conf.js",
-        "_test:ios": "wdio ./test/wdio-ios.conf.js",
-        "_testWT:ios": "sleep 5s && wdio ./test/wdio-ios.conf.js",
-        "_startApp": "soerver -d ./test/ui5-app/webapp -p 8888 -x ./test/ui5-app/webapp/proxyrc.json",
-        "_startApp:dist": "soerver -d ./test/ui5-app/dist -p 8888 -x ./test/ui5-app/webapp/proxyrc.json",
-        "//_startApp:electron": "run a custom version of chromedriver that matches the chromium engine one used in the electron app",
-        "_startApp:electron": "chromedriver-electron",
-        "//_startApp": "ios | android - starts appium separately",
-        "_startApp:ios": "appium",
-        "_startApp:android": "appium --allow-insecure chromedriver_autodownload -g ./test/report/appium --log-level debug",
-        "_build:ui5_app": "cd test/ui5-app && ui5 build --all --exclude-task=* --include-task=generateComponentPreload",
-        "_build:ios_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-ios.js",
-        "_build:android_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-android.js",
-        "_build:electron_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-electron.js",
-        "//_link_cd": "link the matching chromedriver binary for electron tests",
-        "_link_cd": "ln -f -s ../cordova-electron-chromedriver/bin/chromedriver node_modules/.bin/chromedriver-electron"
-    },
-    "screenshotPath": "./test/report/screenshots",
-    "keywords": [
-        "cordova",
-        "ui5",
-        "wdio",
-        "webdriver",
-        "appium"
-    ],
-    "author": "Dominik Feininger <dominik.feininger@js-soft.com> (https://www.js-soft.com/)",
-    "contributors": [
-        "Volker Buzek <volker.buzek@js-soft.com> (https://www.js-soft.com/)",
-        "Simon Coen <simon.coen@js-soft.com> (https://www.js-soft.com/)"
-    ],
-    "license": "(DERIVED BEER-WARE OR Apache-2.0)",
-    "commitlint": {
-        "extends": [
-            "@commitlint/config-conventional"
-        ]
-    },
-    "husky": {
-        "hooks": {
-            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-        }
-    },
-    "devDependencies": {
-        "@commitlint/cli": "^11.0.0",
-        "@commitlint/config-conventional": "^11.0.0",
-        "@ui5/cli": "^2.4.4",
-        "appium-doctor": "^1.15.3",
-        "browserstack-local": "^1.4.8",
-        "chromedriver": "^85.0.1",
-        "cordova": "^10.0.0",
-        "fs-extra": "^9.0.1",
-        "git-cz": "^4.7.1",
-        "husky": "^4.3.0",
-        "npm-run-all": "^4.1.5",
-        "replace-in-file": "^6.1.0",
-        "soerver": "0.0.2",
-        "wd": "^1.13.0",
-        "browserstack": "^1.6.0"
-    },
-    "dependencies": {
-        "@wdio/appium-service": "^6.4.7",
-        "@wdio/cli": "^6.5.2",
-        "@wdio/local-runner": "^6.5.2",
-        "@wdio/mocha-framework": "^6.5.0",
-        "@wdio/selenium-standalone-service": "^6.4.7",
-        "@wdio/spec-reporter": "^6.4.7",
-        "@wdio/sync": "^6.5.0",
-        "appium": "^1.18.2",
-        "appium-chromedriver": "^4.26.0",
-        "dotenv": "^8.2.0",
-        "selenium-webdriver": "^3.6.0",
-        "wdio-chromedriver-service": "^6.0.4",
-        "webdriverio": "^6.5.2"
-    },
-    "peerDependencies": {},
-    "optionalDependencies": {
-        "cordova-electron-chromedriver": "npm:chromedriver@85.0.1"
+  "name": "wdi5-wdioui5",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Development project to combine the cross platform power of wdi5 and the special capabilities of the ui5 integration of wdio-ui5",
+  "main": "",
+  "engines": {
+    "node": ">=12"
+  },
+  "scripts": {
+    "test": "run-p -r _startApp:dist _test:wt",
+    "test:ui5": "wdio ./test/wdio-ui5.conf.js",
+    "test:android:bs": "wdio ./test/wdio-bs-android.conf.js",
+    "test:ios:bs": "wdio ./test/wdio-bs-ios.conf.js",
+    "testNew": "run-p -r _startApp:dist _test:wtNew",
+    "test:wap": "run-p -r _startApp _test:wt",
+    "test:ios": "run-p -r _startApp:ios _testWT:ios",
+    "test:android": "run-p -r _startApp:android _test:android",
+    "//test:electron": "first link the correct chromedriver binary, then start it and run the tests",
+    "test:electron": "npm-run-all _link_cd --parallel _startApp:electron _testWT:electron",
+    "toc": "docs/gh-md-toc --insert README.md && rm README.md.orig* README.md.toc*",
+    "toc:wdi5": "docs/gh-md-toc --insert wdi5/README.md && rm wdi5/README.md.orig* wdi5/README.md.toc*",
+    "toc:service": "docs/gh-md-toc --insert wdio-ui5-service/README.md && rm wdio-ui5-service/README.md.orig* wdio-ui5-service/README.md.toc*",
+    "_test": "wdio ./test/wdio-browser.conf.js",
+    "_test:wt": "sleep 2s && wdio ./test/wdio-browser.conf.js",
+    "_test:wtNew": "sleep 2s && node ./test/test-browser.js",
+    "_test:android": "wdio ./test/wdio-android.conf.js",
+    "_test:electron": "wdio ./test/wdio-electron.conf.js",
+    "_testWT:electron": "sleep 2s && wdio ./test/wdio-electron.conf.js",
+    "_test:ios": "wdio ./test/wdio-ios.conf.js",
+    "_testWT:ios": "sleep 5s && wdio ./test/wdio-ios.conf.js",
+    "_startApp": "soerver -d ./test/ui5-app/webapp -p 8888 -x ./test/ui5-app/webapp/proxyrc.json",
+    "_startApp:dist": "soerver -d ./test/ui5-app/dist -p 8888 -x ./test/ui5-app/webapp/proxyrc.json",
+    "//_startApp:electron": "run a custom version of chromedriver that matches the chromium engine one used in the electron app",
+    "_startApp:electron": "electron-chromedriver",
+    "//_startApp": "ios | android - starts appium separately",
+    "_startApp:ios": "appium",
+    "_startApp:android": "appium --allow-insecure chromedriver_autodownload -g ./report/appium --log-level debug",
+    "_build:ui5_app": "cd test/ui5-app && ui5 build --all --exclude-task=* --include-task=generateComponentPreload",
+    "_build:ios_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-ios.js",
+    "_build:android_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-android.js",
+    "_build:electron_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-electron.js",
+    "//_link_cd": "link the matching chromedriver binary for electron tests",
+    "_link_cd": "ln -sf ./node_modules/electron-chromedriver/chromedriver.js ./node_modules/.bin/electron-chromedriver"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:js-soft/wdio-ui5.git"
+  },
+  "keywords": [
+    "cordova",
+    "ui5",
+    "wdio",
+    "webdriver",
+    "appium",
+    "wdio-service",
+    "ui5",
+    "openui5"
+  ],
+  "author": "Dominik Feininger <dominik.feininger@js-soft.com> (https://www.js-soft.com/)",
+  "contributors": [
+    "Volker Buzek <volker.buzek@js-soft.com> (https://www.js-soft.com/)",
+    "Simon Coen <simon.coen@js-soft.com> (https://www.js-soft.com/)"
+  ],
+  "license": "(DERIVED BEER-WARE OR Apache-2.0)",
+  "workspaces": [
+    "wdio-ui5-service",
+    "wdi5"
+  ],
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "devDependencies": {
+    "appium-doctor": "^1.15.3",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@ui5/cli": "^2.4.4",
+    "browserstack": "^1.6.0",
+    "browserstack-local": "^1.4.7",
+    "chromedriver": "^85.0.1",
+    "cordova": "^10.0.0",
+    "fs-extra": "^9.0.1",
+    "git-cz": "^4.7.1",
+    "husky": "^4.3.0",
+    "npm-run-all": "^4.1.5",
+    "replace-in-file": "^6.1.0",
+    "soerver": "0.0.2",
+    "wd": "^1.13.0"
+  }
 }

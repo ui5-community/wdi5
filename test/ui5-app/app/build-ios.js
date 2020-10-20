@@ -18,7 +18,7 @@ if (fs.existsSync(iosPlatformFolderPath)) {
 }
 
 console.log(`[ios] Starting build ...`);
-execSync(`cordova build ios --no-telemetry --device`, {
+execSync(`cordova build ios --no-telemetry`, { //  use this parameter to build a ios app for on-device testing "--device"
     stdio: 'inherit'
 });
 

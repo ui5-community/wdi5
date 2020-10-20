@@ -170,8 +170,12 @@ module.exports = {
                 // cut the .js file ending
                 var file = config.path.substring(0, config.path.length - 3);
             }
-            path = "../../" + file;
+            // TODO: not working with node debugger (launch.json)
+            path = process.cwd() + "/" + file;
         }
+
+        console.log("--------- plugin factory: working directory ---------");
+        console.log("path:" + path)
 
         // load from plugin config list
         return require(`${path}`);

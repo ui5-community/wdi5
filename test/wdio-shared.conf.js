@@ -1,5 +1,6 @@
 const path = require('path');
 require('dotenv').config()
+const WDI5Service = require('../wdi5/lib/service/wdi5.service')
 
 exports.config = {
     // http://appium.io/docs/en/writing-running-appium/caps/
@@ -62,7 +63,7 @@ exports.config = {
     // Use the Appium plugin for Webdriver. Without this, we would need to run appium
     // separately on the command line.
     services: [
-
+        [WDI5Service]
     ],
 
     waitforTimeout: 60000,
@@ -91,7 +92,7 @@ exports.config = {
     },
 
     wdi5: {
-        screenshotPath: path.join('test', 'report', 'screenshots'),
+        screenshotPath: path.join('report', 'screenshots'),
         deviceType: 'native',
         logLevel: 'verbose',
         capabilities: {
@@ -99,7 +100,6 @@ exports.config = {
             camera: 2
         },
         plugins: {
-            // TODO: custom path to plugins
             'phonegap-plugin-barcodescanner': {
                 respObjIos: {
                     text: '123-123-asd',
@@ -115,63 +115,9 @@ exports.config = {
                 format: 'EAN'
             },
             'custom-plugin': {
+                // path: path.join('test', 'plugins', 'custom-plugin.js')
                 path: "./test/plugins/custom-plugin.js"
             }
         }
-    },
-
-    // =====
-    // Hooks
-    // =====
-    // WebdriverIO provides several hooks you can use to interfere with the test process in order to enhance
-    // it and to build services around it. You can either apply a single function or an array of
-    // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
-    // resolved to continue.
-    /**
-     * Gets executed before test execution begins. At this point you can access to all global
-     * variables like `browser`. It is the perfect place to define custom commands.
-     * @param {Array.<Object>} capabilities list of capabilities details
-     * @param {Array.<String>} specs List of spec file paths that are to be run
-     */
-    before: function (capabilities, specs) {
-        const wdi5 = require('../index');
-
-        // todo -> move to wdi5?
-        driver.setAsyncTimeout(6000);
-
-        // call once to init
-        // assume the start context is the webcontext -> "js.appiumTest"
-        // first call need to be with the webcontext
-        wdi5(driver, driver.getContext());
-
-        // log the config
-        wdi5()
-            .getLogger()
-            .log('configurations: ' + JSON.stringify(wdi5().getUtils().getConfig()));
-    },
-    /*
-     * Gets executed after all tests are done. You still have access to all global variables from
-     * the test.
-     * @param {Number} result 0 - test pass, 1 - test fail
-     * @param {Array.<Object>} capabilities list of capabilities details
-     * @param {Array.<String>} specs List of spec file paths that ran
-     */
-    after: function (result, capabilities, specs) {
-        // load module
-        const wdi5 = require('../index');
-        wdi5().getLogger().log('after hook');
-        if (result === 1) {
-            wdi5().getLogger().error('some tests failed');
-            // test failed
-            if (wdi5().getUtils().getConfig('logLevel') !== 'verbose') {
-                wdi5().getLogger().error('here is the full log');
-                // write log if loglevel is other than verbose
-                wdi5().getLogger().printLogStorage();
-            }
-        }
-
-        // optional retrieve appium logs
-        // let logs_1 = driver.getLogs('driver');
-        // wdi5().getLogger().log(logs_1.length + " logs retrieved")
     }
 };

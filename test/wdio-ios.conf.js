@@ -13,22 +13,21 @@ config.capabilities = [
         platformName: 'iOS',
 
         // The version of the Android or iOS system
-        platformVersion: '14.0',
+        platformVersion: '13.2',
 
         // For iOS, this must exactly match the device name as seen in Xcode.
         deviceName: 'iPhone 11',
 
         // Where to find the .apk or .ipa file to install on the device. The exact location
         // of the file may change depending on your Cordova version.
-        // -- binary location after build for device (cordova build --device)
-        // app: path.join('test', 'ui5-app', 'app', 'platforms', 'ios', 'build', 'device', 'UI5.ipa'),
-        // -- binary location after build for emulator (cordova build --emulator)
+        // emulator -> check build script !!!
         app: path.join('test', 'ui5-app', 'app', 'platforms', 'ios', 'build', 'emulator', 'UI5.app'),
+        // device -> change build parameter in script to build for device with "--device"
+        // app: path.join('test', 'ui5-app', 'app', 'platforms', 'ios', 'build', 'device', 'UI5.ipa'),
 
         // By default, Appium runs tests in the native context. By setting autoWebview to
         // true, it runs our tests in the Cordova context.
         autoWebview: true,
-
 
         /*
         * This block is needed to execute tests on read devices
