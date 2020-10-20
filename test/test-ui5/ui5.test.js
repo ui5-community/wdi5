@@ -62,7 +62,7 @@ describe('ui5 basic', () => {
         expect(browser.asControl(selectorText).getVisible()).toBeTruthy()
     });
 
-    it('should click a ui5 buttin by id', () => {
+    it('should click a ui5 button by id', () => {
         // open the dialog
 
         const controlVersionButton = browser.asControl(selectorVersionButton);
