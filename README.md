@@ -250,11 +250,27 @@ This puts a `png` into the configured `wdi5.screenshotPath` (from `wdio.conf.js`
 The file name is prepended with a date indicator (M-d-hh-mm-ss), holds `screenshot` in the filename and is appended with the id you provide (here: `some-id`).
 Example: `5-5-17-46-47-screenshot--some-id.png`
 
+## Logger
+
+For convenient console output, use `wdi5().getLogger()`. It supports the `syslog`-like levels `log`,`info`, `warn` and `error`:
+
+```javascript
+require('wdi5').getLogger().log('any', 'number', 'of', 'log', 'parts');
+```
+
+The log level is set by the either in `wdio.conf.js` via `wdi5.logLevel` or by `wdi5().getLogger().setLoglevel(level = {String} error | verbose | silent)`
+
 ## FAQ/hints
 
 `wdi5` tests itself with `wdi5` - see the `test/`- and `test/ui5-app/test/e2e/` directory for sample `wdio.conf.js`-files and sample tests.
 
 Run `yarn test` for `wdi5` testing itself 😊
+
+## Collaboration
+
+- yarn
+- prettier
+- commitlint
 
 ## License
 

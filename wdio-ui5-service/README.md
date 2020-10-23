@@ -4,6 +4,14 @@
 
 It provides the `ui5`-service to `WebdriverIO`, running tests in the browser.
 
+## Prerequisites
+
+- UI5 app running in the browser, accessbile via `http(s)://host.ext:port`.
+  Recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like [`soerver`](https://github.com/vobu/soerver) or [`http-server`](https://www.npmjs.com/package/http-server).
+- node version >= `12.x` (`lts/erbium`)
+- (optional) `yarn` 
+  during development, we rely on `yarn`’s workspace-features - that’s why we refer to `yarn` instead of `npm` in the docs, even though using `npm` as an equivalent shold be fine too
+
 ## Installation
 
 To keep it lightweight, `wdio-ui5-service` has zero dependencies. This means you have to setup `WebdriverIO` as a prerequisite as described in https://webdriver.io/docs/gettingstarted.html.
@@ -44,7 +52,7 @@ Finally, pass in configuration options for `wdi5` in your `WebdriverIO`-conf fil
 
 ```javascript
 wdi5: {
-    screenshotPath: path.join('test', 'report', 'screenshots'),
+    screenshotPath: require('path').join('test', 'report', 'screenshots'),
     logLevel: 'verbose', // error | verbose | silent
     platform: 'browser', // browser | android | ios | electron
     url: 'index.html', // path to your bootstrap html file
@@ -52,13 +60,19 @@ wdi5: {
 }
 ```
 
-## Features specific to `wdio-ui5-service`
+See [test/wdio-ui5.conf.js](test/wdio-ui5.conf.js) for a sample configuration file for browser-scope testing.
 
--   navigation function `goTo` [Navigation](#Navigation).
+## Usage
+
+Run-(Test-)Time usage of `wdi5` is agnostic to its' test-scope (browser or native) and centers around the global `browser`-object, be it in the browser or on a real mobile device.
+
+Please see the top-level [README](../README.md#Usage) for API-methods and usage instructions.
+
+## Features specific to `wdio-ui5-service` (vs. `wdi5`)
 
 ## Navigation
 
-The UI5 webapp can navigate to a View via `goTo(options)` in one of two ways:
+In the test, you can navigate the UI5 webapp via `goTo(options)` in one of two ways:
 
 -   updating the browser hash
     ```javascript
@@ -79,6 +93,4 @@ The UI5 webapp can navigate to a View via `goTo(options)` in one of two ways:
 
 ## License
 
-This work is dual-licensed under Apache 2.0 and the Derived Beer-ware License. The official license will be Apache 2.0 but finally you can choose between one of them if you use this work.
-
-When you like this stuff, buy [@vobu](https://twitter.com/vobu) or [@The_dominiK](https://twitter.com/The_dominiK) a beer when you see them.
+see [top-level LICENSE file](../LICENSE)
