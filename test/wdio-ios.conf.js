@@ -22,6 +22,7 @@ config.capabilities = [
         // of the file may change depending on your Cordova version.
         // emulator -> check build script !!!
         app: path.join('test', 'ui5-app', 'app', 'platforms', 'ios', 'build', 'emulator', 'UI5.app'),
+
         // device -> change build parameter in script to build for device with "--device"
         // app: path.join('test', 'ui5-app', 'app', 'platforms', 'ios', 'build', 'device', 'UI5.ipa'),
 
@@ -30,7 +31,7 @@ config.capabilities = [
         autoWebview: true,
 
         /*
-        * This block is needed to execute tests on read devices
+        * This block is needed to execute tests on real devices
         * comment out for emulator tests
         * https://github.com/appium/appium-xcuitest-driver#usage
         * https://github.com/appium/appium-xcuitest-driver/blob/master/docs/real-device-config.md
