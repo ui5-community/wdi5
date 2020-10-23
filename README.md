@@ -14,11 +14,12 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 `wdi5` comes in two flavours:
 
--   `wdio-ui5-service`: a browser-based plugin to `WebdriverIO`
--   `wdi5`: an extension to `WebdriverIO`, using `appium` to communicate with the hybrid app on iOS, Android and Electron.  
+-   `wdio-ui5-service`: a browser-based plugin to  [`Webdriver.IO`](https://webdriver.io)
+-   `wdi5`: an extension to  [`Webdriver.IO`](https://webdriver.io), using [`appium`](http://appium.io) to communicate with the hybrid app on iOS, Android and Electron.  
     The `wdi5`-extension contains `wdio-ui5-service`, allowing for both browser-based and hybrid-app-testing.
 
-`wdio-ui5-service` allows for a lightweight setup if test scope is on the browser. As to where the `wdi5`-extension gives you the full "app-package".
+`wdio-ui5-service` allows for a lightweight setup if test scope is on the browser.
+As to where the `wdi5`-extension gives you the full "app-testing-package".
 
 ## Installation + Setup
 
@@ -39,12 +40,12 @@ The entry point to retrieve a control is always `browser.asControl(oSelector)`.
 
 `wdio-ui5` stores control references internally in order to save browser roundtrip time on repeatedly using a control across different test cases. For that, `wdio-ui5` computes unique identifiers for controls - with `wdio_ui5_key`, you can assign such an ID manually if required.
 
-The `forceSelcet` (default: `false`) property can be set to true to force `wdio-ui5` to again retrieve the control from the browser context and update the internally stored reference.
+The `forceSelcet` (default: `false`) property can be set to `true` to force `wdio-ui5` to again retrieve the control from the browser context and update the internally stored reference.
 
 ```javascript
 const oSelector = {
     wdio_ui5_key: 'wdio-ui5-button', // optional unique internal key to map and find a control
-    forceSelect: true, // forces the test framework to retrieve the control freshly from the browser context
+    forceSelect: true, // forces the test framework to again retrieve the control from the browser context
     selector: {
         // sap.ui.test.RecordReplay.ControlSelector
         id: 'UI5control_ID',
@@ -56,16 +57,16 @@ const control = browser.asControl(oSelector);
 ```
 
 These are the supported selectors from [sap.ui.test.RecordReplay.ControlSelector](https://ui5.sap.com/#/api/sap.ui.test.RecordReplay.ControlSelector):
-| selector | description |
-| ----------- | ----------- |
-| id | supported |
-| viewName | supported |
-| controlType | supported |
-| bindingPath | supported |
-| I18NText | tbd |
-| Anchestor | tbd |
-| labelFor | tbd |
-| properties | supported |
+| selector | supported in `wdi5` |
+| ----------: | ----------- |
+| `id` | &check; |
+| `viewName` | &check; |
+| `controlType` | &check; |
+| `bindingPath` | &check; |
+| `I18NText` | - |
+| `Anchestor` | - |
+| `labelFor` | - |
+| `properties` | &check; |
 
 ```javascript
 const bindingPathSelector = {
@@ -91,9 +92,7 @@ const control = browser.asControl(bindingPathSelector);
 browser.asControl(selector).getText().getId().setProperty('title', 'new title');
 ```
 
-In case you are not able to create an explicit selector for a control, but you are able to find it via any [webdriver strategy](https://www.w3.org/TR/webdriver/#locator-strategies), you can use the `getSelectorForElement` method of the UI5-wdio-bridge.
-
-This function gets the webdriver element as parameter and returns a selector which can then be used in the `asControl` function.
+In case you are not able to create an explicit selector for a control, but you are able to find it via any [webdriver strategy](https://www.w3.org/TR/webdriver/#locator-strategies), you can use the `getSelectorForElement` method. It returns a selector which can subsequently be used in  `asControl`:
 
 ```javascript
 const webdriverLocatorSelector = {
@@ -111,12 +110,11 @@ const control = browser.asControl(webdriverLocatorSelector);
 
 ### API methods
 
--   Use the available [TestRecorder](https://blogs.sap.com/2020/01/23/test-recording-with-ui5-test-recorder/) and copy paste the suggested control selector.
-
 #### all UI5 control's native methods
 
 Once the control is retrieved in a test, use any of the native UI5 control's methods on it.
-This is possible because of a runtime proxy `wdio-ui5` provides that transistions the UI5 control's method from browser- to Node.js-runtime.
+
+This is possible because of a runtime proxy `wdio-ui5` provides that transistions the UI5 control's methods from browser- to Node.js-runtime.
 
 ```zsh
 # terminal 1: run webapp on port 8888
@@ -188,11 +186,11 @@ length: 220
 ```
 
 This method bridge **does not** proxy private control methods (starting with `_`), `getAggregation` (and `getMetadata`) though.
-`getAggregation` is provided by `wdio-ui5` separately with a UI5-compatible API signature:
+`getAggregation` is provided by `wdi5` separately with a UI5-compatible API signature:
 
 #### getAggregation
 
-`getAggregation(sAggregationName) => wdio-ui5Controls[]`: retrieve the elements of aggregation `sAggregationName` of a control [getAggregation](https://ui5.sap.com/#/api/sap.ui.base.ManagedObject%23methods/getAggregation)
+`getAggregation(sAggregationName) => wdi5Controls[]`: retrieve the elements of aggregation `sAggregationName` of a control [getAggregation](https://ui5.sap.com/#/api/sap.ui.base.ManagedObject%23methods/getAggregation)
 
 ```javascript
 const ui5ListItems = browser.asControl(oListSelector).getAggregation('items');
@@ -203,7 +201,7 @@ ui5ListItems.forEach((listItem) => {
 
 #### enterText
 
-`enterText(sText) => this {wdio-ui5}`: input `sText` into a (input-capable) control [EnterText](https://ui5.sap.com/#/api/sap.ui.test.actions.EnterText)
+`enterText(sText) => this {wdi5Control}`: input `sText` into a (input-capable) control via [EnterText](https://ui5.sap.com/#/api/sap.ui.test.actions.EnterText)
 
 ```javascript
 browser.asControl(inputSelector).enterText('new Text');
@@ -211,7 +209,7 @@ browser.asControl(inputSelector).enterText('new Text');
 
 ### Function mock for event handler
 
-If an item has a custom attribute defined eg. `data:key="exampleKey"` which is needed in the event handler function, the access of the `data()` function to retrieve the key can be done by specifying an `eval` property as (object) argument to the event handler.
+If an item has a custom attribute defined (eg. `data:key="exampleKey"`) which is needed in the event handler function, the access of the `data()` function to retrieve the key can be done by specifying an `eval` property as (object) argument to the event handler.
 
 Can be accessed in standard UI5 manner `oEvent.getParameter("listItem").data("key")`.
 
@@ -233,11 +231,11 @@ browser.asControl(listSelector).fireEvent('itemPress', {
 
 ### Assertions
 
-Recommendation is to use the WDIO extension of JEST [expect](https://jestjs.io/docs/en/expect) and [matchers](https://jestjs.io/docs/en/using-matchers).
+Recommendation is to use the  [`Webdriver.IO`](https://webdriver.io)-native extension to JEST's [expect](https://jestjs.io/docs/en/expect) and [matchers](https://jestjs.io/docs/en/using-matchers) as described in https://webdriver.io/docs/assertion.html.
 
 ### Screenshots
 
-At any point in your test(s), you can screenshot the current state of the UI:
+At any point in your test(s), you can screenshot the current state of the UI via `browser.screenshot()`:
 
 ```javascript
 it('...', () => {
@@ -254,12 +252,12 @@ Example: `5-5-17-46-47-screenshot--some-id.png`
 
 ## FAQ/hints
 
-`wdi5` tests itself with `wdi5` - see the `test/`- and `test/ui5-app/test/e2e/` directory for a sample `wdio.conf.js`-files and sample tests.
+`wdi5` tests itself with `wdi5` - see the `test/`- and `test/ui5-app/test/e2e/` directory for sample `wdio.conf.js`-files and sample tests.
 
 Run `yarn test` for `wdi5` testing itself 😊
 
 ## License
 
-This work is dual-licensed under Apache 2.0 and the Derived Beer-ware License. The official license will be Apache 2.0 but finally you can choose between one of them if you use this work.
+This work is dual-licensed under Apache 2.0 and the Derived Beer-ware 🍺 License. The official license will be Apache 2.0 but finally you can choose between one of them if you use this work.
 
-When you like this stuff, buy [@vobu](https://twitter.com/vobu) or [@The_dominiK](https://twitter.com/The_dominiK) a beer when you see them.
+Thus, when you like this stuff, buy [@vobu](https://twitter.com/vobu) or [@The_dominiK](https://twitter.com/The_dominiK) a beer when you see them.
