@@ -10,7 +10,7 @@ describe('ui5 basic', () => {
 
     beforeEach(() => {
         wdi5().getLogger().log('beforeEach');
-        wdi5().getUtils().takeScreenshot('test-basic');
+        wdi5().getUtils().screenshot('test-basic');
     });
 
     /*
