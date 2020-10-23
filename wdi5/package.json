@@ -38,7 +38,7 @@
         "@wdio/sync": "^6.5.0",
         "appium": "^1.18.1",
         "appium-chromedriver": "^4.26.0",
-        "chromedriver": "85.0.1",
+        "chromedriver": "86.0.0",
         "dotenv": "^8.2.0",
         "electron-chromedriver": "^4.0.0",
         "selenium-webdriver": "^3.6.0",

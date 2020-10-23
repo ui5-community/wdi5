@@ -1,5 +1,5 @@
 {
-  "name": "wdi5",
+  "name": "--wdi5",
   "private": true,
   "version": "0.0.1-never-used",
   "description": "cross-platform test framework for hybrid UI5 apps. wdi5 = Webdriver.IO + UI5 Test API + appium (mama package)",
@@ -78,13 +78,13 @@
     }
   },
   "devDependencies": {
-    "appium-doctor": "^1.15.3",
+    "appium-doctor": "^1.15.4",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
-    "@ui5/cli": "^2.4.4",
+    "@ui5/cli": "^2.5.0",
     "browserstack": "^1.6.0",
-    "browserstack-local": "^1.4.7",
-    "chromedriver": "^85.0.1",
+    "browserstack-local": "^1.4.8",
+    "chromedriver": "^86.0.0",
     "cordova": "^10.0.0",
     "fs-extra": "^9.0.1",
     "git-cz": "^4.7.1",
