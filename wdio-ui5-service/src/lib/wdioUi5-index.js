@@ -335,7 +335,7 @@ function setup(context) {
     });
 
     /**
-     * The _waitForUI5 function can be usefull for multiple operations
+     * uses the UI5 native waitForUI5 function to wait for all promises to be settled
      */
     _context.addCommand('waitForUI5', () => {
         return _waitForUI5();
@@ -346,6 +346,13 @@ function setup(context) {
      */
     _context.addCommand('screenshot', (fileAppendix) => {
         _waitForUI5();
+        _writeScreenshot(fileAppendix);
+    });
+
+    /**
+     * take a screenshot without waiting for UI5 app using the CURRENT wdio context
+     */
+    _context.addCommand('writescreenshot', (fileAppendix) => {
         _writeScreenshot(fileAppendix);
     });
 

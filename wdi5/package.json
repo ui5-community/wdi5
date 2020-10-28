@@ -13,7 +13,7 @@
     "scripts": {
         "appium-doctor": "appium-doctor"
     },
-    "screenshotPath": "./wdi5/test/report/screenshots",
+    "screenshotPath": "./test/report/screenshots",
     "keywords": [
         "cordova",
         "ui5",

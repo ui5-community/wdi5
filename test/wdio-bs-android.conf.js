@@ -55,7 +55,7 @@ exports.config = {
     specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', '*.js')],
 
     wdi5: {
-        screenshotPath: path.join('report', 'screenshots'),
+        screenshotPath: path.join('test', 'report', 'screenshots'),
         deviceType: 'native',
         logLevel: 'verbose',
         platform: 'android',

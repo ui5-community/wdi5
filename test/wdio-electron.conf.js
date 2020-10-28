@@ -45,7 +45,7 @@ exports.config = {
     ],
     wdi5: {
         deviceType: 'web',
-        screenshotPath: path.join('report', 'screenshots'),
+        screenshotPath: path.join('test', 'report', 'screenshots'),
         logLevel: 'verbose',
         platform: 'electron',
         plugins: {

@@ -113,15 +113,13 @@ module.exports = class NativeUtils extends Utils {
     takeScreenshot(fileAppendix) {
         if (this.initSuccess) {
 
-            // make sure the ui is fully loaded
+            // make sure the UI is fully loaded
+            // needed to be done BEFORE switching context
             this.context.waitForUI5();
-
-            // timeout for interaction time with device
-            this.context.setTimeout({ implicit: 50 });
 
             // We need to switch to the native context for the screenshot to work
             this.context.switchContext('NATIVE_APP');
-            logger.log('current Context: ' + this.context.getCntext());
+            logger.log('current Context: ' + this.context.getContext());
 
             this._writeScreenshot(fileAppendix)
 
