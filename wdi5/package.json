@@ -1,6 +1,6 @@
 {
     "name": "wdi5",
-    "version": "0.3.0",
+    "version": "0.2.0",
     "description": "cross-platform test framework for hybrid UI5 apps. wdi5 = Webdriver.IO + UI5 Test API + appium",
     "main": "index.js",
     "repository": {
@@ -11,7 +11,8 @@
         "node": ">=12"
     },
     "scripts": {
-        "appium-doctor": "appium-doctor"
+        "appium-doctor": "appium-doctor",
+        "release": "standard-version"
     },
     "screenshotPath": "./test/report/screenshots",
     "keywords": [
@@ -27,7 +28,9 @@
         "Simon Coen <simon.coen@js-soft.com> (https://www.js-soft.com/)"
     ],
     "license": "(DERIVED BEER-WARE OR Apache-2.0)",
-    "devDependencies": {},
+    "devDependencies": {
+        "standard-version": "^9.0.0"
+    },
     "dependencies": {
         "@wdio/appium-service": "^6.6.3",
         "@wdio/cli": "^6.7.0",
