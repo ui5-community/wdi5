@@ -18,7 +18,9 @@
         "ui5",
         "openui5"
     ],
-    "scripts": {},
+    "scripts": {
+        "release": "standard-version"
+    },
     "repository": {
         "type": "git",
         "url": "git+ssh://git@github.com:js-soft/wdi5.git"
@@ -26,5 +28,7 @@
     "engines": {
         "node": ">=12"
     },
-    "devDependencies": {}
+    "devDependencies": {
+        "standard-version": "^9.0.0"
+    }
 }
