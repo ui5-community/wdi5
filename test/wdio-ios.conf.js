@@ -30,7 +30,7 @@ config.capabilities = [
         autoWebview: true,
 
         /*
-        * This block is needed to execute tests on read devices
+        * This block is needed to execute tests on real devices
         * comment out for emulator tests
         * https://github.com/appium/appium-xcuitest-driver#usage
         * https://github.com/appium/appium-xcuitest-driver/blob/master/docs/real-device-config.md

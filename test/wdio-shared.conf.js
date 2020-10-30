@@ -92,7 +92,7 @@ exports.config = {
     },
 
     wdi5: {
-        screenshotPath: path.join('report', 'screenshots'),
+        screenshotPath: path.join('test','report', 'screenshots'),
         deviceType: 'native',
         logLevel: 'verbose',
         capabilities: {

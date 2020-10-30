@@ -49,7 +49,8 @@ module.exports = class Util {
      * @param {*} fileAppendix
      */
     _writeScreenshot(fileAppendix) {
-        this.context.screenshot(fileAppendix);
+        // mandatory to use the provided writescreenshot method in native app environment (after switching the to native context)
+        this.context.writescreenshot(fileAppendix);
     }
 
 };

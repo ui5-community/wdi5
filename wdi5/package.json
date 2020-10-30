@@ -1,19 +1,20 @@
 {
     "name": "wdi5",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "cross-platform test framework for hybrid UI5 apps. wdi5 = Webdriver.IO + UI5 Test API + appium",
     "main": "index.js",
     "repository": {
         "type": "git",
-        "url": "git+ssh://git@github.com:js-soft/wdio-ui5.git"
+        "url": "git+ssh://git@github.com:js-soft/wdi5.git"
     },
     "engines": {
         "node": ">=12"
     },
     "scripts": {
-        "appium-doctor": "appium-doctor"
+        "appium-doctor": "appium-doctor",
+        "release": "standard-version"
     },
-    "screenshotPath": "./wdi5/test/report/screenshots",
+    "screenshotPath": "./test/report/screenshots",
     "keywords": [
         "cordova",
         "ui5",
@@ -27,23 +28,25 @@
         "Simon Coen <simon.coen@js-soft.com> (https://www.js-soft.com/)"
     ],
     "license": "(DERIVED BEER-WARE OR Apache-2.0)",
-    "devDependencies": {},
+    "devDependencies": {
+        "standard-version": "^9.0.0"
+    },
     "dependencies": {
-        "@wdio/appium-service": "^6.4.7",
-        "@wdio/cli": "^6.5.0",
-        "@wdio/local-runner": "^6.5.0",
-        "@wdio/mocha-framework": "^6.5.0",
-        "@wdio/selenium-standalone-service": "^6.4.7",
-        "@wdio/spec-reporter": "^6.4.7",
-        "@wdio/sync": "^6.5.0",
-        "appium": "^1.18.1",
-        "appium-chromedriver": "^4.26.0",
-        "chromedriver": "85.0.1",
+        "@wdio/appium-service": "^6.6.3",
+        "@wdio/cli": "^6.7.0",
+        "@wdio/local-runner": "^6.7.0",
+        "@wdio/mocha-framework": "^6.7.0",
+        "@wdio/selenium-standalone-service": "^6.6.5",
+        "@wdio/spec-reporter": "^6.7.0",
+        "@wdio/sync": "^6.7.0",
+        "appium": "^1.18.3",
+        "appium-chromedriver": "^4.26.1",
+        "chromedriver": "86.0.0",
         "dotenv": "^8.2.0",
-        "electron-chromedriver": "^4.0.0",
+        "electron-chromedriver": "^10.0.0",
         "selenium-webdriver": "^3.6.0",
         "wdio-chromedriver-service": "^6.0.4",
-        "webdriverio": "^6.5.0"
+        "webdriverio": "^6.7.0"
     },
     "peerDependencies": {},
     "optionalDependencies": {}

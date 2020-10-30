@@ -70,8 +70,8 @@ module.exports = class BrowserUtil extends Utils {
     takeScreenshot(fileAppendix) {
         if (this.initSuccess) {
 
-            // make sure the ui is fully loaded
-            this.context.waitForUI5();
+            // make sure the UI is fully loaded -> done in wdio-ui5-service
+            // this.context.waitForUI5();
 
             this._writeScreenshot(fileAppendix)
         } else {
