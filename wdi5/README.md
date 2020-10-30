@@ -42,6 +42,8 @@ wdi5: {
 }
 ```
 
+Note that even though `wdi5` includes the functionality of its’ lightweight sibling `wdio-ui5-service` (the Webdriver.IO-plugin) for browser-based testing, you *don’t* need to add `ui5` to the `services`-section of `wdio.conf.js` - the browser-functionality is included when injecting `wdi5` in the configuration, see [shared config file](#shared-config-file) below.
+
 ### General setup
 
 We like to always have all parts of the test-environment running in parallel:
@@ -134,9 +136,19 @@ exports.config = config;
 
 Refer to the [xcuitest-driver capabilities documentation](https://github.com/appium/appium-xcuitest-driver#desired-capabilities) for a complete list of possible settings for the `capabilities`-section!
 
+### Android
+
+-> soonish
+
 ## Usage
 
 Run-(Test-)Time usage of `wdi5` is agnostic to its' test-scope (browser or native) and centers around the global `browser`-object, be it in the browser or on a real mobile device.
+
+Test runs are always started via the regular `webdriver.io`-cli:
+
+```javascript
+$> npx wdio
+```
 
 Please see the top-level [README](../README.md#Usage) for API-methods and usage instructions.
 
@@ -150,7 +162,9 @@ List of provided plugin mocks:
 
 - phonegap-plugin-barcodescanner
 
-To add a new cordova plugin mock, specify a `plugins` object in the `wdi5` object of the config file. Name it _exactly_ as the cordova plugin is named (e.g. "phonegap-plugin-barcodescanner") and use the `path` property to point to your mock implementation file. Additionally, you can define custom properties for programmatic "responses" during test execution (here: `mockedPluginResponse`).
+To add a new cordova plugin mock, specify a `plugins` object in the `wdi5` object of the config file. Name it _exactly_ as the cordova plugin is named (e.g. "phonegap-plugin-barcodescanner") and use the `path` property to point to your mock implementation file. 
+
+Additionally, you can define custom properties for programmatic "responses" during test execution (here: `mockedPluginResponse`).
 
 ```javascript
 plugins: {
@@ -167,8 +181,6 @@ plugins: {
         }
     }
 ```
-
-Check the `Cordova Plugin Mock Development` section under `How it works` in this documentation for further information.
 
 ## FAQ/hints
 

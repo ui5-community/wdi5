@@ -32,6 +32,12 @@ Specific to the desired test-scope, please see:
 
 Run-(Test-)Time usage of `wdi5` is agnostic to its' test-scope (browser or native) and centers around the global `browser`-object, be it in the browser or on a real mobile device.
 
+Test runs are always started via the regular `webdriver.io`-cli:
+
+```javascript
+$> npx wdio
+```
+
 ### Control selectors
 
 The entry point to retrieve a control is always `browser.asControl(oSelector)`.

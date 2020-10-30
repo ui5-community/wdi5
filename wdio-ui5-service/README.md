@@ -14,12 +14,12 @@ It provides the `ui5`-service to `WebdriverIO`, running tests in the browser.
 
 ## Installation
 
-To keep it lightweight, `wdio-ui5-service` has zero dependencies. This means you have to setup `WebdriverIO` as a prerequisite as described in https://webdriver.io/docs/gettingstarted.html.
+To keep the module lightweight, `wdio-ui5-service` has zero dependencies.
+This means you have to setup `WebdriverIO` as a prerequisite as described in https://webdriver.io/docs/gettingstarted.html.
 
 ```bash
 $> npm i --save-dev @wdio/cli
-# generate config file
-$> npx wdio config -y # this will also install dependencies
+$> npx wdio config # do the config boogie - this will also install dependencies
 ```
 
 Add `wdio-ui5-service` as a (dev)dependency to your `package.json` via
@@ -61,6 +61,14 @@ wdi5: {
 ```
 
 See [test/wdio-ui5.conf.js](test/wdio-ui5.conf.js) for a sample configuration file for browser-scope testing.
+
+Run the tests via the `webdriver.io`-cli:
+
+```javascript
+$> npx wdio
+```
+
+
 
 ## Usage
 
