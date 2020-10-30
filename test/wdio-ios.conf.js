@@ -29,7 +29,6 @@ config.capabilities = [
         // true, it runs our tests in the Cordova context.
         autoWebview: true,
 
-
         /*
         * This block is needed to execute tests on read devices
         * comment out for emulator tests

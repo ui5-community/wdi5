@@ -1,16 +1,11 @@
 // @ts-check
 const logger = require('./Logger');
-const fs = require('fs');
 const Utils = require('./Utils');
-const path = require('path');
-const wdioUi5 = require('./wdioUi5-index')
 
 module.exports = class NativeUtils extends Utils {
     static _instance;
     webcontext = '';
     path = {
-        // TODO: path seems not necessary anymore, all platforms have the same path
-        // file:///android_asset/www/index.html
         android: `${this.context.getUrl()}`,
         ios: `${this.context.getUrl()}`,
         // electron is part of ./BrowserUtils.js
@@ -60,14 +55,19 @@ module.exports = class NativeUtils extends Utils {
      * navigates in the application to a given hash
      * @param {String} hash
      */
-    goTo(hash) {
-        logger.log(`Navigating to: ${this.path.currentPath}${hash}`);
+    goTo(hash, oRoute) {
+        if (hash) {
+            logger.log(`Navigating to: ${this.path.currentPath}${hash}`);
 
-        // does not work on Browserstack
-        // this.context.navigateTo(`${this.path.currentPath}${hash}`); // navigateTo // url
+            // does not work on Browserstack
+            // this.context.navigateTo(`${this.path.currentPath}${hash}`); // navigateTo // url
 
-        // alternatively change the hash via browser function
-        this._changeHash(hash);
+            // alternatively change the hash via browser function
+            this._changeHash(hash);
+        } else {
+            logger.log(`Navigating to: ${oRoute.sName}`);
+            this.context.goTo({ oRoute: oRoute });
+        }
     }
 
     /**
@@ -106,6 +106,7 @@ module.exports = class NativeUtils extends Utils {
     }
 
     /**
+     * @deprecated use screenshot instead
      * store a screenshot (as png) in a directory
      * @param {String} fileAppendix postfixed (to screenshot filename) custom identifier for the screenshot
      */
@@ -113,39 +114,16 @@ module.exports = class NativeUtils extends Utils {
         if (this.initSuccess) {
 
             // make sure the ui is fully loaded
-            wdioUi5.waitForUI5();
+            this.context.waitForUI5();
+
             // timeout for interaction time with device
             this.context.setTimeout({ implicit: 50 });
 
             // We need to switch to the native context for the screenshot to work
             this.context.switchContext('NATIVE_APP');
-            logger.log('current Context: ' + this.context.getContext());
+            logger.log('current Context: ' + this.context.getCntext());
 
-            // browser.screenshot returns the screenshot as a base64 string
-            const screenshot = this.context.takeScreenshot();
-            const seed = this.getDateString();
-
-            let _path = this.getConfig('screenshotPath');
-            if (_path === undefined || _path.length === 0) {
-                _path = this.pjsonPackage.screenshotPath;
-            }
-
-            if (fileAppendix.length > 0) {
-                fileAppendix = '-' + fileAppendix;
-            }
-
-            const platform = this.getConfig('platform');
-
-            // make path cross-platform
-            _path = path.resolve(_path, `${seed}-${platform}-${fileAppendix}.png`);
-            // async
-            fs.writeFile(_path, screenshot, 'base64', function (err) {
-                if (err) {
-                    logger.error(err);
-                } else {
-                    logger.log(`screenshot at ${_path} created`);
-                }
-            });
+            this._writeScreenshot(fileAppendix)
 
             // switch back to continue web testing
             this.context.switchContext(this.webcontext);
@@ -153,5 +131,13 @@ module.exports = class NativeUtils extends Utils {
         } else {
             logger.error('init of utils failed');
         }
+    }
+
+    /**
+     *
+     * @param {*} fileAppendix
+     */
+    screenshot(fileAppendix) {
+        this.takeScreenshot(fileAppendix);
     }
 };

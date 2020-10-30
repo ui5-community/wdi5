@@ -1,6 +1,5 @@
 const path = require('path');
-require('dotenv').config()
-const WDI5Service = require('../wdi5/lib/service/wdi5.service')
+const ui5Service = require('../wdio-ui5-service/index')
 
 exports.config = {
     // ==================================
@@ -46,7 +45,7 @@ exports.config = {
     // will be called from there.
     //
 
-    specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', '*.js')],
+    specs: [path.join('test', 'test-ui5', '*.js')],
 
     // Patterns to exclude.
     exclude: [],
@@ -91,29 +90,13 @@ exports.config = {
         }
     ],
 
-    // TODO: move this to service instantiation?
     wdi5: {
         // path: "", // commented out to use the default paths
         screenshotPath: path.join('test', 'report', 'screenshots'),
         logLevel: 'verbose', // error | verbose | silent
         platform: 'browser', // electron, browser, android, ios
         url: "index.html",
-        deviceType: 'web',
-        capabilities: {
-            // test
-            rotate: true,
-            camera: 2
-        },
-        plugins: {
-            'phonegap-plugin-barcodescanner': {
-                scanCode: '123-123-asd',
-                format: 'EAN'
-            },
-            'custom-plugin': {
-                path: path.join('test', 'plugins', 'custom-plugin.js')
-                // path: "./test/plugins/custom-plugin.js"
-            }
-        }
+        deviceType: 'web'
     },
 
     // Test runner services
@@ -123,8 +106,9 @@ exports.config = {
     // Use the Appium plugin for Webdriver. Without this, we would need to run appium
     // separately on the command line.
     services: [
+        // 'ui5', // service is officially registered "as a service" with webdriver.io
+        [ui5Service],
         'chromedriver', // cannot beeing started standalone // ./node_modules/chromedriver80/bin/chromedriver"
-        [WDI5Service]
     ],
     //
     // Additional list of node arguments to use when starting child processes
@@ -154,7 +138,7 @@ exports.config = {
     //
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the `baseUrl`
     // gets prepended directly.
-    baseUrl: 'http://localhost:8888/',
+    baseUrl: 'https://openui5.netweaver.ondemand.com/',
     //
     // Default timeout for all waitForUI5 commands. This is the timeout used for the `executeAsync`funciton
     waitforTimeout: 10000,

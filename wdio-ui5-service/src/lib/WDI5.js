@@ -1,7 +1,3 @@
-// @ts-check
-const logger = require('./Logger');
-const { WebDriver } = require('selenium-webdriver');
-
 /**
  * This is a bridge object to use from selector to UI5 control
  * This can be seen as a generic representation of a UI5 control used to interact with the UI5 control
@@ -431,7 +427,8 @@ module.exports = class WDI5 {
                 .then(() => {
                     window.wdi5.Log.info('[browser wdio-ui5] locating ' + JSON.stringify(controlSelector));
                     controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector);
-                    return window.bridge.findDOMElementByControlSelector(controlSelector);
+                    const control = window.bridge.findDOMElementByControlSelector(controlSelector);
+                    return control;
                 })
                 .then((domElement) => {
                     window.wdi5.Log.info(
@@ -442,7 +439,6 @@ module.exports = class WDI5 {
                     const ui5Control = window.wdi5.getUI5CtlForWebObj(domElement);
                     const id = ui5Control.getId();
                     const aProtoFunctions = window.wdi5.retrieveControlMethods(ui5Control);
-
                     // @type [String, String?, String, "Array of Strings"]
                     done(['success', domElement, id, aProtoFunctions]);
                 })
@@ -453,7 +449,10 @@ module.exports = class WDI5 {
         }, controlSelector);
 
         // save the webdriver representation by control id
-        this._webdriverRepresentation = $(`#${result[2]}`);
+        if (result[2]) {
+            // only if the result is valid
+            this._webdriverRepresentation = $(`#${result[2]}`);
+        }
 
         this._writeResultLog(result, '_getControl()');
 
@@ -467,11 +466,11 @@ module.exports = class WDI5 {
      */
     _writeResultLog(result, functionName) {
         if (result[0] === 'error') {
-            logger.error(`ERROR: call of ${functionName} failed because of: ${result[1]}`);
+            console.error(`ERROR: call of ${functionName} failed because of: ${result[1]}`);
         } else if (result[0] === 'success') {
-            logger.log(`SUCCESS: call of function ${functionName} returned: ${JSON.stringify(result[1])}`);
+            console.log(`SUCCESS: call of function ${functionName} returned: ${JSON.stringify(result[1])}`);
         } else {
-            logger.warn(`Unknown status: ${functionName} returned: ${JSON.stringify(result[1])}`);
+            console.warn(`Unknown status: ${functionName} returned: ${JSON.stringify(result[1])}`);
         }
     }
 };

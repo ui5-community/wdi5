@@ -1,5 +1,7 @@
 // @ts-check
 const logger = require('./Logger');
+const path = require('path');
+const fs = require('fs');
 
 /**
  * Abstract super class
@@ -23,15 +25,6 @@ module.exports = class Util {
     }
 
     /**
-     * generates date string with format M-d-hh-mm-ss
-     * @returns {String}
-     */
-    getDateString() {
-        var x = new Date();
-        return `${x.getMonth() + 1}-${x.getDate()}-${x.getHours()}-${x.getMinutes()}-${x.getSeconds()}`;
-    }
-
-    /**
      * if property is provided the value of property will be returned
      * if no property is provided the whole config will be returned.
      * @param {String} property
@@ -50,4 +43,13 @@ module.exports = class Util {
             logger.error('init of utils failed');
         }
     }
+
+    /**
+     * the take screenshot function is provided by wdio-ui5-service
+     * @param {*} fileAppendix
+     */
+    _writeScreenshot(fileAppendix) {
+        this.context.screenshot(fileAppendix);
+    }
+
 };

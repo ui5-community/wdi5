@@ -1,4 +1,4 @@
-const wdi5 = require('../../../../../index');
+const wdi5 = require('wdi5')
 const Main = require("./pageObjects/Main")
 
 describe('wdio-ui5 bridge: advanced tests', () => {

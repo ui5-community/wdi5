@@ -1,8 +1,13 @@
-const wdi5 = require('../../../../../index');
+const wdi5 = require('wdi5');
 
 describe('hash-based nav', () => {
-    it('should allow the deep entry to "Other" view via #/Other', () => {
-        wdi5().getUtils().goTo('#/Other');
+    it('should allow the deep entry to "Other" view using the Utils and the UI5 router', () => {
+
+        const oRouteOptions = {
+            sComponentId: 'container-Sample',
+            sName: "RouteOther"
+        }
+        wdi5().getUtils().goTo('', oRouteOptions);
 
         const listSelector = {
             selector: {
@@ -26,5 +31,24 @@ describe('hash-based nav', () => {
         };
 
         expect(browser.asControl(buttonSelector).getProperty("visible")).toBeTruthy()
-    })
+    });
+
+    it('should allow the deep entry to "Other" view via the UI5 router directly', () => {
+
+        const oRouteOptions = {
+            sComponentId: 'container-Sample',
+            sName: "RouteOther"
+        }
+        browser.goTo({ oRoute: oRouteOptions });
+
+        const listSelector = {
+            selector: {
+                id: 'PeopleList',
+                viewName: 'test.Sample.view.Other'
+            }
+        };
+
+        const list = browser.asControl(listSelector)
+        expect(list.getVisible()).toBeTruthy();
+    });
 });
