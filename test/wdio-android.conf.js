@@ -45,7 +45,7 @@ config.capabilities = [
         isHeadless: false,
 
         // name this to the AVD emulator of your liking
-        avd: 'Pixel_3a_API_29'
+        avd: 'Pixel_XL_API_30'
     }
 ];
 
