@@ -92,7 +92,8 @@ exports.config = { // we export it as a module since this file is required in wd
 
 First, make sure all prerequisites mentioned in <http://appium.io/docs/en/drivers/ios-xcuitest/index.html> for `XCUITest`-based testing are fullfilled.
 
-Require shared config file and set platform-specific options:
+Create an iOS-specific config file (e.g. `wdi5-ios.conf.js`).
+In there, `require` the shared config file and set platform-specific options:
 
 ```javascript
 const path = require('path');
@@ -136,7 +137,79 @@ exports.config = config;
 
 Refer to the [xcuitest-driver capabilities documentation](https://github.com/appium/appium-xcuitest-driver#desired-capabilities) for a complete list of possible settings for the `capabilities`-section!
 
+Start `appium` with your desired switches/flags (we usually just start it "plain", aka `$> appium`).
+
+Then run the tests with iOS-scope à la `$> npx wdio wdio-ios.conf.js`
+
 ### Android
+
+First, make sure all prerequisites mentioned in http://appium.io/docs/en/drivers/android-uiautomator2/ for `UiAutomator2`-based testing are installed and fullfilled.
+
+Create an Android-specific config file (e.g. `wdi5-android.conf.js`).
+In there, `require` the shared config file and set platform-specific options:
+
+```javascript
+const path = require('path');
+let config = require('./wdio-shared.conf').config;
+require('dotenv').config();
+
+// This defines which kind of device we want to test on, as well as how it should be
+// configured.
+config.capabilities = [
+    {
+        automationName: 'UiAutomator2',
+
+        platformName: 'Android',
+
+        // The version of the Android system
+        platformVersion: '11',
+
+        // For Android, Appium uses the first device it finds using "adb devices". So, this string simply needs to be non-empty.
+        deviceName: 'any',
+
+        chromeOptions: {w3c: false},
+
+        // Where to find the .apk or .ipa file to install on the device. The exact location
+        // of the file may change depending on your Cordova version.
+        app: path.join(
+            'test',
+            'ui5-app',
+            'app',
+            'platforms',
+            'android',
+            'app',
+            'build',
+            'outputs',
+            'apk',
+            'debug',
+            'app-debug.apk'
+        ),
+
+        // By default, Appium runs tests in the native context. By setting autoWebview to
+        // true, it runs our tests in the Cordova context.
+        autoWebview: true,
+
+        // When set to true, it will not show permission dialogs, but instead grant all
+        // permissions automatically.
+        autoGrantPermissions: true,
+
+        isHeadless: false,
+
+        // name this to the AVD emulator of your liking
+        avd: 'Pixel_XL_API_30'
+    }
+];
+
+config.wdi5.platform = 'android';
+
+exports.config = config;
+```
+
+Start `appium` with your desired switches/flags (peak at our `/test/wdio-android.conf.js`).
+
+Then run the tests with Android-scope à la `$> npx wdio wdio-android.conf.js`
+
+### Electron
 
 -> soonish
 
@@ -186,11 +259,9 @@ plugins: {
 
 * performance: integration/e2e-tests are rarely fast. `wdi5` tags along that line, remote-controlling a browser with code and all
     -> watch your timeouts and refer to the [`wdio`-documentation](https://webdriver.io/docs/timeouts.html#webdriverio-related-timeouts) on how to tweak them
-
+* Android: make sure you have the environment variable `JAVA_HOME` set in *both* the shell you’re running Appium and in the shell you’re running the test(s) in.
 * Electron: a known pitfall is the chromedriver version. Make sure you run the matching `electron-chromedriver` version to the  electron version used to build the binary.
-
 * `Webdriver.IO`'s watch mode is running, but subsequent `context.executeAsync()`-calls fail - exact cause unknown, likely candidate is `fibers` from `@wdio/sync`
-
 * In case `... bind() returned an error, errno=0: Address already in use (48)` error shows up during test execution any `chromedriver` service is already running. You need to quit this process eg. by force quiting it in the activity monitor.
 
 ## License
