@@ -1,6 +1,6 @@
 const path = require('path');
-require('dotenv').config()
-const WDI5Service = require('../wdi5/lib/service/wdi5.service')
+require('dotenv').config();
+const WDI5Service = require('../wdi5/lib/service/wdi5.service');
 
 // https://github.com/electron-userland/spectron/issues/74
 exports.config = {
@@ -8,9 +8,7 @@ exports.config = {
     host: 'localhost', // Use localhost as chrome driver server
     port: 9515, // "9515" is the port opened by chrome driver.
     specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', '*.js')],
-    services: [
-        [WDI5Service]
-    ],
+    services: [[WDI5Service]],
     chromeDriverLogs: path.join('test', 'report', 'logs'),
     maxInstances: 1,
     reporters: ['spec'],
@@ -27,6 +25,7 @@ exports.config = {
             'goog:chromeOptions': {
                 w3c: false,
                 binary: path.join(
+                    process.cwd(),
                     'test',
                     'ui5-app',
                     'app',
@@ -39,7 +38,7 @@ exports.config = {
                     'MacOS',
                     'UI5'
                 ),
-                args: ['remote-debugging-port=9222', "window-size=1440,800"]
+                args: ['remote-debugging-port=9222', 'window-size=1440,800']
             }
         }
     ],
