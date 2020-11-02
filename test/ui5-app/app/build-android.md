@@ -2,7 +2,7 @@
 
 ## build app 
 
--   run `build-android.js` via `npm run _build:android_app`
+-   run `build-android.js` via `yarn _build:android_app`
 
 ## notes
 

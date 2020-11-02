@@ -2,7 +2,7 @@
 
 ## build app 
 
--   run `build-ios.js` via `npm run _build:ios_app`
+-   run `build-ios.js` via `yarn _build:ios_app`
 
 ## notes
 
