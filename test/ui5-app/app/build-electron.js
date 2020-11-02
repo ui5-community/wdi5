@@ -14,7 +14,7 @@ if (fs.existsSync(electronPlatformFolderPath)) {
     execSync(`cordova clean electron`, { stdio: 'inherit' });
 } else {
     console.log(`[electron] Installing electron platform ...`);
-    execSync(`cordova platform add electron@1.1.1`, { stdio: 'inherit' });
+    execSync(`cordova platform add electron@latest`, { stdio: 'inherit' });
 }
 
 console.log(`[electron] Starting build ...`);
