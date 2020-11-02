@@ -64,7 +64,7 @@ dist
 # WebStorm/IntelliJ IDE
 .idea
 
-# Report
+# Gitkeep generally
 !/**/.gitkeep
 
 # Testing
@@ -75,7 +75,7 @@ test/report/logs/*.*
 test/report/appium/*.*
 !test/report/appium/.gitkeep
 
-# app building
+# App building
 test/ui5-app/app/hooks
 test/ui5-app/app/node_modules
 test/ui5-app/app/platforms
@@ -86,5 +86,5 @@ test/ui5-app/app/www
 .env
 !.env.example
 
-# ios build
+# iOS build
 test/ui5-app/app/build.json

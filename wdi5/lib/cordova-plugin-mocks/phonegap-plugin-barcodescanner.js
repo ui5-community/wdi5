@@ -46,7 +46,7 @@ module.exports = (() => {
         }
         cordova.plugins.barcodeScanner.scan = (success, error, oOptions) => {
             if (success) {
-                const result = window.wdi5.getPluginConfigForPlugin('phonegap-plugin-barcodescanner').respObjIos;
+                const result = window.wdi5.getPluginConfigForPlugin('phonegap-plugin-barcodescanner');
                 success(result);
             } else if (error) {
                 error('phonegap-plugin-barcodescanner: mocking error');
@@ -64,7 +64,7 @@ module.exports = (() => {
         }
         cordova.plugins.barcodeScanner.scan = (success, error, oOptions) => {
             if (success) {
-                const result = window.wdi5.getPluginConfigForPlugin('phonegap-plugin-barcodescanner').respObjAndroid;
+                const result = window.wdi5.getPluginConfigForPlugin('phonegap-plugin-barcodescanner');
                 success(result);
             } else if (error) {
                 error('phonegap-plugin-barcodescanner: mocking error');
@@ -82,7 +82,7 @@ module.exports = (() => {
         }
         cordova.plugins.barcodeScanner.scan = (success, error) => {
             if (success) {
-                const result = window.wdi5.getPluginConfigForPlugin('phonegap-plugin-barcodescanner').respObjElectron;
+                const result = window.wdi5.getPluginConfigForPlugin('phonegap-plugin-barcodescanner');
                 success(result);
             } else if (error) {
                 error('phonegap-plugin-barcodescanner: mocking error');

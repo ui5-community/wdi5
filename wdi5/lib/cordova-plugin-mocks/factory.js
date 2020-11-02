@@ -101,21 +101,21 @@ module.exports = {
                 };
 
                 /**
-                 * set any value to the window.wdi5.plugins[pluginName]['dynResp']
+                 * set any value to the window.wdi5.plugins[pluginName]
                  * @param {String} pluginName
                  * @param {*} resp
                  */
                 window.wdi5.setPluginMockReponse = (pluginName, resp) => {
-                    window.wdi5.plugins[pluginName]['dynResp'] = resp;
+                    window.wdi5.plugins[pluginName] = resp;
                 };
 
                 /**
-                 * returns any value contained in the window.wdi5.plugins[pluginName]['dynResp'] object
+                 * returns any value contained in the window.wdi5.plugins[pluginName] object
                  * @param {String} pluginName
                  * @return {*}
                  */
                 window.wdi5.getPluginMockResponse = (pluginName) => {
-                    return window.wdi5.plugins[pluginName]['dynResp']
+                    return window.wdi5.plugins[pluginName]
                 }
 
                 done(true);
