@@ -25,10 +25,10 @@
   },
   "cordova": {
     "plugins": {
-      "cordova-plugin-whitelist": {},
       "cordova-plugin-barcodescanner": {},
       "cordova-plugin-file": {},
-      "cordova-plugin-wkwebviewxhrfix": {}
+      "cordova-plugin-wkwebviewxhrfix": {},
+      "cordova-plugin-whitelist": {}
     },
     "platforms": [
       "electron",
