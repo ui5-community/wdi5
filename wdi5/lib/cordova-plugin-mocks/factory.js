@@ -40,9 +40,8 @@ module.exports = {
         this._ = _;
         this._context = context;
 
-        this.defineCordovaPluginObject(); // pre-define namespaces for cordova plugins
-        this._injectPlugins(this._.getUtils().getConfig().plugins);
         this._platform = this._.getUtils().getConfig('platform');
+        this._injectPlugins(this._.getUtils().getConfig().plugins);
         this._pluginListConfig = this._getPluginConfig();
     },
 
@@ -67,29 +66,6 @@ module.exports = {
             // plugin with this name already registered
             logger.error(`plugin with the name: ${pluginName} already registered`);
         }
-    },
-
-    /**
-     * predefine namespaces for cordova plugins
-     */
-    defineCordovaPluginObject() {
-        const result = this._context.executeAsync((done) => {
-            // work the namespaces
-            if (!cordova.plugins) {
-                cordova.plugins = {};
-            }
-            if (!cordova.plugins.barcodeScanner) {
-                cordova.plugins.barcodeScanner = {};
-            }
-
-            if (!window.cordova) {
-                window.cordova = {
-                    plugins: {}
-                };
-            }
-
-            done(['success', '']);
-        });
     },
 
     /**

@@ -49,10 +49,10 @@ Note that even though `wdi5` includes the functionality of its’ lightweight si
 We like to always have all parts of the test-environment running in parallel:
 
 - manually started simulator/emulator
-- `appium` e.g. via `yarn _startApp:ios`
+- `appium` e.g. via `yarn _startApp:ios` (or `chromedriver` for electron)
 - test execution, e.g. `yarn _test:ios`
 
-You can combine all of the above by running `yarn test:ios`, e.g. in a ci environment, at the cost of losing the flexibility of each tooling.
+You can combine all of the above by running `yarn test:<platform>` (e.g. `yarn test:ios`), catering towards a ci environment, at the cost of losing the flexibility of each tooling.
 
 Also, it is recommended to split up the overall configuration in a shared- and a platform-specific part - this helps with overview and maintenance. See `wdio-shared.conf.js` and `wdio-${platform}.conf.js` in the  top-level `/test`-folder as an example.
 
@@ -211,7 +211,78 @@ Then run the tests with Android-scope à la `$> npx wdio wdio-android.conf.js`
 
 ### Electron
 
--> soonish
+First and foremost: **make sure you’re using the version of `chromedriver` matching the one your electron app is built with.**
+
+As with iOS and Android with electron-specific settings, e.g. in `wdio-electron.conf.js` - note that for the electron-scope, we’re not reusing the shared config file:
+
+```javascript
+const path = require('path');
+const WDI5Service = require('wdi5/lib/service/wdi5.service'); // bridge to browser-scope
+
+// https://github.com/electron-userland/spectron/issues/74
+exports.config = {
+    path: '/', // Path to chromedriver endpoint.
+    host: 'localhost', // localhost == chromedriver
+    port: 9515, // default chromedriver port
+    services: [[WDI5Service]],
+    chromeDriverLogs: path.join('test', 'report', 'logs'),
+    maxInstances: 1, // multi-instance doesn't work (yet :) )
+    reporters: ['spec'],
+    outputDir: path.join('test', 'report', 'logs'),
+    coloredLogs: true,
+    framework: 'mocha',
+    mochaOpts: {
+        timeout: 60000
+    },
+    capabilities: [
+        {
+            isHeadless: false,
+            browserName: 'chrome',
+            'goog:chromeOptions': {
+                w3c: false,
+                binary: path.join(
+                    process.cwd(), // this is important
+                    'test',
+                    'ui5-app',
+                    'app',
+                    'platforms',
+                    'electron',
+                    'build',
+                    'mac',
+                    'UI5.app',
+                    'Contents',
+                    'MacOS',
+                    'UI5'
+                ),
+                args: ['remote-debugging-port=9222', 'window-size=1440,800']
+            }
+        }
+    ],
+    wdi5: {
+        deviceType: 'web', // yep, not "native"
+        screenshotPath: path.join('test', 'report', 'screenshots'),
+        logLevel: 'verbose',
+        platform: 'electron',
+        plugins: {
+            'phonegap-plugin-barcodescanner': {
+                respObjElectron: {
+                    text: '123-123-asd',
+                    format: 'EAN',
+                    cancelled: ''
+                },
+                scanCode: '123-123-asd',
+                format: 'EAN'
+            }
+        }
+    }
+};
+
+```
+
+To run the tests,
+
+1. start your electron’s matching `chromedriver` (e.g. via `$> npx chromedriver@85`)
+2. use the Webdriver.IO-CLI for test execution: `$> npx wdio wdio-electron.conf.js`
 
 ## Usage
 
