@@ -15,6 +15,9 @@ module.exports = (() => {
      * call to init plugin mock feature for Browser
      */
     _setupBrowser = () => {
+        if (!cordova.plugins.barcodeScanner) {
+            cordova.plugins.barcodeScanner = {};
+        }
         // mock funtions
         cordova.plugins.barcodeScanner.scan = (success, error, oOptions) => {
             if (success) {
@@ -38,6 +41,9 @@ module.exports = (() => {
      */
     _setupIos = () => {
         // mock funtions
+        if (!cordova.plugins.barcodeScanner) {
+            cordova.plugins.barcodeScanner = {};
+        }
         cordova.plugins.barcodeScanner.scan = (success, error, oOptions) => {
             if (success) {
                 const result = window.wdi5.getPluginConfigForPlugin('phonegap-plugin-barcodescanner');
@@ -53,6 +59,9 @@ module.exports = (() => {
      */
     _setupAndroid = () => {
         // mock funtions
+        if (!cordova.plugins.barcodeScanner) {
+            cordova.plugins.barcodeScanner = {};
+        }
         cordova.plugins.barcodeScanner.scan = (success, error, oOptions) => {
             if (success) {
                 const result = window.wdi5.getPluginConfigForPlugin('phonegap-plugin-barcodescanner');
@@ -68,6 +77,9 @@ module.exports = (() => {
      */
     _setupElectron = () => {
         // mock funtions
+        if (!cordova.plugins.barcodeScanner) {
+            cordova.plugins.barcodeScanner = {};
+        }
         cordova.plugins.barcodeScanner.scan = (success, error) => {
             if (success) {
                 const result = window.wdi5.getPluginConfigForPlugin('phonegap-plugin-barcodescanner');
