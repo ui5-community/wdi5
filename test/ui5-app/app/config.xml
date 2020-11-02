@@ -34,6 +34,8 @@
 
     <platform name="android">
         <allow-intent href="market:*" />
+        <!-- Android 11 -->
+        <preference name="android-targetSdkVersion" value="30" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
