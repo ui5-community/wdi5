@@ -32,16 +32,14 @@
     "_startApp": "soerver -d ./test/ui5-app/webapp -p 8888 -x ./test/ui5-app/webapp/proxyrc.json",
     "_startApp:dist": "soerver -d ./test/ui5-app/dist -p 8888 -x ./test/ui5-app/webapp/proxyrc.json",
     "//_startApp:electron": "run a custom version of chromedriver that matches the chromium engine one used in the electron app",
-    "_startApp:electron": "electron-chromedriver",
+    "_startApp:electron": "npx chromedriver@85",
     "//_startApp": "ios | android - starts appium separately",
     "_startApp:ios": "appium",
     "_startApp:android": "appium --allow-insecure chromedriver_autodownload -g ./report/appium --log-level debug",
     "_build:ui5_app": "cd test/ui5-app && ui5 build --all --exclude-task=* --include-task=generateComponentPreload",
     "_build:ios_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-ios.js",
     "_build:android_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-android.js",
-    "_build:electron_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-electron.js",
-    "//_link_cd": "link the matching chromedriver binary for electron tests",
-    "_link_cd": "ln -sf ./node_modules/electron-chromedriver/chromedriver.js ./node_modules/.bin/electron-chromedriver"
+    "_build:electron_app": "cd test/ui5-app/app && node copySources.js && node replace-for-app.js && node build-electron.js"
   },
   "repository": {
     "type": "git",
