@@ -1,4 +1,3 @@
-const wdi5 = require("../../../../../../index")
 const Page = require("./Page")
 
 class Other extends Page {
