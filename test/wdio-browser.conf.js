@@ -1,6 +1,6 @@
 const path = require('path');
 require('dotenv').config()
-const WDI5Service = require('../wdi5/lib/service/wdi5.service')
+const WDI5Service = require('wdi5/lib/service/wdi5.service')
 
 exports.config = {
     // ==================================
