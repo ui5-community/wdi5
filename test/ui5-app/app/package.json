@@ -16,7 +16,8 @@
     "@ahovakimyan/cordova-plugin-wkwebviewxhrfix": "^1.0.0",
     "cordova-android": "^9.0.0",
     "cordova-ios": "^6.1.1",
-    "cordova-plugin-whitelist": "^1.3.4"
+    "cordova-plugin-whitelist": "^1.3.4",
+    "phonegap-plugin-barcodescanner": "^8.1.0"
   },
   "dependencies": {
     "cordova-electron": "^2.0.0",
@@ -28,7 +29,10 @@
       "cordova-plugin-barcodescanner": {},
       "cordova-plugin-file": {},
       "cordova-plugin-wkwebviewxhrfix": {},
-      "cordova-plugin-whitelist": {}
+      "cordova-plugin-whitelist": {},
+      "phonegap-plugin-barcodescanner": {
+        "ANDROID_SUPPORT_V4_VERSION": "27.+"
+      }
     },
     "platforms": [
       "electron",
