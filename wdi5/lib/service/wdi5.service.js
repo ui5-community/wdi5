@@ -1,6 +1,6 @@
 
 const SevereServiceError = require('webdriverio')
-const wdi5 = require('../../index');
+const wdi5 = require('wdi5');
 
 class WDI5Service {
 
