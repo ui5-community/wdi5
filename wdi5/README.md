@@ -29,22 +29,43 @@ $> yarn add -D wdi5
 $> npx wdio config # this will also install standard wdio-dependencies
 ```
 
+### browser-scope
+
+Note that even though `wdi5` includes the functionality of its’ lightweight sibling `wdio-ui5-service` (the Webdriver.IO-plugin) for browser-based testing, you *don’t* need to add `ui5` to the `services`-section of `wdio.conf.js` - the browser-functionality is included when injecting `wdi5` . For this, require 'wdi5/lib/service/wdi5.service' as shown below.
+
 Enhance the `wdio.conf.js`-file with the recommended `wdi5` settings:
 
 ```javascript
-baseUrl: "http://localhost:8080", // standard webdriver.io
-// wdi5-specific
-wdi5: {
-    screenshotPath: "./test/report/screenshots",
-    logLevel: "verbose", // error | silent | verbose
-    platform: "browser", // android | browser | electron | ios
-    deviceType: "web" // native (ios, android) | web (browser, electron)
+const WDI5Service = require('wdi5/lib/service/wdi5.service'); // bridge to browser-scope
+
+exports.config = {
+    // ...
+    baseUrl: "http://localhost:8080", // standard webdriver.io
+    // wdi5-specific
+    services: [
+        'chromedriver',
+        [WDI5Service]
+    ]
+    wdi5: {
+        screenshotPath: "./test/report/screenshots",
+        logLevel: "verbose", // error | silent | verbose
+        platform: "browser", // android | browser | electron | ios
+        deviceType: "web" // native (ios, android) | web (browser, electron)
+        url: "index.html"
+    }
+    // ...
+    services: [
+		'chromedriver',
+        [WDI5Service]
+    ]
 }
 ```
 
-Note that even though `wdi5` includes the functionality of its’ lightweight sibling `wdio-ui5-service` (the Webdriver.IO-plugin) for browser-based testing, you *don’t* need to add `ui5` to the `services`-section of `wdio.conf.js` - the browser-functionality is included when injecting `wdi5` in the configuration, see [shared config file](#shared-config-file) below.
+Then, start your local webserver (e.g. via `$> soerver` in the app directory), 
 
-### General setup
+and kick off your tests via `$> npx wdio`.
+
+### General (non-browser) setup
 
 We like to always have all parts of the test-environment running in parallel:
 
