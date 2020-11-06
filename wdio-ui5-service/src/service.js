@@ -29,11 +29,13 @@ module.exports = class Service {
 
         wdioUI5.setup(context); // use wdio hooks for setting up wdio<->ui5 bridge
 
-        // returns promise
-        let status = wdioUI5.checkForUI5Page();
-        status.then(() => {
-            wdioUI5.injectUI5(context); // needed to let the instance know that UI5 is now available for work
-        })
+        if (wdi5config && !wdi5config.skipWaitForUI5OnStart) {
+            // returns promise
+            let status = wdioUI5.checkForUI5Page();
+            status.then(() => {
+                wdioUI5.injectUI5(context); // needed to let the instance know that UI5 is now available for work
+            })
+        }
     }
 
     after(result, capabilities, specs) {

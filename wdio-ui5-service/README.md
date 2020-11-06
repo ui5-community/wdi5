@@ -56,7 +56,8 @@ wdi5: {
     logLevel: 'verbose', // error | verbose | silent
     platform: 'browser', // browser | android | ios | electron
     url: 'index.html', // path to your bootstrap html file
-    deviceType: 'web' // native | web
+    deviceType: 'web', // native | web
+    skipWaitForUI5OnStart: false // true when UI5 is not on the start page, you need to later call browser.waitForUI5(); manually
 }
 ```
 
