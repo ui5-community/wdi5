@@ -1,6 +1,13 @@
 
 describe('ui5 basic', () => {
 
+    const selectorCookieAccept = {
+        selector: {
+            id: "__button4",
+            controlType: 'sap.m.Button'
+        }
+    }
+
     const selectorDownloadButton = {
         selector: {
             id: "readMoreButton",
@@ -27,6 +34,11 @@ describe('ui5 basic', () => {
 
     beforeEach(() => {
         browser.screenshot('test-ui5');
+    });
+
+    it('should accept the cookies', () => {
+        const buttonCookieAccept = browser.asControl(selectorCookieAccept);
+        buttonCookieAccept.firePress();
     });
 
     it('should have the right title', () => {

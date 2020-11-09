@@ -1,5 +1,5 @@
 const path = require('path');
-const ui5Service = require('../wdio-ui5-service/index')
+const ui5Service = require('../src/index')
 
 exports.config = {
     // ==================================
@@ -45,7 +45,7 @@ exports.config = {
     // will be called from there.
     //
 
-    specs: [path.join('test', 'test-ui5', '*.js')],
+    specs: [path.join('wdio-ui5-service', 'test', '*.js')],
 
     // Patterns to exclude.
     exclude: [],
@@ -92,7 +92,7 @@ exports.config = {
 
     wdi5: {
         // path: "", // commented out to use the default paths
-        screenshotPath: path.join('test', 'report', 'screenshots'),
+        screenshotPath: path.join('wdio-ui5-service', 'test', 'report', 'screenshots'),
         logLevel: 'verbose', // error | verbose | silent
         platform: 'browser', // electron, browser, android, ios
         url: "index.html",

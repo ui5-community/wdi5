@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "run-p -r _startApp:dist _test:wt",
-    "test:ui5": "wdio ./test/wdio-ui5.conf.js",
+    "test:ui5": "wdio ./wdio-ui5-service/test/wdio-ui5.conf.js",
     "test:android:bs": "wdio ./test/wdio-bs-android.conf.js",
     "test:ios:bs": "wdio ./test/wdio-bs-ios.conf.js",
     "testNew": "run-p -r _startApp:dist _test:wtNew",
