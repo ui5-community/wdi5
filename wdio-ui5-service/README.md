@@ -6,11 +6,11 @@ It provides the `ui5`-service to `WebdriverIO`, running tests in the browser.
 
 ## Prerequisites
 
-- UI5 app running in the browser, accessbile via `http(s)://host.ext:port`.
-  Recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like [`soerver`](https://github.com/vobu/soerver) or [`http-server`](https://www.npmjs.com/package/http-server).
-- node version >= `12.x` (`lts/erbium`)
-- (optional) `yarn`
-  during development, we rely on `yarn`’s workspace-features - that’s why we refer to `yarn` instead of `npm` in the docs, even though using `npm` as an equivalent shold be fine too
+-   UI5 app running in the browser, accessbile via `http(s)://host.ext:port`.
+    Recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like [`soerver`](https://github.com/vobu/soerver) or [`http-server`](https://www.npmjs.com/package/http-server).
+-   node version >= `12.x` (`lts/erbium`)
+-   (optional) `yarn`
+    during development, we rely on `yarn`’s workspace-features - that’s why we refer to `yarn` instead of `npm` in the docs, even though using `npm` as an equivalent shold be fine too
 
 ## Installation
 
@@ -69,16 +69,19 @@ Run the tests via the `webdriver.io`-cli:
 $> npx wdio
 ```
 
-### Skip UI5 initialization on startup
+### Skip UI5/`wdi5` initialization on startup
 
-In cases the first open page is not an UI5 page, like on a SAP Cloud Foundry environment where the login page is opened upfront. The parameter `skipInjectUI5OnStart` set to `true` provides the feature to prospone the injection of the wdio-ui5-service into the browser context. Consequentially you have to do it later, as soon as the UI5 page to test is available. This can be done by calling `injectUI5()` on the `wdio-ui5-service`.
+In case the very first called page is non-UI5 (think SAP CP CloudFoundry login),
+the config option `skipInjectUI5OnStart` can be set to `true` to postpone injecting `wdi5` into the `browser` context.  
+Consequentially you have to do it later, as soon as the UI5 page to test is available. This can be done by calling `injectUI5()` on the `wdio-ui5-service`.
 
 ```javascript
-const wdioUI5Service = require("wdio-ui5-service")
+const wdioUI5Service = require('wdio-ui5-service');
 
-wdioUI5Service.injectUI5()
+wdioUI5Service.injectUI5();
 ```
 
+Check `/wdio-ui5-service/test/ui5-late.test.js` in conjunction with `/wdio-ui5-service/test/wdio-ui5-late.conf.js` for an example.
 ## Usage
 
 Run-(Test-)Time usage of `wdi5` is agnostic to its' test-scope (browser or native) and centers around the global `browser`-object, be it in the browser or on a real mobile device.
