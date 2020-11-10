@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://github.com/js-soft/wdi5/compare/v0.2.2...v0.0.3) (2020-11-10)
+
+
+### Features
+
+* add option to skip wdi5 init on startup ([#37](https://github.com/js-soft/wdi5/issues/37)) ([ee23973](https://github.com/js-soft/wdi5/commit/ee23973693cb80595f25300a00a99c38f6d4093d))
+* **wdioservice:** change structure ([ad73acd](https://github.com/js-soft/wdi5/commit/ad73acd2555509bcebeca28b2fa39a62e0dd7f42))
+
+
+### Bug Fixes
+
+* include wdi5 module, not file ([4ceb601](https://github.com/js-soft/wdi5/commit/4ceb6013a19e9673fe28cf85646150b622757325))
+
 ### [0.0.2](https://github.com/js-soft/wdi5/compare/v0.2.1...v0.0.2) (2020-11-02)
 
 
