@@ -376,7 +376,7 @@ function setup(context) {
             // sComponentId, sName, oParameters, oComponentTargetInfo, bReplace
             _navTo(oRoute.sComponentId, oRoute.sName, oRoute.oParameters, oRoute.oComponentTargetInfo, oRoute.bReplace);
         } else {
-            console.error("ERROR: navigaing to another page");
+            console.error("ERROR: navigating to another page");
         }
     });
 

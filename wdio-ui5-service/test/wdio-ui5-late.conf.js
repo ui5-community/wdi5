@@ -45,7 +45,7 @@ exports.config = {
     // will be called from there.
     //
 
-    specs: [path.join('wdio-ui5-service', 'test', '*.js')],
+    specs: [path.join('wdio-ui5-service', 'test', 'ui5-late.test.js')],
 
     // Patterns to exclude.
     exclude: [],
@@ -95,9 +95,9 @@ exports.config = {
         screenshotPath: path.join('wdio-ui5-service', 'test', 'report', 'screenshots'),
         logLevel: 'verbose', // error | verbose | silent
         platform: 'browser', // electron, browser, android, ios
-        url: "index.html",
+        url: "/js-soft/wdi5/",
         deviceType: 'web',
-        skipInjectUI5OnStart: false
+        skipInjectUI5OnStart: true
     },
 
     // Test runner services
@@ -139,7 +139,7 @@ exports.config = {
     //
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the `baseUrl`
     // gets prepended directly.
-    baseUrl: 'https://openui5.netweaver.ondemand.com/',
+    baseUrl: 'https://github.com',
     //
     // Default timeout for all waitForUI5 commands. This is the timeout used for the `executeAsync`funciton
     waitforTimeout: 10000,
