@@ -56,7 +56,8 @@ wdi5: {
     logLevel: 'verbose', // error | verbose | silent
     platform: 'browser', // browser | android | ios | electron
     url: 'index.html', // path to your bootstrap html file
-    deviceType: 'web' // native | web
+    deviceType: 'web', // native | web
+    skipInjectUI5OnStart: false // true when UI5 is not on the start page, you need to later call <wdioUI5service>.injectUI5(); manually
 }
 ```
 
@@ -68,7 +69,15 @@ Run the tests via the `webdriver.io`-cli:
 $> npx wdio
 ```
 
+### Skip UI5 initialization on startup
 
+In cases the first open page is not an UI5 page, like on a SAP Cloud Foundry environment where the login page is opened upfront. The parameter `skipInjectUI5OnStart` set to `true` provides the feature to prospone the injection of the wdio-ui5-service into the browser context. Consequentially you have to do it later, as soon as the UI5 page to test is available. This can be done by calling `injectUI5()` on the `wdio-ui5-service`.
+
+```javascript
+const wdioUI5Service = require("wdio-ui5-service")
+
+wdioUI5Service.injectUI5()
+```
 
 ## Usage
 

@@ -96,7 +96,8 @@ exports.config = {
         logLevel: 'verbose', // error | verbose | silent
         platform: 'browser', // electron, browser, android, ios
         url: "index.html",
-        deviceType: 'web'
+        deviceType: 'web',
+        skipInjectUI5OnStart: false
     },
 
     // Test runner services

@@ -29,6 +29,21 @@ module.exports = class Service {
 
         wdioUI5.setup(context); // use wdio hooks for setting up wdio<->ui5 bridge
 
+        // skip UI5 initialization on startup
+        if (wdi5config && !wdi5config.skipInjectUI5OnStart) {
+            this.injectUI5()
+        } else {
+            console.log("wdio-ui5-service skipped injecting UI5")
+        }
+    }
+
+    /**
+     * inject the wdio-ui5-service sources to the UI5 app after launch
+     */
+    injectUI5() {
+        // UI5 bridge setup
+        const context = driver ? driver : browser;
+
         // returns promise
         let status = wdioUI5.checkForUI5Page();
         status.then(() => {
