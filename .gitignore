@@ -71,6 +71,8 @@ dist
 # Testing
 !test/report/screenshots/.gitkeep
 test/report/screenshots/*.png
+!wdio-ui5-service/test/report/screenshots/.gitkeep
+wdio-ui5-service/test/report/screenshots/*.png
 test/report/logs/*.*
 !test/report/logs/.gitkeep
 test/report/appium/*.*

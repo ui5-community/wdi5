@@ -22,7 +22,10 @@ module.exports = class Service {
 
         // this is only to run in browser
         if (wdi5config && wdi5config.url) {
+            console.log("open url: " + wdi5config.url);
             browser.url(wdi5config.url);
+        } else {
+            console.error("not opening any url, no url was supplied in wdi5 config");
         }
 
         console.log("wdio-ui5-service before hook")
