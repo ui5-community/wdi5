@@ -12,7 +12,7 @@
     },
     "scripts": {
         "appium-doctor": "appium-doctor",
-        "release": "standard-version"
+        "release": "standard-version -t wdi5@"
     },
     "screenshotPath": "./test/report/screenshots",
     "keywords": [

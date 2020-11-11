@@ -19,7 +19,7 @@
         "openui5"
     ],
     "scripts": {
-        "release": "standard-version"
+        "release": "standard-version -t wdio-ui5-service@"
     },
     "repository": {
         "type": "git",
