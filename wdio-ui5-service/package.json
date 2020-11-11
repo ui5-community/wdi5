@@ -6,7 +6,7 @@
         "Volker Buzek <volker.buzek@js-soft.com> (https://www.js-soft.com/)"
     ],
     "license": "(DERIVED BEER-WARE OR Apache-2.0)",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "dependencies": {},
     "main": "./src/index.js",
     "peerDependencies": {},
