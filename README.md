@@ -1,4 +1,4 @@
-# wdi5 ![npm](https://img.shields.io/npm/v/wdi5)
+# wdi5
 
 `wdi5` (/vdif5/) is a wrapper around [appium](http://appium.io)-driven [`Webdriver.IO`](https://webdriver.io)-tests, utilizing [`UI5`’s test API](https://ui5.sap.com/#/api/sap.ui.test).
 
