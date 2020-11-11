@@ -1,4 +1,4 @@
-# wdi5 ![npm](https://img.shields.io/npm/v/wdi5)
+# wdi5
 
 `wdi5` (/vdif5/) is a wrapper around [appium](http://appium.io)-driven [`Webdriver.IO`](https://webdriver.io)-tests, utilizing [`UI5`’s test API](https://ui5.sap.com/#/api/sap.ui.test).
 
@@ -14,8 +14,8 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 `wdi5` comes in two flavours:
 
--   `wdio-ui5-service`: a browser-based plugin to  [`Webdriver.IO`](https://webdriver.io)
--   `wdi5`: an extension to  [`Webdriver.IO`](https://webdriver.io), using [`appium`](http://appium.io) to communicate with the hybrid app on iOS, Android and Electron.  
+-   ![npm](https://img.shields.io/npm/v/wdio-ui5-service) `wdio-ui5-service`: a browser-based plugin to  [`Webdriver.IO`](https://webdriver.io)
+-   ![npm](https://img.shields.io/npm/v/wdi5) `wdi5`: an extension to  [`Webdriver.IO`](https://webdriver.io), using [`appium`](http://appium.io) to communicate with the hybrid app on iOS, Android and Electron.  
     The `wdi5`-extension contains `wdio-ui5-service`, allowing for both browser-based and hybrid-app-testing.
 
 `wdio-ui5-service` allows for a lightweight setup if test scope is on the browser.

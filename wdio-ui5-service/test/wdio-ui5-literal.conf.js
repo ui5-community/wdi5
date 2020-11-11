@@ -44,7 +44,7 @@ exports.config = {
     // will be called from there.
     //
 
-    specs: [path.join('wdio-ui5-service', 'test', 'ui5-late.test.js')],
+    specs: [path.join('wdio-ui5-service', 'test', 'ui5.test.js')],
 
     // Patterns to exclude.
     exclude: [],
@@ -94,9 +94,9 @@ exports.config = {
         screenshotPath: path.join('wdio-ui5-service', 'test', 'report', 'screenshots'),
         logLevel: 'verbose', // error | verbose | silent
         platform: 'browser', // electron, browser, android, ios
-        url: '/js-soft/wdi5/',
+        url: 'index.html',
         deviceType: 'web',
-        skipInjectUI5OnStart: true
+        skipInjectUI5OnStart: false
     },
 
     // Test runner services
@@ -123,10 +123,10 @@ exports.config = {
     //
     // Set specific log levels per logger
     // use 'silent' level to disable logger
-    logLevels: {
-        webdriver: 'silent',
-        '@wdio/applitools-service': 'silent'
-    },
+    // logLevels: {
+    //     webdriver: 'silent',
+    //     '@wdio/applitools-service': 'silent'
+    // },
     //
     // If you only want to run your tests until a specific amount of tests have failed use
     // bail (default is 0 - don't bail, run all tests).
@@ -137,7 +137,7 @@ exports.config = {
     //
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the `baseUrl`
     // gets prepended directly.
-    baseUrl: 'https://github.com',
+    baseUrl: 'https://openui5.netweaver.ondemand.com/',
     //
     // Default timeout for all waitForUI5 commands. This is the timeout used for the `executeAsync`funciton
     waitforTimeout: 10000,

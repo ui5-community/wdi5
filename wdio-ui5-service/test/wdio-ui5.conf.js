@@ -1,5 +1,4 @@
 const path = require('path');
-const ui5Service = require('../src/index')
 
 exports.config = {
     // ==================================
@@ -45,7 +44,7 @@ exports.config = {
     // will be called from there.
     //
 
-    specs: [path.join('wdio-ui5-service', 'test', '*.js')],
+    specs: [path.join('wdio-ui5-service', 'test', 'ui5.test.js')],
 
     // Patterns to exclude.
     exclude: [],
@@ -83,9 +82,9 @@ exports.config = {
             // 5 instances get started at a time.
             maxInstances: 1,
             browserName: 'chrome',
-            "goog:chromeOptions": {
+            'goog:chromeOptions': {
                 w3c: false,
-                args: ["window-size=1440,800"]
+                args: process.env.HEADLESS ? ['--headless'] : ['window-size=1440,800']
             }
         }
     ],
@@ -95,7 +94,7 @@ exports.config = {
         screenshotPath: path.join('wdio-ui5-service', 'test', 'report', 'screenshots'),
         logLevel: 'verbose', // error | verbose | silent
         platform: 'browser', // electron, browser, android, ios
-        url: "index.html",
+        url: 'index.html',
         deviceType: 'web',
         skipInjectUI5OnStart: false
     },
@@ -107,9 +106,8 @@ exports.config = {
     // Use the Appium plugin for Webdriver. Without this, we would need to run appium
     // separately on the command line.
     services: [
-        // 'ui5', // service is officially registered "as a service" with webdriver.io
-        [ui5Service],
-        'chromedriver', // cannot beeing started standalone // ./node_modules/chromedriver80/bin/chromedriver"
+        'ui5', // service is officially registered "as a service" with webdriver.io
+        'chromedriver'
     ],
     //
     // Additional list of node arguments to use when starting child processes
@@ -173,5 +171,5 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // See also: https://webdriver.io/docs/dot-reporter.html , and click on "Reporters" in left column
-    reporters: ['spec'],
+    reporters: ['spec']
 };

@@ -76,7 +76,9 @@ the config option `skipInjectUI5OnStart` can be set to `true` to postpone inject
 Consequentially you have to do it later, as soon as the UI5 page to test is available. This can be done by calling `injectUI5()` on the `wdio-ui5-service`.
 
 ```javascript
-const wdioUI5Service = require('wdio-ui5-service');
+// require the service implementation and instantiate separately
+const _ui5Service = require('wdio-ui5-service/src/service');
+const wdioUI5Service = new _ui5Service();
 
 wdioUI5Service.injectUI5();
 ```
