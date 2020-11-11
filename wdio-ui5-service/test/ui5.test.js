@@ -1,36 +1,26 @@
-
 describe('ui5 basic', () => {
-
     const selectorCookieAccept = {
         selector: {
-            id: "__button4",
+            id: '__button4',
             controlType: 'sap.m.Button'
         }
-    }
+    };
 
     const selectorDownloadButton = {
         selector: {
-            id: "readMoreButton",
+            id: 'readMoreButton',
             controlType: 'sap.m.Button',
-            viewName: "sap.ui.documentation.sdk.view.Welcome"
+            viewName: 'sap.ui.documentation.sdk.view.Welcome'
         }
     };
 
     const selectorVersionButton = {
         selector: {
             id: 'changeVersionButton',
-            controlType: "sap.m.Button",
-            viewName: "sap.ui.documentation.sdk.view.App"
+            controlType: 'sap.m.Button',
+            viewName: 'sap.ui.documentation.sdk.view.App'
         }
-    }
-
-    const selectorAPIButton = {
-        selector: {
-            id: "apiMasterTab",
-            controlType: "sap.m.IconTabFilter",
-            viewName: "sap.ui.documentation.sdk.view.App"
-        }
-    }
+    };
 
     beforeEach(() => {
         browser.screenshot('test-ui5');
@@ -48,30 +38,7 @@ describe('ui5 basic', () => {
 
     it('should find a ui5 control by id', () => {
         const controlDownloadButton = browser.asControl(selectorDownloadButton);
-        expect(controlDownloadButton.getText()).toEqual("Download");
-    });
-
-    it('should click a ui5 button (api) by id', () => {
-        // open the dialog
-        const controlAPIButton = browser.asControl(selectorAPIButton);
-        /*controlAPIButton.fireSelect({
-            getParameters: () => {
-                return { key: "api" }
-            }
-        });*/
-        controlAPIButton.getWebElement().click();
-
-        // dialog
-        const selectorText = {
-            selector: {
-                id: "landingImageHeadline",
-                controlType: "sap.m.Text",
-                viewName: "sap.ui.documentation.sdk.view.ApiDetailInitial"
-            }
-        }
-
-        // check for visibility
-        expect(browser.asControl(selectorText).getVisible()).toBeTruthy()
+        expect(controlDownloadButton.getText()).toEqual('Download');
     });
 
     it('should click a ui5 button (version selector) by id', () => {
@@ -84,13 +51,11 @@ describe('ui5 basic', () => {
         const selectorList = {
             selector: {
                 id: 'versionList',
-                controlType: "sap.m.List"
+                controlType: 'sap.m.List'
             }
-        }
+        };
 
         // check for visibility
         expect(browser.asControl(selectorList).getVisible()).toBeTruthy();
     });
-
-
 });
