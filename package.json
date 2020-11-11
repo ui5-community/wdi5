@@ -11,6 +11,7 @@
     "test": "run-p -r _startApp:dist _test:wt",
     "test:ui5": "wdio ./wdio-ui5-service/test/wdio-ui5.conf.js",
     "test:ui5_late": "wdio ./wdio-ui5-service/test/wdio-ui5-late.conf.js",
+    "test:ui5_literal": "wdio ./wdio-ui5-service/test/wdio-ui5-literal.conf.js",
     "test:android:bs": "wdio ./test/wdio-bs-android.conf.js",
     "test:ios:bs": "wdio ./test/wdio-bs-ios.conf.js",
     "testNew": "run-p -r _startApp:dist _test:wtNew",
