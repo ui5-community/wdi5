@@ -51,7 +51,7 @@ describe('ui5 basic', () => {
         expect(controlDownloadButton.getText()).toEqual("Download");
     });
 
-    it('should click a ui5 button by id', () => {
+    it('should click a ui5 button (api) by id', () => {
         // open the dialog
         const controlAPIButton = browser.asControl(selectorAPIButton);
         /*controlAPIButton.fireSelect({
@@ -74,7 +74,7 @@ describe('ui5 basic', () => {
         expect(browser.asControl(selectorText).getVisible()).toBeTruthy()
     });
 
-    it('should click a ui5 button by id', () => {
+    it('should click a ui5 button (version selector) by id', () => {
         // open the dialog
 
         const controlVersionButton = browser.asControl(selectorVersionButton);
