@@ -1,4 +1,7 @@
-describe('ui5 basic', () => {
+const fs = require('fs');
+const path = require('path');
+
+describe('basics', () => {
     const selectorCookieAccept = {
         selector: {
             id: '__button4',
@@ -21,10 +24,6 @@ describe('ui5 basic', () => {
             viewName: 'sap.ui.documentation.sdk.view.App'
         }
     };
-
-    beforeEach(() => {
-        browser.screenshot('test-ui5');
-    });
 
     it('should accept the cookies', () => {
         const buttonCookieAccept = browser.asControl(selectorCookieAccept);
@@ -57,5 +56,15 @@ describe('ui5 basic', () => {
 
         // check for visibility
         expect(browser.asControl(selectorList).getVisible()).toBeTruthy();
+    });
+});
+
+describe('screenshots', () => {
+    it('should validate screenshots capability', () => {
+        browser.screenshot('ui5-sdk-page');
+        const screenShotPath = path.join('wdio-ui5-service', 'test', 'report', 'screenshots');
+        const screenshots = fs.readdirSync(screenShotPath);
+        const ours = screenshots.find((shot) => shot.match(/.*ui5-sdk-page.*/));
+        expect(ours).toMatch(/.*ui5-sdk-page.*/);
     });
 });
