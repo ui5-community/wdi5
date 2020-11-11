@@ -84,7 +84,7 @@ exports.config = {
             browserName: 'chrome',
             'goog:chromeOptions': {
                 w3c: false,
-                args: ['window-size=1440,800']
+                args: process.env.HEADLESS ? ['--headless'] : ['window-size=1440,800']
             }
         }
     ],
@@ -119,7 +119,7 @@ exports.config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'info',
+    logLevel: 'error',
     //
     // Set specific log levels per logger
     // use 'silent' level to disable logger
