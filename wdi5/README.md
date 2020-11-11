@@ -1,6 +1,6 @@
 # wdi5 ![npm](https://img.shields.io/npm/v/wdi5)
 
-Extension to  [`Webdriver.IO`](https://webdriver.io) for testing a hybrid, corodva-wrappe UI5 app on iOS, Android and Electron.
+Extension to  [`Webdriver.IO`](https://webdriver.io) for testing a hybrid, cordova-wrapped UI5 app on iOS, Android and Electron.
 Includes all capabilites of its’ lightweight sibling [`wdio-ui5-service`](../wdio-ui5-service/README.md) for browser-scoped tests.
 
 ## Prerequisites
