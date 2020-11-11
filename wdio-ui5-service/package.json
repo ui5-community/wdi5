@@ -8,7 +8,7 @@
     "license": "(DERIVED BEER-WARE OR Apache-2.0)",
     "version": "0.0.3",
     "dependencies": {},
-    "main": "./index.js",
+    "main": "./src/index.js",
     "peerDependencies": {},
     "screenshotPath": "./../test/report/screenshots",
     "keywords": [
