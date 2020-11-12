@@ -104,9 +104,14 @@ describe('locate ui5 control via regex', () => {
 describe('screenshots', () => {
     it('should validate screenshots capability', () => {
         browser.screenshot('ui5-sdk-page');
-        const screenShotPath = path.join('wdio-ui5-service', 'test', 'report', 'screenshots');
-        const screenshots = fs.readdirSync(screenShotPath);
-        const ours = screenshots.find((shot) => shot.match(/.*ui5-sdk-page.*/));
-        expect(ours).toMatch(/.*ui5-sdk-page.*/);
+
+        // seed to wait some time until the screenshot is actually saved to the file system before reading it again
+        setTimeout(() => {
+            const screenShotPath = path.join('wdio-ui5-service', 'test', 'report', 'screenshots');
+            const screenshots = fs.readdirSync(screenShotPath);
+            const ours = screenshots.find((shot) => shot.match(/.*ui5-sdk-page.*/));
+            expect(ours).toMatch(/.*ui5-sdk-page.*/);
+        }, 1500)
+
     });
 });
