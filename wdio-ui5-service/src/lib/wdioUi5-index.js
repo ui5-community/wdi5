@@ -83,6 +83,12 @@ function injectUI5() {
                         // As of version 1.72, it is available as a declarative matcher
                         const fVersion = 1.6;
 
+                        // check whether we're looking for a control via regex
+                        // hint: no IE support here :)
+                        if (oSelector.id.startsWith('/', 0)) {
+                            const [sTarget, sRegEx, sFlags] = oSelector.id.match(/\/(.*)\/(.*)/);
+                            oSelector.id = new RegExp(sRegEx, sFlags);
+                        }
                         if (oSelector.bindingPath) {
                             // TODO: for the binding Path there is no object creation
                             // fix (?) for 'leading slash issue' in propertyPath w/ a named model
@@ -129,7 +135,6 @@ function injectUI5() {
                         return oSelector;
                     };
 
-
                     /**
                      * extract the multi use function to get a UI5 Control from a JSON Webobejct
                      */
@@ -162,16 +167,11 @@ function injectUI5() {
                                 }
 
                                 if (item.indexOf('Render') !== -1) {
-                                    return false
+                                    return false;
                                 }
 
                                 // filter not working mehtods
-                                const aFilterFunctions = [
-                                    '$',
-                                    'getAggregation',
-                                    'constructor',
-                                    'getMetadata'
-                                ]
+                                const aFilterFunctions = ['$', 'getAggregation', 'constructor', 'getMetadata'];
 
                                 if (aFilterFunctions.includes(item)) {
                                     return false;
@@ -195,13 +195,13 @@ function injectUI5() {
                         return (key, value) => {
                             if (typeof value === 'object' && value !== null) {
                                 if (seen.has(value)) {
-                                    return
+                                    return;
                                 }
-                                seen.add(value)
+                                seen.add(value);
                             }
-                            return value
-                        }
-                    }
+                            return value;
+                        };
+                    };
 
                     /**
                      * if parameter is JS primitive type
@@ -246,23 +246,28 @@ function injectUI5() {
  *
  */
 async function checkForUI5Page() {
-    _context.waitUntil(() => {
-        const readyState = _context.executeAsync((done) => {
-            setTimeout(() => {
-                if (document.location.href != 'data:,') {
-                    // make sure we are not on the initial page
-                    done(document.readyState)
-                }
-            }, 400)
-        })
-        return readyState === 'complete';
-    }, { interval: 500, timeout: 8000 });
+    _context.waitUntil(
+        // @ts-ignore: we're in wdio sync land here
+        () => {
+            const readyState = _context.executeAsync((done) => {
+                setTimeout(() => {
+                    if (document.location.href != 'data:,') {
+                        // make sure we are not on the initial page
+                        done(document.readyState);
+                    }
+                }, 400);
+            });
+            // @ts-ignore: we're in wdio sync land here
+            return readyState === 'complete';
+        },
+        {interval: 500, timeout: 8000}
+    );
 
     // test for ui5
     let result = _context.execute(() => {
         // browser context - you may not access client or console
         return !!window.sap;
-    })
+    });
     return result;
 }
 
@@ -273,7 +278,6 @@ async function checkForUI5Page() {
  * @param {WebdriverIO.BrowserObject} context
  */
 function setup(context) {
-
     if (_setupComplete) {
         // already setup done
         return;
@@ -363,7 +367,6 @@ function setup(context) {
      * @param {Object} oOptions {sHash: '#/test', oRoute: {sComponentId, sName, oParameters, oComponentTargetInfo, bReplace}}
      */
     _context.addCommand('goTo', (oOptions) => {
-
         // destruct the oOptions
         const sHash = oOptions.sHash;
         const oRoute = oOptions.oRoute;
@@ -376,7 +379,7 @@ function setup(context) {
             // sComponentId, sName, oParameters, oComponentTargetInfo, bReplace
             _navTo(oRoute.sComponentId, oRoute.sName, oRoute.oParameters, oRoute.oComponentTargetInfo, oRoute.bReplace);
         } else {
-            console.error("ERROR: navigating to another page");
+            console.error('ERROR: navigating to another page');
         }
     });
 
@@ -426,7 +429,6 @@ function setup(context) {
     // store the status
     _setupComplete = true;
 }
-
 
 // public
 module.exports = {
@@ -478,9 +480,9 @@ function _checkForUI5Ready() {
 }
 
 /**
-   * generates date string with format M-d-hh-mm-ss
-   * @returns {String}
-   */
+ * generates date string with format M-d-hh-mm-ss
+ * @returns {String}
+ */
 function _getDateString() {
     var x = new Date();
     return `${x.getMonth() + 1}-${x.getDate()}-${x.getHours()}-${x.getMinutes()}-${x.getSeconds()}`;
@@ -491,7 +493,6 @@ function _getDateString() {
  * @param {*} fileAppendix
  */
 function _writeScreenshot(fileAppendix) {
-
     // browser.screenshot returns the screenshot as a base64 string
     const screenshot = _context.takeScreenshot();
     const seed = _getDateString();
@@ -569,10 +570,9 @@ function _stripNonValidCharactersForKey(key) {
  * @param {Boolean} bReplace
  */
 function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) {
-    const result = _context.executeAsync((sComponentId, sName, oParameters, oComponentTargetInfo, bReplace, done) => {
-        window.bridge
-            .waitForUI5()
-            .then(() => {
+    const result = _context.executeAsync(
+        (sComponentId, sName, oParameters, oComponentTargetInfo, bReplace, done) => {
+            window.bridge.waitForUI5().then(() => {
                 window.wdi5.Log.info(`[browser wdio-ui5] navigation to ${sName} triggered`);
 
                 const router = sap.ui.getCore().getComponent(sComponentId).getRouter();
@@ -592,9 +592,14 @@ function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace
                 const error = 'Navigation via UI5 router failed';
                 window.wdi5.Log.error(`[browser wdio-ui5] ERR: ${error}`);
                 done(['error', error]);
-
             });
-    }, sComponentId, sName, oParameters, oComponentTargetInfo, bReplace);
+        },
+        sComponentId,
+        sName,
+        oParameters,
+        oComponentTargetInfo,
+        bReplace
+    );
 
     if (Array.isArray(result)) {
         if (result[0] === 'error') {
