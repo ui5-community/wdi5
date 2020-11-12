@@ -57,6 +57,20 @@ describe('basics', () => {
 
         browser.keys('Escape'); // close popup
     });
+
+    it('should find a control w/o id locator', () => {
+        const selectorWithoutId = {
+            selector: {
+                viewName: 'sap.ui.documentation.sdk.view.Welcome',
+                controlType: 'sap.m.Button',
+                properties: {
+                    text: 'Get Started with UI5'
+                }
+            }
+        };
+
+        expect(browser.asControl(selectorWithoutId).getText()).toBe('Get Started with UI5');
+    });
 });
 
 describe('locate ui5 control via regex', () => {
@@ -111,7 +125,6 @@ describe('screenshots', () => {
             const screenshots = fs.readdirSync(screenShotPath);
             const ours = screenshots.find((shot) => shot.match(/.*ui5-sdk-page.*/));
             expect(ours).toMatch(/.*ui5-sdk-page.*/);
-        }, 1500)
-
+        }, 1500);
     });
 });

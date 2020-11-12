@@ -85,7 +85,7 @@ function injectUI5() {
 
                         // check whether we're looking for a control via regex
                         // hint: no IE support here :)
-                        if (oSelector.id.startsWith('/', 0)) {
+                        if (oSelector.id && oSelector.id.startsWith('/', 0)) {
                             const [sTarget, sRegEx, sFlags] = oSelector.id.match(/\/(.*)\/(.*)/);
                             oSelector.id = new RegExp(sRegEx, sFlags);
                         }
