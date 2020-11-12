@@ -77,7 +77,7 @@ Consequentially you have to do it later, as soon as the UI5 page to test is avai
 
 ```javascript
 // require the service implementation and instantiate separately
-const _ui5Service = require('wdio-ui5-service/src/service');
+const _ui5Service = require('wdio-ui5-service').default;
 const wdioUI5Service = new _ui5Service();
 
 wdioUI5Service.injectUI5();
