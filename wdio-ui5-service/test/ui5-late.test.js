@@ -1,5 +1,5 @@
 // only requiring the service for late inject/init
-const _ui5Service = require('wdio-ui5-service/src/service');
+const _ui5Service = require('wdio-ui5-service').default;
 const ui5Service = new _ui5Service();
 
 describe('ui5 basic', () => {
