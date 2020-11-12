@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/js-soft/wdi5/compare/wdio-ui5-service@0.1.2...wdio-ui5-service@0.1.3) (2020-11-12)
+
+
+### Features
+
+* locate ui5 controls via id regex ([7172e7e](https://github.com/js-soft/wdi5/commit/7172e7e4790e9dacd04acf07ff16968026c2abad))
+* locate ui5 controls via id regex ([bc0e0d4](https://github.com/js-soft/wdi5/commit/bc0e0d4fd50a8f7f3a18c52d2300a1d7e91b4656))
+
+
+### Bug Fixes
+
+* **test:** screenshot to wait until file is present ([a8125cc](https://github.com/js-soft/wdi5/commit/a8125ccc4cbefcefc4a86c1db121325ee69bdf72))
+* **wdi5:** import of wdio-ui5-service ([707e4f2](https://github.com/js-soft/wdi5/commit/707e4f2ab1fe485f6b257787a41e689209055c9b))
+
 ### [0.1.2](https://github.com/js-soft/wdi5/compare/wdio-ui5-service@0.1.1...wdio-ui5-service@0.1.2) (2020-11-11)
 
 ### [0.1.1](https://github.com/js-soft/wdi5/compare/wdio-ui5-service@0.1.0...wdio-ui5-service@0.1.1) (2020-11-11)
