@@ -14,8 +14,8 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 `wdi5` comes in two flavours:
 
--   ![npm](https://img.shields.io/npm/v/wdio-ui5-service) `wdio-ui5-service`: a browser-based plugin to  [`Webdriver.IO`](https://webdriver.io)
--   ![npm](https://img.shields.io/npm/v/wdi5) `wdi5`: an extension to  [`Webdriver.IO`](https://webdriver.io), using [`appium`](http://appium.io) to communicate with the hybrid app on iOS, Android and Electron.  
+-   ![npm](https://img.shields.io/npm/v/wdio-ui5-service) `wdio-ui5-service`: a browser-based plugin to [`Webdriver.IO`](https://webdriver.io)
+-   ![npm](https://img.shields.io/npm/v/wdi5) `wdi5`: an extension to [`Webdriver.IO`](https://webdriver.io), using [`appium`](http://appium.io) to communicate with the hybrid app on iOS, Android and Electron.  
     The `wdi5`-extension contains `wdio-ui5-service`, allowing for both browser-based and hybrid-app-testing.
 
 `wdio-ui5-service` allows for a lightweight setup if test scope is on the browser.
@@ -92,13 +92,26 @@ const control = browser.asControl(bindingPathSelector);
 // now use one of the below API methods on `control`
 ```
 
+Locating a UI5 control via a regular expression works as well:
+
+```javascript
+// select a Button with Id ending in "MyButton"
+// across all views in the UI5 app
+const crossViewById = {
+    selector: {
+        id: /.*MyButton$/
+    }
+};
+expect(browser.asControl(crossViewById).getVisible()).toBeTruthy();
+```
+
 **`wdio-ui5` supports method chaining**, so you can do:
 
 ```javascript
 browser.asControl(selector).getText().getId().setProperty('title', 'new title');
 ```
 
-In case you are not able to create an explicit selector for a control, but you are able to find it via any [webdriver strategy](https://www.w3.org/TR/webdriver/#locator-strategies), you can use the `getSelectorForElement` method. It returns a selector which can subsequently be used in  `asControl`:
+In case you are not able to create an explicit selector for a control, but you are able to find it via any [webdriver strategy](https://www.w3.org/TR/webdriver/#locator-strategies), you can use the `getSelectorForElement` method. It returns a selector which can subsequently be used in `asControl`:
 
 ```javascript
 const webdriverLocatorSelector = {
@@ -110,9 +123,6 @@ const webdriverLocatorSelector = {
 const control = browser.asControl(webdriverLocatorSelector);
 // now use any of the UI5 native controls' API methods on `control`
 ```
-
-
-
 
 ### API methods
 
@@ -237,7 +247,7 @@ browser.asControl(listSelector).fireEvent('itemPress', {
 
 ### Assertions
 
-Recommendation is to use the  [`Webdriver.IO`](https://webdriver.io)-native extension to JEST's [expect](https://jestjs.io/docs/en/expect) and [matchers](https://jestjs.io/docs/en/using-matchers) as described in https://webdriver.io/docs/assertion.html.
+Recommendation is to use the [`Webdriver.IO`](https://webdriver.io)-native extension to JEST's [expect](https://jestjs.io/docs/en/expect) and [matchers](https://jestjs.io/docs/en/using-matchers) as described in https://webdriver.io/docs/assertion.html.
 
 ### Screenshots
 
@@ -274,9 +284,9 @@ Run `yarn test` for `wdi5` testing itself 😊
 
 ## Collaboration
 
-- yarn
-- prettier
-- commitlint
+-   yarn
+-   prettier
+-   commitlint
 
 ## License
 
