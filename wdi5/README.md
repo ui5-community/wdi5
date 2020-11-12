@@ -1,7 +1,32 @@
 # wdi5 ![npm](https://img.shields.io/npm/v/wdi5)
 
-Extension to  [`Webdriver.IO`](https://webdriver.io) for testing a hybrid, cordova-wrapped UI5 app on iOS, Android and Electron.
+Extension to [`Webdriver.IO`](https://webdriver.io) for testing a hybrid, cordova-wrapped UI5 app on iOS, Android and Electron.
 Includes all capabilites of its’ lightweight sibling [`wdio-ui5-service`](../wdio-ui5-service/README.md) for browser-scoped tests.
+
+## Table of Contents
+
+<!--ts-->
+
+-   [wdi5](#wdi5-)
+    -   [Table of Contents](#table-of-contents)
+    -   [Prerequisites](#prerequisites)
+    -   [Getting started](#getting-started)
+        -   [Installation](#installation)
+        -   [browser-scope](#browser-scope)
+        -   [General (non-browser) setup](#general-non-browser-setup)
+        -   [shared config file](#shared-config-file)
+        -   [iOS](#ios)
+        -   [Android](#android)
+        -   [Electron](#electron)
+    -   [Usage](#usage)
+    -   [Features specific to wdi5 (vs. wdio-ui5-service)](#features-specific-to-wdi5-vs-wdio-ui5-service)
+        -   [Cordova plugins](#cordova-plugins)
+    -   [FAQ/hints](#faqhints)
+    -   [License](#license)
+
+<!-- Added by: vbuzek, at: Do 12 Nov 2020 14:40:18 CET -->
+
+<!--te-->
 
 ## Prerequisites
 
@@ -10,7 +35,7 @@ Includes all capabilites of its’ lightweight sibling [`wdio-ui5-service`](../w
     -   Android: `.apk` + emulator
     -   Electron: binary
 -   node version >= `12.x` (`lts/erbium`)
--   (optional) `yarn` 
+-   (optional) `yarn`
     during development, we rely on `yarn`’s workspace-features - that’s why we refer to `yarn` instead of `npm` in the docs, even though using `npm` as an equivalent shold be fine too
 
 ## Getting started
@@ -31,7 +56,7 @@ $> npx wdio config # this will also install standard wdio-dependencies
 
 ### browser-scope
 
-Note that even though `wdi5` includes the functionality of its’ lightweight sibling `wdio-ui5-service` (the Webdriver.IO-plugin) for browser-based testing, you *don’t* need to add `ui5` to the `services`-section of `wdio.conf.js` - the browser-functionality is included when injecting `wdi5` . For this, require 'wdi5/lib/service/wdi5.service' as shown below.
+Note that even though `wdi5` includes the functionality of its’ lightweight sibling `wdio-ui5-service` (the Webdriver.IO-plugin) for browser-based testing, you _don’t_ need to add `ui5` to the `services`-section of `wdio.conf.js` - the browser-functionality is included when injecting `wdi5` . For this, require 'wdi5/lib/service/wdi5.service' as shown below.
 
 Enhance the `wdio.conf.js`-file with the recommended `wdi5` settings:
 
@@ -61,7 +86,7 @@ exports.config = {
 }
 ```
 
-Then, start your local webserver (e.g. via `$> soerver` in the app directory), 
+Then, start your local webserver (e.g. via `$> soerver` in the app directory),
 
 and kick off your tests via `$> npx wdio`.
 
@@ -69,13 +94,13 @@ and kick off your tests via `$> npx wdio`.
 
 We like to always have all parts of the test-environment running in parallel:
 
-- manually started simulator/emulator
-- `appium` e.g. via `yarn _startApp:ios` (or `chromedriver` for electron)
-- test execution, e.g. `yarn _test:ios`
+-   manually started simulator/emulator
+-   `appium` e.g. via `yarn _startApp:ios` (or `chromedriver` for electron)
+-   test execution, e.g. `yarn _test:ios`
 
 You can combine all of the above by running `yarn test:<platform>` (e.g. `yarn test:ios`), catering towards a ci environment, at the cost of losing the flexibility of each tooling.
 
-Also, it is recommended to split up the overall configuration in a shared- and a platform-specific part - this helps with overview and maintenance. See `wdio-shared.conf.js` and `wdio-${platform}.conf.js` in the  top-level `/test`-folder as an example.
+Also, it is recommended to split up the overall configuration in a shared- and a platform-specific part - this helps with overview and maintenance. See `wdio-shared.conf.js` and `wdio-${platform}.conf.js` in the top-level `/test`-folder as an example.
 
 ### shared config file
 
@@ -87,7 +112,7 @@ exports.config = { // we export it as a module since this file is required in wd
     // 4723 is the default port for Appium
     port: 4723,
 	maxInstances: 1,
-	// path to tests 
+	// path to tests
     specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', '*.js')],
     // tell wdio to use the wdi5 extenstion
     services: [
@@ -99,7 +124,7 @@ exports.config = { // we export it as a module since this file is required in wd
     mochaOpts: {
         timeout: 90000 // well...
     },
-    
+
     wdi5: {
         deviceType: 'native' // native | web
         screenshotPath: require('path').join('test', 'report', 'screenshots'),
@@ -119,7 +144,7 @@ In there, `require` the shared config file and set platform-specific options:
 ```javascript
 const path = require('path');
 let config = require('./wdio-shared.conf').config;
-config.capabilities = [ 
+config.capabilities = [
     {
         automationName: 'XCUITest',
         platformName: 'iOS',
@@ -130,10 +155,10 @@ config.capabilities = [
         // For iOS, this must exactly match the (simulator) device name as seen in Xcode.
         deviceName: 'iPhone 11',
 
-        // Where to find the .apk or .ipa file to install on the device. 
+        // Where to find the .apk or .ipa file to install on the device.
         // The exact location of the file may change depending on your cordova build!
         app: path.join('test', 'ui5-app', 'app', 'platforms', 'ios', 'build', 'emulator', 'UI5.app'),
-        
+
         // by default, appium runs tests in the native context. By setting autoWebview to
         // true, it runs our tests in the Cordova context.
         autoWebview: true,
@@ -144,7 +169,7 @@ config.capabilities = [
         // http://appium.io/docs/en/drivers/ios-xcuitest/#capabilities
         // https://appiumpro.com/editions/43-setting-ios-app-permissions-automatically
         // https://github.com/wix/AppleSimulatorUtils
-        permissions: "{\"jss.wdi5.sample\": {\"camera\": \"yes\",\"notifications\": \"yes\"}}"
+        permissions: '{"jss.wdi5.sample": {"camera": "yes","notifications": "yes"}}'
     }
 ];
 
@@ -297,7 +322,6 @@ exports.config = {
         }
     }
 };
-
 ```
 
 To run the tests,
@@ -325,9 +349,9 @@ This framework comes with a set of plugin mocks.
 
 List of provided plugin mocks:
 
-- phonegap-plugin-barcodescanner
+-   phonegap-plugin-barcodescanner
 
-To add a new cordova plugin mock, specify a `plugins` object in the `wdi5` object of the config file. Name it _exactly_ as the cordova plugin is named (e.g. "phonegap-plugin-barcodescanner") and use the `path` property to point to your mock implementation file. 
+To add a new cordova plugin mock, specify a `plugins` object in the `wdi5` object of the config file. Name it _exactly_ as the cordova plugin is named (e.g. "phonegap-plugin-barcodescanner") and use the `path` property to point to your mock implementation file.
 
 Additionally, you can define custom properties for programmatic "responses" during test execution (here: `mockedPluginResponse`).
 
@@ -349,12 +373,12 @@ plugins: {
 
 ## FAQ/hints
 
-* performance: integration/e2e-tests are rarely fast. `wdi5` tags along that line, remote-controlling a browser with code and all
+-   performance: integration/e2e-tests are rarely fast. `wdi5` tags along that line, remote-controlling a browser with code and all
     -> watch your timeouts and refer to the [`wdio`-documentation](https://webdriver.io/docs/timeouts.html#webdriverio-related-timeouts) on how to tweak them
-* Android: make sure you have the environment variable `JAVA_HOME` set in *both* the shell you’re running Appium and in the shell you’re running the test(s) in.
-* Electron: a known pitfall is the chromedriver version. Make sure you run the matching `electron-chromedriver` version to the  electron version used to build the binary.
-* `Webdriver.IO`'s watch mode is running, but subsequent `context.executeAsync()`-calls fail - exact cause unknown, likely candidate is `fibers` from `@wdio/sync`
-* In case `... bind() returned an error, errno=0: Address already in use (48)` error shows up during test execution any `chromedriver` service is already running. You need to quit this process eg. by force quiting it in the activity monitor.
+-   Android: make sure you have the environment variable `JAVA_HOME` set in _both_ the shell you’re running Appium and in the shell you’re running the test(s) in.
+-   Electron: a known pitfall is the chromedriver version. Make sure you run the matching `electron-chromedriver` version to the electron version used to build the binary.
+-   `Webdriver.IO`'s watch mode is running, but subsequent `context.executeAsync()`-calls fail - exact cause unknown, likely candidate is `fibers` from `@wdio/sync`
+-   In case `... bind() returned an error, errno=0: Address already in use (48)` error shows up during test execution any `chromedriver` service is already running. You need to quit this process eg. by force quiting it in the activity monitor.
 
 ## License
 

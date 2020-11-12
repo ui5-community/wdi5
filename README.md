@@ -10,6 +10,31 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 ![demo testing iOS + browser in parallel](./docs/demo-testing.gif)
 
+## Table of contents
+
+<!--ts-->
+
+-   [wdi5](#wdi5)
+    -   [about](#about)
+    -   [Installation Setup](#installation--setup)
+    -   [Usage](#usage)
+        -   [Control selectors](#control-selectors)
+        -   [API methods](#api-methods)
+            -   [all UI5 control's native methods](#all-ui5-controls-native-methods)
+            -   [getAggregation](#getaggregation)
+            -   [enterText](#entertext)
+        -   [Function mock for event handler](#function-mock-for-event-handler)
+        -   [Assertions](#assertions)
+        -   [Screenshots](#screenshots)
+    -   [Logger](#logger)
+    -   [FAQ/hints](#faqhints)
+    -   [Collaboration](#collaboration)
+    -   [License](#license)
+
+<!-- Added by: vbuzek, at: Do 12 Nov 2020 14:37:03 CET -->
+
+<!--te-->
+
 ## about
 
 `wdi5` comes in two flavours:

@@ -4,6 +4,24 @@
 
 It provides the `ui5`-service to `WebdriverIO`, running tests in the browser.
 
+## Table of contents
+
+<!--ts-->
+
+-   [wdio-ui5-service](#wdio-ui5-service-)
+    -   [Table of contents](#table-of-contents)
+    -   [Prerequisites](#prerequisites)
+    -   [Installation](#installation)
+        -   [Skip UI5/wdi5 initialization on startup](#skip-ui5wdi5-initialization-on-startup)
+    -   [Usage](#usage)
+    -   [Features specific to wdio-ui5-service (vs. wdi5)](#features-specific-to-wdio-ui5-service-vs-wdi5)
+    -   [Navigation](#navigation)
+    -   [License](#license)
+
+<!-- Added by: vbuzek, at: Do 12 Nov 2020 14:39:19 CET -->
+
+<!--te-->
+
 ## Prerequisites
 
 -   UI5 app running in the browser, accessbile via `http(s)://host.ext:port`.
@@ -84,6 +102,7 @@ wdioUI5Service.injectUI5();
 ```
 
 Check `/wdio-ui5-service/test/ui5-late.test.js` in conjunction with `/wdio-ui5-service/test/wdio-ui5-late.conf.js` for an example.
+
 ## Usage
 
 Run-(Test-)Time usage of `wdi5` is agnostic to its' test-scope (browser or native) and centers around the global `browser`-object, be it in the browser or on a real mobile device.
