@@ -1,4 +1,5 @@
 {
     "todo-tree.tree.showCountsInTree": true,
-    "todo-tree.tree.showBadges": true
+    "todo-tree.tree.showBadges": true,
+    "editor.formatOnSave": true
 }
