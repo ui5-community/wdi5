@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/js-soft/wdi5/compare/wdio-ui5-service@0.1.4...wdio-ui5-service@0.1.5) (2020-11-13)
+
 ### [0.1.4](https://github.com/js-soft/wdi5/compare/wdio-ui5-service@0.1.3...wdio-ui5-service@0.1.4) (2020-11-12)
 
 
