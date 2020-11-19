@@ -50,7 +50,7 @@ As to where the `wdi5`-extension gives you the full "app-testing-package".
 
 Specific to the desired test-scope, please see:
 
--   brower-based "Webdriver.IO"-plugin: [wdio-ui5-service](./wdio-ui-service/README.md)
+-   brower-based "Webdriver.IO"-plugin: [wdio-ui5-service](./wdio-ui5-service/README.md)
 -   hybrid app extension: [wdi5](./wdi5/README.md) (includes all browser-based capabilities)
 
 ## Usage
