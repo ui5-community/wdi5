@@ -33,7 +33,12 @@ module.exports = class BrowserUtil extends Utils {
         if (this.getConfig('platform') === 'electron') {
             this.path.currentPath = this.path.electron;
         } else {
-            // stay with empty string for current path for browser
+            // browser
+            if (this.getConfig('url') && this.getConfig('url').length > 0) {
+                this.path.currentPath = this.getConfig('url');
+            } else {
+                // stay with empty string for current path for browser
+            }
         }
 
         this._instance = this;
@@ -53,7 +58,7 @@ module.exports = class BrowserUtil extends Utils {
             // electron needs to have the wdi5 injected after navigation
             // -- no more as of Nov 2020 :) TODO: investigate why we don't need it
             // if (this.getConfig('platform') === 'electron') {
-                // this.context.injectUI5(browser);
+            // this.context.injectUI5(browser);
             // }
         } else {
             logger.log(`Navigating to: ${oRoute.sName}`);
