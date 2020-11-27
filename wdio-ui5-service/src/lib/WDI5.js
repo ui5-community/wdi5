@@ -88,19 +88,25 @@ module.exports = class WDI5 {
      */
     _retrieveElements(aControls, context = this._context) {
         let aResult = [];
-        // loop through items
-        aControls.forEach((item) => {
-            // item id -> create selector
-            const selector = {
-                wdio_ui5_key: item.id, // plugin-internal, not part of RecordReplay.ControlSelector
-                selector: {
-                    id: item.id
-                }
-            };
 
-            // get WDI5 control
-            aResult.push(context.asControl(selector));
-        });
+        // check the validity of param
+        if (aControls) {
+            // loop through items
+            aControls.forEach((item) => {
+                // item id -> create selector
+                const selector = {
+                    wdio_ui5_key: item.id, // plugin-internal, not part of RecordReplay.ControlSelector
+                    selector: {
+                        id: item.id
+                    }
+                };
+
+                // get WDI5 control
+                aResult.push(context.asControl(selector));
+            });
+        } else {
+            console.warn(this._wdio_ui5_key + " has no aControls")
+        }
 
         return aResult;
     }
@@ -111,9 +117,14 @@ module.exports = class WDI5 {
      * @param {Array} sReplFunctionNames
      */
     _attachControlBridge(sReplFunctionNames) {
-        sReplFunctionNames.forEach((sMethodName) => {
-            this[sMethodName] = this._executeControlMethod.bind(this, sMethodName, this._webElement, this._context);
-        });
+        // check the validity of param
+        if (sReplFunctionNames) {
+            sReplFunctionNames.forEach((sMethodName) => {
+                this[sMethodName] = this._executeControlMethod.bind(this, sMethodName, this._webElement, this._context);
+            });
+        } else {
+            console.warn(this._wdio_ui5_key + " has no sReplFunctionNames")
+        }
     }
 
     /**
