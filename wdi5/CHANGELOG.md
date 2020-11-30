@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.1](https://github.com/js-soft/wdi5/compare/wdi5@0.3.0...wdi5@0.3.1) (2020-11-30)
+
+
+### Features
+
+* **navto:** using url config when navigating ([9978a0f](https://github.com/js-soft/wdi5/commit/9978a0f2828f3859d516f48382ac7b16f3d264c5))
+* **nullcheck:** add nullchecks for control bridge ([20148f5](https://github.com/js-soft/wdi5/commit/20148f50945d0459fc432a1910c3bafce06fb6f8))
+
 ## 0.3.0 (2020-11-25)
 
 
