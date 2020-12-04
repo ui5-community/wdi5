@@ -105,7 +105,7 @@ module.exports = class WDI5 {
                 aResult.push(context.asControl(selector));
             });
         } else {
-            console.warn(this._wdio_ui5_key + " has no aControls")
+            console.warn(this._wdio_ui5_key + ' has no aControls');
         }
 
         return aResult;
@@ -123,7 +123,7 @@ module.exports = class WDI5 {
                 this[sMethodName] = this._executeControlMethod.bind(this, sMethodName, this._webElement, this._context);
             });
         } else {
-            console.warn(this._wdio_ui5_key + " has no sReplFunctionNames")
+            console.warn(this._wdio_ui5_key + ' has no sReplFunctionNames');
         }
     }
 
@@ -140,7 +140,7 @@ module.exports = class WDI5 {
         // pass the arguments to the event handler (like UI5 handles and expects them) also
         // also here in Node.js runtime
         if (methodName === 'fireEvent') {
-            if (typeof args[1]['eval'] === 'function') {
+            if (args[1] && typeof args[1]['eval'] === 'function') {
                 return this._fireEvent(args[0], args[1], webElement, context);
             }
         }
