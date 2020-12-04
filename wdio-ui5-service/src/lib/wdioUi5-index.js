@@ -367,8 +367,15 @@ function setup(context) {
      * @param {Object} oOptions {sHash: '#/test', oRoute: {sComponentId, sName, oParameters, oComponentTargetInfo, bReplace}}
      */
     _context.addCommand('goTo', (oOptions) => {
-        // destruct the oOptions
-        const sHash = oOptions.sHash;
+        // allow for method sig to be both
+        //  wdi5()...goTo("#/accounts/create")
+        //  wdi5()...goTo({sHash:"#/accounts/create"})
+        let sHash;
+        if (typeof oOptions === 'string') {
+            sHash = oOptions;
+        } else {
+            sHash = oOptions.sHash;
+        }
         const oRoute = oOptions.oRoute;
 
         if (sHash && sHash.length > 0) {
@@ -589,6 +596,7 @@ function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace
                 return hashChanger.hash;
 
                 // if the navigation was not executed the done event wont be called -> running into the wdio timout
+                // TODO: remove?
                 const error = 'Navigation via UI5 router failed';
                 window.wdi5.Log.error(`[browser wdio-ui5] ERR: ${error}`);
                 done(['error', error]);
