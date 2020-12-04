@@ -594,12 +594,6 @@ function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace
                 // sName, oParameters?, oComponentTargetInfo?, bReplace?
                 router.navTo(sName, oParameters, oComponentTargetInfo, bReplace);
                 return hashChanger.hash;
-
-                // if the navigation was not executed the done event wont be called -> running into the wdio timout
-                // TODO: remove?
-                const error = 'Navigation via UI5 router failed';
-                window.wdi5.Log.error(`[browser wdio-ui5] ERR: ${error}`);
-                done(['error', error]);
             });
         },
         sComponentId,
