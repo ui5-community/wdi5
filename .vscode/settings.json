@@ -1,5 +1,10 @@
 {
     "todo-tree.tree.showCountsInTree": true,
     "todo-tree.tree.showBadges": true,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "search.exclude": {
+        "/test/ui5-app/app/platforms": true,
+        "/test/ui5-app/app/plugins": true,
+        "/test/ui5-app/app/www": true
+    }
 }
