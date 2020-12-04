@@ -203,7 +203,7 @@ module.exports = {
                     // call success
                     done(['success', '']);
                 } catch (e) {
-                    const error = `[browser wdio-ui5] ERR executing the plugin function: ${pluginName}, because of: ${e}`;
+                    const error = `[browser wdi5] ERR executing the plugin function: ${pluginName}, because of: ${e}`;
                     window.wdi5.Log.error(error);
                     done(['error', error]);
                 }
