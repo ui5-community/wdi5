@@ -113,6 +113,10 @@ describe('locate ui5 control via regex', () => {
     it('new RegEx("string", "flags")', () => {
         return _assert(new RegExp('.*changeVersionButton$', 'gmi'));
     });
+
+    it('regex shorthand matchers are handled properly', () => {
+        return _assert(/.*change\w.*Button$/);
+    });
 });
 
 describe('screenshots', () => {
