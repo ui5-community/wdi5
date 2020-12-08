@@ -7,5 +7,13 @@
     "semi": true,
     "singleQuote": true,
     "arrowParens": "always",
-    "endOfLine": "lf"
+    "endOfLine": "lf",
+    "overrides": [
+        {
+            "files": ["*.yaml", "*.yml", "*.json", "*.md"],
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ]
 }
