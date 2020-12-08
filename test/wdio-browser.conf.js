@@ -86,7 +86,7 @@ exports.config = {
             browserName: 'chrome',
             "goog:chromeOptions": {
                 w3c: false,
-                args: ["window-size=1440,800"]
+                args: process.env.DEBUG ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"] : ["window-size=1440,800"]
             }
         }
     ],
