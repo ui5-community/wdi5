@@ -10,8 +10,8 @@ const _apphash = process.env.APPHASH_IOS
 exports.config = {
 
     // https://www.browserstack.com/docs/automate/selenium/getting-started/nodejs/webdriverio
-    user: userName,
-    key: accessKey,
+    user: _userName,
+    key: _accessKey,
     // forceLocal: true,
 
     capabilities: [
