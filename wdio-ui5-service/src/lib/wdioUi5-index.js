@@ -32,7 +32,7 @@ function injectUI5() {
 
         if (!window.sap || !window.sap.ui) {
             // setup sap testing already cant be done due to sap namespace not present on the page
-            console.error('[browser wdio-ui5] ERR: no ui5 present on page');
+            console.error('[browser wdi5] ERR: no ui5 present on page');
 
             // only condition where to cancel the setup process
             done(false);
@@ -52,13 +52,13 @@ function injectUI5() {
                 // Logger is loaded -> can be use internally
                 // attach logger to wdi5 to be able to use it globally
                 window.wdi5.Log = Log;
-                window.wdi5.Log.info('[browser wdio-ui5] injected!');
+                window.wdi5.Log.info('[browser wdi5] injected!');
             });
 
             // attach new bridge
             sap.ui.require(['sap/ui/test/RecordReplay'], (RecordReplay) => {
                 window.bridge = RecordReplay;
-                window.wdi5.Log.info('[browser wdio-ui5] injected!');
+                window.wdi5.Log.info('[browser wdi5] injected!');
                 window.wdi5.isInitialized = true;
 
                 // here setup is successfull
@@ -309,16 +309,16 @@ function setup(context) {
             window.bridge
                 .waitForUI5()
                 .then(() => {
-                    window.wdi5.Log.info('[browser wdio-ui5] locating domElement');
+                    window.wdi5.Log.info('[browser wdi5] locating domElement');
                     return window.bridge.findControlSelectorByDOMElement(oOptions);
                 })
                 .then((controlSelector) => {
-                    window.wdi5.Log.info('[browser wdio-ui5] controlLocator created!');
+                    window.wdi5.Log.info('[browser wdi5] controlLocator created!');
                     done(['success', controlSelector]);
                     return controlSelector;
                 })
                 .catch((error) => {
-                    window.wdi5.Log.error('[browser wdio-ui5] ERR: ', error);
+                    window.wdi5.Log.error('[browser wdi5] ERR: ', error);
                     done(['error', error.toString()]);
                     return error;
                 });
@@ -367,8 +367,15 @@ function setup(context) {
      * @param {Object} oOptions {sHash: '#/test', oRoute: {sComponentId, sName, oParameters, oComponentTargetInfo, bReplace}}
      */
     _context.addCommand('goTo', (oOptions) => {
-        // destruct the oOptions
-        const sHash = oOptions.sHash;
+        // allow for method sig to be both
+        //  wdi5()...goTo("#/accounts/create")
+        //  wdi5()...goTo({sHash:"#/accounts/create"})
+        let sHash;
+        if (typeof oOptions === 'string') {
+            sHash = oOptions;
+        } else {
+            sHash = oOptions.sHash;
+        }
         const oRoute = oOptions.oRoute;
 
         if (sHash && sHash.length > 0) {
@@ -466,8 +473,7 @@ function _checkForUI5Ready() {
             window.bridge
                 .waitForUI5()
                 .then(() => {
-                    window.wdi5.Log.info('[browser wdio-ui5] UI5 is ready');
-                    console.log('[browser wdio-ui5] UI5 is ready');
+                    window.wdi5.Log.info('[browser wdi5] UI5 is ready');
                     done(true);
                 })
                 .catch((error) => {
@@ -573,7 +579,7 @@ function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace
     const result = _context.executeAsync(
         (sComponentId, sName, oParameters, oComponentTargetInfo, bReplace, done) => {
             window.bridge.waitForUI5().then(() => {
-                window.wdi5.Log.info(`[browser wdio-ui5] navigation to ${sName} triggered`);
+                window.wdi5.Log.info(`[browser wdi5] navigation to ${sName} triggered`);
 
                 const router = sap.ui.getCore().getComponent(sComponentId).getRouter();
                 const hashChanger = router.getHashChanger();
@@ -587,11 +593,6 @@ function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace
                 // sName, oParameters?, oComponentTargetInfo?, bReplace?
                 router.navTo(sName, oParameters, oComponentTargetInfo, bReplace);
                 return hashChanger.hash;
-
-                // if the navigation was not executed the done event wont be called -> running into the wdio timout
-                const error = 'Navigation via UI5 router failed';
-                window.wdi5.Log.error(`[browser wdio-ui5] ERR: ${error}`);
-                done(['error', error]);
             });
         },
         sComponentId,

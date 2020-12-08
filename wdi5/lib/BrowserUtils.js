@@ -34,10 +34,9 @@ module.exports = class BrowserUtil extends Utils {
             this.path.currentPath = this.path.electron;
         } else {
             // browser
-            if (this.getConfig('url') && this.getConfig('url').length > 0) {
+            // incl fix: respect any webserver offering "index.html" as default dir index
+            if (this.getConfig('url') && this.getConfig('url').length > 0 && this.getConfig("url") !== "index.html") {
                 this.path.currentPath = this.getConfig('url');
-            } else {
-                // stay with empty string for current path for browser
             }
         }
 

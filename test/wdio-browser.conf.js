@@ -46,7 +46,7 @@ exports.config = {
     // will be called from there.
     //
 
-    specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', '*.js')],
+    specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', '*.test.js')],
 
     // Patterns to exclude.
     exclude: [],
@@ -86,7 +86,7 @@ exports.config = {
             browserName: 'chrome',
             "goog:chromeOptions": {
                 w3c: false,
-                args: ["window-size=1440,800"]
+                args: process.env.HEADLESS ? ['--headless'] : process.env.DEBUG ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"] : ["window-size=1440,800"]
             }
         }
     ],
@@ -173,7 +173,7 @@ exports.config = {
     // Make sure you have the wdio adapter package for the specific framework installed before running any tests.
     framework: 'mocha',
     mochaOpts: {
-        timeout: 50000
+        timeout: 80000
     },
     //
     // The number of times to retry the entire specfile when it fails as a whole

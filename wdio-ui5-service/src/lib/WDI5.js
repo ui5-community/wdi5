@@ -105,7 +105,7 @@ module.exports = class WDI5 {
                 aResult.push(context.asControl(selector));
             });
         } else {
-            console.warn(this._wdio_ui5_key + " has no aControls")
+            console.warn(this._wdio_ui5_key + ' has no aControls');
         }
 
         return aResult;
@@ -123,7 +123,7 @@ module.exports = class WDI5 {
                 this[sMethodName] = this._executeControlMethod.bind(this, sMethodName, this._webElement, this._context);
             });
         } else {
-            console.warn(this._wdio_ui5_key + " has no sReplFunctionNames")
+            console.warn(this._wdio_ui5_key + ' has no sReplFunctionNames');
         }
     }
 
@@ -140,7 +140,7 @@ module.exports = class WDI5 {
         // pass the arguments to the event handler (like UI5 handles and expects them) also
         // also here in Node.js runtime
         if (methodName === 'fireEvent') {
-            if (typeof args[1]['eval'] === 'function') {
+            if (args[1] && typeof args[1]['eval'] === 'function') {
                 return this._fireEvent(args[0], args[1], webElement, context);
             }
         }
@@ -362,16 +362,16 @@ module.exports = class WDI5 {
             window.bridge
                 .waitForUI5()
                 .then(() => {
-                    window.wdi5.Log.info('[browser wdio-ui5] locating controlSelector');
+                    window.wdi5.Log.info('[browser wdi5] locating controlSelector');
                     oOptions.selector = window.wdi5.createMatcher(oOptions.selector);
                     return window.bridge.interactWithControl(oOptions);
                 })
                 .then((result) => {
-                    window.wdi5.Log.info('[browser wdio-ui5] interaction complete! - Message: ' + result);
+                    window.wdi5.Log.info('[browser wdi5] interaction complete! - Message: ' + result);
                     done(['success', result]);
                 })
                 .catch((error) => {
-                    window.wdi5.Log.error('[browser wdio-ui5] ERR: ', error);
+                    window.wdi5.Log.error('[browser wdi5] ERR: ', error);
                     done(['error', error.toString()]);
                 });
         }, oOptions);
@@ -396,11 +396,11 @@ module.exports = class WDI5 {
         const result = context.executeAsync(
             (webElement, eventName, oOptions, done) => {
                 window.bridge.waitForUI5().then(() => {
-                    window.wdi5.Log.info('[browser wdio-ui5] working ' + eventName + ' for ' + webElement);
+                    window.wdi5.Log.info('[browser wdi5] working ' + eventName + ' for ' + webElement);
                     // DOM to ui5
                     let oControl = window.wdi5.getUI5CtlForWebObj(webElement);
                     if (oControl && oControl.hasListeners(eventName)) {
-                        window.wdi5.Log.info('[browser wdio-ui5] firing ' + eventName + ' on ' + webElement);
+                        window.wdi5.Log.info('[browser wdi5] firing ' + eventName + ' on ' + webElement);
                         // element existent and has the target event
                         try {
                             // eval the options indicated by option of type string
@@ -414,7 +414,7 @@ module.exports = class WDI5 {
                             done(['error', e.toString()]);
                         }
                     } else {
-                        window.wdi5.Log.error("[browser wdio-ui5] couldn't find " + webElement);
+                        window.wdi5.Log.error("[browser wdi5] couldn't find " + webElement);
                         done(['error', false]);
                     }
                 });
@@ -446,15 +446,13 @@ module.exports = class WDI5 {
             window.bridge
                 .waitForUI5()
                 .then(() => {
-                    window.wdi5.Log.info('[browser wdio-ui5] locating ' + JSON.stringify(controlSelector));
+                    window.wdi5.Log.info('[browser wdi5] locating ' + JSON.stringify(controlSelector));
                     controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector);
                     const control = window.bridge.findDOMElementByControlSelector(controlSelector);
                     return control;
                 })
                 .then((domElement) => {
-                    window.wdi5.Log.info(
-                        '[browser wdio-ui5] control located! - Message: ' + JSON.stringify(domElement)
-                    );
+                    window.wdi5.Log.info('[browser wdi5] control located! - Message: ' + JSON.stringify(domElement));
 
                     // ui5 control
                     const ui5Control = window.wdi5.getUI5CtlForWebObj(domElement);
@@ -464,7 +462,7 @@ module.exports = class WDI5 {
                     done(['success', domElement, id, aProtoFunctions]);
                 })
                 .catch((error) => {
-                    window.wdi5.Log.error('[browser wdio-ui5] ERR: ', error);
+                    window.wdi5.Log.error('[browser wdi5] ERR: ', error);
                     done(['error', error.toString()]);
                 });
         }, controlSelector);
