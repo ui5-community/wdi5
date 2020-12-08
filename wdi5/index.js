@@ -75,6 +75,8 @@ module.exports = (context, webcontext) => {
         // wdio-ui5-service setup
         if (wdioUI5Service) {
             new wdioUI5Service().startWDI5()
+        } else {
+            console.error("Dependency wdio-ui-service not found!")
         }
 
         const result = context.executeAsync((done) => {
