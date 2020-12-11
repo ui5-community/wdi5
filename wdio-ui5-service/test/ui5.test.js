@@ -71,6 +71,20 @@ describe('basics', () => {
 
         expect(browser.asControl(selectorWithoutId).getText()).toBe('Get Started with UI5');
     });
+
+    it('should not report an error on successful $control.focus()', () => {
+        const focusResult = browser.asControl(selectorVersionButton).focus();
+        expect(focusResult).toBeTruthy();
+
+        // assert focus on element also via webdriver.io api
+        const wdFocusResult = focusResult.getWebElement();
+        expect(wdFocusResult.isFocused()).toBeTruthy();
+    });
+    it('should throw an error on unsuccessful $control.focus()', () => {
+        expect(() => {
+            browser.asControl({selector: {id: 'doesnt_exist'}}).focus();
+        }).toThrow();
+    });
 });
 
 describe('locate ui5 control via regex', () => {

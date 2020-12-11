@@ -163,7 +163,14 @@ module.exports = class WDI5 {
                         result = window.wdi5.createControlIdMap(result);
                         done(['success', result, 'aggregation']);
                     } else {
-                        if (result === undefined || result === null) {
+                        // ui5 api <control>.focus() doesn't have return value
+                        if (methodName === 'focus' && result === undefined) {
+                            done([
+                                'success',
+                                `called focus() on wdi5 representation of a ${metadata.getElementName()}`,
+                                'element'
+                            ]);
+                        } else if (result === undefined || result === null) {
                             done([
                                 'error',
                                 `function ${methodName} does not exist on control ${metadata.getElementName()}!`,
