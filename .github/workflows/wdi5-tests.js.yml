@@ -21,5 +21,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install --frozen-lockfile
-      - run: HEADLESS=true yarn test:ci:wdi5
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: install packages
+        run: yarn install --frozen-lockfile
+      - name: run wdi5 tests
+        run: HEADLESS=true yarn test:ci:wdi5
