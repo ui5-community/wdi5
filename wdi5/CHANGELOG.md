@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.2](https://github.com/js-soft/wdi5/compare/wdi5@0.3.1...wdi5@0.3.2) (2020-12-11)
+
+
+### Features
+
+* support $control.focus() properly ([88968cc](https://github.com/js-soft/wdi5/commit/88968cc1b9cdb94cc36dfa27a35991b48bb0dcbd))
+* **loggin:** add error logging ([e089e01](https://github.com/js-soft/wdi5/commit/e089e01e39fb7cb2ca85adec10805f04251dda9c))
+* support $control.focus() properly ([2d0b6df](https://github.com/js-soft/wdi5/commit/2d0b6dfa875d6a47d5cbe0f8152169cf72713704))
+* **navto:** allow for plain string arg ([7673f6c](https://github.com/js-soft/wdi5/commit/7673f6ce6ad220fcfbd82eb455bd13aa72f23a3c))
+
+
+### Bug Fixes
+
+* **env:** env.example file location into root ([252c242](https://github.com/js-soft/wdi5/commit/252c2425dea9a0d75ac75717b46b816299fb2359))
+* **plugins:** remove cordova-plugin-barcodescanner ([81af67d](https://github.com/js-soft/wdi5/commit/81af67d87a612f6ca9c81dab0752bfbcb02d4880))
+* **typo:** correct variable name ([3d8337c](https://github.com/js-soft/wdi5/commit/3d8337c331916034bd4e2bc7d97566c9eb961055))
+* sanity check for fn args ([0384119](https://github.com/js-soft/wdi5/commit/03841199de3f94f17d9bf73dea952bca21264558))
+* treat index.html as dir index ([569745f](https://github.com/js-soft/wdi5/commit/569745fc938b5bf92f6392ee90711480031e5d4b))
+
 ### [0.3.1](https://github.com/js-soft/wdi5/compare/wdi5@0.3.0...wdi5@0.3.1) (2020-11-30)
 
 

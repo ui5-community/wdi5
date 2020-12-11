@@ -1,6 +1,6 @@
 {
     "name": "wdi5",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "description": "cross-platform test framework for hybrid UI5 apps. wdi5 = Webdriver.IO + UI5 Test API + appium",
     "main": "index.js",
     "repository": {
