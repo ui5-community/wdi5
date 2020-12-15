@@ -361,6 +361,16 @@ function setup(context) {
     });
 
     /**
+     * set relative app path -> url is not allowed to start with '/'
+     */
+    _context.addCommand('setUrl', (url) => {
+        _context.config.wdi5['url'] = url;
+        // use the wdio.url funtion to change the url
+        _context.url(url);
+        injectUI5(_context)
+    });
+
+    /**
      * do a navigation by changing the url hash
      * or
      * using the UI5 router with full standard parameter set
@@ -384,7 +394,7 @@ function setup(context) {
             // navigate via hash if defined
             if (url && url.length > 0 && url !== '#') {
                 // prefix url config if is not just a hash (#)
-                _context.url(`${_context.config.wdi5['url']}${sHash}`);
+                _context.url(`${url}${sHash}`);
             } else if (url && url.length > 0 && url === '#') {
                 // route without the double hash
                 _context.url(`${sHash}`);

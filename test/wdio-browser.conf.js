@@ -89,8 +89,8 @@ exports.config = {
                 args: process.env.HEADLESS
                     ? ['--headless']
                     : process.env.DEBUG
-                    ? ['window-size=1440,800', '--auto-open-devtools-for-tabs']
-                    : ['window-size=1440,800']
+                        ? ['window-size=1440,800', '--auto-open-devtools-for-tabs']
+                        : ['window-size=1440,800']
             }
         }
     ],
@@ -101,7 +101,7 @@ exports.config = {
         screenshotPath: path.join('test', 'report', 'screenshots'),
         logLevel: 'verbose', // error | verbose | silent
         platform: 'browser', // electron, browser, android, ios
-        url: 'index.html',
+        url: '#',
         isUI5Tooling: false, // explicitly denote that we're not running against ui5 tooling
         deviceType: 'web',
         capabilities: {
