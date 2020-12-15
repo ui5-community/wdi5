@@ -21,7 +21,7 @@ module.exports = class Service {
         const wdi5config = context.config.wdi5;
 
         // this is only to run in browser
-        if (wdi5config && wdi5config.url) {
+        if (wdi5config && wdi5config.url && wdi5config.url.length > 0) {
             console.log("open url: " + wdi5config.url);
             browser.url(wdi5config.url);
         } else {

@@ -11,7 +11,7 @@ module.exports = class BrowserUtil extends (
     static _instance;
     path = {
         electron: `${this.context.getUrl()}`,
-        currentPath: ''
+        currentPath: '' // default fallback for web browser
     };
 
     /**
@@ -36,20 +36,14 @@ module.exports = class BrowserUtil extends (
             this.path.currentPath = this.path.electron;
         } else {
             // browser
+            // not needed any config -> using empty path -> wdio-ui5-service `goTo` method includes the config for `url`
+
             // local ui5 tooling doesn't offer a directory index
             // -> explicitly call the $index html file
             // assumption: ui5 tooling used when not explicitly set
             // in config via
             //  isUI5Tooling: false
             if (this.getConfig('isUI5Tooling') || this.getConfig('isUI5Tooling') === undefined) {
-                this.path.currentPath = this.getConfig('url');
-            }
-            // respect any webserver offering "index.html" as default dir index
-            else if (
-                this.getConfig('url') &&
-                this.getConfig('url').length > 0 &&
-                this.getConfig('url') !== 'index.html'
-            ) {
                 this.path.currentPath = this.getConfig('url');
             }
         }
@@ -66,7 +60,7 @@ module.exports = class BrowserUtil extends (
         if (hash) {
             logger.log(`Navigating to: ${this.path.currentPath}${hash}`);
             // used for electron and browser
-            this.context.url(`${this.path.currentPath}${hash}`);
+            this.context.goTo(`${this.path.currentPath}${hash}`);
 
             // electron needs to have the wdi5 injected after navigation
             // -- no more as of Nov 2020 :) TODO: investigate why we don't need it
@@ -77,7 +71,7 @@ module.exports = class BrowserUtil extends (
             logger.log(`Navigating to: ${oRoute.sName}`);
 
             // only for ui5 router based navigation use this function
-            this.context.goTo({oRoute: oRoute});
+            this.context.goTo({ oRoute: oRoute });
         }
     }
 
