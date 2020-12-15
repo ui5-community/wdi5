@@ -5,7 +5,9 @@ const path = require('path');
 const Utils = require('./Utils');
 
 // Singleton
-module.exports = class BrowserUtil extends Utils {
+module.exports = class BrowserUtil extends (
+    Utils
+) {
     static _instance;
     path = {
         electron: `${this.context.getUrl()}`,
@@ -34,8 +36,20 @@ module.exports = class BrowserUtil extends Utils {
             this.path.currentPath = this.path.electron;
         } else {
             // browser
-            // incl fix: respect any webserver offering "index.html" as default dir index
-            if (this.getConfig('url') && this.getConfig('url').length > 0 && this.getConfig("url") !== "index.html") {
+            // local ui5 tooling doesn't offer a directory index
+            // -> explicitly call the $index html file
+            // assumption: ui5 tooling used when not explicitly set
+            // in config via
+            //  isUI5Tooling: false
+            if (this.getConfig('isUI5Tooling') || this.getConfig('isUI5Tooling') === undefined) {
+                this.path.currentPath = this.getConfig('url');
+            }
+            // respect any webserver offering "index.html" as default dir index
+            else if (
+                this.getConfig('url') &&
+                this.getConfig('url').length > 0 &&
+                this.getConfig('url') !== 'index.html'
+            ) {
                 this.path.currentPath = this.getConfig('url');
             }
         }
@@ -63,7 +77,7 @@ module.exports = class BrowserUtil extends Utils {
             logger.log(`Navigating to: ${oRoute.sName}`);
 
             // only for ui5 router based navigation use this function
-            this.context.goTo({ oRoute: oRoute });
+            this.context.goTo({oRoute: oRoute});
         }
     }
 
@@ -74,11 +88,10 @@ module.exports = class BrowserUtil extends Utils {
      */
     takeScreenshot(fileAppendix) {
         if (this.initSuccess) {
-
             // make sure the UI is fully loaded -> done in wdio-ui5-service
             // this.context.waitForUI5();
 
-            this._writeScreenshot(fileAppendix)
+            this._writeScreenshot(fileAppendix);
         } else {
             logger.error('init of utils failed');
         }
