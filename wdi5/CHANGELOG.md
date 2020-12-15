@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.3](https://github.com/js-soft/wdi5/compare/wdi5@0.3.2...wdi5@0.3.3) (2020-12-15)
+
+
+### Features
+
+* support ui5 serve + other web servers ([a3f8e86](https://github.com/js-soft/wdi5/commit/a3f8e86fa72ea900733cb6db5ba80c8be69eff06))
+
+
+### Bug Fixes
+
+* differentiate web server env ([ba187ce](https://github.com/js-soft/wdi5/commit/ba187ce5323f743ad5570be0b40804d4c535a0dc))
+
 ### [0.3.2](https://github.com/js-soft/wdi5/compare/wdi5@0.3.1...wdi5@0.3.2) (2020-12-11)
 
 
