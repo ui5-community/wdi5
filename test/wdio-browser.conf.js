@@ -1,6 +1,6 @@
 const path = require('path');
-require('dotenv').config()
-const WDI5Service = require('wdi5/lib/service/wdi5.service')
+require('dotenv').config();
+const WDI5Service = require('wdi5/lib/service/wdi5.service');
 
 exports.config = {
     // ==================================
@@ -84,9 +84,13 @@ exports.config = {
             // 5 instances get started at a time.
             maxInstances: 1,
             browserName: 'chrome',
-            "goog:chromeOptions": {
+            'goog:chromeOptions': {
                 w3c: false,
-                args: process.env.HEADLESS ? ['--headless'] : process.env.DEBUG ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"] : ["window-size=1440,800"]
+                args: process.env.HEADLESS
+                    ? ['--headless']
+                    : process.env.DEBUG
+                    ? ['window-size=1440,800', '--auto-open-devtools-for-tabs']
+                    : ['window-size=1440,800']
             }
         }
     ],
@@ -97,7 +101,8 @@ exports.config = {
         screenshotPath: path.join('test', 'report', 'screenshots'),
         logLevel: 'verbose', // error | verbose | silent
         platform: 'browser', // electron, browser, android, ios
-        url: "index.html",
+        url: 'index.html',
+        isUI5Tooling: false, // explicitly denote that we're not running against ui5 tooling
         deviceType: 'web',
         capabilities: {
             // test
@@ -188,5 +193,5 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // See also: https://webdriver.io/docs/dot-reporter.html , and click on "Reporters" in left column
-    reporters: ['spec'],
+    reporters: ['spec']
 };
