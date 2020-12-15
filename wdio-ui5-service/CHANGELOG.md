@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.8](https://github.com/js-soft/wdi5/compare/wdio-ui5-service@0.1.7...wdio-ui5-service@0.1.8) (2020-12-15)
+
+
+### Features
+
+* support ui5 serve + other web servers ([a3f8e86](https://github.com/js-soft/wdi5/commit/a3f8e86fa72ea900733cb6db5ba80c8be69eff06))
+
+
+### Bug Fixes
+
+* differentiate web server env ([ba187ce](https://github.com/js-soft/wdi5/commit/ba187ce5323f743ad5570be0b40804d4c535a0dc))
+
 ### [0.1.7](https://github.com/js-soft/wdi5/compare/wdio-ui5-service@0.1.6...wdio-ui5-service@0.1.7) (2020-12-11)
 
 
