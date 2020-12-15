@@ -1,4 +1,6 @@
 const path = require('path');
+require('dotenv').config();
+const WDI5Service = require('wdi5/lib/service/wdi5.service');
 
 exports.config = {
     // ==================================
@@ -44,7 +46,7 @@ exports.config = {
     // will be called from there.
     //
 
-    specs: [path.join('wdio-ui5-service', 'test', 'ui5-late.test.js')],
+    specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', 'basic.test.js')],
 
     // Patterns to exclude.
     exclude: [],
@@ -84,20 +86,39 @@ exports.config = {
             browserName: 'chrome',
             'goog:chromeOptions': {
                 w3c: false,
-                args: process.env.HEADLESS ? ['--headless'] : ['window-size=1440,800']
+                args: process.env.HEADLESS
+                    ? ['--headless']
+                    : process.env.DEBUG
+                    ? ['window-size=1440,800', '--auto-open-devtools-for-tabs']
+                    : ['window-size=1440,800']
             }
         }
     ],
 
+    // TODO: move this to service instantiation?
     wdi5: {
         // path: "", // commented out to use the default paths
-        screenshotPath: path.join('wdio-ui5-service', 'test', 'report', 'screenshots'),
+        screenshotPath: path.join('test', 'report', 'screenshots'),
         logLevel: 'verbose', // error | verbose | silent
         platform: 'browser', // electron, browser, android, ios
-        url: '/js-soft/wdi5/',
+        url: 'index.html',
+        // isUI5Tooling: true, // default
         deviceType: 'web',
-        skipInjectUI5OnStart: true,
-        isUI5Tooling: false // explicitly denote that we're not running against ui5 tooling
+        capabilities: {
+            // test
+            rotate: true,
+            camera: 2
+        },
+        plugins: {
+            'phonegap-plugin-barcodescanner': {
+                scanCode: '123-123-asd',
+                format: 'EAN'
+            },
+            'custom-plugin': {
+                path: path.join('test', 'plugins', 'custom-plugin.js')
+                // path: "./test/plugins/custom-plugin.js"
+            }
+        }
     },
 
     // Test runner services
@@ -107,8 +128,8 @@ exports.config = {
     // Use the Appium plugin for Webdriver. Without this, we would need to run appium
     // separately on the command line.
     services: [
-        'ui5', // service is officially registered "as a service" with webdriver.io
-        'chromedriver'
+        'chromedriver', // cannot beeing started standalone // ./node_modules/chromedriver80/bin/chromedriver"
+        [WDI5Service]
     ],
     //
     // Additional list of node arguments to use when starting child processes
@@ -138,7 +159,7 @@ exports.config = {
     //
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the `baseUrl`
     // gets prepended directly.
-    baseUrl: 'https://github.com',
+    baseUrl: 'http://localhost:8080/',
     //
     // Default timeout for all waitForUI5 commands. This is the timeout used for the `executeAsync`funciton
     waitforTimeout: 10000,
@@ -157,7 +178,7 @@ exports.config = {
     // Make sure you have the wdio adapter package for the specific framework installed before running any tests.
     framework: 'mocha',
     mochaOpts: {
-        timeout: 50000
+        timeout: 80000
     },
     //
     // The number of times to retry the entire specfile when it fails as a whole

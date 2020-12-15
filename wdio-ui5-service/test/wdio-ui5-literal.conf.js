@@ -96,7 +96,8 @@ exports.config = {
         platform: 'browser', // electron, browser, android, ios
         url: 'index.html',
         deviceType: 'web',
-        skipInjectUI5OnStart: false
+        // skipInjectUI5OnStart: false, default
+        isUI5Tooling: false // explicitly denote that we're not running against ui5 tooling
     },
 
     // Test runner services

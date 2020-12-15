@@ -8,15 +8,15 @@ It provides the `ui5`-service to `WebdriverIO`, running tests in the browser.
 
 <!--ts-->
 
--   [wdio-ui5-service](#wdio-ui5-service-)
-    -   [Table of contents](#table-of-contents)
-    -   [Prerequisites](#prerequisites)
-    -   [Installation](#installation)
-        -   [Skip UI5/wdi5 initialization on startup](#skip-ui5wdi5-initialization-on-startup)
-    -   [Usage](#usage)
-    -   [Features specific to wdio-ui5-service (vs. wdi5)](#features-specific-to-wdio-ui5-service-vs-wdi5)
-    -   [Navigation](#navigation)
-    -   [License](#license)
+- [wdio-ui5-service](#wdio-ui5-service-)
+  - [Table of contents](#table-of-contents)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+    - [Skip UI5/wdi5 initialization on startup](#skip-ui5wdi5-initialization-on-startup)
+  - [Usage](#usage)
+  - [Features specific to wdio-ui5-service (vs. wdi5)](#features-specific-to-wdio-ui5-service-vs-wdi5)
+  - [Navigation](#navigation)
+  - [License](#license)
 
 <!-- Added by: vbuzek, at: Do 12 Nov 2020 14:39:19 CET -->
 
@@ -24,11 +24,11 @@ It provides the `ui5`-service to `WebdriverIO`, running tests in the browser.
 
 ## Prerequisites
 
--   UI5 app running in the browser, accessbile via `http(s)://host.ext:port`.
-    Recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like [`soerver`](https://github.com/vobu/soerver) or [`http-server`](https://www.npmjs.com/package/http-server).
--   node version >= `12.x` (`lts/erbium`)
--   (optional) `yarn`
-    during development, we rely on `yarn`’s workspace-features - that’s why we refer to `yarn` instead of `npm` in the docs, even though using `npm` as an equivalent shold be fine too
+- UI5 app running in the browser, accessbile via `http(s)://host.ext:port`.
+  Recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like [`soerver`](https://github.com/vobu/soerver) or [`http-server`](https://www.npmjs.com/package/http-server).
+- node version >= `12.x` (`lts/erbium`)
+- (optional) `yarn`
+  during development, we rely on `yarn`’s workspace-features - that’s why we refer to `yarn` instead of `npm` in the docs, even though using `npm` as an equivalent shold be fine too
 
 ## Installation
 
@@ -48,9 +48,9 @@ or
 
 ```json
 {
-    "dependencies": {
-        "wdio-ui5-service": "^0.0.1"
-    }
+  "dependencies": {
+    "wdio-ui5-service": "^0.0.1"
+  }
 }
 ```
 
@@ -76,6 +76,11 @@ wdi5: {
     url: 'index.html', // path to your bootstrap html file
     deviceType: 'web', // native | web
     skipInjectUI5OnStart: false // true when UI5 is not on the start page, you need to later call <wdioUI5service>.injectUI5(); manually
+
+    // if your ui5 app under test
+    // is served by anything other than the ui5 tooling,
+    // set this option explicity to false (defaults to true)
+    // isUI5Tooling: false
 }
 ```
 
@@ -115,22 +120,22 @@ Please see the top-level [README](../README.md#Usage) for API-methods and usage 
 
 In the test, you can navigate the UI5 webapp via `goTo(options)` in one of two ways:
 
--   updating the browser hash
-    ```javascript
-    browser.goTo({sHash: '#/test'});
-    ```
--   using the UI5 router [navTo](https://openui5.netweaver.ondemand.com/api/sap.ui.core.routing.Router#methods/navTo) function
-    ```javascript
-    browser.goTo(
-        oRoute: {
-            sComponentId,
-            sName,
-            oParameters,
-            oComponentTargetInfo,
-            bReplace
-        }
-    )
-    ```
+- updating the browser hash
+  ```javascript
+  browser.goTo({sHash: '#/test'});
+  ```
+- using the UI5 router [navTo](https://openui5.netweaver.ondemand.com/api/sap.ui.core.routing.Router#methods/navTo) function
+  ```javascript
+  browser.goTo(
+      oRoute: {
+          sComponentId,
+          sName,
+          oParameters,
+          oComponentTargetInfo,
+          bReplace
+      }
+  )
+  ```
 
 ## License
 
