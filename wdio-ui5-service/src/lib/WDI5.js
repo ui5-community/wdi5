@@ -459,11 +459,11 @@ module.exports = class WDI5 {
                     return control;
                 })
                 .then((domElement) => {
-                    window.wdi5.Log.info('[browser wdi5] control located! - Message: ' + JSON.stringify(domElement));
-
+                    // window.wdi5.Log.info('[browser wdi5] control located! - Message: ' + JSON.stringify(domElement));
                     // ui5 control
                     const ui5Control = window.wdi5.getUI5CtlForWebObj(domElement);
                     const id = ui5Control.getId();
+                    window.wdi5.Log.info(`[browser wdi5] control with id: ${id} located!`);
                     const aProtoFunctions = window.wdi5.retrieveControlMethods(ui5Control);
                     // @type [String, String?, String, "Array of Strings"]
                     done(['success', domElement, id, aProtoFunctions]);
