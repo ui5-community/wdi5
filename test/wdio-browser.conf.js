@@ -101,8 +101,7 @@ exports.config = {
         screenshotPath: path.join('test', 'report', 'screenshots'),
         logLevel: 'verbose', // error | verbose | silent
         platform: 'browser', // electron, browser, android, ios
-        url: '#',
-        isUI5Tooling: false, // explicitly denote that we're not running against ui5 tooling
+        url: '',
         deviceType: 'web',
         capabilities: {
             // test

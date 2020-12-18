@@ -24,6 +24,9 @@ module.exports = class Service {
         if (wdi5config && wdi5config.url && wdi5config.url.length > 0) {
             console.log("open url: " + wdi5config.url);
             browser.url(wdi5config.url);
+        } else if (wdi5config && wdi5config.url && wdi5config.url === '') {
+            console.log("open url with fallback (this is not causing any issues since its is removed for navigation): #");
+            browser.url('#');
         } else {
             console.error("not opening any url, no url was supplied in wdi5 config");
         }

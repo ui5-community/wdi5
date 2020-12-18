@@ -97,7 +97,6 @@ exports.config = {
         url: 'index.html',
         deviceType: 'web',
         // skipInjectUI5OnStart: false, // default
-        isUI5Tooling: false // explicitly denote that we're not running against ui5 tooling
     },
 
     // Test runner services

@@ -89,8 +89,8 @@ exports.config = {
                 args: process.env.HEADLESS
                     ? ['--headless']
                     : process.env.DEBUG
-                    ? ['window-size=1440,800', '--auto-open-devtools-for-tabs']
-                    : ['window-size=1440,800']
+                        ? ['window-size=1440,800', '--auto-open-devtools-for-tabs']
+                        : ['window-size=1440,800']
             }
         }
     ],
@@ -102,7 +102,6 @@ exports.config = {
         logLevel: 'verbose', // error | verbose | silent
         platform: 'browser', // electron, browser, android, ios
         url: 'index.html',
-        // isUI5Tooling: true, // default
         deviceType: 'web',
         capabilities: {
             // test

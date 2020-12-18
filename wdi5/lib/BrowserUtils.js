@@ -37,15 +37,6 @@ module.exports = class BrowserUtil extends (
         } else {
             // browser
             // not needed any config -> using empty path -> wdio-ui5-service `goTo` method includes the config for `url`
-
-            // local ui5 tooling doesn't offer a directory index
-            // -> explicitly call the $index html file
-            // assumption: ui5 tooling used when not explicitly set
-            // in config via
-            //  isUI5Tooling: false
-            if (this.getConfig('isUI5Tooling') || this.getConfig('isUI5Tooling') === undefined) {
-                this.path.currentPath = this.getConfig('url');
-            }
         }
 
         this._instance = this;

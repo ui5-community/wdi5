@@ -80,7 +80,6 @@ exports.config = {
         // if your ui5 app under test
         // is served by anything other than the ui5 tooling,
         // set this option explicity to false (defaults to true)
-        // isUI5Tooling: false
     }
     // ...
     services: [
