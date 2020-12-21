@@ -21,13 +21,19 @@ module.exports = class Service {
         const wdi5config = context.config.wdi5;
 
         // this is only to run in browser
-        if (wdi5config && wdi5config.url && wdi5config.url.length > 0) {
-            console.log("open url: " + wdi5config.url);
-            browser.url(wdi5config.url);
-        } else if (wdi5config && wdi5config.url && wdi5config.url === '') {
-            console.log("open url with fallback (this is not causing any issues since its is removed for navigation): #");
-            browser.url('#');
+        if (wdi5config && typeof wdi5config.url === "string") {
+            if (wdi5config.url.length > 0) {
+                console.log("open url: " + wdi5config.url);
+                browser.url(wdi5config.url);
+            } else if (wdi5config.url === '' && wdi5config.url.length === 0) {
+                console.log("open url with fallback (this is not causing any issues since its is removed for navigation): #");
+                browser.url('#');
+            } else {
+                // just for error logging
+                console.error("not opening any url, wdi5 config contains errors");
+            }
         } else {
+            // just for error logging
             console.error("not opening any url, no url was supplied in wdi5 config");
         }
 
