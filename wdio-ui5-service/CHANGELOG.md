@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.9](https://github.com/js-soft/wdi5/compare/wdio-ui5-service@0.1.8...wdio-ui5-service@0.1.9) (2020-12-21)
+
+
+### Features
+
+* **nav:** move navigation to wdio-ui5-service ([1704c31](https://github.com/js-soft/wdi5/commit/1704c31eefad27f904ac26724b7e56f21a10171b))
+
+
+### Bug Fixes
+
+* **getcontrol:** fix error about circular ref ([0717995](https://github.com/js-soft/wdi5/commit/0717995241de1d343a5ff7a4aaa9bd7fbc049f0a))
+* **navigation:** pr review ([f8b3741](https://github.com/js-soft/wdi5/commit/f8b374156c081f49fa6b1afc265d35e5c9f2241e))
+* **open:** url in service with wrong condition ([b1b7b74](https://github.com/js-soft/wdi5/commit/b1b7b74051d2c13db84e1550de7c06f3b534b857))
+
 ### [0.1.8](https://github.com/js-soft/wdi5/compare/wdio-ui5-service@0.1.7...wdio-ui5-service@0.1.8) (2020-12-15)
 
 
