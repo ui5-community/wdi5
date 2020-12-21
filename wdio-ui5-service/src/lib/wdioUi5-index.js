@@ -260,7 +260,7 @@ async function checkForUI5Page() {
             // @ts-ignore: we're in wdio sync land here
             return readyState === 'complete';
         },
-        {interval: 500, timeout: 8000}
+        { interval: 500, timeout: 8000 }
     );
 
     // test for ui5
@@ -361,6 +361,16 @@ function setup(context) {
     });
 
     /**
+     * set relative app path -> url is not allowed to start with '/'
+     */
+    _context.addCommand('setUrl', (url) => {
+        _context.config.wdi5['url'] = url;
+        // use the wdio.url funtion to change the url
+        _context.url(url);
+        injectUI5(_context)
+    });
+
+    /**
      * do a navigation by changing the url hash
      * or
      * using the UI5 router with full standard parameter set
@@ -379,8 +389,19 @@ function setup(context) {
         const oRoute = oOptions.oRoute;
 
         if (sHash && sHash.length > 0) {
+            const url = _context.config.wdi5['url']
+
             // navigate via hash if defined
-            _context.url(`${sHash}`);
+            if (url && url.length > 0 && url !== '#') {
+                // prefix url config if is not just a hash (#)
+                _context.url(`${url}${sHash}`);
+            } else if (url && url.length > 0 && url === '#') {
+                // route without the double hash
+                _context.url(`${sHash}`);
+            } else {
+                // just a fallback
+                _context.url(`${sHash}`);
+            }
         } else if (oRoute && oRoute.sName) {
             // navigate using the ui5 router
             // sComponentId, sName, oParameters, oComponentTargetInfo, bReplace
@@ -506,6 +527,10 @@ function _writeScreenshot(fileAppendix) {
     let _path = _context.config.wdi5['screenshotPath'];
     if (_path === undefined || _path.length === 0) {
         _path = this.pjsonPackage.screenshotPath;
+        if (_path === undefined || _path.length === 0) {
+            // fallback to root
+            _path = "/screenshots"
+        }
     }
 
     if (fileAppendix.length > 0) {

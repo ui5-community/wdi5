@@ -80,10 +80,24 @@ describe('basics', () => {
         const wdFocusResult = focusResult.getWebElement();
         expect(wdFocusResult.isFocused()).toBeTruthy();
     });
+
     it('should throw an error on unsuccessful $control.focus()', () => {
         expect(() => {
-            browser.asControl({selector: {id: 'doesnt_exist'}}).focus();
+            browser.asControl({ selector: { id: 'doesnt_exist' } }).focus();
         }).toThrow();
+    });
+
+    it('should navigate', () => {
+        browser.setUrl('api/sap.m.Button')
+
+        const header = browser.asControl({ selector: { id: '__xmlview0--title' } })
+        expect(header.getVisible()).toBeTruthy();
+    });
+
+    it('should navigate via hash', () => {
+        browser.goTo('#events/Summary')
+        const eventsHeader = browser.asControl({ selector: { id: '__xmlview0--events' } })
+        expect(eventsHeader.getVisible()).toBeTruthy();
     });
 });
 

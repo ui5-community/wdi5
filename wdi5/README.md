@@ -72,15 +72,14 @@ exports.config = {
         [WDI5Service]
     ]
     wdi5: {
-        screenshotPath: "./test/report/screenshots",
-        logLevel: "verbose", // error | silent | verbose
-        platform: "browser", // android | browser | electron | ios
-        deviceType: "web" // native (ios, android) | web (browser, electron)
-        url: "index.html",
+        screenshotPath: "./test/report/screenshots", // [optional] using the project root
+        logLevel: "verbose", // [optional] error | silent | verbose
+        platform: "browser", // [mandatory] android | browser | electron | ios
+        deviceType: "web" // [mandatory] native (ios, android) | web (browser, electron)
+        path: '/some/native/device/path' // [optional] path to your android or ios webapp
         // if your ui5 app under test
         // is served by anything other than the ui5 tooling,
         // set this option explicity to false (defaults to true)
-        // isUI5Tooling: false
     }
     // ...
     services: [
