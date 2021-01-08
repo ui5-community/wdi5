@@ -219,6 +219,16 @@ function injectUI5() {
                      */
                     window.wdi5.createControlIdMap = (aControls) => {
                         // the array of UI5 controls need to be mapped (remove circular reference)
+
+                        if (!Array.isArray(aControls)) {
+                            // if in aControls is a single control -> create an array first
+
+                            // this is causes by sap.ui.base.ManagedObject -> get Aggregation defines its return value as:
+                            // sap.ui.base.ManagedObject or sap.ui.base.ManagedObject[] or null
+
+                            aControls = [aControls]
+                        }
+
                         return aControls.map((element) => {
                             // just use the absolute ID of the control
                             let item = {
