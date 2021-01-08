@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/js-soft/wdi5/compare/wdi5@0.3.4...wdi5@0.4.0) (2021-01-08)
+
+
+### Bug Fixes
+
+* **aggregation:** when getAggregation retuns only one ([3bad8af](https://github.com/js-soft/wdi5/commit/3bad8af44890b811c54e79f4dc48a056b8c966ec))
+
 ### [0.3.4](https://github.com/js-soft/wdi5/compare/wdi5@0.3.3...wdi5@0.3.4) (2020-12-21)
 
 
