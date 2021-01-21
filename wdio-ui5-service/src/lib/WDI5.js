@@ -112,6 +112,35 @@ module.exports = class WDI5 {
     }
 
     /**
+     * retrieve UI5 control represenation of a UI5 control's aggregation
+     *
+     * @param {webElement} eControl ID
+     * @param {WebdriverIO.BrowserObject} context
+     * @returns {WDI5[]} instances of wdi5 class per control in the aggregation
+     */
+    _retrieveElement(eControl, context = this._context) {
+        let eResult = {};
+
+        // check the validity of param
+        if (eControl) {
+            // item id -> create selector
+            const selector = {
+                wdio_ui5_key: item.id, // plugin-internal, not part of RecordReplay.ControlSelector
+                selector: {
+                    id: item.id
+                }
+            };
+
+            // get WDI5 control
+            context.asControl(selector)
+        } else {
+            console.warn(this._wdio_ui5_key + ' has no aControls');
+        }
+
+        return eResult;
+    }
+
+    /**
      * attaches to the instance of this class the functions given in the parameter sReplFunctionNames
      *
      * @param {Array} sReplFunctionNames
@@ -185,11 +214,18 @@ module.exports = class WDI5 {
                                 // object, replacer function
                                 // TODO: create usefull content from result
                                 // result = JSON.stringify(result, window.wdi5.circularReplacer());
-                                done([
-                                    'success',
-                                    `instance of wdi5 representation of a ${metadata.getElementName()}`,
-                                    'element'
-                                ]);
+
+                                // check if of control to verify if the method result is a different control
+                                if (result && result.getId && (oControl.getId() !== result.getId())) {
+                                    // ui5 function like get parent might return another ui5 control -> return it to check with this wdi5 instance
+                                    done(['success', result, 'newElement'])
+                                } else {
+                                    done([
+                                        'success',
+                                        `instance of wdi5 representation of a ${metadata.getElementName()}`,
+                                        'element'
+                                    ]);
+                                }
                             }
                         }
                     }
@@ -204,6 +240,9 @@ module.exports = class WDI5 {
         this._writeResultLog(result, methodName);
 
         switch (result[2]) {
+            case 'newElement':
+                // retrieve and return another instance of a wdi5 control
+                return this._retrieveElement(result[1]);
             case 'element':
                 // return $self after a called method of the wdi5 instance to allow method chaining
                 return this;
