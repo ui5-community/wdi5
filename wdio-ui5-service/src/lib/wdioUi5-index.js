@@ -530,6 +530,13 @@ function _getDateString() {
  * @param {*} fileAppendix
  */
 function _writeScreenshot(fileAppendix) {
+
+    // if config param screenshotsDisabled is set to true -> no screenshots will be taken
+    if (_context.config.wdi5['screenshotsDisabled']) {
+        console.log("screenshot skipped du to config parameter")
+        return;
+    }
+
     // browser.screenshot returns the screenshot as a base64 string
     const screenshot = _context.takeScreenshot();
     const seed = _getDateString();
