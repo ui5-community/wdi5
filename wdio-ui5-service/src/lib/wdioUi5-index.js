@@ -550,14 +550,17 @@ function _writeScreenshot(fileAppendix) {
         }
     }
 
-    if (fileAppendix.length > 0) {
+    if (fileAppendix && fileAppendix.length > 0) {
+        // extend the filename with a leading dash
         fileAppendix = '-' + fileAppendix;
     }
+    // set deafult name for variable -> prevent issue #64
+    const filename = fileAppendix ? fileAppendix : 'screenshot'
 
     const platform = _context.config.wdi5['platform'];
 
     // make path cross-platform
-    _path = path.resolve(_path, `${seed}-${platform}-${fileAppendix}.png`);
+    _path = path.resolve(_path, `${seed}-${platform}${filename}.png`);
     // async
     fs.writeFile(_path, screenshot, 'base64', function (err) {
         if (err) {
