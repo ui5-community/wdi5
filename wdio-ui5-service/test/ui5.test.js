@@ -39,12 +39,20 @@ describe('basics', () => {
 
     it('should have the right title', () => {
         const title = browser.getTitle();
-        expect(title).toEqual('Home - Demo Kit - SAPUI5 SDK');
+        expect(title).toEqual('OpenUI5 SDK - Demo Kit');
     });
 
     it('should find a ui5 control by id', () => {
         const controlDownloadButton = browser.asControl(selectorDownloadButton);
         expect(controlDownloadButton.getText()).toEqual('Download');
+    });
+
+    it.only('should get the parent control', () => {
+        const controlVersionButton = browser.asControl(selectorVersionButton)
+        const headerToolbar = controlVersionButton.getParent()
+
+        expect(headerToolbar.getVisible()).toBeTruthy();
+        expect(headerToolbar.getId()).toStrictEqual("sdk---app--headerToolbar")
     });
 
     it('should click a ui5 button (version selector) by id', () => {
