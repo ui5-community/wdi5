@@ -47,6 +47,14 @@ describe('basics', () => {
         expect(controlDownloadButton.getText()).toEqual('Download');
     });
 
+    it('should get the parent control', () => {
+        const controlVersionButton = browser.asControl(selectorVersionButton)
+        const headerToolbar = controlVersionButton.getParent()
+
+        expect(headerToolbar.getVisible()).toBeTruthy();
+        expect(headerToolbar.getId()).toStrictEqual("sdk---app--headerToolbar")
+    });
+
     it('should click a ui5 button (version selector) by id', () => {
         // open the version select dialog
         const controlVersionButton = browser.asControl(selectorVersionButton);
