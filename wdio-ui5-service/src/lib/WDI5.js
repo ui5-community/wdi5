@@ -258,8 +258,9 @@ module.exports = class WDI5 {
                 } else if (args[0] && typeof args[0] === 'number') {
                     if (args[0] <= result[1].length) {
                         // retieve only one
-                        // TODO: need some code of separate feature branch here
-                        // return this._retrieveElements(result[1][args[0]])
+                        // need some code of separate feature branch here
+                        const wdioElement = result[1][args[0]]
+                        return this._retrieveElement(wdioElement)
                     } else {
                         console.error(`tried to get an control at index: ${args[0]} of an aggregation outside of aggregation length: ${result[1].length}`)
                     }
