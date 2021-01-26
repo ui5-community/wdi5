@@ -47,7 +47,7 @@ describe('basics', () => {
         expect(controlDownloadButton.getText()).toEqual('Download');
     });
 
-    it.only('should get the parent control', () => {
+    it('should get the parent control', () => {
         const controlVersionButton = browser.asControl(selectorVersionButton)
         const headerToolbar = controlVersionButton.getParent()
 
