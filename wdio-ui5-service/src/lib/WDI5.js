@@ -212,22 +212,21 @@ module.exports = class WDI5 {
                 return result[1];
             case 'aggregation': // also applies for getAggregation convenience methods such as $ui5control.getItems()
                 // check weather to retrieve all elements in the aggreation as ui5 control
-                if (args[1] && typeof args[1] === 'boolean' && args[1] === true) {
-                    // get all
+                if ((args.length > 0) && (typeof args[0] === 'boolean') && (args[0] === false) || (args.length === 0)) {
+                    // get all if param is false or undefined
                     return this._retrieveElements(result[1])
-                } else if (args[1] && typeof args[1] === 'number') {
-                    if (args[1] <= result[1].length) {
+                } else if (args[0] && typeof args[0] === 'number') {
+                    if (args[0] <= result[1].length) {
                         // retieve only one
-                        return this._retrieveElements(result[1][args[1]])
+                        // TODO: need some code of separate feature branch here
+                        // return this._retrieveElements(result[1][args[0]])
                     } else {
-                        console.error(`tried to get an control at index: ${args[1]} of an aggregation outside of aggregation length: ${result[1].length}`)
+                        console.error(`tried to get an control at index: ${args[0]} of an aggregation outside of aggregation length: ${result[1].length}`)
                     }
                 } else {
                     // return wdio elements
                     return result[1]
                 }
-
-
             case 'none':
                 return null;
             default:

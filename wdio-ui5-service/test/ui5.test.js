@@ -58,6 +58,48 @@ describe('basics', () => {
         browser.keys('Escape'); // close popup
     });
 
+    it('should check the length of verison list without getting all subcontrols of aggregation', () => {
+        // open the version select dialog
+        const controlVersionButton = browser.asControl(selectorVersionButton);
+        controlVersionButton.firePress();
+
+        const selectorVersionList = {
+            selector: {
+                id: 'versionList',
+                controlType: 'sap.m.List'
+            }
+        };
+
+        const list = browser.asControl(selectorVersionList)
+        const numberOfItems = list.getItems().length // new param
+
+        browser.keys('Escape'); // close popup
+
+        // check for number
+        expect(numberOfItems).toEqual(537) // V1.86.1
+    });
+
+    it.only('should retieve the second control of verison list without getting all subcontrols of aggregation', () => {
+        // open the version select dialog
+        const controlVersionButton = browser.asControl(selectorVersionButton);
+        controlVersionButton.firePress();
+
+        const selectorVersionList = {
+            selector: {
+                id: 'versionList',
+                controlType: 'sap.m.List'
+            }
+        };
+
+        const list = browser.asControl(selectorVersionList)
+        const item3 = list.getItems(3) // new param
+
+        browser.keys('Escape'); // close popup
+
+        // check for number
+        expect(item3.getTitle()).toEqual("1.85.2") // V1.85.2
+    });
+
     it('should find a control w/o id locator', () => {
         const selectorWithoutId = {
             selector: {
