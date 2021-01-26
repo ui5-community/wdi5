@@ -555,7 +555,7 @@ function _writeScreenshot(fileAppendix) {
         fileAppendix = '-' + fileAppendix;
     }
     // set deafult name for variable -> prevent issue #64
-    const filename = fileAppendix ? fileAppendix : 'screenshot'
+    const filename = fileAppendix ? fileAppendix : '-screenshot'
 
     const platform = _context.config.wdi5['platform'];
 
