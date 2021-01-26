@@ -125,14 +125,14 @@ module.exports = class WDI5 {
         if (eControl) {
             // item id -> create selector
             const selector = {
-                wdio_ui5_key: item.id, // plugin-internal, not part of RecordReplay.ControlSelector
+                wdio_ui5_key: eControl.id, // plugin-internal, not part of RecordReplay.ControlSelector
                 selector: {
-                    id: item.id
+                    id: eControl.id
                 }
             };
 
             // get WDI5 control
-            context.asControl(selector)
+            eResult = context.asControl(selector)
         } else {
             console.warn(this._wdio_ui5_key + ' has no aControls');
         }
@@ -218,6 +218,7 @@ module.exports = class WDI5 {
                                 // check if of control to verify if the method result is a different control
                                 if (result && result.getId && (oControl.getId() !== result.getId())) {
                                     // ui5 function like get parent might return another ui5 control -> return it to check with this wdi5 instance
+                                    result = window.wdi5.createControlId(result);
                                     done(['success', result, 'newElement'])
                                 } else {
                                     done([
