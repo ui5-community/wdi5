@@ -105,7 +105,7 @@ describe('basics', () => {
         browser.keys('Escape'); // close popup
 
         // check for number
-        expect(item3.getTitle()).toEqual("1.85.2") // V1.85.2
+        expect(item3.getTitle()).toEqual("1.85") // V1.85.2
     });
 
     it('should find a control w/o id locator', () => {
