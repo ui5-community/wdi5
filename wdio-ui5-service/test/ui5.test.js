@@ -209,4 +209,16 @@ describe('screenshots', () => {
             expect(ours).toMatch(/.*ui5-sdk-page.*/);
         }, 1500);
     });
+
+    it('should validate screenshots capability with unnamed screenshot', () => {
+        browser.screenshot();
+
+        // seed to wait some time until the screenshot is actually saved to the file system before reading it again
+        setTimeout(() => {
+            const screenShotPath = path.join('wdio-ui5-service', 'test', 'report', 'screenshots');
+            const screenshots = fs.readdirSync(screenShotPath);
+            const ours = screenshots.find((shot) => shot.match(/.*-browser-screenshot.png/));
+            expect(ours).toMatch(/.*-browser-screenshot.png/);
+        }, 1500);
+    });
 });

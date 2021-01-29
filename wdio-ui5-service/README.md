@@ -71,6 +71,7 @@ Finally, pass in configuration options for `wdi5` in your `WebdriverIO`-conf fil
 ```javascript
 wdi5: {
     screenshotPath: require('path').join('test', 'report', 'screenshots'), // [optional] using the project root
+    screenshotsDisabled: false // [optional] {Boolean}; if set to true screenshots won't be taken and not written to file system
     logLevel: 'verbose', // [optional] error | verbose | silent
     platform: 'browser', // [mandatory] browser | android | ios | electron
     url: 'index.html', // [mandatory, not empty] path to your bootstrap html file. If your server autoredirects to a 'domain:port/' like root url use empty string ''
