@@ -242,6 +242,10 @@ ui5ListItems.forEach((listItem) => {
 });
 ```
 
+`getAggregation(true)`: the boolean parameter set to true retireves the result array as webdriver elements. This is a huge performance improvement in case you dont need all controls of the aggegation as fully qualified UI5 controls.
+
+`getAggregation(2)`: if the number parameter is set, the result array is a single ui5 control. This is a huge performance improvement in case you dont need all controls of the aggegation as fully qualified UI5 controls, but rather one single control.
+
 #### enterText
 
 `enterText(sText) => this {wdi5Control}`: input `sText` into a (input-capable) control via [EnterText](https://ui5.sap.com/#/api/sap.ui.test.actions.EnterText)
