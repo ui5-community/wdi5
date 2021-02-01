@@ -69,7 +69,8 @@
   ],
   "license": "(DERIVED BEER-WARE OR Apache-2.0)",
   "workspaces": [
-    "packages/*"
+    "wdio-ui5-service",
+    "wdi5"
   ],
   "commitlint": {
     "extends": [

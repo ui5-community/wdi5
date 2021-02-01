@@ -1,6 +1,10 @@
 {
-  "packages": [
-    "packages/*"
-  ],
-  "version": "0.0.0"
+  "packages": ["wdio-ui5-service", "wdi5"],
+  "version": "0.4.0",
+  "npmClient": "yarn",
+  "command": {
+    "publish": {
+      "message": "chore(release): publish %v"
+    }
+  }
 }
