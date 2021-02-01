@@ -37,6 +37,14 @@ describe('basics', () => {
         }
     };
 
+    const selectorVersionList = {
+        forceSelect: true,
+        selector: {
+            id: 'versionList',
+            controlType: 'sap.m.List'
+        }
+    };
+
     it('should have the right title', () => {
         const title = browser.getTitle();
         expect(title).toEqual('OpenUI5 SDK - Demo Kit');
@@ -71,17 +79,11 @@ describe('basics', () => {
         const controlVersionButton = browser.asControl(selectorVersionButton);
         controlVersionButton.firePress();
 
-        const selectorVersionList = {
-            selector: {
-                id: 'versionList',
-                controlType: 'sap.m.List'
-            }
-        };
-
         const list = browser.asControl(selectorVersionList)
         const numberOfItems = list.getItems(true).length // new param
 
-        browser.keys('Escape'); // close popup
+        // not closing because of minor trouble with ui5 when closing opening this popup
+        // browser.keys('Escape'); // close popup
 
         // check for number
         expect(numberOfItems).toBeGreaterThanOrEqual(537) // V1.86.1
@@ -92,17 +94,11 @@ describe('basics', () => {
         const controlVersionButton = browser.asControl(selectorVersionButton);
         controlVersionButton.firePress();
 
-        const selectorVersionList = {
-            selector: {
-                id: 'versionList',
-                controlType: 'sap.m.List'
-            }
-        };
-
         const list = browser.asControl(selectorVersionList)
         const item3 = list.getItems(3) // new param
 
-        browser.keys('Escape'); // close popup
+        // not closing because of minor trouble with ui5 when closing opening this popup
+        // browser.keys('Escape'); // close popup
 
         // check for number
         expect(item3.getTitle()).toEqual("1.85") // V1.85.2

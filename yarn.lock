@@ -2734,6 +2734,13 @@ axios@^0.21.0:
   dependencies:
     follow-redirects "^1.10.0"
 
+axios@^0.21.1:
+  version "0.21.1"
+  resolved "https://nexus.js-soft.com/repository/npm-group/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+  integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
+  dependencies:
+    follow-redirects "^1.10.0"
+
 babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
@@ -3178,13 +3185,27 @@ chrome-launcher@^0.13.1:
     mkdirp "^0.5.3"
     rimraf "^3.0.2"
 
-chromedriver@87.0.4, chromedriver@^87.0.4:
+chromedriver@87.0.4:
   version "87.0.4"
   resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-87.0.4.tgz#749f69e9427880abff19c1838258c35238397e50"
   integrity sha512-kD4N/L8c0nAzh1eEAiAbEIq6Pn5TvGvckODvP5dPqF90q5tPiAJZCoWWSOUV/mrPxiodjHPfmNeOfGERHugzug==
   dependencies:
     "@testim/chrome-version" "^1.0.7"
     axios "^0.21.0"
+    del "^6.0.0"
+    extract-zip "^2.0.1"
+    https-proxy-agent "^5.0.0"
+    mkdirp "^1.0.4"
+    proxy-from-env "^1.1.0"
+    tcp-port-used "^1.0.1"
+
+chromedriver@^88.0.0:
+  version "88.0.0"
+  resolved "https://nexus.js-soft.com/repository/npm-group/chromedriver/-/chromedriver-88.0.0.tgz#6833fffd516db23c811eeafa1ee1069b5a12fd2f"
+  integrity sha512-EE8rXh7mikxk3VWKjUsz0KCUX8d3HkQ4HgMNJhWrWjzju12dKPPVHO9MY+YaAI5ryXrXGNf0Y4HcNKgW36P/CA==
+  dependencies:
+    "@testim/chrome-version" "^1.0.7"
+    axios "^0.21.1"
     del "^6.0.0"
     extract-zip "^2.0.1"
     https-proxy-agent "^5.0.0"
@@ -10402,7 +10423,7 @@ wd@^1.13.0:
 
 wdio-chromedriver-service@^6.0.4:
   version "6.0.4"
-  resolved "https://registry.yarnpkg.com/wdio-chromedriver-service/-/wdio-chromedriver-service-6.0.4.tgz#dc2205b496479318cba7f746a11627a3d507a1fc"
+  resolved "https://nexus.js-soft.com/repository/npm-group/wdio-chromedriver-service/-/wdio-chromedriver-service-6.0.4.tgz#dc2205b496479318cba7f746a11627a3d507a1fc"
   integrity sha512-ed0ctxRJ4KbhAX/BkGUFS/sy6zDrZ3oB1Tqvokrs3r7GPX115w/AcOySofXdAk7Pdjm2JLDW/marHG/LmVoBuw==
   dependencies:
     fs-extra "^9.0.0"

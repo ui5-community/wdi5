@@ -89,7 +89,7 @@
     "appium-doctor": "^1.15.4",
     "browserstack": "^1.6.1",
     "browserstack-local": "^1.4.8",
-    "chromedriver": "^87.0.4",
+    "chromedriver": "^88.0.0",
     "cordova": "^10.0.0",
     "fs-extra": "^9.0.1",
     "git-cz": "^4.7.6",
@@ -98,6 +98,7 @@
     "replace-in-file": "^6.1.0",
     "soerver": "0.0.3",
     "wait-on": "^5.2.0",
-    "wd": "^1.13.0"
+    "wd": "^1.13.0",
+    "wdio-chromedriver-service": "^6.0.4"
   }
 }
