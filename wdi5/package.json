@@ -1,54 +1,54 @@
 {
-    "name": "wdi5",
-    "version": "0.3.4",
-    "description": "cross-platform test framework for hybrid UI5 apps. wdi5 = Webdriver.IO + UI5 Test API + appium",
-    "main": "index.js",
-    "repository": {
-        "type": "git",
-        "url": "git+ssh://git@github.com:js-soft/wdi5.git"
-    },
-    "engines": {
-        "node": ">=12"
-    },
-    "scripts": {
-        "appium-doctor": "appium-doctor",
-        "release": "standard-version -t wdi5@"
-    },
-    "screenshotPath": "./test/report/screenshots",
-    "keywords": [
-        "cordova",
-        "ui5",
-        "wdio",
-        "webdriver",
-        "appium"
-    ],
-    "author": "Dominik Feininger <dominik.feininger@js-soft.com> (https://www.js-soft.com/)",
-    "contributors": [
-        "Volker Buzek <volker.buzek@js-soft.com> (https://www.js-soft.com/)",
-        "Simon Coen <simon.coen@js-soft.com> (https://www.js-soft.com/)"
-    ],
-    "license": "(DERIVED BEER-WARE OR Apache-2.0)",
-    "devDependencies": {
-        "standard-version": "^9.0.0"
-    },
-    "dependencies": {
-        "@wdio/appium-service": "^6.10.10",
-        "@wdio/cli": "^6.10.10",
-        "@wdio/local-runner": "^6.10.10",
-        "@wdio/mocha-framework": "^6.10.10",
-        "@wdio/selenium-standalone-service": "^6.10.10",
-        "@wdio/spec-reporter": "^6.10.6",
-        "@wdio/sync": "^6.10.10",
-        "appium": "^1.19.1",
-        "appium-chromedriver": "^4.26.2",
-        "chromedriver": "87.0.4",
-        "dotenv": "^8.2.0",
-        "electron-chromedriver": "^11.0.0",
-        "selenium-webdriver": "^3.6.0",
-        "wdio-chromedriver-service": "^6.0.4",
-        "wdio-ui5-service": "*",
-        "webdriverio": "^6.10.10"
-    },
-    "peerDependencies": {},
-    "optionalDependencies": {}
+  "name": "wdi5",
+  "version": "0.3.4",
+  "description": "cross-platform test framework for hybrid UI5 apps. wdi5 = Webdriver.IO + UI5 Test API + appium",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:js-soft/wdi5.git"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "scripts": {
+    "appium-doctor": "appium-doctor",
+    "release": "standard-version -t wdi5@"
+  },
+  "screenshotPath": "./test/report/screenshots",
+  "keywords": [
+    "cordova",
+    "ui5",
+    "wdio",
+    "webdriver",
+    "appium"
+  ],
+  "author": "Dominik Feininger <dominik.feininger@js-soft.com> (https://www.js-soft.com/)",
+  "contributors": [
+    "Volker Buzek <volker.buzek@js-soft.com> (https://www.js-soft.com/)",
+    "Simon Coen <simon.coen@js-soft.com> (https://www.js-soft.com/)"
+  ],
+  "license": "(DERIVED BEER-WARE OR Apache-2.0)",
+  "devDependencies": {
+    "standard-version": "^9.0.0"
+  },
+  "dependencies": {
+    "@wdio/appium-service": "^6.10.10",
+    "@wdio/cli": "^6.10.10",
+    "@wdio/local-runner": "^6.10.10",
+    "@wdio/mocha-framework": "^6.10.10",
+    "@wdio/selenium-standalone-service": "^6.10.10",
+    "@wdio/spec-reporter": "^6.10.6",
+    "@wdio/sync": "^6.10.10",
+    "appium": "^1.19.1",
+    "appium-chromedriver": "^4.26.2",
+    "chromedriver": "87.0.4",
+    "dotenv": "^8.2.0",
+    "electron-chromedriver": "^11.0.0",
+    "selenium-webdriver": "^3.6.0",
+    "wdio-chromedriver-service": "^6.0.4",
+    "wdio-ui5-service": "*",
+    "webdriverio": "^6.10.10"
+  },
+  "peerDependencies": {},
+  "optionalDependencies": {}
 }
