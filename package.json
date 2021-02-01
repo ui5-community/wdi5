@@ -69,8 +69,7 @@
   ],
   "license": "(DERIVED BEER-WARE OR Apache-2.0)",
   "workspaces": [
-    "wdio-ui5-service",
-    "wdi5"
+    "packages/*"
   ],
   "commitlint": {
     "extends": [
@@ -94,6 +93,7 @@
     "fs-extra": "^9.0.1",
     "git-cz": "^4.7.6",
     "husky": "^4.3.6",
+    "lerna": "^3.22.1",
     "npm-run-all": "^4.1.5",
     "replace-in-file": "^6.1.0",
     "soerver": "0.0.3",
