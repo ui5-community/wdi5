@@ -6,11 +6,9 @@
     "Volker Buzek <volker.buzek@js-soft.com> (https://www.js-soft.com/)"
   ],
   "license": "(DERIVED BEER-WARE OR Apache-2.0)",
-  "version": "0.1.9",
+  "version": "0.5.0",
   "homepage": "https://github.com/js-soft/wdi5/blob/main/wdio-ui5-service/README.md",
-  "dependencies": {},
   "main": "./src/index.js",
-  "peerDependencies": {},
   "screenshotPath": "./../test/report/screenshots",
   "keywords": [
     "webdriver",

@@ -1,3 +1,32 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [0.5.0](https://github.com/js-soft/wdi5/compare/v0.0.3...v0.5.0) (2021-02-01)
+
+
+### Bug Fixes
+
+* **navigation:** pr review ([f8b3741](https://github.com/js-soft/wdi5/commit/f8b374156c081f49fa6b1afc265d35e5c9f2241e))
+* **tests:** rafactor selector ([d990e83](https://github.com/js-soft/wdi5/commit/d990e83783bfb7408430f20dc07647c2bc230815))
+* differentiate web server env ([ba187ce](https://github.com/js-soft/wdi5/commit/ba187ce5323f743ad5570be0b40804d4c535a0dc))
+* treat index.html as dir index ([569745f](https://github.com/js-soft/wdi5/commit/569745fc938b5bf92f6392ee90711480031e5d4b))
+* **wdi5:** import of wdio-ui5-service ([707e4f2](https://github.com/js-soft/wdi5/commit/707e4f2ab1fe485f6b257787a41e689209055c9b))
+
+
+### Features
+
+* **loggin:** add error logging ([e089e01](https://github.com/js-soft/wdi5/commit/e089e01e39fb7cb2ca85adec10805f04251dda9c))
+* **nav:** move navigation to wdio-ui5-service ([1704c31](https://github.com/js-soft/wdi5/commit/1704c31eefad27f904ac26724b7e56f21a10171b))
+* **navto:** using url config when navigating ([9978a0f](https://github.com/js-soft/wdi5/commit/9978a0f2828f3859d516f48382ac7b16f3d264c5))
+* **screenshot:** disable screenshots by config ([53f20c0](https://github.com/js-soft/wdi5/commit/53f20c0f148d9ec6c3b79dbe7bf06d00f810d189))
+* support ui5 serve + other web servers ([a3f8e86](https://github.com/js-soft/wdi5/commit/a3f8e86fa72ea900733cb6db5ba80c8be69eff06))
+
+
+
+
+
 # Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
