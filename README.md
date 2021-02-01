@@ -1,6 +1,4 @@
-
-![WDI5 Logo](./docs/wdi5-logo.png)
-# wdi5
+# wdi5 ![wdi5 Logo](./docs/wdi5-logo-small.png)
 
 `wdi5` (/vdif5/) is a wrapper around [appium](http://appium.io)-driven [`Webdriver.IO`](https://webdriver.io)-tests, utilizing [`UI5`’s test API](https://ui5.sap.com/#/api/sap.ui.test).
 
