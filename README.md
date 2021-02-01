@@ -242,9 +242,13 @@ ui5ListItems.forEach((listItem) => {
 });
 ```
 
-`getAggregation(true)`: the boolean parameter set to true retireves the result array as webdriver elements. This is a huge performance improvement in case you dont need all controls of the aggegation as fully qualified UI5 controls.
+#### get$Shorthand conveniences
 
-`getAggregation(2)`: if the number parameter is set, the result array is a single ui5 control. This is a huge performance improvement in case you dont need all controls of the aggegation as fully qualified UI5 controls, but rather one single control.
+If `getAggregation` is called via a shorthand such as `sap.m.ListBase.getItems()`, additional convenience functions are available:
+
+`get$Shorthand(true)` (e.g. `getItems(true)`): if `true` retrieves the aggregation as `webdriver` elements only (not as UI5 controls!). This is a huge performance improvement in case you don't need all elements of the aggregation as fully qualified UI5 controls.
+
+`get$Shorthand(2)` (e.g. `getItems(2)`): if set as `Number`, the result array contains a single UI5 control from the aggregation at index `Number` (here: 2). This is a huge performance improvement in case you dont need all controls of the aggegation as fully qualified UI5 controls, but rather one specific single control.
 
 #### enterText
 

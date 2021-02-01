@@ -77,10 +77,6 @@ wdi5: {
     url: 'index.html', // [mandatory, not empty] path to your bootstrap html file. If your server autoredirects to a 'domain:port/' like root url use empty string ''
     deviceType: 'web', // [mandatory] native | web
     skipInjectUI5OnStart: false // [optional] true when UI5 is not on the start page, you need to later call <wdioUI5service>.injectUI5(); manually
-
-    // if your ui5 app under test
-    // is served by anything other than the ui5 tooling,
-    // set this option explicity to false (defaults to true)
 }
 ```
 
