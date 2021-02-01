@@ -37,14 +37,30 @@ describe('basics', () => {
         }
     };
 
+    const selectorVersionList = {
+        forceSelect: true,
+        selector: {
+            id: 'versionList',
+            controlType: 'sap.m.List'
+        }
+    };
+
     it('should have the right title', () => {
         const title = browser.getTitle();
-        expect(title).toEqual('Home - Demo Kit - SAPUI5 SDK');
+        expect(title).toEqual('OpenUI5 SDK - Demo Kit');
     });
 
     it('should find a ui5 control by id', () => {
         const controlDownloadButton = browser.asControl(selectorDownloadButton);
         expect(controlDownloadButton.getText()).toEqual('Download');
+    });
+
+    it('should get the parent control', () => {
+        const controlVersionButton = browser.asControl(selectorVersionButton)
+        const headerToolbar = controlVersionButton.getParent()
+
+        expect(headerToolbar.getVisible()).toBeTruthy();
+        expect(headerToolbar.getId()).toStrictEqual("sdk---app--headerToolbar")
     });
 
     it('should click a ui5 button (version selector) by id', () => {
@@ -56,6 +72,36 @@ describe('basics', () => {
         expect(browser.asControl(selectorList).getVisible()).toBeTruthy();
 
         browser.keys('Escape'); // close popup
+    });
+
+    it('should check the length of verison list without getting all subcontrols of aggregation', () => {
+        // open the version select dialog
+        const controlVersionButton = browser.asControl(selectorVersionButton);
+        controlVersionButton.firePress();
+
+        const list = browser.asControl(selectorVersionList)
+        const numberOfItems = list.getItems(true).length // new param
+
+        // not closing because of minor trouble with ui5 when closing opening this popup
+        // browser.keys('Escape'); // close popup
+
+        // check for number
+        expect(numberOfItems).toBeGreaterThanOrEqual(537) // V1.86.1
+    });
+
+    it('should retieve the second control of verison list without getting all subcontrols of aggregation', () => {
+        // open the version select dialog
+        const controlVersionButton = browser.asControl(selectorVersionButton);
+        controlVersionButton.firePress();
+
+        const list = browser.asControl(selectorVersionList)
+        const item3 = list.getItems(3) // new param
+
+        // not closing because of minor trouble with ui5 when closing opening this popup
+        // browser.keys('Escape'); // close popup
+
+        // check for number
+        expect(item3.getTitle()).toEqual("1.85") // V1.85.2
     });
 
     it('should find a control w/o id locator', () => {
@@ -157,6 +203,18 @@ describe('screenshots', () => {
             const screenshots = fs.readdirSync(screenShotPath);
             const ours = screenshots.find((shot) => shot.match(/.*ui5-sdk-page.*/));
             expect(ours).toMatch(/.*ui5-sdk-page.*/);
+        }, 1500);
+    });
+
+    it('should validate screenshots capability with unnamed screenshot', () => {
+        browser.screenshot();
+
+        // seed to wait some time until the screenshot is actually saved to the file system before reading it again
+        setTimeout(() => {
+            const screenShotPath = path.join('wdio-ui5-service', 'test', 'report', 'screenshots');
+            const screenshots = fs.readdirSync(screenShotPath);
+            const ours = screenshots.find((shot) => shot.match(/.*-browser-screenshot.png/));
+            expect(ours).toMatch(/.*-browser-screenshot.png/);
         }, 1500);
     });
 });

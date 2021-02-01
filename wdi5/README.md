@@ -73,6 +73,7 @@ exports.config = {
     ]
     wdi5: {
         screenshotPath: "./test/report/screenshots", // [optional] using the project root
+        screenshotsDisabled: false // [optional] {Boolean}; if set to true screenshots won't be taken and not written to file system
         logLevel: "verbose", // [optional] error | silent | verbose
         platform: "browser", // [mandatory] android | browser | electron | ios
         deviceType: "web" // [mandatory] native (ios, android) | web (browser, electron)

@@ -1,6 +1,4 @@
-
-![WDI5 Logo](./docs/wdi5-logo.png)
-# wdi5
+# wdi5 ![wdi5 Logo](./docs/wdi5-logo-small.png)
 
 `wdi5` (/vdif5/) is a wrapper around [appium](http://appium.io)-driven [`Webdriver.IO`](https://webdriver.io)-tests, utilizing [`UI5`’s test API](https://ui5.sap.com/#/api/sap.ui.test).
 
@@ -241,6 +239,14 @@ ui5ListItems.forEach((listItem) => {
     expect(listItem.getTitle()).not.toBe('');
 });
 ```
+
+#### get$Shorthand conveniences
+
+If `getAggregation` is called via a shorthand such as `sap.m.ListBase.getItems()`, additional convenience functions are available:
+
+`get$Shorthand(true)` (e.g. `getItems(true)`): if `true` retrieves the aggregation as `webdriver` elements only (not as UI5 controls!). This is a huge performance improvement in case you don't need all elements of the aggregation as fully qualified UI5 controls.
+
+`get$Shorthand(2)` (e.g. `getItems(2)`): if set as `Number`, the result array contains a single UI5 control from the aggregation at index `Number` (here: 2). This is a huge performance improvement in case you dont need all controls of the aggegation as fully qualified UI5 controls, but rather one specific single control.
 
 #### enterText
 

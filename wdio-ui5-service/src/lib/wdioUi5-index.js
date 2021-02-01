@@ -220,15 +220,6 @@ function injectUI5() {
                     window.wdi5.createControlIdMap = (aControls) => {
                         // the array of UI5 controls need to be mapped (remove circular reference)
 
-                        if (!Array.isArray(aControls)) {
-                            // if in aControls is a single control -> create an array first
-
-                            // this is causes by sap.ui.base.ManagedObject -> get Aggregation defines its return value as:
-                            // sap.ui.base.ManagedObject or sap.ui.base.ManagedObject[] or null
-
-                            aControls = [aControls]
-                        }
-
                         return aControls.map((element) => {
                             // just use the absolute ID of the control
                             let item = {
@@ -236,6 +227,29 @@ function injectUI5() {
                             };
                             return item;
                         });
+                    };
+
+                    /**
+                     * creates an object containing their id as a property
+                     * @param {sap.ui.core.Control} aControl
+                     * @return {Object} Object
+                     */
+                    window.wdi5.createControlId = (aControl) => {
+                        // the array of UI5 controls need to be mapped (remove circular reference)
+                        if (!Array.isArray(aControl)) {
+                            // if in aControls is a single control -> create an array first
+
+                            // this is causes by sap.ui.base.ManagedObject -> get Aggregation defines its return value as:
+                            // sap.ui.base.ManagedObject or sap.ui.base.ManagedObject[] or null
+
+                            // aControls = [aControls]
+                            let item = {
+                                id: aControl.getId()
+                            };
+                            return item;
+                        } else {
+                            console.error("error creating new element by id of control: " + aControl);
+                        }
                     };
                 }
             );
@@ -530,6 +544,13 @@ function _getDateString() {
  * @param {*} fileAppendix
  */
 function _writeScreenshot(fileAppendix) {
+
+    // if config param screenshotsDisabled is set to true -> no screenshots will be taken
+    if (_context.config.wdi5['screenshotsDisabled']) {
+        console.log("screenshot skipped du to config parameter")
+        return;
+    }
+
     // browser.screenshot returns the screenshot as a base64 string
     const screenshot = _context.takeScreenshot();
     const seed = _getDateString();
@@ -543,14 +564,17 @@ function _writeScreenshot(fileAppendix) {
         }
     }
 
-    if (fileAppendix.length > 0) {
+    if (fileAppendix && fileAppendix.length > 0) {
+        // extend the filename with a leading dash
         fileAppendix = '-' + fileAppendix;
     }
+    // set deafult name for variable -> prevent issue #64
+    const filename = fileAppendix ? fileAppendix : '-screenshot'
 
     const platform = _context.config.wdi5['platform'];
 
     // make path cross-platform
-    _path = path.resolve(_path, `${seed}-${platform}-${fileAppendix}.png`);
+    _path = path.resolve(_path, `${seed}-${platform}${filename}.png`);
     // async
     fs.writeFile(_path, screenshot, 'base64', function (err) {
         if (err) {
