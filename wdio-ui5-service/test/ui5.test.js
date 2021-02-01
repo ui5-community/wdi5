@@ -79,15 +79,15 @@ describe('basics', () => {
         };
 
         const list = browser.asControl(selectorVersionList)
-        const numberOfItems = list.getItems().length // new param
+        const numberOfItems = list.getItems(true).length // new param
 
         browser.keys('Escape'); // close popup
 
         // check for number
-        expect(numberOfItems).toEqual(537) // V1.86.1
+        expect(numberOfItems).toBeGreaterThanOrEqual(537) // V1.86.1
     });
 
-    it.only('should retieve the second control of verison list without getting all subcontrols of aggregation', () => {
+    it('should retieve the second control of verison list without getting all subcontrols of aggregation', () => {
         // open the version select dialog
         const controlVersionButton = browser.asControl(selectorVersionButton);
         controlVersionButton.firePress();
