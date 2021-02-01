@@ -24,13 +24,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * support ui5 serve + other web servers ([a3f8e86](https://github.com/js-soft/wdi5/commit/a3f8e86fa72ea900733cb6db5ba80c8be69eff06))
 
 
-
-
-
-# Changelog
-
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-
 ### [0.3.4](https://github.com/js-soft/wdi5/compare/wdi5@0.3.3...wdi5@0.3.4) (2020-12-21)
 
 

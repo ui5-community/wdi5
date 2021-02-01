@@ -52,13 +52,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 and _don't_ require('../src/index') or similar
 
 
-
-
-
-# Changelog
-
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-
 ### [0.1.9](https://github.com/js-soft/wdi5/compare/wdio-ui5-service@0.1.8...wdio-ui5-service@0.1.9) (2020-12-21)
 
 
