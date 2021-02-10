@@ -9,6 +9,9 @@
   },
   "scripts": {
     "test": "run-p -r _startApp _test",
+    "test:multiversion": "run-p -r _startApp _test:multiversion",
+    "test:ci:multiversion": "HEADLESS=true run-p -r _startApp _test:multiversion",
+    "_test:multiversion": "node test/wdi5-multiversion.js",
     "//test:withUI5tooling": "this only runs basic.test.js, but served by the ui5 tooling",
     "test:withUI5tooling": "run-p -r _startApp:withUI5tooling _test:withUI5tooling",
     "test:dist": "npm-run-all -r _build:ui5_app --parallel _startApp:dist _test",
