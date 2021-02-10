@@ -140,14 +140,14 @@ exports.config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'error',
+    logLevel: 'debug',
     //
     // Set specific log levels per logger
     // use 'silent' level to disable logger
-    logLevels: {
-        webdriver: 'silent',
-        '@wdio/applitools-service': 'silent'
-    },
+    // logLevels: {
+    //     webdriver: 'silent',
+    //     '@wdio/applitools-service': 'silent'
+    // },
     //
     // If you only want to run your tests until a specific amount of tests have failed use
     // bail (default is 0 - don't bail, run all tests).
