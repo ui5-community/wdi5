@@ -87,7 +87,7 @@ exports.config = {
             'goog:chromeOptions': {
                 w3c: false,
                 args: process.env.HEADLESS
-                    ? ['--headless', '--disable-gpu', '--no-sandbox']
+                    ? ['--headless']
                     : process.env.DEBUG
                     ? ['window-size=1440,800', '--auto-open-devtools-for-tabs']
                     : ['window-size=1440,800']
