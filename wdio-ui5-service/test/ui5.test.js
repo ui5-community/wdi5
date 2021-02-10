@@ -45,6 +45,15 @@ describe('basics', () => {
         }
     };
 
+    it('should not report an error on successful $control.focus()', () => {
+        const focusResult = browser.asControl(selectorVersionButton).focus();
+        expect(focusResult).toBeTruthy();
+
+        // assert focus on element also via webdriver.io api
+        const wdFocusResult = focusResult.getWebElement();
+        expect(wdFocusResult.isFocused()).toBeTruthy();
+    });
+
     it('should have the right title', () => {
         const title = browser.getTitle();
         expect(title).toEqual('OpenUI5 SDK - Demo Kit');
@@ -101,7 +110,7 @@ describe('basics', () => {
         // browser.keys('Escape'); // close popup
 
         // check for number
-        expect(item3.getTitle()).toBeGreaterThanOrEqual(parseFloat('1.85')); // once was v1.85.2
+        expect(parseFloat(item3.getTitle())).toBeGreaterThanOrEqual(parseFloat('1.85')); // once was v1.85.2
     });
 
     it('should find a control w/o id locator', () => {
@@ -116,15 +125,6 @@ describe('basics', () => {
         };
 
         expect(browser.asControl(selectorWithoutId).getText()).toBe('Get Started with UI5');
-    });
-
-    it('should not report an error on successful $control.focus()', () => {
-        const focusResult = browser.asControl(selectorVersionButton).focus();
-        expect(focusResult).toBeTruthy();
-
-        // assert focus on element also via webdriver.io api
-        const wdFocusResult = focusResult.getWebElement();
-        expect(wdFocusResult.isFocused()).toBeTruthy();
     });
 
     it('should throw an error on unsuccessful $control.focus()', () => {
