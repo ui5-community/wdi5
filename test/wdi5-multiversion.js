@@ -22,11 +22,14 @@ const versions = ['1.60.33', '1.71.19', '1.84.3'];
 
         // create a wdio/wdi5 config per version
         const targetWdioConf = `test/wdio-wdi5-ui5-${version}.conf.js`;
-        fsExtra.copySync('test/wdio-browser-withUI5tooling.conf.js', targetWdioConf);
+        fsExtra.copySync('test/wdio-browser.conf.js', targetWdioConf);
         const optionsWdioConf = {
             files: targetWdioConf,
-            from: /url: 'index\.html'/,
-            to: `url: "index-${version}.html"`
+            from: [/url: ''/, /specs: \[.*\]/],
+            to: [
+                `url: "index-${version}"`, // this is only b/c of the "soerver" webserver in use...
+                `specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', 'basic.test.js')]`
+            ]
         };
         await replace(optionsWdioConf);
         console.log(`created wdio-wdi5-ui5-${version}.conf.js`);
