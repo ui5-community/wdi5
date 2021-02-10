@@ -56,11 +56,11 @@ describe('basics', () => {
     });
 
     it('should get the parent control', () => {
-        const controlVersionButton = browser.asControl(selectorVersionButton)
-        const headerToolbar = controlVersionButton.getParent()
+        const controlVersionButton = browser.asControl(selectorVersionButton);
+        const headerToolbar = controlVersionButton.getParent();
 
         expect(headerToolbar.getVisible()).toBeTruthy();
-        expect(headerToolbar.getId()).toStrictEqual("sdk---app--headerToolbar")
+        expect(headerToolbar.getId()).toStrictEqual('sdk---app--headerToolbar');
     });
 
     it('should click a ui5 button (version selector) by id', () => {
@@ -79,14 +79,14 @@ describe('basics', () => {
         const controlVersionButton = browser.asControl(selectorVersionButton);
         controlVersionButton.firePress();
 
-        const list = browser.asControl(selectorVersionList)
-        const numberOfItems = list.getItems(true).length // new param
+        const list = browser.asControl(selectorVersionList);
+        const numberOfItems = list.getItems(true).length; // new param
 
         // not closing because of minor trouble with ui5 when closing opening this popup
         // browser.keys('Escape'); // close popup
 
         // check for number
-        expect(numberOfItems).toBeGreaterThanOrEqual(537) // V1.86.1
+        expect(numberOfItems).toBeGreaterThanOrEqual(537); // V1.86.1
     });
 
     it('should retieve the second control of verison list without getting all subcontrols of aggregation', () => {
@@ -94,14 +94,14 @@ describe('basics', () => {
         const controlVersionButton = browser.asControl(selectorVersionButton);
         controlVersionButton.firePress();
 
-        const list = browser.asControl(selectorVersionList)
-        const item3 = list.getItems(3) // new param
+        const list = browser.asControl(selectorVersionList);
+        const item3 = list.getItems(3); // new param
 
         // not closing because of minor trouble with ui5 when closing opening this popup
         // browser.keys('Escape'); // close popup
 
         // check for number
-        expect(item3.getTitle()).toEqual("1.85") // V1.85.2
+        expect(item3.getTitle()).toBeGreaterThanOrEqual(parseFloat('1.85')); // once was v1.85.2
     });
 
     it('should find a control w/o id locator', () => {
@@ -129,20 +129,20 @@ describe('basics', () => {
 
     it('should throw an error on unsuccessful $control.focus()', () => {
         expect(() => {
-            browser.asControl({ selector: { id: 'doesnt_exist' } }).focus();
+            browser.asControl({selector: {id: 'doesnt_exist'}}).focus();
         }).toThrow();
     });
 
     it('should navigate', () => {
-        browser.setUrl('api/sap.m.Button')
+        browser.setUrl('api/sap.m.Button');
 
-        const header = browser.asControl({ selector: { id: '__xmlview0--title' } })
+        const header = browser.asControl({selector: {id: '__xmlview0--title'}});
         expect(header.getVisible()).toBeTruthy();
     });
 
     it('should navigate via hash', () => {
-        browser.goTo('#events/Summary')
-        const eventsHeader = browser.asControl({ selector: { id: '__xmlview0--events' } })
+        browser.goTo('#events/Summary');
+        const eventsHeader = browser.asControl({selector: {id: '__xmlview0--events'}});
         expect(eventsHeader.getVisible()).toBeTruthy();
     });
 });
