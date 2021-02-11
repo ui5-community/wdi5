@@ -5,7 +5,7 @@ const ui5Service = new _ui5Service();
 describe('ui5 basic', () => {
     it('should show a non UI5 page, take a screenshot, advance to a UI5 page and late init "ui5"', () => {
         // native wdio functionality
-        browser.$('#user-content-wdi5').waitForDisplayed();
+        browser.$('#user-content-wdi5-').waitForDisplayed();
         browser.takeScreenshot();
 
         // open ui5 page
