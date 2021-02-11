@@ -1,6 +1,6 @@
 {
   "name": "wdi5",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "cross-platform test framework for hybrid UI5 apps. wdi5 = Webdriver.IO + UI5 Test API + appium",
   "main": "index.js",
   "repository": {
@@ -46,7 +46,7 @@
     "electron-chromedriver": "^11.0.0",
     "selenium-webdriver": "^3.6.0",
     "wdio-chromedriver-service": "^6.0.4",
-    "wdio-ui5-service": "^0.5.0",
+    "wdio-ui5-service": "^0.5.1",
     "webdriverio": "^6.10.10"
   }
 }
