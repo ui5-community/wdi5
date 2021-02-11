@@ -77,6 +77,9 @@ test/report/logs/*.*
 !test/report/logs/.gitkeep
 test/report/appium/*.*
 !test/report/appium/.gitkeep
+# multi version tests
+test/wdio-wdi5* 
+test/ui5-app/webapp/index-*.html
 
 # App building
 test/ui5-app/app/hooks

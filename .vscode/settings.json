@@ -6,5 +6,8 @@
         "/test/ui5-app/app/platforms": true,
         "/test/ui5-app/app/plugins": true,
         "/test/ui5-app/app/www": true
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     }
 }

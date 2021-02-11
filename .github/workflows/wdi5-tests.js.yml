@@ -31,3 +31,5 @@ jobs:
         run: HEADLESS=true yarn test:ci:wdi5:withUI5tooling
       - name: run wdi5 tests w/ regular webserver
         run: HEADLESS=true yarn test:ci:wdi5
+      - name: run wdi5 tests w/ regular webserver against multiple ui5 versions
+        run: HEADLESS=true yarn test:ci:multiversion
