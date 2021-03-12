@@ -6,6 +6,8 @@ name: wdi5 browserstack tests
 on:
   pull_request:
     branches: [develop]
+  push:
+    branches: [develop]
 
 jobs:
   build:
