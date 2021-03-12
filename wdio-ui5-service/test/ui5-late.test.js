@@ -29,6 +29,6 @@ describe('ui5 basic', () => {
         buttonCookieAccept.firePress();
 
         const title = browser.getTitle();
-        expect(title).toMatch('OpenUI5 SDK - Demo Kit');
+        expect(title).toMatch('Demo Kit - OPENUI5 SDK');
     });
 });

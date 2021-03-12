@@ -56,7 +56,7 @@ describe('basics', () => {
 
     it('should have the right title', () => {
         const title = browser.getTitle();
-        expect(title).toEqual('OpenUI5 SDK - Demo Kit');
+        expect(title).toEqual('Demo Kit - OPENUI5 SDK');
     });
 
     it('should find a ui5 control by id', () => {
