@@ -21,6 +21,7 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
         -   [Control selectors](#control-selectors)
         -   [API methods](#api-methods)
             -   [all UI5 control's native methods](#all-ui5-controls-native-methods)
+            - [browser.goTo()](#goTo)
             -   [getAggregation](#getaggregation)
             -   [enterText](#entertext)
         -   [Function mock for event handler](#function-mock-for-event-handler)
@@ -226,8 +227,13 @@ length: 220
 ]
 ```
 
-This method bridge **does not** proxy private control methods (starting with `_`), `getAggregation` (and `getMetadata`) though.
-`getAggregation` is provided by `wdi5` separately with a UI5-compatible API signature:
+This method bridge **does not** proxy private control methods (starting with `_`), `getAggregation` (and `getMetadata`) though.  
+[`getAggregation` (see below)](#getaggregation) is provided by `wdi5` separately with a UI5-compatible API signature.
+
+#### goTo
+
+When navigating the User-Agent manually, please use `wdi5`'s own `browser.goTo('#/path/to/route')` implementation rather than Webdriver.IO's `browser.url()`.  
+This makes sure that the UI5 test API is loaded and runtime.
 
 #### getAggregation
 

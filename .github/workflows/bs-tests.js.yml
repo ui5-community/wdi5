@@ -1,0 +1,54 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: wdi5 browserstack tests
+
+on:
+  pull_request:
+    branches: [develop]
+  push:
+    branches: [develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x]
+
+    steps:
+      - name: 'BrowserStack Env Setup'
+        uses: 'browserstack/github-actions/setup-env@master'
+        with:
+          username: ${{ secrets.BROWSERSTACK_USERNAME }}
+          access-key: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          build-name: 'BUILD_INFO'
+          project-name: 'REPO_NAME'
+
+      - name: 'Start BrowserStackLocal Tunnel'
+        uses: 'browserstack/github-actions/setup-local@master'
+        with:
+          local-testing: 'start'
+          local-logging-level: 'all-logs'
+          local-identifier: 'random'
+
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: install packages
+        run: yarn install --frozen-lockfile
+
+      - name: 'Running test on BrowserStack' # Invokes the actual test script that would run on BrowserStack browsers
+        run: HEADLESS=true yarn test:ci:wdio-ui5-service
+
+      - name: 'BrowserStackLocal Stop' # Terminating the BrowserStackLocal tunnel connection
+        uses: browserstack/github-actions/setup-local@master
+        with:
+          local-testing: stop
