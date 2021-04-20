@@ -115,7 +115,10 @@ module.exports = class NativeUtils extends Utils {
 
             // make sure the UI is fully loaded
             // needed to be done BEFORE switching context
-            this.context.waitForUI5();
+            this.context.waitForUI5({
+                timeout: 15000,
+                interval: 400
+            });
 
             // We need to switch to the native context for the screenshot to work
             this.context.switchContext('NATIVE_APP');

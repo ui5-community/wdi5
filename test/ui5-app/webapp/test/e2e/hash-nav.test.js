@@ -30,7 +30,8 @@ describe('hash-based nav', () => {
             }
         };
 
-        expect(browser.asControl(buttonSelector).getProperty("visible")).toBeTruthy()
+        const control = browser.asControl(buttonSelector);
+        expect(control.getProperty("visible")).toBeTruthy()
     });
 
     it('should allow the deep entry to "Other" view via the UI5 router directly', () => {

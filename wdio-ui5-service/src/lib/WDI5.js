@@ -299,6 +299,7 @@ module.exports = class WDI5 {
                     })
                     .then(() => {
                         // DOM to UI5
+                        debugger;
                         try {
                             let oControl = window.wdi5.getUI5CtlForWebObj(webElement);
                             let cAggregation = oControl.getAggregation(aggregationName);
@@ -540,7 +541,7 @@ module.exports = class WDI5 {
             // further processing there
             controlSelector.selector.id = controlSelector.selector.id.toString();
         }
-        const result = context.executeAsync((controlSelector, done) => {
+        let result = context.executeAsync((controlSelector, done) => {
             window.bridge
                 .waitForUI5({
                     timeout: 15000,
@@ -567,6 +568,11 @@ module.exports = class WDI5 {
                     done(['error', error.toString()]);
                 });
         }, controlSelector);
+
+        //Fiori version 1.60 has a different representation of the elements and therefore requires special handling
+        while (Array.isArray(result[0])) {
+            result = result[0];
+        }
 
         // save the webdriver representation by control id
         if (result[2]) {

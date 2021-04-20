@@ -331,7 +331,10 @@ function setup(context) {
     _context.addCommand('getSelectorForElement', (oOptions) => {
         const result = _context.executeAsync((oOptions, done) => {
             window.bridge
-                .waitForUI5()
+                .waitForUI5({
+                    timeout: 15000,
+                    interval: 400
+                })
                 .then(() => {
                     window.wdi5.Log.info('[browser wdi5] locating domElement');
                     return window.bridge.findControlSelectorByDOMElement(oOptions);
@@ -516,7 +519,10 @@ function _checkForUI5Ready() {
         // can only be executed when RecordReplay is attached
         const result = _context.executeAsync((done) => {
             window.bridge
-                .waitForUI5()
+                .waitForUI5({
+                    timeout: 15000,
+                    interval: 400
+                })
                 .then(() => {
                     window.wdi5.Log.info('[browser wdi5] UI5 is ready');
                     done(true);
@@ -637,15 +643,23 @@ function _stripNonValidCharactersForKey(key) {
 function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) {
     const result = _context.executeAsync(
         (sComponentId, sName, oParameters, oComponentTargetInfo, bReplace, done) => {
-            window.bridge.waitForUI5().then(() => {
+            window.bridge
+            .waitForUI5({
+                timeout: 15000,
+                interval: 400
+            })
+            .then(() => {
                 window.wdi5.Log.info(`[browser wdi5] navigation to ${sName} triggered`);
+                const sapUIVersion = parseFloat(sap.ui.version);
 
                 const router = sap.ui.getCore().getComponent(sComponentId).getRouter();
-                const hashChanger = router.getHashChanger();
+            
+                const hashChanger = sapUIVersion < 1.75 ? sap.ui.core.routing.HashChanger.getInstance() : router.getHashChanger();    
 
                 // on success result is the router
-                router.getHashChanger().attachEvent('hashChanged', function (oEvent) {
-                    done(['success', hashChanger.hash]);
+                hashChanger.attachEvent('hashChanged', function (oEvent) {
+                    const hash = sapUIVersion < 1.75 ? hashChanger.getHash() : hashChanger.hash;
+                    done(['success', hash]);
                 });
 
                 // get component and trigger router
