@@ -28,7 +28,7 @@ const versions = ['1.60.33', '1.71.19', '1.84.3'];
             from: [/url: ''/, /specs: \[.*\]/],
             to: [
                 `url: "index-${version}"`, // this is only b/c of the "soerver" webserver in use...
-                `specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', 'basic.test.js')]`
+                `specs: [path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', 'basic.test.js'), path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', 'aggregation.test.js'), path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', 'hash-nav.test.js'), path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', 'interaction.test.js'), path.join('test', 'ui5-app', 'webapp', 'test', 'e2e', 'list-interaction.test.js')]`
             ]
         };
         await replace(optionsWdioConf);
