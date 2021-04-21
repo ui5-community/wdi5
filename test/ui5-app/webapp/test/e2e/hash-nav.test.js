@@ -12,7 +12,8 @@ describe('hash-based nav', () => {
         const listSelector = {
             selector: {
                 id: 'PeopleList',
-                viewName: 'test.Sample.view.Other'
+                viewName: 'test.Sample.view.Other',
+                interaction: "root"
             }
         };
 
@@ -45,7 +46,8 @@ describe('hash-based nav', () => {
         const listSelector = {
             selector: {
                 id: 'PeopleList',
-                viewName: 'test.Sample.view.Other'
+                viewName: 'test.Sample.view.Other',
+                interaction: "root"
             }
         };
 

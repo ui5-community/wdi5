@@ -24,7 +24,8 @@ class Other extends Page {
             wdio_ui5_key: "PeopleList",
             selector: {
                 id: 'PeopleList',
-                viewName: this._viewName
+                viewName: this._viewName,
+                interaction: "root"
             }
         };
 
