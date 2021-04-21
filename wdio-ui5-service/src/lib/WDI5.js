@@ -299,7 +299,6 @@ module.exports = class WDI5 {
                     })
                     .then(() => {
                         // DOM to UI5
-                        debugger;
                         try {
                             let oControl = window.wdi5.getUI5CtlForWebObj(webElement);
                             let cAggregation = oControl.getAggregation(aggregationName);
