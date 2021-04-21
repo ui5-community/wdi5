@@ -3,7 +3,6 @@ const Main = require("./pageObjects/Main")
 
 describe('check the generated methods on the control -> ', () => {
     const buttonSelector = {
-        forceSelect: true,
         selector: {
             id: 'NavFwdButton',
             viewName: 'test.Sample.view.Main'
@@ -27,7 +26,8 @@ describe('check the generated methods on the control -> ', () => {
     const listSelector = {
         selector: {
             id: 'PeopleList',
-            viewName: 'test.Sample.view.Other'
+            viewName: 'test.Sample.view.Other',
+            interaction: 'root'
         }
     };
 
