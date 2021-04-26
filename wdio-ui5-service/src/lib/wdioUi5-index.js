@@ -629,14 +629,21 @@ function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace
     const result = _context.executeAsync(
         (sComponentId, sName, oParameters, oComponentTargetInfo, bReplace, done) => {
             window.bridge.waitForUI5().then(() => {
+                const oldAPIVersion = 1.75;
                 window.wdi5.Log.info(`[browser wdi5] navigation to ${sName} triggered`);
 
+                const sapUIVersion = parseFloat(sap.ui.version);
+
                 const router = sap.ui.getCore().getComponent(sComponentId).getRouter();
-                const hashChanger = router.getHashChanger();
+                const hashChanger =
+                    sapUIVersion < oldAPIVersion
+                        ? sap.ui.core.routing.HashChanger.getInstance()
+                        : router.getHashChanger();
 
                 // on success result is the router
-                router.getHashChanger().attachEvent('hashChanged', function (oEvent) {
-                    done(['success', hashChanger.hash]);
+                hashChanger.attachEvent('hashChanged', function (oEvent) {
+                    const hash = sapUIVersion < oldAPIVersion ? hashChanger.getHash() : hashChanger.hash;
+                    done(['success', hash]);
                 });
 
                 // get component and trigger router
