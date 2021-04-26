@@ -359,6 +359,15 @@ function setup(context) {
     });
 
     /**
+     * returns the sp.ui.version string of the application under test
+     */
+    _context.addCommand('getUI5Verison', () => {
+        return _context.executeAsync((done) => {
+            done(sap.ui.version);
+        });
+    });
+
+    /**
      * uses the UI5 native waitForUI5 function to wait for all promises to be settled
      */
     _context.addCommand('waitForUI5', () => {
