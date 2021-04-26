@@ -423,7 +423,14 @@ function setup(context) {
             // navigate via hash if defined
             if (url && url.length > 0 && url !== '#') {
                 // prefix url config if is not just a hash (#)
-                _context.url(`${url}${sHash}`);
+                const currentUrl = _context.getUrl();
+                const alreadyNavByHash = currentUrl.includes('#');
+                const navToRoot = url.startsWith('/');
+                if (alreadyNavByHash && !navToRoot) {
+                    _context.url(`${currentUrl}/${sHash}`);
+                } else {
+                    _context.url(`${url}${sHash}`);
+                }
             } else if (url && url.length > 0 && url === '#') {
                 // route without the double hash
                 _context.url(`${sHash}`);
