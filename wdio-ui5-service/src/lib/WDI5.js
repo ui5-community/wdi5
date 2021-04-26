@@ -23,6 +23,8 @@ module.exports = class WDI5 {
     _wdio_ui5_key = null;
     /** @type {Array | String} */
     _generatedUI5Methods = null;
+    /** @type {Boolean} */
+    _initialisation = false;
 
     /**
      * create a new bridge return object for a UI5 control
@@ -34,11 +36,19 @@ module.exports = class WDI5 {
 
         // fire getControl just once when creating this webui5 object
         const controlResult = this._getControl();
-        this._webElement = controlResult[0];
+        if (typeof controlResult[0] === 'string' && controlResult[0].indexOf('Error:') === -1) {
+            console.error('[WDI5] Something went wrong retrieving the control: ' + this._wdio_ui5_key);
+            return this;
+        } else {
+            this._webElement = controlResult[0];
 
-        // dynamic function bridge
-        this._generatedUI5Methods = controlResult[1];
-        this._attachControlBridge(this._generatedUI5Methods);
+            // dynamic function bridge
+            this._generatedUI5Methods = controlResult[1];
+            this._attachControlBridge(this._generatedUI5Methods);
+
+            // set the sucesfull init param
+            this._initialisation = true;
+        }
 
         return this;
     }
@@ -46,7 +56,14 @@ module.exports = class WDI5 {
     // --- public methods Getter ---
 
     /**
-     * @return the webdriver Element
+     * @return {Boolean} whether this control was sucessfull initialised
+     */
+    getInitStatus() {
+        return this._initialisation;
+    }
+
+    /**
+     * @return {WebdriverIO.Element} the webdriver Element
      */
     getWebElement() {
         return this._webdriverRepresentation;
@@ -507,9 +524,9 @@ module.exports = class WDI5 {
             // further processing there
             controlSelector.selector.id = controlSelector.selector.id.toString();
         }
-        const result = context.executeAsync((controlSelector, done) => {
+        let result = context.executeAsync((controlSelector, done) => {
             window.bridge
-                .waitForUI5()
+                .waitForUI5(window.wdi5.waitForUI5OPtions)
                 .then(() => {
                     window.wdi5.Log.info('[browser wdi5] locating ' + JSON.stringify(controlSelector));
                     controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector);
@@ -531,6 +548,14 @@ module.exports = class WDI5 {
                     done(['error', error.toString()]);
                 });
         }, controlSelector);
+
+        // Fiori version 1.60 has a different representation of the elements and therefore requires special handling; sap.ui.version cannot be used due to different context
+        // TODO: seems to be not needed ATM
+        // const ui5Version = context.getUI5Verison();
+        // if (context._oldAPIVersion > parseFloat(ui5Version)) {
+        //     while (Array.isArray(result[0])) {
+        //         result = result[0];
+        //     }}
 
         // save the webdriver representation by control id
         if (result[2]) {
