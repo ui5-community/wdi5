@@ -81,8 +81,7 @@ function injectUI5() {
                     window.wdi5.createMatcher = (oSelector) => {
                         // Before version 1.60, the only available criteria is binding context path.
                         // As of version 1.72, it is available as a declarative matcher
-                        const fVersion = 1.6;
-
+                        const oldAPIVersion = 1.6;
                         // check whether we're looking for a control via regex
                         // hint: no IE support here :)
                         if (oSelector.id && oSelector.id.startsWith('/', 0)) {
@@ -103,35 +102,28 @@ function injectUI5() {
                                 // for UI5 < 1.81
                                 oSelector.bindingPath.propertyPath = `/${oSelector.bindingPath.propertyPath}`;
                             }
-                            if (fVersion > parseFloat(sap.ui.version)) {
+                            if (oldAPIVersion > parseFloat(sap.ui.version)) {
                                 // for version < 1.60 create the matcher
                                 oSelector.bindingPath = new BindingPath(oSelector.bindingPath);
                             }
                         }
-                        if (oSelector.properties) {
-                            if (fVersion > parseFloat(sap.ui.version)) {
-                                // for version < 1.60 create the matcher
+
+                        if (oldAPIVersion > parseFloat(sap.ui.version)) {
+                            // for version < 1.60 create the matcher
+                            if (oSelector.properties) {
                                 oSelector.properties = new Properties(oSelector.properties);
                             }
-                        }
-                        if (oSelector.i18NText) {
-                            if (fVersion > parseFloat(sap.ui.version)) {
-                                // for version < 1.60 create the matcher
+                            if (oSelector.i18NText) {
                                 oSelector.i18NText = new I18NText(oSelector.i18NText);
                             }
-                        }
-                        if (oSelector.labelFor) {
-                            if (fVersion > parseFloat(sap.ui.version)) {
-                                // for version < 1.60 create the matcher
+                            if (oSelector.labelFor) {
                                 oSelector.labelFor = new LabelFor(oSelector.labelFor);
                             }
-                        }
-                        if (oSelector.ancestor) {
-                            if (fVersion > parseFloat(sap.ui.version)) {
-                                // for version < 1.60 create the matcher
+                            if (oSelector.ancestor) {
                                 oSelector.ancestor = new Ancestor(oSelector.ancestor);
                             }
                         }
+
                         return oSelector;
                     };
 
