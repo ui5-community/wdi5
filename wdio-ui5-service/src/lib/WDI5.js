@@ -180,53 +180,57 @@ module.exports = class WDI5 {
             (webElement, methodName, args, done) => {
                 window.bridge.waitForUI5().then(() => {
                     // DOM to UI5
+                    const oControl = window.wdi5.getUI5CtlForWebObj(webElement);
+                    // execute the function
+                    let result = oControl[methodName].apply(oControl, args);
+                    const metadata = oControl.getMetadata();
 
-                        if (Array.isArray(result)) {
-                            // expect the method call delivers non-primitive results (like getId())
-                            // but delivers a complex/structured type
-                            // -> currenlty, only getAggregation(...) is supported
-                            result = window.wdi5.createControlIdMap(result);
-                            done(['success', result, 'aggregation']);
+                    if (Array.isArray(result)) {
+                        // expect the method call delivers non-primitive results (like getId())
+                        // but delivers a complex/structured type
+                        // -> currenlty, only getAggregation(...) is supported
+                        result = window.wdi5.createControlIdMap(result);
+                        done(['success', result, 'aggregation']);
+                    } else {
+                        // ui5 api <control>.focus() doesn't have return value
+                        if (methodName === 'focus' && result === undefined) {
+                            done([
+                                'success',
+                                `called focus() on wdi5 representation of a ${metadata.getElementName()}`,
+                                'element'
+                            ]);
+                        } else if (result === undefined || result === null) {
+                            done([
+                                'error',
+                                `function ${methodName} does not exist on control ${metadata.getElementName()}!`,
+                                'none'
+                            ]);
                         } else {
-                            // ui5 api <control>.focus() doesn't have return value
-                            if (methodName === 'focus' && result === undefined) {
-                                done([
-                                    'success',
-                                    `called focus() on wdi5 representation of a ${metadata.getElementName()}`,
-                                    'element'
-                                ]);
-                            } else if (result === undefined || result === null) {
-                                done([
-                                    'error',
-                                    `function ${methodName} does not exist on control ${metadata.getElementName()}!`,
-                                    'none'
-                                ]);
+                            // result mus be a primitive
+                            if (window.wdi5.isPrimitive(result)) {
+                                // getter
+                                done(['success', result, 'result']);
                             } else {
-                                // result mus be a primitive
-                                if (window.wdi5.isPrimitive(result)) {
-                                    // getter
-                                    done(['success', result, 'result']);
-                                } else {
-                                    // object, replacer function
-                                    // TODO: create usefull content from result
-                                    // result = JSON.stringify(result, window.wdi5.circularReplacer());
+                                // object, replacer function
+                                // TODO: create usefull content from result
+                                // result = JSON.stringify(result, window.wdi5.circularReplacer());
 
-                                    // check if of control to verify if the method result is a different control
-                                    if (result && result.getId && oControl.getId() !== result.getId()) {
-                                        // ui5 function like get parent might return another ui5 control -> return it to check with this wdi5 instance
-                                        result = window.wdi5.createControlId(result);
-                                        done(['success', result, 'newElement']);
-                                    } else {
-                                        done([
-                                            'success',
-                                            `instance of wdi5 representation of a ${metadata.getElementName()}`,
-                                            'element'
-                                        ]);
-                                    }
+                                // check if of control to verify if the method result is a different control
+                                if (result && result.getId && oControl.getId() !== result.getId()) {
+                                    // ui5 function like get parent might return another ui5 control -> return it to check with this wdi5 instance
+                                    result = window.wdi5.createControlId(result);
+                                    done(['success', result, 'newElement']);
+                                } else {
+                                    done([
+                                        'success',
+                                        `instance of wdi5 representation of a ${metadata.getElementName()}`,
+                                        'element'
+                                    ]);
                                 }
                             }
                         }
-                    });
+                    }
+                });
             },
             webElement,
             methodName,
@@ -285,6 +289,15 @@ module.exports = class WDI5 {
             (webElement, aggregationName, done) => {
                 window.bridge.waitForUI5().then(() => {
                     // DOM to UI5
+                    try {
+                        let oControl = window.wdi5.getUI5CtlForWebObj(webElement);
+                        let cAggregation = oControl.getAggregation(aggregationName);
+                        let result = window.wdi5.createControlIdMap(cAggregation);
+                        done(['success', result]);
+                    } catch (e) {
+                        done(['error', e.toString()]);
+                    }
+                });
             },
             webElement,
             aggregationName
@@ -313,6 +326,14 @@ module.exports = class WDI5 {
             (webElement, propertyName, propertyValue, done) => {
                 window.bridge.waitForUI5().then(() => {
                     try {
+                        let oControl = window.wdi5.getUI5CtlForWebObj(webElement);
+                        oControl.setProperty(propertyName, propertyValue);
+                        done(['success', ` '${propertyName}' is now '${propertyValue.toString()}'`]);
+                    } catch (error) {
+                        window.wdi5.Log.error(`[browser wido-ui5] setProperty failed because of: ${error}`);
+                        done(['error', error.toString()]);
+                    }
+                });
             },
             webElement,
             propertyName,
@@ -334,6 +355,12 @@ module.exports = class WDI5 {
             (webElement, className, done) => {
                 window.bridge.waitForUI5().then(() => {
                     try {
+                        const foundUI5Control = window.wdi5.getUI5CtlForWebObj(webElement);
+                        done(['success', foundUI5Control.hasStyleClass(className)]);
+                    } catch (e) {
+                        done(['error', e.toString()]);
+                    }
+                });
             },
             webElement,
             className
@@ -356,17 +383,23 @@ module.exports = class WDI5 {
             (webElement, propertyName, done) => {
                 window.bridge.waitForUI5().then(() => {
                     // DOM to UI5
+                    let oControl = window.wdi5.getUI5CtlForWebObj(webElement);
+                    let sProperty = '';
+                    switch (propertyName) {
+                        case 'id':
+                            sProperty = oControl.getId();
+                            break;
 
-                            default:
-                                sProperty = oControl.getProperty(propertyName);
-                                break;
-                        }
-                        if (sProperty === undefined || sProperty === null) {
-                            done(['error', `property ${propertyName} not existent in control !`]);
-                        } else {
-                            done(['success', sProperty]);
-                        }
-                    });
+                        default:
+                            sProperty = oControl.getProperty(propertyName);
+                            break;
+                    }
+                    if (sProperty === undefined || sProperty === null) {
+                        done(['error', `property ${propertyName} not existent in control !`]);
+                    } else {
+                        done(['success', sProperty]);
+                    }
+                });
             },
             webElement,
             propertyName
@@ -429,6 +462,27 @@ module.exports = class WDI5 {
             (webElement, eventName, oOptions, done) => {
                 window.bridge.waitForUI5().then(() => {
                     window.wdi5.Log.info('[browser wdi5] working ' + eventName + ' for ' + webElement);
+                    // DOM to ui5
+                    let oControl = window.wdi5.getUI5CtlForWebObj(webElement);
+                    if (oControl && oControl.hasListeners(eventName)) {
+                        window.wdi5.Log.info('[browser wdi5] firing ' + eventName + ' on ' + webElement);
+                        // element existent and has the target event
+                        try {
+                            // eval the options indicated by option of type string
+                            if (typeof oOptions === 'string') {
+                                oOptions = eval(oOptions)();
+                            }
+                            oControl.fireEvent(eventName, oOptions);
+                            // convert to boolean
+                            done(['success', true]);
+                        } catch (e) {
+                            done(['error', e.toString()]);
+                        }
+                    } else {
+                        window.wdi5.Log.error("[browser wdi5] couldn't find " + webElement);
+                        done(['error', false]);
+                    }
+                });
             },
             webElement,
             eventName,

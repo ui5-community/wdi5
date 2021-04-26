@@ -248,7 +248,7 @@ function injectUI5() {
                             };
                             return item;
                         } else {
-                            console.error("error creating new element by id of control: " + aControl);
+                            console.error('error creating new element by id of control: ' + aControl);
                         }
                     };
                 }
@@ -284,7 +284,7 @@ async function checkForUI5Page() {
             // @ts-ignore: we're in wdio sync land here
             return readyState === 'complete';
         },
-        { interval: 500, timeout: 8000 }
+        {interval: 500, timeout: 8000}
     );
 
     // test for ui5
@@ -391,7 +391,7 @@ function setup(context) {
         _context.config.wdi5['url'] = url;
         // use the wdio.url funtion to change the url
         _context.url(url);
-        injectUI5(_context)
+        injectUI5(_context);
     });
 
     /**
@@ -413,7 +413,7 @@ function setup(context) {
         const oRoute = oOptions.oRoute;
 
         if (sHash && sHash.length > 0) {
-            const url = _context.config.wdi5['url']
+            const url = _context.config.wdi5['url'];
 
             // navigate via hash if defined
             if (url && url.length > 0 && url !== '#') {
@@ -544,10 +544,9 @@ function _getDateString() {
  * @param {*} fileAppendix
  */
 function _writeScreenshot(fileAppendix) {
-
     // if config param screenshotsDisabled is set to true -> no screenshots will be taken
     if (_context.config.wdi5['screenshotsDisabled']) {
-        console.log("screenshot skipped du to config parameter")
+        console.log('screenshot skipped du to config parameter');
         return;
     }
 
@@ -560,7 +559,7 @@ function _writeScreenshot(fileAppendix) {
         _path = this.pjsonPackage.screenshotPath;
         if (_path === undefined || _path.length === 0) {
             // fallback to root
-            _path = "/screenshots"
+            _path = '/screenshots';
         }
     }
 
@@ -569,7 +568,7 @@ function _writeScreenshot(fileAppendix) {
         fileAppendix = '-' + fileAppendix;
     }
     // set deafult name for variable -> prevent issue #64
-    const filename = fileAppendix ? fileAppendix : '-screenshot'
+    const filename = fileAppendix ? fileAppendix : '-screenshot';
 
     const platform = _context.config.wdi5['platform'];
 
