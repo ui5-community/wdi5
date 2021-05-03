@@ -38,6 +38,19 @@ describe('check the generated methods on the control -> ', () => {
     };
 
     before(() => {
+        if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+            buttonSelector.forceSelect = true;
+            buttonSelector.selector.interaction = 'root';
+            inuputSelector.forceSelect = true;
+            inuputSelector.selector.interaction = 'root';
+            dateTimeSelector.forceSelect = true;
+            dateTimeSelector.selector.interaction = 'root';
+            listSelector.forceSelect = true;
+            listSelector.selector.interaction = 'root';
+            checkboxSelector.forceSelect = true;
+            checkboxSelector.selector.interaction = 'root';
+        }
+
         Main.open();
     });
 
