@@ -112,7 +112,9 @@ module.exports = class WDI5 {
      * this method is also used wdi5 interally to implement the extended forceSelect option
      */
     renewWebElementReference() {
-        this._webElement = this._getControl()[0];
+        const newWebElement = this._getControl()[0];
+        this._webElement = newWebElement;
+        return newWebElement;
     }
 
     // --- private methods ---
@@ -204,7 +206,7 @@ module.exports = class WDI5 {
      */
     _executeControlMethod(methodName, webElement = this._webElement, context = this._context, ...args) {
         if (this._forceSelect) {
-            this.renewWebElementReference();
+            webElement = this.renewWebElementReference();
         }
 
         // special case for custom data attached to a UI5 control:
