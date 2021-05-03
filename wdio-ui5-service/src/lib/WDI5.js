@@ -25,11 +25,13 @@ module.exports = class WDI5 {
     _generatedUI5Methods = null;
     /** @type {Boolean} */
     _initialisation = false;
+    /** @type {Boolean} */
+    _forceSelect = false;
 
     /**
      * create a new bridge return object for a UI5 control
      */
-    constructor(controlSelector, context) {
+    constructor(controlSelector, context, forceSelect) {
         this._context = context;
         this._controlSelector = controlSelector;
         this._wdio_ui5_key = controlSelector.wdio_ui5_key;
@@ -66,6 +68,9 @@ module.exports = class WDI5 {
      * @return {WebdriverIO.Element} the webdriver Element
      */
     getWebElement() {
+        if (this._forceSelect) {
+            this.renewWebElementReference();
+        }
         return this._webdriverRepresentation;
     }
 
@@ -75,6 +80,9 @@ module.exports = class WDI5 {
      * @return {any} content of the UI5 aggregation with name of parameter
      */
     getAggregation(name) {
+        if (this._forceSelect) {
+            this.renewWebElementReference();
+        }
         return this._getAggregation(name);
     }
 
@@ -84,6 +92,10 @@ module.exports = class WDI5 {
      * @return {WDI5} this for method chaining
      */
     enterText(text) {
+        if (this._forceSelect) {
+            this.renewWebElementReference();
+        }
+
         const oOptions = {
             enterText: text,
             selector: this._controlSelector.selector,
@@ -92,6 +104,15 @@ module.exports = class WDI5 {
         };
         this._interactWithControl(oOptions);
         return this;
+    }
+
+    /**
+     * used to update the wdio control reference
+     * this can be used to manually trigger an control reference update after a ui5 control rerendering
+     * this method is also used wdi5 interally to implement the extended forceSelect option
+     */
+    renewWebElementReference() {
+        this._webElement = this._getControl()[0];
     }
 
     // --- private methods ---
@@ -182,6 +203,10 @@ module.exports = class WDI5 {
      * @param  {...any} args proxied arguments to UI5 control method at runtime
      */
     _executeControlMethod(methodName, webElement = this._webElement, context = this._context, ...args) {
+        if (this._forceSelect) {
+            this.renewWebElementReference();
+        }
+
         // special case for custom data attached to a UI5 control:
         // pass the arguments to the event handler (like UI5 handles and expects them) also
         // also here in Node.js runtime
@@ -332,7 +357,7 @@ module.exports = class WDI5 {
     }
 
     /**
-     *
+     * @deprecated
      * @param {String} propertyName
      * @param {any} propertyValue
      * @param {WebdriverIO.Element} webElement
@@ -362,7 +387,7 @@ module.exports = class WDI5 {
     }
 
     /**
-     *
+     * @deprecated
      * @param {String} className
      * @param {WebdriverIO.Element} webElement
      * @param {WebdriverIO.BrowserObject} context
@@ -388,6 +413,7 @@ module.exports = class WDI5 {
     }
 
     /**
+     * @deprecated
      * get the property value of a UI5 control
      * @param {WebdriverIO.Element} webElement
      * @param {String} propertyName

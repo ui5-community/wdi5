@@ -476,7 +476,7 @@ function setup(context) {
             // if control is not yet existent or force parameter is set -> load control
 
             // create WDI5 control
-            const wdi5Control = new WDI5(wdi5Selector, _context);
+            const wdi5Control = new WDI5(wdi5Selector, _context, wdi5Selector['forceSelect']);
 
             // save control
             _context._controls[internalKey] = wdi5Control;
