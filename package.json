@@ -8,6 +8,8 @@
     "node": ">=12"
   },
   "scripts": {
+    "test:1.60": "run-p -r _startApp  _test:1.60",
+    "_test:1.60": "wdio test/wdio-wdi5-ui5-1.60.33.conf.js",
     "test": "run-p -r _startApp _test",
     "test:multiversion": "run-p -r _startApp _test:multiversion",
     "test:ci:multiversion": "HEADLESS=true run-p -r _startApp _test:multiversion",
