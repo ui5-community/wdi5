@@ -577,14 +577,6 @@ module.exports = class WDI5 {
                 });
         }, controlSelector);
 
-        // Fiori version 1.60 has a different representation of the elements and therefore requires special handling; sap.ui.version cannot be used due to different context
-        // TODO: seems to be not needed ATM
-        // const ui5Version = context.getUI5Verison();
-        // if (context._oldAPIVersion > parseFloat(ui5Version)) {
-        //     while (Array.isArray(result[0])) {
-        //         result = result[0];
-        //     }}
-
         // save the webdriver representation by control id
         if (result[2]) {
             // only if the result is valid
