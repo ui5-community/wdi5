@@ -427,7 +427,7 @@ function setup(context) {
                 const alreadyNavByHash = currentUrl.includes('#');
                 const navToRoot = url.startsWith('/');
                 if (alreadyNavByHash && !navToRoot) {
-                    _context.url(`${currentUrl}/${sHash}`);
+                    _context.url(`${currentUrl.split('#')[0]}${sHash}`);
                 } else {
                     _context.url(`${url}${sHash}`);
                 }
