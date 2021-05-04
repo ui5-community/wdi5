@@ -653,7 +653,7 @@ function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace
 
                 const router = sap.ui.getCore().getComponent(sComponentId).getRouter();
                 const hashChanger =
-                    sapUIVersion < oldAPIVersion
+                    parseFloat(sap.ui.version) < 1.75
                         ? sap.ui.core.routing.HashChanger.getInstance()
                         : router.getHashChanger();
 
