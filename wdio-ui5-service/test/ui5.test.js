@@ -18,6 +18,13 @@ before(() => {
         }
     };
 
+    if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+        selectorCookieAccept.forceSelect = true;
+        selectorCookieAccept.selector.interaction = 'root';
+        selectorList.forceSelect = true;
+        selectorList.selector.interaction = 'root';
+    }
+
     if (parseFloat(browser.getUI5Verison()) > 1.6) {
         const buttonCookieAccept = browser.asControl(selectorCookieAccept);
         buttonCookieAccept.firePress();
@@ -49,6 +56,17 @@ describe('basics', () => {
             interaction: 'root'
         }
     };
+
+    if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+        selectorDownloadButton.forceSelect = true;
+        selectorDownloadButton.selector.interaction = 'root';
+
+        selectorVersionButton.forceSelect = true;
+        selectorVersionButton.selector.interaction = 'root';
+
+        selectorVersionList.forceSelect = true;
+        selectorVersionList.selector.interaction = 'root';
+    }
 
     it('should not report an error on successful $control.focus()', () => {
         const focusResult = browser.asControl(selectorVersionButton).focus();
@@ -135,6 +153,11 @@ describe('basics', () => {
             }
         };
 
+        if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+            selectorWithoutId.forceSelect = true;
+            selectorWithoutId.selector.interaction = 'root';
+        }
+
         expect(browser.asControl(selectorWithoutId).getText()).toBe('Get Started with UI5');
     });
 
@@ -181,6 +204,12 @@ describe('locate ui5 control via regex', () => {
                 id: idRegex
             }
         };
+
+        if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+            selector.forceSelect = true;
+            selector.selector.interaction = 'root';
+        }
+
         browser.asControl(selector).firePress();
         expect(browser.asControl(selectorList).getVisible()).toBeTruthy();
 

@@ -1,12 +1,12 @@
 const wdi5 = require('wdi5');
-const Main = require("./pageObjects/Main")
+const Main = require('./pageObjects/Main');
 
 describe('ui5 basic', () => {
     globalThis.viewName = 'test.Sample.view.Main';
 
     before(() => {
         Main.open();
-    })
+    });
 
     beforeEach(() => {
         wdi5().getLogger().log('beforeEach');
@@ -39,6 +39,12 @@ describe('ui5 basic', () => {
                 controlType: 'sap.m.Button'
             }
         };
+
+        if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+            selector.forceSelect = true;
+            selector.selector.interaction = 'root';
+        }
+
         const control = browser.asControl(selector);
         const retrievedClassNameStatus = control.hasStyleClass(className);
 

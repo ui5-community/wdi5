@@ -1,12 +1,12 @@
-const wdi5 = require('wdi5')
-const Main = require("./pageObjects/Main")
+const wdi5 = require('wdi5');
+const Main = require('./pageObjects/Main');
 
 describe('wdio-ui5 bridge: advanced tests', () => {
     const viewName = 'test.Sample.view.Main';
 
     before(() => {
         Main.open();
-    })
+    });
 
     it('check the binding of the username input with custom wdio_ui5_key', () => {
         // set new Username
@@ -24,6 +24,11 @@ describe('wdio-ui5 bridge: advanced tests', () => {
                 controlType: 'sap.m.Input'
             }
         };
+
+        if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+            // inputSelector.selector.interaction = 'root';
+        }
+
         const mainUserInput = browser.asControl(inputSelector);
 
         // set text
@@ -42,11 +47,17 @@ describe('wdio-ui5 bridge: advanced tests', () => {
         // create selector
         const inputSelector = {
             selector: {
-                id: "mainUserInput",
+                id: 'mainUserInput',
                 viewName: viewName,
                 controlType: 'sap.m.Input'
             }
         };
+
+        if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+            inputSelector.forceSelect = true;
+            // inputSelector.selector.interaction = 'root';
+        }
+
         const mainUserInput = browser.asControl(inputSelector);
 
         // set text
@@ -62,8 +73,7 @@ describe('wdio-ui5 bridge: advanced tests', () => {
         // #1 button test
         const buttonSelector = {
             wdio_ui5_key: 'buttonSelector',
-            selector:
-            {
+            selector: {
                 bindingPath: {
                     modelName: 'testModel',
                     propertyPath: '/buttonText'
@@ -72,6 +82,11 @@ describe('wdio-ui5 bridge: advanced tests', () => {
                 controlType: 'sap.m.Button'
             }
         };
+
+        if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+            buttonSelector.forceSelect = true;
+            // buttonSelector.selector.interaction = 'root';
+        }
 
         const ui5Button = browser.asControl(buttonSelector);
         ui5Button.firePress();
@@ -88,6 +103,12 @@ describe('wdio-ui5 bridge: advanced tests', () => {
                 controlType: 'sap.m.Input'
             }
         };
+
+        if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+            inputSelector.forceSelect = true;
+            // inputSelector.selector.interaction = 'root';
+        }
+
         const ui5Input = browser.asControl(inputSelector);
 
         const inputText = 'new Input Value §§§';

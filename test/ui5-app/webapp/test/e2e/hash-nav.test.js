@@ -2,11 +2,10 @@ const wdi5 = require('wdi5');
 
 describe('hash-based nav', () => {
     it('should allow the deep entry to "Other" view using the Utils and the UI5 router', () => {
-
         const oRouteOptions = {
             sComponentId: 'container-Sample',
-            sName: "RouteOther"
-        }
+            sName: 'RouteOther'
+        };
         wdi5().getUtils().goTo('', oRouteOptions);
 
         const listSelector = {
@@ -15,6 +14,11 @@ describe('hash-based nav', () => {
                 viewName: 'test.Sample.view.Other'
             }
         };
+
+        if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+            listSelector.forceSelect = true;
+            listSelector.selector.interaction = 'root';
+        }
 
         const items = browser.asControl(listSelector).getAggregation('items');
         expect(items.length).toEqual(9);
@@ -30,16 +34,20 @@ describe('hash-based nav', () => {
             }
         };
 
-        expect(browser.asControl(buttonSelector).getProperty("visible")).toBeTruthy()
+        if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+            buttonSelector.forceSelect = true;
+            // buttonSelector.selector.interaction = 'root';
+        }
+
+        expect(browser.asControl(buttonSelector).getProperty('visible')).toBeTruthy();
     });
 
     it('should allow the deep entry to "Other" view via the UI5 router directly', () => {
-
         const oRouteOptions = {
             sComponentId: 'container-Sample',
-            sName: "RouteOther"
-        }
-        browser.goTo({ oRoute: oRouteOptions });
+            sName: 'RouteOther'
+        };
+        browser.goTo({oRoute: oRouteOptions});
 
         const listSelector = {
             selector: {
@@ -48,7 +56,12 @@ describe('hash-based nav', () => {
             }
         };
 
-        const list = browser.asControl(listSelector)
+        if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+            listSelector.forceSelect = true;
+            listSelector.selector.interaction = 'root';
+        }
+
+        const list = browser.asControl(listSelector);
         expect(list.getVisible()).toBeTruthy();
     });
 });
