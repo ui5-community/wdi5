@@ -17,9 +17,11 @@ describe('wdio-ui5 bridge: advanced tests', () => {
             forceSelect: true,
             wdio_ui5_key: 'mainUserInput',
             selector: {
+                interaction: 'focus',
                 bindingPath: {
                     propertyPath: "/Customers('TRAIH')/ContactName"
                 },
+                // id: 'mainUserInput',
                 viewName: viewName,
                 controlType: 'sap.m.Input'
             }
@@ -35,9 +37,9 @@ describe('wdio-ui5 bridge: advanced tests', () => {
         mainUserInput.enterText(newUsername);
 
         // get ui5 control
-        const ui5Input = browser.asControl(inputSelector);
+        // const ui5Input = browser.asControl(inputSelector);
         // test for working binding
-        expect(ui5Input.getProperty('value')).toEqual(newUsername);
+        expect(mainUserInput.getProperty('value')).toEqual(newUsername);
     });
 
     it('check the binding of the username input with generated wdio_ui5_key', () => {
@@ -47,6 +49,7 @@ describe('wdio-ui5 bridge: advanced tests', () => {
         // create selector
         const inputSelector = {
             selector: {
+                interaction: 'focus',
                 id: 'mainUserInput',
                 viewName: viewName,
                 controlType: 'sap.m.Input'
@@ -64,9 +67,9 @@ describe('wdio-ui5 bridge: advanced tests', () => {
         mainUserInput.enterText(newUsername);
 
         // get ui5 control
-        const ui5Input = browser.asControl(inputSelector);
+        // const ui5Input = browser.asControl(inputSelector);
         // test for working binding
-        expect(ui5Input.getProperty('value')).toEqual(newUsername);
+        expect(mainUserInput.getProperty('value')).toEqual(newUsername);
     });
 
     it('should test the named json model', () => {
@@ -74,6 +77,7 @@ describe('wdio-ui5 bridge: advanced tests', () => {
         const buttonSelector = {
             wdio_ui5_key: 'buttonSelector',
             selector: {
+                interaction: 'focus',
                 bindingPath: {
                     modelName: 'testModel',
                     propertyPath: '/buttonText'
@@ -95,6 +99,7 @@ describe('wdio-ui5 bridge: advanced tests', () => {
         const inputSelector = {
             wdio_ui5_key: 'inputSelector',
             selector: {
+                interaction: 'focus',
                 bindingPath: {
                     modelName: 'testModel',
                     propertyPath: '/inputValue'

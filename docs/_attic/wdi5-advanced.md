@@ -42,72 +42,70 @@ Check the `Cordova Plugin Mock Development` section under `How it works` in this
 
 - adjust basic config to use `appium` (see `tests/wdio-shared.config.js` for an example)
 
-    ```javascript
-    config = {
-        // 4723 is the default port for Appium
-        port: 4723,
+  ```javascript
+  config = {
+    // 4723 is the default port for Appium
+    port: 4723,
 
-        // let appium-driver take care of the mapping
-        // path: '/'
+    // let appium-driver take care of the mapping
+    // path: '/'
 
-        services: [
-            [ 'appium' ]
-        ]
-    }
-    ```
+    services: [['appium']]
+  };
+  ```
 
 - enhance configuration with iOS-specific settings (see `tests/wdio-ios.config.js` for an example):
 
-    ```javascript
-    wdi5: {
-        platform: 'ios'
-    },
-    capabilities = [
-        {
-            automationName: 'XCUITest',
-            platformName: 'iOS',
+  ```javascript
+  wdi5: {
+      platform: 'ios'
+  },
+  capabilities = [
+      {
+          automationName: 'XCUITest',
+          platformName: 'iOS',
 
-            // iOS system
-            platformVersion: '13.4',
+          // iOS system
+          platformVersion: '13.4',
 
-            // For iOS, this must exactly match the device name as seen in Xcode.
-            deviceName: 'iPhone SE (2nd generation)',
+          // For iOS, this must exactly match the device name as seen in Xcode.
+          deviceName: 'iPhone SE (2nd generation)',
 
-            // .ipa or .app file
-            app: 'test/ui5-app/app/platforms/ios/build/emulator/UI5.app',
+          // .ipa or .app file
+          app: 'test/ui5-app/app/platforms/ios/build/emulator/UI5.app',
 
-            // By default, Appium runs tests in the native context.
-            // By setting autoWebview to true,
-            // it runs our tests in the cordova context.
-            autoWebview: true,
+          // By default, Appium runs tests in the native context.
+          // By setting autoWebview to true,
+          // it runs our tests in the cordova context.
+          autoWebview: true,
 
-            // When set to true, it will not show permission dialogs,
-            // but instead grant all permissions automatically.
-            autoGrantPermissions: true,
+          // When set to true, it will not show permission dialogs,
+          // but instead grant all permissions automatically.
+          autoGrantPermissions: true,
 
-            // display iOS simultator window
-            isHeadless: false
-        }
-    ]
-    ```
+          // display iOS simultator window
+          isHeadless: false
+      }
+  ]
+  ```
 
-    refer to the [xcuitest-driver capabilities documentation](https://github.com/appium/appium-xcuitest-driver##desired-capabilities) for a complete list of possible settings
+  refer to the [xcuitest-driver capabilities documentation](https://github.com/appium/appium-xcuitest-driver##desired-capabilities) for a complete list of possible settings
 
 - `appium` may be started as a standalone service prior to the tests starting, but doesn't have to.
   if not started separately, `webdriver.io` will start it "under the hood" automatically.
 
-    ```shell
-    $> appium
-    [Appium] Welcome to Appium v1.17.1
-    [Appium] Appium REST http interface listener started on 0.0.0.0:4723
+  ```shell
+  $> appium
+  [Appium] Welcome to Appium v1.17.1
+  [Appium] Appium REST http interface listener started on 0.0.0.0:4723
 
-    $> npx wdio wdio-ios.conf.js
+  $> npx wdio wdio-ios.conf.js
 
-    Execution of 5 spec files started at ...
-    ...
-    ```
+  Execution of 5 spec files started at ...
+  ...
+  ```
 
-    there's example `npm scripts` available for the above in `/package.json`
+  there's example `npm scripts` available for the above in `/package.json`
 
 #### iOS Permissions
 
@@ -131,54 +129,52 @@ Set permissions in `wdio-ios.conf.js`.
 
 - adjust basic config to use `appium` (see `tests/wdio-shared.config.js` for an example)
 
-    ```javascript
-    config = {
-        // 4723 is the default port for Appium
-        port: 4723,
+  ```javascript
+  config = {
+    // 4723 is the default port for Appium
+    port: 4723,
 
-        // let appium-driver take care of the mapping
-        // path: '/'
+    // let appium-driver take care of the mapping
+    // path: '/'
 
-        services: [
-            [ 'appium' ]
-        ]
-    }
-    ```
+    services: [['appium']]
+  };
+  ```
 
 - enhance configuration with `android`-specific settings (see `tests/wdio-android.config.js` for an example):
 
-    ```javascript
-    wdi5: {
-        platform: 'android'
-    },
-    capabilities = [
-        {
-            automationName: 'UiAutomator2',
-            platformName: 'Android',
+  ```javascript
+  wdi5: {
+      platform: 'android'
+  },
+  capabilities = [
+      {
+          automationName: 'UiAutomator2',
+          platformName: 'Android',
 
-            // OS version emulator is running on
-            platformVersion: '10',
+          // OS version emulator is running on
+          platformVersion: '10',
 
-            // For Android, Appium uses the first device it finds using "adb devices". So, this string simply needs to be non-empty.
-            deviceName: 'any',
+          // For Android, Appium uses the first device it finds using "adb devices". So, this string simply needs to be non-empty.
+          deviceName: 'any',
 
-            // .ipa or .app file
-            app: 'test/ui5-app/app/platforms/android/app/build/outputs/apk/debug/app-debug.apk',
+          // .ipa or .app file
+          app: 'test/ui5-app/app/platforms/android/app/build/outputs/apk/debug/app-debug.apk',
 
-            // By default, Appium runs tests in the native context.
-            // By setting autoWebview to true,
-            // it runs our tests in the cordova context.
-            autoWebview: true,
+          // By default, Appium runs tests in the native context.
+          // By setting autoWebview to true,
+          // it runs our tests in the cordova context.
+          autoWebview: true,
 
-            // When set to true, it will not show permission dialogs,
-            // but instead grant all permissions automatically.
-            autoGrantPermissions: true,
+          // When set to true, it will not show permission dialogs,
+          // but instead grant all permissions automatically.
+          autoGrantPermissions: true,
 
-            // display emulator window
-            isHeadless: false
-        }
-    ]
-    ```
+          // display emulator window
+          isHeadless: false
+      }
+  ]
+  ```
 
 - launch desired emulator
   `$> emulator -avd <avd_name>`
@@ -192,6 +188,7 @@ Set permissions in `wdio-ios.conf.js`.
 
 - **make sure you have the version of `chromedriver` installed that matches the one your electron app is build with.**
   for this example repo (and at the time of this writing):
+
   - `cordova-electron` in version `1.1.1`
   - that uses `electron` in version `4.x`
   - which uses `chromium` in version `69`
@@ -285,7 +282,6 @@ You are looking for a end-to-end testing framework for crossplatform UI5 applica
 | Android   | latest major version |
 | Apple iOS | latest major version |
 
-
 #### webdriver - UI5 bridge
 
 To access the application's runtime environment this framework uses Webdriver API function `executeAsync`. This allows to write and call methods in the environment of the running application. The two objects `wdi5` and `bridge` are attached to the browser's `window` object to enhance the capabilities.
@@ -300,6 +296,10 @@ const wdi5Selector = {
     selector: <sap.ui.test.RecordReplay.ControlSelector>
 }
 ```
+
+#### UiVeri5 Selector
+
+A <sap.ui.test.RecordReplay.ControlSelector> usual properties like id, viewName, controlType etc. can be even more advanced with undocumented features like `interaction: "focus"` [github Issue](https://github.com/SAP/ui5-uiveri5/issues/86) or `interaction: "root"` [github Issue](https://github.com/js-soft/wdi5/issues/61).
 
 #### WDI5
 
@@ -372,7 +372,7 @@ Known pitfall is the chromedriver version. Make sure you run the fitting `electr
 
 0. Create a Browserstack account.
 1. Upload app (Android or iOS) via `curl` to Bowserstack.
-1.1 curl -u `<userrname>:<accessKey> -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@<path-to-build-folder>/<bundle-name>.<apk|ipa>"` Put the response ahsh into your onfig file option `app`.
+   1.1 curl -u `<userrname>:<accessKey> -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@<path-to-build-folder>/<bundle-name>.<apk|ipa>"` Put the response ahsh into your onfig file option `app`.
 2. Modify the browserstack testconfiguration `wdio-bs-<android|ios>.conf.js` with your username and accessKey. Furthermore the app hash you would like to run your tests on.
 3. Execute the testscripts `npm run test:android:bs`or `npm run test:ios:bs`
 

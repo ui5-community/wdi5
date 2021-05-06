@@ -35,6 +35,7 @@ module.exports = class WDI5 {
         this._context = context;
         this._controlSelector = controlSelector;
         this._wdio_ui5_key = controlSelector.wdio_ui5_key;
+        this._forceSelect = forceSelect;
 
         // fire getControl just once when creating this webui5 object
         const controlResult = this._getControl();
@@ -92,9 +93,9 @@ module.exports = class WDI5 {
      * @return {WDI5} this for method chaining
      */
     enterText(text) {
-        if (this._forceSelect) {
-            this.renewWebElementReference();
-        }
+        // if (this._forceSelect) {
+        //     this.renewWebElementReference();
+        // }
 
         const oOptions = {
             enterText: text,
@@ -474,7 +475,16 @@ module.exports = class WDI5 {
                 .then(() => {
                     window.wdi5.Log.info('[browser wdi5] locating controlSelector');
                     oOptions.selector = window.wdi5.createMatcher(oOptions.selector);
-                    return window.bridge.interactWithControl(oOptions);
+                    if (parseFloat(sap.ui.version) <= 1.6) {
+                        // implementing legacy api < 1.60
+                        window.bridge.findDOMElementByControlSelector(oOptions).then((control, arg) => {
+                            const ui5Control = window.wdi5.getUI5CtlForWebObj(control);
+                            oOptions.control = ui5Control;
+                            return window.bridge.interactWithControl(oOptions);
+                        });
+                    } else {
+                        return window.bridge.interactWithControl(oOptions);
+                    }
                 })
                 .then((result) => {
                     window.wdi5.Log.info('[browser wdi5] interaction complete! - Message: ' + result);
