@@ -18,14 +18,14 @@ before(() => {
         }
     };
 
-    if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+    if (parseFloat(browser.getUI5Version()) <= 1.6) {
         selectorCookieAccept.forceSelect = true;
         selectorCookieAccept.selector.interaction = 'root';
         selectorList.forceSelect = true;
         selectorList.selector.interaction = 'root';
     }
 
-    if (parseFloat(browser.getUI5Verison()) > 1.6) {
+    if (parseFloat(browser.getUI5Version()) > 1.6) {
         const buttonCookieAccept = browser.asControl(selectorCookieAccept);
         buttonCookieAccept.firePress();
     }
@@ -57,7 +57,7 @@ describe('basics', () => {
         }
     };
 
-    if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+    if (parseFloat(browser.getUI5Version()) <= 1.6) {
         selectorDownloadButton.forceSelect = true;
         selectorDownloadButton.selector.interaction = 'root';
 
@@ -80,7 +80,7 @@ describe('basics', () => {
     it('should have the right title', () => {
         const title = browser.getTitle();
 
-        if (parseFloat(browser.getUI5Verison()) > 1.6) {
+        if (parseFloat(browser.getUI5Version()) > 1.6) {
             expect(title).toEqual('Demo Kit - OPENUI5 SDK');
         } else {
             expect(title).toEqual('OpenUI5 SDK - Demo Kit v2.0');
@@ -153,7 +153,7 @@ describe('basics', () => {
             }
         };
 
-        if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+        if (parseFloat(browser.getUI5Version()) <= 1.6) {
             selectorWithoutId.forceSelect = true;
             selectorWithoutId.selector.interaction = 'root';
         }
@@ -168,7 +168,7 @@ describe('basics', () => {
     });
 
     it('should navigate', () => {
-        if (parseFloat(browser.getUI5Verison()) > 1.6) {
+        if (parseFloat(browser.getUI5Version()) > 1.6) {
             browser.setUrl('api/sap.m.Button');
             var header = browser.asControl({selector: {id: '__xmlview0--title'}});
         } else {
@@ -180,7 +180,7 @@ describe('basics', () => {
     });
 
     it('should navigate via hash', () => {
-        if (parseFloat(browser.getUI5Verison()) > 1.6) {
+        if (parseFloat(browser.getUI5Version()) > 1.6) {
             browser.goTo('#events/Summary');
             var eventsHeader = browser.asControl({selector: {id: '__xmlview0--events'}});
         } else {
@@ -205,7 +205,7 @@ describe('locate ui5 control via regex', () => {
             }
         };
 
-        if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+        if (parseFloat(browser.getUI5Version()) <= 1.6) {
             selector.forceSelect = true;
             selector.selector.interaction = 'root';
         }

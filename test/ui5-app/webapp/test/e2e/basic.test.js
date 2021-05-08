@@ -40,7 +40,7 @@ describe('ui5 basic', () => {
             }
         };
 
-        if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+        if (parseFloat(browser.getUI5Version()) <= 1.6) {
             selector.forceSelect = true;
             selector.selector.interaction = 'root';
         }

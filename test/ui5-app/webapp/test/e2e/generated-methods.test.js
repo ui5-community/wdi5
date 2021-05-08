@@ -38,7 +38,7 @@ describe('check the generated methods on the control -> ', () => {
     };
 
     before(() => {
-        if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+        if (parseFloat(browser.getUI5Version()) <= 1.6) {
             buttonSelector.forceSelect = true;
             buttonSelector.selector.interaction = 'root';
             inuputSelector.forceSelect = true;

@@ -361,7 +361,7 @@ function setup(context) {
     /**
      * returns the sp.ui.version string of the application under test
      */
-    _context.addCommand('getUI5Verison', () => {
+    _context.addCommand('getUI5Version', () => {
         return _context.executeAsync((done) => {
             done(sap.ui.version);
         });

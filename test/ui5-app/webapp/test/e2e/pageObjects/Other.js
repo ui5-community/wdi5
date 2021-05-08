@@ -27,7 +27,7 @@ class Other extends Page {
             }
         };
 
-        if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+        if (parseFloat(browser.getUI5Version()) <= 1.6) {
             listSelector.forceSelect = true;
             listSelector.selector.interaction = 'root';
         }

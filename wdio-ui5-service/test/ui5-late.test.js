@@ -21,7 +21,7 @@ describe('ui5 basic', () => {
         }
     };
 
-    if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+    if (parseFloat(browser.getUI5Version()) <= 1.6) {
         selectorCookieAccept.forceSelect = true;
         selectorCookieAccept.selector.interaction = 'root';
     }

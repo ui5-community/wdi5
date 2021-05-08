@@ -24,7 +24,7 @@ describe('ui5 plugin', () => {
             }
         };
 
-        if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+        if (parseFloat(browser.getUI5Version()) <= 1.6) {
             buttonSelector.forceSelect = true;
             buttonSelector.selector.interaction = 'root';
             inputSelector.forceSelect = true;
@@ -65,7 +65,7 @@ describe('ui5 plugin', () => {
             }
         };
 
-        if (parseFloat(browser.getUI5Verison()) <= 1.6) {
+        if (parseFloat(browser.getUI5Version()) <= 1.6) {
             buttonSelector.forceSelect = true;
             buttonSelector.selector.interaction = 'root';
             inputSelector.forceSelect = true;
