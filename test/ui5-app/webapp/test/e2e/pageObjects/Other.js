@@ -1,7 +1,6 @@
-const Page = require("./Page")
+const Page = require('./Page');
 
 class Other extends Page {
-
     allNames = [
         'Nancy Davolio',
         'Andrew Fuller',
@@ -16,19 +15,24 @@ class Other extends Page {
     _viewName = 'test.Sample.view.Other';
 
     open(accountId) {
-        super.open(`#/Other`)
+        super.open(`#/Other`);
     }
 
     getList() {
         const listSelector = {
-            wdio_ui5_key: "PeopleList",
+            wdio_ui5_key: 'PeopleList',
             selector: {
                 id: 'PeopleList',
                 viewName: this._viewName
             }
         };
 
-        return browser.asControl(listSelector)
+        if (parseFloat(browser.getUI5Version()) <= 1.6) {
+            listSelector.forceSelect = true;
+            listSelector.selector.interaction = 'root';
+        }
+
+        return browser.asControl(listSelector);
     }
 
     getListItmes() {
@@ -36,4 +40,4 @@ class Other extends Page {
     }
 }
 
-module.exports = new Other()
+module.exports = new Other();

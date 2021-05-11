@@ -1,14 +1,13 @@
-const Page = require("./Page")
+const Page = require('./Page');
 
 class Main extends Page {
     open() {
-        super.open(`#/Main`)
+        super.open(`#/Main`);
     }
 
-    _viewName = "test.Sample.view.Main"
+    _viewName = 'test.Sample.view.Main';
 
     getCheckbox() {
-
         const cbSelector1 = {
             wdio_ui5_key: 'cbSelector1',
             selector: {
@@ -18,8 +17,13 @@ class Main extends Page {
             }
         };
 
+        if (parseFloat(browser.getUI5Version()) <= 1.6) {
+            cbSelector1.forceSelect = true;
+            cbSelector1.selector.interaction = 'root';
+        }
+
         return browser.asControl(cbSelector1);
     }
 }
 
-module.exports = new Main()
+module.exports = new Main();

@@ -1,5 +1,5 @@
 const wdi5 = require('wdi5');
-const Main = require("./pageObjects/Main")
+const Main = require('./pageObjects/Main');
 
 describe('check the generated methods on the control -> ', () => {
     const buttonSelector = {
@@ -38,8 +38,21 @@ describe('check the generated methods on the control -> ', () => {
     };
 
     before(() => {
+        if (parseFloat(browser.getUI5Version()) <= 1.6) {
+            buttonSelector.forceSelect = true;
+            buttonSelector.selector.interaction = 'root';
+            inuputSelector.forceSelect = true;
+            inuputSelector.selector.interaction = 'root';
+            dateTimeSelector.forceSelect = true;
+            dateTimeSelector.selector.interaction = 'root';
+            listSelector.forceSelect = true;
+            listSelector.selector.interaction = 'root';
+            checkboxSelector.forceSelect = true;
+            checkboxSelector.selector.interaction = 'root';
+        }
+
         Main.open();
-    })
+    });
 
     beforeEach(() => {
         wdi5().getUtils().takeScreenshot('test-ui5');
@@ -54,9 +67,9 @@ describe('check the generated methods on the control -> ', () => {
     });
 
     it('getProperty("text") and getText() are equivalent', () => {
-        expect(
-            browser.asControl(buttonSelector).getProperty('text')).toEqual(
-                browser.asControl(buttonSelector).getText())
+        expect(browser.asControl(buttonSelector).getProperty('text')).toEqual(
+            browser.asControl(buttonSelector).getText()
+        );
     });
 
     it('sets the property of a control successfully', () => {
@@ -70,9 +83,9 @@ describe('check the generated methods on the control -> ', () => {
         const input = browser.asControl(inuputSelector);
 
         // text
-        const inputText = "the mighty text";
+        const inputText = 'the mighty text';
         input.setValue(inputText);
-        const sTextProperty = input.getProperty("value")
+        const sTextProperty = input.getProperty('value');
         expect(input.getValue()).toEqual(sTextProperty);
         expect(input.getValue()).toEqual(inputText);
 
@@ -92,10 +105,10 @@ describe('check the generated methods on the control -> ', () => {
         const button = browser.asControl(buttonSelector);
 
         // text
-        const buttonText = "the mighty text";
+        const buttonText = 'the mighty text';
         button.setText(buttonText);
         const retrievedButtonText = button.getText();
-        expect(retrievedButtonText).toEqual(button.getProperty("text"));
+        expect(retrievedButtonText).toEqual(button.getProperty('text'));
         expect(retrievedButtonText).toEqual(buttonText);
 
         // status
@@ -113,7 +126,7 @@ describe('check the generated methods on the control -> ', () => {
         checkbox.setSelected(true);
         expect(checkbox.getPartiallySelected()).toBeFalsy();
         expect(checkbox.getSelected()).toBeTruthy();
-        checkbox.setPartiallySelected(true)
+        checkbox.setPartiallySelected(true);
         expect(checkbox.getPartiallySelected()).toBeTruthy();
 
         // status
@@ -152,25 +165,25 @@ describe('check the generated methods on the control -> ', () => {
         const listId = list.getId();
         expect(listId).toContain('PeopleList');
 
-        expect(list.getAggregation("items").length).toEqual(list.getItems().length);
+        expect(list.getAggregation('items').length).toEqual(list.getItems().length);
     });
 
     it('list method test', () => {
         const list = browser.asControl(listSelector);
 
-        const listMode = list.getMode()
-        const activeItem = list.getActiveItem()
-        const isBusy = list.getBusy()
+        const listMode = list.getMode();
+        const activeItem = list.getActiveItem();
+        const isBusy = list.getBusy();
 
         // returns the wdi5 representation of the list
         // TODO: implement getModel and getBinding to return some more fitting value
-        const model = list.getModel()
-        const binding = list.getBinding("items")
+        const model = list.getModel();
+        const binding = list.getBinding('items');
 
         expect(listMode).toEqual('None');
         expect(activeItem).toBeFalsy();
         expect(isBusy).toBeFalsy();
         expect(model).toBeDefined();
-        expect(binding).toBeDefined()
-    })
+        expect(binding).toBeDefined();
+    });
 });

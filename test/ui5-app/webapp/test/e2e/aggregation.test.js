@@ -1,21 +1,19 @@
 const wdi5 = require('wdi5');
-const Other = require("./pageObjects/Other")
+const Other = require('./pageObjects/Other');
 
 describe('ui5 aggregation retrieval', () => {
-
     before(() => {
         Other.open();
-    })
+    });
 
     beforeEach(() => {
         wdi5().getUtils().takeScreenshot('test-aggregation');
     });
 
     it('get aggregation and validate items', () => {
-
         // action:
         // get the aggreagation -> returns array of WDI5 controls
-        const items = Other.getListItmes()
+        const items = Other.getListItmes();
 
         // assertions:
         // check all items are bound

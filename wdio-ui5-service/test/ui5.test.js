@@ -5,19 +5,30 @@ const selectorList = {
     forceSelect: true,
     selector: {
         id: 'versionList',
-        controlType: 'sap.m.List'
+        controlType: 'sap.m.List',
+        interaction: 'root'
     }
 };
 
 before(() => {
     const selectorCookieAccept = {
         selector: {
-            id: '__button4',
+            id: '__button6',
             controlType: 'sap.m.Button'
         }
     };
-    const buttonCookieAccept = browser.asControl(selectorCookieAccept);
-    buttonCookieAccept.firePress();
+
+    if (parseFloat(browser.getUI5Version()) <= 1.6) {
+        selectorCookieAccept.forceSelect = true;
+        selectorCookieAccept.selector.interaction = 'root';
+        selectorList.forceSelect = true;
+        selectorList.selector.interaction = 'root';
+    }
+
+    if (parseFloat(browser.getUI5Version()) > 1.6) {
+        const buttonCookieAccept = browser.asControl(selectorCookieAccept);
+        buttonCookieAccept.firePress();
+    }
 });
 
 describe('basics', () => {
@@ -41,9 +52,23 @@ describe('basics', () => {
         forceSelect: true,
         selector: {
             id: 'versionList',
-            controlType: 'sap.m.List'
+            controlType: 'sap.m.List',
+            interaction: 'root'
         }
     };
+
+    before(() => {
+        if (parseFloat(browser.getUI5Version()) <= 1.6) {
+            selectorDownloadButton.forceSelect = true;
+            selectorDownloadButton.selector.interaction = 'root';
+
+            selectorVersionButton.forceSelect = true;
+            selectorVersionButton.selector.interaction = 'root';
+
+            selectorVersionList.forceSelect = true;
+            selectorVersionList.selector.interaction = 'root';
+        }
+    });
 
     it('should not report an error on successful $control.focus()', () => {
         const focusResult = browser.asControl(selectorVersionButton).focus();
@@ -56,7 +81,12 @@ describe('basics', () => {
 
     it('should have the right title', () => {
         const title = browser.getTitle();
-        expect(title).toEqual('Demo Kit - OPENUI5 SDK');
+
+        if (parseFloat(browser.getUI5Version()) > 1.6) {
+            expect(title).toEqual('Demo Kit - OPENUI5 SDK');
+        } else {
+            expect(title).toEqual('OpenUI5 SDK - Demo Kit v2.0');
+        }
     });
 
     it('should find a ui5 control by id', () => {
@@ -78,7 +108,8 @@ describe('basics', () => {
         controlVersionButton.firePress();
 
         // check for visibility
-        expect(browser.asControl(selectorList).getVisible()).toBeTruthy();
+        const list = browser.asControl(selectorList);
+        expect(list.getVisible()).toBeTruthy();
 
         browser.keys('Escape'); // close popup
     });
@@ -124,6 +155,11 @@ describe('basics', () => {
             }
         };
 
+        if (parseFloat(browser.getUI5Version()) <= 1.6) {
+            selectorWithoutId.forceSelect = true;
+            selectorWithoutId.selector.interaction = 'root';
+        }
+
         expect(browser.asControl(selectorWithoutId).getText()).toBe('Get Started with UI5');
     });
 
@@ -134,15 +170,25 @@ describe('basics', () => {
     });
 
     it('should navigate', () => {
-        browser.setUrl('api/sap.m.Button');
+        if (parseFloat(browser.getUI5Version()) > 1.6) {
+            browser.setUrl('api/sap.m.Button');
+            var header = browser.asControl({selector: {id: '__xmlview0--title'}});
+        } else {
+            browser.goTo('#/api/sap.m.Button');
+            var header = browser.asControl({selector: {id: '__xmlview5--title'}});
+        }
 
-        const header = browser.asControl({selector: {id: '__xmlview0--title'}});
         expect(header.getVisible()).toBeTruthy();
     });
 
     it('should navigate via hash', () => {
-        browser.goTo('#events/Summary');
-        const eventsHeader = browser.asControl({selector: {id: '__xmlview0--events'}});
+        if (parseFloat(browser.getUI5Version()) > 1.6) {
+            browser.goTo('#events/Summary');
+            var eventsHeader = browser.asControl({selector: {id: '__xmlview0--events'}});
+        } else {
+            browser.goTo('events/Summary');
+            var eventsHeader = browser.asControl({selector: {id: '__xmlview6--events'}});
+        }
         expect(eventsHeader.getVisible()).toBeTruthy();
     });
 });
@@ -160,6 +206,12 @@ describe('locate ui5 control via regex', () => {
                 id: idRegex
             }
         };
+
+        if (parseFloat(browser.getUI5Version()) <= 1.6) {
+            selector.forceSelect = true;
+            selector.selector.interaction = 'root';
+        }
+
         browser.asControl(selector).firePress();
         expect(browser.asControl(selectorList).getVisible()).toBeTruthy();
 

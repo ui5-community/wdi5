@@ -14,23 +14,23 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 <!--ts-->
 
--   [wdi5](#wdi5)
-    -   [about](#about)
-    -   [Installation Setup](#installation--setup)
-    -   [Usage](#usage)
-        -   [Control selectors](#control-selectors)
-        -   [API methods](#api-methods)
-            -   [all UI5 control's native methods](#all-ui5-controls-native-methods)
-            - [browser.goTo()](#goTo)
-            -   [getAggregation](#getaggregation)
-            -   [enterText](#entertext)
-        -   [Function mock for event handler](#function-mock-for-event-handler)
-        -   [Assertions](#assertions)
-        -   [Screenshots](#screenshots)
-    -   [Logger](#logger)
-    -   [FAQ/hints](#faqhints)
-    -   [Collaboration](#collaboration)
-    -   [License](#license)
+- [wdi5](#wdi5)
+  - [about](#about)
+  - [Installation Setup](#installation--setup)
+  - [Usage](#usage)
+    - [Control selectors](#control-selectors)
+    - [API methods](#api-methods)
+      - [all UI5 control's native methods](#all-ui5-controls-native-methods)
+      - [browser.goTo()](#goTo)
+      - [getAggregation](#getaggregation)
+      - [enterText](#entertext)
+    - [Function mock for event handler](#function-mock-for-event-handler)
+    - [Assertions](#assertions)
+    - [Screenshots](#screenshots)
+  - [Logger](#logger)
+  - [FAQ/hints](#faqhints)
+  - [Collaboration](#collaboration)
+  - [License](#license)
 
 <!-- Added by: vbuzek, at: Do 12 Nov 2020 14:37:03 CET -->
 
@@ -40,9 +40,9 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 `wdi5` comes in two flavours:
 
--   ![npm](https://img.shields.io/npm/v/wdio-ui5-service) `wdio-ui5-service`: a browser-based plugin to [`Webdriver.IO`](https://webdriver.io)
--   ![npm](https://img.shields.io/npm/v/wdi5) `wdi5`: an extension to [`Webdriver.IO`](https://webdriver.io), using [`appium`](http://appium.io) to communicate with the hybrid app on iOS, Android and Electron.
-    The `wdi5`-extension contains `wdio-ui5-service`, allowing for both browser-based and hybrid-app-testing.
+- ![npm](https://img.shields.io/npm/v/wdio-ui5-service) `wdio-ui5-service`: a browser-based plugin to [`Webdriver.IO`](https://webdriver.io)
+- ![npm](https://img.shields.io/npm/v/wdi5) `wdi5`: an extension to [`Webdriver.IO`](https://webdriver.io), using [`appium`](http://appium.io) to communicate with the hybrid app on iOS, Android and Electron.
+  The `wdi5`-extension contains `wdio-ui5-service`, allowing for both browser-based and hybrid-app-testing.
 
 `wdio-ui5-service` allows for a lightweight setup if test scope is on the browser.
 As to where the `wdi5`-extension gives you the full "app-testing-package".
@@ -51,8 +51,8 @@ As to where the `wdi5`-extension gives you the full "app-testing-package".
 
 Specific to the desired test-scope, please see:
 
--   brower-based "Webdriver.IO"-plugin: [wdio-ui5-service](./wdio-ui5-service/README.md)
--   hybrid app extension: [wdi5](./wdi5/README.md) (includes all browser-based capabilities)
+- brower-based "Webdriver.IO"-plugin: [wdio-ui5-service](./wdio-ui5-service/README.md)
+- hybrid app extension: [wdi5](./wdi5/README.md) (includes all browser-based capabilities)
 
 ## Usage
 
@@ -72,17 +72,19 @@ The entry point to retrieve a control is always `browser.asControl(oSelector)`.
 
 `wdio-ui5` stores control references internally in order to save browser roundtrip time on repeatedly using a control across different test cases. For that, `wdio-ui5` computes unique identifiers for controls - with `wdio_ui5_key`, you can assign such an ID manually if required.
 
-The `forceSelcet` (default: `false`) property can be set to `true` to force `wdio-ui5` to again retrieve the control from the browser context and update the internally stored reference.
+The `forceSelcet` (default: `false`) property can be set to `true` to force `wdio-ui5` to again retrieve the control from the browser context and update the internally stored reference as well as available control method.
+
+The `forceSelcet` option also updates the wdio control reference each time a mehtod is executed on a wdi5 control.
 
 ```javascript
 const oSelector = {
-    wdio_ui5_key: 'wdio-ui5-button', // optional unique internal key to map and find a control
-    forceSelect: true, // forces the test framework to again retrieve the control from the browser context
-    selector: {
-        // sap.ui.test.RecordReplay.ControlSelector
-        id: 'UI5control_ID',
-        viewName: 'your.namespace.App'
-    }
+  wdio_ui5_key: 'wdio-ui5-button', // optional unique internal key to map and find a control
+  forceSelect: true, // forces the test framework to again retrieve the control from the browser context
+  selector: {
+    // sap.ui.test.RecordReplay.ControlSelector
+    id: 'UI5control_ID',
+    viewName: 'your.namespace.App'
+  }
 };
 const control = browser.asControl(oSelector);
 // now use one of the below API methods on <control>
@@ -102,17 +104,17 @@ These are the supported selectors from [sap.ui.test.RecordReplay.ControlSelector
 
 ```javascript
 const bindingPathSelector = {
-    selector: {
-        // sap.ui.test.RecordReplay.ControlSelector
-        bindingPath: {
-            propertyPath: "/Customers('TRAIH')/ContactName"
-        },
-        properties: {
-            value: 'Helvetius Nagy'
-        },
-        viewName: 'test.Sample.view.Main',
-        controlType: 'sap.m.Input'
-    }
+  selector: {
+    // sap.ui.test.RecordReplay.ControlSelector
+    bindingPath: {
+      propertyPath: "/Customers('TRAIH')/ContactName"
+    },
+    properties: {
+      value: 'Helvetius Nagy'
+    },
+    viewName: 'test.Sample.view.Main',
+    controlType: 'sap.m.Input'
+  }
 };
 const control = browser.asControl(bindingPathSelector);
 // now use one of the below API methods on `control`
@@ -124,9 +126,9 @@ Locating a UI5 control via a regular expression works as well:
 // select a Button with Id ending in "MyButton"
 // across all views in the UI5 app
 const crossViewById = {
-    selector: {
-        id: /.*MyButton$/
-    }
+  selector: {
+    id: /.*MyButton$/
+  }
 };
 expect(browser.asControl(crossViewById).getVisible()).toBeTruthy();
 ```
@@ -141,10 +143,10 @@ In case you are not able to create an explicit selector for a control, but you a
 
 ```javascript
 const webdriverLocatorSelector = {
-    selector: browser.getSelectorForElement({
-        domElement: $('/xpath/to/button'),
-        settings: {preferViewId: true}
-    })
+  selector: browser.getSelectorForElement({
+    domElement: $('/xpath/to/button'),
+    settings: {preferViewId: true}
+  })
 };
 const control = browser.asControl(webdriverLocatorSelector);
 // now use any of the UI5 native controls' API methods on `control`
@@ -227,12 +229,12 @@ length: 220
 ]
 ```
 
-This method bridge **does not** proxy private control methods (starting with `_`), `getAggregation` (and `getMetadata`) though.  
+This method bridge **does not** proxy private control methods (starting with `_`), `getAggregation` (and `getMetadata`) though.
 [`getAggregation` (see below)](#getaggregation) is provided by `wdi5` separately with a UI5-compatible API signature.
 
 #### goTo
 
-When navigating the User-Agent manually, please use `wdi5`'s own `browser.goTo('#/path/to/route')` implementation rather than Webdriver.IO's `browser.url()`.  
+When navigating the User-Agent manually, please use `wdi5`'s own `browser.goTo('#/path/to/route')` implementation rather than Webdriver.IO's `browser.url()`.
 This makes sure that the UI5 test API is loaded and runtime.
 
 #### getAggregation
@@ -242,7 +244,7 @@ This makes sure that the UI5 test API is loaded and runtime.
 ```javascript
 const ui5ListItems = browser.asControl(oListSelector).getAggregation('items');
 ui5ListItems.forEach((listItem) => {
-    expect(listItem.getTitle()).not.toBe('');
+  expect(listItem.getTitle()).not.toBe('');
 });
 ```
 
@@ -272,15 +274,15 @@ Can be accessed in standard UI5 manner `oEvent.getParameter("listItem").data("ke
 // use in wdio-ui5 test
 // example for the [sap.m.List](https://sapui5.hana.ondemand.com/#/api/sap.m.ListBase%23events/itemPress) event `itemPress`
 browser.asControl(listSelector).fireEvent('itemPress', {
-    eval: () => {
-        return {
-            listItem: {
-                data: () => {
-                    return 'account.relationships';
-                }
-            }
-        };
-    }
+  eval: () => {
+    return {
+      listItem: {
+        data: () => {
+          return 'account.relationships';
+        }
+      }
+    };
+  }
 });
 ```
 
@@ -294,9 +296,9 @@ At any point in your test(s), you can screenshot the current state of the UI via
 
 ```javascript
 it('...', () => {
-    // ...
-    browser.screenshot('some-id');
-    // ...
+  // ...
+  browser.screenshot('some-id');
+  // ...
 });
 ```
 
@@ -323,9 +325,9 @@ Run `yarn test` for `wdi5` testing itself 😊
 
 ## Collaboration
 
--   yarn
--   prettier
--   commitlint
+- yarn
+- prettier
+- commitlint
 
 ## License
 
