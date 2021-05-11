@@ -45,7 +45,7 @@ function injectUI5() {
                 createMatcher: null,
                 isInitialized: false,
                 Log: null,
-                waitForUI5OPtions: {
+                waitForUI5Options: {
                     timeout: 15000,
                     interval: 400
                 }
@@ -327,7 +327,7 @@ function setup(context) {
     _context.addCommand('getSelectorForElement', (oOptions) => {
         const result = _context.executeAsync((oOptions, done) => {
             window.bridge
-                .waitForUI5(window.wdi5.waitForUI5OPtions)
+                .waitForUI5(window.wdi5.waitForUI5Options)
                 .then(() => {
                     window.wdi5.Log.info('[browser wdi5] locating domElement');
                     return window.bridge.findControlSelectorByDOMElement(oOptions);
@@ -528,7 +528,7 @@ function _checkForUI5Ready() {
         // can only be executed when RecordReplay is attached
         const result = _context.executeAsync((done) => {
             window.bridge
-                .waitForUI5(window.wdi5.waitForUI5OPtions)
+                .waitForUI5(window.wdi5.waitForUI5Options)
                 .then(() => {
                     window.wdi5.Log.info('[browser wdi5] UI5 is ready');
                     done(true);
@@ -648,7 +648,7 @@ function _stripNonValidCharactersForKey(key) {
 function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) {
     const result = _context.executeAsync(
         (sComponentId, sName, oParameters, oComponentTargetInfo, bReplace, done) => {
-            window.bridge.waitForUI5(window.wdi5.waitForUI5OPtions).then(() => {
+            window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
                 window.wdi5.Log.info(`[browser wdi5] navigation to ${sName} triggered`);
 
                 const router = sap.ui.getCore().getComponent(sComponentId).getRouter();
