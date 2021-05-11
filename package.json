@@ -91,7 +91,7 @@
     "browserstack-local": "^1.4.8",
     "chromedriver": "^90.0.0",
     "cordova": "^10.0.0",
-    "fs-extra": "^9.1.0",
+    "fs-extra": "^10.0.0",
     "git-cz": "^4.7.6",
     "husky": "^6.0.0",
     "lerna": "^4.0.0",
