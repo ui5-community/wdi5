@@ -57,16 +57,18 @@ describe('basics', () => {
         }
     };
 
-    if (parseFloat(browser.getUI5Version()) <= 1.6) {
-        selectorDownloadButton.forceSelect = true;
-        selectorDownloadButton.selector.interaction = 'root';
+    before(() => {
+        if (parseFloat(browser.getUI5Version()) <= 1.6) {
+            selectorDownloadButton.forceSelect = true;
+            selectorDownloadButton.selector.interaction = 'root';
 
-        selectorVersionButton.forceSelect = true;
-        selectorVersionButton.selector.interaction = 'root';
+            selectorVersionButton.forceSelect = true;
+            selectorVersionButton.selector.interaction = 'root';
 
-        selectorVersionList.forceSelect = true;
-        selectorVersionList.selector.interaction = 'root';
-    }
+            selectorVersionList.forceSelect = true;
+            selectorVersionList.selector.interaction = 'root';
+        }
+    });
 
     it('should not report an error on successful $control.focus()', () => {
         const focusResult = browser.asControl(selectorVersionButton).focus();
