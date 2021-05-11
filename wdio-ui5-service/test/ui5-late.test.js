@@ -21,12 +21,11 @@ describe('ui5 basic', () => {
         }
     };
 
-    if (parseFloat(browser.getUI5Version()) <= 1.6) {
-        selectorCookieAccept.forceSelect = true;
-        selectorCookieAccept.selector.interaction = 'root';
-    }
-
     it('"ui5": ui5 sdk page should have the right title', () => {
+        if (parseFloat(browser.getUI5Version()) <= 1.6) {
+            selectorCookieAccept.forceSelect = true;
+            selectorCookieAccept.selector.interaction = 'root';
+        }
         // use wdi5 aka "ui5" wdio service to verify all went well with the late init
         browser.screenshot('test-ui5');
 
