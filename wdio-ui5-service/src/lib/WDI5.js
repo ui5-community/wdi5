@@ -223,7 +223,7 @@ module.exports = class WDI5 {
         // regular browser-time execution of UI5 control method
         const result = context.executeAsync(
             (webElement, methodName, args, done) => {
-                window.bridge.waitForUI5(window.wdi5.waitForUI5OPtions).then(() => {
+                window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
                     // DOM to UI5
                     const oControl = window.wdi5.getUI5CtlForWebObj(webElement);
                     // execute the function
@@ -332,7 +332,7 @@ module.exports = class WDI5 {
     _getAggregation(aggregationName, webElement = this._webElement, context = this._context) {
         const result = context.executeAsync(
             (webElement, aggregationName, done) => {
-                window.bridge.waitForUI5(window.wdi5.waitForUI5OPtions).then(() => {
+                window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
                     // DOM to UI5
                     try {
                         let oControl = window.wdi5.getUI5CtlForWebObj(webElement);
@@ -369,7 +369,7 @@ module.exports = class WDI5 {
     _setProperty(propertyName, propertyValue, webElement = this._webElement, context = this._context) {
         const result = context.executeAsync(
             (webElement, propertyName, propertyValue, done) => {
-                window.bridge.waitForUI5(window.wdi5.waitForUI5OPtions).then(() => {
+                window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
                     try {
                         let oControl = window.wdi5.getUI5CtlForWebObj(webElement);
                         oControl.setProperty(propertyName, propertyValue);
@@ -398,7 +398,7 @@ module.exports = class WDI5 {
     _hasStyleClass(className, webElement = this._webElement, context = this._context) {
         const result = context.executeAsync(
             (webElement, className, done) => {
-                window.bridge.waitForUI5(window.wdi5.waitForUI5OPtions).then(() => {
+                window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
                     try {
                         const foundUI5Control = window.wdi5.getUI5CtlForWebObj(webElement);
                         done(['success', foundUI5Control.hasStyleClass(className)]);
@@ -427,7 +427,7 @@ module.exports = class WDI5 {
         // returns the array of [0: "status", 1: result]
         const result = context.executeAsync(
             (webElement, propertyName, done) => {
-                window.bridge.waitForUI5(window.wdi5.waitForUI5OPtions).then(() => {
+                window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
                     // DOM to UI5
                     let oControl = window.wdi5.getUI5CtlForWebObj(webElement);
                     let sProperty = '';
@@ -471,7 +471,7 @@ module.exports = class WDI5 {
     _interactWithControl(oOptions, context = this._context) {
         const result = context.executeAsync((oOptions, done) => {
             window.bridge
-                .waitForUI5(window.wdi5.waitForUI5OPtions)
+                .waitForUI5(window.wdi5.waitForUI5Options)
                 .then(() => {
                     window.wdi5.Log.info('[browser wdi5] locating controlSelector');
                     oOptions.selector = window.wdi5.createMatcher(oOptions.selector);
@@ -515,7 +515,7 @@ module.exports = class WDI5 {
 
         const result = context.executeAsync(
             (webElement, eventName, oOptions, done) => {
-                window.bridge.waitForUI5(window.wdi5.waitForUI5OPtions).then(() => {
+                window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
                     window.wdi5.Log.info('[browser wdi5] working ' + eventName + ' for ' + webElement);
                     // DOM to ui5
                     let oControl = window.wdi5.getUI5CtlForWebObj(webElement);
@@ -564,7 +564,7 @@ module.exports = class WDI5 {
         }
         let result = context.executeAsync((controlSelector, done) => {
             window.bridge
-                .waitForUI5(window.wdi5.waitForUI5OPtions)
+                .waitForUI5(window.wdi5.waitForUI5Options)
                 .then(() => {
                     window.wdi5.Log.info('[browser wdi5] locating ' + JSON.stringify(controlSelector));
                     controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector);
