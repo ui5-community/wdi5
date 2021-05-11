@@ -16,15 +16,15 @@ describe('ui5 basics: properties and navigation', () => {
         }
     };
 
-    if (parseFloat(browser.getUI5Version()) <= 1.6) {
-        buttonSelector.forceSelect = true;
-        buttonSelector.selector.interaction = 'root';
-        listSelector.forceSelect = true;
-        listSelector.selector.interaction = 'root';
-    }
-
     before(() => {
         Other.open();
+
+        if (parseFloat(browser.getUI5Version()) <= 1.6) {
+            buttonSelector.forceSelect = true;
+            buttonSelector.selector.interaction = 'root';
+            listSelector.forceSelect = true;
+            listSelector.selector.interaction = 'root';
+        }
     });
 
     beforeEach(() => {
