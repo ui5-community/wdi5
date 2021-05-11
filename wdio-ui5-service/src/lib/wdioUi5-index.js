@@ -44,7 +44,11 @@ function injectUI5() {
             window.wdi5 = {
                 createMatcher: null,
                 isInitialized: false,
-                Log: null
+                Log: null,
+                waitForUI5OPtions: {
+                    timeout: 15000,
+                    interval: 400
+                }
             };
 
             // load UI5 logger
@@ -81,8 +85,7 @@ function injectUI5() {
                     window.wdi5.createMatcher = (oSelector) => {
                         // Before version 1.60, the only available criteria is binding context path.
                         // As of version 1.72, it is available as a declarative matcher
-                        const fVersion = 1.6;
-
+                        const oldAPIVersion = 1.6;
                         // check whether we're looking for a control via regex
                         // hint: no IE support here :)
                         if (oSelector.id && oSelector.id.startsWith('/', 0)) {
@@ -103,35 +106,28 @@ function injectUI5() {
                                 // for UI5 < 1.81
                                 oSelector.bindingPath.propertyPath = `/${oSelector.bindingPath.propertyPath}`;
                             }
-                            if (fVersion > parseFloat(sap.ui.version)) {
+                            if (oldAPIVersion > parseFloat(sap.ui.version)) {
                                 // for version < 1.60 create the matcher
                                 oSelector.bindingPath = new BindingPath(oSelector.bindingPath);
                             }
                         }
-                        if (oSelector.properties) {
-                            if (fVersion > parseFloat(sap.ui.version)) {
-                                // for version < 1.60 create the matcher
+
+                        if (oldAPIVersion > parseFloat(sap.ui.version)) {
+                            // for version < 1.60 create the matcher
+                            if (oSelector.properties) {
                                 oSelector.properties = new Properties(oSelector.properties);
                             }
-                        }
-                        if (oSelector.i18NText) {
-                            if (fVersion > parseFloat(sap.ui.version)) {
-                                // for version < 1.60 create the matcher
+                            if (oSelector.i18NText) {
                                 oSelector.i18NText = new I18NText(oSelector.i18NText);
                             }
-                        }
-                        if (oSelector.labelFor) {
-                            if (fVersion > parseFloat(sap.ui.version)) {
-                                // for version < 1.60 create the matcher
+                            if (oSelector.labelFor) {
                                 oSelector.labelFor = new LabelFor(oSelector.labelFor);
                             }
-                        }
-                        if (oSelector.ancestor) {
-                            if (fVersion > parseFloat(sap.ui.version)) {
-                                // for version < 1.60 create the matcher
+                            if (oSelector.ancestor) {
                                 oSelector.ancestor = new Ancestor(oSelector.ancestor);
                             }
                         }
+
                         return oSelector;
                     };
 
@@ -248,7 +244,7 @@ function injectUI5() {
                             };
                             return item;
                         } else {
-                            console.error("error creating new element by id of control: " + aControl);
+                            console.error('error creating new element by id of control: ' + aControl);
                         }
                     };
                 }
@@ -284,7 +280,7 @@ async function checkForUI5Page() {
             // @ts-ignore: we're in wdio sync land here
             return readyState === 'complete';
         },
-        { interval: 500, timeout: 8000 }
+        {interval: 500, timeout: 8000}
     );
 
     // test for ui5
@@ -331,7 +327,7 @@ function setup(context) {
     _context.addCommand('getSelectorForElement', (oOptions) => {
         const result = _context.executeAsync((oOptions, done) => {
             window.bridge
-                .waitForUI5()
+                .waitForUI5(window.wdi5.waitForUI5OPtions)
                 .then(() => {
                     window.wdi5.Log.info('[browser wdi5] locating domElement');
                     return window.bridge.findControlSelectorByDOMElement(oOptions);
@@ -363,6 +359,15 @@ function setup(context) {
     });
 
     /**
+     * returns the sp.ui.version string of the application under test
+     */
+    _context.addCommand('getUI5Version', () => {
+        return _context.executeAsync((done) => {
+            done(sap.ui.version);
+        });
+    });
+
+    /**
      * uses the UI5 native waitForUI5 function to wait for all promises to be settled
      */
     _context.addCommand('waitForUI5', () => {
@@ -391,7 +396,7 @@ function setup(context) {
         _context.config.wdi5['url'] = url;
         // use the wdio.url funtion to change the url
         _context.url(url);
-        injectUI5(_context)
+        injectUI5(_context);
     });
 
     /**
@@ -413,12 +418,19 @@ function setup(context) {
         const oRoute = oOptions.oRoute;
 
         if (sHash && sHash.length > 0) {
-            const url = _context.config.wdi5['url']
+            const url = _context.config.wdi5['url'];
 
             // navigate via hash if defined
             if (url && url.length > 0 && url !== '#') {
                 // prefix url config if is not just a hash (#)
-                _context.url(`${url}${sHash}`);
+                const currentUrl = _context.getUrl();
+                const alreadyNavByHash = currentUrl.includes('#');
+                const navToRoot = url.startsWith('/');
+                if (alreadyNavByHash && !navToRoot) {
+                    _context.url(`${currentUrl.split('#')[0]}${sHash}`);
+                } else {
+                    _context.url(`${url}${sHash}`);
+                }
             } else if (url && url.length > 0 && url === '#') {
                 // route without the double hash
                 _context.url(`${sHash}`);
@@ -464,7 +476,7 @@ function setup(context) {
             // if control is not yet existent or force parameter is set -> load control
 
             // create WDI5 control
-            const wdi5Control = new WDI5(wdi5Selector, _context);
+            const wdi5Control = new WDI5(wdi5Selector, _context, wdi5Selector['forceSelect']);
 
             // save control
             _context._controls[internalKey] = wdi5Control;
@@ -516,7 +528,7 @@ function _checkForUI5Ready() {
         // can only be executed when RecordReplay is attached
         const result = _context.executeAsync((done) => {
             window.bridge
-                .waitForUI5()
+                .waitForUI5(window.wdi5.waitForUI5OPtions)
                 .then(() => {
                     window.wdi5.Log.info('[browser wdi5] UI5 is ready');
                     done(true);
@@ -544,10 +556,9 @@ function _getDateString() {
  * @param {*} fileAppendix
  */
 function _writeScreenshot(fileAppendix) {
-
     // if config param screenshotsDisabled is set to true -> no screenshots will be taken
     if (_context.config.wdi5['screenshotsDisabled']) {
-        console.log("screenshot skipped du to config parameter")
+        console.log('screenshot skipped du to config parameter');
         return;
     }
 
@@ -560,7 +571,7 @@ function _writeScreenshot(fileAppendix) {
         _path = this.pjsonPackage.screenshotPath;
         if (_path === undefined || _path.length === 0) {
             // fallback to root
-            _path = "/screenshots"
+            _path = '/screenshots';
         }
     }
 
@@ -569,7 +580,7 @@ function _writeScreenshot(fileAppendix) {
         fileAppendix = '-' + fileAppendix;
     }
     // set deafult name for variable -> prevent issue #64
-    const filename = fileAppendix ? fileAppendix : '-screenshot'
+    const filename = fileAppendix ? fileAppendix : '-screenshot';
 
     const platform = _context.config.wdi5['platform'];
 
@@ -637,21 +648,25 @@ function _stripNonValidCharactersForKey(key) {
 function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) {
     const result = _context.executeAsync(
         (sComponentId, sName, oParameters, oComponentTargetInfo, bReplace, done) => {
-            window.bridge.waitForUI5().then(() => {
+            window.bridge.waitForUI5(window.wdi5.waitForUI5OPtions).then(() => {
                 window.wdi5.Log.info(`[browser wdi5] navigation to ${sName} triggered`);
 
                 const router = sap.ui.getCore().getComponent(sComponentId).getRouter();
-                const hashChanger = router.getHashChanger();
+                const hashChanger =
+                    parseFloat(sap.ui.version) < 1.75
+                        ? sap.ui.core.routing.HashChanger.getInstance()
+                        : router.getHashChanger();
 
                 // on success result is the router
-                router.getHashChanger().attachEvent('hashChanged', function (oEvent) {
-                    done(['success', hashChanger.hash]);
+                hashChanger.attachEvent('hashChanged', (oEvent) => {
+                    done(['success', parseFloat(sap.ui.version) < 1.75 ? hashChanger.getHash() : hashChanger.hash]);
                 });
 
                 // get component and trigger router
                 // sName, oParameters?, oComponentTargetInfo?, bReplace?
                 router.navTo(sName, oParameters, oComponentTargetInfo, bReplace);
-                return hashChanger.hash;
+                // return hashChanger.hash;
+                return parseFloat(sap.ui.version) < 1.75 ? hashChanger.getHash() : hashChanger.hash;
             });
         },
         sComponentId,

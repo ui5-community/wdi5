@@ -1,5 +1,5 @@
 const wdi5 = require('wdi5');
-const Other = require("./pageObjects/Other")
+const Other = require('./pageObjects/Other');
 
 describe('ui5 basics: properties and navigation', () => {
     const buttonSelector = {
@@ -18,7 +18,14 @@ describe('ui5 basics: properties and navigation', () => {
 
     before(() => {
         Other.open();
-    })
+
+        if (parseFloat(browser.getUI5Version()) <= 1.6) {
+            buttonSelector.forceSelect = true;
+            buttonSelector.selector.interaction = 'root';
+            listSelector.forceSelect = true;
+            listSelector.selector.interaction = 'root';
+        }
+    });
 
     beforeEach(() => {
         wdi5().getUtils().takeScreenshot('test-ui5');
@@ -33,26 +40,31 @@ describe('ui5 basics: properties and navigation', () => {
     });
 
     it('press an list item an show the name', () => {
-
         // fire click event on a list item.
         // the event handler function checks the data:key property of the list item -> manually add this property to the event.
-        browser.asControl(listSelector).fireEvent("itemPress", {
+        browser.asControl(listSelector).fireEvent('itemPress', {
             eval: () => {
                 return {
                     listItem: {
-                        data: () => { return "Mock Name" }
+                        data: () => {
+                            return 'Mock Name';
+                        }
                     }
-                }
+                };
             }
-        })
+        });
 
         const resultTetSelector = {
             selector: {
-                id: "idTextFieldClickResult",
-                viewName: "test.Sample.view.Other"
+                id: 'idTextFieldClickResult',
+                viewName: 'test.Sample.view.Other'
             }
+        };
+        if (parseFloat(browser.getUI5Version()) <= 1.6) {
+            resultTetSelector.forceSelect = true;
+            resultTetSelector.selector.interaction = 'root';
         }
 
-        expect(browser.asControl(resultTetSelector).getText()).toEqual("Mock Name");
-    })
+        expect(browser.asControl(resultTetSelector).getText()).toEqual('Mock Name');
+    });
 });

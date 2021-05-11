@@ -17,6 +17,11 @@ module.exports = class Service {
         const context = driver ? driver : browser;
         const wdi5config = context.config.wdi5;
 
+        // set sapui5 version constant to context for later switches
+        // Before version 1.60, the only available criteria is binding context path.
+        // As of version 1.72, it is available as a declarative matcher
+        context._oldAPIVersion = 1.6;
+
         // this is only to run in browser
         if (wdi5config && typeof wdi5config.url === 'string') {
             if (wdi5config.url.length > 0) {
