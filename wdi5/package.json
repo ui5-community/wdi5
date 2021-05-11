@@ -11,8 +11,7 @@
     "node": ">=12"
   },
   "scripts": {
-    "appium-doctor": "appium-doctor",
-    "release": "standard-version -t wdi5@"
+    "appium-doctor": "appium-doctor"
   },
   "screenshotPath": "./test/report/screenshots",
   "keywords": [
@@ -28,9 +27,6 @@
     "Simon Coen <simon.coen@js-soft.com> (https://www.js-soft.com/)"
   ],
   "license": "(DERIVED BEER-WARE OR Apache-2.0)",
-  "devDependencies": {
-    "standard-version": "^9.2.0"
-  },
   "dependencies": {
     "@wdio/appium-service": "^7.5.3",
     "@wdio/cli": "^7.5.3",
