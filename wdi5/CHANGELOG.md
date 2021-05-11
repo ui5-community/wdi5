@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/js-soft/wdi5/compare/v0.5.1...v0.6.0) (2021-05-11)
+
+
+### Bug Fixes
+
+* waitForUI5 options object ([#74](https://github.com/js-soft/wdi5/issues/74)) ([703c9d6](https://github.com/js-soft/wdi5/commit/703c9d60ef30abf0cbe7665cdba510f8357c5e65))
+
+
+### Features
+
+* support UI5 version <= 1.60 ([#79](https://github.com/js-soft/wdi5/issues/79)) ([3a1ce60](https://github.com/js-soft/wdi5/commit/3a1ce603c3b7f384fa692dff45f5d88d52902352)), closes [#73](https://github.com/js-soft/wdi5/issues/73)
+
+
+
+
+
 ## [0.5.1](https://github.com/js-soft/wdi5/compare/v0.5.0...v0.5.1) (2021-02-11)
 
 **Note:** Version bump only for package wdi5
