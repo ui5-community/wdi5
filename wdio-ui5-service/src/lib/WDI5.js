@@ -559,7 +559,7 @@ module.exports = class WDI5 {
      * @param {WebdriverIO.BrowserObject} context
      * @return {[WebdriverIO.Element | String, [aProtoFunctions]]} UI5 control or error message, array of function names of this control
      */
-    _getControl(controlSelector = this._controlSelector, context = this._context) {
+    async _getControl(controlSelector = this._controlSelector, context = this._context) {
         // check whether we have a "by id regex" locator request
         if (controlSelector.selector.id && typeof controlSelector.selector.id === 'object') {
             // make it a string for serializing into browser-scope and
@@ -594,7 +594,8 @@ module.exports = class WDI5 {
         // save the webdriver representation by control id
         if (result[2]) {
             // only if the result is valid
-            this._webdriverRepresentation = $(`#${result[2]}`);
+            // TODO: async
+            this._webdriverRepresentation = await $(`#${result[2]}`);
         }
 
         this._writeResultLog(result, '_getControl()');

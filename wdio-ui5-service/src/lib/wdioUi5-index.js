@@ -284,9 +284,10 @@ async function checkForUI5Page() {
     );
 
     // test for ui5
-    let result = _context.execute(() => {
+    // TODO: async
+    let result = _context.executeAsync((done) => {
         // browser context - you may not access client or console
-        return !!window.sap;
+        done(!!window.sap);
     });
     return result;
 }
