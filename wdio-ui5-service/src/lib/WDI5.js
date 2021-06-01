@@ -337,6 +337,10 @@ module.exports = class WDI5 {
                     try {
                         let oControl = window.wdi5.getUI5CtlForWebObj(webElement);
                         let cAggregation = oControl.getAggregation(aggregationName);
+                        // if getAggregation retrieves an element only it has to be transformed to an array
+                        if (cAggregation && !Array.isArray(cAggregation)) {
+                            cAggregation = [cAggregation];
+                        }
                         let result = window.wdi5.createControlIdMap(cAggregation);
                         done(['success', result]);
                     } catch (e) {
