@@ -71,7 +71,7 @@ describe('basics', () => {
     });
 
     it('should not report an error on successful $control.focus()', () => {
-        const focusResult = browser.asControl(selectorVersionButton).focus();
+        const focusResult = await(await browser.asControl(selectorVersionButton)).focus();
         expect(focusResult).toBeTruthy();
 
         // assert focus on element also via webdriver.io api

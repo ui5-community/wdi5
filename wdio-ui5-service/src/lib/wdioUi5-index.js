@@ -466,7 +466,7 @@ function setup(context) {
      *
      * @param {WDI5Selector} wdi5Selector custom selector object with property wdio_ui5_key and sap.ui.test.RecordReplay.ControlSelector
      */
-    _context.addCommand('asControl', (wdi5Selector) => {
+    _context.addCommand('asControl', async (wdi5Selector) => {
         if (!wdi5Selector.hasOwnProperty('wdio_ui5_key')) {
             // has not a wdio_ui5_key -> generate one
             wdi5Selector['wdio_ui5_key'] = _createWdioUI5KeyFromSelector(wdi5Selector.selector);
@@ -477,7 +477,8 @@ function setup(context) {
             // if control is not yet existent or force parameter is set -> load control
 
             // create WDI5 control
-            const wdi5Control = new WDI5(wdi5Selector, _context, wdi5Selector['forceSelect']);
+            let wdi5Control = new WDI5();
+            wdi5Control = await wdi5Control.init(wdi5Selector, _context, wdi5Selector['forceSelect']);
 
             // save control
             _context._controls[internalKey] = wdi5Control;

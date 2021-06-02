@@ -32,13 +32,35 @@ module.exports = class WDI5 {
      * create a new bridge return object for a UI5 control
      */
     constructor(controlSelector, context, forceSelect) {
+        // this._context = context;
+        // this._controlSelector = controlSelector;
+        // this._wdio_ui5_key = controlSelector.wdio_ui5_key;
+        // this._forceSelect = forceSelect;
+        // // fire getControl just once when creating this webui5 object
+        // const controlResult = this._getControl();
+        // if (typeof controlResult[0] === 'string' && controlResult[0].indexOf('Error:') === -1) {
+        //     console.error('[WDI5] Something went wrong retrieving the control: ' + this._wdio_ui5_key);
+        //     return this;
+        // } else {
+        //     this._webElement = controlResult[0];
+        //     // dynamic function bridge
+        //     this._generatedUI5Methods = controlResult[1];
+        //     this._attachControlBridge(this._generatedUI5Methods);
+        //     // set the sucesfull init param
+        //     this._initialisation = true;
+        // }
+        return this;
+    }
+
+    async init(controlSelector, context, forceSelect) {
         this._context = context;
         this._controlSelector = controlSelector;
         this._wdio_ui5_key = controlSelector.wdio_ui5_key;
         this._forceSelect = forceSelect;
 
         // fire getControl just once when creating this webui5 object
-        const controlResult = this._getControl();
+        const controlResult = await this._getControl();
+
         if (typeof controlResult[0] === 'string' && controlResult[0].indexOf('Error:') === -1) {
             console.error('[WDI5] Something went wrong retrieving the control: ' + this._wdio_ui5_key);
             return this;
@@ -566,13 +588,14 @@ module.exports = class WDI5 {
             // further processing there
             controlSelector.selector.id = controlSelector.selector.id.toString();
         }
-        let result = context.executeAsync((controlSelector, done) => {
+        let result = await context.execute((controlSelector, done) => {
             window.bridge
                 .waitForUI5(window.wdi5.waitForUI5Options)
                 .then(() => {
                     window.wdi5.Log.info('[browser wdi5] locating ' + JSON.stringify(controlSelector));
                     controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector);
                     const control = window.bridge.findDOMElementByControlSelector(controlSelector);
+                    debugger;
                     return control;
                 })
                 .then((domElement) => {
@@ -583,14 +606,20 @@ module.exports = class WDI5 {
                     window.wdi5.Log.info(`[browser wdi5] control with id: ${id} located!`);
                     const aProtoFunctions = window.wdi5.retrieveControlMethods(ui5Control);
                     // @type [String, String?, String, "Array of Strings"]
-                    done(['success', domElement, id, aProtoFunctions]);
+                    // done(['success', domElement, id, aProtoFunctions]);
+                    debugger;
+                    return ['success', domElement, id, aProtoFunctions];
                 })
                 .catch((error) => {
                     window.wdi5.Log.error('[browser wdi5] ERR: ', error);
-                    done(['error', error.toString()]);
+                    // done(['error', error.toString()]);
+                    debugger;
+                    return ['error', error.toString()];
                 });
         }, controlSelector);
 
+        // // TODO: async promise ???
+        // result.then(async (e) => {
         // save the webdriver representation by control id
         if (result[2]) {
             // only if the result is valid
@@ -601,6 +630,7 @@ module.exports = class WDI5 {
         this._writeResultLog(result, '_getControl()');
 
         return [result[1], result[3]];
+        // });
     }
 
     /**
