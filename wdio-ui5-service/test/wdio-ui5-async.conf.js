@@ -144,7 +144,7 @@ exports.config = {
     baseUrl: 'https://openui5.netweaver.ondemand.com/',
     //
     // Default timeout for all waitForUI5 commands. This is the timeout used for the `executeAsync`funciton
-    waitforTimeout: 100000,
+    waitforTimeout: 10000,
     //
     // Add files to watch (e.g. application code or page objects) when running `wdio` command
     // with `--watch` flag. Globbing is supported.
@@ -160,7 +160,7 @@ exports.config = {
     // Make sure you have the wdio adapter package for the specific framework installed before running any tests.
     framework: 'mocha',
     mochaOpts: {
-        timeout: 500000
+        timeout: 50000
     },
     //
     // The number of times to retry the entire specfile when it fails as a whole

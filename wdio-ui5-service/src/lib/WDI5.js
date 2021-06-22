@@ -118,7 +118,7 @@ module.exports = class WDI5 {
      * this method is also used wdi5 interally to implement the extended forceSelect option
      */
     async renewWebElementReference() {
-        const newWebElement = await this._getControl()[0];
+        const newWebElement = (await this._getControl())[0];
         this._webElement = newWebElement;
         return newWebElement;
     }
@@ -133,7 +133,6 @@ module.exports = class WDI5 {
      * @returns {WDI5[]} instances of wdi5 class per control in the aggregation
      */
     async _retrieveElements(aControls, context = this._context) {
-        let aResult = [];
         let aResultOfPromises = [];
 
         // check the validity of param
@@ -152,12 +151,10 @@ module.exports = class WDI5 {
                 aResultOfPromises.push(context.asControl(selector));
             });
 
-            aResult = await Promise.all(aResultOfPromises);
+            return await Promise.all(aResultOfPromises);
         } else {
             console.warn(this._wdio_ui5_key + ' has no aControls');
         }
-
-        return aResult;
     }
 
     /**
@@ -197,10 +194,6 @@ module.exports = class WDI5 {
     async _attachControlBridge(sReplFunctionNames) {
         // check the validity of param
         if (sReplFunctionNames) {
-            if (this._forceSelect) {
-                this._webElement = await this.renewWebElementReference();
-            }
-
             sReplFunctionNames.forEach(async (sMethodName) => {
                 this[sMethodName] = this._executeControlMethod.bind(this, sMethodName, this._webElement, this._context);
             });
@@ -218,6 +211,9 @@ module.exports = class WDI5 {
      * @param  {...any} args proxied arguments to UI5 control method at runtime
      */
     async _executeControlMethod(methodName, webElement = this._webElement, context = this._context, ...args) {
+        if (this._forceSelect) {
+            this._webElement = await this.renewWebElementReference();
+        }
         // special case for custom data attached to a UI5 control:
         // pass the arguments to the event handler (like UI5 handles and expects them) also
         // also here in Node.js runtime
@@ -237,7 +233,6 @@ module.exports = class WDI5 {
                     // execute the function
                     let result = oControl[methodName].apply(oControl, args);
                     const metadata = oControl.getMetadata();
-
                     if (Array.isArray(result)) {
                         // expect the method call delivers non-primitive results (like getId())
                         // but delivers a complex/structured type

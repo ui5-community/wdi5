@@ -26,7 +26,7 @@ before(async () => {
     }
 
     if ((await browser.getUI5VersionAsFloat()) > 1.6) {
-        const buttonCookieAccept = browser.asControl(selectorCookieAccept);
+        const buttonCookieAccept = await browser.asControl(selectorCookieAccept);
         buttonCookieAccept.firePress();
     }
 });
@@ -70,7 +70,7 @@ describe('basics (async tests)', () => {
         }
     });
 
-    it.only('should not report an error on successful $control.focus()', async () => {
+    it('should not report an error on successful $control.focus()', async () => {
         const selectorVersionButtonControl = await browser.asControl(selectorVersionButton);
         const focusResult = await selectorVersionButtonControl.focus();
         expect(focusResult).toBeTruthy();
@@ -80,7 +80,7 @@ describe('basics (async tests)', () => {
         expect(await wdFocusResult.isFocused()).toBeTruthy();
     });
 
-    it.only('should have the right title', async () => {
+    it('should have the right title', async () => {
         const title = await browser.getTitle();
 
         if ((await browser.getUI5VersionAsFloat()) > 1.6) {
@@ -90,11 +90,11 @@ describe('basics (async tests)', () => {
         }
     });
 
-    it.only('should find a ui5 control by id with async mehtod chaning', async () => {
+    it('should find a ui5 control by id with async mehtod chaning', async () => {
         expect(await (await browser.asControl(selectorDownloadButton)).getText()).toEqual('Download');
     });
 
-    it.only('should get the parent control', async () => {
+    it('should get the parent control', async () => {
         const controlVersionButton = await browser.asControl(selectorVersionButton);
         const headerToolbar = await controlVersionButton.getParent();
 
@@ -102,7 +102,7 @@ describe('basics (async tests)', () => {
         expect(await headerToolbar.getId()).toStrictEqual('sdk---app--headerToolbar');
     });
 
-    it.only('should click a ui5 button (version selector) by id', async () => {
+    it('should click a ui5 button (version selector) by id', async () => {
         // open the version select dialog
         const controlVersionButton = await browser.asControl(selectorVersionButton);
         await controlVersionButton.firePress();
@@ -114,37 +114,38 @@ describe('basics (async tests)', () => {
         browser.keys('Escape'); // close popup
     });
 
-    it.skip('should check the length of verison list without getting all subcontrols of aggregation', () => {
+    it.only('should check the length of verison list without getting all subcontrols of aggregation', async () => {
         // open the version select dialog
-        const controlVersionButton = browser.asControl(selectorVersionButton);
-        controlVersionButton.firePress();
+        const controlVersionButton = await browser.asControl(selectorVersionButton);
+        await controlVersionButton.firePress();
 
-        const list = browser.asControl(selectorVersionList);
-        const numberOfItems = list.getItems(true).length; // new param
+        const list = await browser.asControl(selectorVersionList);
+        const items = await list.getItems(true); // new param
 
         // not closing because of minor trouble with ui5 when closing opening this popup
         // browser.keys('Escape'); // close popup
 
         // check for number
-        expect(numberOfItems).toBeGreaterThanOrEqual(537); // V1.86.1
+        expect(items.length).toBeGreaterThanOrEqual(595); // V1.91.0
     });
 
-    it.skip('should retieve the second control of verison list without getting all subcontrols of aggregation', () => {
+    it('should retieve the second control of verison list without getting all subcontrols of aggregation', async () => {
         // open the version select dialog
-        const controlVersionButton = browser.asControl(selectorVersionButton);
-        controlVersionButton.firePress();
+        const controlVersionButton = await browser.asControl(selectorVersionButton);
+        await controlVersionButton.firePress();
 
-        const list = browser.asControl(selectorVersionList);
-        const item3 = list.getItems(3); // new param
+        const list = await browser.asControl(selectorVersionList);
+        const item3 = await list.getItems(3); // new param
 
         // not closing because of minor trouble with ui5 when closing opening this popup
         // browser.keys('Escape'); // close popup
 
         // check for number
-        expect(parseFloat(item3.getTitle())).toBeGreaterThanOrEqual(parseFloat('1.85')); // once was v1.85.2
+        const number = await item3.getTitle();
+        expect(parseFloat(number)).toBeGreaterThanOrEqual(parseFloat('1.85')); // once was v1.85.2
     });
 
-    it.skip('should find a control w/o id locator', async () => {
+    it('should find a control w/o id locator', async () => {
         const selectorWithoutId = {
             selector: {
                 viewName: 'sap.ui.documentation.sdk.view.Welcome',
@@ -160,42 +161,42 @@ describe('basics (async tests)', () => {
             selectorWithoutId.selector.interaction = 'root';
         }
 
-        expect(browser.asControl(selectorWithoutId).getText()).toBe('Get Started with UI5');
+        expect(await (await browser.asControl(selectorWithoutId)).getText()).toBe('Get Started with UI5');
     });
 
-    it.skip('should throw an error on unsuccessful $control.focus()', async () => {
-        expect(() => {
-            browser.asControl({selector: {id: 'doesnt_exist'}}).focus();
+    it('should throw an error on unsuccessful $control.focus()', async () => {
+        expect(async () => {
+            await (await browser.asControl({selector: {id: 'doesnt_exist'}})).focus();
         }).toThrow();
     });
 
-    it.skip('should navigate', async () => {
+    it('should navigate', async () => {
         if ((await browser.getUI5VersionAsFloat()) > 1.6) {
             browser.setUrl('api/sap.m.Button');
-            var header = browser.asControl({selector: {id: '__xmlview0--title'}});
+            var header = await browser.asControl({selector: {id: '__xmlview0--title'}});
         } else {
             browser.goTo('#/api/sap.m.Button');
-            var header = browser.asControl({selector: {id: '__xmlview5--title'}});
+            var header = await browser.asControl({selector: {id: '__xmlview5--title'}});
         }
 
-        expect(header.getVisible()).toBeTruthy();
+        expect(await header.getVisible()).toBeTruthy();
     });
 
-    it.skip('should navigate via hash', async () => {
+    it('should navigate via hash', async () => {
         if ((await browser.getUI5VersionAsFloat()) > 1.6) {
-            browser.goTo('#events/Summary');
-            var eventsHeader = browser.asControl({selector: {id: '__xmlview0--events'}});
+            await browser.goTo('#events/Summary');
+            var eventsHeader = await browser.asControl({selector: {id: '__xmlview0--events'}});
         } else {
-            browser.goTo('events/Summary');
-            var eventsHeader = browser.asControl({selector: {id: '__xmlview6--events'}});
+            await browser.goTo('events/Summary');
+            var eventsHeader = await browser.asControl({selector: {id: '__xmlview6--events'}});
         }
-        expect(eventsHeader.getVisible()).toBeTruthy();
+        expect(await eventsHeader.getVisible()).toBeTruthy();
     });
 });
 
 describe('screenshots (async tests)', () => {
-    it.only('should validate screenshots capability', async () => {
-        browser.screenshot('ui5-sdk-page');
+    it('should validate screenshots capability', async () => {
+        await browser.screenshot('ui5-sdk-page');
 
         // seed to wait some time until the screenshot is actually saved to the file system before reading it again
         setTimeout(() => {
@@ -206,8 +207,8 @@ describe('screenshots (async tests)', () => {
         }, 1500);
     });
 
-    it.skip('should validate screenshots capability with unnamed screenshot', async () => {
-        browser.screenshot();
+    it('should validate screenshots capability with unnamed screenshot', async () => {
+        await browser.screenshot();
 
         // seed to wait some time until the screenshot is actually saved to the file system before reading it again
         setTimeout(() => {
