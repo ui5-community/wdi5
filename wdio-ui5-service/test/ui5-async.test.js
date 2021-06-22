@@ -114,7 +114,7 @@ describe('basics (async tests)', () => {
         browser.keys('Escape'); // close popup
     });
 
-    it.only('should check the length of verison list without getting all subcontrols of aggregation', async () => {
+    it('should check the length of verison list without getting all subcontrols of aggregation', async () => {
         // open the version select dialog
         const controlVersionButton = await browser.asControl(selectorVersionButton);
         await controlVersionButton.firePress();
@@ -172,10 +172,10 @@ describe('basics (async tests)', () => {
 
     it('should navigate', async () => {
         if ((await browser.getUI5VersionAsFloat()) > 1.6) {
-            browser.setUrl('api/sap.m.Button');
+            await browser.setUrl('api/sap.m.Button');
             var header = await browser.asControl({selector: {id: '__xmlview0--title'}});
         } else {
-            browser.goTo('#/api/sap.m.Button');
+            await browser.goTo('#/api/sap.m.Button');
             var header = await browser.asControl({selector: {id: '__xmlview5--title'}});
         }
 

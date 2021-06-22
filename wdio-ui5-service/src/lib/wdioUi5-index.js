@@ -398,14 +398,14 @@ function setup(context) {
      */
     _context.addCommand('screenshot', async (fileAppendix) => {
         await _waitForUI5();
-        await _writeScreenshot(fileAppendix);
+        _writeScreenshot(fileAppendix);
     });
 
     /**
      * take a screenshot without waiting for UI5 app using the CURRENT wdio context
      */
     _context.addCommand('writescreenshot', async (fileAppendix) => {
-        await fileAppendix;
+        _writeScreenshot(fileAppendix);
     });
 
     /**
