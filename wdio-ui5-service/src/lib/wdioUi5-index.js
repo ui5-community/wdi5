@@ -11,7 +11,8 @@ let _isInitialized = false;
 let _isUI5Ready = false;
 /** @type {Boolean} stores the status of the setup process */
 let _setupComplete = false;
-
+/** @type {String} currently running sap.ui.version */
+let _sapUI5Version = null;
 /** @type {Object} */
 const pjsonPackage = require(`./../../package.json`);
 
@@ -22,9 +23,9 @@ const pjsonPackage = require(`./../../package.json`);
  * make sap/ui/test/RecordReplay accessible via wdio
  * attach the sap/ui/test/RecordReplay object to the application context window object as 'bridge'
  */
-function injectUI5() {
+async function injectUI5() {
     // expect boolean
-    const result = _context.executeAsync((done) => {
+    const result = await _context.executeAsync((done) => {
         if (window.bridge) {
             // setup sap testing already done
             done(true);
@@ -268,8 +269,8 @@ function injectUI5() {
 async function checkForUI5Page() {
     _context.waitUntil(
         // @ts-ignore: we're in wdio sync land here
-        () => {
-            const readyState = _context.executeAsync((done) => {
+        async () => {
+            const readyState = await _context.executeAsync((done) => {
                 setTimeout(() => {
                     if (document.location.href != 'data:,') {
                         // make sure we are not on the initial page
@@ -284,8 +285,7 @@ async function checkForUI5Page() {
     );
 
     // test for ui5
-    // TODO: async
-    let result = _context.executeAsync((done) => {
+    let result = await _context.executeAsync((done) => {
         // browser context - you may not access client or console
         done(!!window.sap);
     });
@@ -325,8 +325,8 @@ function setup(context) {
      * @param {boolean} oOptions.settings.preferViewId
      * @param {WebdriverIO.BrowserObject} _context
      */
-    _context.addCommand('getSelectorForElement', (oOptions) => {
-        const result = _context.executeAsync((oOptions, done) => {
+    _context.addCommand('getSelectorForElement', async (oOptions) => {
+        const result = await _context.executeAsync((oOptions, done) => {
             window.bridge
                 .waitForUI5(window.wdi5.waitForUI5Options)
                 .then(() => {
@@ -360,44 +360,62 @@ function setup(context) {
     });
 
     /**
-     * returns the sp.ui.version string of the application under test
+     * retieve the sap.ui.version form app under test and saves to _sapUI5Version
+     * returns the sap.ui.version string of the application under test
      */
-    _context.addCommand('getUI5Version', () => {
-        return _context.executeAsync((done) => {
-            done(sap.ui.version);
-        });
+    _context.addCommand('getUI5Version', async () => {
+        if (!_sapUI5Version) {
+            const resultVersion = await _context.executeAsync((done) => {
+                done(sap.ui.version);
+            });
+            _sapUI5Version = resultVersion;
+        }
+
+        return _sapUI5Version;
+    });
+
+    /**
+     * returns the sap.ui.version float number of the application under test
+     */
+    _context.addCommand('getUI5VersionAsFloat', async () => {
+        if (!_sapUI5Version) {
+            // implicit setter for _sapUI5Version
+            await _context.getUI5Version();
+        }
+
+        return parseFloat(_sapUI5Version);
     });
 
     /**
      * uses the UI5 native waitForUI5 function to wait for all promises to be settled
      */
-    _context.addCommand('waitForUI5', () => {
-        return _waitForUI5();
+    _context.addCommand('waitForUI5', async () => {
+        return await _waitForUI5();
     });
 
     /**
      * wait for ui5 and take a screenshot
      */
-    _context.addCommand('screenshot', (fileAppendix) => {
-        _waitForUI5();
-        _writeScreenshot(fileAppendix);
+    _context.addCommand('screenshot', async (fileAppendix) => {
+        await _waitForUI5();
+        await _writeScreenshot(fileAppendix);
     });
 
     /**
      * take a screenshot without waiting for UI5 app using the CURRENT wdio context
      */
-    _context.addCommand('writescreenshot', (fileAppendix) => {
-        _writeScreenshot(fileAppendix);
+    _context.addCommand('writescreenshot', async (fileAppendix) => {
+        await fileAppendix;
     });
 
     /**
      * set relative app path -> url is not allowed to start with '/'
      */
-    _context.addCommand('setUrl', (url) => {
+    _context.addCommand('setUrl', async (url) => {
         _context.config.wdi5['url'] = url;
         // use the wdio.url funtion to change the url
         _context.url(url);
-        injectUI5(_context);
+        await injectUI5();
     });
 
     /**
@@ -406,7 +424,7 @@ function setup(context) {
      * using the UI5 router with full standard parameter set
      * @param {Object} oOptions {sHash: '#/test', oRoute: {sComponentId, sName, oParameters, oComponentTargetInfo, bReplace}}
      */
-    _context.addCommand('goTo', (oOptions) => {
+    _context.addCommand('goTo', async (oOptions) => {
         // allow for method sig to be both
         //  wdi5()...goTo("#/accounts/create")
         //  wdi5()...goTo({sHash:"#/accounts/create"})
@@ -442,7 +460,13 @@ function setup(context) {
         } else if (oRoute && oRoute.sName) {
             // navigate using the ui5 router
             // sComponentId, sName, oParameters, oComponentTargetInfo, bReplace
-            _navTo(oRoute.sComponentId, oRoute.sName, oRoute.oParameters, oRoute.oComponentTargetInfo, oRoute.bReplace);
+            await _navTo(
+                oRoute.sComponentId,
+                oRoute.sName,
+                oRoute.oParameters,
+                oRoute.oComponentTargetInfo,
+                oRoute.bReplace
+            );
         } else {
             console.error('ERROR: navigating to another page');
         }
@@ -509,13 +533,13 @@ module.exports = {
  * can be called to make sure before you access any eg. DOM Node the ui5 framework is done loading
  * @returns {Boolean} if the UI5 page is fully loaded and ready to interact.
  */
-function _waitForUI5() {
+async function _waitForUI5() {
     if (_isInitialized) {
         // injectUI5 was already called and was successful attached
-        return _checkForUI5Ready();
+        return await _checkForUI5Ready();
     } else {
         if (injectUI5()) {
-            return _checkForUI5Ready();
+            return await _checkForUI5Ready();
         } else {
             return false;
         }
@@ -525,10 +549,10 @@ function _waitForUI5() {
 /**
  * check for UI5 via the RecordReplay.waitForUI5 method
  */
-function _checkForUI5Ready() {
+async function _checkForUI5Ready() {
     if (_isInitialized) {
         // can only be executed when RecordReplay is attached
-        const result = _context.executeAsync((done) => {
+        const result = await _context.executeAsync((done) => {
             window.bridge
                 .waitForUI5(window.wdi5.waitForUI5Options)
                 .then(() => {
@@ -647,8 +671,8 @@ function _stripNonValidCharactersForKey(key) {
  * @param {Object} oComponentTargetInfo
  * @param {Boolean} bReplace
  */
-function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) {
-    const result = _context.executeAsync(
+async function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) {
+    const result = await _context.executeAsync(
         (sComponentId, sName, oParameters, oComponentTargetInfo, bReplace, done) => {
             window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
                 window.wdi5.Log.info(`[browser wdi5] navigation to ${sName} triggered`);
