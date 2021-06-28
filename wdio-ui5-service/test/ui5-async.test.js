@@ -27,7 +27,7 @@ before(async () => {
 
     if ((await browser.getUI5VersionAsFloat()) > 1.6) {
         const buttonCookieAccept = await browser.asControl(selectorCookieAccept);
-        buttonCookieAccept.firePress();
+        await buttonCookieAccept.firePress();
     }
 });
 
@@ -164,16 +164,17 @@ describe('basics (async tests)', () => {
         expect(await (await browser.asControl(selectorWithoutId)).getText()).toBe('Get Started with UI5');
     });
 
-    it('should throw an error on unsuccessful $control.focus()', async () => {
-        expect(async () => {
-            await (await browser.asControl({selector: {id: 'doesnt_exist'}})).focus();
-        }).toThrow();
+    it('should expect an not existing control to no have $control.focus', async () => {
+        const noControl = await browser.asControl({selector: {id: 'doesnt_exist'}});
+        expect(noControl.focus).toBeUndefined();
     });
 
     it('should navigate', async () => {
         if ((await browser.getUI5VersionAsFloat()) > 1.6) {
             await browser.setUrl('api/sap.m.Button');
-            var header = await browser.asControl({selector: {id: '__xmlview0--title'}});
+            var header = await browser.asControl({
+                selector: {id: 'title', viewName: 'sap.ui.documentation.sdk.view.SubApiDetail'}
+            });
         } else {
             await browser.goTo('#/api/sap.m.Button');
             var header = await browser.asControl({selector: {id: '__xmlview5--title'}});
@@ -185,7 +186,9 @@ describe('basics (async tests)', () => {
     it('should navigate via hash', async () => {
         if ((await browser.getUI5VersionAsFloat()) > 1.6) {
             await browser.goTo('#events/Summary');
-            var eventsHeader = await browser.asControl({selector: {id: '__xmlview0--events'}});
+            var eventsHeader = await browser.asControl({
+                selector: {id: 'events', viewName: 'sap.ui.documentation.sdk.view.SubApiDetail'}
+            });
         } else {
             await browser.goTo('events/Summary');
             var eventsHeader = await browser.asControl({selector: {id: '__xmlview6--events'}});

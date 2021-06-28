@@ -47,8 +47,8 @@ async function injectUI5() {
                 isInitialized: false,
                 Log: null,
                 waitForUI5Options: {
-                    timeout: 20000,
-                    interval: 200
+                    timeout: 15000,
+                    interval: 400
                 }
             };
 
