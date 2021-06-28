@@ -47,8 +47,8 @@ async function injectUI5() {
                 isInitialized: false,
                 Log: null,
                 waitForUI5Options: {
-                    timeout: 15000,
-                    interval: 400
+                    timeout: 20000,
+                    interval: 200
                 }
             };
 
@@ -398,14 +398,14 @@ function setup(context) {
      */
     _context.addCommand('screenshot', async (fileAppendix) => {
         await _waitForUI5();
-        _writeScreenshot(fileAppendix);
+        await _writeScreenshot(fileAppendix);
     });
 
     /**
      * take a screenshot without waiting for UI5 app using the CURRENT wdio context
      */
     _context.addCommand('writescreenshot', async (fileAppendix) => {
-        _writeScreenshot(fileAppendix);
+        await _writeScreenshot(fileAppendix);
     });
 
     /**
@@ -414,7 +414,7 @@ function setup(context) {
     _context.addCommand('setUrl', async (url) => {
         _context.config.wdi5['url'] = url;
         // use the wdio.url funtion to change the url
-        _context.url(url);
+        await _context.url(url);
         await injectUI5();
     });
 
@@ -442,20 +442,20 @@ function setup(context) {
             // navigate via hash if defined
             if (url && url.length > 0 && url !== '#') {
                 // prefix url config if is not just a hash (#)
-                const currentUrl = _context.getUrl();
+                const currentUrl = await _context.getUrl();
                 const alreadyNavByHash = currentUrl.includes('#');
                 const navToRoot = url.startsWith('/');
                 if (alreadyNavByHash && !navToRoot) {
-                    _context.url(`${currentUrl.split('#')[0]}${sHash}`);
+                    await _context.url(`${currentUrl.split('#')[0]}${sHash}`);
                 } else {
-                    _context.url(`${url}${sHash}`);
+                    await _context.url(`${url}${sHash}`);
                 }
             } else if (url && url.length > 0 && url === '#') {
                 // route without the double hash
-                _context.url(`${sHash}`);
+                await _context.url(`${sHash}`);
             } else {
                 // just a fallback
-                _context.url(`${sHash}`);
+                await _context.url(`${sHash}`);
             }
         } else if (oRoute && oRoute.sName) {
             // navigate using the ui5 router
@@ -581,7 +581,7 @@ function _getDateString() {
  *
  * @param {*} fileAppendix
  */
-function _writeScreenshot(fileAppendix) {
+async function _writeScreenshot(fileAppendix) {
     // if config param screenshotsDisabled is set to true -> no screenshots will be taken
     if (_context.config.wdi5['screenshotsDisabled']) {
         console.log('screenshot skipped du to config parameter');
@@ -589,7 +589,7 @@ function _writeScreenshot(fileAppendix) {
     }
 
     // browser.screenshot returns the screenshot as a base64 string
-    const screenshot = _context.takeScreenshot();
+    const screenshot = await _context.takeScreenshot();
     const seed = _getDateString();
 
     let _path = _context.config.wdi5['screenshotPath'];

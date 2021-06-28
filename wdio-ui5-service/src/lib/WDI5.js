@@ -44,7 +44,8 @@ module.exports = class WDI5 {
         // fire getControl just once when creating this webui5 object
         const controlResult = await this._getControl();
 
-        if (typeof controlResult[0] === 'string' && controlResult[0].indexOf('Error:') === -1) {
+        if (typeof controlResult[0] === 'string' && controlResult[0].toLowerCase().includes('error:')) {
+            // result is string and has error text -> its an error
             console.error('[WDI5] Something went wrong retrieving the control: ' + this._wdio_ui5_key);
             return this;
         } else {
