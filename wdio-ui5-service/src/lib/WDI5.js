@@ -137,6 +137,7 @@ module.exports = class WDI5 {
                 // item id -> create selector
                 const selector = {
                     wdio_ui5_key: item.id, // plugin-internal, not part of RecordReplay.ControlSelector
+                    forceSelect: this._forceSelect,
                     selector: {
                         id: item.id
                     }
@@ -167,6 +168,7 @@ module.exports = class WDI5 {
             // item id -> create selector
             const selector = {
                 wdio_ui5_key: eControl.id, // plugin-internal, not part of RecordReplay.ControlSelector
+                forceSelect: this._forceSelect,
                 selector: {
                     id: eControl.id
                 }
