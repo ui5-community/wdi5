@@ -13,7 +13,7 @@ describe('ui5 aggregation retrieval', () => {
     it('get aggregation and validate items', () => {
         // action:
         // get the aggreagation -> returns array of WDI5 controls
-        const items = Other.getListItmes();
+        const items = Other.getListItems();
 
         // assertions:
         // check all items are bound
@@ -25,9 +25,25 @@ describe('ui5 aggregation retrieval', () => {
     });
 
     it('validate getProperty("title") and getTitle() are equivalent', () => {
-        const items = Other.getListItmes();
+        const items = Other.getListItems();
         items.forEach((listItem) => {
             expect(listItem.getProperty('title')).toEqual(listItem.getTitle());
+        });
+    });
+
+    it('should successfully retrieve aggregation w/ and w/o "forceSelect" set', () => {
+        const items = Other.getListItems();
+        const itemsCached = Other.getListItems();
+        const itemsRehydrated = Other.getListItems(true);
+        expect(items.length).toBe(itemsCached.length);
+        expect(items.length).toBe(itemsRehydrated.length);
+
+        // expectation is that all wdi5 elements from cache
+        // equal those of the original selected ones
+        // but not the ones with the "forceSelect: true" option set
+        items.forEach((item, i) => {
+            expect(item).toEqual(itemsCached[i]);
+            expect(item).not.toEqual(itemsRehydrated[i]);
         });
     });
 });

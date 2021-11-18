@@ -18,13 +18,14 @@ class Other extends Page {
         super.open(`#/Other`);
     }
 
-    getList() {
+    getList(force = false) {
         const listSelector = {
             wdio_ui5_key: 'PeopleList',
             selector: {
                 id: 'PeopleList',
                 viewName: this._viewName
-            }
+            },
+            forceSelect: force //> this will populate down to $ui5Control.getAggregation and $ui5Control.getProperty as well
         };
 
         if (parseFloat(browser.getUI5Version()) <= 1.6) {
@@ -35,8 +36,8 @@ class Other extends Page {
         return browser.asControl(listSelector);
     }
 
-    getListItmes() {
-        return this.getList().getAggregation('items');
+    getListItems(force = false) {
+        return this.getList(force).getAggregation('items');
     }
 }
 
