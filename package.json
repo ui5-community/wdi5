@@ -17,7 +17,7 @@
     "//test:withUI5tooling": "this only runs basic.test.js, but served by the ui5 tooling",
     "test:withUI5tooling": "run-p -r _startApp:withUI5tooling _test:withUI5tooling",
     "test:dist": "npm-run-all -r _build:ui5_app --parallel _startApp:dist _test",
-    "test:ci:wdio-ui5-service": "HEADLESS=true run-p test:ui5 test:ui5_late",
+    "test:ci:wdio-ui5-service": "HEADLESS=true run-s test:ui5 test:ui5_late",
     "test:ci:wdi5": "HEADLESS=true npm run test",
     "test:ci:wdi5:withUI5tooling": "HEADLESS=true npm run test:withUI5tooling",
     "test:ci:wdi5:dist": "HEADLESS=true npm run test:dist",
