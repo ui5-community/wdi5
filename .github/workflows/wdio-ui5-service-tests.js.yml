@@ -36,7 +36,7 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: install packages
-        run: yarn install --frozen-lockfile
+        run: yarn install --ignore-engines --frozen-lockfile
 
       - name: run webdriver.io-plugin tests
         run: HEADLESS=true yarn test:ci:wdio-ui5-service
