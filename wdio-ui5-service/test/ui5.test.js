@@ -13,7 +13,7 @@ const selectorList = {
 before(() => {
     const selectorCookieAccept = {
         selector: {
-            id: '__button6',
+            id: '__button5',
             controlType: 'sap.m.Button'
         }
     };
