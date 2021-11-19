@@ -47,21 +47,19 @@ describe('ui5 aggregation retrieval', () => {
         });
     });
 
-    it('add LineItem and verify via "forceSelect" it exists in list', () => {
+    it.only('add LineItem and verify via "forceSelect" it exists in list', () => {
         // get items and save length before adding new item
-        const itemsLengthOld = Other.getListItems().length;
+        const itemsOld = Other.getListItems();
 
         const addLineItemButton = Other.getAddLineItemButtom();
         addLineItemButton.firePress();
 
-        const itemsLengthCached = Other.getListItems().length;
-        const itemsLengtRehydrated = Other.getListItems(true).length;
+        const itemsRehydrated = Other.getListItems(true);
 
-        // verify non "forceSelect"
-        expect(itemsLengthOld).toBe(itemsLengthCached);
+        const lastItemOfOldReference = itemsOld[itemsOld.length - 1];
+        const lastItemOfRehydratedList = itemsRehydrated[itemsRehydrated.length - 1];
 
         // verify "forceSelect"
-        const newItemsLenght = itemsLengthOld + 1;
-        expect(newItemsLenght).toBe(itemsLengtRehydrated);
+        expect(lastItemOfOldReference).not.toEqual(lastItemOfRehydratedList);
     });
 });
