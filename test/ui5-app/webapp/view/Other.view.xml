@@ -12,6 +12,7 @@
 			<VBox class="sapUiMediumMargin">
 				<Label text="Pressed List Item Selection"/>
 				<Text id="idTextFieldClickResult" text="some text to be replaced by the selection"/>
+				<Button id="idAddLineItemButton" text="add Line Item" press=".onAddLineItem"/>
 			</VBox>
 		</content>
 	</Page>

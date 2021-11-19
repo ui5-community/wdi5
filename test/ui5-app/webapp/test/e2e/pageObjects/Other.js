@@ -39,6 +39,15 @@ class Other extends Page {
     getListItems(force = false) {
         return this.getList(force).getAggregation('items');
     }
+
+    getAddLineItemButtom() {
+        return browser.asControl({
+            selector: {
+                id: 'idAddLineItemButton',
+                viewName: this._viewName
+            }
+        });
+    }
 }
 
 module.exports = new Other();

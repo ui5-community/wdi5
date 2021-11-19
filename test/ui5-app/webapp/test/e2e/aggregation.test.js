@@ -46,4 +46,22 @@ describe('ui5 aggregation retrieval', () => {
             expect(item).not.toEqual(itemsRehydrated[i]);
         });
     });
+
+    it('add LineItem and verify via "forceSelect" it exists in list', () => {
+        // get items and save length before adding new item
+        const itemsLengthOld = Other.getListItems().length;
+
+        const addLineItemButton = Other.getAddLineItemButtom();
+        addLineItemButton.firePress();
+
+        const itemsLengthCached = Other.getListItems().length;
+        const itemsLengtRehydrated = Other.getListItems(true).length;
+
+        // verify non "forceSelect"
+        expect(itemsLengthOld).toBe(itemsLengthCached);
+
+        // verify "forceSelect"
+        const newItemsLenght = itemsLengthOld + 1;
+        expect(newItemsLenght).toBe(itemsLengtRehydrated);
+    });
 });
