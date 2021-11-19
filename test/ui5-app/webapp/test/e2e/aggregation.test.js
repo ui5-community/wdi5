@@ -47,16 +47,25 @@ describe('ui5 aggregation retrieval', () => {
         });
     });
 
-    it.only('add LineItem and verify via "forceSelect" it exists in list', () => {
+    it('add LineItem and verify via "forceSelect" it exists in list', () => {
         // get items and save length before adding new item
         const itemsOld = Other.getListItems();
 
+        // button which executes a function to add an additional line item
         const addLineItemButton = Other.getAddLineItemButtom();
         addLineItemButton.firePress();
 
+        // after the added line item retrieve the list again
+        const itemsOldRehydrated = Other.getListItems();
+
+        // expect the list to be up-to-date
+        expect(itemsOld.length + 1).toEqual(itemsOldRehydrated.length);
+
+        // also retrieve list with forceSelect option
         const itemsRehydrated = Other.getListItems(true);
 
-        const lastItemOfOldReference = itemsOld[itemsOld.length - 1];
+        // extract the last item of list
+        const lastItemOfOldReference = itemsOldRehydrated[itemsOldRehydrated.length - 1];
         const lastItemOfRehydratedList = itemsRehydrated[itemsRehydrated.length - 1];
 
         // verify "forceSelect"
