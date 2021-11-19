@@ -66,10 +66,10 @@ exports.config = {
     //
     // The property basically handles how many capabilities from the same test should run tests.
     //
-    maxInstances: 1,
+    maxInstances: 5,
     //
     // Or set a limit to run tests with a specific capability.
-    maxInstancesPerCapability: 5,
+    // maxInstancesPerCapability: 1,
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -80,7 +80,7 @@ exports.config = {
             // maxInstances can get overwritten per capability. So if you have an in-house Selenium
             // grid with only 5 firefox instances available you can make sure that not more than
             // 5 instances get started at a time.
-            maxInstances: 1,
+            // maxInstances: 1,
             browserName: 'chrome',
             'goog:chromeOptions': {
                 w3c: false,
@@ -95,7 +95,7 @@ exports.config = {
         logLevel: 'verbose', // error | verbose | silent
         platform: 'browser', // electron, browser, android, ios
         url: 'index.html',
-        deviceType: 'web',
+        deviceType: 'web'
         // skipInjectUI5OnStart: false, // default
     },
 

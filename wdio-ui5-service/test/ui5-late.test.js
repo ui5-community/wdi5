@@ -16,7 +16,10 @@ describe('ui5 basic', () => {
 
     const selectorCookieAccept = {
         selector: {
-            id: '__button4',
+            bindingPath: {
+                modelName: 'cookieData',
+                propertyPath: '/showCookieDetails'
+            },
             controlType: 'sap.m.Button'
         }
     };

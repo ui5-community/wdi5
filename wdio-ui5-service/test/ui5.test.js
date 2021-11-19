@@ -5,7 +5,7 @@ const selectorList = {
     forceSelect: true,
     selector: {
         id: 'versionList',
-        controlType: 'sap.m.List',
+        controlType: 'sap.m.Tree',
         interaction: 'root'
     }
 };
@@ -13,7 +13,10 @@ const selectorList = {
 before(() => {
     const selectorCookieAccept = {
         selector: {
-            id: '__button6',
+            bindingPath: {
+                modelName: 'cookieData',
+                propertyPath: '/showCookieDetails'
+            },
             controlType: 'sap.m.Button'
         }
     };
@@ -52,7 +55,7 @@ describe('basics', () => {
         forceSelect: true,
         selector: {
             id: 'versionList',
-            controlType: 'sap.m.List',
+            controlType: 'sap.m.Tree',
             interaction: 'root'
         }
     };
@@ -126,7 +129,7 @@ describe('basics', () => {
         // browser.keys('Escape'); // close popup
 
         // check for number
-        expect(numberOfItems).toBeGreaterThanOrEqual(537); // V1.86.1
+        expect(numberOfItems).toBeGreaterThanOrEqual(50); // V1.86.1
     });
 
     it('should retieve the second control of verison list without getting all subcontrols of aggregation', () => {
