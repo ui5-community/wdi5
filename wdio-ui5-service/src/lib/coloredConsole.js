@@ -12,6 +12,8 @@ const translate = (color) => {
             return '35';
         case 'cyan':
             return '36';
+        case 'default':
+            return '0';
         default:
             return '32'; // all is good
     }
@@ -25,6 +27,6 @@ const colored =
             : console.log(msg, ...other);
 
 const _ = {};
-['red', 'green', 'yellow', 'blue', 'magenta', 'cyan'].forEach((color) => (_[color] = colored(color)));
+['red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'default'].forEach((color) => (_[color] = colored(color)));
 
 module.exports = Object.assign(console, _);
