@@ -88,7 +88,7 @@ module.exports = {
     log: (logMessage, ...a) => {
         _writeLogStorage('-LOG- ', _prefix, logMessage, ...a);
         if (_logLevel === 'verbose') {
-            console.green(_prefix, logMessage, ...a);
+            console.default(_prefix, logMessage, ...a);
         }
     },
 
