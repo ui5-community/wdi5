@@ -82,13 +82,14 @@ module.exports = (context, webcontext) => {
         const result = context.executeAsync((done) => {
             done(window.location.href);
         });
-        console.log(`window.location.href: ${result}`);
 
         // create mocks for plugins
         cordovaMockPluginFactory.setup(_instance, context);
 
         // set loglevel once
         logger.setLoglevel(_instance.getUtils().getConfig('logLevel'));
+
+        logger.log(`window.location.href: ${result}`);
     } else if (webcontext && _instance.getUtils() instanceof NativeUtils) {
         // WDI5 instance already exists but new webcontext is provided
         logger.log('update with provided webcontext');
