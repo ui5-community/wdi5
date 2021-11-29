@@ -7,8 +7,6 @@ const fs = require('fs');
 let _context = null;
 /** @type {Boolean} store the status of initialization */
 let _isInitialized = false;
-/** @type {Boolean} store the status of UI5.waitForUI5 */
-let _isUI5Ready = false;
 /** @type {Boolean} stores the status of the setup process */
 let _setupComplete = false;
 
