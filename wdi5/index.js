@@ -1,7 +1,7 @@
 const BrowserUtils = require('./lib/BrowserUtils');
 const NativeUtils = require('./lib/NativeUtils');
 const cordovaMockPluginFactory = require('./lib/cordova-plugin-mocks/factory');
-const logger = require('./lib/Logger');
+const logger = require('wdio-ui5-service/src/lib/Logger');
 const wdioUI5Service = require('wdio-ui5-service').default;
 let _instance = null;
 
@@ -74,15 +74,15 @@ module.exports = (context, webcontext) => {
 
         // wdio-ui5-service setup
         if (wdioUI5Service) {
-            new wdioUI5Service().startWDI5()
+            new wdioUI5Service().startWDI5();
         } else {
-            console.error("Dependency wdio-ui-service not found!")
+            console.error('Dependency wdio-ui-service not found!');
         }
 
         const result = context.executeAsync((done) => {
             done(window.location.href);
         });
-        console.log(`window.location.href: ${result}`)
+        console.log(`window.location.href: ${result}`);
 
         // create mocks for plugins
         cordovaMockPluginFactory.setup(_instance, context);

@@ -1,4 +1,4 @@
-const logger = require('../Logger');
+const logger = require('wdio-ui5-service/src/lib/Logger');
 
 /**
  * plugin mock factory

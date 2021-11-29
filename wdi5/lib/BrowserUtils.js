@@ -1,13 +1,11 @@
 // @ts-check
 const fs = require('fs');
-const logger = require('./Logger');
+const logger = require('wdio-ui5-service/src/lib/Logger');
 const path = require('path');
 const Utils = require('./Utils');
 
 // Singleton
-module.exports = class BrowserUtil extends (
-    Utils
-) {
+module.exports = class BrowserUtil extends Utils {
     static _instance;
     path = {
         electron: `${this.context.getUrl()}`,
@@ -62,7 +60,7 @@ module.exports = class BrowserUtil extends (
             logger.log(`Navigating to: ${oRoute.sName}`);
 
             // only for ui5 router based navigation use this function
-            this.context.goTo({ oRoute: oRoute });
+            this.context.goTo({oRoute: oRoute});
         }
     }
 

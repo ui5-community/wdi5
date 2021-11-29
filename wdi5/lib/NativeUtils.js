@@ -1,5 +1,5 @@
 // @ts-check
-const logger = require('./Logger');
+const logger = require('wdio-ui5-service/src/lib/Logger');
 const Utils = require('./Utils');
 
 module.exports = class NativeUtils extends Utils {
@@ -66,7 +66,7 @@ module.exports = class NativeUtils extends Utils {
             this._changeHash(hash);
         } else {
             logger.log(`Navigating to: ${oRoute.sName}`);
-            this.context.goTo({ oRoute: oRoute });
+            this.context.goTo({oRoute: oRoute});
         }
     }
 
@@ -78,7 +78,7 @@ module.exports = class NativeUtils extends Utils {
     _changeHash(hash) {
         const result = this.context.executeAsync((hash, done) => {
             window.location.hash = hash;
-            done(window.location)
+            done(window.location);
         }, hash);
         return result;
     }
@@ -112,7 +112,6 @@ module.exports = class NativeUtils extends Utils {
      */
     takeScreenshot(fileAppendix) {
         if (this.initSuccess) {
-
             // make sure the UI is fully loaded
             // needed to be done BEFORE switching context
             this.context.waitForUI5();
@@ -121,7 +120,7 @@ module.exports = class NativeUtils extends Utils {
             this.context.switchContext('NATIVE_APP');
             logger.log('current Context: ' + this.context.getContext());
 
-            this._writeScreenshot(fileAppendix)
+            this._writeScreenshot(fileAppendix);
 
             // switch back to continue web testing
             this.context.switchContext(this.webcontext);

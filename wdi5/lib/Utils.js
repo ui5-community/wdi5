@@ -1,7 +1,5 @@
 // @ts-check
-const logger = require('./Logger');
-const path = require('path');
-const fs = require('fs');
+const logger = require('wdio-ui5-service/src/lib/Logger');
 
 /**
  * Abstract super class
@@ -52,5 +50,4 @@ module.exports = class Util {
         // mandatory to use the provided writescreenshot method in native app environment (after switching the to native context)
         this.context.writescreenshot(fileAppendix);
     }
-
 };
