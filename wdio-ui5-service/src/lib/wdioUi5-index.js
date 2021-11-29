@@ -566,7 +566,7 @@ function _writeScreenshot(fileAppendix) {
 
     let _path = _context.config.wdi5['screenshotPath'];
     if (_path === undefined || _path.length === 0) {
-        _path = this.pjsonPackage.screenshotPath;
+        _path = pjsonPackage.screenshotPath;
         if (_path === undefined || _path.length === 0) {
             // fallback to root
             _path = '/screenshots';
