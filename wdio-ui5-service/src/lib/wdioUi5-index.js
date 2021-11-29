@@ -1,5 +1,6 @@
 // @ts-check
 const WDI5 = require('./WDI5');
+const Logger = require('./Logger');
 const path = require('path');
 const fs = require('fs');
 
@@ -253,9 +254,9 @@ function injectUI5() {
     if (result) {
         // set when call returns
         _isInitialized = true;
-        console.log('sucessfully initialized wdio-ui5 bridge');
+        Logger.success('sucessfully initialized wdio-ui5 bridge');
     } else {
-        console.error('bridge was not initialized correctly');
+        Logger.error('bridge was not initialized correctly');
     }
     return result;
 }
@@ -305,11 +306,13 @@ function setup(context) {
         _context = context;
     }
 
+    Logger.setLoglevel(_context.config?.wdi5?.logLevel || 'error');
+
     // create an internal store of already retrieved UI5 elements
     // in the form of their wdio counterparts
     // for faster subsequent access
     if (!_context._controls) {
-        console.info('creating internal control map');
+        Logger.info('creating internal control map');
         _context._controls = {};
     }
 
@@ -587,9 +590,9 @@ function _writeScreenshot(fileAppendix) {
     // async
     fs.writeFile(_path, screenshot, 'base64', function (err) {
         if (err) {
-            console.error(err);
+            Logger.error(err);
         } else {
-            console.log(`screenshot at ${_path} created`);
+            Logger.success(`screenshot at ${_path} created`);
         }
     });
 }
