@@ -82,6 +82,13 @@ module.exports = {
         }
     },
 
+    success: (logMessage, ...a) => {
+        _writeLogStorage('-SUCCESS- ', _prefix, logMessage, ...a);
+        if (_logLevel === 'verbose') {
+            console.green(_prefix, logMessage, ...a);
+        }
+    },
+
     /**
      * @param {String} Message
      */
