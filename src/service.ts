@@ -1,9 +1,11 @@
 import { Capabilities, Options, Services } from "@wdio/types"
 import { wdi5Config } from "./lib/types"
+import { Logger as _Logger } from "./lib/Logger"
+const Logger = _Logger.getInstance()
 
 export default class Service implements Services.ServiceInstance {
     constructor(
-        // private _options: MyServiceOptions,
+        private _options: wdi5Config,
         private _capabilities: Capabilities.RemoteCapability,
         private _config: Omit<Options.Testrunner, "capabilities">
     ) {}
@@ -22,7 +24,7 @@ export default class Service implements Services.ServiceInstance {
         // TODO: do we still need to support this?
         // browser._oldAPIVersion = 1.6
 
-        Logger.setLoglevel(wdi5config?.logLevel || "error")
+        Logger.setLogLevel(wdi5config?.logLevel || "error")
 
         // this is only to run in browser
         if (wdi5config && typeof wdi5config.url === "string") {
