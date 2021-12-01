@@ -2,7 +2,12 @@
     "compilerOptions": {
         "outDir": "dist",
         "module": "CommonJS",
-        "sourceMap": true
+        "sourceMap": true,
+        "types": [
+            "node",
+            "webdriverio/async",
+            "@wdio/mocha-framework"
+        ]
     },
     "include": [
         "src"
