@@ -7,9 +7,21 @@ export type wdi5LogLevel = "silent" | "error" | "verbose"
 
 export interface wdi5Config extends WebdriverIO.Config {
     wdi5: {
+        /** wdi5-specific logging of UI5-related operations */
         logLevel?: wdi5LogLevel
+        /**
+         * FQDN-suffix to append to `baseUrl` of wdio config,
+         * typically "index.html"
+         * @example http://localhost:8080/index.html -> "index.html"
+         * @example https://ui5.sap.com/anotherIndex.html -> "anotherIndex.html"
+         */
         url: string
-        screenshotPath?: Path
+        /** path relative to the command `wdio` is run from to store screenshots */
+        screenshotPath?: string
+        /**
+         * late-inject wdi5 <-> UI5 bridge, useful for testing in hybrid non-UI5/UI5 apps
+         * TODO: link to document on how to inject late programmatically
+         */
         skipInjectUI5OnStart?: boolean
     }
 }
