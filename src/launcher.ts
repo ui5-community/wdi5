@@ -6,9 +6,7 @@ export default class Launcher {
 
     async onWorkerStart(cid, capabilities, specs, args, execArgv) {}
 
-    onComplete(exitCode, config, capabilities, results) {
+    async onComplete(exitCode, config, capabilities, results) {
         // TODO: something after the workers shutdown
     }
-
-    // custom service methods ...
 }
