@@ -1,8 +1,12 @@
 // @ts-check
 const WDI5 = require("./WDI5")
-import { Logger } from "./Logger"
 const path = require("path")
 const fs = require("fs")
+
+import { Logger as _Logger } from "./Logger"
+const Logger = _Logger.getInstance()
+
+import { wdi5Bridge } from "./types"
 
 /** @type {Boolean} store the status of initialization */
 let _isInitialized = false
@@ -294,17 +298,11 @@ async function checkForUI5Page() {
  * use wdio's hooks for setting up custom commands in the context
  * @param {WebdriverIO.BrowserObject} context
  */
-function setup(context) {
+function setup(browser) {
     if (_setupComplete) {
         // already setup done
         return
     }
-
-    if (!browser) {
-        browser = context
-    }
-
-    Logger.setLoglevel(browser.config?.wdi5?.logLevel || "error")
 
     // create an internal store of already retrieved UI5 elements
     // in the form of their wdio counterparts
