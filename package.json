@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/openui5": "^1.97.0",
     "@wdio/cli": "^7.16.10",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.2"
