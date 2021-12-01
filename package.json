@@ -1,13 +1,32 @@
 {
-  "name": "wdi5",
+  "name": "wdio-ui5-service",
   "version": "1.0.0",
-  "description": "e2e testing tool for UI5, as a plugin to wdio",
-  "main": "index.js",
+  "description": "WebdriverIO plugin for testing UI5 browser-based apps",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rm -Rf dist && tsc",
+    "build:watch": "tsc -w"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "j&s-soft GmbH <info@js-soft.com> (https://www.js-soft.com)",
+  "contributors": [
+    "Dominik Feininger <dominik.feininger@js-soft.com> (https://www.js-soft.com/)",
+    "Volker Buzek <volker.buzek@js-soft.com> (https://www.js-soft.com/)"
+  ],
+  "license": "(DERIVED BEER-WARE OR Apache-2.0)",
+  "keywords": [
+    "wdio-plugin",
+    "wdio-service",
+    "ui5",
+    "openui5",
+    "sapui5"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:js-soft/wdi5.git"
+  },
+  "engines": {
+    "node": ">=14"
+  },
   "devDependencies": {
     "@types/openui5": "^1.97.0",
     "@wdio/cli": "^7.16.10",
