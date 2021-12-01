@@ -6,7 +6,8 @@
         "types": [
             "node",
             "webdriverio/async",
-            "@wdio/mocha-framework"
+            "@wdio/mocha-framework",
+            "openui5"
         ]
     },
     "include": [
