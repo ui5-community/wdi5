@@ -4,7 +4,9 @@ export default class Launcher {
         // TODO: something before all workers launch
     }
 
-    onComplete(exitCode, config, capabilities) {
+    async onWorkerStart(cid, capabilities, specs, args, execArgv) {}
+
+    onComplete(exitCode, config, capabilities, results) {
         // TODO: something after the workers shutdown
     }
 
