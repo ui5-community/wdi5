@@ -32,7 +32,7 @@ It provides the `ui5`-service to `WebdriverIO`, running tests in the browser.
 
 ## Installation
 
-To keep the module lightweight, `wdio-ui5-service` has zero dependencies.
+To keep the module lightweight, `wdio-ui5-service` has almost zero dependencies. Right now, until the switch to async, `@wdio/sync` is needed.
 This means you have to setup `WebdriverIO` as a prerequisite as described in https://webdriver.io/docs/gettingstarted.html.
 
 ```bash
@@ -71,7 +71,7 @@ Finally, pass in configuration options for `wdi5` in your `WebdriverIO`-conf fil
 ```javascript
 wdi5: {
     screenshotPath: require('path').join('test', 'report', 'screenshots'), // [optional] using the project root
-    screenshotsDisabled: false // [optional] {Boolean}; if set to true screenshots won't be taken and not written to file system
+    screenshotsDisabled: false, // [optional] {Boolean}; if set to true screenshots won't be taken and not written to file system
     logLevel: 'verbose', // [optional] error | verbose | silent
     platform: 'browser', // [mandatory] browser | android | ios | electron
     url: 'index.html', // [mandatory, not empty] path to your bootstrap html file. If your server autoredirects to a 'domain:port/' like root url use empty string ''
