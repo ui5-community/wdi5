@@ -8,20 +8,21 @@ const Logger = _Logger.getInstance()
  * @param selector
  * @returns wdio_ui5_key
  */
-function _createWdioUI5KeyFromSelector(selector: ControlSelector): string {
+function _createWdioUI5KeyFromSelector(selector: wdi5Selector): string {
     const orEmpty = (string) => string || "-"
 
-    const wdi5_ui5_key = `${orEmpty(selector.id)}_${orEmpty(selector.viewName)}_${orEmpty(
-        selector.controlType
-    )}_${orEmpty(JSON.stringify(selector.bindingPath))}_${orEmpty(JSON.stringify(selector.I18NText))}_${orEmpty(
-        selector.labelFor
-    )}_${orEmpty(JSON.stringify(selector.properties))}`.replace(/[^0-9a-zA-Z]+/, "")
+    const _selector = selector.selector
+    const wdi5_ui5_key = `${orEmpty(_selector.id)}_${orEmpty(_selector.viewName)}_${orEmpty(
+        _selector.controlType
+    )}_${orEmpty(JSON.stringify(_selector.bindingPath))}_${orEmpty(JSON.stringify(_selector.I18NText))}_${orEmpty(
+        _selector.labelFor
+    )}_${orEmpty(JSON.stringify(_selector.properties))}`.replace(/[^0-9a-zA-Z]+/, "")
 
     return wdi5_ui5_key
 }
 
 browser.addCommand("asControl", (wdi5Selector: wdi5Selector) => {
-    const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector.selector)
+    const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
     // either retrieve and cache a UI5 control
     // or return a cached version
     if (!browser._controls[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
