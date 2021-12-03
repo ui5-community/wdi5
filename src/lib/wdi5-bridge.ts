@@ -1,5 +1,5 @@
 import { Logger as _Logger } from "./Logger"
-import { wdi5Config } from "./types"
+import { wdi5Config } from "../types/wdi5.types"
 const Logger = _Logger.getInstance()
 
 export async function start(config: wdi5Config) {
@@ -15,3 +15,5 @@ export async function start(config: wdi5Config) {
         await browser.url("#")
     }
 }
+
+export async function injectUI5() {}

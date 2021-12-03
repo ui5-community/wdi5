@@ -1,7 +1,7 @@
 import { Capabilities, Options, Services } from "@wdio/types"
 
 import { start as startWDI5 } from "./lib/wdi5-bridge"
-import { wdi5Config } from "./lib/types"
+import { wdi5Config } from "./types/wdi5.types"
 
 import { Logger as _Logger } from "./lib/Logger"
 const Logger = _Logger.getInstance()
@@ -10,7 +10,7 @@ export default class Service implements Services.ServiceInstance {
     constructor(
         private _options: wdi5Config,
         private _capabilities: Capabilities.RemoteCapability,
-        private _config: wdi5Config
+        private _config: wdi5Config // an enhanced version of the regular wdio config
     ) {}
 
     async onPrepare(config, capabilities) {}

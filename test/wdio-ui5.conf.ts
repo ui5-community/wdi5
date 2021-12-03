@@ -1,5 +1,5 @@
 import { join } from "path"
-import { wdi5Config } from "../src/lib/types"
+import { wdi5Config } from "../src/types/wdi5.types"
 import Service from "../src/service"
 
 export const config: wdi5Config = {

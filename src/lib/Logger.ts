@@ -1,5 +1,5 @@
 import { chalk as console } from "./coloredConsole"
-import { wdi5LogLevel } from "./types"
+import { wdi5LogLevel } from "../types/wdi5.types"
 
 export class Logger {
     private static instance: Logger | null = null
