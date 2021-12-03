@@ -43,6 +43,37 @@ export interface wdi5Config extends WebdriverIO.Config {
     }
 }
 
+interface wdi5ControlSelector {
+    /**
+     * ID of a control (global or within viewName, if viewName is defined)
+     */
+    id?: string | RegExp
+    /**
+     * Name of the control's view parent
+     */
+    viewName?: string
+    /**
+     * Fully qualified control class name in dot notation, eg: "sap.m.ObjectHeader"
+     */
+    controlType?: string
+    /**
+     * Binding path matcher, {@link sap.ui.test.matchers.BindingPath}
+     */
+    bindingPath?: Object
+    /**
+     * I18N Text matcher, {@link sap.ui.test.matchers.I18NText}
+     */
+    I18NText?: Object
+    /**
+     * Label matcher, {@link sap.ui.test.matchers.LabelFor}
+     */
+    labelFor?: Object
+    /**
+     * Properties matcher, {@link sap.ui.test.matchers.Properties}
+     */
+    properties?: Object
+}
+
 export interface wdi5Selector {
     /**
      * optional unique internal key to map and find a control
@@ -57,7 +88,7 @@ export interface wdi5Selector {
     /**
      * OPA5-style selectors from RecordReplay
      */
-    selector: ControlSelector
+    selector: wdi5ControlSelector
 }
 
 // yet unused
