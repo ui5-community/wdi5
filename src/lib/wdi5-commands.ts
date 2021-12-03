@@ -21,16 +21,18 @@ function _createWdioUI5KeyFromSelector(selector: wdi5Selector): string {
     return wdi5_ui5_key
 }
 
-browser.addCommand("asControl", (wdi5Selector: wdi5Selector) => {
-    const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
-    // either retrieve and cache a UI5 control
-    // or return a cached version
-    if (!browser._controls[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
-        Logger.info(`creating internal control with id ${internalKey}`)
-        const wdi5Control = {}
-        browser._controls[internalKey] = wdi5Control
-    } else {
-        Logger.info(`reusing internal control with id ${internalKey}`)
-        return browser._controls[internalKey]
-    }
-})
+export function addWdi5Commands() {
+    browser.addCommand("asControl", async (wdi5Selector: wdi5Selector) => {
+        const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
+        // either retrieve and cache a UI5 control
+        // or return a cached version
+        if (!browser._controls[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
+            Logger.info(`creating internal control with id ${internalKey}`)
+            const wdi5Control = {}
+            browser._controls[internalKey] = wdi5Control
+        } else {
+            Logger.info(`reusing internal control with id ${internalKey}`)
+            return browser._controls[internalKey]
+        }
+    })
+}

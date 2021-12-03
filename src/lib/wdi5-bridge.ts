@@ -1,5 +1,8 @@
-import { Logger as _Logger } from "./Logger"
 import { wdi5Config } from "../types/wdi5.types"
+
+import { addWdi5Commands } from "./wdi5-commands"
+
+import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
 
 export async function start(config: wdi5Config) {
@@ -14,6 +17,8 @@ export async function start(config: wdi5Config) {
         Logger.info("open url with fallback '#' (this is not causing any issues since its is removed for navigation)")
         await browser.url("#")
     }
+
+    addWdi5Commands()
 }
 
 export async function injectUI5() {}
