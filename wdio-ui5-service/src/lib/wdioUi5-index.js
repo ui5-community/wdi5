@@ -23,8 +23,9 @@ const pjsonPackage = require(`./../../package.json`);
  * attach the sap/ui/test/RecordReplay object to the application context window object as 'bridge'
  */
 function injectUI5() {
+    const waitForUI5Timeout = _context.config.wdi5.waitForUI5Timeout || 15000;
     // expect boolean
-    const result = _context.executeAsync((done) => {
+    const result = _context.executeAsync((waitForUI5Timeout, done) => {
         if (window.bridge) {
             // setup sap testing already done
             done(true);
@@ -46,7 +47,7 @@ function injectUI5() {
                 isInitialized: false,
                 Log: null,
                 waitForUI5Options: {
-                    timeout: 15000,
+                    timeout: waitForUI5Timeout,
                     interval: 400
                 }
             };
@@ -183,7 +184,7 @@ function injectUI5() {
                     };
 
                     /**
-                     * replaces circular referneces in objects
+                     * replaces circular references in objects
                      * @returns function (key, value)
                      */
                     window.wdi5.circularReplacer = () => {
@@ -250,12 +251,12 @@ function injectUI5() {
                 }
             );
         }
-    });
+    }, waitForUI5Timeout);
 
     if (result) {
         // set when call returns
         _isInitialized = true;
-        console.log('sucessfully initialized wdio-ui5 bridge');
+        console.log('successfully initialized wdio-ui5 bridge');
     } else {
         console.error('bridge was not initialized correctly');
     }
