@@ -568,9 +568,13 @@ module.exports = class WDI5 {
             // further processing there
             controlSelector.selector.id = controlSelector.selector.id.toString();
         }
-        let result = context.executeAsync((controlSelector, done) => {
+        const result = context.executeAsync((controlSelector, done) => {
+            const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options);
+            if (controlSelector.timeout) {
+                waitForUI5Options.timeout = controlSelector.timeout;
+            }
             window.bridge
-                .waitForUI5(window.wdi5.waitForUI5Options)
+                .waitForUI5(waitForUI5Options)
                 .then(() => {
                     window.wdi5.Log.info('[browser wdi5] locating ' + JSON.stringify(controlSelector));
                     controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector);
