@@ -72,14 +72,17 @@ The entry point to retrieve a control is always `browser.asControl(oSelector)`.
 
 `wdio-ui5` stores control references internally in order to save browser roundtrip time on repeatedly using a control across different test cases. For that, `wdio-ui5` computes unique identifiers for controls - with `wdio_ui5_key`, you can assign such an ID manually if required.
 
-The `forceSelcet` (default: `false`) property can be set to `true` to force `wdio-ui5` to again retrieve the control from the browser context and update the internally stored reference as well as available control method.
+The `forceSelect` (default: `false`) property can be set to `true` to force `wdio-ui5` to again retrieve the control from the browser context and update the internally stored reference as well as available control method. This might be useful if the tested application has destroyed the initial control and recreated it.
 
-The `forceSelcet` option also updates the wdio control reference each time a mehtod is executed on a wdi5 control.
+The `forceSelect` option also updates the wdio control reference each time a mehtod is executed on a wdi5 control.
+
+The `timeout` option (default based on the global configuration `waitForUI5Timeout` [setting](wdio-ui5-service/README.md#installation)) controls the maximum waiting time while checking for UI5 availability *(meaning no pending requests / promises / timeouts)*.
 
 ```javascript
 const oSelector = {
   wdio_ui5_key: 'wdio-ui5-button', // optional unique internal key to map and find a control
   forceSelect: true, // forces the test framework to again retrieve the control from the browser context
+  timeout: 15000, // maximum waiting time (ms) before failing the search
   selector: {
     // sap.ui.test.RecordReplay.ControlSelector
     id: 'UI5control_ID',
