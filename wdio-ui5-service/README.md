@@ -76,7 +76,8 @@ wdi5: {
     platform: 'browser', // [mandatory] browser | android | ios | electron
     url: 'index.html', // [mandatory, not empty] path to your bootstrap html file. If your server autoredirects to a 'domain:port/' like root url use empty string ''
     deviceType: 'web', // [mandatory] native | web
-    skipInjectUI5OnStart: false // [optional] true when UI5 is not on the start page, you need to later call <wdioUI5service>.injectUI5(); manually
+    skipInjectUI5OnStart: false, // [optional] true when UI5 is not on the start page, you need to later call <wdioUI5service>.injectUI5(); manually
+    waitForUI5Timeout: 15000 // [optional] maximum waiting time while checking for UI5 availability
 }
 ```
 
