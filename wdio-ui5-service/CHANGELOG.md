@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/js-soft/wdi5/compare/v0.6.2...v0.7.0) (2021-12-15)
+
+
+### Bug Fixes
+
+* path to package.json ([9982de3](https://github.com/js-soft/wdi5/commit/9982de3ea5c858af94b1a81b15fe10abbacbf330))
+
+
+### Features
+
+* introduce success method ([54f89bb](https://github.com/js-soft/wdi5/commit/54f89bbc8a51057fe94281a65567611663d1cb6e))
+* **console,color:** add shell default ([6c1f2a8](https://github.com/js-soft/wdi5/commit/6c1f2a8c24f64a23c14fe82137ce6f12f2a8b5eb))
+* add color to console.log ([47e4fa3](https://github.com/js-soft/wdi5/commit/47e4fa30105843f2394c94f83999447f47f96f1a))
+
+
+
+
+
 ## [0.6.2](https://github.com/js-soft/wdi5/compare/v0.6.1...v0.6.2) (2021-11-19)
 
 **Note:** Version bump only for package wdio-ui5-service
