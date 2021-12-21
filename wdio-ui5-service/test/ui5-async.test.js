@@ -64,11 +64,13 @@ describe('basics (async tests)', () => {
     it('should not report an error on successful $control.focus()', async () => {
         const selectorVersionButtonControl = await browser.asControl(selectorVersionButton);
         const focusResult = await selectorVersionButtonControl.focus();
-        expect(focusResult).toBeTruthy();
+        /* expect(focusResult).toBeTruthy(); */
+        await expect(selectorVersionButtonControl.focus()).toBeTruthy();
 
         // assert focus on element also via webdriver.io api
         const wdFocusResult = await focusResult.getWebElement();
-        expect(await wdFocusResult.isFocused()).toBeTruthy();
+        // expect(await wdFocusResult.isFocused()).toBeTruthy();
+        await expect(wdFocusResult.isFocused()).toBeTruthy();
     });
 
     it('should have the right title', async () => {
@@ -89,8 +91,8 @@ describe('basics (async tests)', () => {
         const controlVersionButton = await browser.asControl(selectorVersionButton);
         const headerToolbar = await controlVersionButton.getParent();
 
-        expect(await headerToolbar.getVisible()).toBeTruthy();
-        expect(await headerToolbar.getId()).toStrictEqual('sdk---app--headerToolbar');
+        await expect(await headerToolbar.getVisible()).toBeTruthy();
+        await expect(await headerToolbar.getId()).toStrictEqual('sdk---app--headerToolbar');
     });
 
     it('should click a ui5 button (version selector) by id', async () => {
@@ -117,7 +119,8 @@ describe('basics (async tests)', () => {
         // browser.keys('Escape'); // close popup
 
         // check for number
-        expect(items.length).toBeGreaterThanOrEqual(54); // V1.91.0
+        // expect(items.length).toBeGreaterThanOrEqual(54); // V1.91.0
+        await expect((await list.getItems(true)).length).toBeGreaterThanOrEqual(54); // V1.91.0
     });
 
     it('should retieve the second control of verison list without getting all subcontrols of aggregation', async () => {
@@ -171,11 +174,11 @@ describe('basics (async tests)', () => {
             var header = await browser.asControl({selector: {id: '__xmlview5--title'}});
         }
 
-        const headerVisibility = await header.getVisible();
-        expect(headerVisibility).toBeTruthy();
+        /* const headerVisibility = await header.getVisible();
+        expect(headerVisibility).toBeTruthy(); */
 
         // direct call
-        // expect(await header.getVisible()).toBeTruthy();
+        await expect(await header.getVisible()).toBeTruthy();
     });
 
     it('should navigate via hash', async () => {
@@ -189,8 +192,8 @@ describe('basics (async tests)', () => {
             var eventsHeader = await browser.asControl({selector: {id: '__xmlview6--events'}});
         }
 
-        const headerVisibility = await eventsHeader.getVisible();
-        expect(headerVisibility).toBeTruthy();
+        // const headerVisibility = await eventsHeader.getVisible();
+        await expect(await eventsHeader.getVisible()).toBeTruthy();
     });
 });
 
