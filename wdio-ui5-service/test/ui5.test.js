@@ -1,11 +1,27 @@
 const fs = require('fs');
 const path = require('path');
 
+const selectorDownloadButton = {
+    selector: {
+        id: 'readMoreButton',
+        controlType: 'sap.m.Button',
+        viewName: 'sap.ui.documentation.sdk.view.Welcome'
+    }
+};
+
+const selectorVersionButton = {
+    selector: {
+        id: 'changeVersionButton',
+        controlType: 'sap.m.Button',
+        viewName: 'sap.ui.documentation.sdk.view.App'
+    }
+};
+
 const selectorList = {
     forceSelect: true,
     selector: {
         id: 'versionList',
-        controlType: 'sap.m.List',
+        controlType: 'sap.m.Tree',
         interaction: 'root'
     }
 };
@@ -32,31 +48,6 @@ before(() => {
 });
 
 describe('basics', () => {
-    const selectorDownloadButton = {
-        selector: {
-            id: 'readMoreButton',
-            controlType: 'sap.m.Button',
-            viewName: 'sap.ui.documentation.sdk.view.Welcome'
-        }
-    };
-
-    const selectorVersionButton = {
-        selector: {
-            id: 'changeVersionButton',
-            controlType: 'sap.m.Button',
-            viewName: 'sap.ui.documentation.sdk.view.App'
-        }
-    };
-
-    const selectorVersionList = {
-        forceSelect: true,
-        selector: {
-            id: 'versionList',
-            controlType: 'sap.m.List',
-            interaction: 'root'
-        }
-    };
-
     before(() => {
         if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
             selectorDownloadButton.forceSelect = true;
@@ -65,8 +56,8 @@ describe('basics', () => {
             selectorVersionButton.forceSelect = true;
             selectorVersionButton.selector.interaction = 'root';
 
-            selectorVersionList.forceSelect = true;
-            selectorVersionList.selector.interaction = 'root';
+            selectorList.forceSelect = true;
+            selectorList.selector.interaction = 'root';
         }
     });
 
@@ -119,14 +110,14 @@ describe('basics', () => {
         const controlVersionButton = browser.asControl(selectorVersionButton);
         controlVersionButton.firePress();
 
-        const list = browser.asControl(selectorVersionList);
+        const list = browser.asControl(selectorList);
         const numberOfItems = list.getItems(true).length; // new param
 
         // not closing because of minor trouble with ui5 when closing opening this popup
         // browser.keys('Escape'); // close popup
 
         // check for number
-        expect(numberOfItems).toBeGreaterThanOrEqual(537); // V1.86.1
+        expect(numberOfItems).toBeGreaterThanOrEqual(54); // V1.86.1
     });
 
     it('should retieve the second control of verison list without getting all subcontrols of aggregation', () => {
@@ -134,7 +125,7 @@ describe('basics', () => {
         const controlVersionButton = browser.asControl(selectorVersionButton);
         controlVersionButton.firePress();
 
-        const list = browser.asControl(selectorVersionList);
+        const list = browser.asControl(selectorList);
         const item3 = list.getItems(3); // new param
 
         // not closing because of minor trouble with ui5 when closing opening this popup

@@ -5,8 +5,24 @@ const selectorList = {
     forceSelect: true,
     selector: {
         id: 'versionList',
-        controlType: 'sap.m.List',
+        controlType: 'sap.m.Tree',
         interaction: 'root'
+    }
+};
+
+const selectorDownloadButton = {
+    selector: {
+        id: 'readMoreButton',
+        controlType: 'sap.m.Button',
+        viewName: 'sap.ui.documentation.sdk.view.Welcome'
+    }
+};
+
+const selectorVersionButton = {
+    selector: {
+        id: 'changeVersionButton',
+        controlType: 'sap.m.Button',
+        viewName: 'sap.ui.documentation.sdk.view.App'
     }
 };
 
@@ -32,31 +48,6 @@ before(async () => {
 });
 
 describe('basics (async tests)', () => {
-    const selectorDownloadButton = {
-        selector: {
-            id: 'readMoreButton',
-            controlType: 'sap.m.Button',
-            viewName: 'sap.ui.documentation.sdk.view.Welcome'
-        }
-    };
-
-    const selectorVersionButton = {
-        selector: {
-            id: 'changeVersionButton',
-            controlType: 'sap.m.Button',
-            viewName: 'sap.ui.documentation.sdk.view.App'
-        }
-    };
-
-    const selectorVersionList = {
-        forceSelect: true,
-        selector: {
-            id: 'versionList',
-            controlType: 'sap.m.List',
-            interaction: 'root'
-        }
-    };
-
     before(async () => {
         if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
             selectorDownloadButton.forceSelect = true;
@@ -65,8 +56,8 @@ describe('basics (async tests)', () => {
             selectorVersionButton.forceSelect = true;
             selectorVersionButton.selector.interaction = 'root';
 
-            selectorVersionList.forceSelect = true;
-            selectorVersionList.selector.interaction = 'root';
+            selectorList.forceSelect = true;
+            selectorList.selector.interaction = 'root';
         }
     });
 
@@ -111,7 +102,7 @@ describe('basics (async tests)', () => {
         const list = await browser.asControl(selectorList);
         expect(await list.getVisible()).toBeTruthy();
 
-        browser.keys('Escape'); // close popup
+        await browser.keys('Escape'); // close popup
     });
 
     it('should check the length of verison list without getting all subcontrols of aggregation', async () => {
@@ -119,14 +110,14 @@ describe('basics (async tests)', () => {
         const controlVersionButton = await browser.asControl(selectorVersionButton);
         await controlVersionButton.firePress();
 
-        const list = await browser.asControl(selectorVersionList);
+        const list = await browser.asControl(selectorList);
         const items = await list.getItems(true); // new param
 
         // not closing because of minor trouble with ui5 when closing opening this popup
         // browser.keys('Escape'); // close popup
 
         // check for number
-        expect(items.length).toBeGreaterThanOrEqual(595); // V1.91.0
+        expect(items.length).toBeGreaterThanOrEqual(54); // V1.91.0
     });
 
     it('should retieve the second control of verison list without getting all subcontrols of aggregation', async () => {
@@ -134,7 +125,7 @@ describe('basics (async tests)', () => {
         const controlVersionButton = await browser.asControl(selectorVersionButton);
         await controlVersionButton.firePress();
 
-        const list = await browser.asControl(selectorVersionList);
+        const list = await browser.asControl(selectorList);
         const item3 = await list.getItems(3); // new param
 
         // not closing because of minor trouble with ui5 when closing opening this popup
@@ -180,7 +171,11 @@ describe('basics (async tests)', () => {
             var header = await browser.asControl({selector: {id: '__xmlview5--title'}});
         }
 
-        expect(await header.getVisible()).toBeTruthy();
+        const headerVisibility = await header.getVisible();
+        expect(headerVisibility).toBeTruthy();
+
+        // direct call
+        // expect(await header.getVisible()).toBeTruthy();
     });
 
     it('should navigate via hash', async () => {
@@ -193,7 +188,9 @@ describe('basics (async tests)', () => {
             await browser.goTo('events/Summary');
             var eventsHeader = await browser.asControl({selector: {id: '__xmlview6--events'}});
         }
-        expect(await eventsHeader.getVisible()).toBeTruthy();
+
+        const headerVisibility = await eventsHeader.getVisible();
+        expect(headerVisibility).toBeTruthy();
     });
 });
 
