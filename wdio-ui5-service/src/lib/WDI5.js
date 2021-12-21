@@ -196,7 +196,12 @@ module.exports = class WDI5 {
         // check the validity of param
         if (sReplFunctionNames) {
             sReplFunctionNames.forEach(async (sMethodName) => {
-                this[sMethodName] = this._executeControlMethod.bind(this, sMethodName, this._webElement, this._context);
+                this[sMethodName] = await this._executeControlMethod.bind(
+                    this,
+                    sMethodName,
+                    this._webElement,
+                    this._context
+                );
             });
         } else {
             console.warn(this._wdio_ui5_key + ' has no sReplFunctionNames');
