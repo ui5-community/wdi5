@@ -267,26 +267,27 @@ async function injectUI5() {
  *
  */
 async function checkForUI5Page() {
+    // TODO: revisit
+    // this waitUntil seems to be a cordova-related artefact
+    // but has no value for the browser-scope
     _context.waitUntil(
-        // @ts-ignore: we're in wdio sync land here
         async () => {
             const readyState = await _context.executeAsync((done) => {
                 setTimeout(() => {
                     if (document.location.href != 'data:,') {
-                        // make sure we are not on the initial page
                         done(document.readyState);
+                    } else {
+                        done('');
                     }
                 }, 400);
             });
-            // @ts-ignore: we're in wdio sync land here
             return readyState === 'complete';
         },
         {interval: 500, timeout: 8000}
     );
 
-    // test for ui5
-    let result = await _context.executeAsync((done) => {
-        // browser context - you may not access client or console
+    // sap in global window namespace denotes (most likely :) ) that ui5 is present
+    const result = await _context.executeAsync((done) => {
         done(!!window.sap);
     });
     return result;
