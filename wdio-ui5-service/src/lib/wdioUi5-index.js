@@ -509,11 +509,11 @@ function setup(context) {
 
             // save control
             _context._controls[internalKey] = wdi5Control;
-            console.info(`creating internal control with id ${internalKey}`);
+            Logger.info(`creating internal control with id ${internalKey}`);
 
             return wdi5Control;
         } else {
-            console.info(`reusing internal control with id ${internalKey}`);
+            Logger.info(`reusing internal control with id ${internalKey}`);
             // return webui5 control from storage map
             return _context._controls[internalKey];
         }
