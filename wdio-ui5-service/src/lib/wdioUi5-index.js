@@ -25,7 +25,7 @@ const pjsonPackage = require(`./../../package.json`);
 async function injectUI5() {
     const waitForUI5Timeout = _context.config.wdi5.waitForUI5Timeout || 15000;
     // expect boolean
-    const result = await _context.executeAsync((done) => {
+    const result = await _context.executeAsync((waitForUI5Timeout, done) => {
         if (window.bridge) {
             // setup sap testing already done
             done(true);
