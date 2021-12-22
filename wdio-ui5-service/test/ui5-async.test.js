@@ -83,7 +83,7 @@ describe('basics (async tests)', () => {
         }
     });
 
-    it('should find a ui5 control by id with async mehtod chaning', async () => {
+    it('should find a ui5 control by id with async method chaning', async () => {
         expect(await (await browser.asControl(selectorDownloadButton)).getText()).toEqual('Download');
     });
 
