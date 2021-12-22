@@ -122,7 +122,7 @@ describe('basics (async tests)', () => {
         await expect(items.length).toBeGreaterThanOrEqual(54); // V1.91.0
     });
 
-    it('should retieve the second control of verison list without getting all subcontrols of aggregation', async () => {
+    it("should retieve the second control of the ui5 sdk site's version list without getting all subcontrols of aggregation", async () => {
         // open the version select dialog
         const controlVersionButton = await browser.asControl(selectorVersionButton);
         await controlVersionButton.firePress();
@@ -173,9 +173,6 @@ describe('basics (async tests)', () => {
             var header = await browser.asControl({selector: {id: '__xmlview5--title'}});
         }
 
-        /* const headerVisibility = await header.getVisible();
-        expect(headerVisibility).toBeTruthy(); */
-
         // direct call
         await expect(await header.getVisible()).toBeTruthy();
     });
@@ -191,7 +188,6 @@ describe('basics (async tests)', () => {
             var eventsHeader = await browser.asControl({selector: {id: '__xmlview6--events'}});
         }
 
-        // const headerVisibility = await eventsHeader.getVisible();
         await expect(await eventsHeader.getVisible()).toBeTruthy();
     });
 });
