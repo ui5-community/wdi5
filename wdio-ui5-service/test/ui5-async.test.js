@@ -107,7 +107,7 @@ describe('basics (async tests)', () => {
         await browser.keys('Escape'); // close popup
     });
 
-    it('should check the length of verison list without getting all subcontrols of aggregation', async () => {
+    it("should check the length of the ui5 sdk site's version list without getting all subcontrols of aggregation", async () => {
         // open the version select dialog
         const controlVersionButton = await browser.asControl(selectorVersionButton);
         await controlVersionButton.firePress();
@@ -119,8 +119,7 @@ describe('basics (async tests)', () => {
         // browser.keys('Escape'); // close popup
 
         // check for number
-        // expect(items.length).toBeGreaterThanOrEqual(54); // V1.91.0
-        await expect((await list.getItems(true)).length).toBeGreaterThanOrEqual(54); // V1.91.0
+        await expect(items.length).toBeGreaterThanOrEqual(54); // V1.91.0
     });
 
     it('should retieve the second control of verison list without getting all subcontrols of aggregation', async () => {
