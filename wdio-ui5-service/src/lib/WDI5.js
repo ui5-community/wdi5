@@ -1,3 +1,5 @@
+const Logger = require('./Logger');
+
 /**
  * This is a bridge object to use from selector to UI5 control
  * This can be seen as a generic representation of a UI5 control used to interact with the UI5 control
@@ -46,7 +48,7 @@ module.exports = class WDI5 {
 
         if (typeof controlResult[0] === 'string' && controlResult[0].toLowerCase().includes('error:')) {
             // result is string and has error text -> its an error
-            console.error('[WDI5] Something went wrong retrieving the control: ' + this._wdio_ui5_key);
+            Logger.error(`error retrieving control: ${this._wdio_ui5_key}`);
             return this;
         } else {
             this._webElement = controlResult[0];
@@ -155,7 +157,7 @@ module.exports = class WDI5 {
 
             return await Promise.all(aResultOfPromises);
         } else {
-            console.warn(this._wdio_ui5_key + ' has no aControls');
+            Logger.warn(`${this._wdio_ui5_key} has no aControls`);
         }
     }
 
@@ -183,7 +185,7 @@ module.exports = class WDI5 {
             // get WDI5 control
             eResult = await context.asControl(selector);
         } else {
-            console.warn(this._wdio_ui5_key + ' has no aControls');
+            Logger.warn(`${this._wdio_ui5_key} has no aControls`);
         }
 
         return eResult;
@@ -206,7 +208,7 @@ module.exports = class WDI5 {
                 );
             });
         } else {
-            console.warn(this._wdio_ui5_key + ' has no sReplFunctionNames');
+            Logger.warn(`${this._wdio_ui5_key} has no sReplFunctionNames`);
         }
     }
 
@@ -623,11 +625,11 @@ module.exports = class WDI5 {
      */
     _writeResultLog(result, functionName) {
         if (result[0] === 'error') {
-            console.error(`ERROR: call of ${functionName} failed because of: ${result[1]}`);
+            Logger.error(`call of ${functionName} failed because of: ${result[1]}`);
         } else if (result[0] === 'success') {
-            console.log(`SUCCESS: call of function ${functionName} returned: ${JSON.stringify(result[1])}`);
+            Logger.success(`call of function ${functionName} returned: ${JSON.stringify(result[1])}`);
         } else {
-            console.warn(`Unknown status: ${functionName} returned: ${JSON.stringify(result[1])}`);
+            Logger.warn(`Unknown status: ${functionName} returned: ${JSON.stringify(result[1])}`);
         }
     }
 };
