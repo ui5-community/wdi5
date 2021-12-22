@@ -270,7 +270,7 @@ async function checkForUI5Page() {
     // TODO: revisit
     // this waitUntil seems to be a cordova-related artefact
     // but has no value for the browser-scope
-    _context.waitUntil(
+    await _context.waitUntil(
         async () => {
             const readyState = await _context.executeAsync((done) => {
                 setTimeout(() => {
