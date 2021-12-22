@@ -157,8 +157,11 @@ describe('basics (async tests)', () => {
         expect(await (await browser.asControl(selectorWithoutId)).getText()).toBe('Get Started with UI5');
     });
 
-    it('should expect an not existing control to no have $control.focus', async () => {
-        const noControl = await browser.asControl({selector: {id: 'doesnt_exist'}});
+    it('should expect an non-existing control also not no have $control.focus', async () => {
+        let noControl = {};
+        try {
+            noControl = await browser.asControl({selector: {id: 'doesnt_exist'}});
+        } catch (error) {}
         expect(noControl.focus).toBeUndefined();
     });
 
