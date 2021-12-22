@@ -487,7 +487,7 @@ function setup(context) {
      *     selector: <sap.ui.test.RecordReplay.ControlSelector>
      * }
      *
-     * wdio_ui5_key is generated based on the givven selector.
+     * wdio_ui5_key is generated based on the given selector.
      * If wdio_ui5_key is provided with the selector the provided wdio_ui5_key is used.
      * You can force to load the control freshly from browser context by setting the 'forceSelect' parameter to true
      *
