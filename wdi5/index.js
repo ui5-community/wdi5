@@ -1,7 +1,7 @@
 const BrowserUtils = require('./lib/BrowserUtils');
 const NativeUtils = require('./lib/NativeUtils');
 const cordovaMockPluginFactory = require('./lib/cordova-plugin-mocks/factory');
-const logger = require('./lib/Logger');
+const logger = require('wdio-ui5-service/src/lib/Logger');
 const wdioUI5Service = require('wdio-ui5-service').default;
 let _instance = null;
 
@@ -82,13 +82,14 @@ module.exports = async (context, webcontext) => {
         const result = await context.executeAsync((done) => {
             done(window.location.href);
         });
-        console.log(`window.location.href: ${result}`);
 
         // create mocks for plugins
         cordovaMockPluginFactory.setup(_instance, context);
 
         // set loglevel once
         logger.setLoglevel(_instance.getUtils().getConfig('logLevel'));
+
+        logger.log(`window.location.href: ${result}`);
     } else if (webcontext && _instance.getUtils() instanceof NativeUtils) {
         // WDI5 instance already exists but new webcontext is provided
         logger.log('update with provided webcontext');

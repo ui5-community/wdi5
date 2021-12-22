@@ -1,6 +1,6 @@
 // @ts-check
 const fs = require('fs');
-const logger = require('./Logger');
+const logger = require('wdio-ui5-service/src/lib/Logger');
 const path = require('path');
 const Utils = require('./Utils');
 

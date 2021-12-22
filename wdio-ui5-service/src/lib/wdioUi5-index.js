@@ -1,5 +1,6 @@
 // @ts-check
 const WDI5 = require('./WDI5');
+const Logger = require('./Logger');
 const path = require('path');
 const fs = require('fs');
 
@@ -7,8 +8,6 @@ const fs = require('fs');
 let _context = null;
 /** @type {Boolean} store the status of initialization */
 let _isInitialized = false;
-/** @type {Boolean} store the status of UI5.waitForUI5 */
-let _isUI5Ready = false;
 /** @type {Boolean} stores the status of the setup process */
 let _setupComplete = false;
 /** @type {String} currently running sap.ui.version */
@@ -24,6 +23,7 @@ const pjsonPackage = require(`./../../package.json`);
  * attach the sap/ui/test/RecordReplay object to the application context window object as 'bridge'
  */
 async function injectUI5() {
+    const waitForUI5Timeout = _context.config.wdi5.waitForUI5Timeout || 15000;
     // expect boolean
     const result = await _context.executeAsync((done) => {
         if (window.bridge) {
@@ -47,7 +47,7 @@ async function injectUI5() {
                 isInitialized: false,
                 Log: null,
                 waitForUI5Options: {
-                    timeout: 15000,
+                    timeout: waitForUI5Timeout,
                     interval: 400
                 }
             };
@@ -184,7 +184,7 @@ async function injectUI5() {
                     };
 
                     /**
-                     * replaces circular referneces in objects
+                     * replaces circular references in objects
                      * @returns function (key, value)
                      */
                     window.wdi5.circularReplacer = () => {
@@ -251,14 +251,14 @@ async function injectUI5() {
                 }
             );
         }
-    });
+    }, waitForUI5Timeout);
 
     if (result) {
         // set when call returns
         _isInitialized = true;
-        console.log('sucessfully initialized wdio-ui5 bridge');
+        Logger.success('sucessfully initialized wdio-ui5 bridge');
     } else {
-        console.error('bridge was not initialized correctly');
+        Logger.error('bridge was not initialized correctly');
     }
     return result;
 }
@@ -308,11 +308,13 @@ function setup(context) {
         _context = context;
     }
 
+    Logger.setLoglevel(_context.config?.wdi5?.logLevel || 'error');
+
     // create an internal store of already retrieved UI5 elements
     // in the form of their wdio counterparts
     // for faster subsequent access
     if (!_context._controls) {
-        console.info('creating internal control map');
+        Logger.info('creating internal control map');
         _context._controls = {};
     }
 
@@ -594,7 +596,7 @@ async function _writeScreenshot(fileAppendix) {
 
     let _path = _context.config.wdi5['screenshotPath'];
     if (_path === undefined || _path.length === 0) {
-        _path = this.pjsonPackage.screenshotPath;
+        _path = pjsonPackage.screenshotPath;
         if (_path === undefined || _path.length === 0) {
             // fallback to root
             _path = '/screenshots';
@@ -615,9 +617,9 @@ async function _writeScreenshot(fileAppendix) {
     // async
     fs.writeFile(_path, screenshot, 'base64', function (err) {
         if (err) {
-            console.error(err);
+            Logger.error(err);
         } else {
-            console.log(`screenshot at ${_path} created`);
+            Logger.success(`screenshot at ${_path} created`);
         }
     });
 }

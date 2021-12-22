@@ -1,5 +1,5 @@
 // @ts-check
-const logger = require('./Logger');
+const logger = require('wdio-ui5-service/src/lib/Logger');
 const Utils = require('./Utils');
 
 module.exports = class NativeUtils extends Utils {

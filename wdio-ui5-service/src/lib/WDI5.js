@@ -143,6 +143,7 @@ module.exports = class WDI5 {
                 // item id -> create selector
                 const selector = {
                     wdio_ui5_key: item.id, // plugin-internal, not part of RecordReplay.ControlSelector
+                    forceSelect: this._forceSelect,
                     selector: {
                         id: item.id
                     }
@@ -173,6 +174,7 @@ module.exports = class WDI5 {
             // item id -> create selector
             const selector = {
                 wdio_ui5_key: eControl.id, // plugin-internal, not part of RecordReplay.ControlSelector
+                forceSelect: this._forceSelect,
                 selector: {
                     id: eControl.id
                 }
@@ -575,9 +577,13 @@ module.exports = class WDI5 {
             // further processing there
             controlSelector.selector.id = controlSelector.selector.id.toString();
         }
-        let result = await context.executeAsync((controlSelector, done) => {
+        const result = await context.executeAsync((controlSelector, done) => {
+            const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options);
+            if (controlSelector.timeout) {
+                waitForUI5Options.timeout = controlSelector.timeout;
+            }
             window.bridge
-                .waitForUI5(window.wdi5.waitForUI5Options)
+                .waitForUI5(waitForUI5Options)
                 .then(() => {
                     window.wdi5.Log.info('[browser wdi5] locating ' + JSON.stringify(controlSelector));
                     controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector);

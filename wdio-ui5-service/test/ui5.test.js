@@ -29,7 +29,10 @@ const selectorList = {
 before(() => {
     const selectorCookieAccept = {
         selector: {
-            id: '__button6',
+            bindingPath: {
+                modelName: 'cookieData',
+                propertyPath: '/showCookieDetails'
+            },
             controlType: 'sap.m.Button'
         }
     };

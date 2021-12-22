@@ -1,6 +1,4 @@
-// The rest of the hooks will be handled by the service (the default export), as normal.
-
-const SevereServiceError = require('webdriverio');
+const Logger = require('./lib/Logger');
 const wdioUI5 = require('./lib/wdioUi5-index');
 
 module.exports = class Service {
@@ -22,26 +20,28 @@ module.exports = class Service {
         // As of version 1.72, it is available as a declarative matcher
         context._oldAPIVersion = 1.6;
 
+        Logger.setLoglevel(wdi5config?.logLevel || 'error');
+
         // this is only to run in browser
         if (wdi5config && typeof wdi5config.url === 'string') {
             if (wdi5config.url.length > 0) {
-                console.log('open url: ' + wdi5config.url);
+                Logger.info(`open url: ${wdi5config.url}`);
                 browser.url(wdi5config.url);
             } else if (wdi5config.url === '') {
-                console.log(
+                Logger.info(
                     'open url with fallback (this is not causing any issues since its is removed for navigation): #'
                 );
                 browser.url('#');
             } else {
                 // just for error logging
-                console.error('not opening any url, wdi5 config contains errors');
+                Logger.error('not opening any url, wdi5 config contains errors');
             }
         } else {
             // just for error logging
-            console.error('not opening any url, no url was supplied in wdi5 config');
+            Logger.error('not opening any url, no url was supplied in wdi5 config');
         }
 
-        console.log('wdio-ui5-service before hook');
+        Logger.info('wdio-ui5-service before hook');
 
         wdioUI5.setup(context); // use wdio hooks for setting up wdio<->ui5 bridge
 
@@ -49,7 +49,7 @@ module.exports = class Service {
         if (wdi5config && !wdi5config.skipInjectUI5OnStart) {
             this.injectUI5();
         } else {
-            console.log('wdio-ui5-service skipped injecting UI5');
+            Logger.warn('wdio-ui5-service skipped injecting UI5');
         }
     }
 

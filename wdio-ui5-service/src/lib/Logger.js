@@ -1,6 +1,8 @@
+const console = require('./coloredConsole');
+
 // @ts-check
 let _logLevel = 'error'; // default
-const _prefix = '[node WDI5]';
+const _prefix = '[wdi5]';
 let _logStorage = [];
 
 /**
@@ -70,7 +72,7 @@ module.exports = {
         _writeLogStorage('-ERROR- ', _prefix, logMessage, ...a);
         if (_logLevel !== 'silent') {
             // all other log level
-            console.error(_prefix, logMessage, ...a);
+            console.red(_prefix, logMessage, ...a);
             // also throw an error
             throw new Error(_prefix.concat(logMessage, ...a));
         }
@@ -80,13 +82,20 @@ module.exports = {
         }
     },
 
+    success: (logMessage, ...a) => {
+        _writeLogStorage('-SUCCESS- ', _prefix, logMessage, ...a);
+        if (_logLevel === 'verbose') {
+            console.green(_prefix, logMessage, ...a);
+        }
+    },
+
     /**
      * @param {String} Message
      */
     log: (logMessage, ...a) => {
         _writeLogStorage('-LOG- ', _prefix, logMessage, ...a);
         if (_logLevel === 'verbose') {
-            console.log(_prefix, logMessage, ...a);
+            console.default(_prefix, logMessage, ...a);
         }
     },
 
@@ -96,7 +105,7 @@ module.exports = {
     info: (logMessage, ...a) => {
         _writeLogStorage('-INFO- ', _prefix, logMessage, ...a);
         if (_logLevel === 'verbose') {
-            console.info(_prefix, logMessage, ...a);
+            console.blue(_prefix, logMessage, ...a);
         }
     },
 
@@ -106,7 +115,7 @@ module.exports = {
     warn: (logMessage, ...a) => {
         _writeLogStorage('-VERBOSE- ', _prefix, logMessage, ...a);
         if (_logLevel === 'verbose') {
-            console.warn(_prefix, logMessage, ...a);
+            console.yellow(_prefix, logMessage, ...a);
         }
     }
 };

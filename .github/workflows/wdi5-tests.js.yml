@@ -13,9 +13,18 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x]
+        node-version: [14.x]
 
     steps:
+      - name: update chrome
+        run: |
+          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
+          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+          sudo apt-get update
+          sudo apt-get --only-upgrade install google-chrome-stable
+          # check chrome version
+          google-chrome --version
+
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -26,7 +35,9 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: install packages
-        run: yarn install --frozen-lockfile
+        run: yarn install --ignore-engines --frozen-lockfile
+
+      # run the actual tests
       - name: run basic.test.js w/ ui5 tooling
         run: HEADLESS=true yarn test:ci:wdi5:withUI5tooling
       - name: run wdi5 tests w/ regular webserver
