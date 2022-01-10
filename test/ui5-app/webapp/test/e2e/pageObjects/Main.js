@@ -1,13 +1,13 @@
 const Page = require('./Page');
 
 class Main extends Page {
-    open() {
-        super.open(`#/Main`);
+    async open() {
+        await super.open(`#/Main`);
     }
 
     _viewName = 'test.Sample.view.Main';
 
-    getCheckbox() {
+    async getCheckbox() {
         const cbSelector1 = {
             wdio_ui5_key: 'cbSelector1',
             selector: {
@@ -22,7 +22,7 @@ class Main extends Page {
             cbSelector1.selector.interaction = 'root';
         }
 
-        return browser.asControl(cbSelector1);
+        return await browser.asControl(cbSelector1);
     }
 }
 
