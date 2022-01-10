@@ -1,22 +1,21 @@
-
-const SevereServiceError = require('webdriverio')
+const SevereServiceError = require('webdriverio');
 const wdi5 = require('wdi5');
 
+// the one instance of wdi5 :)
+let _wdi5 = null;
+
 class WDI5Service {
-
-    before(capabilities, specs) {
-
-        const platform = browser.config.wdi5.platform // android, ios, browser, electron
-        const deviceType = browser.config.wdi5.deviceType // web, native
+    async before(capabilities, specs) {
+        const platform = browser.config.wdi5.platform; // android, ios, browser, electron
+        const deviceType = browser.config.wdi5.deviceType; // web, native
 
         switch (deviceType) {
-            case "web":
+            case 'web':
                 // browser, electron
-                // create instance
-                wdi5(browser);
-                wdi5().getLogger().log('before hook for web');
+                _wdi5 = await wdi5(browser);
+                _wdi5.getLogger().log('before hook for web');
                 break;
-            case "native":
+            case 'native':
                 // ios, android
                 driver.setAsyncTimeout(6000);
 
@@ -28,29 +27,28 @@ class WDI5Service {
                 break;
             default:
                 // assume browser
-                wdi5(browser);
-                wdi5().getLogger().log('before hook for default(web)');
+                _wdi5 = await wdi5(browser);
+                _wdi5.getLogger().log('before hook for default(web)');
                 break;
         }
 
         // log the config
-        wdi5()
-            .getLogger()
-            .log('configurations: ' + JSON.stringify(wdi5().getUtils().getConfig()));
-    };
+        _wdi5.getLogger().log('configurations: ' + JSON.stringify(_wdi5.getUtils().getConfig()));
+    }
 
-    after(result, capabilities, specs) {
-        wdi5().getLogger().log('after hook');
+    async after(result, capabilities, specs) {
+        // this is assuming _wdi5 was successfully "instanced" in before()
+        _wdi5.getLogger().log('after hook');
         if (result === 1) {
-            wdi5().getLogger().error('some tests failed');
+            _wdi5.getLogger().error('some tests failed');
             // test failed
-            if (wdi5().getUtils().getConfig('logLevel') !== 'verbose') {
-                wdi5().getLogger().error('here is the full log');
+            if (_wdi5.getUtils().getConfig('logLevel') !== 'verbose') {
+                _wdi5.getLogger().error('here is the full log');
                 // write log if loglevel is other than verbose
-                wdi5().getLogger().printLogStorage();
+                _wdi5.getLogger().printLogStorage();
             }
         }
-    };
+    }
 }
 
-module.exports = new WDI5Service()
+module.exports = new WDI5Service();
