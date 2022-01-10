@@ -9,7 +9,7 @@ describe('check the generated methods on the control -> ', () => {
         }
     };
 
-    const inuputSelector = {
+    const inputSelector = {
         selector: {
             id: 'mainUserInput',
             viewName: 'test.Sample.view.Main'
@@ -37,12 +37,12 @@ describe('check the generated methods on the control -> ', () => {
         }
     };
 
-    before(() => {
+    before(async () => {
         if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
             buttonSelector.forceSelect = true;
             buttonSelector.selector.interaction = 'root';
-            inuputSelector.forceSelect = true;
-            inuputSelector.selector.interaction = 'root';
+            inputSelector.forceSelect = true;
+            inputSelector.selector.interaction = 'root';
             dateTimeSelector.forceSelect = true;
             dateTimeSelector.selector.interaction = 'root';
             listSelector.forceSelect = true;
@@ -51,139 +51,137 @@ describe('check the generated methods on the control -> ', () => {
             checkboxSelector.selector.interaction = 'root';
         }
 
-        Main.open();
+        await Main.open();
     });
 
-    beforeEach(() => {
-        wdi5().getUtils().takeScreenshot('test-ui5');
+    beforeEach(async () => {
+        (await wdi5()).getUtils().takeScreenshot('test-ui5');
     });
 
-    afterEach(() => {
-        wdi5().getUtils().takeScreenshot('test-ui5');
+    afterEach(async () => {
+        (await wdi5()).getUtils().takeScreenshot('test-ui5');
     });
 
-    it('navigation button w/ text exists', () => {
-        expect(browser.asControl(buttonSelector).getProperty('text')).toEqual('to Other view');
+    it('navigation button w/ text exists', async () => {
+        const button = await browser.asControl(buttonSelector);
+        expect(await button.getProperty('text')).toEqual('to Other view');
     });
 
-    it('getProperty("text") and getText() are equivalent', () => {
-        expect(browser.asControl(buttonSelector).getProperty('text')).toEqual(
-            browser.asControl(buttonSelector).getText()
-        );
+    it('getProperty("text") and getText() are equivalent', async () => {
+        const button = await browser.asControl(buttonSelector);
+        expect(await button.getProperty('text')).toEqual(await button.getText());
     });
 
-    it('sets the property of a control successfully', () => {
-        const oButton = browser.asControl(buttonSelector);
-        oButton.setProperty('text', 'new button text');
-
-        expect(oButton.getText()).toEqual('new button text');
+    it('sets the property of a control successfully', async () => {
+        const button = await browser.asControl(buttonSelector);
+        await button.setProperty('text', 'new button text');
+        expect(await button.getText()).toEqual('new button text');
     });
 
-    it('ui5 input method test', () => {
-        const input = browser.asControl(inuputSelector);
+    it('ui5 input method test', async () => {
+        const input = await browser.asControl(inputSelector);
 
         // text
         const inputText = 'the mighty text';
-        input.setValue(inputText);
-        const sTextProperty = input.getProperty('value');
-        expect(input.getValue()).toEqual(sTextProperty);
-        expect(input.getValue()).toEqual(inputText);
+        await input.setValue(inputText);
+        const sTextProperty = await input.getProperty('value');
+        expect(await input.getValue()).toEqual(sTextProperty);
+        expect(await input.getValue()).toEqual(inputText);
 
         // status enabled
-        expect(input.getEnabled()).toBeTruthy();
-        input.setEnabled(false);
-        expect(input.getEnabled()).toBeFalsy();
-        input.setEnabled(true);
+        expect(await input.getEnabled()).toBeTruthy();
+        await input.setEnabled(false);
+        expect(await input.getEnabled()).toBeFalsy();
+        await input.setEnabled(true);
 
         // status editable
-        expect(input.getEditable()).toBeTruthy();
-        input.setEditable(false);
-        expect(input.getEditable()).toBeFalsy();
+        expect(await input.getEditable()).toBeTruthy();
+        await input.setEditable(false);
+        expect(await input.getEditable()).toBeFalsy();
     });
 
-    it('ui5 button method test', () => {
-        const button = browser.asControl(buttonSelector);
+    it('ui5 button method test', async () => {
+        const button = await browser.asControl(buttonSelector);
 
         // text
         const buttonText = 'the mighty text';
-        button.setText(buttonText);
-        const retrievedButtonText = button.getText();
-        expect(retrievedButtonText).toEqual(button.getProperty('text'));
+        await button.setText(buttonText);
+        const retrievedButtonText = await button.getText();
+        expect(retrievedButtonText).toEqual(await button.getProperty('text'));
         expect(retrievedButtonText).toEqual(buttonText);
 
         // status
-        let result = button.getEnabled();
-        expect(result).toBeTruthy();
-        button.setEnabled(false);
-        result = button.getEnabled();
-        expect(result).toBeFalsy();
+        expect(await button.getEnabled()).toBeTruthy();
+        await button.setEnabled(false);
+        expect(await button.getEnabled()).toBeFalsy();
     });
 
-    it('ui5 checkbox method test', () => {
-        const checkbox = browser.asControl(checkboxSelector);
+    it('ui5 checkbox method test', async () => {
+        const checkbox = await browser.asControl(checkboxSelector);
 
         // select
-        checkbox.setSelected(true);
-        expect(checkbox.getPartiallySelected()).toBeFalsy();
-        expect(checkbox.getSelected()).toBeTruthy();
-        checkbox.setPartiallySelected(true);
-        expect(checkbox.getPartiallySelected()).toBeTruthy();
+        await checkbox.setSelected(true);
+        expect(await checkbox.getPartiallySelected()).toBeFalsy();
+        expect(await checkbox.getSelected()).toBeTruthy();
+        await checkbox.setPartiallySelected(true);
+        expect(await checkbox.getPartiallySelected()).toBeTruthy();
 
         // status
-        expect(checkbox.getEnabled()).toBeTruthy();
-        checkbox.setEnabled(false);
-        expect(checkbox.getEnabled()).toBeFalsy();
+        expect(await checkbox.getEnabled()).toBeTruthy();
+        await checkbox.setEnabled(false);
+        expect(await checkbox.getEnabled()).toBeFalsy();
     });
 
-    it('ui5 dateTime method test', () => {
-        const dateTimeField = browser.asControl(dateTimeSelector);
+    it('ui5 dateTime method test', async () => {
+        const dateTimeField = await browser.asControl(dateTimeSelector);
 
         // datetime input
         const date = new Date();
-        dateTimeField.setValue(date);
-        const value = dateTimeField.getValue();
+        await dateTimeField.setValue(date);
+        const value = await dateTimeField.getValue();
         expect(value).toEqual(date.toISOString());
 
         // status
-        expect(dateTimeField.getEnabled()).toBeTruthy();
-        dateTimeField.setEnabled(false);
-        expect(dateTimeField.getEnabled()).toBeFalsy();
+        expect(await dateTimeField.getEnabled()).toBeTruthy();
+        await dateTimeField.setEnabled(false);
+        expect(await dateTimeField.getEnabled()).toBeFalsy();
     });
 
-    // navigat to other view
-    it('control ui5 button event test', () => {
-        const oButton = browser.asControl(buttonSelector);
-        oButton.firePress();
+    it('control event (ui5 button)', async () => {
+        const button = await browser.asControl(buttonSelector);
+        await button.firePress();
     });
 
-    it('ui5 control list getProperty works for header', () => {
-        expect(browser.asControl(listSelector).getProperty('headerText')).toEqual('...bites the dust!');
+    it('ui5 getProperty and get$shortHand both work (example: list control)', async () => {
+        const list = await browser.asControl(listSelector);
+        const headerTextByShorthand = await list.getHeaderText();
+        const headerTextByProperty = await list.getProperty('headerText');
+        expect(headerTextByShorthand).toEqual('...bites the dust!');
+        expect(headerTextByProperty).toEqual('...bites the dust!');
+        expect(headerTextByShorthand).toBe(headerTextByProperty);
     });
 
-    it('control id retrieval methods are equivalent', () => {
-        const list = browser.asControl(listSelector);
-        const listId = list.getId();
+    it('control id retrieval ', async () => {
+        const list = await browser.asControl(listSelector);
+        const listId = await list.getId();
         expect(listId).toContain('PeopleList');
-
-        expect(list.getAggregation('items').length).toEqual(list.getItems().length);
     });
 
-    it('list method test', () => {
-        const list = browser.asControl(listSelector);
+    it('ui5 list methods', async () => {
+        const list = await browser.asControl(listSelector);
 
-        const listMode = list.getMode();
-        const activeItem = list.getActiveItem();
-        const isBusy = list.getBusy();
-
-        // returns the wdi5 representation of the list
-        // TODO: implement getModel and getBinding to return some more fitting value
-        const model = list.getModel();
-        const binding = list.getBinding('items');
+        const listMode = await list.getMode();
+        const activeItem = await list.getActiveItem();
+        const isBusy = await list.getBusy();
+        // TODO: implement getModel properly? or not at all?
+        // const model = await list.getModel();
+        // TODO: make getBinding return some proper value? or don't proxy at all?
+        const binding = await list.getBinding('items');
 
         expect(listMode).toEqual('None');
         expect(activeItem).toBeFalsy();
         expect(isBusy).toBeFalsy();
-        expect(model).toBeDefined();
+        // expect(model).toBeDefined(); // see above
         expect(binding).toBeDefined();
     });
 });
