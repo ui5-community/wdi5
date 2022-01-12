@@ -45,11 +45,11 @@ module.exports = class BrowserUtil extends Utils {
      * navigates in the application to a given hash
      * @param {String} hash
      */
-    goTo(hash, oRoute) {
+    async goTo(hash, oRoute) {
         if (hash) {
             logger.log(`Navigating to: ${this.path.currentPath}${hash}`);
             // used for electron and browser
-            this.context.goTo(`${this.path.currentPath}${hash}`);
+            await this.context.goTo(`${this.path.currentPath}${hash}`);
 
             // electron needs to have the wdi5 injected after navigation
             // -- no more as of Nov 2020 :) TODO: investigate why we don't need it
@@ -60,7 +60,7 @@ module.exports = class BrowserUtil extends Utils {
             logger.log(`Navigating to: ${oRoute.sName}`);
 
             // only for ui5 router based navigation use this function
-            this.context.goTo({oRoute: oRoute});
+            await this.context.goTo({oRoute: oRoute});
         }
     }
 

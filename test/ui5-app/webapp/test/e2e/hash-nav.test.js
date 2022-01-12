@@ -6,7 +6,8 @@ describe('hash-based nav', () => {
             sComponentId: 'container-Sample',
             sName: 'RouteOther'
         };
-        await wdi5().getUtils().goTo('', oRouteOptions);
+        const utils = (await wdi5()).getUtils();
+        await utils.goTo('', oRouteOptions);
 
         const listSelector = {
             selector: {
@@ -25,7 +26,8 @@ describe('hash-based nav', () => {
     });
 
     it('should navigate to Main view via #/', async () => {
-        await wdi5().getUtils().goTo('#/');
+        const utils = (await wdi5()).getUtils();
+        await utils.goTo('#/');
 
         const buttonSelector = {
             selector: {
@@ -36,7 +38,6 @@ describe('hash-based nav', () => {
 
         if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
             buttonSelector.forceSelect = true;
-            // buttonSelector.selector.interaction = 'root';
         }
 
         expect(await (await browser.asControl(buttonSelector)).getProperty('visible')).toBeTruthy();
