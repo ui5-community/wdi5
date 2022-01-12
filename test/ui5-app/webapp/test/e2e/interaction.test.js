@@ -1,18 +1,14 @@
-const wdi5 = require('wdi5');
 const Main = require('./pageObjects/Main');
 
-describe('wdio-ui5 bridge: advanced tests', () => {
+describe('interaction + binding', () => {
     const viewName = 'test.Sample.view.Main';
 
-    before(() => {
-        Main.open();
+    before(async () => {
+        await Main.open();
     });
 
-    it('check the binding of the username input with custom wdio_ui5_key', () => {
-        // set new Username
+    it('select ui5 input control by binding and set new value (w/ custom wdio_ui5_key)', async () => {
         const newUsername = 'my New Username';
-
-        // create selector
         const inputSelector = {
             forceSelect: true,
             wdio_ui5_key: 'mainUserInput',
@@ -21,59 +17,20 @@ describe('wdio-ui5 bridge: advanced tests', () => {
                 bindingPath: {
                     propertyPath: "/Customers('TRAIH')/ContactName"
                 },
-                // id: 'mainUserInput',
                 viewName: viewName,
                 controlType: 'sap.m.Input'
             }
         };
 
-        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
-            // inputSelector.selector.interaction = 'root';
-        }
+        const mainUserInput = await browser.asControl(inputSelector);
+        await mainUserInput.enterText(newUsername);
 
-        const mainUserInput = browser.asControl(inputSelector);
-
-        // set text
-        mainUserInput.enterText(newUsername);
-
-        // get ui5 control
-        // const ui5Input = browser.asControl(inputSelector);
-        // test for working binding
-        expect(mainUserInput.getProperty('value')).toEqual(newUsername);
+        const newValue = await mainUserInput.getProperty('value');
+        expect(newValue).toEqual(newUsername);
     });
 
-    it('check the binding of the username input with generated wdio_ui5_key', () => {
-        // set new Username
-        const newUsername = 'second new Username';
-
-        // create selector
-        const inputSelector = {
-            selector: {
-                interaction: 'focus',
-                id: 'mainUserInput',
-                viewName: viewName,
-                controlType: 'sap.m.Input'
-            }
-        };
-
-        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
-            inputSelector.forceSelect = true;
-            // inputSelector.selector.interaction = 'root';
-        }
-
-        const mainUserInput = browser.asControl(inputSelector);
-
-        // set text
-        mainUserInput.enterText(newUsername);
-
-        // get ui5 control
-        // const ui5Input = browser.asControl(inputSelector);
-        // test for working binding
-        expect(mainUserInput.getProperty('value')).toEqual(newUsername);
-    });
-
-    it('should test the named json model', () => {
-        // #1 button test
+    it('select ui5 input- + button-control by named json model and interact', async () => {
+        // select button by binding path + click it
         const buttonSelector = {
             wdio_ui5_key: 'buttonSelector',
             selector: {
@@ -82,20 +39,19 @@ describe('wdio-ui5 bridge: advanced tests', () => {
                     modelName: 'testModel',
                     propertyPath: '/buttonText'
                 },
-                viewName: globalThis.viewName,
+                viewName,
                 controlType: 'sap.m.Button'
             }
         };
 
         if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
             buttonSelector.forceSelect = true;
-            // buttonSelector.selector.interaction = 'root';
         }
 
-        const ui5Button = browser.asControl(buttonSelector);
-        ui5Button.firePress();
+        const ui5Button = await browser.asControl(buttonSelector);
+        await ui5Button.firePress();
 
-        // #2 input test
+        // select input by binding path + type in new text
         const inputSelector = {
             wdio_ui5_key: 'inputSelector',
             selector: {
@@ -111,14 +67,13 @@ describe('wdio-ui5 bridge: advanced tests', () => {
 
         if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
             inputSelector.forceSelect = true;
-            // inputSelector.selector.interaction = 'root';
         }
 
-        const ui5Input = browser.asControl(inputSelector);
+        const ui5Input = await browser.asControl(inputSelector);
 
         const inputText = 'new Input Value §§§';
-        ui5Input.enterText(inputText);
+        await ui5Input.enterText(inputText);
 
-        expect(ui5Input.getProperty('value')).toEqual(inputText);
+        expect(await ui5Input.getProperty('value')).toEqual(inputText);
     });
 });
