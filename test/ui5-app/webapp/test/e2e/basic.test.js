@@ -14,8 +14,36 @@ describe('ui5 basic', () => {
         _wdi5.getUtils().screenshot('test-basic');
     });
 
-    it('should have the right title', async () => {
-        const title = await browser.getTitle();
+    // TODO: make this work -> see #106
+    it.skip('should find a control with visible: false', async () => {
+        const id = 'invisibleInputField';
+
+        // wdio-native selector
+        const wdioInput = await browser.$(`[id$="${id}"]`);
+        expect(await wdioInput.getProperty('id')).toContain('sap-ui-invisible');
+
+        const selector = {
+            selector: {
+                id,
+                controlType: 'sap.m.Input',
+                viewName: globalThis.viewName,
+                visible: false
+            }
+        };
+        const input = await browser.asControl(selector);
+        expect(await input.getVisible()).toBe(false);
+
+        await input.setVisible(true);
+        expect(await input.getVisible()).toBe(true);
+    });
+
+    /*
+     * It is important that we run each test in isolation. The running of a previous test
+     * should not affect the next one. Otherwise, it could end up being very difficult to
+     * track down what is causing a test to fail.
+     */
+    it('should have the right title', () => {
+        const title = browser.getTitle();
         expect(title).toEqual('Sample UI5 Application');
     });
 
