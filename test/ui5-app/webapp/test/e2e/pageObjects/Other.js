@@ -14,11 +14,11 @@ class Other extends Page {
     ];
     _viewName = 'test.Sample.view.Other';
 
-    open(accountId) {
-        super.open(`#/Other`);
+    async open(accountId) {
+        await super.open(`#/Other`);
     }
 
-    getList(force = false) {
+    async getList(force = false) {
         const listSelector = {
             wdio_ui5_key: 'PeopleList',
             selector: {
@@ -28,20 +28,21 @@ class Other extends Page {
             forceSelect: force //> this will populate down to $ui5Control.getAggregation and $ui5Control.getProperty as well
         };
 
-        if (parseFloat(browser.getUI5Version()) <= 1.6) {
+        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
             listSelector.forceSelect = true;
             listSelector.selector.interaction = 'root';
         }
 
-        return browser.asControl(listSelector);
+        return await browser.asControl(listSelector);
     }
 
-    getListItems(force = false) {
-        return this.getList(force).getAggregation('items');
+    async getListItems(force = false) {
+        const list = await this.getList(force);
+        return await list.getAggregation('items');
     }
 
-    getAddLineItemButtom() {
-        return browser.asControl({
+    async getAddLineItemButtom() {
+        return await browser.asControl({
             selector: {
                 id: 'idAddLineItemButton',
                 viewName: this._viewName

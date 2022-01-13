@@ -34,7 +34,6 @@
     "@wdio/mocha-framework": "^7.16.6",
     "@wdio/selenium-standalone-service": "^7.16.6",
     "@wdio/spec-reporter": "^7.16.4",
-    "@wdio/sync": "^7.16.8",
     "appium": "^1.22.1",
     "appium-chromedriver": "^4.27.4",
     "chromedriver": "96.0.0",

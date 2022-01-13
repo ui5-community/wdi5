@@ -2,15 +2,14 @@ const Logger = require('./lib/Logger');
 const wdioUI5 = require('./lib/wdioUi5-index');
 
 module.exports = class Service {
-    before(capabilities, specs) {
-        // call the start function
-        this.startWDI5();
+    async before(/* capabilities, specs */) {
+        await this.startWDI5();
     }
 
     /**
      * separate the start funtion for felxibility
      */
-    startWDI5() {
+    async startWDI5() {
         // UI5 bridge setup
         const context = driver ? driver : browser;
         const wdi5config = context.config.wdi5;
@@ -47,7 +46,7 @@ module.exports = class Service {
 
         // skip UI5 initialization on startup
         if (wdi5config && !wdi5config.skipInjectUI5OnStart) {
-            this.injectUI5();
+            await this.injectUI5();
         } else {
             Logger.warn('wdio-ui5-service skipped injecting UI5');
         }
@@ -56,15 +55,11 @@ module.exports = class Service {
     /**
      * inject the wdio-ui5-service sources to the UI5 app after launch
      */
-    injectUI5() {
+    async injectUI5() {
         // UI5 bridge setup
         const context = driver ? driver : browser;
-
-        // returns promise
-        let status = wdioUI5.checkForUI5Page();
-        status.then(() => {
-            wdioUI5.injectUI5(context); // needed to let the instance know that UI5 is now available for work
-        });
+        await wdioUI5.checkForUI5Page();
+        await wdioUI5.injectUI5(context); // needed to let the instance know that UI5 is now available for work
     }
 
     after(result, capabilities, specs) {}
