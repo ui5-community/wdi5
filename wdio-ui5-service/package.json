@@ -23,8 +23,5 @@
   },
   "engines": {
     "node": ">=12"
-  },
-  "dependencies": {
-    "@wdio/sync": "^7.16.8"
   }
 }

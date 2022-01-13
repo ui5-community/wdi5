@@ -67,7 +67,7 @@ class _ {
     }
 }
 
-module.exports = (context, webcontext) => {
+module.exports = async (context, webcontext) => {
     if (!_instance) {
         // create new if parameters are supplied
         _instance = new _(webcontext);
@@ -79,7 +79,7 @@ module.exports = (context, webcontext) => {
             console.error('Dependency wdio-ui-service not found!');
         }
 
-        const result = context.executeAsync((done) => {
+        const result = await context.executeAsync((done) => {
             done(window.location.href);
         });
 

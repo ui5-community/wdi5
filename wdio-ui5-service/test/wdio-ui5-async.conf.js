@@ -44,7 +44,7 @@ exports.config = {
     // will be called from there.
     //
 
-    specs: [path.join('wdio-ui5-service', 'test', '*.js')],
+    specs: [path.join('wdio-ui5-service', 'test', 'ui5-async.test.js')],
 
     // Patterns to exclude.
     exclude: [path.join('wdio-ui5-service', 'test', 'ui5-late.test.js')],
@@ -69,7 +69,7 @@ exports.config = {
     maxInstances: 5,
     //
     // Or set a limit to run tests with a specific capability.
-    // maxInstancesPerCapability: 1,
+    // maxInstancesPerCapability: 5,
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -84,7 +84,11 @@ exports.config = {
             browserName: 'chrome',
             'goog:chromeOptions': {
                 w3c: false,
-                args: process.env.HEADLESS ? ['--headless'] : ['window-size=1440,800']
+                args: process.env.HEADLESS
+                    ? ['--headless']
+                    : process.env.DEBUG
+                    ? ['window-size=1440,800', '--auto-open-devtools-for-tabs']
+                    : ['window-size=1440,800']
             }
         }
     ],

@@ -2,35 +2,33 @@ const wdi5 = require('wdi5');
 const Main = require('./pageObjects/Main');
 
 describe('ui5 checkbox test', () => {
-
-    before(() => {
-        Main.open();
-    })
-
-    it('should check the checkbox', () => {
-        Main.getCheckbox().setSelected(true);
-
-        expect(Main.getCheckbox().getProperty('selected')).toBeTruthy;
-    });
-    it('should uncheck the checkbox', () => {
-        Main.getCheckbox().setSelected(false);
-
-        expect(Main.getCheckbox().getProperty('selected')).toBeFalsy();
+    before(async () => {
+        await Main.open();
     });
 
-    it('should uncheck the checkbox via wdio-native .click()', () => {
+    it('should check the checkbox', async () => {
+        const cb = await Main.getCheckbox();
+        await cb.setSelected(true);
+        expect(await cb.getProperty('selected')).toBeTruthy;
+    });
+    it('should uncheck the checkbox', async () => {
+        const cb = await Main.getCheckbox();
+        await cb.setSelected(false);
+        expect(await cb.getProperty('selected')).toBeFalsy();
+    });
 
-        const ui5checkBox2 = Main.getCheckbox();
+    it('should uncheck the checkbox via wdio-native .click()', async () => {
+        const ui5checkBox2 = await Main.getCheckbox();
 
-        // working with web element can make it more easy than UI5 directly
-        const webCheckBox2 = ui5checkBox2.getWebElement();
+        // wdio-alternative to ui5 native api
+        // retrieve the wdio element from the ui5 control via .getWebElement()
+        const webCheckBox2 = await ui5checkBox2.getWebElement();
         webCheckBox2.click();
 
-        wdi5()
+        (await wdi5())
             .getLogger()
-            .log("ui5checkBox2.getProperty('selected') returned: " + ui5checkBox2.getProperty('selected'));
+            .log("ui5checkBox2.getProperty('selected') returned: " + (await ui5checkBox2.getProperty('selected')));
 
-        // expect false and assert true
-        expect(ui5checkBox2.getProperty('selected')).toBeTruthy();
+        expect(await ui5checkBox2.getProperty('selected')).toBeTruthy();
     });
 });

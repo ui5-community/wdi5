@@ -1,7 +1,7 @@
 const wdi5 = require('wdi5');
 const Other = require('./pageObjects/Other');
 
-describe('ui5 basics: properties and navigation', () => {
+describe('list interaction', () => {
     const buttonSelector = {
         selector: {
             id: 'NavFwdButton',
@@ -16,10 +16,13 @@ describe('ui5 basics: properties and navigation', () => {
         }
     };
 
-    before(() => {
-        Other.open();
+    let wdi5Util;
 
-        if (parseFloat(browser.getUI5Version()) <= 1.6) {
+    before(async () => {
+        wdi5Util = (await wdi5()).getUtils();
+        await Other.open();
+
+        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
             buttonSelector.forceSelect = true;
             buttonSelector.selector.interaction = 'root';
             listSelector.forceSelect = true;
@@ -27,22 +30,25 @@ describe('ui5 basics: properties and navigation', () => {
         }
     });
 
-    beforeEach(() => {
-        wdi5().getUtils().takeScreenshot('test-ui5');
+    beforeEach(async () => {
+        await wdi5Util.takeScreenshot('list-interaction-before');
     });
 
-    afterEach(() => {
-        wdi5().getUtils().takeScreenshot('test-ui5');
+    afterEach(async () => {
+        await wdi5Util.takeScreenshot('list-interaction-after');
     });
 
-    it('should have the correct list header', () => {
-        expect(browser.asControl(listSelector).getProperty('headerText')).toEqual('...bites the dust!');
+    it('should have the correct list header', async () => {
+        const list = await browser.asControl(listSelector);
+        expect(await list.getProperty('headerText')).toEqual('...bites the dust!');
     });
 
-    it('press an list item an show the name', () => {
-        // fire click event on a list item.
+    it.only("press a list item to show its' data:key property", async () => {
+        // fire click event on a list item
+        // it will set the list items' data:key value to the text field
         // the event handler function checks the data:key property of the list item -> manually add this property to the event.
-        browser.asControl(listSelector).fireEvent('itemPress', {
+        const list = await browser.asControl(listSelector);
+        await list.fireEvent('itemPress', {
             eval: () => {
                 return {
                     listItem: {
@@ -54,17 +60,19 @@ describe('ui5 basics: properties and navigation', () => {
             }
         });
 
-        const resultTetSelector = {
+        const textFieldSelector = {
             selector: {
                 id: 'idTextFieldClickResult',
                 viewName: 'test.Sample.view.Other'
             }
         };
-        if (parseFloat(browser.getUI5Version()) <= 1.6) {
-            resultTetSelector.forceSelect = true;
-            resultTetSelector.selector.interaction = 'root';
+        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
+            textFieldSelector.forceSelect = true;
+            textFieldSelector.selector.interaction = 'root';
         }
 
-        expect(browser.asControl(resultTetSelector).getText()).toEqual('Mock Name');
+        const mockedListItemPress = await browser.asControl(textFieldSelector);
+
+        expect(await mockedListItemPress.getText()).toEqual('Mock Name');
     });
 });

@@ -1,7 +1,6 @@
 {
   "packages": [
-    "wdio-ui5-service",
-    "wdi5"
+    "wdio-ui5-service"
   ],
   "version": "0.7.0",
   "npmClient": "yarn",
