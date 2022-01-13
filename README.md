@@ -1,6 +1,7 @@
 # wdi5 ![wdi5 Logo](./docs/wdi5-logo-small.png)
 
-📢 `wdi5` moving to `async/await`: https://github.com/js-soft/wdi5/discussions/104
+📢 `wdi5` moving to `async/await`: https://github.com/js-soft/wdi5/discussions/104  
+status: prerelease done, working on the fluent `async` api
 
 ---
 
@@ -18,23 +19,23 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 <!--ts-->
 
-* [about](#about)
-* [Installation   Setup](#installation--setup)
-* [Usage](#usage)
-   * [Control selectors](#control-selectors)
-   * [API methods](#api-methods)
-      * [all UI5 control's native methods](#all-ui5-controls-native-methods)
-      * [goTo](#goto)
-      * [getAggregation](#getaggregation)
-      * [get$Shorthand conveniences](#getshorthand-conveniences)
-      * [enterText](#entertext)
-   * [Function mock for event handler](#function-mock-for-event-handler)
-   * [Assertions](#assertions)
-   * [Screenshots](#screenshots)
-* [Logger](#logger)
-* [FAQ/hints](#faqhints)
-* [Collaboration](#collaboration)
-* [License](#license)
+- [about](#about)
+- [Installation Setup](#installation--setup)
+- [Usage](#usage)
+  - [Control selectors](#control-selectors)
+  - [API methods](#api-methods)
+    - [all UI5 control's native methods](#all-ui5-controls-native-methods)
+    - [goTo](#goto)
+    - [getAggregation](#getaggregation)
+    - [get$Shorthand conveniences](#getshorthand-conveniences)
+    - [enterText](#entertext)
+  - [Function mock for event handler](#function-mock-for-event-handler)
+  - [Assertions](#assertions)
+  - [Screenshots](#screenshots)
+- [Logger](#logger)
+- [FAQ/hints](#faqhints)
+- [Collaboration](#collaboration)
+- [License](#license)
 
 <!--te-->
 
@@ -78,25 +79,25 @@ The `forceSelect` (default: `false`) property can be set to `true` to force `wdi
 
 The `forceSelect` option also updates the `wdio` control reference each time a mehtod is executed on a `wdi5` control.
 
-The `timeout` option (default based on the global configuration `waitForUI5Timeout` [setting](wdio-ui5-service/README.md#installation)) controls the maximum waiting time while checking for UI5 availability *(meaning no pending requests / promises / timeouts)*.
+The `timeout` option (default based on the global configuration `waitForUI5Timeout` [setting](wdio-ui5-service/README.md#installation)) controls the maximum waiting time while checking for UI5 availability _(meaning no pending requests / promises / timeouts)_.
 
 ```javascript
 it("validates that $control's text is ...", async () => {
-    const oSelector = {
-      wdio_ui5_key: 'wdio-ui5-button', // optional unique internal key to map and find a control
-      forceSelect: true, // forces the test framework to again retrieve the control from the browser context
-      timeout: 15000, // maximum waiting time (ms) before failing the search
-      selector: {
-        // sap.ui.test.RecordReplay.ControlSelector
-        id: 'UI5control_ID',
-        viewName: 'your.namespace.App'
-      }
-    };
-    const control = await browser.asControl(oSelector);
-    // now use one of the UI5 API methods of `control`
-	// e.g. assuming UI5 `control` has a `getText()` method:
-    expect(await control.getText()).toEqual("...");
-})
+  const oSelector = {
+    wdio_ui5_key: 'wdio-ui5-button', // optional unique internal key to map and find a control
+    forceSelect: true, // forces the test framework to again retrieve the control from the browser context
+    timeout: 15000, // maximum waiting time (ms) before failing the search
+    selector: {
+      // sap.ui.test.RecordReplay.ControlSelector
+      id: 'UI5control_ID',
+      viewName: 'your.namespace.App'
+    }
+  };
+  const control = await browser.asControl(oSelector);
+  // now use one of the UI5 API methods of `control`
+  // e.g. assuming UI5 `control` has a `getText()` method:
+  expect(await control.getText()).toEqual('...');
+});
 ```
 
 These are the supported selectors from [sap.ui.test.RecordReplay.ControlSelector](https://ui5.sap.com/#/api/sap.ui.test.RecordReplay.ControlSelector):
@@ -146,7 +147,7 @@ expect(await control.getVisible()).toBeTruthy();
 ~~**`wdio-ui5` supports method chaining**, so you can do:~~
 
 ```javascript
-// we're working on an async fluent api, see 
+// we're working on an async fluent api, see
 // https://github.com/js-soft/wdi5/discussions/104#discussioncomment-1885064
 // no can do currently: await browser.asControl(selector).getText().getId().setProperty('title', 'new title');
 ```
@@ -274,7 +275,7 @@ If `getAggregation` is called via a shorthand such as `sap.m.ListBase.getItems()
 `enterText(sText)`: input `sText` into a (input-capable) control via [EnterText](https://ui5.sap.com/#/api/sap.ui.test.actions.EnterText)
 
 ```javascript
-const control = await browser.asControl(inputSelector)
+const control = await browser.asControl(inputSelector);
 await control.enterText('new Text');
 ```
 
@@ -326,11 +327,12 @@ Example: `5-5-17-46-47-screenshot--some-id.png`
 For convenient console output, use `wdi5().getLogger()`. It supports the `syslog`-like levels `log`,`info`, `warn` and `error`:
 
 ```javascript
-const wdi5 = require('wdi5')
-(await wdi5()).getLogger().log('any', 'number', 'of', 'log', 'parts');
+const wdi5 = require('wdi5')(await wdi5())
+  .getLogger()
+  .log('any', 'number', 'of', 'log', 'parts');
 ```
 
-The log level is set by the either in `wdio.conf.js` via `wdi5.logLevel` or 
+The log level is set by the either in `wdio.conf.js` via `wdi5.logLevel` or
 by `(await wdi5()).getLogger().setLoglevel(level = {String} "error"| "verbose" | "silent")`
 
 ## FAQ/hints
