@@ -100,7 +100,7 @@ Consequentially you have to do it later, as soon as the UI5 page to test is avai
 const _ui5Service = require('wdio-ui5-service').default;
 const wdioUI5Service = new _ui5Service();
 
-wdioUI5Service.injectUI5();
+await wdioUI5Service.injectUI5();
 ```
 
 Check `/wdio-ui5-service/test/ui5-late.test.js` in conjunction with `/wdio-ui5-service/test/wdio-ui5-late.conf.js` for an example.
@@ -119,11 +119,11 @@ In the test, you can navigate the UI5 webapp via `goTo(options)` in one of two w
 
 - updating the browser hash
   ```javascript
-  browser.goTo({sHash: '#/test'});
+  await browser.goTo({sHash: '#/test'});
   ```
 - using the UI5 router [navTo](https://openui5.netweaver.ondemand.com/api/sap.ui.core.routing.Router#methods/navTo) function
   ```javascript
-  browser.goTo(
+  await browser.goTo(
       oRoute: {
           sComponentId,
           sName,

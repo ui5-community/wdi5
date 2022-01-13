@@ -1,6 +1,7 @@
 # wdi5 ![wdi5 Logo](./docs/wdi5-logo-small.png)
 
-📢 `wdi5` moving to `async/await`: https://github.com/js-soft/wdi5/discussions/104
+📢 `wdi5` moving to `async/await`: https://github.com/js-soft/wdi5/discussions/104  
+status: prerelease done, working on the fluent `async` api
 
 ---
 
@@ -18,25 +19,23 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 <!--ts-->
 
-- [wdi5](#wdi5)
-  - [about](#about)
-  - [Installation Setup](#installation--setup)
-  - [Usage](#usage)
-    - [Control selectors](#control-selectors)
-    - [API methods](#api-methods)
-      - [all UI5 control's native methods](#all-ui5-controls-native-methods)
-      - [browser.goTo()](#goTo)
-      - [getAggregation](#getaggregation)
-      - [enterText](#entertext)
-    - [Function mock for event handler](#function-mock-for-event-handler)
-    - [Assertions](#assertions)
-    - [Screenshots](#screenshots)
-  - [Logger](#logger)
-  - [FAQ/hints](#faqhints)
-  - [Collaboration](#collaboration)
-  - [License](#license)
-
-<!-- Added by: vbuzek, at: Do 12 Nov 2020 14:37:03 CET -->
+- [about](#about)
+- [Installation Setup](#installation--setup)
+- [Usage](#usage)
+  - [Control selectors](#control-selectors)
+  - [API methods](#api-methods)
+    - [all UI5 control's native methods](#all-ui5-controls-native-methods)
+    - [goTo](#goto)
+    - [getAggregation](#getaggregation)
+    - [get$Shorthand conveniences](#getshorthand-conveniences)
+    - [enterText](#entertext)
+  - [Function mock for event handler](#function-mock-for-event-handler)
+  - [Assertions](#assertions)
+  - [Screenshots](#screenshots)
+- [Logger](#logger)
+- [FAQ/hints](#faqhints)
+- [Collaboration](#collaboration)
+- [License](#license)
 
 <!--te-->
 
@@ -44,7 +43,7 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 
 `wdi5` comes in two flavours:
 
-- ![npm](https://img.shields.io/npm/v/wdio-ui5-service) `wdio-ui5-service`: a browser-based plugin to [`Webdriver.IO`](https://webdriver.io)
+- ![npm](https://img.shields.io/npm/v/wdio-ui5-service) [`wdio-ui5-service`:](https://www.npmjs.com/package/wdio-ui5-service) a browser-based plugin to [`Webdriver.IO`](https://webdriver.io)
 - ![npm](https://img.shields.io/npm/v/wdi5) `wdi5`: an extension to [`Webdriver.IO`](https://webdriver.io), using [`appium`](http://appium.io) to communicate with the hybrid app on iOS, Android and Electron.
   The `wdi5`-extension contains `wdio-ui5-service`, allowing for both browser-based and hybrid-app-testing.
 
@@ -70,31 +69,35 @@ $> npx wdio
 
 ### Control selectors
 
-The entry point to retrieve a control is always `browser.asControl(oSelector)`.
+The entry point to retrieve a control is always awaiting the `async` function `browser.asControl(oSelector)`.
 
 `oSelector` re-uses the [OPA5 control selectors](https://ui5.sap.com/#/api/sap.ui.test.Opa5%23methods/waitFor), supplemented by the optional `wdio_ui5_key` and `forceSelect` properties.
 
-`wdio-ui5` stores control references internally in order to save browser roundtrip time on repeatedly using a control across different test cases. For that, `wdio-ui5` computes unique identifiers for controls - with `wdio_ui5_key`, you can assign such an ID manually if required.
+`wdi5` stores control references internally in order to save browser roundtrip time on repeatedly using a control across different test cases. For that, `wdi5` computes unique identifiers for controls - but providing a `wdio_ui5_key` in the selector, you can assign such an ID manually if required.
 
-The `forceSelect` (default: `false`) property can be set to `true` to force `wdio-ui5` to again retrieve the control from the browser context and update the internally stored reference as well as available control method. This might be useful if the tested application has destroyed the initial control and recreated it.
+The `forceSelect` (default: `false`) property can be set to `true` to force `wdi5` to again retrieve the control from the browser context and update the internally stored reference as well as available control methods. This might be useful if the tested application has destroyed the initial control and recreated it.
 
-The `forceSelect` option also updates the wdio control reference each time a mehtod is executed on a wdi5 control.
+The `forceSelect` option also updates the `wdio` control reference each time a mehtod is executed on a `wdi5` control.
 
-The `timeout` option (default based on the global configuration `waitForUI5Timeout` [setting](wdio-ui5-service/README.md#installation)) controls the maximum waiting time while checking for UI5 availability *(meaning no pending requests / promises / timeouts)*.
+The `timeout` option (default based on the global configuration `waitForUI5Timeout` [setting](wdio-ui5-service/README.md#installation)) controls the maximum waiting time while checking for UI5 availability _(meaning no pending requests / promises / timeouts)_.
 
 ```javascript
-const oSelector = {
-  wdio_ui5_key: 'wdio-ui5-button', // optional unique internal key to map and find a control
-  forceSelect: true, // forces the test framework to again retrieve the control from the browser context
-  timeout: 15000, // maximum waiting time (ms) before failing the search
-  selector: {
-    // sap.ui.test.RecordReplay.ControlSelector
-    id: 'UI5control_ID',
-    viewName: 'your.namespace.App'
-  }
-};
-const control = browser.asControl(oSelector);
-// now use one of the below API methods on <control>
+it("validates that $control's text is ...", async () => {
+  const oSelector = {
+    wdio_ui5_key: 'wdio-ui5-button', // optional unique internal key to map and find a control
+    forceSelect: true, // forces the test framework to again retrieve the control from the browser context
+    timeout: 15000, // maximum waiting time (ms) before failing the search
+    selector: {
+      // sap.ui.test.RecordReplay.ControlSelector
+      id: 'UI5control_ID',
+      viewName: 'your.namespace.App'
+    }
+  };
+  const control = await browser.asControl(oSelector);
+  // now use one of the UI5 API methods of `control`
+  // e.g. assuming UI5 `control` has a `getText()` method:
+  expect(await control.getText()).toEqual('...');
+});
 ```
 
 These are the supported selectors from [sap.ui.test.RecordReplay.ControlSelector](https://ui5.sap.com/#/api/sap.ui.test.RecordReplay.ControlSelector):
@@ -123,7 +126,7 @@ const bindingPathSelector = {
     controlType: 'sap.m.Input'
   }
 };
-const control = browser.asControl(bindingPathSelector);
+const control = await browser.asControl(bindingPathSelector);
 // now use one of the below API methods on `control`
 ```
 
@@ -137,25 +140,28 @@ const crossViewById = {
     id: /.*MyButton$/
   }
 };
-expect(browser.asControl(crossViewById).getVisible()).toBeTruthy();
+const control = await browser.asControl(crossViewById);
+expect(await control.getVisible()).toBeTruthy();
 ```
 
-**`wdio-ui5` supports method chaining**, so you can do:
+~~**`wdio-ui5` supports method chaining**, so you can do:~~
 
 ```javascript
-browser.asControl(selector).getText().getId().setProperty('title', 'new title');
+// we're working on an async fluent api, see
+// https://github.com/js-soft/wdi5/discussions/104#discussioncomment-1885064
+// no can do currently: await browser.asControl(selector).getText().getId().setProperty('title', 'new title');
 ```
 
 In case you are not able to create an explicit selector for a control, but you are able to find it via any [webdriver strategy](https://www.w3.org/TR/webdriver/#locator-strategies), you can use the `getSelectorForElement` method. It returns a selector which can subsequently be used in `asControl`:
 
 ```javascript
 const webdriverLocatorSelector = {
-  selector: browser.getSelectorForElement({
+  selector: await browser.getSelectorForElement({
     domElement: $('/xpath/to/button'),
     settings: {preferViewId: true}
   })
 };
-const control = browser.asControl(webdriverLocatorSelector);
+const control = await browser.asControl(webdriverLocatorSelector);
 // now use any of the UI5 native controls' API methods on `control`
 ```
 
@@ -165,7 +171,7 @@ const control = browser.asControl(webdriverLocatorSelector);
 
 Once the control is retrieved in a test, use any of the native UI5 control's methods on it.
 
-This is possible because of a runtime proxy `wdio-ui5` provides that transistions the UI5 control's methods from browser- to Node.js-runtime.
+This is possible because of a runtime proxy `wdi5` provides that transistions the UI5 control's methods from browser- to Node.js-runtime.
 
 ```zsh
 # terminal 1: run webapp on port 8888
@@ -249,38 +255,40 @@ This makes sure that the UI5 test API is loaded and runtime.
 `getAggregation(sAggregationName) => wdi5Controls[]`: retrieve the elements of aggregation `sAggregationName` of a control [getAggregation](https://ui5.sap.com/#/api/sap.ui.base.ManagedObject%23methods/getAggregation)
 
 ```javascript
-const ui5ListItems = browser.asControl(oListSelector).getAggregation('items');
-ui5ListItems.forEach((listItem) => {
-  expect(listItem.getTitle()).not.toBe('');
-});
+const control = await browser.asControl(oListSelector);
+const ui5ListItems = await control.getAggregation('items');
+for (const listItem of ui5ListItems) {
+  expect(await listItem.getTitle()).not.toBe('');
+}
 ```
 
 #### get$Shorthand conveniences
 
 If `getAggregation` is called via a shorthand such as `sap.m.ListBase.getItems()`, additional convenience functions are available:
 
-`get$Shorthand(true)` (e.g. `getItems(true)`): if `true` retrieves the aggregation as `webdriver` elements only (not as UI5 controls!). This is a huge performance improvement in case you don't need all elements of the aggregation as fully qualified UI5 controls.
+- `get$Shorthand(true)` (e.g. `getItems(true)`): if `true` retrieves the aggregation as `webdriver` elements only (not as UI5 controls!). This is a huge performance improvement in case you don't need all elements of the aggregation as fully qualified UI5 controls.
 
-`get$Shorthand(2)` (e.g. `getItems(2)`): if set as `Number`, the result array contains a single UI5 control from the aggregation at index `Number` (here: 2). This is a huge performance improvement in case you dont need all controls of the aggegation as fully qualified UI5 controls, but rather one specific single control.
+- `get$Shorthand(2)` (e.g. `getItems(2)`): if set as `Number`, the result array contains a single UI5 control from the aggregation at index `Number` (here: 2). This is a huge performance improvement in case you dont need all controls of the aggegation as fully qualified UI5 controls, but rather one specific single control.
 
 #### enterText
 
-`enterText(sText) => this {wdi5Control}`: input `sText` into a (input-capable) control via [EnterText](https://ui5.sap.com/#/api/sap.ui.test.actions.EnterText)
+`enterText(sText)`: input `sText` into a (input-capable) control via [EnterText](https://ui5.sap.com/#/api/sap.ui.test.actions.EnterText)
 
 ```javascript
-browser.asControl(inputSelector).enterText('new Text');
+const control = await browser.asControl(inputSelector);
+await control.enterText('new Text');
 ```
 
 ### Function mock for event handler
 
 If an item has a custom attribute defined (eg. `data:key="exampleKey"`) which is needed in the event handler function, the access of the `data()` function to retrieve the key can be done by specifying an `eval` property as (object) argument to the event handler.
 
-Can be accessed in standard UI5 manner `oEvent.getParameter("listItem").data("key")`.
+Can be accessed in standard UI5 manner `(await oEvent.getParameter("listItem")).data("key")`.
 
 ```javascript
-// use in wdio-ui5 test
 // example for the [sap.m.List](https://sapui5.hana.ondemand.com/#/api/sap.m.ListBase%23events/itemPress) event `itemPress`
-browser.asControl(listSelector).fireEvent('itemPress', {
+const control = await browser.asControl(listSelector);
+await control.fireEvent('itemPress', {
   eval: () => {
     return {
       listItem: {
@@ -302,16 +310,16 @@ Recommendation is to use the [`Webdriver.IO`](https://webdriver.io)-native exten
 At any point in your test(s), you can screenshot the current state of the UI via `browser.screenshot()`:
 
 ```javascript
-it('...', () => {
+it('...', async () => {
   // ...
-  browser.screenshot('some-id');
+  await browser.screenshot('some-id');
   // ...
 });
 ```
 
 This puts a `png` into the configured `wdi5.screenshotPath` (from `wdio.conf.js`).
 
-The file name is prepended with a date indicator (M-d-hh-mm-ss), holds `screenshot` in the filename and is appended with the id you provide (here: `some-id`).
+The file name is prepended with a date indicator (`M-d-hh-mm-ss`), holds `screenshot` in the filename and is appended with the `id` you provide (here: `some-id`).
 Example: `5-5-17-46-47-screenshot--some-id.png`
 
 ## Logger
@@ -319,10 +327,13 @@ Example: `5-5-17-46-47-screenshot--some-id.png`
 For convenient console output, use `wdi5().getLogger()`. It supports the `syslog`-like levels `log`,`info`, `warn` and `error`:
 
 ```javascript
-require('wdi5').getLogger().log('any', 'number', 'of', 'log', 'parts');
+const wdi5 = require('wdi5')(await wdi5())
+  .getLogger()
+  .log('any', 'number', 'of', 'log', 'parts');
 ```
 
-The log level is set by the either in `wdio.conf.js` via `wdi5.logLevel` or by `wdi5().getLogger().setLoglevel(level = {String} error | verbose | silent)`
+The log level is set by the either in `wdio.conf.js` via `wdi5.logLevel` or
+by `(await wdi5()).getLogger().setLoglevel(level = {String} "error"| "verbose" | "silent")`
 
 ## FAQ/hints
 

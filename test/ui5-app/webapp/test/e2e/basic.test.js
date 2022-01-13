@@ -4,22 +4,23 @@ const Main = require('./pageObjects/Main');
 describe('ui5 basic', () => {
     globalThis.viewName = 'test.Sample.view.Main';
 
-    before(() => {
-        Main.open();
+    before(async () => {
+        await Main.open();
     });
 
-    beforeEach(() => {
-        wdi5().getLogger().log('beforeEach');
-        wdi5().getUtils().screenshot('test-basic');
+    beforeEach(async () => {
+        const _wdi5 = await wdi5();
+        _wdi5.getLogger().log('beforeEach');
+        _wdi5.getUtils().screenshot('test-basic');
     });
 
     // TODO: make this work -> see #106
-    it.skip('should find a control with visible: false', () => {
+    it.skip('should find a control with visible: false', async () => {
         const id = 'invisibleInputField';
 
         // wdio-native selector
-        const wdioInput = browser.$(`[id$="${id}"]`);
-        expect(wdioInput.getProperty('id')).toContain('sap-ui-invisible');
+        const wdioInput = await browser.$(`[id$="${id}"]`);
+        expect(await wdioInput.getProperty('id')).toContain('sap-ui-invisible');
 
         const selector = {
             selector: {
@@ -29,24 +30,19 @@ describe('ui5 basic', () => {
                 visible: false
             }
         };
-        const input = browser.asControl(selector);
-        expect(input.getVisible()).toBe(false);
+        const input = await browser.asControl(selector);
+        expect(await input.getVisible()).toBe(false);
 
-        input.setVisible(true);
-        expect(input.getVisible()).toBe(true);
+        await input.setVisible(true);
+        expect(await input.getVisible()).toBe(true);
     });
 
-    /*
-     * It is important that we run each test in isolation. The running of a previous test
-     * should not affect the next one. Otherwise, it could end up being very difficult to
-     * track down what is causing a test to fail.
-     */
-    it('should have the right title', () => {
-        const title = browser.getTitle();
+    it('should have the right title', async () => {
+        const title = await browser.getTitle();
         expect(title).toEqual('Sample UI5 Application');
     });
 
-    it('should find a ui5 control class via .hasStyleClass', () => {
+    it('should find a ui5 control class via .hasStyleClass', async () => {
         // webdriver
         const className = 'myTestClass';
 
@@ -63,15 +59,15 @@ describe('ui5 basic', () => {
             }
         };
 
-        if (parseFloat(browser.getUI5Version()) <= 1.6) {
+        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
             selector.forceSelect = true;
             selector.selector.interaction = 'root';
         }
 
-        const control = browser.asControl(selector);
-        const retrievedClassNameStatus = control.hasStyleClass(className);
+        const control = await browser.asControl(selector);
+        const retrievedClassNameStatus = await control.hasStyleClass(className);
 
-        wdi5().getLogger().log('retrievedClassNameStatus', retrievedClassNameStatus);
+        (await wdi5()).getLogger().log('retrievedClassNameStatus', retrievedClassNameStatus);
         expect(retrievedClassNameStatus).toBeTruthy();
     });
 });
