@@ -1,5 +1,9 @@
 # wdi5 ![wdi5 Logo](./docs/wdi5-logo-small.png)
 
+📢 `wdi5` moving to `async/await`: https://github.com/js-soft/wdi5/discussions/104
+
+---
+
 `wdi5` (/vdif5/) is a wrapper around [appium](http://appium.io)-driven [`Webdriver.IO`](https://webdriver.io)-tests, utilizing [`UI5`’s test API](https://ui5.sap.com/#/api/sap.ui.test).
 
 It is designed to run cross-platform, executing OPA5-/UIveri5-style integration tests on a UI5 application - in the browser, in a hybrid ([cordova](https://cordova.apache.org)) container or as an Electron application.
