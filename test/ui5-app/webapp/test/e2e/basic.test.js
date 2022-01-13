@@ -37,13 +37,8 @@ describe('ui5 basic', () => {
         expect(await input.getVisible()).toBe(true);
     });
 
-    /*
-     * It is important that we run each test in isolation. The running of a previous test
-     * should not affect the next one. Otherwise, it could end up being very difficult to
-     * track down what is causing a test to fail.
-     */
-    it('should have the right title', () => {
-        const title = browser.getTitle();
+    it('should have the right title', async () => {
+        const title = await browser.getTitle();
         expect(title).toEqual('Sample UI5 Application');
     });
 
