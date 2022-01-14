@@ -493,7 +493,7 @@ function setup(context) {
      *
      * @param {WDI5Selector} wdi5Selector custom selector object with property wdio_ui5_key and sap.ui.test.RecordReplay.ControlSelector
      */
-    _context.addCommand('asControl', async (wdi5Selector) => {
+    _context.addCommand('_asControl', async (wdi5Selector) => {
         if (!wdi5Selector.hasOwnProperty('wdio_ui5_key')) {
             // has not a wdio_ui5_key -> generate one
             wdi5Selector['wdio_ui5_key'] = _createWdioUI5KeyFromSelector(wdi5Selector.selector);
@@ -518,6 +518,27 @@ function setup(context) {
             return _context._controls[internalKey];
         }
     });
+
+    if (context && !context.asControl) {
+        context.asControl = function (target) {
+            const asyncMethods = ['then', 'catch', 'finally'];
+            function wrap(target) {
+                const promise = Promise.resolve(target);
+                const handler2 = {
+                    get(_, prop) {
+                        return asyncMethods.includes(prop)
+                            ? (...args) => wrap(promise[prop](...args))
+                            : wrap(promise.then((target) => target[prop]));
+                    },
+                    apply(_, thisArg, args) {
+                        return wrap(promise.then((target) => Reflect.apply(target, thisArg, args)));
+                    }
+                };
+                return new Proxy(function () {}, handler2);
+            }
+            return wrap(context._asControl(target));
+        };
+    }
 
     // store the status
     _setupComplete = true;
