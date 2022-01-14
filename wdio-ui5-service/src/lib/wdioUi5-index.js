@@ -519,24 +519,41 @@ function setup(context) {
         }
     });
 
+    // inspired by and after starting a long time hard at:
+    // https://stackoverflow.com/questions/51635378/keep-object-chainable-using-async-methods
+    // https://github.com/Shigma/prochain
+    // https://github.com/l8js/l8/blob/main/src/core/liquify.js
+
+    // channel the async function browser._asControl (init'ed via _context.addCommand above) through a Proxy
+    // in order to chain calls of any subsequent UI5 api calls on the retrieved UI5 control:
+    // await browser.asControl(selector).methodOfUI5control().anotherMethodOfUI5control()
+    // the way this works is twofold:
+    // 1. (almost) all UI5 $control's API methods are reinjected from the browser-scope
+    //    into the Node.js scope via async WDI5._executeControlMethod(), which in term actually calls
+    //    the reinjected API method within the browser scope
+    // 2. the execution of each UI5 $control's API method (via async WDI5._executeControlMethod() => Promise) is then chained
+    //    via the below "then"-ing of the (async WDI5._executeControlMethod() => Promise)-Promises with the help of
+    //    the a Proxy and a recursive `handler` function
     if (context && !context.asControl) {
-        context.asControl = function (target) {
+        context.asControl = function (ui5ControlSelector) {
             const asyncMethods = ['then', 'catch', 'finally'];
-            function wrap(target) {
+            function makeFluent(target) {
                 const promise = Promise.resolve(target);
-                const handler2 = {
+                const handler = {
                     get(_, prop) {
                         return asyncMethods.includes(prop)
-                            ? (...args) => wrap(promise[prop](...args))
-                            : wrap(promise.then((target) => target[prop]));
+                            ? (...boundArgs) => makeFluent(promise[prop](...boundArgs))
+                            : makeFluent(promise.then((object) => object[prop]));
                     },
-                    apply(_, thisArg, args) {
-                        return wrap(promise.then((target) => Reflect.apply(target, thisArg, args)));
+                    apply(_, thisArg, boundArgs) {
+                        return makeFluent(
+                            promise.then((targetFunction) => Reflect.apply(targetFunction, thisArg, boundArgs))
+                        );
                     }
                 };
-                return new Proxy(function () {}, handler2);
+                return new Proxy(function () {}, handler);
             }
-            return wrap(context._asControl(target));
+            return makeFluent(context._asControl(ui5ControlSelector));
         };
     }
 
