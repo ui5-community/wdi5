@@ -35,4 +35,18 @@ describe('async api', () => {
         const title = await browser.asControl(listSelector).getItems(1).getTitle();
         expect(title).toBe('Andrew Fuller');
     });
+
+    it('chain events, setter and getter', async () => {
+        const selector = {
+            selector: {
+                id: 'idAddLineItemButton',
+                viewName: 'test.Sample.view.Other'
+            }
+        };
+        const oldText = await browser.asControl(selector).firePress().getText();
+        expect(oldText).toBe('add Line Item');
+        const _newText = 'changed!';
+        const newText = await browser.asControl(selector).firePress().setText(_newText).getText();
+        expect(newText).toBe(_newText);
+    });
 });
