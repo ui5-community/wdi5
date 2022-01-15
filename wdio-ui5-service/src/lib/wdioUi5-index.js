@@ -519,13 +519,13 @@ function setup(context) {
         }
     });
 
-    // inspired by and after starting a long time hard at:
+    // inspired by and after staring a long time hard at:
     // https://stackoverflow.com/questions/51635378/keep-object-chainable-using-async-methods
     // https://github.com/Shigma/prochain
     // https://github.com/l8js/l8/blob/main/src/core/liquify.js
 
     // channel the async function browser._asControl (init'ed via _context.addCommand above) through a Proxy
-    // in order to chain calls of any subsequent UI5 api calls on the retrieved UI5 control:
+    // in order to chain calls of any subsequent UI5 api methods on the retrieved UI5 control:
     // await browser.asControl(selector).methodOfUI5control().anotherMethodOfUI5control()
     // the way this works is twofold:
     // 1. (almost) all UI5 $control's API methods are reinjected from the browser-scope
