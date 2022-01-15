@@ -2,7 +2,7 @@ const wdi5 = require('wdi5');
 const Other = require('./pageObjects/Other');
 
 const listSelector = {
-    forceSelect: true,
+    // forceSelect: true,
     selector: {
         id: 'PeopleList',
         viewName: 'test.Sample.view.Other'
