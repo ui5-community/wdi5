@@ -1,55 +1,20 @@
-const fs = require('fs');
-const path = require('path');
+const {selectorList, selectorDownloadButton, selectorVersionButton, selectorCookieAccept} = require('./_selectorList');
 
-const selectorList = {
-    forceSelect: true,
-    selector: {
-        id: 'versionList',
-        controlType: 'sap.m.Tree',
-        interaction: 'root'
-    }
-};
-
-const selectorDownloadButton = {
-    selector: {
-        id: 'readMoreButton',
-        controlType: 'sap.m.Button',
-        viewName: 'sap.ui.documentation.sdk.view.Welcome'
-    }
-};
-
-const selectorVersionButton = {
-    selector: {
-        id: 'changeVersionButton',
-        controlType: 'sap.m.Button',
-        viewName: 'sap.ui.documentation.sdk.view.App'
-    }
-};
-
-before(async () => {
-    const selectorCookieAccept = {
-        selector: {
-            id: '__button6',
-            controlType: 'sap.m.Button'
-        }
-    };
-
-    if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
-        selectorCookieAccept.forceSelect = true;
-        selectorCookieAccept.selector.interaction = 'root';
-        selectorList.forceSelect = true;
-        selectorList.selector.interaction = 'root';
-    }
-
-    if ((await browser.getUI5VersionAsFloat()) > 1.6) {
-        const buttonCookieAccept = await browser.asControl(selectorCookieAccept);
-        await buttonCookieAccept.firePress();
-    }
-});
+before(async () => {});
 
 describe('basics (async tests)', () => {
     before(async () => {
+        if ((await browser.getUI5VersionAsFloat()) > 1.6) {
+            const buttonCookieAccept = await browser.asControl(selectorCookieAccept);
+            await buttonCookieAccept.firePress();
+        }
+
         if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
+            selectorCookieAccept.forceSelect = true;
+            selectorCookieAccept.selector.interaction = 'root';
+            selectorList.forceSelect = true;
+            selectorList.selector.interaction = 'root';
+
             selectorDownloadButton.forceSelect = true;
             selectorDownloadButton.selector.interaction = 'root';
 
@@ -192,85 +157,5 @@ describe('basics (async tests)', () => {
         }
 
         await expect(await eventsHeader.getVisible()).toBeTruthy();
-    });
-});
-
-describe('screenshots (async tests)', () => {
-    it('should validate screenshots capability', async () => {
-        await browser.screenshot('ui5-sdk-page');
-
-        // seed to wait some time until the screenshot is actually saved to the file system before reading it again
-        setTimeout(() => {
-            const screenShotPath = path.join('wdio-ui5-service', 'test', 'report', 'screenshots');
-            const screenshots = fs.readdirSync(screenShotPath);
-            const ours = screenshots.find((shot) => shot.match(/.*ui5-sdk-page.*/));
-            expect(ours).toMatch(/.*ui5-sdk-page.*/);
-        }, 1500);
-    });
-
-    it('should validate screenshots capability with unnamed screenshot', async () => {
-        await browser.screenshot();
-
-        // seed to wait some time until the screenshot is actually saved to the file system before reading it again
-        setTimeout(() => {
-            const screenShotPath = path.join('wdio-ui5-service', 'test', 'report', 'screenshots');
-            const screenshots = fs.readdirSync(screenShotPath);
-            const ours = screenshots.find((shot) => shot.match(/.*-browser-screenshot.png/));
-            expect(ours).toMatch(/.*-browser-screenshot.png/);
-        }, 1500);
-    });
-});
-
-describe('locate ui5 control via regex', () => {
-    /**
-     * click the version list button to open a popup on the sdk site
-     * then close it via "esc" key
-     * @param {String|RegExp} idRegex
-     */
-    async function _assert(idRegex) {
-        const selector = {
-            forceSelect: true, // make sure we're retrieving from scratch
-            selector: {
-                id: idRegex
-            }
-        };
-
-        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
-            selector.forceSelect = true;
-            selector.selector.interaction = 'root';
-        }
-
-        const button = await browser.asControl(selector);
-        await button.firePress();
-        const list = await browser.asControl(selectorList);
-        await expect(await list.getVisible()).toBeTruthy();
-
-        await browser.keys('Escape'); // close popup
-    }
-    it('plain regex /.../', async () => {
-        return await _assert(/.*changeVersionButton$/);
-    });
-
-    it('plain regex + flags /.../gmi', async () => {
-        return await _assert(/.*changeVersionButton$/gim);
-    });
-    it('new RegEx(/.../flags)', async () => {
-        return await _assert(new RegExp(/.*changeVersionButton$/));
-    });
-
-    it('new RegEx(/.../flags)', async () => {
-        return await _assert(new RegExp(/.*changeVersionButton$/gi));
-    });
-
-    it('new RegEx("string")', async () => {
-        return await _assert(new RegExp('.*changeVersionButton$'));
-    });
-
-    it('new RegEx("string", "flags")', async () => {
-        return await _assert(new RegExp('.*changeVersionButton$', 'gmi'));
-    });
-
-    it('regex shorthand matchers are handled properly', async () => {
-        return await _assert(/.*change\w.*Button$/);
     });
 });
