@@ -42,4 +42,4 @@ jobs:
         run: HEADLESS=true yarn test:ui5
 
       - name: run late injecting wdi5 as webdriver.io-plugin tests
-        run: HEADLESS=true yarn test:ui5-late
+        run: HEADLESS=true yarn test:ui5_late
