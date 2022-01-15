@@ -534,8 +534,8 @@ function setup(context) {
     // 2. the execution of each UI5 $control's API method (via async WDI5._executeControlMethod() => Promise) is then chained
     //    via the below "then"-ing of the (async WDI5._executeControlMethod() => Promise)-Promises with the help of
     //    the a Proxy and a recursive `handler` function
-    if (context && !context.asControl) {
-        context.asControl = function (ui5ControlSelector) {
+    if (_context && !_context.asControl) {
+        _context.asControl = function (ui5ControlSelector) {
             const asyncMethods = ['then', 'catch', 'finally'];
             function makeFluent(target) {
                 const promise = Promise.resolve(target);
@@ -553,7 +553,7 @@ function setup(context) {
                 };
                 return new Proxy(function () {}, handler);
             }
-            return makeFluent(context._asControl(ui5ControlSelector));
+            return makeFluent(_context._asControl(ui5ControlSelector));
         };
     }
 
