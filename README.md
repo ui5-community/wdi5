@@ -2,7 +2,7 @@
 
 📢 `wdi5` moving to `async/await`: https://github.com/js-soft/wdi5/discussions/104  
 status: `prerelease` done, including the fluent `async` api!
-→ `0.8.0-alpha*` is ready to be used 
+→ `0.8.0-alpha*` is ready to be used
 
 ---
 
@@ -30,6 +30,7 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
     - [getAggregation](#getaggregation)
     - [get$Shorthand conveniences](#getshorthand-conveniences)
     - [enterText](#entertext)
+    - [fluent async api](#fluent-async-api)
   - [Function mock for event handler](#function-mock-for-event-handler)
   - [Assertions](#assertions)
   - [Screenshots](#screenshots)
@@ -37,6 +38,7 @@ It is designed to run cross-platform, executing OPA5-/UIveri5-style integration 
 - [FAQ/hints](#faqhints)
 - [Collaboration](#collaboration)
 - [License](#license)
+<!-- Added by: vbuzek, at: Mo 17 Jan 2022 12:06:07 CET -->
 
 <!--te-->
 
@@ -279,7 +281,7 @@ await control.enterText('new Text');
 ```javascript
 // sap.m.List hast .getItems()
 // sap.m.StandardListItem hast .getTitle()
-const title = await browser.asControl(listSelector).getItems(1).getTitle()
+const title = await browser.asControl(listSelector).getItems(1).getTitle();
 // `title` is "Andrew Fuller"
 // the long version of the above command would be:
 // list = await browser.asControl(listSelector)
@@ -287,7 +289,7 @@ const title = await browser.asControl(listSelector).getItems(1).getTitle()
 // const title = await item.getTitle()
 ```
 
-The `this` context of each step in the `async` chain changes to the retrieved/referenced `UI5` element. 
+The `this` context of each step in the `async` chain changes to the retrieved/referenced `UI5` element.
 
 In the above example:
 
@@ -298,23 +300,21 @@ In the above example:
 The fluent `async` api also works with event triggers, such as pressing a `sap.m.Button`:
 
 ```js
-const text = await browser.asControl(button).firePress().getText()
+const text = await browser.asControl(button).firePress().getText();
 ```
 
 While this leads to more concise code, bear in mind that (as mentioned above) the `this` context changes with every call in the chain. So after arriving at a function returning an atomic value (such as a `string`), the reference any `UI5` control is lost and the chain can only work on the atomic value:
 
 ```js
 // on a sap.m.Text
-await browser.asControl(text).getText().getMaxLines() // will throw!
+await browser.asControl(text).getText().getMaxLines(); // will throw!
 //                                   ^
 //                                   |
 // -----------------------------------
-// returns a `string`, 
+// returns a `string`,
 // thus `this` context is the `string` (that doesn't have a getMaxLines method)
 // and not `sap.m.Text` anymore
 ```
-
-
 
 ### Function mock for event handler
 
