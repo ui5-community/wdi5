@@ -1,7 +1,8 @@
 # wdi5 ![wdi5 Logo](./docs/wdi5-logo-small.png)
 
 📢 `wdi5` moving to `async/await`: https://github.com/js-soft/wdi5/discussions/104  
-status: prerelease done, working on the fluent `async` api
+status: `prerelease` done, including the fluent `async` api!
+→ `0.8.0-alpha*` is ready to be used 
 
 ---
 
@@ -144,14 +145,6 @@ const control = await browser.asControl(crossViewById);
 expect(await control.getVisible()).toBeTruthy();
 ```
 
-~~**`wdio-ui5` supports method chaining**, so you can do:~~
-
-```javascript
-// we're working on an async fluent api, see
-// https://github.com/js-soft/wdi5/discussions/104#discussioncomment-1885064
-// no can do currently: await browser.asControl(selector).getText().getId().setProperty('title', 'new title');
-```
-
 In case you are not able to create an explicit selector for a control, but you are able to find it via any [webdriver strategy](https://www.w3.org/TR/webdriver/#locator-strategies), you can use the `getSelectorForElement` method. It returns a selector which can subsequently be used in `asControl`:
 
 ```javascript
@@ -278,6 +271,50 @@ If `getAggregation` is called via a shorthand such as `sap.m.ListBase.getItems()
 const control = await browser.asControl(inputSelector);
 await control.enterText('new Text');
 ```
+
+#### fluent async api
+
+`wdi5` supports `async `method chaining. This means you can directly call a `UI5` control's methods after retrieveing it via `browser.asControl(selector)`:
+
+```javascript
+// sap.m.List hast .getItems()
+// sap.m.StandardListItem hast .getTitle()
+const title = await browser.asControl(listSelector).getItems(1).getTitle()
+// `title` is "Andrew Fuller"
+// the long version of the above command would be:
+// list = await browser.asControl(listSelector)
+// const item = await list.getItems(1)
+// const title = await item.getTitle()
+```
+
+The `this` context of each step in the `async` chain changes to the retrieved/referenced `UI5` element. 
+
+In the above example:
+
+- `browser.asControl(listSelector)` exposes the `sap.m.List`
+- `getItems(1)` exposes a `sap.m.StandardListItem`
+- `getTitle()` delivers a `string`
+
+The fluent `async` api also works with event triggers, such as pressing a `sap.m.Button`:
+
+```js
+const text = await browser.asControl(button).firePress().getText()
+```
+
+While this leads to more concise code, bear in mind that (as mentioned above) the `this` context changes with every call in the chain. So after arriving at a function returning an atomic value (such as a `string`), the reference any `UI5` control is lost and the chain can only work on the atomic value:
+
+```js
+// on a sap.m.Text
+await browser.asControl(text).getText().getMaxLines() // will throw!
+//                                   ^
+//                                   |
+// -----------------------------------
+// returns a `string`, 
+// thus `this` context is the `string` (that doesn't have a getMaxLines method)
+// and not `sap.m.Text` anymore
+```
+
+
 
 ### Function mock for event handler
 
