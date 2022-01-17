@@ -6,7 +6,7 @@
     "Volker Buzek <volker.buzek@js-soft.com> (https://www.js-soft.com/)"
   ],
   "license": "(DERIVED BEER-WARE OR Apache-2.0)",
-  "version": "0.8.0-alpha.0",
+  "version": "0.8.0",
   "homepage": "https://github.com/js-soft/wdi5/blob/main/wdio-ui5-service/README.md",
   "main": "./src/index.js",
   "screenshotPath": "./../test/report/screenshots",
