@@ -25,8 +25,8 @@ describe('locate ui5 control via regex', () => {
             }
         };
 
-        const textViaDeclarative = await browser.asControl(selectorByTextRegex).getText();
-        expect(textViaDeclarative).toEqual('Change Version');
+        const textViaPropertyRegEx = await browser.asControl(selectorByTextRegex).getText();
+        expect(textViaPropertyRegEx).toEqual('Change Version');
 
         const selectorByDeclarativeRegex = {
             selector: {
