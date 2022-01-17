@@ -93,6 +93,28 @@ async function injectUI5() {
                             const [sTarget, sRegEx, sFlags] = oSelector.id.match(/\/(.*)\/(.*)/);
                             oSelector.id = new RegExp(sRegEx, sFlags);
                         }
+
+                        // match a regular regex as (partial) matcher
+                        // properties: {
+                        //     text: /.*ersi.*/gm
+                        // }
+                        // but not a declarative style regex matcher
+                        // properties: {
+                        //     text: {
+                        //         regex: {
+                        //             source: '.*ersi.*',
+                        //             flags: 'gm'
+                        //         }
+                        //     }
+                        // }
+                        if (
+                            typeof oSelector.properties?.text === 'string' &&
+                            oSelector.properties?.text.startsWith('/', 0)
+                        ) {
+                            const [_, sRegEx, sFlags] = oSelector.properties.text.match(/\/(.*)\/(.*)/);
+                            oSelector.properties.text = new RegExp(sRegEx, sFlags);
+                        }
+
                         if (oSelector.bindingPath) {
                             // TODO: for the binding Path there is no object creation
                             // fix (?) for 'leading slash issue' in propertyPath w/ a named model
