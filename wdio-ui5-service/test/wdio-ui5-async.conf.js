@@ -44,7 +44,7 @@ exports.config = {
     // will be called from there.
     //
 
-    specs: [path.join('wdio-ui5-service', 'test', 'ui5-async.test.js')],
+    specs: [path.join('wdio-ui5-service', 'test', '*.test.js')],
 
     // Patterns to exclude.
     exclude: [path.join('wdio-ui5-service', 'test', 'ui5-late.test.js')],
