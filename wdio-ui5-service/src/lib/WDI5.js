@@ -579,6 +579,30 @@ module.exports = class WDI5 {
             // further processing there
             controlSelector.selector.id = controlSelector.selector.id.toString();
         }
+
+        // check whether we have a (partial) text matcher
+        // that should match:
+        // properties: {
+        //     text: new RegExp(/.*ersi.*/gm)
+        // }
+        // ...but not:
+        // properties: {
+        //     text: {
+        //         regex: {
+        //             source: '.*ersi.*',
+        //             flags: 'gm'
+        //         }
+        //     }
+        // }
+        if (
+            typeof controlSelector.selector.properties?.text === 'object' &&
+            controlSelector.selector.properties?.text instanceof RegExp
+        ) {
+            // make it a string for serializing into browser-scope and
+            // further processing there
+            controlSelector.selector.properties.text = controlSelector.selector.properties.text.toString();
+        }
+
         const result = await context.executeAsync((controlSelector, done) => {
             const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options);
             if (controlSelector.timeout) {

@@ -1,7 +1,5 @@
 const {selectorList, selectorDownloadButton, selectorVersionButton, selectorCookieAccept} = require('./_selectorList');
 
-before(async () => {});
-
 describe('basics (async tests)', () => {
     before(async () => {
         if ((await browser.getUI5VersionAsFloat()) > 1.6) {

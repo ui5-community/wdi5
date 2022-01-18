@@ -15,6 +15,36 @@ describe('locate ui5 control via regex', () => {
         }
     });
 
+    it('should find the "change version" button by both property text regex options', async () => {
+        const selectorByTextRegex = {
+            selector: {
+                controlType: 'sap.m.Button',
+                properties: {
+                    text: new RegExp(/.*ersi.*/gm)
+                }
+            }
+        };
+
+        const textViaPropertyRegEx = await browser.asControl(selectorByTextRegex).getText();
+        expect(textViaPropertyRegEx).toEqual('Change Version');
+
+        const selectorByDeclarativeRegex = {
+            selector: {
+                controlType: 'sap.m.Button',
+                properties: {
+                    text: {
+                        regex: {
+                            source: '.*ersi.*',
+                            flags: 'gm'
+                        }
+                    }
+                }
+            }
+        };
+        const textViaDeclarative = await browser.asControl(selectorByDeclarativeRegex).getText();
+        expect(textViaDeclarative).toEqual('Change Version');
+    });
+
     /**
      * click the version list button to open a popup on the sdk site
      * then close it via "esc" key
