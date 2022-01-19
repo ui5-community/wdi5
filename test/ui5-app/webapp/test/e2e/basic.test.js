@@ -14,6 +14,41 @@ describe('ui5 basic', () => {
         _wdi5.getUtils().screenshot('test-basic');
     });
 
+    it('should input date via popup + click', async () => {
+        const dateTimePicker = {
+            forceSelect: true,
+            selector: {
+                viewName: 'test.Sample.view.Main',
+                id: 'idDateTime'
+            }
+        };
+
+        const popupIcon = {
+            selector: {
+                id: /.*idDateTime-icon$/,
+                viewName: 'test.Sample.view.Main'
+            }
+        };
+        await browser.asControl(popupIcon).firePress();
+
+        const d = new Date();
+        const yeaterdayDay = d.getDate() - 1;
+        const todayMonth = d.getMonth().toString().length === 1 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
+        const todayYear = d.getFullYear();
+
+        const date = $(`//*[contains(@id, "idDateTime-cal--Month0-${todayYear}${todayMonth}${yeaterdayDay}")]`); // wdio-native
+        date.click();
+
+        const ok = $('//*[contains(@id, "idDateTime-OK")]'); // wdio-native
+        ok.click();
+
+        const oDateTimePicker = await browser.asControl(dateTimePicker); // wdi5 again!
+        const value = await oDateTimePicker.getValue();
+
+        expect(value).toMatch(new RegExp(`${todayYear}`));
+        expect(value).toMatch(new RegExp(`${yeaterdayDay}`));
+    });
+
     // TODO: make this work -> see #106
     it.skip('should find a control with visible: false', async () => {
         const id = 'invisibleInputField';
