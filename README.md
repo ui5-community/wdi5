@@ -74,7 +74,7 @@ The entry point to retrieve a control is always awaiting the `async` function `b
 
 The `forceSelect` (default: `false`) property can be set to `true` to force `wdi5` to again retrieve the control from the browser context and update the internally stored reference as well as available control methods. This might be useful if the tested application has destroyed the initial control and recreated it.
 
-The `forceSelect` option also updates the `wdio` control reference each time a mehtod is executed on a `wdi5` control.
+The `forceSelect` option also updates the `wdio` control reference each time a method is executed on a `wdi5` control.
 
 The `timeout` option (default based on the global configuration `waitForUI5Timeout` [setting](wdio-ui5-service/README.md#installation)) controls the maximum waiting time while checking for UI5 availability _(meaning no pending requests / promises / timeouts)_.
 
@@ -273,8 +273,8 @@ await control.enterText('new Text');
 `wdi5` supports `async `method chaining. This means you can directly call a `UI5` control's methods after retrieveing it via `browser.asControl(selector)`:
 
 ```javascript
-// sap.m.List hast .getItems()
-// sap.m.StandardListItem hast .getTitle()
+// sap.m.List has .getItems()
+// sap.m.StandardListItem has .getTitle()
 const title = await browser.asControl(listSelector).getItems(1).getTitle();
 // `title` is "Andrew Fuller"
 // the long version of the above command would be:
