@@ -31,6 +31,7 @@ if applicable, add screenshots to help explain your problem.
 
 **Runtime Env (please complete the following information):**
 - `wdi5/wdio-ui5-service`-version: [e.g. 0.8.1]
+- `UI5` version: [e.g. 1.98.0]
 - `wdio`-version (output of `wdio --version`): [e.g. 7.16.12]
 - `node`-version (output of `node --version`): [e.g. v17.3.0]
  - OS: [e.g. Linux openSuSE]
