@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.1](https://github.com/js-soft/wdi5/compare/v0.8.0-alpha.0...v0.8.1) (2022-01-18)
+
+**Note:** Version bump only for package wdio-ui5-service
+
+
+
+
+
 # [0.8.0-alpha.0](https://github.com/js-soft/wdi5/compare/v0.7.0...v0.8.0-alpha.0) (2022-01-13)
 
 **Note:** Version bump only for package wdio-ui5-service
