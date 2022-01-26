@@ -9,7 +9,7 @@
     "url": "git+ssh://git@github.com:js-soft/wdi5.git"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "scripts": {
     "appium-doctor": "appium-doctor"
