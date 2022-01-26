@@ -32,7 +32,7 @@ It provides the `ui5`-service to `WebdriverIO`, running tests in the browser.
 
 ## Installation
 
-To keep the module lightweight, `wdio-ui5-service` has almost zero dependencies. Right now, until the switch to async, `@wdio/sync` is needed.
+To keep the module lightweight, `wdio-ui5-service` has almost zero dependencies.  
 This means you have to setup `WebdriverIO` as a prerequisite as described in https://webdriver.io/docs/gettingstarted.html.
 
 ```bash
