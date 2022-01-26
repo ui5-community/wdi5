@@ -5,7 +5,7 @@
   "description": "cross-platform test framework for hybrid UI5 apps. wdi5 = Webdriver.IO + UI5 Test API + appium (mama package)",
   "main": "",
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "scripts": {
     "test:1.60": "run-p -r _startApp  _test:1.60",
