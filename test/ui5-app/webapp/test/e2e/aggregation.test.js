@@ -10,7 +10,47 @@ describe('ui5 aggregation retrieval', () => {
         (await wdi5()).getUtils().takeScreenshot('test-aggregation');
     });
 
-    it('get aggregation and validate items', async () => {
+    it("select controls of a sap.m.Page's content aggregation", async () => {
+        // goal: assert that .getContent() and .getAggregation("items") work the same
+        // including access via the fluent async api
+        const pageSelector = {
+            selector: {
+                id: 'OtherPage',
+                viewName: Other._viewName,
+                interaction: 'root'
+            }
+        };
+        const page = await browser.asControl(pageSelector);
+
+        // shorthand getContent()
+        const content = await page.getContent();
+        expect(content.length).toBe(2);
+
+        // shorthand getContent($atIndex)
+        const firstContentItem = await page.getContent(0);
+        const listId = await firstContentItem.getId();
+        const secondContentItem = await page.getContent(1);
+        const vboxId = await secondContentItem.getId();
+        expect(listId).toContain('PeopleList');
+        expect(vboxId).toContain('VBoxx');
+
+        // regular getAggregation($name)
+        const aggregation = await page.getAggregation('content');
+        expect(aggregation.length).toBe(2);
+
+        const listIdViaAggregationItem = await aggregation[0].getId();
+        const vboxIdViaAggregationItem = await aggregation[1].getId();
+        expect(listIdViaAggregationItem).toContain('PeopleList');
+        expect(vboxIdViaAggregationItem).toContain('VBoxx');
+
+        // test shorthand with fluent async api
+        const listIdViaFluentApi = await browser.asControl(pageSelector).getContent(0).getId();
+        expect(listIdViaFluentApi).toContain('PeopleList');
+        const vboxItemsViaFluentApi = await browser.asControl(pageSelector).getContent(1).getItems();
+        expect(vboxItemsViaFluentApi.length).toBe(3);
+    });
+
+    it('get list aggregation and validate items', async () => {
         // action:
         // get the aggreagation -> returns array of WDI5 controls
         const items = await Other.getListItems();
