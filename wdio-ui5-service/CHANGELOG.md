@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.2](https://github.com/js-soft/wdi5/compare/v0.8.1...v0.8.2) (2022-02-04)
+
+
+### Bug Fixes
+
+* **aggregation:** shorthand access for index 0 ([#125](https://github.com/js-soft/wdi5/issues/125)) ([2799eb3](https://github.com/js-soft/wdi5/commit/2799eb366cfd7eab44e3c43761296526d062eeb0)), closes [#124](https://github.com/js-soft/wdi5/issues/124)
+
+
+
+
+
 ## [0.8.1](https://github.com/js-soft/wdi5/compare/v0.8.0-alpha.0...v0.8.1) (2022-01-18)
 
 **Note:** Version bump only for package wdio-ui5-service
