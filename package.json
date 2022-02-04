@@ -82,14 +82,14 @@
     ]
   },
   "devDependencies": {
-    "@commitlint/cli": "^15.0.0",
-    "@commitlint/config-conventional": "^15.0.0",
-    "@ui5/cli": "^2.14.1",
+    "@commitlint/cli": "^16.1.0",
+    "@commitlint/config-conventional": "^16.0.0",
+    "@ui5/cli": "^2.14.4",
     "appium-doctor": "^1.16.0",
     "browserstack": "^1.6.1",
     "browserstack-local": "^1.4.8",
-    "chromedriver": "^96.0.0",
-    "cordova": "^10.0.0",
+    "chromedriver": "^97.0.4",
+    "cordova": "^11.0.0",
     "fs-extra": "^10.0.0",
     "git-cz": "^4.8.0",
     "husky": "^7.0.4",
@@ -100,6 +100,6 @@
     "soerver": "0.0.3",
     "wait-on": "^6.0.0",
     "wd": "^1.14.0",
-    "wdio-chromedriver-service": "^7.2.2"
+    "wdio-chromedriver-service": "^7.2.6"
   }
 }

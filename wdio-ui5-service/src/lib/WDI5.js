@@ -309,11 +309,12 @@ module.exports = class WDI5 {
                 // return result on array index 1 anyways
                 return result[1];
             case 'aggregation': // also applies for getAggregation convenience methods such as $ui5control.getItems()
-                // check weather to retrieve all elements in the aggreation as ui5 control
+                // check weather to retrieve all elements in the aggreation as ui5 controls
                 if ((args.length > 0 && typeof args[0] === 'boolean' && args[0] === false) || args.length === 0) {
                     // get all if param is false or undefined
                     return await this._retrieveElements(result[1]);
-                } else if (args[0] && typeof args[0] === 'number') {
+                } else if (String(args[0]) && typeof args[0] === 'number') {
+                    // here we're retrieving the UI5 control at index args[0] from the aggregation
                     if (args[0] <= result[1].length) {
                         // retieve only one
                         // need some code of separate feature branch here
