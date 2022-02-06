@@ -40,6 +40,10 @@ export interface wdi5Config extends WebdriverIO.Config {
          * TODO: link to document on how to inject late programmatically
          */
         skipInjectUI5OnStart?: boolean
+        /**
+         * maximum waiting time while checking for UI5 (control) availability
+         */
+        waitForUI5Timeout?: number
     }
 }
 
