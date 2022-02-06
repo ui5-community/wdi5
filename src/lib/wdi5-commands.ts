@@ -26,9 +26,10 @@ export function addWdi5Commands() {
         const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
         // either retrieve and cache a UI5 control
         // or return a cached version
-        if (!browser._controls[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
+        if (!browser._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
             Logger.info(`creating internal control with id ${internalKey}`)
             const wdi5Control = {}
+            !browser._controls ? (browser._controls = []) : null
             browser._controls[internalKey] = wdi5Control
         } else {
             Logger.info(`reusing internal control with id ${internalKey}`)
