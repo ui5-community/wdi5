@@ -1,6 +1,7 @@
 import { wdi5Config, wdi5Selector } from "../types/wdi5.types"
 import { ControlSelector } from "sap/ui/test/RecordReplay"
 import { Logger as _Logger } from "./Logger"
+import { WDI5 } from "./WDI5"
 const Logger = _Logger.getInstance()
 
 /**
@@ -28,12 +29,12 @@ export function addWdi5Commands() {
         // or return a cached version
         if (!browser._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
             Logger.info(`creating internal control with id ${internalKey}`)
-            const wdi5Control = {}
             !browser._controls ? (browser._controls = []) : null
+            const wdi5Control = new WDI5().init(wdi5Selector, browser, wdi5Selector.forceSelect)
             browser._controls[internalKey] = wdi5Control
         } else {
             Logger.info(`reusing internal control with id ${internalKey}`)
-            return browser._controls[internalKey]
         }
+        return browser._controls[internalKey]
     })
 }
