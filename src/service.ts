@@ -1,6 +1,6 @@
 import { Capabilities, Options, Services } from "@wdio/types"
 
-import { start as startWDI5 } from "./lib/wdi5-bridge"
+import { start, injectUI5, setup } from "./lib/wdi5-bridge"
 import { wdi5Config } from "./types/wdi5.types"
 
 import { Logger as _Logger } from "./lib/Logger"
@@ -20,7 +20,11 @@ export default class Service implements Services.ServiceInstance {
     async beforeSession(config, capabilities, specs) {}
 
     async before(capabilities, specs) {
-        await startWDI5(this._config)
+        await setup(this._options)
+        if (!this._config.wdi5.skipInjectUI5OnStart) {
+            await injectUI5(this._config)
+        }
+        await start(this._config)
     }
 
     async beforeSuite(suite) {}

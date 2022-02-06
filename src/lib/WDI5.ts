@@ -529,7 +529,7 @@ export class WDI5 {
             this._webdriverRepresentation = await $(`#${result[2]}`)
         }
 
-        this.writeResultLog(result, "_getControl()")
+        this.writeResultLog(result, "getControl()")
 
         return [result[1], result[3]]
     }
