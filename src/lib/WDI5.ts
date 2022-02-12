@@ -130,10 +130,9 @@ export class WDI5 {
      * retrieve UI5 control represenation of a UI5 control's aggregation
      *
      * @param {Array} aControls strings of IDs of aggregation items
-     * @param {WebdriverIO.BrowserObject} context
      * @returns {WDI5[]} instances of wdi5 class per control in the aggregation
      */
-    async _retrieveElements(aControls, context = this._context) {
+    async _retrieveElements(aControls) {
         let aResultOfPromises = []
 
         // check the validity of param
@@ -150,7 +149,7 @@ export class WDI5 {
                 }
 
                 // get WDI5 control
-                aResultOfPromises.push(context.asControl(selector))
+                aResultOfPromises.push(browser.asControl(selector))
             })
 
             return await Promise.all(aResultOfPromises)
@@ -163,10 +162,9 @@ export class WDI5 {
      * retrieve UI5 control represenation of a UI5 control's aggregation
      *
      * @param {webElement} eControl ID
-     * @param {WebdriverIO.BrowserObject} context
      * @returns {WDI5[]} instances of wdi5 class per control in the aggregation
      */
-    async _retrieveElement(eControl, context = this._context) {
+    async _retrieveElement(eControl) {
         let eResult = {}
 
         // check the validity of param
@@ -181,7 +179,7 @@ export class WDI5 {
             }
 
             // get WDI5 control
-            eResult = await context.asControl(selector)
+            eResult = await browser.asControl(selector)
         } else {
             Logger.warn(`${this._wdio_ui5_key} has no aControls`)
         }
@@ -221,7 +219,7 @@ export class WDI5 {
         // also here in Node.js runtime
         if (methodName === "fireEvent") {
             if (args[1] && typeof args[1]["eval"] === "function") {
-                return await this.fireEvent(args[0], args[1], webElement, context)
+                return await this.fireEvent(args[0], args[1], webElement)
             }
         }
         // returns the array of [0: "status", 1: result]
@@ -377,10 +375,9 @@ export class WDI5 {
      * @param {sap.ui.test.RecordReplay.InteractionType} oOptions.interactionType - UI5 type
      * @param {string} oOptions.enterText
      * @param {boolean} oOptions.clearTextFirst
-     * @param {object} context
      */
-    private async interactWithControl(oOptions, context = this._context) {
-        const result = await context.executeAsync((oOptions, done) => {
+    private async interactWithControl(oOptions) {
+        const result = await browser.executeAsync((oOptions, done) => {
             window.bridge
                 .waitForUI5(window.wdi5.waitForUI5Options)
                 .then(() => {

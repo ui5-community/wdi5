@@ -13,7 +13,8 @@ const Logger = _Logger.getInstance()
 let _isInitialized = false
 /** @type {Boolean} stores the status of the setup process */
 let _setupComplete = false
-
+/** @type {String} currently running sap.ui.version */
+let _sapUI5Version = null
 /** relay runtime config options from Service */
 let _config: wdi5Config = null
 
@@ -343,7 +344,7 @@ export async function addWdi5Commands() {
         // or return a cached version
         if (!browser._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
             Logger.info(`creating internal control with id ${internalKey}`)
-            const wdi5Control = new WDI5().init(wdi5Selector, browser, wdi5Selector.forceSelect)
+            const wdi5Control = new WDI5().init(wdi5Selector, wdi5Selector.forceSelect)
             browser._controls[internalKey] = wdi5Control
         } else {
             Logger.info(`reusing internal control with id ${internalKey}`)
