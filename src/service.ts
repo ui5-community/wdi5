@@ -20,11 +20,11 @@ export default class Service implements Services.ServiceInstance {
     async beforeSession(config, capabilities, specs) {}
 
     async before(capabilities, specs) {
-        await setup(this._options)
+        await start(this._config)
+        await setup(this._config)
         if (!this._config.wdi5.skipInjectUI5OnStart) {
             await injectUI5(this._config)
         }
-        await start(this._config)
     }
 
     async beforeSuite(suite) {}
