@@ -6,7 +6,8 @@ import { wdi5Config, wdi5Selector } from "../types/wdi5.types"
 import { WDI5 } from "./WDI5"
 import { clientSide_injectUI5 } from "../../client-side-js/injectUI5"
 import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement"
-import { clientSide__checkforUI5Ready } from "../../client-side-js/_checkforUI5Ready"
+import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready"
+import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version"
 
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
@@ -132,24 +133,15 @@ export async function addWdi5Commands() {
         }
     })
 
-    /**
-     * retieve the sap.ui.version form app under test and saves to _sapUI5Version
-     * returns the sap.ui.version string of the application under test
-     */
     browser.addCommand("getUI5Version", async () => {
         if (!_sapUI5Version) {
-            const resultVersion = await browser.executeAsync((done) => {
-                done(sap.ui.version)
-            })
+            const resultVersion = await clientSide_getUI5Version()
             _sapUI5Version = resultVersion
         }
 
         return _sapUI5Version
     })
 
-    /**
-     * returns the sap.ui.version float number of the application under test
-     */
     browser.addCommand("getUI5VersionAsFloat", async () => {
         if (!_sapUI5Version) {
             // implicit setter for _sapUI5Version
@@ -198,7 +190,7 @@ async function _waitForUI5() {
 async function _checkForUI5Ready() {
     if (_isInitialized) {
         // can only be executed when RecordReplay is attached
-        return await _checkForUI5Ready()
+        return await clientSide__checkForUI5Ready()
     }
     return false
 }
