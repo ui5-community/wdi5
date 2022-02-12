@@ -97,6 +97,7 @@ export async function addWdi5Commands() {
         // or return a cached version
         if (!browser._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
             Logger.info(`creating internal control with id ${internalKey}`)
+            wdi5Selector.wdio_ui5_key = internalKey
             const wdi5Control = new WDI5().init(wdi5Selector, wdi5Selector.forceSelect)
             browser._controls[internalKey] = wdi5Control
         } else {
