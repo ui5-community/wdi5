@@ -6,6 +6,7 @@ import { wdi5Config, wdi5Selector } from "../types/wdi5.types"
 import { WDI5 } from "./WDI5"
 import { clientSide_injectUI5 } from "../../client-side-js/injectUI5"
 import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement"
+import { clientSide__checkforUI5Ready } from "../../client-side-js/_checkforUI5Ready"
 
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
@@ -197,18 +198,7 @@ async function _waitForUI5() {
 async function _checkForUI5Ready() {
     if (_isInitialized) {
         // can only be executed when RecordReplay is attached
-        const result = await browser.executeAsync((done) => {
-            window.bridge
-                .waitForUI5(window.wdi5.waitForUI5Options)
-                .then(() => {
-                    window.wdi5.Log.info("[browser wdi5] UI5 is ready")
-                    done(true)
-                })
-                .catch((error) => {
-                    console.error(error)
-                })
-        })
-        return result
+        return await _checkForUI5Ready()
     }
     return false
 }
