@@ -1,3 +1,6 @@
+import { clientSide_getControl } from "../../client-side-js/getControl"
+import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl"
+
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
 
@@ -377,32 +380,7 @@ export class WDI5 {
      * @param {boolean} oOptions.clearTextFirst
      */
     private async interactWithControl(oOptions) {
-        const result = await browser.executeAsync((oOptions, done) => {
-            window.bridge
-                .waitForUI5(window.wdi5.waitForUI5Options)
-                .then(() => {
-                    window.wdi5.Log.info("[browser wdi5] locating controlSelector")
-                    oOptions.selector = window.wdi5.createMatcher(oOptions.selector)
-                    if (parseFloat(sap.ui.version) <= 1.6) {
-                        // implementing legacy api < 1.60
-                        window.bridge.findDOMElementByControlSelector(oOptions).then((control, arg) => {
-                            const ui5Control = window.wdi5.getUI5CtlForWebObj(control)
-                            oOptions.control = ui5Control
-                            return window.bridge.interactWithControl(oOptions)
-                        })
-                    } else {
-                        return window.bridge.interactWithControl(oOptions)
-                    }
-                })
-                .then((result) => {
-                    window.wdi5.Log.info("[browser wdi5] interaction complete! - Message: " + result)
-                    done(["success", result])
-                })
-                .catch((error) => {
-                    window.wdi5.Log.error("[browser wdi5] ERR: ", error)
-                    done(["error", error.toString()])
-                })
-        }, oOptions)
+        const result = await clientSide_interactWithControl(oOptions)
 
         this.writeResultLog(result, "interactWithControl()")
         return result[1]
@@ -492,33 +470,7 @@ export class WDI5 {
             controlSelector.selector.properties.text = controlSelector.selector.properties.text.toString()
         }
 
-        const result = await browser.executeAsync((controlSelector, done) => {
-            const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options)
-            if (controlSelector.timeout) {
-                waitForUI5Options.timeout = controlSelector.timeout
-            }
-            window.bridge
-                .waitForUI5(waitForUI5Options)
-                .then(() => {
-                    window.wdi5.Log.info("[browser wdi5] locating " + JSON.stringify(controlSelector))
-                    controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector)
-                    return window.bridge.findDOMElementByControlSelector(controlSelector)
-                })
-                .then((domElement) => {
-                    // window.wdi5.Log.info('[browser wdi5] control located! - Message: ' + JSON.stringify(domElement));
-                    // ui5 control
-                    const ui5Control = window.wdi5.getUI5CtlForWebObj(domElement)
-                    const id = ui5Control.getId()
-                    window.wdi5.Log.info(`[browser wdi5] control with id: ${id} located!`)
-                    const aProtoFunctions = window.wdi5.retrieveControlMethods(ui5Control)
-                    // @type [String, String?, String, "Array of Strings"]
-                    done(["success", domElement, id, aProtoFunctions])
-                })
-                .catch((error) => {
-                    window.wdi5.Log.error("[browser wdi5] ERR: ", error)
-                    done(["error", error.toString()])
-                })
-        }, controlSelector)
+        const result = await clientSide_getControl(controlSelector)
 
         // save the webdriver representation by control id
         if (result[2]) {
