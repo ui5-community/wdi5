@@ -1,5 +1,8 @@
 import { clientSide_getControl } from "../../client-side-js/getControl"
 import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl"
+import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod"
+import { clientSide__getAggregation } from "../../client-side-js/_getAggregation"
+import { clientSide_fireEvent } from "../../client-side-js/fireEvent"
 
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
@@ -228,65 +231,7 @@ export class WDI5 {
         // returns the array of [0: "status", 1: result]
 
         // regular browser-time execution of UI5 control method
-        const result = await browser.executeAsync(
-            (webElement, methodName, args, done) => {
-                window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
-                    // DOM to UI5
-                    const oControl = window.wdi5.getUI5CtlForWebObj(webElement)
-                    // execute the function
-                    let result = oControl[methodName].apply(oControl, args)
-                    const metadata = oControl.getMetadata()
-                    if (Array.isArray(result)) {
-                        // expect the method call delivers non-primitive results (like getId())
-                        // but delivers a complex/structured type
-                        // -> currenlty, only getAggregation(...) is supported
-                        result = window.wdi5.createControlIdMap(result)
-                        done(["success", result, "aggregation"])
-                    } else {
-                        // ui5 api <control>.focus() doesn't have return value
-                        if (methodName === "focus" && result === undefined) {
-                            done([
-                                "success",
-                                `called focus() on wdi5 representation of a ${metadata.getElementName()}`,
-                                "element"
-                            ])
-                        } else if (result === undefined || result === null) {
-                            done([
-                                "error",
-                                `function ${methodName} does not exist on control ${metadata.getElementName()}!`,
-                                "none"
-                            ])
-                        } else {
-                            // result mus be a primitive
-                            if (window.wdi5.isPrimitive(result)) {
-                                // getter
-                                done(["success", result, "result"])
-                            } else {
-                                // object, replacer function
-                                // TODO: create usefull content from result
-                                // result = JSON.stringify(result, window.wdi5.circularReplacer());
-
-                                // check if of control to verify if the method result is a different control
-                                if (result && result.getId && oControl.getId() !== result.getId()) {
-                                    // ui5 function like get parent might return another ui5 control -> return it to check with this wdi5 instance
-                                    result = window.wdi5.createControlId(result)
-                                    done(["success", result, "newElement"])
-                                } else {
-                                    done([
-                                        "success",
-                                        `instance of wdi5 representation of a ${metadata.getElementName()}`,
-                                        "element"
-                                    ])
-                                }
-                            }
-                        }
-                    }
-                })
-            },
-            webElement,
-            methodName,
-            args
-        )
+        const result = await clientSide_executeControlMethod(webElement, methodName, args)
 
         // create logging
         this.writeResultLog(result, methodName)
@@ -330,33 +275,14 @@ export class WDI5 {
     }
 
     /**
-     * time itensive
+     * retrieve an aggregation's members as UI5 controls
+     *
      * @param {String} aggregationName
      * @param {WebdriverIO.Element} webElement
      * @return {any}
      */
     private async _getAggregation(aggregationName, webElement = this._webElement) {
-        const result = await browser.executeAsync(
-            (webElement, aggregationName, done) => {
-                window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
-                    // DOM to UI5
-                    try {
-                        let oControl = window.wdi5.getUI5CtlForWebObj(webElement)
-                        let cAggregation = oControl.getAggregation(aggregationName)
-                        // if getAggregation retrieves an element only it has to be transformed to an array
-                        if (cAggregation && !Array.isArray(cAggregation)) {
-                            cAggregation = [cAggregation]
-                        }
-                        let result = window.wdi5.createControlIdMap(cAggregation)
-                        done(["success", result])
-                    } catch (e) {
-                        done(["error", e.toString()])
-                    }
-                })
-            },
-            webElement,
-            aggregationName
-        )
+        const result = await clientSide__getAggregation(webElement, aggregationName)
 
         this.writeResultLog(result, "_getAggregation()")
 
@@ -397,37 +323,7 @@ export class WDI5 {
         if (oOptions?.eval) {
             oOptions = "(" + oOptions.eval.toString() + ")"
         }
-
-        const result = await browser.executeAsync(
-            (webElement, eventName, oOptions, done) => {
-                window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
-                    window.wdi5.Log.info("[browser wdi5] working " + eventName + " for " + webElement)
-                    // DOM to ui5
-                    let oControl = window.wdi5.getUI5CtlForWebObj(webElement)
-                    if (oControl && oControl.hasListeners(eventName)) {
-                        window.wdi5.Log.info("[browser wdi5] firing " + eventName + " on " + webElement)
-                        // element existent and has the target event
-                        try {
-                            // eval the options indicated by option of type string
-                            if (typeof oOptions === "string") {
-                                oOptions = eval(oOptions)()
-                            }
-                            oControl.fireEvent(eventName, oOptions)
-                            // convert to boolean
-                            done(["success", true])
-                        } catch (e) {
-                            done(["error", e.toString()])
-                        }
-                    } else {
-                        window.wdi5.Log.error("[browser wdi5] couldn't find " + webElement)
-                        done(["error", false])
-                    }
-                })
-            },
-            webElement,
-            eventName,
-            oOptions
-        )
+        const result = await clientSide_fireEvent(webElement, eventName, oOptions)
         this.writeResultLog(result, "_fireEvent()")
         return result[1]
     }
