@@ -1,6 +1,5 @@
 import Button from "sap/m/Button"
 import { wdi5Selector } from "../src/types/wdi5.types"
-import {} from "../src/types/browser-commands"
 
 describe("basics", async () => {
     it("should open a UI5-enabled site (here: DemoKit) supplied in wdio.conf's wdi5 setting", async () => {
@@ -8,7 +7,7 @@ describe("basics", async () => {
         await expect(title).toEqual("OpenUI5 SDK - Demo Kit")
     })
 
-    it("should find a ui5 control by id", async () => {
+    it.only("should find a ui5 control by id", async () => {
         const selectorDownloadButton: wdi5Selector = {
             selector: {
                 id: "readMoreButton",
@@ -17,6 +16,10 @@ describe("basics", async () => {
             }
         }
         const controlDownloadButton: Button = await browser.asControl(selectorDownloadButton)
-        expect(await controlDownloadButton.getText()).toEqual("Download")
+        const text = await controlDownloadButton.getText()
+        expect(text).toEqual("Download")
+
+        const textViaAsyncApi = await (browser.asControl(selectorDownloadButton) as unknown as Button).getText()
+        expect(textViaAsyncApi).toEqual("Download")
     })
 })

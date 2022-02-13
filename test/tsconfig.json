@@ -5,8 +5,12 @@
             "webdriverio/async",
             "@wdio/mocha-framework",
             "expect-webdriverio",
-            "openui5"
+            "openui5",
+            "../src/types/browser-commands"
         ],
         "target": "ES5"
-    }
+    },
+    "exclude": [
+        "ui5-app"
+    ]
 }
