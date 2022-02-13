@@ -9,8 +9,5 @@
             "../src/types/browser-commands"
         ],
         "target": "ES5"
-    },
-    "exclude": [
-        "ui5-app"
-    ]
+    }
 }
