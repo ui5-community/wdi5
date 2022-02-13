@@ -14,7 +14,6 @@
   ],
   "license": "(DERIVED BEER-WARE OR Apache-2.0)",
   "keywords": [
-    "wdio-plugin",
     "wdio-service",
     "ui5",
     "openui5",
