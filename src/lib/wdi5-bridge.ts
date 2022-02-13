@@ -8,6 +8,7 @@ import { clientSide_injectUI5 } from "../../client-side-js/injectUI5"
 import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement"
 import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready"
 import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version"
+import { clientSide__navTo } from "../../client-side-js/_navTo"
 
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
@@ -211,6 +212,54 @@ export async function addWdi5Commands() {
         await _waitForUI5()
         await _writeScreenshot(fileAppendix)
     })
+
+    browser.addCommand("goTo", async (oOptions) => {
+        // allow for method sig to be both
+        //  wdi5()...goTo("#/accounts/create")
+        //  wdi5()...goTo({sHash:"#/accounts/create"})
+        let sHash
+        if (typeof oOptions === "string") {
+            sHash = oOptions
+        } else {
+            sHash = oOptions.sHash
+        }
+        const oRoute = oOptions.oRoute
+
+        if (sHash && sHash.length > 0) {
+            const url = (browser.config as wdi5Config).wdi5["url"]
+
+            // navigate via hash if defined
+            if (url && url.length > 0 && url !== "#") {
+                // prefix url config if is not just a hash (#)
+                const currentUrl = await browser.getUrl()
+                const alreadyNavByHash = currentUrl.includes("#")
+                const navToRoot = url.startsWith("/")
+                if (alreadyNavByHash && !navToRoot) {
+                    await browser.url(`${currentUrl.split("#")[0]}${sHash}`)
+                } else {
+                    await browser.url(`${url}${sHash}`)
+                }
+            } else if (url && url.length > 0 && url === "#") {
+                // route without the double hash
+                await browser.url(`${sHash}`)
+            } else {
+                // just a fallback
+                await browser.url(`${sHash}`)
+            }
+        } else if (oRoute && oRoute.sName) {
+            // navigate using the ui5 router
+            // sComponentId, sName, oParameters, oComponentTargetInfo, bReplace
+            await _navTo(
+                oRoute.sComponentId,
+                oRoute.sName,
+                oRoute.oParameters,
+                oRoute.oComponentTargetInfo,
+                oRoute.bReplace
+            )
+        } else {
+            Logger.error("ERROR: navigating to another page")
+        }
+    })
 }
 
 /**
@@ -273,4 +322,28 @@ async function _writeScreenshot(fileAppendix = "-screenshot") {
 function _getDateString() {
     var x = new Date()
     return `${x.getMonth() + 1}-${x.getDate()}-${x.getHours()}-${x.getMinutes()}-${x.getSeconds()}`
+}
+
+/**
+ * navigates to a UI5 route using the Component router
+ * @param {String} sComponentId
+ * @param {String} sName
+ * @param {Object} oParameters
+ * @param {Object} oComponentTargetInfo
+ * @param {Boolean} bReplace
+ */
+async function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) {
+    const result = await clientSide__navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace)
+    if (Array.isArray(result)) {
+        if (result[0] === "error") {
+            Logger.error("ERROR: navigation using UI5 router failed because of: " + result[1])
+            return result[1]
+        } else if (result[0] === "success") {
+            Logger.log(`SUCCESS: navigation using UI5 router to hash:  ${JSON.stringify(result[0])}`)
+            return result[1]
+        }
+    } else {
+        // Guess: was directly returned
+        return result
+    }
 }
