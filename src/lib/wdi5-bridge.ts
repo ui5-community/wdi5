@@ -311,7 +311,7 @@ async function _writeScreenshot(fileAppendix = "-screenshot") {
         await writeFile(path, screenshot, "base64")
         Logger.success(`screenshot at ${path} created`)
     } catch (error) {
-        Logger.error(error)
+        Logger.error(`error while saving screenshot: ${error}`)
     }
 }
 
