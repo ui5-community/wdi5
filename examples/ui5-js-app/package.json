@@ -1,11 +1,20 @@
 {
-  "name": "ui5-app",
-  "version": "0.8.15-notimportant",
-  "description": "sample ui5 app for testing wdi5",
-  "main": "webapp/index.html",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+    "name": "ui5-app",
+    "version": "0.8.15-notimportant",
+    "description": "sample ui5 app for testing wdi5",
+    "main": "webapp/index.html",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "wdio": "wdio run wdio.conf.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@wdio/cli": "^7.16.15",
+        "@wdio/local-runner": "^7.16.15",
+        "@wdio/mocha-framework": "^7.16.15",
+        "@wdio/spec-reporter": "^7.16.14",
+        "chromedriver": "^98.0.0",
+        "wdio-chromedriver-service": "^7.2.6"
+    }
 }

@@ -1,7 +1,6 @@
-const wdi5 = require('wdi5');
-
+const wdi5 = require("../../../../../../dist/wdi5").wdi5
 module.exports = class Page {
     async open(path) {
-        (await wdi5()).getUtils().goTo(path);
+        wdi5.goTo(path)
     }
-};
+}
