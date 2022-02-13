@@ -38,6 +38,45 @@ export async function setup(config: wdi5Config) {
 
     addWdi5Commands()
 
+    // inspired by and after staring a long time hard at:
+    // https://stackoverflow.com/questions/51635378/keep-object-chainable-using-async-methods
+    // https://github.com/Shigma/prochain
+    // https://github.com/l8js/l8/blob/main/src/core/liquify.js
+
+    // channel the async function browser._asControl (init'ed via browser.addCommand above) through a Proxy
+    // in order to chain calls of any subsequent UI5 api methods on the retrieved UI5 control:
+    // await browser.asControl(selector).methodOfUI5control().anotherMethodOfUI5control()
+    // the way this works is twofold:
+    // 1. (almost) all UI5 $control's API methods are reinjected from the browser-scope
+    //    into the Node.js scope via async WDI5._executeControlMethod(), which in term actually calls
+    //    the reinjected API method within the browser scope
+    // 2. the execution of each UI5 $control's API method (via async WDI5._executeControlMethod() => Promise) is then chained
+    //    via the below "then"-ing of the (async WDI5._executeControlMethod() => Promise)-Promises with the help of
+    //    the a Proxy and a recursive `handler` function
+    if (!browser.asControl) {
+        browser.asControl = function (ui5ControlSelector) {
+            const asyncMethods = ["then", "catch", "finally"]
+            function makeFluent(target) {
+                const promise = Promise.resolve(target)
+                const handler = {
+                    get(_, prop) {
+                        return asyncMethods.includes(prop)
+                            ? (...boundArgs) => makeFluent(promise[prop](...boundArgs))
+                            : makeFluent(promise.then((object) => object[prop]))
+                    },
+                    apply(_, thisArg, boundArgs) {
+                        return makeFluent(
+                            promise.then((targetFunction) => Reflect.apply(targetFunction, thisArg, boundArgs))
+                        )
+                    }
+                }
+                return new Proxy(function () {}, handler)
+            }
+            // @ts-ignore
+            return makeFluent(browser._asControl(ui5ControlSelector))
+        }
+    }
+
     _setupComplete = true
 }
 
@@ -93,7 +132,7 @@ function _createWdioUI5KeyFromSelector(selector: wdi5Selector): string {
 }
 
 export async function addWdi5Commands() {
-    browser.addCommand("asControl", async (wdi5Selector: wdi5Selector) => {
+    browser.addCommand("_asControl", async (wdi5Selector: wdi5Selector) => {
         const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
         // either retrieve and cache a UI5 control
         // or return a cached version
