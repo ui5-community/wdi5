@@ -3,7 +3,7 @@ import { writeFile } from "fs/promises"
 import { tmpdir } from "os"
 
 import { wdi5Config, wdi5Selector } from "../types/wdi5.types"
-import { WDI5 } from "./WDI5"
+import { WDI5Control } from "./wdi5-control"
 import { clientSide_injectUI5 } from "../../client-side-js/injectUI5"
 import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement"
 import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready"
@@ -146,7 +146,7 @@ export async function addWdi5Commands() {
         if (!browser._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
             Logger.info(`creating internal control with id ${internalKey}`)
             wdi5Selector.wdio_ui5_key = internalKey
-            const wdi5Control = new WDI5().init(wdi5Selector, wdi5Selector.forceSelect)
+            const wdi5Control = new WDI5Control().init(wdi5Selector, wdi5Selector.forceSelect)
             browser._controls[internalKey] = wdi5Control
         } else {
             Logger.info(`reusing internal control with id ${internalKey}`)

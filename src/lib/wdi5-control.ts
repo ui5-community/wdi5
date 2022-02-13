@@ -12,7 +12,7 @@ const Logger = _Logger.getInstance()
  * This can be seen as a generic representation of a UI5 control used to interact with the UI5 control
  * This does not adjust the funcitonality based on a UI5 control type
  */
-export class WDI5 {
+export class WDI5Control {
     /**
      * control retrieved from browser-/native-context,
      * transferred to node-context
@@ -102,7 +102,7 @@ export class WDI5 {
     /**
      * enters a text into this UI5 control
      * @param {*} text
-     * @return {WDI5} this for method chaining
+     * @return {WDI5Control} this for method chaining
      */
     async enterText(text) {
         // if (this._forceSelect) {
@@ -136,7 +136,7 @@ export class WDI5 {
      * retrieve UI5 control represenation of a UI5 control's aggregation
      *
      * @param {Array} aControls strings of IDs of aggregation items
-     * @returns {WDI5[]} instances of wdi5 class per control in the aggregation
+     * @returns {WDI5Control[]} instances of wdi5 class per control in the aggregation
      */
     async _retrieveElements(aControls) {
         let aResultOfPromises = []
@@ -168,7 +168,7 @@ export class WDI5 {
      * retrieve UI5 control represenation of a UI5 control's aggregation
      *
      * @param {webElement} eControl ID
-     * @returns {WDI5[]} instances of wdi5 class per control in the aggregation
+     * @returns {WDI5Control[]} instances of wdi5 class per control in the aggregation
      */
     async _retrieveElement(eControl) {
         let eResult = {}
