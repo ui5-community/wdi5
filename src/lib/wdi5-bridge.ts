@@ -111,6 +111,13 @@ export async function injectUI5(config: wdi5Config) {
     return result
 }
 
+export async function checkForUI5Page() {
+    // sap in global window namespace denotes (most likely :) ) that ui5 is present
+    return await browser.executeAsync((done) => {
+        done(!!window.sap)
+    })
+}
+
 //******************************************************************************************
 
 /**
