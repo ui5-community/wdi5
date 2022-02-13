@@ -3,7 +3,7 @@ const wdi5Service = require("../../dist/service").default
 
 exports.config = {
     wdi5: {
-        screenshotPath: join("test", "__screenshots__"),
+        screenshotPath: join("webapp", "test", "__screenshots__"),
         logLevel: "verbose", // error | verbose | silent
         url: "#",
         skipInjectUI5OnStart: false // default
