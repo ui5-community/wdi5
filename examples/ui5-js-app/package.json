@@ -4,11 +4,12 @@
     "description": "sample ui5 app for testing wdi5",
     "main": "webapp/index.html",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "wdio": "wdio run wdio.conf.js"
+        "test": "wdio run wdio.conf.js"
     },
     "author": "",
     "license": "ISC",
+    "//devDependencies0": "NOTE: wdio-ui5-service is missing here because we're in its' repo!!!",
+    "//devDependencies1": "NOTE: of course it would usually appear under 'devDependencies'",
     "devDependencies": {
         "@wdio/cli": "^7.16.15",
         "@wdio/local-runner": "^7.16.15",
