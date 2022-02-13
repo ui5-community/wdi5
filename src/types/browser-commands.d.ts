@@ -12,6 +12,7 @@ declare global {
     namespace WebdriverIO {
         interface Browser {
             asControl: (arg: wdi5Selector) => Promise<any>
+            screenshot: (arg: string) => Promise<any>
             /**
              * adding the wdi5 control cache to the global browser object
              */
