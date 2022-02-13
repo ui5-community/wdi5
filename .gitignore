@@ -92,5 +92,5 @@ test/ui5-app/app/www
 .env
 !.env.example
 
-# iOS build
-test/ui5-app/app/build.json
+# js sample app screenshots
+examples/ui5-js-app/webapp/test/__screenshots__/**/*.png
