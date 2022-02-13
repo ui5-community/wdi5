@@ -1,4 +1,4 @@
-async function _getAggregation(webElement, aggregationName) {
+async function clientSide_getAggregation(webElement, aggregationName) {
     return await browser.executeAsync(
         (webElement, aggregationName, done) => {
             window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
@@ -23,5 +23,5 @@ async function _getAggregation(webElement, aggregationName) {
 }
 
 module.exports = {
-    _getAggregation
+    clientSide_getAggregation
 }
