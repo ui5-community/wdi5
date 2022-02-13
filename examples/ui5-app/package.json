@@ -1,6 +1,6 @@
 {
   "name": "ui5-app",
-  "version": "0.8.1.5-not-important",
+  "version": "0.8.15-notimportant",
   "description": "sample ui5 app for testing wdi5",
   "main": "webapp/index.html",
   "scripts": {
