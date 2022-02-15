@@ -15,6 +15,6 @@
         "@wdio/spec-reporter": "^7.16.14",
         "chromedriver": "^98.0.0",
         "wdio-chromedriver-service": "^7.2.6",
-        "wdio-ui5-service": "^0.8.2"
+        "wdio-ui5-service": "*"
     }
 }
