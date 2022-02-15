@@ -1,3 +1,5 @@
+import * as util from "util"
+
 import { clientSide_getControl } from "../../client-side-js/getControl"
 import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl"
 import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod"
@@ -80,7 +82,7 @@ export class WDI5Control {
     /**
      * @return {WebdriverIO.Element} the webdriver Element
      */
-    async getWebElement() {
+    getWebElement() {
         //// TODO: check this "fix"
         //// why is the renew necessary here?
         //// it causes hiccup with the fluent async api as the transition from node-scope
@@ -88,7 +90,13 @@ export class WDI5Control {
         // if (this._forceSelect) {
         //     await this.renewWebElementReference()
         // }
-        return this._webdriverRepresentation
+        if (util.types.isProxy(this.getWebElement)) {
+            return (this._webdriverRepresentation as Promise<any>).then(
+                (webdriverRepresentation) => webdriverRepresentation
+            )
+        } else {
+            return this._webdriverRepresentation
+        }
     }
 
     /**
@@ -121,6 +129,20 @@ export class WDI5Control {
         }
         await this.interactWithControl(oOptions)
         return this
+    }
+
+    /**
+     * click on a UI5 control
+     * this works both on a standalone control as well as with the fluent async api
+     */
+    async press() {
+        if (util.types.isProxy(this.getWebElement)) {
+            return (this.getWebElement() as Promise<any>).then((webelement) => {
+                return webelement.click()
+            })
+        } else {
+            return await (this.getWebElement() as unknown as WebdriverIO.Element).click()
+        }
     }
 
     /**
