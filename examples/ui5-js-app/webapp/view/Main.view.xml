@@ -58,6 +58,9 @@
 				<Input id="invisibleInputField"
 					value="bla"
 					visible="false" />
+				<Button text="open Dialog"
+					press="openDialog"
+					id="openDialogButton" />
 			</VBox>
 		</content>
 	</Page>
