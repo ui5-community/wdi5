@@ -81,9 +81,13 @@ export class WDI5Control {
      * @return {WebdriverIO.Element} the webdriver Element
      */
     async getWebElement() {
-        if (this._forceSelect) {
-            await this.renewWebElementReference()
-        }
+        //// TODO: check this "fix"
+        //// why is the renew necessary here?
+        //// it causes hiccup with the fluent async api as the transition from node-scope
+        //// to browser-scope errors out (in .getControl client-side)
+        // if (this._forceSelect) {
+        //     await this.renewWebElementReference()
+        // }
         return this._webdriverRepresentation
     }
 
