@@ -3,9 +3,6 @@ import { Capabilities, Options, Services } from "@wdio/types"
 import { start, injectUI5, setup, checkForUI5Page } from "./lib/wdi5-bridge"
 import { wdi5Config } from "./types/wdi5.types"
 
-import { Logger as _Logger } from "./lib/Logger"
-const Logger = _Logger.getInstance()
-
 export default class Service implements Services.ServiceInstance {
     constructor(
         private _options: wdi5Config,
