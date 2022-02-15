@@ -90,4 +90,56 @@ describe("wdi5 locators ~ OPA5 matchers", () => {
         const textViaDeclarative = await browser.asControl(selectorByDeclarativeRegex).getText()
         expect(textViaDeclarative).toEqual("open Dialog")
     })
+
+    describe.only("RegEx notations", () => {
+        /**
+         * click the open dialog button to (well) open a dialog
+         * @param {String|RegExp} idRegex
+         */
+        async function _assert(idRegex) {
+            const openButtonSelector = {
+                forceSelect: true, // make sure we're retrieving from scratch
+                selector: {
+                    id: idRegex
+                }
+            }
+
+            const dialogSelector = {
+                forceSelect: true,
+                selector: {
+                    id: "Dialog",
+                    controlType: "sap.m.Dialog",
+                    interaction: "root"
+                }
+            }
+
+            if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
+                openButtonSelector.forceSelect = true
+                openButtonSelector.selector.interaction = "root"
+            }
+
+            // await browser.asControl(openButtonSelector).firePress()
+            // await browser.asControl(openButtonSelector).getWebElement().click()
+            // const button = await browser.asControl(openButtonSelector)
+            // const $button = await browser.asControl(openButtonSelector).getWebElement()
+            // await $button.click()
+            const button = await browser.asControl(openButtonSelector)
+            await button.press()
+
+            // await browser.asControl(openButtonSelector).press()
+
+            // await browser.asControl(openButtonSelector).getWebElement().click()
+
+            const popup = await browser.asControl(dialogSelector)
+            await expect(await popup.getVisible()).toBeTruthy()
+        }
+
+        afterEach(() => {
+            browser.keys("Escape") // close popup
+        })
+
+        it("plain regex /.../", async () => {
+            return await _assert(/.*openDialogButton$/)
+        })
+    })
 })
