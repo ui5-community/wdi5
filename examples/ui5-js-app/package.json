@@ -8,14 +8,13 @@
     },
     "author": "",
     "license": "ISC",
-    "//devDependencies0": "NOTE: wdio-ui5-service is missing here because we're in its' repo!!!",
-    "//devDependencies1": "NOTE: of course it would usually appear under 'devDependencies'",
     "devDependencies": {
         "@wdio/cli": "^7.16.15",
         "@wdio/local-runner": "^7.16.15",
         "@wdio/mocha-framework": "^7.16.15",
         "@wdio/spec-reporter": "^7.16.14",
         "chromedriver": "^98.0.0",
-        "wdio-chromedriver-service": "^7.2.6"
+        "wdio-chromedriver-service": "^7.2.6",
+        "wdio-ui5-service": "^0.8.2"
     }
 }
