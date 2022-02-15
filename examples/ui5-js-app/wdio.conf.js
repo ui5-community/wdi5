@@ -28,7 +28,7 @@ exports.config = {
     // Level of logging verbosity: trace | debug | info | warn | error | silent
     logLevel: "info",
     bail: 0,
-    baseUrl: "http://localhost:4711",
+    baseUrl: "http://localhost:8888",
 
     waitforTimeout: 10000,
     connectionRetryTimeout: 120000,
