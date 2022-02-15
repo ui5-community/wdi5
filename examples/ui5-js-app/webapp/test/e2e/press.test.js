@@ -1,6 +1,6 @@
 const Main = require("./pageObjects/Main")
 
-describe("wdi5 locators ~ OPA5 matchers", async () => {
+describe("custom wdi5 press event", async () => {
     const openButtonSelector = {
         forceSelect: true, // make sure we're retrieving from scratch
         selector: {
