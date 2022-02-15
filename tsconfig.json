@@ -1,8 +1,10 @@
 {
     "compilerOptions": {
+        "esModuleInterop": true,
         "outDir": "dist",
         "module": "CommonJS",
         "sourceMap": true,
+        "skipLibCheck": true,
         "types": [
             "node",
             "webdriverio/async",
