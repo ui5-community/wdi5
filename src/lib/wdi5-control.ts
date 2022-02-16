@@ -82,7 +82,7 @@ export class WDI5Control {
     /**
      * @return {WebdriverIO.Element} the webdriver Element
      */
-    getWebElement() {
+    async getWebElement() {
         //// TODO: check this "fix"
         //// why is the renew necessary here?
         //// it causes hiccup with the fluent async api as the transition from node-scope
@@ -91,9 +91,7 @@ export class WDI5Control {
         //     await this.renewWebElementReference()
         // }
         if (util.types.isProxy(this.getWebElement)) {
-            return (this._webdriverRepresentation as Promise<any>).then(
-                (webdriverRepresentation) => webdriverRepresentation
-            )
+            return await Promise.resolve(this._webdriverRepresentation) // to plug into fluent async api
         } else {
             return this._webdriverRepresentation
         }
