@@ -98,12 +98,16 @@ export class WDI5Control {
     }
 
     /**
-     * bridge to UI5 control getAggregation Method
-     * @param {String} name
-     * @return {any} content of the UI5 aggregation with name of parameter
+     * bridge to UI5 control api "getAggregation"
+     * @param name name of the aggregation
+     * @return array of UI5 controls representing the aggregation
      */
-    async getAggregation(name) {
-        if (this._forceSelect) {
+    async getAggregation(name: string) {
+        const _forceSelect: boolean = util.types.isProxy(this._forceSelect)
+            ? await Promise.resolve(this._forceSelect)
+            : this._forceSelect
+
+        if (_forceSelect) {
             await this.renewWebElementReference()
         }
         return await this._getAggregation(name)
