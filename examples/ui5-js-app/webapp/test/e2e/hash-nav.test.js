@@ -1,7 +1,7 @@
 const { wdi5 } = require("wdio-ui5-service")
 
 describe("hash-based nav", () => {
-    it.only('should allow the deep entry to "Other" view using wdi5 helper class and the UI5 router', async () => {
+    it('should allow the deep entry to "Other" view using wdi5 helper class and the UI5 router', async () => {
         const oRouteOptions = {
             sComponentId: "container-Sample",
             sName: "RouteOther"
@@ -20,8 +20,7 @@ describe("hash-based nav", () => {
             listSelector.selector.interaction = "root"
         }
 
-        const items = await browser.asControl(listSelector).getAggregation("items")
-        // const items = await browser.asControl(listSelector).getItems()
+        const items = await browser.asControl(listSelector).getItems(true)
         expect(items.length).toEqual(9)
     })
 
