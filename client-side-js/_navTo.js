@@ -28,3 +28,6 @@ async function clientSide__navTo(sComponentId, sName, oParameters, oComponentTar
         bReplace
     )
 }
+module.exports = {
+    clientSide__navTo
+}
