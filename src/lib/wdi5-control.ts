@@ -3,7 +3,7 @@ import * as util from "util"
 import { clientSide_getControl } from "../../client-side-js/getControl"
 import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl"
 import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod"
-import { clientSide__getAggregation } from "../../client-side-js/_getAggregation"
+import { clientSide_getAggregation } from "../../client-side-js/_getAggregation"
 import { clientSide_fireEvent } from "../../client-side-js/fireEvent"
 
 import { Logger as _Logger } from "./Logger"
