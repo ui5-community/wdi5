@@ -13,12 +13,12 @@ import { clientSide__navTo } from "../../client-side-js/_navTo"
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
 
-/** @type {Boolean} store the status of initialization */
-let _isInitialized = false
-/** @type {Boolean} stores the status of the setup process */
-let _setupComplete = false
-/** @type {String} currently running sap.ui.version */
-let _sapUI5Version = null
+/** store the status of initialization */
+let _isInitialized: boolean = false
+/** stores the status of the setup process */
+let _setupComplete: boolean = false
+/** currently running sap.ui.version */
+let _sapUI5Version: string = null
 /** relay runtime config options from Service */
 let _config: wdi5Config = null
 

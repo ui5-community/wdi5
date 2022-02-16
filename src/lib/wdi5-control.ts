@@ -9,33 +9,21 @@ import { clientSide_fireEvent } from "../../client-side-js/fireEvent"
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
 
+import { wdi5Selector } from "../types/wdi5.types"
+
 /**
  * This is a bridge object to use from selector to UI5 control
  * This can be seen as a generic representation of a UI5 control used to interact with the UI5 control
  * This does not adjust the funcitonality based on a UI5 control type
  */
 export class WDI5Control {
-    /**
-     * control retrieved from browser-/native-context,
-     * transferred to node-context
-     * @typedef {Object} WDI5ControlSelector selected UI5 control
-     * @property {String} wdio_ui5_key unique (wdi5-internal) key representing the UI5 control (selector)
-     *
-     */
-    /** @type {WDI5ControlSelector} */
-    _controlSelector = null
-    /** @type {[WebdriverIO.Element | String]} */
-    _webElement = null
-    /** @type {[WebdriverIO.Element | String]} */
-    _webdriverRepresentation = null
-    /** @type {String} */
-    _wdio_ui5_key = null
-    /** @type {Array | String} */
-    _generatedUI5Methods = null
-    /** @type {Boolean} */
-    _initialisation = false
-    /** @type {Boolean} */
-    _forceSelect = false
+    _controlSelector: wdi5Selector = null
+    _webElement: WebdriverIO.Element | string = null
+    _webdriverRepresentation: WebdriverIO.Element = null
+    _wdio_ui5_key: string = null
+    _generatedUI5Methods: [] | string = null
+    _initialisation: boolean = false
+    _forceSelect: boolean = false
 
     /**
      * create a new bridge return object for a UI5 control
