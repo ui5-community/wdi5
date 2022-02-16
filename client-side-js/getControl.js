@@ -1,4 +1,5 @@
 async function clientSide_getControl(controlSelector) {
+    controlSelector = await Promise.resolve(controlSelector) // to plug into fluent async api
     return await browser.executeAsync((controlSelector, done) => {
         const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options)
         if (controlSelector.timeout) {
