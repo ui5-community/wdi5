@@ -308,7 +308,10 @@ export class WDI5Control {
      * @return {any}
      */
     private async _getAggregation(aggregationName, webElement = this._webElement) {
-        const result = await clientSide__getAggregation(webElement, aggregationName)
+        if (util.types.isProxy(webElement)) {
+            webElement = await Promise.resolve(webElement)
+        }
+        const result = await clientSide_getAggregation(webElement, aggregationName)
 
         this.writeResultLog(result, "_getAggregation()")
 
