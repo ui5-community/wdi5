@@ -79,7 +79,8 @@ export class WDI5Control {
         //     await this.renewWebElementReference()
         // }
         if (util.types.isProxy(this.getWebElement)) {
-            return await Promise.resolve(this._webdriverRepresentation) // to plug into fluent async api
+            const $el: WebdriverIO.Element = await Promise.resolve(this._webdriverRepresentation) // to plug into fluent async api
+            return $el
         } else {
             return this._webdriverRepresentation
         }
