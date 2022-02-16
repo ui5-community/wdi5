@@ -344,7 +344,7 @@ export class WDI5Control {
      * @param {any} oOptions
      * @param {WebdriverIO.Element} webElement
      */
-    private async fireEvent(eventName, oOptions, webElement = this._webElement) {
+    async fireEvent(eventName, oOptions, webElement = this._webElement) {
         // Check the options have a eval property
         if (oOptions?.eval) {
             oOptions = "(" + oOptions.eval.toString() + ")"
