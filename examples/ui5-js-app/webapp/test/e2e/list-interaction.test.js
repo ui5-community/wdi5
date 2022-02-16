@@ -40,7 +40,7 @@ describe("list interaction", () => {
         expect(await list.getProperty("headerText")).toEqual("...bites the dust!")
     })
 
-    it.only("press a list item to show its' data:key property", async () => {
+    it("press a list item to show its' data:key property", async () => {
         // fire click event on a list item
         // it will set the list items' data:key value to the text field
         // the event handler function checks the data:key property of the list item -> manually add this property to the event.
