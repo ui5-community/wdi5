@@ -1,4 +1,4 @@
-async function fireEvent(webElement, eventName, oOptions) {
+async function clientSide_fireEvent(webElement, eventName, oOptions) {
     return await browser.executeAsync(
         (webElement, eventName, oOptions, done) => {
             window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
@@ -29,4 +29,8 @@ async function fireEvent(webElement, eventName, oOptions) {
         eventName,
         oOptions
     )
+}
+
+module.exports = {
+    clientSide_fireEvent
 }
