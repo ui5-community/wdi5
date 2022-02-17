@@ -1,4 +1,4 @@
-const wdi5 = require("../../../../../dist/wdi5").wdi5
+const { wdi5 } = require("wdio-ui5-service")
 const Main = require("./pageObjects/Main")
 
 describe("ui5 basic", () => {
