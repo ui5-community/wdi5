@@ -1,6 +1,8 @@
-## requirements
+# Installation
 
-## recommended: install via `wdio` cli config walkthrough
+...can be either done by using the [Webdriver.IO `cli`](https://webdriver.io/docs/gettingstarted.html) or manually.
+
+## guided install via `wdio` cli
 
 - cd into folder with UI5 app
 - npx wdio
