@@ -129,10 +129,11 @@ export class WDI5Control {
     async press() {
         if (util.types.isProxy(this.getWebElement)) {
             const webelement = await Promise.resolve(this.getWebElement())
-            return await webelement.click()
+            await webelement.click()
         } else {
-            return await ((await this.getWebElement()) as unknown as WebdriverIO.Element).click()
+            await ((await this.getWebElement()) as unknown as WebdriverIO.Element).click()
         }
+        return this
     }
 
     /**
