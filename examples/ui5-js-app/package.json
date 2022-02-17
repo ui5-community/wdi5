@@ -4,7 +4,8 @@
     "description": "sample ui5 app for testing wdi5",
     "main": "webapp/index.html",
     "scripts": {
-        "test": "wdio run wdio.conf.js"
+        "test:webserver": "wdio run wdio-webserver.conf.js",
+        "test:ui5tooling": "wdio run wdio-ui5tooling.conf.js"
     },
     "author": "",
     "license": "ISC",

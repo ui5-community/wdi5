@@ -1,15 +1,14 @@
 const { join } = require("path")
-const wdi5Service = require("../../dist/service").default
 
 exports.config = {
     wdi5: {
         screenshotPath: join("webapp", "test", "__screenshots__"),
         logLevel: "verbose", // error | verbose | silent
-        url: "#",
+        url: "index.html",
         skipInjectUI5OnStart: false // default
     },
     //// wdio runner config
-    specs: ["./webapp/test/e2e/**/*.js"],
+    specs: ["./webapp/test/e2e/basic.test.js"],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -28,16 +27,13 @@ exports.config = {
     // Level of logging verbosity: trace | debug | info | warn | error | silent
     logLevel: "info",
     bail: 0,
-    baseUrl: "http://localhost:8888",
+    baseUrl: "http://localhost:8080",
 
     waitforTimeout: 10000,
     connectionRetryTimeout: 120000,
     connectionRetryCount: 3,
 
-    services: [
-        "chromedriver",
-        [wdi5Service] // usually just "ui5"; different here as we're in the wdi5 repo
-    ],
+    services: ["chromedriver", "ui5"],
 
     framework: "mocha",
     mochaOpts: {
