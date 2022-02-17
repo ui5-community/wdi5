@@ -1,29 +1,29 @@
-const Page = require('./Page');
+const Page = require("./Page")
 
 class Main extends Page {
     async open() {
-        await super.open(`#/Main`);
+        await super.open(`#/Main`)
     }
 
-    _viewName = 'test.Sample.view.Main';
+    _viewName = "test.Sample.view.Main"
 
     async getCheckbox() {
         const cbSelector1 = {
-            wdio_ui5_key: 'cbSelector1',
+            wdio_ui5_key: "cbSelector1",
             selector: {
-                id: 'idCheckbox',
+                id: "idCheckbox",
                 viewName: this._viewName,
-                controlType: 'sap.m.CheckBox'
+                controlType: "sap.m.CheckBox"
             }
-        };
-
-        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
-            cbSelector1.forceSelect = true;
-            cbSelector1.selector.interaction = 'root';
         }
 
-        return await browser.asControl(cbSelector1);
+        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
+            cbSelector1.forceSelect = true
+            cbSelector1.selector.interaction = "root"
+        }
+
+        return await browser.asControl(cbSelector1)
     }
 }
 
-module.exports = new Main();
+module.exports = new Main()
