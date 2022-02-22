@@ -1,5 +1,3 @@
-const { wdi5 } = require("wdio-ui5-service")
-
 const Main = require("./pageObjects/Main")
 
 describe("check the generated methods on the control -> ", () => {
@@ -27,7 +25,8 @@ describe("check the generated methods on the control -> ", () => {
     const listSelector = {
         selector: {
             id: "PeopleList",
-            viewName: "test.Sample.view.Other"
+            viewName: "test.Sample.view.Other",
+            interaction: "root"
         }
     }
 
@@ -47,7 +46,6 @@ describe("check the generated methods on the control -> ", () => {
             dateTimeSelector.forceSelect = true
             dateTimeSelector.selector.interaction = "root"
             listSelector.forceSelect = true
-            listSelector.selector.interaction = "root"
             checkboxSelector.forceSelect = true
             checkboxSelector.selector.interaction = "root"
         }
@@ -115,6 +113,8 @@ describe("check the generated methods on the control -> ", () => {
         expect(await button.getEnabled()).toBeTruthy()
         await button.setEnabled(false)
         expect(await button.getEnabled()).toBeFalsy()
+        // re-enable for later usage
+        await button.setEnabled(true)
     })
 
     it("sap.m.CheckBox APIs", async () => {
