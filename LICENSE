@@ -200,12 +200,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
+
 /*
  * ----------------------------------------------------------------------------
- * "THE DERIVED BEER-WARE LICENSE" (Revision 1):
+ * "THE DERIVED BEER-WARE LICENSE" (Revision 2):
  * You can do whatever you want with this stuff. When you like it, just buy
- * Volker Buzek (@vobu) or Dominik Feininger (@The_dominiK) a beer when you
- * see them.
+ * Volker Buzek (@vobu), Dominik Feininger (@The_dominiK) or 
+ * any contributor https://github.com/js-soft/wdi5/graphs/contributors of your
+ * choice a beer when you see them.
  *
  * Inspired by the official: https://fedoraproject.org/wiki/Licensing/Beerware
  *
