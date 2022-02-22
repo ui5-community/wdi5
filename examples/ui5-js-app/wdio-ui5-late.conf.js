@@ -5,7 +5,7 @@ exports.config = {
         skipInjectUI5OnStart: true,
         // path: "", // commented out to use the default paths
         screenshotPath: join("webapp", "test", "__screenshots__"),
-        logLevel: "verbose", // error | verbose | silent
+        logLevel: "error", // error | verbose | silent
         url: "/js-soft/wdi5/",
         deviceType: "web"
     },

@@ -3,7 +3,7 @@ const { join } = require("path")
 exports.config = {
     wdi5: {
         screenshotPath: join("webapp", "test", "__screenshots__"),
-        logLevel: "verbose", // error | verbose | silent
+        logLevel: "error", // error | verbose | silent
         url: "index.html",
         skipInjectUI5OnStart: false // default
     },
@@ -25,7 +25,7 @@ exports.config = {
     ],
     //// test config
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: "info",
+    logLevel: "error",
     bail: 0,
     baseUrl: "http://localhost:8080",
 
