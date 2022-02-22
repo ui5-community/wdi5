@@ -20,7 +20,10 @@ exports.config = {
             // overwrite global "maxInstances"
             maxInstances: 5,
             browserName: "chrome",
-            acceptInsecureCerts: true
+            acceptInsecureCerts: true,
+            "goog:chromeOptions": {
+                args: process.env.HEADLESS ? ["--headless"] : ["window-size=1440,800"]
+            }
         }
     ],
     //// test config
