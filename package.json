@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "// build time": "refers to developing wdi5/wdio-ui5-service itself",
-    "clean": "rm -Rf dist",
+    "clean": "rimraf dist",
     "compile": "tsc",
     "_copy": "copyfiles package.json dist",
     "build": "run-s -c clean compile _copy",
@@ -27,7 +27,7 @@
     "Dominik Feininger <dominik.feininger@js-soft.com> (https://www.js-soft.com/)",
     "Volker Buzek <volker.buzek@js-soft.com> (https://www.js-soft.com/)"
   ],
-  "license": "(DERIVED BEER-WARE OR Apache-2.0)",
+  "license": "(Apache-2.0 or DERIVED BEER-WARE)",
   "keywords": [
     "wdio-service",
     "ui5",
@@ -63,6 +63,7 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.5.1",
     "replace-in-file": "^6.3.2",
+    "rimraf": "^3.0.2",
     "ts-node": "^10.5.0",
     "typescript": "^4.5.5",
     "wait-on": "^6.0.1",
