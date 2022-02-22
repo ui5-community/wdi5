@@ -21,3 +21,8 @@ recommended approach:
 
 - run server in terminal 1
 - run test in terminal 2
+
+## work on the docs
+
+- npm i -g docsify-cli
+- docsify serve ./docs -> http://localhost:3000
