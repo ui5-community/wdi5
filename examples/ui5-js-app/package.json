@@ -5,7 +5,8 @@
     "main": "webapp/index.html",
     "scripts": {
         "test:webserver": "wdio run wdio-webserver.conf.js",
-        "test:ui5tooling": "wdio run wdio-ui5tooling.conf.js"
+        "test:ui5tooling": "wdio run wdio-ui5tooling.conf.js",
+        "test:lateInject": "wdio run wdio-ui5-late.conf.js"
     },
     "author": "",
     "license": "ISC",
