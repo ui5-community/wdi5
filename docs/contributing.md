@@ -5,6 +5,7 @@
 ## prerequisites
 
 - npm >= 7 - because we're using npm's `workspaces` feature
+- accustomed to conventional commits <https://github.com/conventional-changelog/commitlint/tree/master/@commitlint/config-conventional#type-enum> ; "wip: ..." is also allowed
 
 ## set up the dev env
 
