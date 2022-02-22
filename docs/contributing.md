@@ -25,4 +25,4 @@ recommended approach:
 ## work on the docs
 
 - npm i -g docsify-cli
-- docsify serve ./docs -> http://localhost:3000
+- docsify serve ./docs -> <http://localhost:3000>
