@@ -14,9 +14,9 @@ import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
 
 /** store the status of initialization */
-let _isInitialized: boolean = false
+let _isInitialized = false
 /** stores the status of the setup process */
-let _setupComplete: boolean = false
+let _setupComplete = false
 /** currently running sap.ui.version */
 let _sapUI5Version: string = null
 /** relay runtime config options from Service */
@@ -29,7 +29,7 @@ export async function setup(config: wdi5Config) {
         return
     }
     // jump-start the desired log level
-    Logger.setLogLevel(config.wdi5.logLevel)
+    Logger.setLogLevel(config.wdi5.logLevel || "error")
 
     // init control cache
     if (!browser._controls) {
@@ -71,6 +71,7 @@ export async function setup(config: wdi5Config) {
                         )
                     }
                 }
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
                 return new Proxy(function () {}, handler)
             }
             // @ts-ignore
@@ -320,7 +321,7 @@ async function _writeScreenshot(fileAppendix = "-screenshot") {
  * @returns {String}
  */
 function _getDateString() {
-    var x = new Date()
+    const x = new Date()
     return `${x.getMonth() + 1}-${x.getDate()}-${x.getHours()}-${x.getMinutes()}-${x.getSeconds()}`
 }
 
