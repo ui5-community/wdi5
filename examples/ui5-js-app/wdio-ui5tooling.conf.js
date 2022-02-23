@@ -8,7 +8,7 @@ exports.config = {
         skipInjectUI5OnStart: false // default
     },
     //// wdio runner config
-    specs: ["./webapp/test/e2e/basic.test.js"],
+    specs: ["./webapp/test/e2e/basic.test.js", "./webapp/test/e2e/hash-nav.test.js"],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
