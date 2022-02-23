@@ -5,22 +5,14 @@ export class wdi5 {
         return Logger
     }
 
-    static async goTo(hash, oRoute) {
-        if (hash) {
-            Logger.log(`Navigating to: ${hash}`)
-            // used for electron and browser
-            await browser.goTo(hash)
-
-            // electron needs to have the wdi5 injected after navigation
-            // -- no more as of Nov 2020 :) TODO: investigate why we don't need it
-            // if (this.getConfig('platform') === 'electron') {
-            // this.context.injectUI5(browser);
-            // }
+    static async goTo(param: any, oRoute) {
+        if (param) {
+            Logger.log(`Navigating to: ${JSON.stringify(param)}`)
+            await browser.goTo(param)
         } else {
-            Logger.log(`Navigating to: ${oRoute.sName}`)
-
-            // only for ui5 router based navigation use this function
-            await browser.goTo({ oRoute: oRoute })
+            Logger.log(`Navigating to: ${JSON.stringify(oRoute)}`)
+            // ui5 router based navigation
+            await browser.goTo({ oRoute })
         }
     }
 }
