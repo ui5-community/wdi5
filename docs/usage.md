@@ -37,17 +37,24 @@ it("validates that $control's text is ...", async () => {
 })
 ```
 
+## supported locators for selectors
+
 These are the supported selectors from [sap.ui.test.RecordReplay.ControlSelector](https://ui5.sap.com/#/api/sap.ui.test.RecordReplay.ControlSelector):
-| selector | supported in `wdi5` |
-| ----------: | ----------- |
-| `id` | &check; |
-| `viewName` | &check; |
-| `controlType` | &check; |
-| `bindingPath` | &check; |
-| `I18NText` | - |
-| `Anchestor` | - |
-| `labelFor` | - |
-| `properties` | &check; |
+
+<!-- prettier-ignore-start -->
+
+|      selector | supported in `wdi5` |
+| ------------: | ------------------- |
+|          `id` | &check;             |
+|    `viewName` | &check;             |
+| `controlType` | &check;             |
+| `bindingPath` | &check;             |
+|    `I18NText` | -                   |
+|   `Anchestor` | -                   |
+|    `labelFor` | -                   |
+|  `properties` | &check;             |
+
+<!-- prettier-ignore-end -->
 
 ```javascript
 const bindingPathSelector = {
@@ -174,7 +181,7 @@ length: 220
 !> This method bridge **does not** proxy private control methods (starting with `_`), `getAggregation` (and `getMetadata`) though.
 [`getAggregation` (see below)](#getaggregation) is provided by `wdi5` separately with a UI5-compatible API signature.
 
-### getAggregation
+### `getAggregation`
 
 `getAggregation(sAggregationName) => wdi5Controls[]`: retrieve the elements of aggregation `sAggregationName` of a control [getAggregation](https://ui5.sap.com/#/api/sap.ui.base.ManagedObject%23methods/getAggregation)
 
@@ -186,7 +193,7 @@ for (const listItem of ui5ListItems) {
 }
 ```
 
-### get$Shorthand conveniences
+### `get`$Shorthand conveniences
 
 If `getAggregation` is called via a shorthand such as `sap.m.ListBase.getItems()`, additional convenience functions are available:
 
@@ -194,7 +201,7 @@ If `getAggregation` is called via a shorthand such as `sap.m.ListBase.getItems()
 
 - `get$Shorthand(2)` (e.g. `getItems(2)`): if set as `Number`, the result array contains a single UI5 control from the aggregation at index `Number` (here: 2). This is a huge performance improvement in case you dont need all controls of the aggegation as fully qualified UI5 controls, but rather one specific single control.
 
-### enterText
+### `enterText`
 
 `enterText(sText)`: input `sText` into a (input-capable) control via [EnterText](https://ui5.sap.com/#/api/sap.ui.test.actions.EnterText)
 
@@ -203,7 +210,7 @@ const control = await browser.asControl(inputSelector)
 await control.enterText("new Text")
 ```
 
-### press
+### `press`
 
 For (well) pressing a UI5 control (e.g. `sap.m.Button`), `wdi5` provides the explicit $control.`press()` api.
 
