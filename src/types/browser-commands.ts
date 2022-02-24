@@ -8,7 +8,9 @@ import { wdi5Selector } from "./wdi5.types"
 type cachedControl = {
     [key: string]: Control
 }
+
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace WebdriverIO {
         interface Browser {
             asControl: (arg: wdi5Selector) => Promise<any>

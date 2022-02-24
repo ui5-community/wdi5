@@ -13,10 +13,6 @@ delete pkgJson["lint-staged"]
 
 // copy
 // - cleaned up package.json
-// - browser command types
 ;(async () => {
-    await Promise.all([
-        fs.writeFile("dist/package.json", JSON.stringify(pkgJson)),
-        fs.copyFile("src/types/browser-commands.d.ts", "dist/types/browser-commands.d.ts")
-    ])
+    await Promise.all([fs.writeFile("dist/package.json", JSON.stringify(pkgJson))])
 })()
