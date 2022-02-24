@@ -10,9 +10,7 @@ exports.config = {
     //// wdio runner config
     specs: [join("webapp", "test", "e2e", "**/*.test.js")],
     // Patterns to exclude.
-    exclude: [
-        // 'path/to/excluded/files'
-    ],
+    exclude: [join("webapp", "test", "e2e", "ui5-late.test.js")],
     //// capabilities ("browser") config
     maxInstances: 10,
     capabilities: [
