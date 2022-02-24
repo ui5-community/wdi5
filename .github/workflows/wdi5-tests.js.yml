@@ -1,0 +1,52 @@
+name: wdi5 tests
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14, 16, 17]
+
+    steps:
+      - name: update chrome
+        run: |
+          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
+          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+          sudo apt-get update
+          sudo apt-get --only-upgrade install google-chrome-stable
+          # check chrome version
+          google-chrome --version
+
+      - name: check out repo
+        uses: actions/checkout@v2
+
+      - name: use node ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
+
+      # we need this for workspace mgmt
+      - name: check npm version >= 7
+        run: npm --version
+      - name: update npm
+        run: npm i -g npm
+
+      - name: install packages
+        run: |
+          npm i
+          cd examples/ui5-js-app && npm i
+
+      # build things
+      - name: build
+        run: npm run build
+
+      # run the actual tests
+      - name: test js-app
+        run: HEADLESS=true npm run test:js-app
