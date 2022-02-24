@@ -121,3 +121,17 @@ expect(await (await stat(downloadedFile)).size).toBeGreaterThan(1)
 ## Chrome: auto-open debug tools
 
 ## Chrome: run headless
+
+## `wdi5`- and `wdio`-API autocompletion
+
+In VS Code, use a `jsconfig.json` at the root of your JavaScript-project, at the very least containing
+
+```json
+{
+  "compilerOptions": {
+    "types": ["node", "webdriverio/async", "wdio-ui5-service"]
+  }
+}
+```
+
+See an example at `/examples/ui5-js-app/jsconfig.json` in the wdi5 repository.
