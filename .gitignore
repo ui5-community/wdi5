@@ -56,13 +56,14 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-dist
-
 # WebStorm/IntelliJ IDE
 .idea
 
+# don't include build artifacts
+dist/**/*
+
 # Gitkeep generally
-!/**/.gitkeep
+!**/.gitkeep
 
 # Testing
 
