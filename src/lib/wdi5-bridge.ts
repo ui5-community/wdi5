@@ -2,8 +2,6 @@ import { resolve } from "path"
 import { writeFile } from "fs/promises"
 import { tmpdir } from "os"
 
-import { browser } from "../types/browser-commands.types"
-
 import { wdi5Config, wdi5Selector } from "../types/wdi5.types"
 import { WDI5Control } from "./wdi5-control"
 import { clientSide_injectUI5 } from "../../client-side-js/injectUI5"

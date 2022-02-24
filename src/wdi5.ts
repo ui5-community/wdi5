@@ -1,5 +1,3 @@
-import { browser } from "./types/browser-commands.types"
-
 import { Logger as _Logger } from "./lib/Logger"
 const Logger = _Logger.getInstance()
 export class wdi5 {
