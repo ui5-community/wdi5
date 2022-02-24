@@ -11,7 +11,7 @@
     "// build time": "refers to developing wdi5/wdio-ui5-service itself",
     "clean": "rimraf dist",
     "compile": "tsc",
-    "_copy": "copyfiles package.json dist",
+    "_copy": "node scripts/build.js",
     "build": "run-s -c clean compile _copy",
     "build:watch": "tsc -w",
     "// test time": "refers to testing wdio-ui5-service",
