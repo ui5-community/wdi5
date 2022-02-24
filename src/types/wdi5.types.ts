@@ -1,24 +1,23 @@
 import Log from "sap/base/Log"
-import Control from "sap/ui/core/Control"
 import RecordReplay from "sap/ui/test/RecordReplay"
 import { ControlSelector } from "sap/ui/test/RecordReplay"
 
-// copypasta from
-// https://stackoverflow.com/questions/41285211/overriding-interface-property-type-defined-in-typescript-d-ts-file/65561287#65561287
-type ModifyDeep<A extends AnyObject, B extends DeepPartialAny<A>> = {
-    [K in keyof A]: B[K] extends never ? A[K] : B[K] extends AnyObject ? ModifyDeep<A[K], B[K]> : B[K]
-} & (A extends AnyObject ? Omit<B, keyof A> : A)
-/** Makes each property optional and turns each leaf property into any, allowing for type overrides by narrowing any. */
-type DeepPartialAny<T> = {
-    [P in keyof T]?: T[P] extends AnyObject ? DeepPartialAny<T[P]> : any
-}
-type AnyObject = Record<string, any>
-// -
+// // copypasta from
+// // https://stackoverflow.com/questions/41285211/overriding-interface-property-type-defined-in-typescript-d-ts-file/65561287#65561287
+// type ModifyDeep<A extends AnyObject, B extends DeepPartialAny<A>> = {
+//     [K in keyof A]: B[K] extends never ? A[K] : B[K] extends AnyObject ? ModifyDeep<A[K], B[K]> : B[K]
+// } & (A extends AnyObject ? Omit<B, keyof A> : A)
+// /** Makes each property optional and turns each leaf property into any, allowing for type overrides by narrowing any. */
+// type DeepPartialAny<T> = {
+//     [P in keyof T]?: T[P] extends AnyObject ? DeepPartialAny<T[P]> : any
+// }
+// type AnyObject = Record<string, any>
+// // -
 
-// more copypasta
-// https://stackoverflow.com/a/55032655/15273517
-type Modify<T, R> = Omit<T, keyof R> & R
-// -
+// // more copypasta
+// // https://stackoverflow.com/a/55032655/15273517
+// type Modify<T, R> = Omit<T, keyof R> & R
+// // -
 
 export type wdi5LogLevel = "silent" | "error" | "verbose"
 
@@ -63,19 +62,19 @@ interface wdi5ControlSelector {
     /**
      * Binding path matcher, {@link sap.ui.test.matchers.BindingPath}
      */
-    bindingPath?: Object
+    bindingPath?: Record<string, unknown>
     /**
      * I18N Text matcher, {@link sap.ui.test.matchers.I18NText}
      */
-    I18NText?: Object
+    I18NText?: Record<string, unknown>
     /**
      * Label matcher, {@link sap.ui.test.matchers.LabelFor}
      */
-    labelFor?: Object
+    labelFor?: Record<string, unknown>
     /**
      * Properties matcher, {@link sap.ui.test.matchers.Properties}
      */
-    properties?: Object
+    properties?: Record<string, unknown>
 }
 
 export interface wdi5Selector {
