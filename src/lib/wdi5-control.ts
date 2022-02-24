@@ -44,7 +44,7 @@ export class WDI5Control {
 
             // dynamic function bridge
             this._generatedUI5Methods = controlResult[1]
-            await this.attachControlBridge(this._generatedUI5Methods)
+            await this.attachControlBridge(this._generatedUI5Methods as Array<string>)
 
             // set the succesful init param
             this._initialisation = true
