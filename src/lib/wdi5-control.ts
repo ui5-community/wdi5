@@ -12,9 +12,8 @@ const Logger = _Logger.getInstance()
 import { wdi5Selector } from "../types/wdi5.types"
 
 /**
- * This is a bridge object to use from selector to UI5 control
- * This can be seen as a generic representation of a UI5 control used to interact with the UI5 control
- * This does not adjust the funcitonality based on a UI5 control type
+ * This is a bridge object to use from selector to UI5 control,
+ * can be seen as a generic representation of a UI5 control
  */
 export class WDI5Control {
     _controlSelector: wdi5Selector = null
@@ -22,12 +21,9 @@ export class WDI5Control {
     _webdriverRepresentation: WebdriverIO.Element = null
     _wdio_ui5_key: string = null
     _generatedUI5Methods: [] | string = null
-    _initialisation: boolean = false
-    _forceSelect: boolean = false
+    _initialisation = false
+    _forceSelect = false
 
-    /**
-     * create a new bridge return object for a UI5 control
-     */
     constructor() {
         return this
     }
@@ -37,7 +33,6 @@ export class WDI5Control {
         this._wdio_ui5_key = controlSelector.wdio_ui5_key
         this._forceSelect = forceSelect
 
-        // fire getControl just once when creating this webui5 object
         const controlResult = await this.getControl()
 
         if (typeof controlResult[0] === "string" && controlResult[0].toLowerCase().includes("error:")) {
@@ -51,24 +46,22 @@ export class WDI5Control {
             this._generatedUI5Methods = controlResult[1]
             await this.attachControlBridge(this._generatedUI5Methods)
 
-            // set the sucesfull init param
+            // set the succesful init param
             this._initialisation = true
         }
 
         return this
     }
 
-    // --- public methods Getter ---
-
     /**
-     * @return {Boolean} whether this control was sucessfull initialised
+     * @return whether this control was sucessfully initialised
      */
-    getInitStatus() {
+    getInitStatus(): boolean {
         return this._initialisation
     }
 
     /**
-     * @return {WebdriverIO.Element} the webdriver Element
+     * @return the webdriver Element
      */
     async getWebElement() {
         //// TODO: check this "fix"
@@ -103,11 +96,10 @@ export class WDI5Control {
     }
 
     /**
-     * enters a text into this UI5 control
-     * @param {*} text
-     * @return {WDI5Control} this for method chaining
+     * enters a text into a UI5 control
+     * @param text
      */
-    async enterText(text) {
+    async enterText(text: string) {
         // if (this._forceSelect) {
         //     this.renewWebElementReference();
         // }
@@ -139,7 +131,7 @@ export class WDI5Control {
     /**
      * used to update the wdio control reference
      * this can be used to manually trigger an control reference update after a ui5 control rerendering
-     * this method is also used wdi5 interally to implement the extended forceSelect option
+     * this method is also used wdi5-internally to implement the extended forceSelect option
      */
     async renewWebElementReference() {
         const newWebElement = (await this.getControl())[0]
@@ -152,11 +144,11 @@ export class WDI5Control {
     /**
      * retrieve UI5 control represenation of a UI5 control's aggregation
      *
-     * @param {Array} aControls strings of IDs of aggregation items
-     * @returns {WDI5Control[]} instances of wdi5 class per control in the aggregation
+     * @param aControls strings of IDs of aggregation items
+     * @returns instances of wdi5 class per control in the aggregation
      */
-    async _retrieveElements(aControls) {
-        let aResultOfPromises = []
+    async _retrieveElements(aControls): Promise<Array<WDI5Control>> {
+        const aResultOfPromises = []
 
         // check the validity of param
         if (aControls) {
@@ -184,8 +176,8 @@ export class WDI5Control {
     /**
      * retrieve UI5 control represenation of a UI5 control's aggregation
      *
-     * @param {webElement} eControl ID
-     * @returns {WDI5Control[]} instances of wdi5 class per control in the aggregation
+     * @param eControl ID
+     * @returns instances of wdi5 class per control in the aggregation
      */
     async _retrieveElement(eControl) {
         let eResult = {}
@@ -213,9 +205,9 @@ export class WDI5Control {
     /**
      * attaches to the instance of this class the functions given in the parameter sReplFunctionNames
      *
-     * @param {Array} sReplFunctionNames
+     * @param sReplFunctionNames
      */
-    private async attachControlBridge(sReplFunctionNames) {
+    private async attachControlBridge(sReplFunctionNames: Array<string>) {
         // check the validity of param
         if (sReplFunctionNames) {
             sReplFunctionNames.forEach(async (sMethodName) => {
@@ -229,11 +221,15 @@ export class WDI5Control {
     /**
      * runtime - proxied browser-time UI5 controls' method at Node.js-runtime
      *
-     * @param {String} methodName UI5 control method
-     * @param {WebdriverIO.Element} webElement representation of selected UI5 control in wdio
-     * @param  {...any} args proxied arguments to UI5 control method at runtime
+     * @param methodName UI5 control method
+     * @param webElement representation of selected UI5 control in wdio
+     * @param args proxied arguments to UI5 control method at runtime
      */
-    private async executeControlMethod(methodName, webElement = this._webElement, ...args) {
+    private async executeControlMethod(
+        methodName: string,
+        webElement: WebdriverIO.Element | string = this._webElement,
+        ...args
+    ) {
         if (this._forceSelect) {
             this._webElement = await this.renewWebElementReference()
         }
@@ -294,11 +290,14 @@ export class WDI5Control {
     /**
      * retrieve an aggregation's members as UI5 controls
      *
-     * @param {String} aggregationName
-     * @param {WebdriverIO.Element} webElement
+     * @param aggregationName
+     * @param webElement
      * @return {any}
      */
-    private async _getAggregation(aggregationName, webElement = this._webElement) {
+    private async _getAggregation(
+        aggregationName: string,
+        webElement: WebdriverIO.Element | string = this._webElement
+    ) {
         if (util.types.isProxy(webElement)) {
             webElement = await Promise.resolve(webElement)
         }
