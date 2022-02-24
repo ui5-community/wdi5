@@ -116,6 +116,8 @@ const downloadedFile = join(__dirname, "__assets__", "image.png") // by the book
 expect(await (await stat(downloadedFile)).size).toBeGreaterThan(1)
 ```
 
+## watch the browser window size
+
 ## Chrome: auto-open debug tools
 
 ## Chrome: run headless
