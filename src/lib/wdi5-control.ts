@@ -1,5 +1,7 @@
 import * as util from "util"
 
+import { browser } from "../types/browser-commands.types"
+
 import { clientSide_getControl } from "../../client-side-js/getControl"
 import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl"
 import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod"
