@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "// build time": "refers to developing wdi5/wdio-ui5-service itself",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist/**/*",
     "compile": "tsc",
     "_copy": "node scripts/build.js",
     "build": "run-s -c clean compile _copy",
