@@ -1,0 +1,19 @@
+# do a gh release after ci user has pushed the tag to main
+on:
+  push:
+    tags:
+      - "v*.*.*"
+jobs:
+  gh-release:
+    # only run on ci commits
+    if: "contains(github.event.head_commit.author.name, 'SAP Mentors & Friends')"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "dist/**/*"
+          bodyFile: "CHANGELOG.md"
+          token: ${{ secrets.GITHUB_TOKEN }}
