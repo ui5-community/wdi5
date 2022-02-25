@@ -1,12 +1,14 @@
 # Installation
 
+With `wdi5` [being a service to WebdriverIO](https://webdriver.io/docs/wdio-ui5-service), installation of both is required.
+
 ## Prerequisites
 
 - UI5 app running in the browser, accessbile via `http(s)://host.ext:port`.
   Recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like [`soerver`](https://github.com/vobu/soerver) or [`http-server`](https://www.npmjs.com/package/http-server).
 - Node.js version >= `14` (`lts/fermium`)
 
-The installation of both `wdi5` and WebdriverIO can either be done by using the [Webdriver.IO `cli`](https://webdriver.io/docs/gettingstarted.html) (recommended) or manually.
+The installation of `wdi5` and WebdriverIO can either be done by using the [Webdriver.IO `cli`](https://webdriver.io/docs/gettingstarted.html) (recommended) or manually.
 
 ## guided install via `wdio` cli
 
