@@ -37,7 +37,7 @@ jobs:
         run: npm --version
       - name: update npm
         run: |
-          sudo npm i -g npm@latest
+          npm i -g npm@latest
           npm --version
 
       # install both module + sample app(s) deps
