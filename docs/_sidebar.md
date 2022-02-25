@@ -1,5 +1,6 @@
 - [Home](/)
 - [Installation](installation.md)
 - [Configuration](configuration.md)
+- [Running](running.md)
 - [Usage](usage.md)
 - [Recipes](recipes.md)
