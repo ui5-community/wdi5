@@ -21,26 +21,10 @@ on:
       - "!*.json"
 
 jobs:
-  build:
+  build-and-publish:
     # only run on non-ci commits and
     # on filter docs-, deps-, deps-dev + ci-labeled commits
     if: "!contains(github.event.head_commit.author.name, 'wdi5 bot') && !startsWith(github.event.head_commit.message, 'chore(deps') && !startsWith(github.event.head_commit.message, 'docs') && !startsWith(github.event.head_commit.message, 'ci')"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 16
-          cache: "npm"
-          cache-dependency-path: "**/package-lock.json"
-      - run: npm ci
-      - run: npm run build
-
-  publish-npm:
-    # only run on non-ci commits
-    # if: "!contains(github.event.head_commit.author.name, 'SAP Mentors & Friends')"
-    # should be optional as build holds the same condition as in needed here
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -53,6 +37,7 @@ jobs:
           cache-dependency-path: "**/package-lock.json"
           registry-url: https://registry.npmjs.org/
       - run: npm ci
+      - run: npm run build
       - run: |
           git config --global user.name 'wdi5 bot'
           git config --global user.email 'wdi5-bot@users.noreply.github.com'
