@@ -36,9 +36,10 @@ jobs:
       - name: check npm version >= 7
         run: npm --version
       - name: update npm
-        run: npm i -g npm
+        run: sudo npm i -g npm
 
-      - name: install packages
+      # install both module + sample app(s) deps
+      - name: install packages (wdi5 + samples)
         run: |
           npm i
           cd examples/ui5-js-app && npm i
