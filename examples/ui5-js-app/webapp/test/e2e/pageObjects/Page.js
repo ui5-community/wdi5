@@ -1,4 +1,4 @@
-const wdi5 = require("../../../../../../dist/wdi5").wdi5
+const { wdi5 } = require("wdio-ui5-service")
 module.exports = class Page {
     async open(path) {
         wdi5.goTo(path)
