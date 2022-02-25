@@ -65,6 +65,7 @@
     "prettier": "^2.5.1",
     "replace-in-file": "^6.3.2",
     "rimraf": "^3.0.2",
+    "soerver": "^0.0.3",
     "standard-version": "^9.3.2",
     "terser": "^5.11.0",
     "ts-node": "^10.5.0",
