@@ -59,5 +59,10 @@ const targetDir = "dist"
             })
     })
 
-    await Promise.all([fs.writeFile("dist/package.json", JSON.stringify(pkgJson)), ...filesToMinify])
+    await Promise.all([
+        fs.writeFile("dist/package.json", JSON.stringify(pkgJson)),
+        ...filesToMinify,
+        fs.copyFile("LICENSE", "dist/LICENSE")
+        // changelog is put into /dist after standard-version run by lifecycle hook, see .versionrc.js
+    ])
 })()
