@@ -1,8 +1,8 @@
 docs
 examples
+scripts
 src
 test
 .*
 commitlint*
-**/*.js.map
-**/*.d.ts.map
+tsconfig.json
