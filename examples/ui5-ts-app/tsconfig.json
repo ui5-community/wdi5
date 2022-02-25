@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "types": [
+      "node",
+      "webdriverio/async",
+      "@wdio/mocha-framework",
+      "expect-webdriverio",
+      "openui5",
+      "../src/types/browser-commands"
+    ],
+    "target": "ES5"
+  }
+}

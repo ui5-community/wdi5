@@ -1,16 +1,7 @@
 import { join } from "path"
+import { wdi5Config } from "../../src/types/wdi5.types"
 
-import Service from "../src/service"
-
-const args = ["window-size=1440,800"]
-if (process.env.DEBUG) {
-    args.push("--auto-open-devtools-for-tabs")
-}
-if (process.env.DEBUG) {
-    args.push("--headless")
-}
-
-export const config: WebdriverIO.Config = {
+export const config: wdi5Config = {
     //
     // ====================
     // Runner Configuration
@@ -32,7 +23,7 @@ export const config: WebdriverIO.Config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: ["./test/**/*.ts"],
+    specs: ["./test/basics.test.ts"],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -68,7 +59,11 @@ export const config: WebdriverIO.Config = {
             //
             browserName: "chrome",
             "goog:chromeOptions": {
-                args
+                args: process.env.HEADLESS
+                    ? ["--headless"]
+                    : process.env.DEBUG
+                    ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
+                    : ["window-size=1440,800"]
             },
             acceptInsecureCerts: true
             // If outputDir is provided WebdriverIO can capture driver session logs
@@ -108,7 +103,7 @@ export const config: WebdriverIO.Config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: "http://localhost",
+    baseUrl: "https://openui5.netweaver.ondemand.com/",
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
@@ -124,20 +119,13 @@ export const config: WebdriverIO.Config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: [
-        "chromedriver",
-        [
-            Service,
-            {
-                wdi5: {
-                    screenshotPath: join("test", "__screenshots__"),
-                    logLevel: "verbose", // error | verbose | silent
-                    url: "index.html",
-                    skipInjectUI5OnStart: false // default
-                }
-            }
-        ]
-    ],
+    services: ["chromedriver", "ui5"],
+    wdi5: {
+        screenshotPath: join("test", "__screenshots__"),
+        logLevel: "verbose", // error | verbose | silent
+        url: "index.html",
+        skipInjectUI5OnStart: false // default
+    },
 
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -167,32 +155,6 @@ export const config: WebdriverIO.Config = {
     mochaOpts: {
         ui: "bdd",
         timeout: 60000
-    },
-    autoCompileOpts: {
-        //
-        // To disable auto-loading entirely set this to false.
-        autoCompile: true, // <boolean> Disable this to turn off autoloading. Note: When disabling, you will need to handle calling any such libraries yourself.
-        //
-        // If you have ts-node installed, you can customize how options are passed to it here:
-        // Any valid ts-node config option is allowed. Alternatively the ENV Vars could also be used instead of this.
-        // See also: https://github.com/TypeStrong/ts-node#cli-and-programmatic-options
-        // See also RegisterOptions in https://github.com/TypeStrong/ts-node/blob/master/src/index.ts
-        tsNodeOpts: {
-            transpileOnly: true,
-            project: "tsconfig.json"
-        },
-        // If you have tsconfig-paths installed and provide a tsConfigPathsOpts
-        // option, it will be automatically registered during bootstrap.
-        // tsConfigPathsOpts: {
-        //     baseUrl: "./"
-        // },
-        //
-        // If @babel/register is installed, you can customize how options are passed to it here:
-        // Any valid @babel/register config option is allowed.
-        // https://babeljs.io/docs/en/babel-register#specifying-options
-        babelOpts: {
-            ignore: []
-        }
     }
     //
     // =====

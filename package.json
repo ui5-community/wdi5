@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "workspaces": [
     "dist",
-    "examples/ui5-js-app"
+    "examples/ui5-js-app",
+    "examples/ui5-ts-app"
   ],
   "scripts": {
     "// build time": "refers to developing wdi5/wdio-ui5-service itself",
