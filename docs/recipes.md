@@ -1,6 +1,6 @@
-# Recipes
+# 🧑‍🍳 Recipes
 
-Here's a collection of "How-To"s for typical use cases in tests and how to do that with `wdi5`
+Here's a collection of "How-To"s for typical use cases in tests and how to do that with `wdi5`.
 
 ## navigate an FLP tile
 
@@ -135,3 +135,5 @@ In VS Code, use a `jsconfig.json` at the root of your JavaScript-project, at the
 ```
 
 See an example at `/examples/ui5-js-app/jsconfig.json` in the wdi5 repository.
+
+## TDD with `wdi5`
