@@ -20,7 +20,8 @@
     "_startApp:ts": "tbd",
     "_test:js-app": "wait-on tcp:8888 && wait-on tcp:8080 && npm run test --workspace=examples/ui5-js-app",
     "test:js-app": "run-p -r _startApp:js _startApp:js-tooling _test:js-app",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "release": "standard-version"
   },
   "author": "j&s-soft GmbH <info@js-soft.com> (https://www.js-soft.com)",
   "contributors": [
@@ -64,6 +65,7 @@
     "prettier": "^2.5.1",
     "replace-in-file": "^6.3.2",
     "rimraf": "^3.0.2",
+    "standard-version": "^9.3.2",
     "terser": "^5.11.0",
     "ts-node": "^10.5.0",
     "typescript": "^4.5.5",
