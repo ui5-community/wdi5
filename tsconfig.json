@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "outDir": "dist",
+    "outDir": "dist/node-rt",
     "module": "CommonJS",
     "sourceMap": true,
     "skipLibCheck": true,
