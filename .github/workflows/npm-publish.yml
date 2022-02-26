@@ -5,16 +5,16 @@ on:
     branches:
       - main
     paths:
+      # relevant
+      - "client-side-js/**"
+      - "src/**"
+      # irrevelant
       - "!.github/**"
       - "!.husky/**"
       - "!.vscode/**"
-      # relevant
-      - "client-side-js/**"
       - "!docs/**"
       - "!examples/**"
       - "!scripts/**"
-      # revelant
-      - "src/**"
       - "!.*"
       - "!*.md"
       - "!*.cjs"
