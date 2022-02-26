@@ -59,7 +59,7 @@ jobs:
         run: |
           npm set-script prepare ""
           npm ci
-          npm ci -w examples/ui5-js-app
+          npm i -w examples/ui5-js-app
 
       # build things
       - name: build
