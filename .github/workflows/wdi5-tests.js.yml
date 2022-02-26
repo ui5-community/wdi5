@@ -2,7 +2,21 @@ name: wdi5 tests
 
 on:
   pull_request:
-    branches: [main]
+    branches:
+      - main
+    paths:
+      # relevant
+      - "client-side-js/**"
+      - "examples/**"
+      - "scripts/**"
+      - "src/**"
+      # don't run on changes to these
+      - "!.husky/**"
+      - "!.vscode/**"
+      - "!docs/**"
+      - "!.*"
+      - "!*.md"
+      - "!*.cjs"
 
 jobs:
   build:
