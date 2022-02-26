@@ -1,4 +1,7 @@
 # do a gh release after ci user has pushed the tag to main
+
+name: cut a gh release
+
 on:
   push:
     tags:

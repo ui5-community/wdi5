@@ -1,4 +1,4 @@
-name: publish wdi5 as wdio-ui5-service to npm
+name: build + publish wdi5 as wdio-ui5-service to npm
 
 on:
   push:
