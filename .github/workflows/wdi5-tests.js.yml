@@ -57,6 +57,7 @@ jobs:
       # install both module + sample app(s) deps
       - name: install packages (wdi5 + sample app(s))
         run: |
+          npm set-script prepare ""
           npm ci
           npm ci -w examples/ui5-js-app
 
