@@ -1,0 +1,34 @@
+{
+  "name": "fiori_elements_tutorial",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^5",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "sqlite3": "5.0.0"
+  },
+  "scripts": {
+    "start": "npx cds run",
+    "watch": "npx cds watch",
+    "postinstall": "cd app/incidents && npm i",
+    "test": "cd app/incidents && npm run test"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sql"
+      }
+    },
+    "odata": {
+      "version": "v4"
+    }
+  },
+  "sapux": [
+    "app/incidents"
+  ]
+}
