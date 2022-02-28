@@ -2,15 +2,31 @@
   "name": "wdio-ui5-service",
   "version": "0.9.0",
   "description": "WebdriverIO plugin for testing UI5 browser-based apps",
+  "keywords": [
+    "wdio-service",
+    "ui5",
+    "openui5",
+    "sapui5"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:js-soft/wdi5.git"
+  },
+  "license": "(Apache-2.0 or DERIVED BEER-WARE)",
+  "author": "j&s-soft GmbH <info@js-soft.com> (https://www.js-soft.com)",
+  "contributors": [
+    "Dominik Feininger <dominik.feininger@js-soft.com> (https://www.js-soft.com/)",
+    "Volker Buzek <volker.buzek@js-soft.com> (https://www.js-soft.com/)"
+  ],
   "main": "dist/index.js",
+  "files": [
+    "dist",
+    "client-side-js"
+  ],
   "workspaces": [
     ".",
     "examples/ui5-js-app",
     "examples/ui5-ts-app"
-  ],
-  "files": [
-    "dist",
-    "client-side-js"
   ],
   "scripts": {
     "// build time": "refers to developing wdi5/wdio-ui5-service itself",
@@ -27,25 +43,9 @@
     "prepare": "husky install",
     "release": "standard-version"
   },
-  "author": "j&s-soft GmbH <info@js-soft.com> (https://www.js-soft.com)",
-  "contributors": [
-    "Dominik Feininger <dominik.feininger@js-soft.com> (https://www.js-soft.com/)",
-    "Volker Buzek <volker.buzek@js-soft.com> (https://www.js-soft.com/)"
-  ],
-  "license": "(Apache-2.0 or DERIVED BEER-WARE)",
-  "keywords": [
-    "wdio-service",
-    "ui5",
-    "openui5",
-    "sapui5"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com:js-soft/wdi5.git"
-  },
-  "engines": {
-    "node": ">=14",
-    "npm": ">=7"
+  "lint-staged": {
+    "*": "prettier --ignore-unknown --write",
+    "*.ts": "eslint --cache --fix"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
@@ -77,8 +77,8 @@
     "wait-on": "^6.0.1",
     "wdio-chromedriver-service": "^7.2.8"
   },
-  "lint-staged": {
-    "*": "prettier --ignore-unknown --write",
-    "*.ts": "eslint --cache --fix"
+  "engines": {
+    "node": ">=14",
+    "npm": ">=7"
   }
 }
