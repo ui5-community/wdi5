@@ -35,9 +35,10 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
             })
 
             // attach new bridge
-            sap.ui.require(["sap/ui/test/RecordReplay"], (RecordReplay) => {
+            sap.ui.require(["sap/ui/test/RecordReplay", "sap/fe/test"], (RecordReplay, FETestLibrary) => {
                 window.bridge = RecordReplay
-                window.wdi5.Log.info("[browser wdi5] injected!")
+                window.fe_bridge = FETestLibrary
+                window.wdi5.Log.info("[browser wdi5] APIs injected!")
                 window.wdi5.isInitialized = true
 
                 // here setup is successfull
