@@ -24,6 +24,6 @@ jobs:
       - run: npm run build
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "dist/**/*"
+          artifacts: "dist/**/*,client-side-js/**/*"
           bodyFile: "CHANGELOG.md"
           token: ${{ secrets.GITHUB_TOKEN }}
