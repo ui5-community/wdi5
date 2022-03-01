@@ -1,8 +1,0 @@
-docs
-examples
-scripts
-src
-test
-.*
-commitlint*
-tsconfig.json

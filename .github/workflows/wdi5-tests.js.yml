@@ -2,7 +2,21 @@ name: wdi5 tests
 
 on:
   pull_request:
-    branches: [main]
+    branches:
+      - main
+    paths:
+      # relevant
+      - "client-side-js/**"
+      - "examples/**"
+      - "scripts/**"
+      - "src/**"
+      # don't run on changes to these
+      - "!.husky/**"
+      - "!.vscode/**"
+      - "!docs/**"
+      - "!.*"
+      - "!*.md"
+      - "!*.cjs"
 
 jobs:
   build:
@@ -36,13 +50,16 @@ jobs:
       - name: check npm version >= 7
         run: npm --version
       - name: update npm
-        run: sudo npm i -g npm
+        run: |
+          npm i -g npm@latest
+          npm --version
 
       # install both module + sample app(s) deps
-      - name: install packages (wdi5 + samples)
+      - name: install packages (wdi5 + sample app(s))
         run: |
-          npm i
-          cd examples/ui5-js-app && npm i
+          npm set-script prepare ""
+          npm ci
+          npm i -w examples/ui5-js-app
 
       # build things
       - name: build
