@@ -1,35 +1,7 @@
 {
   "name": "wdio-ui5-service",
-  "version": "0.9.0",
+  "version": "0.9.0-alpha.0",
   "description": "WebdriverIO plugin for testing UI5 browser-based apps",
-  "main": "index.js",
-  "workspaces": [
-    "dist",
-    "examples/fe-app",
-    "examples/ui5-js-app",
-    "examples/ui5-ts-app"
-  ],
-  "scripts": {
-    "// build time": "refers to developing wdi5/wdio-ui5-service itself",
-    "clean": "rimraf dist/**/*",
-    "compile": "tsc",
-    "_copy": "node scripts/build.js",
-    "build": "run-s -c clean compile _copy",
-    "build:watch": "tsc -w",
-    "// test time": "refers to testing wdio-ui5-service",
-    "_startApp:js": "soerver -d ./examples/ui5-js-app/webapp -p 8888 -x ./examples/ui5-js-app/webapp/proxyrc.json",
-    "_startApp:js-tooling": "npm run serve --workspace=examples/ui5-js-app",
-    "_startApp:ts": "tbd",
-    "_test:js-app": "wait-on tcp:8888 && wait-on tcp:8080 && npm run test --workspace=examples/ui5-js-app",
-    "test:js-app": "run-p -r _startApp:js _startApp:js-tooling _test:js-app",
-    "prepare": "husky install"
-  },
-  "author": "j&s-soft GmbH <info@js-soft.com> (https://www.js-soft.com)",
-  "contributors": [
-    "Dominik Feininger <dominik.feininger@js-soft.com> (https://www.js-soft.com/)",
-    "Volker Buzek <volker.buzek@js-soft.com> (https://www.js-soft.com/)"
-  ],
-  "license": "(Apache-2.0 or DERIVED BEER-WARE)",
   "keywords": [
     "wdio-service",
     "ui5",
@@ -40,9 +12,40 @@
     "type": "git",
     "url": "git+ssh://git@github.com:js-soft/wdi5.git"
   },
-  "engines": {
-    "node": ">=14",
-    "npm": ">=7"
+  "license": "(Apache-2.0 or DERIVED BEER-WARE)",
+  "author": "j&s-soft GmbH <info@js-soft.com> (https://www.js-soft.com)",
+  "contributors": [
+    "Dominik Feininger <dominik.feininger@js-soft.com> (https://www.js-soft.com/)",
+    "Volker Buzek <volker.buzek@js-soft.com> (https://www.js-soft.com/)"
+  ],
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "client-side-js"
+  ],
+  "workspaces": [
+    ".",
+    "examples/ui5-js-app",
+    "examples/ui5-ts-app"
+  ],
+  "scripts": {
+    "// build time": "refers to developing wdi5/wdio-ui5-service itself",
+    "clean": "rimraf dist/*",
+    "compile": "tsc",
+    "build": "run-s -c clean compile",
+    "build:watch": "tsc -w",
+    "// test time": "refers to testing wdio-ui5-service",
+    "_startApp:js": "soerver -d ./examples/ui5-js-app/webapp -p 8888 -x ./examples/ui5-js-app/webapp/proxyrc.json",
+    "_startApp:js-tooling": "npm run serve --workspace=examples/ui5-js-app",
+    "_startApp:ts": "tbd",
+    "_test:js-app": "wait-on tcp:8888 && wait-on tcp:8080 && npm run test --workspace=examples/ui5-js-app",
+    "test:js-app": "run-p -r _startApp:js _startApp:js-tooling _test:js-app",
+    "prepare": "husky install",
+    "release": "standard-version"
+  },
+  "lint-staged": {
+    "*": "prettier --ignore-unknown --write",
+    "*.ts": "eslint --cache --fix"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
@@ -66,13 +69,16 @@
     "prettier": "^2.5.1",
     "replace-in-file": "^6.3.2",
     "rimraf": "^3.0.2",
+    "soerver": "^0.0.3",
+    "standard-version": "^9.3.2",
+    "terser": "^5.11.0",
     "ts-node": "^10.5.0",
     "typescript": "^4.5.5",
     "wait-on": "^6.0.1",
     "wdio-chromedriver-service": "^7.2.8"
   },
-  "lint-staged": {
-    "*": "prettier --ignore-unknown --write",
-    "*.ts": "eslint --cache --fix"
+  "engines": {
+    "node": ">=14",
+    "npm": ">=7"
   }
 }
