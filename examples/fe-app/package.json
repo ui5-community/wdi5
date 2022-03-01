@@ -10,8 +10,9 @@
     "express": "^4"
   },
   "devDependencies": {
-    "sqlite3": "5.0.0",
-    "wdio-ui5-service": "^0.9.0"
+    "detect-libc": "^2.0.1",
+    "sqlite3": "^5.0.2",
+    "wdio-ui5-service": "*"
   },
   "scripts": {
     "start": "npx cds run",

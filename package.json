@@ -25,6 +25,7 @@
   ],
   "workspaces": [
     ".",
+    "examples/fe-app",
     "examples/ui5-js-app",
     "examples/ui5-ts-app"
   ],
