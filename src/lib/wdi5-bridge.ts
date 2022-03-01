@@ -4,6 +4,7 @@ import { tmpdir } from "os"
 
 import { wdi5Config, wdi5Selector } from "../types/wdi5.types"
 import { WDI5Control } from "./wdi5-control"
+import { WDI5FE } from "./wdi5-fe"
 import { clientSide_injectUI5 } from "../../client-side-js/injectUI5"
 import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement"
 import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready"
@@ -77,6 +78,10 @@ export async function setup(config: wdi5Config) {
             // @ts-ignore
             return makeFluent(browser._asControl(ui5ControlSelector))
         }
+    }
+
+    if (!browser.fe) {
+        browser.fe = WDI5FE
     }
 
     _setupComplete = true
