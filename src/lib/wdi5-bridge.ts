@@ -142,6 +142,20 @@ function _createWdioUI5KeyFromSelector(selector: wdi5Selector): string {
 
 export async function addWdi5Commands() {
     browser.addCommand("_asControl", async (wdi5Selector: wdi5Selector) => {
+        if (
+            !(
+                wdi5Selector.hasOwnProperty("selector") &&
+                (wdi5Selector.selector.hasOwnProperty("id") ||
+                    wdi5Selector.selector.hasOwnProperty("viewName") ||
+                    wdi5Selector.selector.hasOwnProperty("bindingPath") ||
+                    wdi5Selector.selector.hasOwnProperty("controlType") ||
+                    wdi5Selector.selector.hasOwnProperty("properties"))
+            )
+        ) {
+            Logger.error("specified selector is not valid -> abort")
+            return "specified selector is not valid -> abort"
+        }
+
         const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
         // either retrieve and cache a UI5 control
         // or return a cached version
