@@ -17,6 +17,7 @@
 				justifyContent="Center"
 				height="100%">
 				<Title level="H1"
+					id="Title::NoAction.h1"
 					titleStyle="H1"
 					text="{i18n>startPage.title.text}"
 					width="100%"
