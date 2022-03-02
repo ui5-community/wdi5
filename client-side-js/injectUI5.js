@@ -35,15 +35,21 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
             })
 
             // attach new bridge
-            sap.ui.require(["sap/ui/test/RecordReplay", "sap/fe/test"], (RecordReplay, FETestLibrary) => {
+            sap.ui.require(["sap/ui/test/RecordReplay"], (RecordReplay) => {
                 window.bridge = RecordReplay
-                window.fe_bridge = FETestLibrary
+                window.fe_bridge = {} // empty init for fiori elements test api
                 window.wdi5.Log.info("[browser wdi5] APIs injected!")
                 window.wdi5.isInitialized = true
 
-                // here setup is successfull
+                // here setup is successful
                 // known side effect this call triggers the back to node scope, the other sap.ui.require continue to run in background in browser scope
                 done(true)
+            })
+
+            // TODO: support FE pages other than the main/list page;
+            // see also /client-side-js/testLibrary.js
+            sap.ui.require(["sap/fe/test/ListReport"], (ListReport) => {
+                window.fe_bridge.ListReport = ListReport
             })
             // make sure the resources are required
             sap.ui.require(
