@@ -8,8 +8,7 @@ on:
       - "v*.*.*"
 jobs:
   gh-release:
-    # only run on ci commits
-    if: "contains(github.event.head_commit.author.name, 'SAP Mentors & Friends')"
+    # if: "contains(github.event.head_commit.author.name, 'wdi5 bot')"
     runs-on: ubuntu-latest
     permissions:
       contents: write
