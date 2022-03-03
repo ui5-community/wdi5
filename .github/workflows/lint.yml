@@ -35,6 +35,7 @@ jobs:
         with:
           # TODO: linting rules for client-side-js
           eslint: true
-          eslint_args: "--ext ts src"
+          eslint_extensions: "ts"
+          eslint_dir: "src"
           prettier: true
           prettier_args: "--debug-check client-side-js src docs"
