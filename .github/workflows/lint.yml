@@ -38,4 +38,5 @@ jobs:
           eslint_extensions: "ts"
           eslint_dir: "src"
           prettier: true
-          prettier_args: "--debug-check client-side-js src docs"
+          prettier_dir: "client-side-js src docs"
+          prettier_args: "--debug-check"
