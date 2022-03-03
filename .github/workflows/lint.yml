@@ -1,0 +1,40 @@
+# this will check
+# - src formatting in ./src ./client-side-js ./docs with prettier
+# - code rules in ./src (not yet ./client-side-js) with eslint
+
+name: lint w/ prettier and eslint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# Down scope as necessary via https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
+permissions:
+  checks: write
+  contents: write
+
+jobs:
+  run-linters:
+    name: Run linters
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
+      - run: npm ci
+      - name: run prettier + eslint
+        uses: wearerequired/lint-action@v1
+        with:
+          # TODO: linting rules for client-side-js
+          eslint: true
+          eslint_args: "--ext ts src"
+          prettier: true
+          prettier_args: "--debug-check client-side-js src docs"
