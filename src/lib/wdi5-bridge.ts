@@ -12,6 +12,7 @@ import { clientSide__navTo } from "../../client-side-js/_navTo"
 
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
+// test
 
 /** store the status of initialization */
 let _isInitialized = false
