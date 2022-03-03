@@ -44,7 +44,8 @@ describe("ui5 basic", () => {
         const invalidControl1 = await browser.asControl(selector1)
         const invalidControl2 = await browser.asControl(selector2)
 
-        expect(invalidControl1).toEqual("specified selector is not valid -> abort")
-        expect(invalidControl2).toEqual("specified selector is not valid -> abort")
+        // check if result contains the expected validation error
+        expect(invalidControl1).stringContaining("ERROR")
+        expect(invalidControl2).stringContaining("ERROR")
     })
 })
