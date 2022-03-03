@@ -170,7 +170,7 @@ function _verifySelector(wdi5ControlSelector) {
 export async function addWdi5Commands() {
     browser.addCommand("_asControl", async (wdi5Selector: wdi5Selector) => {
         if (!_verifySelector(wdi5Selector)) {
-            return ["ERROR: Specified selector is not valid -> abort"]
+            return "ERROR: Specified selector is not valid -> abort"
         }
 
         const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
