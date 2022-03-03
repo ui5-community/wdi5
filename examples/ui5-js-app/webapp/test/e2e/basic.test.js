@@ -11,41 +11,40 @@ describe("ui5 basic", () => {
     })
 
     // #118
-    it('should use a control selector with dots and colons', async () => {
+    it("should use a control selector with dots and colons", async () => {
         const selector = {
             selector: {
-                id: 'Title::NoAction.h1',
+                id: "Title::NoAction.h1",
                 viewName: "test.Sample.view.Main"
             }
-        };
+        }
 
         // ui5
-        const titleWUi5 = await browser.asControl(selector).getText();
+        const titleWUi5 = await browser.asControl(selector).getText()
 
         // working webdriver example with xpath id selector
-        const titleElement = await $('//*[@id="container-Sample---Main--Title::NoAction.h1"]');
-        const titleWwdio = await titleElement.getText();
+        const titleElement = await $('//*[@id="container-Sample---Main--Title::NoAction.h1"]')
+        const titleWwdio = await titleElement.getText()
 
-        expect(titleWUi5).toEqual('UI5 demo');
-        expect(titleWwdio).toEqual('UI5 demo');
-    });
+        expect(titleWUi5).toEqual("UI5 demo")
+        expect(titleWwdio).toEqual("UI5 demo")
+    })
 
-    it.only('check for invalid control selector', async () => {
+    it("check for invalid control selector", async () => {
         const selector1 = {
             selector_: {
                 test: "some.test.string"
             }
-        };
+        }
 
         const selector2 = {
             id: "some.test.string"
-        };
+        }
 
         const invalidControl1 = await browser.asControl(selector1)
         const invalidControl2 = await browser.asControl(selector2)
 
         expect(invalidControl1).toEqual("specified selector is not valid -> abort")
         expect(invalidControl2).toEqual("specified selector is not valid -> abort")
-
-    });
+    })
 })
