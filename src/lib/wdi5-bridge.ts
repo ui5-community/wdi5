@@ -80,8 +80,8 @@ export async function setup(config: wdi5Config) {
         }
     }
 
-    if (!browser.fe) {
-        browser.fe = WDI5FE
+    if (!(browser as any).fe) {
+        ;(browser as any).fe = WDI5FE
     }
 
     _setupComplete = true
