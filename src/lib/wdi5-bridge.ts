@@ -12,7 +12,6 @@ import { clientSide__navTo } from "../../client-side-js/_navTo"
 
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
-// test
 
 /** store the status of initialization */
 let _isInitialized = false
@@ -142,19 +141,19 @@ function _createWdioUI5KeyFromSelector(selector: wdi5Selector): string {
 }
 /**
  * does a basic validation of a wdi5ControlSelector
- * @param wdi5ControlSelector
- * @returns {Boolean} if the givven selector is a valid selector
+ * @param wdi5Selector: wdi5Selector
+ * @returns {boolean} if the given selector is a valid selector
  */
-function _verifySelector(wdi5ControlSelector) {
-    if (wdi5ControlSelector.hasOwnProperty("selector")) {
+function _verifySelector(wdi5Selector: wdi5Selector) {
+    if (wdi5Selector.hasOwnProperty("selector")) {
         if (
-            wdi5ControlSelector.selector.hasOwnProperty("id") ||
-            wdi5ControlSelector.selector.hasOwnProperty("viewName") ||
-            wdi5ControlSelector.selector.hasOwnProperty("bindingPath") ||
-            wdi5ControlSelector.selector.hasOwnProperty("controlType") ||
-            wdi5ControlSelector.selector.hasOwnProperty("I18NText") ||
-            wdi5ControlSelector.selector.hasOwnProperty("labelFor") ||
-            wdi5ControlSelector.selector.hasOwnProperty("properties")
+            wdi5Selector.selector.hasOwnProperty("id") ||
+            wdi5Selector.selector.hasOwnProperty("viewName") ||
+            wdi5Selector.selector.hasOwnProperty("bindingPath") ||
+            wdi5Selector.selector.hasOwnProperty("controlType") ||
+            wdi5Selector.selector.hasOwnProperty("I18NText") ||
+            wdi5Selector.selector.hasOwnProperty("labelFor") ||
+            wdi5Selector.selector.hasOwnProperty("properties")
         ) {
             Logger.error(
                 "Specified selector is not valid. Please use at least one of: 'id, viewName, bindingPath, controlType, I18NText, labelFor, properties' -> abort"
