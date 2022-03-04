@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.9.0-alpha.1](https://github.com/js-soft/wdi5/compare/v0.9.0-alpha.0...v0.9.0-alpha.1) (2022-03-04)
+
+
+### Features
+
+* support fiori elements id selector ([#159](https://github.com/js-soft/wdi5/issues/159)) ([352db78](https://github.com/js-soft/wdi5/commit/352db78190eaff9aa4d14b7b8239f51c85126a39))
+
 ## [0.9.0-alpha.0](https://github.com/js-soft/wdi5/compare/v0.8.2...v0.9.0-alpha.0) (2022-03-01)
 
 ### Features
