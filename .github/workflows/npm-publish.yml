@@ -27,7 +27,7 @@ jobs:
     if: "!contains(github.event.head_commit.author.name, 'wdi5 bot') && !startsWith(github.event.head_commit.message, 'chore(deps') && !startsWith(github.event.head_commit.message, 'docs') && !startsWith(github.event.head_commit.message, 'ci')"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-node@v2
