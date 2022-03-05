@@ -1,41 +1,48 @@
-import { clientSide_testLibrary } from "../../client-side-js/testLibrary"
+import { clientSide_testLibrary, initOPA, addToQueue, emptyQueue } from "../../client-side-js/testLibrary"
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
 
-export class WDI5FE {
-    ListReport = {}
-
-    constructor(appConfig) {
-        this.ListReport = appConfig.ListReport
-    }
-
-    onFilterBar() {
-        return this
-    }
-
-    onTable() {
-        return this
-    }
-
-    async iCheckRows() {
-        const result = await clientSide_testLibrary("ListReport", ["onTable", "iCheckRows"], this.ListReport, true)
-        if (result[0] === "error") {
-            Logger.error(result[1])
-            return false
-        } else {
-            Logger.success(result[1])
-            return true
+function createProxy(myObj: any, type: string, methodCalls: any[]) {
+    const thisProxy = new Proxy(myObj, {
+        get: function (obj, prop) {
+            console.log(prop)
+            if (prop === "onTheMainPage") {
+                myObj.currentMethodCall = { type: type, target: prop, methods: [] }
+                methodCalls.push(myObj.currentMethodCall)
+                return thisProxy
+            }
+            return function (...fnArgs) {
+                myObj.currentMethodCall.methods.push({ name: prop, args: fnArgs })
+                return thisProxy
+            }
         }
+    })
+    return thisProxy
+}
+export class WDI5FE {
+    constructor(private appConfig: any) {}
+    static async initialize(appConfig) {
+        await initOPA(appConfig)
+        return new WDI5FE(appConfig)
     }
 
-    async iExecuteSearch() {
-        const result = await clientSide_testLibrary("ListReport", ["onFilterBar", "iExecuteSearch"], this.ListReport)
-        if (result[0] === "error") {
-            Logger.error(result[1])
-            return false
-        } else {
-            Logger.success(result[1])
-            return true
+    async execute(fnFunction) {
+        const methodCalls = []
+
+        const Given = createProxy({}, "Given", methodCalls)
+        const Then = createProxy({}, "Then", methodCalls)
+        const When = createProxy({}, "When", methodCalls)
+        fnFunction(Given, Then, When) // PrepareQueue
+        for (const methodCall of methodCalls) {
+            const [type, content] = await addToQueue(methodCall.type, methodCall.target, methodCall.methods)
+            if (type !== "success") {
+                throw content
+            }
+        }
+        // ExecuteTest
+        const [type, content] = await emptyQueue()
+        if (type !== "success") {
+            throw content
         }
     }
 }
