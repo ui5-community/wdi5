@@ -390,7 +390,7 @@ export class WDI5Control {
         // save the webdriver representation by control id
         if (result[2]) {
             // only if the result is valid
-            this._webdriverRepresentation = await $(`#${result[2]}`)
+            this._webdriverRepresentation = await $(`//*[@id="${result[2]}"]`)
         }
 
         this.writeResultLog(result, "getControl()")

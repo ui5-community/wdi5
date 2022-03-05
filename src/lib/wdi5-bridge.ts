@@ -144,9 +144,39 @@ function _createWdioUI5KeyFromSelector(selector: wdi5Selector): string {
 
     return wdi5_ui5_key
 }
+/**
+ * does a basic validation of a wdi5ControlSelector
+ * @param wdi5Selector: wdi5Selector
+ * @returns {boolean} if the given selector is a valid selector
+ */
+function _verifySelector(wdi5Selector: wdi5Selector) {
+    if (wdi5Selector.hasOwnProperty("selector")) {
+        if (
+            wdi5Selector.selector.hasOwnProperty("id") ||
+            wdi5Selector.selector.hasOwnProperty("viewName") ||
+            wdi5Selector.selector.hasOwnProperty("bindingPath") ||
+            wdi5Selector.selector.hasOwnProperty("controlType") ||
+            wdi5Selector.selector.hasOwnProperty("I18NText") ||
+            wdi5Selector.selector.hasOwnProperty("labelFor") ||
+            wdi5Selector.selector.hasOwnProperty("properties")
+        ) {
+            Logger.error(
+                "Specified selector is not valid. Please use at least one of: 'id, viewName, bindingPath, controlType, I18NText, labelFor, properties' -> abort"
+            )
+            return true
+        }
+        Logger.error("Specified selector is not valid -> property 'selector' is missing")
+        return false
+    }
+    return false
+}
 
 export async function addWdi5Commands() {
     browser.addCommand("_asControl", async (wdi5Selector: wdi5Selector) => {
+        if (!_verifySelector(wdi5Selector)) {
+            return "ERROR: Specified selector is not valid -> abort"
+        }
+
         const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
         // either retrieve and cache a UI5 control
         // or return a cached version
