@@ -64,9 +64,9 @@ interface wdi5ControlSelector {
      */
     bindingPath?: Record<string, unknown>
     /**
-     * I18N Text matcher, {@link sap.ui.test.matchers.I18NText}
+     * I18N Text matcher, {@link sap.ui.test.matchers.i18NText}
      */
-    I18NText?: Record<string, unknown>
+    i18NText?: Record<string, unknown>
     /**
      * Label matcher, {@link sap.ui.test.matchers.LabelFor}
      */
