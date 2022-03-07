@@ -34,7 +34,7 @@
 				<Text text="{i18n>startPage.text.username}" />
 				<Input id="mainUserInput"
 					value="{/Customers('TRAIH')/ContactName}" />
-				<Panel expandable="true">
+				<Panel expandable="true" headerText="Header Text">
 					<headerToolbar>
 						<OverflowToolbar>
 							<Title text="Custom Toolbar with a header text" />

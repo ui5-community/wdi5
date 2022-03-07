@@ -48,6 +48,10 @@ export interface wdi5Config extends WebdriverIO.Config {
 
 interface wdi5ControlSelector {
     /**
+     * Descendant matcher, {@link sap.ui.test.matchers.Descendant}
+     */
+    descendant?: any
+    /**
      * ID of a control (global or within viewName, if viewName is defined)
      */
     id?: string | RegExp

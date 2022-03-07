@@ -85,4 +85,27 @@ describe("ui5 basic", () => {
         const buttonText = await button.getText()
         expect(buttonText).toEqual("User Test Text")
     })
+
+    it.only("check i18nText matcher user button", async () => {
+        const descendantSelector = {
+            selector: {
+                controlType: "sap.m.Panel",
+                descendant: {
+                    viewName: "test.Sample.view.Main",
+                    controlType: "sap.m.Title",
+                    properties: {
+                        text: "Custom Toolbar with a header text"
+                    }
+                }
+            }
+        }
+
+        const panel = await browser.asControl(descendantSelector)
+
+        const sPanelText = await panel.getHeaderText()
+        expect(sPanelText).toEqual("Header Text")
+
+        const bPanelExpandable = await panel.getExpandable()
+        expect(bPanelExpandable).toEqual(true)
+    })
 })
