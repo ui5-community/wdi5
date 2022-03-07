@@ -37,7 +37,7 @@ jobs:
           google-chrome --version
 
       - name: check out repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: use node ${{ matrix.node-version }}
         uses: actions/setup-node@v2

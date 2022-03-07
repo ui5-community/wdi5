@@ -3,7 +3,9 @@ import { wdi5LogLevel } from "../types/wdi5.types"
 
 export class Logger {
     private static instance: Logger | null = null
-    private constructor() {}
+    private constructor() {
+        // eliminate creating new instances
+    }
 
     private prefix = "[wdi5]"
     private logLevel: wdi5LogLevel = "error"
