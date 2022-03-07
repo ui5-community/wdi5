@@ -13,12 +13,6 @@ export default class Service implements Services.ServiceInstance {
         private _config: wdi5Config // an enhanced version of the regular wdio config
     ) {}
 
-    // async onPrepare(config, capabilities) {}
-
-    // async onWorkerStart(cid, caps, specs, args, execArgv) {}
-
-    // async beforeSession(config, capabilities, specs) {}
-
     async before(/*capabilities* , specs*/) {
         await start(this._config)
         Logger.info("started")
@@ -30,30 +24,6 @@ export default class Service implements Services.ServiceInstance {
             Logger.warn("skipped wdi5 injection!")
         }
     }
-
-    // async beforeSuite(suite) {}
-
-    // async beforeHook(test, context) {}
-
-    // async afterHook(test, context, { error, result, passed, duration, retries, exception, status }) {}
-
-    // async beforeTest(test, context) {}
-
-    // async beforeCommand(commandName, args) {}
-
-    // async afterCommand(commandName, args, result, error) {}
-
-    // async afterTest(test, context, { error, result, passed, duration, retries, exception, status }) {}
-
-    // async afterSuite(suite) {}
-
-    // async after(result, capabilities, specs) {}
-
-    // async afterSession(config, capabilities, specs) {}
-
-    // onComplete(exitCode, config, capabilities, results) {}
-
-    // onReload(oldSessionId, newSessionId) {}
 
     /**
      * this is a helper function to late-inject ui5 at test-time
