@@ -133,7 +133,7 @@ function _createWdioUI5KeyFromSelector(selector: wdi5Selector): string {
     const _selector = selector.selector
     const wdi5_ui5_key = `${orEmpty(_selector.id)}_${orEmpty(_selector.viewName)}_${orEmpty(
         _selector.controlType
-    )}_${orEmpty(JSON.stringify(_selector.bindingPath))}_${orEmpty(JSON.stringify(_selector.I18NText))}_${orEmpty(
+    )}_${orEmpty(JSON.stringify(_selector.bindingPath))}_${orEmpty(JSON.stringify(_selector.i18NText))}_${orEmpty(
         _selector.labelFor
     )}_${orEmpty(JSON.stringify(_selector.properties))}`.replace(/[^0-9a-zA-Z]+/, "")
 
@@ -151,18 +151,18 @@ function _verifySelector(wdi5Selector: wdi5Selector) {
             wdi5Selector.selector.hasOwnProperty("viewName") ||
             wdi5Selector.selector.hasOwnProperty("bindingPath") ||
             wdi5Selector.selector.hasOwnProperty("controlType") ||
-            wdi5Selector.selector.hasOwnProperty("I18NText") ||
+            wdi5Selector.selector.hasOwnProperty("i18NText") ||
             wdi5Selector.selector.hasOwnProperty("labelFor") ||
             wdi5Selector.selector.hasOwnProperty("properties")
         ) {
-            Logger.error(
-                "Specified selector is not valid. Please use at least one of: 'id, viewName, bindingPath, controlType, I18NText, labelFor, properties' -> abort"
-            )
             return true
         }
-        Logger.error("Specified selector is not valid -> property 'selector' is missing")
+        Logger.error(
+            "Specified selector is not valid. Please use at least one of: 'id, viewName, bindingPath, controlType, i18NText, labelFor, properties' -> abort"
+        )
         return false
     }
+    Logger.error("Specified selector is not valid -> property 'selector' is missing")
     return false
 }
 
@@ -257,7 +257,7 @@ export async function addWdi5Commands() {
         const oRoute = oOptions.oRoute
 
         if (sHash && sHash.length > 0) {
-            const url = (browser.config as wdi5Config).wdi5["url"]  || await browser.getUrl()
+            const url = (browser.config as wdi5Config).wdi5["url"] || (await browser.getUrl())
 
             // navigate via hash if defined
             if (url && url.length > 0 && url !== "#") {
