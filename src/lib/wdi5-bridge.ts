@@ -257,7 +257,7 @@ export async function addWdi5Commands() {
         const oRoute = oOptions.oRoute
 
         if (sHash && sHash.length > 0) {
-            const url = (browser.config as wdi5Config).wdi5["url"]  || await browser.getUrl()
+            const url = (browser.config as wdi5Config).wdi5["url"] || (await browser.getUrl())
 
             // navigate via hash if defined
             if (url && url.length > 0 && url !== "#") {
