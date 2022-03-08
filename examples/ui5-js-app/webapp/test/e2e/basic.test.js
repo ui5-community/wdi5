@@ -11,7 +11,7 @@ describe("ui5 basic", () => {
     })
 
     // #118
-    it.skip("should use a control selector with dots and colons", async () => {
+    it("should use a control selector with dots and colons", async () => {
         const selector = {
             selector: {
                 id: "Title::NoAction.h1",
@@ -30,7 +30,7 @@ describe("ui5 basic", () => {
         expect(titleWwdio).toEqual("UI5 demo")
     })
 
-    it.skip("check for invalid control selector", async () => {
+    it("check for invalid control selector", async () => {
         const selector1 = {
             selector_: {
                 test: "some.test.string"
@@ -47,65 +47,5 @@ describe("ui5 basic", () => {
         // check if result contains the expected validation error
         expect(invalidControl1).toContain("ERROR")
         expect(invalidControl2).toContain("ERROR")
-    })
-
-    it("check i18nText Button matcher", async () => {
-        const i18nSelector = {
-            // wdio_ui5_key: "nav_button",
-            selector: {
-                i18NText: {
-                    propertyName: "text",
-                    key: "startPage.navButton.text"
-                },
-                controlType: "sap.m.Button",
-                viewName: "test.Sample.view.Main"
-            }
-        }
-
-        const button = await browser.asControl(i18nSelector)
-        const buttonText = await button.getText()
-        expect(buttonText).toEqual("to Other view")
-    })
-
-    it("check i18nText matcher user button", async () => {
-        const i18nSelector = {
-            // wdio_ui5_key: "user_button",
-            selector: {
-                i18NText: {
-                    propertyName: "text",
-                    key: "startPage.userButton.text"
-                },
-                controlType: "sap.m.Button",
-                viewName: "test.Sample.view.Main"
-            }
-            // forceSelect: true
-        }
-
-        const button = await browser.asControl(i18nSelector)
-        const buttonText = await button.getText()
-        expect(buttonText).toEqual("User Test Text")
-    })
-
-    it.only("check i18nText matcher user button", async () => {
-        const descendantSelector = {
-            selector: {
-                controlType: "sap.m.Panel",
-                descendant: {
-                    viewName: "test.Sample.view.Main",
-                    controlType: "sap.m.Title",
-                    properties: {
-                        text: "Custom Toolbar with a header text"
-                    }
-                }
-            }
-        }
-
-        const panel = await browser.asControl(descendantSelector)
-
-        const sPanelText = await panel.getHeaderText()
-        expect(sPanelText).toEqual("Header Text")
-
-        const bPanelExpandable = await panel.getExpandable()
-        expect(bPanelExpandable).toEqual(true)
     })
 })
