@@ -155,14 +155,14 @@ function _verifySelector(wdi5Selector: wdi5Selector) {
             wdi5Selector.selector.hasOwnProperty("labelFor") ||
             wdi5Selector.selector.hasOwnProperty("properties")
         ) {
-            Logger.error(
-                "Specified selector is not valid. Please use at least one of: 'id, viewName, bindingPath, controlType, I18NText, labelFor, properties' -> abort"
-            )
             return true
         }
-        Logger.error("Specified selector is not valid -> property 'selector' is missing")
+        Logger.error(
+            "Specified selector is not valid. Please use at least one of: 'id, viewName, bindingPath, controlType, I18NText, labelFor, properties' -> abort"
+        )
         return false
     }
+    Logger.error("Specified selector is not valid -> property 'selector' is missing")
     return false
 }
 
