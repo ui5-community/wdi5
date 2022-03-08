@@ -151,14 +151,14 @@ function _verifySelector(wdi5Selector: wdi5Selector) {
             wdi5Selector.selector.hasOwnProperty("viewName") ||
             wdi5Selector.selector.hasOwnProperty("bindingPath") ||
             wdi5Selector.selector.hasOwnProperty("controlType") ||
-            wdi5Selector.selector.hasOwnProperty("i18NText") ||
+            wdi5Selector.selector.hasOwnProperty("I18NText") ||
             wdi5Selector.selector.hasOwnProperty("labelFor") ||
             wdi5Selector.selector.hasOwnProperty("properties")
         ) {
             return true
         }
         Logger.error(
-            "Specified selector is not valid. Please use at least one of: 'id, viewName, bindingPath, controlType, i18NText, labelFor, properties' -> abort"
+            "Specified selector is not valid. Please use at least one of: 'id, viewName, bindingPath, controlType, I18NText, labelFor, properties' -> abort"
         )
         return false
     }
