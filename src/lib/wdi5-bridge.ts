@@ -133,7 +133,7 @@ function _createWdioUI5KeyFromSelector(selector: wdi5Selector): string {
     const _selector = selector.selector
     const wdi5_ui5_key = `${orEmpty(_selector.id)}_${orEmpty(_selector.viewName)}_${orEmpty(
         _selector.controlType
-    )}_${orEmpty(JSON.stringify(_selector.bindingPath))}_${orEmpty(JSON.stringify(_selector.i18NText))}_${orEmpty(
+    )}_${orEmpty(JSON.stringify(_selector.bindingPath))}_${orEmpty(JSON.stringify(_selector.I18NText))}_${orEmpty(
         _selector.labelFor
     )}_${orEmpty(JSON.stringify(_selector.properties))}`.replace(/[^0-9a-zA-Z]+/, "")
 
