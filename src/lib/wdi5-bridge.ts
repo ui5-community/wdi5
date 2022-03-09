@@ -128,14 +128,16 @@ export async function checkForUI5Page() {
  * @returns wdio_ui5_key
  */
 function _createWdioUI5KeyFromSelector(selector: wdi5Selector): string {
-    const orEmpty = (string) => string || "-"
+    const orEmpty = (string) => string || ""
 
     const _selector = selector.selector
-    const wdi5_ui5_key = `${orEmpty(_selector.id)}_${orEmpty(_selector.viewName)}_${orEmpty(
+    const wdi5_ui5_key = `${orEmpty(_selector.id)}${orEmpty(_selector.viewName)}${orEmpty(
         _selector.controlType
-    )}_${orEmpty(JSON.stringify(_selector.bindingPath))}_${orEmpty(JSON.stringify(_selector.i18NText))}_${orEmpty(
+    )}${orEmpty(JSON.stringify(_selector.bindingPath))}${orEmpty(JSON.stringify(_selector.i18NText))}${orEmpty(
         JSON.stringify(_selector.descendant)
-    )}_${orEmpty(_selector.labelFor)}_${orEmpty(JSON.stringify(_selector.properties))}`.replace(/[^0-9a-zA-Z]+/, "")
+    )}${orEmpty(JSON.stringify(_selector.labelFor))}${orEmpty(JSON.stringify(_selector.properties))}${orEmpty(
+        JSON.stringify(_selector.ancestor)
+    )}`.replace(/[^0-9a-zA-Z]+/, "")
 
     return wdi5_ui5_key
 }
@@ -151,15 +153,16 @@ function _verifySelector(wdi5Selector: wdi5Selector) {
             wdi5Selector.selector.hasOwnProperty("viewName") ||
             wdi5Selector.selector.hasOwnProperty("bindingPath") ||
             wdi5Selector.selector.hasOwnProperty("controlType") ||
-            wdi5Selector.selector.hasOwnProperty("I18NText") ||
+            wdi5Selector.selector.hasOwnProperty("i18NText") ||
             wdi5Selector.selector.hasOwnProperty("labelFor") ||
             wdi5Selector.selector.hasOwnProperty("descendant") ||
+            wdi5Selector.selector.hasOwnProperty("ancestor") ||
             wdi5Selector.selector.hasOwnProperty("properties")
         ) {
             return true
         }
         Logger.error(
-            "Specified selector is not valid. Please use at least one of: 'id, viewName, bindingPath, controlType, i18NText, labelFor, properties, descendant' -> abort"
+            "Specified selector is not valid. Please use at least one of: 'id, viewName, bindingPath, controlType, i18NText, labelFor, ancestor, properties, descendant' -> abort"
         )
         return false
     }

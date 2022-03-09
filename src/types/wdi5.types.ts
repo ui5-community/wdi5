@@ -79,6 +79,10 @@ interface wdi5ControlSelector {
      * Properties matcher, {@link sap.ui.test.matchers.Properties}
      */
     properties?: Record<string, unknown>
+    /**
+     * Ancestor matcher, {@link sap.ui.test.matchers.Ancestor}
+     */
+    ancestor?: Record<string, unknown>
 }
 
 export interface wdi5Selector {

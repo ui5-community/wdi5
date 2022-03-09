@@ -67,7 +67,7 @@ describe("ui5 matcher tests", () => {
 
     // TODO:
     it.only("check labelFor matcher ", async () => {
-        const descendantSelector = {
+        const labelForSelector = {
             selector: {
                 controlType: "sap.m.Panel",
                 labelFor: {
@@ -80,30 +80,24 @@ describe("ui5 matcher tests", () => {
             }
         }
 
-        const panel = await browser.asControl(descendantSelector)
+        const panel = await browser.asControl(labelForSelector)
 
         const sPanelText = await panel.getHeaderText()
         expect(sPanelText).toEqual("Header Text")
-
-        const bPanelExpandable = await panel.getExpandable()
-        expect(bPanelExpandable).toEqual(true)
     })
 
     // TODO:
     it.only("check anchestor matcher", async () => {
-        const descendantSelector = {
+        const ancestorSelector = {
             selector: {
                 controlType: "sap.m.Panel",
                 ancestor: "object" // where "object" is a declarative matcher for the ancestor
             }
         }
 
-        const panel = await browser.asControl(descendantSelector)
+        const panel = await browser.asControl(ancestorSelector)
 
         const sPanelText = await panel.getHeaderText()
         expect(sPanelText).toEqual("Header Text")
-
-        const bPanelExpandable = await panel.getExpandable()
-        expect(bPanelExpandable).toEqual(true)
     })
 })
