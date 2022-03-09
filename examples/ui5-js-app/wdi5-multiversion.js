@@ -5,13 +5,13 @@ const Launcher = require("@wdio/cli").default
 
 // lts version - with 1.71.19 being the exception
 // in that there seems to be stuff boken in ui5 > 1.71.19 <= 1.71.25
-const versions = ["1.58.4", "1.71.19", "1.84.3"]
+const versions = ["1.100.0-SNAPSHOT", "1.58.4", "1.71.19", "1.84.3", "1.100.0-SNAPSHOT"]
 
 ;(async () => {
     for (const version of versions) {
         // create an index.html for bootstrapping per version
         const targetIndex = path.resolve(__dirname, `webapp/index-${version}.html`)
-        const bootstrapSrc = `https://openui5.hana.ondemand.com/${version}/resources/sap-ui-core.js`
+        const bootstrapSrc = `https://openui5nightly.hana.ondemand.com/${version}/resources/sap-ui-core.js`
         fsExtra.copySync(path.resolve(__dirname, `webapp/index.html`), targetIndex)
         const optionsIndex = {
             files: targetIndex,
