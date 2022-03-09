@@ -18,7 +18,7 @@ exec("npm -v", function (error, stdout, stderr) {
 
     if (fReqNpmVersion > npmVersion) {
         console.info(
-            `updating npm version from ${npmVersion} to the lasted version because required npm version in package.json is set to ${requiredNpmVersion}`
+            `updating npm version from ${npmVersion} to the lasted version because required npm version in package.json is set to ${sReqNpmVersion}`
         )
         execSync("npm install -g npm@latest")
         execSync("npm install")
