@@ -1,6 +1,7 @@
 import { resolve } from "path"
 import { writeFile } from "fs/promises"
 import { tmpdir } from "os"
+import * as semver from "semver"
 
 import { wdi5Config, wdi5Selector } from "../types/wdi5.types"
 import { WDI5Control } from "./wdi5-control"
@@ -99,8 +100,8 @@ export async function start(config: wdi5Config) {
  * attach the sap/ui/test/RecordReplay object to the application context window object as 'bridge'
  */
 export async function injectUI5(config: wdi5Config) {
-    const ui5Version = await browser.getUI5VersionAsFloat()
-    if (ui5Version < 1.6) {
+    const ui5Version = await browser.getUI5Version()
+    if (semver.lt(ui5Version, "1.60.0")) {
         // the record replay api is only available since 1.60
         Logger.error("The ui5 version of your application is to low. Minimum required UI5 version is 1.60")
         throw new Error("The ui5 version of your application is to low. Minimum required UI5 version is 1.60")
@@ -197,11 +198,11 @@ export async function addWdi5Commands() {
     })
 
     browser.addCommand("getUI5VersionAsFloat", async () => {
+        // TODO: what happens when we reach version 1.100? parseFloat will return 1.1
         if (!_sapUI5Version) {
             // implicit setter for _sapUI5Version
             await browser.getUI5Version()
         }
-
         return parseFloat(_sapUI5Version)
     })
 
