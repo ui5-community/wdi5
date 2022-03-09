@@ -84,8 +84,7 @@ describe("ui5 matcher tests", () => {
                 controlType: "sap.m.Title",
                 ancestor: {
                     viewName: "test.Sample.view.Main",
-                    controlType: "sap.m.Panel",
-                    bDirect: false
+                    controlType: "sap.m.Panel"
                 }
             }
         }
