@@ -151,7 +151,7 @@ function _verifySelector(wdi5Selector: wdi5Selector) {
             wdi5Selector.selector.hasOwnProperty("viewName") ||
             wdi5Selector.selector.hasOwnProperty("bindingPath") ||
             wdi5Selector.selector.hasOwnProperty("controlType") ||
-            wdi5Selector.selector.hasOwnProperty("i18NText") ||
+            wdi5Selector.selector.hasOwnProperty("I18NText") ||
             wdi5Selector.selector.hasOwnProperty("labelFor") ||
             wdi5Selector.selector.hasOwnProperty("descendant") ||
             wdi5Selector.selector.hasOwnProperty("properties")
