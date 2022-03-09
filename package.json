@@ -40,8 +40,9 @@
     "_startApp:ts": "tbd",
     "_test:js-app": "wait-on tcp:8888 && wait-on tcp:8080 && npm run test --workspace=examples/ui5-js-app",
     "test:js-app": "run-p -r _startApp:js _startApp:js-tooling _test:js-app",
-    "prepare": "run-s check-versions husky install",
+    "prepare": "run-s check-versions husky-install",
     "release": "standard-version",
+    "husky-install": "husky install",
     "check-versions": "node check-versions.js"
   },
   "lint-staged": {
