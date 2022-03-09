@@ -7,7 +7,6 @@ describe("ui5 matcher tests", () => {
 
     it("check i18nText Button matcher", async () => {
         const i18nSelector = {
-            // wdio_ui5_key: "nav_button",
             selector: {
                 i18NText: {
                     propertyName: "text",
@@ -25,7 +24,6 @@ describe("ui5 matcher tests", () => {
 
     it("check i18nText matcher user button", async () => {
         const i18nSelector = {
-            // wdio_ui5_key: "user_button",
             selector: {
                 i18NText: {
                     propertyName: "text",
@@ -34,7 +32,6 @@ describe("ui5 matcher tests", () => {
                 controlType: "sap.m.Button",
                 viewName: "test.Sample.view.Main"
             }
-            // forceSelect: true
         }
 
         const button = await browser.asControl(i18nSelector)
@@ -65,39 +62,37 @@ describe("ui5 matcher tests", () => {
         expect(bPanelExpandable).toEqual(true)
     })
 
-    // TODO:
-    it.only("check labelFor matcher ", async () => {
+    it("check labelFor matcher ", async () => {
         const labelForSelector = {
             selector: {
-                controlType: "sap.m.Panel",
+                controlType: "sap.m.DateTimePicker",
                 labelFor: {
-                    text: "string",
-                    modelName: "string",
-                    key: "string",
-                    parameters: "any",
-                    propertyName: "string"
+                    text: "labelFor DateTimePicker"
                 }
             }
         }
 
-        const panel = await browser.asControl(labelForSelector)
+        const datePicker = await browser.asControl(labelForSelector)
 
-        const sPanelText = await panel.getHeaderText()
-        expect(sPanelText).toEqual("Header Text")
+        const sDatePickerPlaceholder = await datePicker.getPlaceholder()
+        expect(sDatePickerPlaceholder).toEqual("Enter Date ...")
     })
 
-    // TODO:
-    it.only("check anchestor matcher", async () => {
+    it("check anchestor matcher", async () => {
         const ancestorSelector = {
             selector: {
-                controlType: "sap.m.Panel",
-                ancestor: "object" // where "object" is a declarative matcher for the ancestor
+                controlType: "sap.m.Title",
+                ancestor: {
+                    viewName: "test.Sample.view.Main",
+                    controlType: "sap.m.Panel",
+                    bDirect: false
+                }
             }
         }
 
-        const panel = await browser.asControl(ancestorSelector)
+        const title = await browser.asControl(ancestorSelector)
 
-        const sPanelText = await panel.getHeaderText()
-        expect(sPanelText).toEqual("Header Text")
+        const sTitleText = await title.getText()
+        expect(sTitleText).toEqual("Custom Toolbar with a header text")
     })
 })

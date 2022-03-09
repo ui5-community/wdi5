@@ -44,6 +44,7 @@
 						<Text text="Lorem ipsum dolor st amet" />
 					</content>
 				</Panel>
+				<Label labelFor="idDateTime" text="labelFor DateTimePicker"/>
 				<DateTimePicker id="idDateTime"
 					placeholder="Enter Date ..." />
 				<Button text="{testModel>/buttonText}"
