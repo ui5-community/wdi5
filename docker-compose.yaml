@@ -1,0 +1,69 @@
+# To execute this docker-compose yml file use `docker-compose -f docker-compose-v3.yml up`
+# Add the `-d` flag at the end for detached execution
+# To stop the execution, hit Ctrl+C, and then `docker-compose -f docker-compose-v3.yml down`
+
+# Mac M1 issues: https://github.com/SeleniumHQ/selenium/issues/9733
+version: "3"
+
+networks:
+  wdi5:
+    name: wdi5
+    external: true
+
+services:
+  chrome:
+    restart: always
+    image: selenium/node-chrome:4.1.1-20220121
+    container_name: chrome
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      # no video
+      - START_XVFB=false
+      - JAVA_OPTS=-Dwebdriver.chrome.whitelistedIps=
+    networks:
+      - wdi5
+
+  selenium-hub:
+    restart: always
+    image: selenium/hub:4.1.1-20220121
+    container_name: selenium-hub
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+    environment:
+      - JAVA_OPTS=-Dwebdriver.chrome.whitelistedIps=
+    networks:
+      - wdi5
+
+  wdi5:
+    build: .
+    image: wdi5
+    container_name: wdi5
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+
+    volumes:
+      - ./wdio-browser-docker.conf.js:/app/wdio-browser-docker.conf.js
+      - ./examples/ui5-js-app/webapp/test/service/basic.test.js:/app/test/service/basic.test.js
+      - ./examples/ui5-js-app/webapp/test/service/fluent-async-api.test.js:/app/test/service/fluent-async-api.test.js
+    depends_on:
+      - selenium-hub
+      - chrome
+      - test-app
+    networks:
+      - wdi5
+
+  test-app:
+    build: ./ui5-app
+    image: test-app
+    container_name: test-app
+    ports:
+      - "80:80"
+    networks:
+      - wdi5
