@@ -83,6 +83,14 @@ interface wdi5ControlSelector {
      * Ancestor matcher, {@link sap.ui.test.matchers.Ancestor}
      */
     ancestor?: Record<string, unknown>
+    /**
+     * Sibling matcher, {@link sap.ui.test.matchers.Sibling}
+     */
+    sibling?: Record<string, unknown>
+    /**
+     * Interactable matcher, {@link sap.ui.test.matchers.Interactable}
+     */
+    interactable?: Record<string, unknown>
 }
 
 export interface wdi5Selector {

@@ -51,9 +51,23 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                     "sap/ui/test/matchers/I18NText",
                     "sap/ui/test/matchers/Properties",
                     "sap/ui/test/matchers/Ancestor",
-                    "sap/ui/test/matchers/LabelFor"
+                    "sap/ui/test/matchers/LabelFor",
+                    "sap/ui/test/matchers/Sibling",
+                    "sap/ui/test/matchers/Descendant",
+                    "sap/ui/test/matchers/Ancestor",
+                    "sap/ui/test/matchers/Interactable"
                 ],
-                (BindingPath, I18NText, Properties, Ancestor, LabelFor) => {
+                (
+                    BindingPath,
+                    I18NText,
+                    Properties,
+                    Ancestor,
+                    LabelFor,
+                    Sibling,
+                    Descendant,
+                    Anchestor,
+                    Interactable
+                ) => {
                     /**
                      * used to dynamically create new control matchers when searching for elements
                      */
@@ -125,6 +139,28 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                             }
                         }
 
+                        /*
+                        // since for these matcher a constructor call is neccessary
+                        if (oSelector.sibling && oSelector.sibling.options) {
+                            // don't construct matcher if not needed
+                            const options = oSelector.sibling.options
+                            delete oSelector.sibling.options
+                            oSelector.sibling = new Sibling(oSelector.sibling, options)
+                        }
+                        if (oSelector.descendant && (typeof oSelector.descendant.bDirect !== 'undefined')) {
+                            // don't construct matcher if not needed
+                            const bDirect = oSelector.descendant.bDirect
+                            delete oSelector.descendant.bDirect
+                            oSelector.descendant = new Sibling(oSelector.descendant, !!bDirect)
+                        }
+                        if (oSelector.ancestor && (typeof oSelector.ancestor.bDirect !== 'undefined')) {
+                            // don't construct matcher if not needed
+                            const bDirect = oSelector.ancestor.bDirect
+                            delete oSelector.ancestor.bDirect
+                            oSelector.ancestor = new Sibling(oSelector.ancestor, !!bDirect)
+                        }
+                        debugger
+                         */
                         return oSelector
                     }
 

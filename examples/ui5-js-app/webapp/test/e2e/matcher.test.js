@@ -115,7 +115,7 @@ describe("ui5 matcher tests", () => {
         expect(sButtonText).toEqual("to Other View")
     })
 
-    it.skip("check siblings matcher next Occurance", async () => {
+    it.only("check siblings matcher next Occurance", async () => {
         const siblingsSelector = {
             selector: {
                 controlType: "sap.m.Button",
@@ -124,10 +124,11 @@ describe("ui5 matcher tests", () => {
                     controlType: "sap.m.Button",
                     properties: {
                         text: "open Barcodescanner"
-                    },
-                    next: true
-                },
-                next: true
+                    }
+                    /* options: {
+                        next: true
+                    } */
+                }
             }
         }
 
