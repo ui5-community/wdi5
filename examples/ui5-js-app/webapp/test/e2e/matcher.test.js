@@ -94,4 +94,61 @@ describe("ui5 matcher tests", () => {
         const sTitleText = await title.getText()
         expect(sTitleText).toEqual("Custom Toolbar with a header text")
     })
+
+    it("check siblings matcher first Occurance", async () => {
+        const siblingsSelector = {
+            selector: {
+                controlType: "sap.m.Button",
+                sibling: {
+                    viewName: "test.Sample.view.Main",
+                    controlType: "sap.m.Button",
+                    properties: {
+                        text: "open Barcodescanner"
+                    }
+                }
+            }
+        }
+
+        const button = await browser.asControl(siblingsSelector)
+
+        const sButtonText = await button.getText()
+        expect(sButtonText).toEqual("to Other View")
+    })
+
+    it.skip("check siblings matcher next Occurance", async () => {
+        const siblingsSelector = {
+            selector: {
+                controlType: "sap.m.Button",
+                sibling: {
+                    viewName: "test.Sample.view.Main",
+                    controlType: "sap.m.Button",
+                    properties: {
+                        text: "open Barcodescanner"
+                    },
+                    next: true
+                },
+                next: true
+            }
+        }
+
+        const button = await browser.asControl(siblingsSelector)
+
+        const sButtonText = await button.getText()
+        expect(sButtonText).toEqual("open Dialog")
+    })
+
+    it("check interactable matcher", async () => {
+        const interactableSelector = {
+            selector: {
+                controlType: "sap.m.Button",
+                interactable: true,
+                visible: true
+            }
+        }
+
+        const button = await browser.asControl(interactableSelector)
+
+        const sButtonStatus = await button.getEnabled()
+        expect(sButtonStatus).toBeTruthy()
+    })
 })
