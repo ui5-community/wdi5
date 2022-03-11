@@ -140,28 +140,32 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                         }
 
                         /*
+                        oSelector.matchers = []
                         // since for these matcher a constructor call is neccessary
                         if (oSelector.sibling && oSelector.sibling.options) {
                             // don't construct matcher if not needed
                             const options = oSelector.sibling.options
                             delete oSelector.sibling.options
-                            oSelector.sibling = new Sibling(oSelector.sibling, options)
+                            oSelector.matchers.push(new Sibling(oSelector.sibling, options))
+                            delete oSelector.sibling
                         }
                         if (oSelector.descendant && (typeof oSelector.descendant.bDirect !== 'undefined')) {
                             // don't construct matcher if not needed
                             const bDirect = oSelector.descendant.bDirect
                             delete oSelector.descendant.bDirect
-                            oSelector.descendant = new Sibling(oSelector.descendant, !!bDirect)
+                            oSelector.matchers.push(new Descendant(oSelector.descendant, !!bDirect))
+                            delete oSelector.descendant
                         }
                         if (oSelector.ancestor && (typeof oSelector.ancestor.bDirect !== 'undefined')) {
                             // don't construct matcher if not needed
                             const bDirect = oSelector.ancestor.bDirect
                             delete oSelector.ancestor.bDirect
-                            oSelector.ancestor = new Sibling(oSelector.ancestor, !!bDirect)
+                            oSelector.matchers.push(new Ancestor(oSelector.ancestor, !!bDirect))
+                            delete oSelector.ancestor
                         }
-                        debugger
-                         */
+
                         return oSelector
+                        */
                     }
 
                     /**
