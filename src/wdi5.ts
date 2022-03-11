@@ -1,8 +1,12 @@
 import { Logger as _Logger } from "./lib/Logger"
 const Logger = _Logger.getInstance()
 export class wdi5 {
-    static getLogger() {
-        return Logger
+    static getLogger(sPrefix = "wdi5") {
+        if (sPrefix === "wdi5") {
+            return Logger
+        } else {
+            return _Logger.getInstance(sPrefix)
+        }
     }
 
     static async goTo(param: any, oRoute) {
