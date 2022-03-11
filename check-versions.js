@@ -20,8 +20,10 @@ exec("npm -v", function (error, stdout, stderr) {
             `updating npm version from ${npmVersion} to the latest version because required npm version in package.json is set to ${sReqNpmVersion}`
         )
         execSync("npm install -g npm@latest")
-        execSync("npm install")
+        // not needed to execute npm install again due to the usage of this script in prepare hook
+        // execSync("npm install")
     } else {
-        execSync("npm install")
+        // not needed to execute npm install again due to the usage of this script in prepare hook -> do nothing
+        // execSync("npm install")
     }
 })
