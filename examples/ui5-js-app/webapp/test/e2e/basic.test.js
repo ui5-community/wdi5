@@ -48,4 +48,22 @@ describe("ui5 basic", () => {
         expect(invalidControl1).toContain("ERROR")
         expect(invalidControl2).toContain("ERROR")
     })
+
+    it.only("test wdio function", async () => {
+        const selector = {
+            selector: {
+                id: "Title::NoAction.h1",
+                viewName: "test.Sample.view.Main"
+            }
+        }
+
+        // ui5
+        const titleWUi5 = await browser.asControl(selector)
+        // old syntax
+        expect((await titleWUi5.getWebElement()).isDisplayed()).toBeTruthy()
+        // new wdio shortcut
+        expect((await titleWUi5.$()).isDisplayed()).toBeTruthy()
+        // new bridge
+        expect(await titleWUi5.isDisplayed()).toBeTruthy()
+    })
 })
