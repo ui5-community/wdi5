@@ -6,7 +6,7 @@ const Launcher = require("@wdio/cli").default
 // lts version - with 1.71.19 being the exception
 // in that there seems to be stuff boken in ui5 > 1.71.19 <= 1.71.25
 // empty string will get the newest Version which can be a "SNAPSHOT" version
-const versions = ["", "1.58.4", "1.71.19", "1.84.3"]
+const versions = ["", "1.71.19", "1.84.3"]
 
 ;(async () => {
     for (const version of versions) {
