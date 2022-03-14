@@ -13,7 +13,7 @@ declare global {
     // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace WebdriverIO {
         interface Browser {
-            asControl: (arg: wdi5Selector) => Promise<any>
+            asControl: (arg: wdi5Selector) => Promise<WebdriverIO.Element | Control>
             screenshot: (arg: string) => Promise<any>
             goTo: (arg: string | object) => Promise<any>
             /**
