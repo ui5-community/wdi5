@@ -4,6 +4,7 @@ import { tmpdir } from "os"
 
 import { wdi5Config, wdi5Selector } from "../types/wdi5.types"
 import { WDI5Control } from "./wdi5-control"
+import { clientSide_injectTools } from "../../client-side-js/injectTools"
 import { clientSide_injectUI5 } from "../../client-side-js/injectUI5"
 import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement"
 import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready"
@@ -100,6 +101,7 @@ export async function start(config: wdi5Config) {
  */
 export async function injectUI5(config: wdi5Config) {
     const waitForUI5Timeout = config.wdi5.waitForUI5Timeout || 15000
+    await clientSide_injectTools() // helpers for wdi5 browser scope
     // expect boolean
     const result = await clientSide_injectUI5(config, waitForUI5Timeout)
 
