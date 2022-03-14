@@ -58,11 +58,9 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                      * used to dynamically create new control matchers when searching for elements
                      */
                     window.wdi5.createMatcher = (oSelector) => {
-                        // Before version 1.60, the only available criteria is binding context path.
-                        // As of version 1.72, it is available as a declarative matcher
-                        const oldAPIVersion = 1.6
                         // check whether we're looking for a control via regex
                         // hint: no IE support here :)
+                        const oldAPIVersion = "1.72.0"
                         if (oSelector.id && oSelector.id.startsWith("/", 0)) {
                             const [sTarget, sRegEx, sFlags] = oSelector.id.match(/\/(.*)\/(.*)/)
                             oSelector.id = new RegExp(sRegEx, sFlags)
@@ -103,25 +101,30 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                                 // for UI5 < 1.81
                                 oSelector.bindingPath.propertyPath = `/${oSelector.bindingPath.propertyPath}`
                             }
-                            if (oldAPIVersion > parseFloat(sap.ui.version)) {
-                                // for version < 1.60 create the matcher
-                                oSelector.bindingPath = new BindingPath(oSelector.bindingPath)
-                            }
                         }
-
-                        if (oldAPIVersion > parseFloat(sap.ui.version)) {
-                            // for version < 1.60 create the matcher
+                        debugger
+                        if (window.compareVersions.compare(oldAPIVersion, sap.ui.version, ">")) {
+                            oSelector.matchers = []
+                            // for version < 1.72 declarative matchers are not available
+                            if (oSelector.bindingPath) {
+                                oSelector.matchers.push(new BindingPath(oSelector.bindingPath))
+                                delete oSelector.bindingPath
+                            }
                             if (oSelector.properties) {
-                                oSelector.properties = new Properties(oSelector.properties)
+                                oSelector.matchers.push(new Properties(oSelector.properties))
+                                delete oSelector.properties
                             }
                             if (oSelector.i18NText) {
-                                oSelector.i18NText = new I18NText(oSelector.i18NText)
+                                oSelector.matchers.push(new I18NText(oSelector.i18NText))
+                                delete oSelector.i18NText
                             }
                             if (oSelector.labelFor) {
-                                oSelector.labelFor = new LabelFor(oSelector.labelFor)
+                                oSelector.matchers.push(new LabelFor(oSelector.labelFor))
+                                delete oSelector.labelFor
                             }
                             if (oSelector.ancestor) {
-                                oSelector.ancestor = new Ancestor(oSelector.ancestor)
+                                oSelector.matchers.push(new Ancestor(oSelector.ancestor))
+                                delete oSelector.ancestor
                             }
                         }
 
