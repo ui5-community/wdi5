@@ -61,11 +61,6 @@ describe("RegEx locators", () => {
                 }
             }
 
-            if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
-                openButtonSelector.forceSelect = true
-                openButtonSelector.selector.interaction = "root"
-            }
-
             await browser.asControl(openButtonSelector).press()
 
             const popup = await browser.asControl(dialogSelector)
