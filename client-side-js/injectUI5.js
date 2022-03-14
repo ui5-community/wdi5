@@ -104,7 +104,6 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                                 oSelector.bindingPath.propertyPath = `/${oSelector.bindingPath.propertyPath}`
                             }
                         }
-                        debugger
                         if (window.compareVersions.compare(oldAPIVersion, sap.ui.version, ">")) {
                             oSelector.matchers = []
                             // for version < 1.72 declarative matchers are not available
