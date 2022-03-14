@@ -437,7 +437,7 @@ export class WDI5Control {
         } while ((control = Object.getPrototypeOf(control)))
 
         // @ts-ignore
-        const controlMethodsToProxy = [...properties.keys()].filter((item) => {
+        const controlMethodsToProxy = [...properties.keys()].filter((item: string) => {
             if (typeof _control[item] === "function") {
                 // function
 
@@ -464,7 +464,7 @@ export class WDI5Control {
             return false
         })
 
-        return controlMethodsToProxy
+        return controlMethodsToProxy as Array<string>
     }
 
     /**
