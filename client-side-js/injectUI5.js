@@ -44,7 +44,9 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                 // known side effect this call triggers the back to node scope, the other sap.ui.require continue to run in background in browser scope
                 done(true)
             })
+
             // make sure the resources are required
+            // TODO: "sap/ui/test/matchers/Sibling",
             sap.ui.require(
                 [
                     "sap/ui/test/matchers/BindingPath",
@@ -52,20 +54,10 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                     "sap/ui/test/matchers/Properties",
                     "sap/ui/test/matchers/Ancestor",
                     "sap/ui/test/matchers/LabelFor",
-                    "sap/ui/test/matchers/Sibling",
                     "sap/ui/test/matchers/Descendant",
                     "sap/ui/test/matchers/Interactable"
                 ],
-                (
-                    BindingPath,
-                    I18NText,
-                    Properties,
-                    Ancestor,
-                    LabelFor,
-                    Sibling,
-                    Descendant,
-                    Interactable
-                ) => {
+                (BindingPath, I18NText, Properties, Ancestor, LabelFor, Descendant, Interactable) => {
                     /**
                      * used to dynamically create new control matchers when searching for elements
                      */
