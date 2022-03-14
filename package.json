@@ -41,11 +41,14 @@
     "_test:js-app": "wait-on tcp:8888 && wait-on tcp:8080 && npm run test --workspace=examples/ui5-js-app",
     "test:js-app": "run-p -r _startApp:js _startApp:js-tooling _test:js-app",
     "prepare": "husky install",
-    "release": "standard-version"
+    "release": "standard-version",
+    "lint:ts": "eslint . --cache --fix --ext .ts --config ./src/.eslintrc.js",
+    "lint:js": "eslint . --cache --fix --config ./src/.eslintrc.js"
   },
   "lint-staged": {
     "*": "prettier --ignore-unknown --write",
-    "*.ts": "eslint --cache --fix"
+    "*.ts": "npm run lint:ts",
+    "*.js": "npm run lint:js"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
