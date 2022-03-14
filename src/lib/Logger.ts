@@ -2,21 +2,16 @@ import { chalk as console } from "./coloredConsole"
 import { wdi5LogLevel } from "../types/wdi5.types"
 
 export class Logger {
-    private static instance
+    private static instance: Record<string, Logger> = {}
     private constructor(sPrefix = "wdi5") {
         this.prefix = `[${sPrefix}]`
-        // eliminate creating new instances
     }
 
     private prefix: string
     private logLevel: wdi5LogLevel = "error"
 
     static getInstance(sPrefix = "wdi5"): Logger {
-        if (!Logger.instance) {
-            Logger.instance = Object.assign({})
-        }
-
-        if (!Logger.instance[sPrefix]) {
+        if (Logger.instance === null || !Logger.instance[sPrefix]) {
             Logger.instance[sPrefix] = new Logger(sPrefix)
         }
         return Logger.instance[sPrefix]
