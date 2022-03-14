@@ -23,6 +23,7 @@ export class WDI5Control {
     _generatedUI5Methods: Array<string>
     _initialisation = false
     _forceSelect = false
+    //  TODO: https://www.smashingmagazine.com/2021/01/dynamic-static-typing-typescript/
     _generatedWdioMethods: Array<string>
 
     constructor() {
@@ -232,7 +233,9 @@ export class WDI5Control {
         // check the validity of param
         if (sReplFunctionNames) {
             sReplFunctionNames.forEach(async (sMethodName) => {
-                this[sMethodName] = await browser[sMethodName].bind(this, sMethodName, this._webElement)
+                this[sMethodName] = async function () {
+                    return await (await this.getWebElement())[sMethodName]()
+                }
             })
         } else {
             Logger.warn(`${this._wdio_ui5_key} has no sReplFunctionNames`)
@@ -426,6 +429,7 @@ export class WDI5Control {
      * @returns {Array<string>}
      */
     private _retrieveControlMethods(control) {
+        const _control = control
         // create keys of all parent prototypes
         const properties = new Set()
         do {
@@ -434,7 +438,7 @@ export class WDI5Control {
 
         // @ts-ignore
         const controlMethodsToProxy = [...properties.keys()].filter((item) => {
-            if (typeof control[item] === "function") {
+            if (typeof _control[item] === "function") {
                 // function
 
                 // filter private methods
@@ -461,7 +465,6 @@ export class WDI5Control {
         })
 
         return controlMethodsToProxy
-        // return ["isDisplayed"]
     }
 
     /**
