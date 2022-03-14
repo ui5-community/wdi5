@@ -4,3 +4,4 @@
 - [Running](running.md)
 - [Usage](usage.md)
 - [Recipes](recipes.md)
+- [Contributing](contributing.md)

@@ -5,6 +5,7 @@ import * as semver from "semver"
 
 import { wdi5Config, wdi5Selector } from "../types/wdi5.types"
 import { WDI5Control } from "./wdi5-control"
+import { clientSide_injectTools } from "../../client-side-js/injectTools"
 import { clientSide_injectUI5 } from "../../client-side-js/injectUI5"
 import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement"
 import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready"
@@ -107,6 +108,7 @@ export async function injectUI5(config: wdi5Config) {
         throw new Error("The ui5 version of your application is to low. Minimum required UI5 version is 1.60")
     }
     const waitForUI5Timeout = config.wdi5.waitForUI5Timeout || 15000
+    await clientSide_injectTools() // helpers for wdi5 browser scope
     // expect boolean
     const result = await clientSide_injectUI5(config, waitForUI5Timeout)
 
@@ -146,9 +148,39 @@ function _createWdioUI5KeyFromSelector(selector: wdi5Selector): string {
 
     return wdi5_ui5_key
 }
+/**
+ * does a basic validation of a wdi5ControlSelector
+ * @param wdi5Selector: wdi5Selector
+ * @returns {boolean} if the given selector is a valid selector
+ */
+function _verifySelector(wdi5Selector: wdi5Selector) {
+    if (wdi5Selector.hasOwnProperty("selector")) {
+        if (
+            wdi5Selector.selector.hasOwnProperty("id") ||
+            wdi5Selector.selector.hasOwnProperty("viewName") ||
+            wdi5Selector.selector.hasOwnProperty("bindingPath") ||
+            wdi5Selector.selector.hasOwnProperty("controlType") ||
+            wdi5Selector.selector.hasOwnProperty("I18NText") ||
+            wdi5Selector.selector.hasOwnProperty("labelFor") ||
+            wdi5Selector.selector.hasOwnProperty("properties")
+        ) {
+            return true
+        }
+        Logger.error(
+            "Specified selector is not valid. Please use at least one of: 'id, viewName, bindingPath, controlType, I18NText, labelFor, properties' -> abort"
+        )
+        return false
+    }
+    Logger.error("Specified selector is not valid -> property 'selector' is missing")
+    return false
+}
 
 export async function addWdi5Commands() {
     browser.addCommand("_asControl", async (wdi5Selector: wdi5Selector) => {
+        if (!_verifySelector(wdi5Selector)) {
+            return "ERROR: Specified selector is not valid -> abort"
+        }
+
         const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
         // either retrieve and cache a UI5 control
         // or return a cached version
@@ -234,7 +266,7 @@ export async function addWdi5Commands() {
         const oRoute = oOptions.oRoute
 
         if (sHash && sHash.length > 0) {
-            const url = (browser.config as wdi5Config).wdi5["url"]
+            const url = (browser.config as wdi5Config).wdi5["url"] || (await browser.getUrl())
 
             // navigate via hash if defined
             if (url && url.length > 0 && url !== "#") {

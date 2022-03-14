@@ -1,0 +1,33 @@
+# this will check
+# - src formatting in ./src ./client-side-js ./docs with prettier
+# - code rules in ./src (not yet ./client-side-js) with eslint
+
+name: lint w/ prettier and eslint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run-linters:
+    name: Run linters
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
+      - name: tmp install prettier + eslint
+        run: npm i prettier eslint
+      - name: lint things
+        run: |
+          node_modules/.bin/prettier --debug-check client-side-js src docs
+          node_modules/.bin/eslint --ext .ts src
+        # TODO: linting rules for client-side-js
