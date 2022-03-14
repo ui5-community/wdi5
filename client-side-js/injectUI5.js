@@ -58,9 +58,11 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                      * used to dynamically create new control matchers when searching for elements
                      */
                     window.wdi5.createMatcher = (oSelector) => {
+                        // since 1.72.0 the declarative matchers are available. Before that
+                        // you had to instantiate the matchers manually
+                        const oldAPIVersion = "1.72.0"
                         // check whether we're looking for a control via regex
                         // hint: no IE support here :)
-                        const oldAPIVersion = "1.72.0"
                         if (oSelector.id && oSelector.id.startsWith("/", 0)) {
                             const [sTarget, sRegEx, sFlags] = oSelector.id.match(/\/(.*)\/(.*)/)
                             oSelector.id = new RegExp(sRegEx, sFlags)

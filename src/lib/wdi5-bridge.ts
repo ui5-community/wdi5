@@ -229,15 +229,6 @@ export async function addWdi5Commands() {
         return _sapUI5Version
     })
 
-    browser.addCommand("getUI5VersionAsFloat", async () => {
-        // TODO: what happens when we reach version 1.100? parseFloat will return 1.1
-        if (!_sapUI5Version) {
-            // implicit setter for _sapUI5Version
-            await browser.getUI5Version()
-        }
-        return parseFloat(_sapUI5Version)
-    })
-
     /**
      * uses the UI5 native waitForUI5 function to wait for all promises to be settled
      */
