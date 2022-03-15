@@ -18,13 +18,6 @@ describe("list interaction", () => {
 
     before(async () => {
         await Other.open()
-
-        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
-            buttonSelector.forceSelect = true
-            buttonSelector.selector.interaction = "root"
-            listSelector.forceSelect = true
-            listSelector.selector.interaction = "root"
-        }
     })
 
     beforeEach(async () => {
@@ -62,10 +55,6 @@ describe("list interaction", () => {
                 id: "idTextFieldClickResult",
                 viewName: "test.Sample.view.Other"
             }
-        }
-        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
-            textFieldSelector.forceSelect = true
-            textFieldSelector.selector.interaction = "root"
         }
 
         const mockedListItemPress = await browser.asControl(textFieldSelector)

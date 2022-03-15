@@ -38,18 +38,6 @@ describe("check the generated methods on the control -> ", () => {
     }
 
     before(async () => {
-        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
-            buttonSelector.forceSelect = true
-            buttonSelector.selector.interaction = "root"
-            inputSelector.forceSelect = true
-            inputSelector.selector.interaction = "root"
-            dateTimeSelector.forceSelect = true
-            dateTimeSelector.selector.interaction = "root"
-            listSelector.forceSelect = true
-            checkboxSelector.forceSelect = true
-            checkboxSelector.selector.interaction = "root"
-        }
-
         await Main.open()
     })
 

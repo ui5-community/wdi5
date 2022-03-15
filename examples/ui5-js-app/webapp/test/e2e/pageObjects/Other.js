@@ -28,11 +28,6 @@ class Other extends Page {
             forceSelect: force //> this will populate down to $ui5Control.getAggregation and $ui5Control.getProperty as well
         }
 
-        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
-            listSelector.forceSelect = true
-            listSelector.selector.interaction = "root"
-        }
-
         return await browser.asControl(listSelector)
     }
 

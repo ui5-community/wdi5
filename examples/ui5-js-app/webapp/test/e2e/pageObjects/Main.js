@@ -17,11 +17,6 @@ class Main extends Page {
             }
         }
 
-        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
-            cbSelector1.forceSelect = true
-            cbSelector1.selector.interaction = "root"
-        }
-
         return await browser.asControl(cbSelector1)
     }
 }
