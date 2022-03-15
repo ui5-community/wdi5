@@ -20,10 +20,6 @@ describe("custom wdi5 press event", async () => {
 
     before(async () => {
         await Main.open()
-        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
-            openButtonSelector.forceSelect = true
-            openButtonSelector.selector.interaction = "root"
-        }
     })
 
     afterEach(async () => {

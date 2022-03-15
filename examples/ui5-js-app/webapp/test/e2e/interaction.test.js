@@ -44,10 +44,6 @@ describe("interaction + binding", () => {
             }
         }
 
-        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
-            buttonSelector.forceSelect = true
-        }
-
         const ui5Button = await browser.asControl(buttonSelector)
         await ui5Button.firePress()
 
@@ -63,10 +59,6 @@ describe("interaction + binding", () => {
                 viewName: viewName,
                 controlType: "sap.m.Input"
             }
-        }
-
-        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
-            inputSelector.forceSelect = true
         }
 
         const ui5Input = await browser.asControl(inputSelector)
