@@ -54,7 +54,6 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                     "sap/ui/test/matchers/LabelFor",
                     "sap/ui/test/matchers/Sibling",
                     "sap/ui/test/matchers/Descendant",
-                    "sap/ui/test/matchers/Ancestor",
                     "sap/ui/test/matchers/Interactable"
                 ],
                 (
@@ -65,7 +64,6 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                     LabelFor,
                     Sibling,
                     Descendant,
-                    Anchestor,
                     Interactable
                 ) => {
                     /**
