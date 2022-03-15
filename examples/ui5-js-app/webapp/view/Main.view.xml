@@ -62,6 +62,15 @@
 				<Button text="open Dialog"
 					press="openDialog"
 					id="openDialogButton" />
+				<Label text="Country Combobox"/>
+				<ComboBox
+					id="combobox"
+					items="{
+						path: 'Countries>/CountriesCollection',
+						sorter: { path: 'text' }
+					}">
+					<core:Item key="{Countries>key}" text="{Countries>text}" />
+				</ComboBox>
 			</VBox>
 		</content>
 	</Page>

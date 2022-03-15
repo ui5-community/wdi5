@@ -19,6 +19,17 @@ sap.ui.define(
 
                 let testModel = new JSONModel(jData)
                 this.getView().setModel(testModel, "testModel")
+
+                this.initCombobox()
+            },
+
+            initCombobox: function () {
+                // set explored app's demo model on this sample
+                var oModel = new JSONModel()
+                oModel.loadData(
+                    "https://raw.githubusercontent.com/SAP/openui5/master/src/sap.ui.documentation/test/sap/ui/documentation/sdk/countriesExtendedCollection.json"
+                )
+                this.getView().setModel(oModel, "Countries")
             },
 
             navFwd() {

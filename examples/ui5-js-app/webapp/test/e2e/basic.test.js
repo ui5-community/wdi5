@@ -1,5 +1,14 @@
 const Main = require("./pageObjects/Main")
 
+const oComboboxSelector = {
+    // forceSelect: true,
+    selector: {
+        interaction: "root",
+        id: "combobox",
+        viewName: "test.Sample.view.Main"
+    }
+}
+
 describe("ui5 basic", () => {
     before(async () => {
         await Main.open()
@@ -47,5 +56,21 @@ describe("ui5 basic", () => {
         // check if result contains the expected validation error
         expect(invalidControl1).toContain("ERROR")
         expect(invalidControl2).toContain("ERROR")
+    })
+
+    // #121
+    it("get combobox control items", async () => {
+        const combobox = await browser.asControl(oComboboxSelector)
+        // get items (not with every ui5 control) works as expected
+        const items = await combobox.getItems(true)
+        expect(items.length).toEqual(70)
+    })
+
+    // #121
+    it.only("get combobox control items (deep)", async () => {
+        const combobox = await browser.asControl(oComboboxSelector)
+        // get items (not with every ui5 control) works as expected
+        const items = await combobox.getItems(4)
+        expect(await items.getText()).toEqual("Australia")
     })
 })
