@@ -166,8 +166,8 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                             delete oSelector.ancestor
                         }
 
-                        return oSelector
                         */
+                        return oSelector
                     }
 
                     /**
