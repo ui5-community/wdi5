@@ -112,7 +112,7 @@ describe("ui5 matcher tests", () => {
         const button = await browser.asControl(siblingsSelector)
 
         const sButtonText = await button.getText()
-        expect(sButtonText).toEqual("to Other View")
+        expect(sButtonText).toEqual("to Other view")
     })
 
     // TODO: ciblings matacher with options parameter
