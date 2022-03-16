@@ -10,7 +10,7 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                 if (Array.isArray(result)) {
                     if (result.length === 0) {
                         done(["success", result, "empty"])
-                    } else if (typeof result[0] === "object") {
+                    } else if (result[0].getParent) {
                         // expect the method call delivers non-primitive results (like getId())
                         // but delivers a complex/structured type
                         // -> currenlty, only getAggregation(...) is supported
