@@ -154,6 +154,7 @@ describe("ui5 matcher tests", () => {
         expect(sButtonStatus).toBeTruthy()
     })
 
+    // #131
     it("check for Searchfield Properties", async () => {
         const searchFieldSelector = {
             selector: {
