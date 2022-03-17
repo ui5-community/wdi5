@@ -66,6 +66,7 @@
 				<Button text="open Dialog"
 					press="openDialog"
 					id="openDialogButton" />
+				<SearchField id="idSearchfield" value="{testModel>/searchValue}"/>
 			</VBox>
 		</content>
 	</Page>

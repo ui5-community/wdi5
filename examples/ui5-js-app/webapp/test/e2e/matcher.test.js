@@ -153,4 +153,18 @@ describe("ui5 matcher tests", () => {
         const sButtonStatus = await button.getEnabled()
         expect(sButtonStatus).toBeTruthy()
     })
+
+    it("check for Searchfield Properties", async () => {
+        const searchFieldSelector = {
+            selector: {
+                // id: "idSearchfield",
+                viewName: "test.Sample.view.Main",
+                interactable: true,
+                visible: true,
+                controlType: "sap.m.SearchField"
+            }
+        }
+
+        expect(await browser.asControl(searchFieldSelector).getValue()).toEqual("search Value")
+    })
 })
