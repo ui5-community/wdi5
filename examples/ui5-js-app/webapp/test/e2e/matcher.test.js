@@ -1,4 +1,5 @@
 const Main = require("./pageObjects/Main")
+const { wdi5 } = require("wdio-ui5-service")
 
 describe("ui5 matcher tests", () => {
     before(async () => {
@@ -44,7 +45,7 @@ describe("ui5 matcher tests", () => {
             selector: {
                 controlType: "sap.m.Panel",
                 descendant: {
-                    viewName: "test.Sample.view.Main",
+                    // viewName: "test.Sample.view.Main",
                     controlType: "sap.m.Title",
                     properties: {
                         text: "Custom Toolbar with a header text"
@@ -83,7 +84,7 @@ describe("ui5 matcher tests", () => {
             selector: {
                 controlType: "sap.m.Title",
                 ancestor: {
-                    viewName: "test.Sample.view.Main",
+                    // viewName: "test.Sample.view.Main",
                     controlType: "sap.m.Panel"
                 }
             }
@@ -151,7 +152,23 @@ describe("ui5 matcher tests", () => {
         const button = await browser.asControl(interactableSelector)
 
         const sButtonStatus = await button.getEnabled()
+        const text = await button.getText()
+        wdi5.getLogger("interactable").log(`//> button text is ${await button.getText()}`)
         expect(sButtonStatus).toBeTruthy()
+    })
+
+    it.only("check non-interactable matcher", async () => {
+        const notInteractableSelector = {
+            selector: {
+                controlType: "sap.m.Button",
+                viewName: "test.Sample.view.Main",
+                interactable: false
+            }
+        }
+
+        const text = await browser.asControl(notInteractableSelector).getText()
+
+        expect(text).toBe("can't click :(")
     })
 
     // #131
