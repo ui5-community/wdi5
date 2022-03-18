@@ -33,6 +33,8 @@ Here are couple of samples to get you comfortable with `wdi5`'s/OPA5's locators/
 
 Get a "child" control from a "parent" (ancestor).
 
+?> the optional parameter `direct` as described [in the API](https://sapui5.hana.ondemand.com/#/api/sap.ui.test.matchers.Ancestor) is currently not possible. So the locator searches all parents/descendents in the hierarchy and not only the next one in the DOM Tree
+
 ```javascript
 it("get the child", async () => {
   const ancestorSelector = {
@@ -78,7 +80,7 @@ it("select ui5 input control by binding and set new value (w/ custom wdio_ui5_ke
 
 ## controlType
 
-Specify a UI5 control by namespace for retrieval.  
+Specify a UI5 control by its' API reference for retrieval.  
 Typically not used standalone, but in combination with any other locator.
 
 ```javascript
@@ -100,6 +102,8 @@ it("get a specific list item", async () => {
 ## descendant
 
 Get a "parent" with the help of a "child" (aka the descendant) control.
+
+?> the optional parameter `direct` as described [in the API](https://sapui5.hana.ondemand.com/#/api/sap.ui.test.matchers.Ancestor) is currently not possible. So the locator searches all parents/descendents in the hierarchy and not only the next one in the DOM Tree
 
 ```javascript
 it("get the parent", async () => {
