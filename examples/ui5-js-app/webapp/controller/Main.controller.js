@@ -14,9 +14,10 @@ sap.ui.define(
                     inputValue: "test Input Value !!!",
                     buttonText: "Don't press me !!! -> binded",
                     checkbox: false,
-                    barcode: "",
-                    searchValue: "search Value"
+                    barcode: ""
                 }
+                // TODO:
+                // searchValue: "search Value"
 
                 let testModel = new JSONModel(jData)
                 this.getView().setModel(testModel, "testModel")
