@@ -11,7 +11,7 @@ describe("ui5 basic", () => {
     })
 
     // #118
-    it("should use a control selector with dots and colons", async () => {
+    it("should use a control selector with dots and colons (wdi5)", async () => {
         const selector = {
             selector: {
                 id: "Title::NoAction.h1",
@@ -21,12 +21,14 @@ describe("ui5 basic", () => {
 
         // ui5
         const titleWUi5 = await browser.asControl(selector).getText()
+        expect(titleWUi5).toEqual("UI5 demo")
+    })
 
+    // #118
+    it("should use a control selector with dots and colons (wdio)", async () => {
         // working webdriver example with xpath id selector
         const titleElement = await $('//*[@id="container-Sample---Main--Title::NoAction.h1"]')
         const titleWwdio = await titleElement.getText()
-
-        expect(titleWUi5).toEqual("UI5 demo")
         expect(titleWwdio).toEqual("UI5 demo")
     })
 
