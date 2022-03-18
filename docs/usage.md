@@ -45,16 +45,22 @@ These are the supported selectors from [sap.ui.test.RecordReplay.ControlSelector
 
 |      selector | supported in `wdi5` |
 | ------------: | ------------------- |
-|          `id` | &check;             |
-|    `viewName` | &check;             |
-| `controlType` | &check;             |
+|   `anchestor` | &check;             |
 | `bindingPath` | &check;             |
-|    `I18NText` | -                   |
-|   `Anchestor` | -                   |
-|    `labelFor` | -                   |
+| `controlType` | &check;             |
+|  `descendant` | &check;             |
+|    `I18NText` | &check;             |
+|          `id` | &check;             |
+|`interactable` | &check;             |
+|    `labelFor` | &check;             |
 |  `properties` | &check;             |
+|     `RegEx`   | &check;             |
+|     `sibling` | &check;             |
+|    `viewName` | &check;             |
 
 <!-- prettier-ignore-end -->
+
+?> Please see the [dedicated section on "locators"](locators) for more usage examples for each `locator`/`matcher`!
 
 ```javascript
 const bindingPathSelector = {
