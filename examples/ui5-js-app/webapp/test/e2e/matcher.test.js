@@ -157,7 +157,7 @@ describe("ui5 matcher tests", () => {
         expect(sButtonStatus).toBeTruthy()
     })
 
-    it.only("check non-interactable matcher", async () => {
+    it.skip("check non-interactable matcher", async () => {
         const notInteractableSelector = {
             selector: {
                 controlType: "sap.m.Button",
