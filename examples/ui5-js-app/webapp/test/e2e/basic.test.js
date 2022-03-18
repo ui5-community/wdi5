@@ -51,7 +51,7 @@ describe("ui5 basic", () => {
         expect(invalidControl2).toContain("ERROR")
     })
 
-    it("check for Searchfield Properties", async () => {
+    /* it("check for Searchfield Properties", async () => {
         const searchFieldSelector = {
             selector: {
                 id: "idSearchfield",
@@ -60,5 +60,5 @@ describe("ui5 basic", () => {
         }
 
         expect(await browser.asControl(searchFieldSelector).getValue()).toEqual("search Value")
-    })
+    }) */
 })

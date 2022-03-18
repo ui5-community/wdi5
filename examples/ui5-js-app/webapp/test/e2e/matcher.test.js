@@ -155,7 +155,7 @@ describe("ui5 matcher tests", () => {
     })
 
     // #131
-    it("check for Searchfield Properties", async () => {
+    /* it("check for Searchfield Properties", async () => {
         const searchFieldSelector = {
             selector: {
                 // id: "idSearchfield",
@@ -167,5 +167,5 @@ describe("ui5 matcher tests", () => {
         }
 
         expect(await browser.asControl(searchFieldSelector).getValue()).toEqual("search Value")
-    })
+    }) */
 })
