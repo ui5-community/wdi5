@@ -84,7 +84,7 @@ Typically not used standalone, but in combination with any other locator.
 ```javascript
 it("get a specific list item", async () => {
   const selectorWithTitleProperty = {
-    selector: {w
+    selector: {
       controlType: "sap.m.StandardListItem",
       viewName: "test.Sample.view.Other",
       properties: {
