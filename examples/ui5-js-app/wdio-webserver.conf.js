@@ -21,7 +21,7 @@ exports.config = {
             acceptInsecureCerts: true,
             "goog:chromeOptions": {
                 args: process.env.HEADLESS
-                    ? ["--headless"]
+                    ? ["window-size=1440,800", "--headless"]
                     : process.env.DEBUG
                     ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
                     : ["window-size=1440,800"]
