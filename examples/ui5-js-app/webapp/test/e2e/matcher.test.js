@@ -6,40 +6,6 @@ describe("ui5 matcher tests", () => {
         await Main.open()
     })
 
-    it("check i18nText Button matcher", async () => {
-        const i18nSelector = {
-            selector: {
-                i18NText: {
-                    propertyName: "text",
-                    key: "startPage.navButton.text"
-                },
-                controlType: "sap.m.Button",
-                viewName: "test.Sample.view.Main"
-            }
-        }
-
-        const button = await browser.asControl(i18nSelector)
-        const buttonText = await button.getText()
-        expect(buttonText).toEqual("to Other view")
-    })
-
-    it("check i18nText matcher user button", async () => {
-        const i18nSelector = {
-            selector: {
-                i18NText: {
-                    propertyName: "text",
-                    key: "startPage.userButton.text"
-                },
-                controlType: "sap.m.Button",
-                viewName: "test.Sample.view.Main"
-            }
-        }
-
-        const button = await browser.asControl(i18nSelector)
-        const buttonText = await button.getText()
-        expect(buttonText).toEqual("User Test Text")
-    })
-
     it("check descendant matcher for panel", async () => {
         const descendantSelector = {
             selector: {
