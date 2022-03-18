@@ -45,7 +45,7 @@ These are the supported selectors from [sap.ui.test.RecordReplay.ControlSelector
 
 |      selector | supported in `wdi5` |
 | ------------: | ------------------- |
-|   `anchestor` | &check;             |
+|   `ancestor` | &check;             |
 | `bindingPath` | &check;             |
 | `controlType` | &check;             |
 |  `descendant` | &check;             |
