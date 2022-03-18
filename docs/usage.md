@@ -308,7 +308,7 @@ Example: `5-5-17-46-47-screenshot--some-id.png`
 
 ## Logger
 
-For convenient console output, use `wdi5.getLogger()`. It supports the `syslog`-like levels `log`, `info`, `warn` and `error`:
+For convenient console output, use `wdi5.getLogger('tag')`. It supports the `syslog`-like levels `log`, `info`, `warn` and `error`:
 
 ```javascript
 const wdi5 = require("wdi5")
@@ -317,6 +317,12 @@ wdi5.getLogger().log("any", "number", "of", "log", "parts")
 
 The log level is set by the either in `wdio.conf.js` via `wdi5.logLevel` or
 by `wdi5.getLogger().setLoglevel(level = {string} "error"| "verbose" | "silent")`
+
+The 'tag' is an optional parameter and when passed will display logs on the console log with a prefix as follows:
+
+```cmd
+[TAG] any number of log parts
+```
 
 ## Navigation
 
