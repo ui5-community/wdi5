@@ -1,6 +1,6 @@
-async function clientSide_executeControlMethod(webElement, methodName, args) {
+async function clientSide_executeControlMethod(webElement, methodName, controlType, args) {
     return await browser.executeAsync(
-        (webElement, methodName, args, done) => {
+        (webElement, methodName, controlType, args, done) => {
             window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
                 // DOM to UI5
                 const oControl = window.wdi5.getUI5CtlForWebObj(webElement)
@@ -11,7 +11,7 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                     // expect the method call delivers non-primitive results (like getId())
                     // but delivers a complex/structured type
                     // -> currenlty, only getAggregation(...) is supported
-                    result = window.wdi5.createControlIdMap(result)
+                    result = window.wdi5.createControlIdMap(result, controlType)
                     done(["success", result, "aggregation"])
                 } else {
                     // ui5 api <control>.focus() doesn't have return value
@@ -56,6 +56,7 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
         },
         webElement,
         methodName,
+        controlType,
         args
     )
 }

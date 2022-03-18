@@ -222,15 +222,19 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                      * @param {[sap.ui.core.Control]} aControls
                      * @return {Array} Object
                      */
-                    window.wdi5.createControlIdMap = (aControls) => {
+                    window.wdi5.createControlIdMap = (aControls, controlType = "") => {
                         // the array of UI5 controls need to be mapped (remove circular reference)
-
                         return aControls.map((element) => {
                             // just use the absolute ID of the control
-                            let item = {
-                                id: element.getId()
+                            if (controlType === "sap.m.ComboBox" && element.data("InputWithSuggestionsListItem")) {
+                                return {
+                                    id: element.data("InputWithSuggestionsListItem").getId()
+                                }
+                            } else {
+                                return {
+                                    id: element.getId()
+                                }
                             }
-                            return item
                         })
                     }
 

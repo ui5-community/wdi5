@@ -1,7 +1,7 @@
-async function clientSide_getAggregation(webElement, aggregationName) {
+async function clientSide_getAggregation(webElement, aggregationName, controlType) {
     webElement = await Promise.resolve(webElement) // to plug into fluent async api
     return await browser.executeAsync(
-        (webElement, aggregationName, done) => {
+        (webElement, aggregationName, controlType, done) => {
             window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
                 // DOM to UI5
                 try {
@@ -11,7 +11,7 @@ async function clientSide_getAggregation(webElement, aggregationName) {
                     if (cAggregation && !Array.isArray(cAggregation)) {
                         cAggregation = [cAggregation]
                     }
-                    let result = window.wdi5.createControlIdMap(cAggregation)
+                    let result = window.wdi5.createControlIdMap(cAggregation, controlType)
                     done(["success", result])
                 } catch (e) {
                     done(["error", e.toString()])
@@ -19,7 +19,8 @@ async function clientSide_getAggregation(webElement, aggregationName) {
             })
         },
         webElement,
-        aggregationName
+        aggregationName,
+        controlType
     )
 }
 

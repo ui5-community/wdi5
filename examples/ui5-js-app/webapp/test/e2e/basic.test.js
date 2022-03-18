@@ -2,6 +2,7 @@ const Main = require("./pageObjects/Main")
 
 const oComboboxSelector = {
     // forceSelect: true,
+    controlType: "sap.m.ComboBox",
     selector: {
         interaction: "root",
         id: "combobox",
@@ -69,8 +70,10 @@ describe("ui5 basic", () => {
     // #121
     it.only("get combobox control items (deep)", async () => {
         const combobox = await browser.asControl(oComboboxSelector)
+
+        await combobox.open()
         // get items (not with every ui5 control) works as expected
         const items = await combobox.getItems(4)
-        expect(await items.getText()).toEqual("Australia")
+        expect(await items.getTitle()).toEqual("Bahrain")
     })
 })
