@@ -23,7 +23,7 @@ export class WDI5Control {
     _generatedUI5Methods: [] | string = null
     _initialisation = false
     _forceSelect = false
-    _controlType = ""
+    _controlType = "" // can be a full UI5 control path
 
     constructor() {
         return this
@@ -94,32 +94,6 @@ export class WDI5Control {
             await this.renewWebElementReference()
         }
         return await this._getAggregation(name)
-    }
-
-    /**
-     * @param {Boolean | Int} true for flat items aggregation, Int to retrive a single item of the aggregation
-     */
-    async getComboboxItems(oParam) {
-        // first open the combobox, otherwise the items are not in DOM
-        await this.open()
-
-        // const _items = await this.getAggregation("items")
-        const _items = await this.executeControlMethod("getItems", this._webElement)
-        if (typeof oParam === "boolean" && oParam === false) {
-            // boolean
-            const returnItems = []
-            // assume the current control got a getItems method attached by the fluent UI5 api
-            _items.forEach(async (item) => {
-                const itemId = await item.data("InputWithSuggestionsListItem").getId()
-                returnItems.push(await browser.asControl({ selector: { id: itemId } }))
-            })
-            return returnItems
-        } else if (String(oParam) && typeof oParam === "number") {
-            // assume the current control got a getItems method attached by the fluent UI5 api
-            // get the real id
-            const itemId = await _items[oParam].data("InputWithSuggestionsListItem").getId()
-            return await browser.asControl({ selector: { id: itemId } })
-        }
     }
 
     /**
@@ -382,7 +356,7 @@ export class WDI5Control {
      * @return {[WebdriverIO.Element | String, [aProtoFunctions]]} UI5 control or error message, array of function names of this control
      */
     private async getControl(controlSelector = this._controlSelector) {
-        this._controlType = controlSelector.controlType
+        this._controlType = controlSelector.controlType || ""
         // check whether we have a "by id regex" locator request
         if (controlSelector.selector.id && typeof controlSelector.selector.id === "object") {
             // make it a string for serializing into browser-scope and
