@@ -3,5 +3,6 @@
 - [Configuration](configuration.md)
 - [Running](running.md)
 - [Usage](usage.md)
+- [Locators](locators.md)
 - [Recipes](recipes.md)
 - [Contributing](contributing.md)

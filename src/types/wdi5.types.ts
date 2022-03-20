@@ -48,6 +48,10 @@ export interface wdi5Config extends WebdriverIO.Config {
 
 interface wdi5ControlSelector {
     /**
+     * Descendant matcher, {@link sap.ui.test.matchers.Descendant}
+     */
+    descendant?: any
+    /**
      * ID of a control (global or within viewName, if viewName is defined)
      */
     id?: string | RegExp
@@ -64,9 +68,9 @@ interface wdi5ControlSelector {
      */
     bindingPath?: Record<string, unknown>
     /**
-     * I18N Text matcher, {@link sap.ui.test.matchers.I18NText}
+     * I18N Text matcher, {@link sap.ui.test.matchers.i18NText}
      */
-    I18NText?: Record<string, unknown>
+    i18NText?: Record<string, unknown>
     /**
      * Label matcher, {@link sap.ui.test.matchers.LabelFor}
      */
@@ -75,6 +79,18 @@ interface wdi5ControlSelector {
      * Properties matcher, {@link sap.ui.test.matchers.Properties}
      */
     properties?: Record<string, unknown>
+    /**
+     * Ancestor matcher, {@link sap.ui.test.matchers.Ancestor}
+     */
+    ancestor?: Record<string, unknown>
+    /**
+     * Sibling matcher, {@link sap.ui.test.matchers.Sibling}
+     */
+    sibling?: Record<string, unknown>
+    /**
+     * Interactable matcher, {@link sap.ui.test.matchers.Interactable}
+     */
+    interactable?: Record<string, unknown>
 }
 
 export interface wdi5Selector {
