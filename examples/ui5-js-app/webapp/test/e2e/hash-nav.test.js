@@ -15,11 +15,6 @@ describe("hash-based nav", () => {
         }
         await wdi5.goTo("", oRouteOptions)
 
-        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
-            listSelector.forceSelect = true
-            listSelector.selector.interaction = "root"
-        }
-
         const items = await browser.asControl(listSelector).getItems(true)
         expect(items.length).toEqual(9)
     })
@@ -32,10 +27,6 @@ describe("hash-based nav", () => {
                 id: "NavFwdButton",
                 viewName: "test.Sample.view.Main"
             }
-        }
-
-        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
-            buttonSelector.forceSelect = true
         }
 
         expect(await (await browser.asControl(buttonSelector)).getProperty("visible")).toBeTruthy()
@@ -54,11 +45,6 @@ describe("hash-based nav", () => {
             sName: "RouteOther"
         }
         await browser.goTo({ oRoute: oRouteOptions })
-
-        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
-            listSelector.forceSelect = true
-            listSelector.selector.interaction = "root"
-        }
 
         const list = await browser.asControl(listSelector)
         expect(await list.getVisible()).toBeTruthy()
