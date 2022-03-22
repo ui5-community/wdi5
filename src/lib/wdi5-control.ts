@@ -454,12 +454,12 @@ export class WDI5Control {
                     return false
                 }
 
-                if (item.startsWith("is")) {
+                /* if (item.startsWith("is")) {
                     // only check functions
                     return true
-                }
+                } */
 
-                return false
+                return true
             }
             return false
         })

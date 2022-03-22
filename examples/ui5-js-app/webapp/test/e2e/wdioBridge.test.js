@@ -1,8 +1,16 @@
+const { it } = require("mocha")
+const { Logger } = require("../../../../../dist/lib/Logger")
 const Main = require("./pageObjects/Main")
 
-const selector = {
+const titleSelector = {
     selector: {
         id: "Title::NoAction.h1",
+        viewName: "test.Sample.view.Main"
+    }
+}
+const iaSyncSelector = {
+    selector: {
+        id: "idIaSync",
         viewName: "test.Sample.view.Main"
     }
 }
@@ -11,8 +19,9 @@ describe("wdio bridge", () => {
     before(async () => {
         await Main.open()
     })
+
     it("test wdio function isDisplayed", async () => {
-        const titleWUi5 = await browser.asControl(selector)
+        const titleWUi5 = await browser.asControl(titleSelector)
         const webElement = await titleWUi5.getWebElement()
         // old syntax
         expect(await webElement.isDisplayed()).toBeTruthy()
@@ -23,7 +32,7 @@ describe("wdio bridge", () => {
     })
 
     it("test wdio function isLoading", async () => {
-        const titleWUi5 = await browser.asControl(selector)
+        const titleWUi5 = await browser.asControl(titleSelector)
         const webElement = await titleWUi5.getWebElement()
         const result = await webElement.isLoading()
         // old syntax
@@ -36,7 +45,7 @@ describe("wdio bridge", () => {
     })
 
     it("test wdio function isClickable", async () => {
-        const titleWUi5 = await browser.asControl(selector)
+        const titleWUi5 = await browser.asControl(iaSyncSelector)
         const webElement = await titleWUi5.getWebElement()
         const result = await webElement.isClickable()
         // old syntax
@@ -48,6 +57,17 @@ describe("wdio bridge", () => {
         expect(resultBridge).toBeTruthy()
 
         // fluent api
-        expect(await browser.asControl(selector).isClickable()).toBeTruthy()
+        expect(await browser.asControl(iaSyncSelector).isClickable()).toBeTruthy()
+    })
+
+    it("test wdio fluent api getLocation", async () => {
+        const button = await browser.asControl(iaSyncSelector)
+
+        const wdioLocation = await (await button.getWebElement()).getLocation()
+        const wdioBridgeLocation = await button.getLocation()
+        console.log(`[WDI5]: wdioLocation: ${wdioLocation.x}, ${wdioLocation.y}`)
+        console.log(`[WDI5]: wdioBridgeLocation: ${wdioBridgeLocation.x}, ${wdioBridgeLocation.y}`)
+
+        expect(wdioLocation).toEqual(wdioBridgeLocation)
     })
 })
