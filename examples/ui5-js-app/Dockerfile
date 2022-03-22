@@ -8,11 +8,11 @@ RUN apk update \
 WORKDIR /app
 
 # COPY . .
-COPY webapp webapp
-COPY package.json package.json
+COPY ./examples/ui5-js-app/webapp webapp
+COPY ./docker/package.json package.json
 
 RUN npm install
 
-EXPOSE 80
+EXPOSE 8888
 
 CMD npm start

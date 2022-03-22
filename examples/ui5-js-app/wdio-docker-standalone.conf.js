@@ -1,7 +1,7 @@
 exports.config = {
     runner: "local",
     path: "/",
-    specs: ["*.test.js"],
+    specs: ["webapp/test/e2e/*.test.js"],
     maxInstances: 1,
     capabilities: [
         {
@@ -25,7 +25,7 @@ exports.config = {
         screenshotPath: "report/screenshots",
         logLevel: "error", // error | verbose | silent
         platform: "browser", // electron, browser, android, ios
-        url: "index.html",
+        url: "#",
         deviceType: "web"
     },
 
@@ -38,7 +38,7 @@ exports.config = {
         webdriver: "error"
     },
     bail: 0,
-    baseUrl: "https://openui5.netweaver.ondemand.com/",
+    baseUrl: "http://localhost:8888",
     waitforTimeout: 10000,
     framework: "mocha",
     mochaOpts: {

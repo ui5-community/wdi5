@@ -13,9 +13,9 @@ networks:
 services:
   chrome:
     restart: always
-    image: selenium/node-chrome:4.1.1-20220121
+    image: selenium/node-chrome:4.1.2-20220317
     container_name: chrome
-    shm_size: 2gb
+    shm_size: 2g
     depends_on:
       - selenium-hub
     environment:
@@ -30,7 +30,7 @@ services:
 
   selenium-hub:
     restart: always
-    image: selenium/hub:4.1.1-20220121
+    image: selenium/hub:4.1.2-20220317
     container_name: selenium-hub
     ports:
       - "4442:4442"
@@ -42,7 +42,9 @@ services:
       - wdi5
 
   wdi5:
-    build: ./Dockerfile.wdi5
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.wdi5
     image: wdi5
     container_name: wdi5
     stdin_open: true # docker run -i
@@ -56,7 +58,9 @@ services:
       - wdi5
 
   test-app:
-    build: ../examples/ui5-js-app
+    build:
+      context: ../
+      dockerfile: ./examples/ui5-js-app/Dockerfile
     image: test-app
     container_name: test-app
     ports:

@@ -40,7 +40,7 @@
     "_startApp:ts": "tbd",
     "_test:js-app": "wait-on tcp:8888 && wait-on tcp:8080 && npm run test --workspace=examples/ui5-js-app",
     "test:js-app": "run-p -r _startApp:js _startApp:js-tooling _test:js-app",
-    "test:docker": "wdio wdio-ui5-docker.conf.js",
+    "test:docker": "wdio wdio-docker.conf.js",
     "test": "cross-env TS_NODE_PROJECT=\"test/tsconfig.json\" mocha",
     "prepare": "husky install",
     "release": "standard-version"

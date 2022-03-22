@@ -8,13 +8,14 @@
   "main": "webapp/index.html",
   "scripts": {
     "serve": "ui5 serve",
-    "serve:external": "ui5 serve --accept-remote-connections true",
     "test": "run-s test:*",
-    "start": "soerver -d ./webapp -p 8888 -x ./proxyrc.json",
+    "start": "soerver -d ./webapp -p 8888 -x ./webapp/proxyrc.json",
     "test:lateInject": "wdio run wdio-ui5-late.conf.js",
     "test:ui5tooling": "wdio run wdio-ui5tooling.conf.js",
     "test:webserver": "wdio run wdio-webserver.conf.js",
-    "test:multiversion": "node wdi5-multiversion.js"
+    "test:multiversion": "node wdi5-multiversion.js",
+    "test:docker-standalone": "wdio run wdio-docker-standalone.conf.js",
+    "test:docker": "run-p start test:docker-standalone"
   },
   "devDependencies": {
     "@ui5/cli": "^2.14.6",

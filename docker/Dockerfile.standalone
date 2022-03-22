@@ -16,10 +16,11 @@ RUN  apt-get update \
 WORKDIR /app
 
 # COPY all to root
-COPY ./ui5-js-app/webapp/test/e2e/ e2e
-COPY ./ui5-js-app/package.json package.json
-COPY ./ui5-js-app/wdio-docker-standalone.conf.js wdio-docker-standalone.conf.js
+COPY ./examples/ui5-js-app/webapp webapp
+COPY ./docker/package.json package.json
+COPY ./examples/ui5-js-app/wdio-docker-standalone.conf.js wdio-docker-standalone.conf.js
+RUN mkdir -p report/screenshots/
 
 RUN npm install
 
-CMD npm run test:docker
+CMD npm run test:docker:standalone
