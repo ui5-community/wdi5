@@ -64,6 +64,6 @@ services:
     image: test-app
     container_name: test-app
     ports:
-      - "8888:80"
+      - "8888:8888"
     networks:
       - wdi5

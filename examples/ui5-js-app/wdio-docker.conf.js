@@ -1,9 +1,8 @@
-const path = require("path")
-
 exports.config = {
-    specs: [path.join("test", "e2e", "*.test.js")],
+    specs: ["test/e2e/*.test.js"],
     hostname: "selenium-hub", // tests running inside the container should connect to the same network
     port: 4444,
+    runner: "local",
     path: "/wd/hub",
     maxInstances: 1,
     capabilities: [
@@ -30,18 +29,18 @@ exports.config = {
     ],
     wdi5: {
         // path: "", // commented out to use the default paths
-        screenshotPath: path.join("test", "report", "screenshots"),
-        logLevel: "verbose", // error | verbose | silent
+        screenshotPath: "report/screenshots",
+        logLevel: "error", // error | verbose | silent
         platform: "browser", // electron, browser, android, ios
         url: "#",
         deviceType: "web"
     },
     services: ["ui5"],
-    logLevel: "trace",
+    logLevel: "error",
     logLevels: {
         webdriver: "error"
     },
-    baseUrl: "http://test-app/",
+    baseUrl: "http://test-app:8888",
     bail: 0,
     waitforTimeout: 10000,
     connectionRetryTimeout: 60000,
