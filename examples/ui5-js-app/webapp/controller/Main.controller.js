@@ -16,6 +16,8 @@ sap.ui.define(
                     checkbox: false,
                     barcode: ""
                 }
+                // TODO:
+                // searchValue: "search Value"
 
                 let testModel = new JSONModel(jData)
                 this.getView().setModel(testModel, "testModel")

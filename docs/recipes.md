@@ -129,7 +129,7 @@ In VS Code, use a `jsconfig.json` at the root of your JavaScript-project, at the
 ```json
 {
   "compilerOptions": {
-    "types": ["node", "webdriverio/async", "wdio-ui5-service"]
+    "types": ["node", "webdriverio/async", "wdio-ui5-service/dist"]
   }
 }
 ```
