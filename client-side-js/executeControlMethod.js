@@ -1,6 +1,6 @@
-async function clientSide_executeControlMethod(webElement, methodName, controlType, args) {
+async function clientSide_executeControlMethod(webElement, methodName, args) {
     return await browser.executeAsync(
-        (webElement, methodName, controlType, args, done) => {
+        (webElement, methodName, args, done) => {
             window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
                 // DOM to UI5
                 const oControl = window.wdi5.getUI5CtlForWebObj(webElement)
@@ -11,6 +11,10 @@ async function clientSide_executeControlMethod(webElement, methodName, controlTy
                     // expect the method call delivers non-primitive results (like getId())
                     // but delivers a complex/structured type
                     // -> currenlty, only getAggregation(...) is supported
+
+                    // read classname eg. sap.m.ComboBox
+                    controlType = oControl.getMetadata()._sClassName
+
                     result = window.wdi5.createControlIdMap(result, controlType)
                     done(["success", result, "aggregation"])
                 } else {
@@ -56,7 +60,6 @@ async function clientSide_executeControlMethod(webElement, methodName, controlTy
         },
         webElement,
         methodName,
-        controlType,
         args
     )
 }

@@ -23,7 +23,6 @@ export class WDI5Control {
     _generatedUI5Methods: [] | string = null
     _initialisation = false
     _forceSelect = false
-    _controlType = "" // can be a full UI5 control path
 
     constructor() {
         return this
@@ -245,7 +244,7 @@ export class WDI5Control {
         // returns the array of [0: "status", 1: result]
 
         // regular browser-time execution of UI5 control method
-        const result = await clientSide_executeControlMethod(webElement, methodName, this._controlType, args)
+        const result = await clientSide_executeControlMethod(webElement, methodName, args)
 
         // create logging
         this.writeResultLog(result, methodName)
@@ -302,7 +301,7 @@ export class WDI5Control {
         if (util.types.isProxy(webElement)) {
             webElement = await Promise.resolve(webElement)
         }
-        const result = await clientSide_getAggregation(webElement, aggregationName, this._controlType)
+        const result = await clientSide_getAggregation(webElement, aggregationName)
 
         this.writeResultLog(result, "_getAggregation()")
 
@@ -356,7 +355,6 @@ export class WDI5Control {
      * @return {[WebdriverIO.Element | String, [aProtoFunctions]]} UI5 control or error message, array of function names of this control
      */
     private async getControl(controlSelector = this._controlSelector) {
-        this._controlType = controlSelector.controlType || ""
         // check whether we have a "by id regex" locator request
         if (controlSelector.selector.id && typeof controlSelector.selector.id === "object") {
             // make it a string for serializing into browser-scope and

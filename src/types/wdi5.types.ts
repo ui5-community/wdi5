@@ -100,10 +100,6 @@ export interface wdi5Selector {
      */
     wdio_ui5_key?: string
     /**
-     * might be helpful eg. for sap.m.ComboBox. If provided wdi5 might able to workaround some UI5 Bugs.
-     */
-    controlType?: string
-    /**
      * forces the to re-retrieve the control from the browser context,
      * even if it was retrieved previously
      */
