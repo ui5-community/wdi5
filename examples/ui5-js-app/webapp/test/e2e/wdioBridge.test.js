@@ -65,9 +65,16 @@ describe("wdio bridge", () => {
 
         const wdioLocation = await (await button.getWebElement()).getLocation()
         const wdioBridgeLocation = await button.getLocation()
+
+        const wdioLocationFluent = await browser.asControl(iaSyncSelector).getLocation()
+        const wdioBridgeLocationFluent = await browser.asControl(iaSyncSelector).getWebElement().getLocation()
+
         console.log(`[WDI5]: wdioLocation: ${wdioLocation.x}, ${wdioLocation.y}`)
         console.log(`[WDI5]: wdioBridgeLocation: ${wdioBridgeLocation.x}, ${wdioBridgeLocation.y}`)
+        console.log(`[WDI5]: wdioLocationFluent: ${wdioLocationFluent.x}, ${wdioLocationFluent.y}`)
+        console.log(`[WDI5]: wdioBridgeLocationFluent: ${wdioBridgeLocationFluent.x}, ${wdioBridgeLocationFluent.y}`)
 
         expect(wdioLocation).toEqual(wdioBridgeLocation)
+        expect(wdioLocationFluent).toEqual(wdioBridgeLocationFluent)
     })
 })
