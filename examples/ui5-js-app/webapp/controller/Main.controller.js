@@ -19,6 +19,9 @@ sap.ui.define(
 
                 let testModel = new JSONModel(jData)
                 this.getView().setModel(testModel, "testModel")
+
+                let multComboBoxModel = new JSONModel(sap.ui.require.toUrl("test/Sample/mockdata/countries.json"))
+                this.getView().setModel(multComboBoxModel, "countries")
             },
 
             navFwd() {

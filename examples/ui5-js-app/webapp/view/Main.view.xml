@@ -62,6 +62,9 @@
 				<Button text="open Dialog"
 					press="openDialog"
 					id="openDialogButton" />
+				<MultiComboBox id="multiComboBox" items="{path: 'countries>/Countries'}">
+					<core:Item key="{countries>key}" text="{countries>text}" />
+				</MultiComboBox>
 			</VBox>
 		</content>
 	</Page>
