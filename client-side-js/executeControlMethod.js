@@ -1,7 +1,7 @@
 async function clientSide_executeControlMethod(webElement, methodName, args) {
     return await browser.executeAsync(
         (webElement, methodName, args, done) => {
-            window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
+            window.wdi5.waitForUI5(window.wdi5.waitForUI5Options, () => {
                 // DOM to UI5
                 const oControl = window.wdi5.getUI5CtlForWebObj(webElement)
                 // execute the function
@@ -52,6 +52,9 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                         }
                     }
                 }
+            }, (error) => {
+                window.wdi5.Log.error("[browser wdi5] ERR: ", error)
+                done(["error", error.toString()])
             })
         },
         webElement,
