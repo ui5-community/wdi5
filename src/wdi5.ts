@@ -1,16 +1,15 @@
-import { Logger as _Logger } from "./lib/Logger"
-const Logger = _Logger.getInstance()
+import { Logger } from "./lib/Logger"
 export class wdi5 {
-    static getLogger() {
-        return Logger
+    static getLogger(sPrefix = "wdi5") {
+        return Logger.getInstance(sPrefix)
     }
 
     static async goTo(param: any, oRoute) {
         if (param) {
-            Logger.log(`Navigating to: ${JSON.stringify(param)}`)
+            Logger.getInstance().log(`Navigating to: ${JSON.stringify(param)}`)
             await browser.goTo(param)
         } else {
-            Logger.log(`Navigating to: ${JSON.stringify(oRoute)}`)
+            Logger.getInstance().log(`Navigating to: ${JSON.stringify(oRoute)}`)
             // ui5 router based navigation
             await browser.goTo({ oRoute })
         }

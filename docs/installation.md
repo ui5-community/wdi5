@@ -4,7 +4,7 @@ With `wdi5` [being a service to WebdriverIO](https://webdriver.io/docs/wdio-ui5-
 
 ## Prerequisites
 
-- UI5 app running in the browser, accessbile via `http(s)://host.ext:port`.
+- UI5 app running in the browser, accessible via `http(s)://host.ext:port`.
   Recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like [`soerver`](https://github.com/vobu/soerver) or [`http-server`](https://www.npmjs.com/package/http-server).
 - Node.js version >= `14` (`lts/fermium`)
 
@@ -57,6 +57,12 @@ At the end of the guided installation, you'll be greated with a message similar 
 `🤖 Successfully setup project at /Users/you/any/ui5/app 🎉`
 
 :arrow_right: Continue with the [configuration](configuration) now.
+
+## reinitialize setup
+If you have issues with your `wdio.conf.(j|t)s` file or want to reinitialize the guided installation:
+```shell
+$> npx wdio config
+```
 
 ## manual installation
 

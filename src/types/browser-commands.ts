@@ -22,7 +22,6 @@ declare global {
             _controls: cachedControl[]
 
             getUI5Version: () => Promise<string>
-            getUI5VersionAsFloat: () => Promise<number>
         }
 
         // interface MultiRemoteBrowser {

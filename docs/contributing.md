@@ -13,10 +13,12 @@
 ## 🏃 for the impatient developer
 
 ```shell
-# you need npm 7+ → we're using npm's workspaces feature
-$> npm --version
 # use reference node version
 $> nvm use
+# you need npm 7+ → we're using npm's workspaces feature
+$> npm --version
+# eventually update npm itself with command:
+$> npm install -g npm@latest
 # will also install all deps in workspaces + setup pre-commit hooks
 $> npm i
 # build entire proj once
