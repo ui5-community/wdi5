@@ -102,7 +102,11 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                             const isRootProperty =
                                 oSelector.bindingPath.propertyPath &&
                                 oSelector.bindingPath.propertyPath.charAt(0) === "/"
-                            if (hasNamedModel && isRootProperty && parseFloat(sap.ui.version) < 1.81) {
+                            if (
+                                hasNamedModel &&
+                                isRootProperty &&
+                                window.compareVersions.compare("1.81.0", sap.ui.version, ">")
+                            ) {
                                 // attach the double leading /
                                 // for UI5 < 1.81
                                 oSelector.bindingPath.propertyPath = `/${oSelector.bindingPath.propertyPath}`
