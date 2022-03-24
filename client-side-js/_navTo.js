@@ -5,7 +5,6 @@ async function clientSide__navTo(sComponentId, sName, oParameters, oComponentTar
                 window.wdi5.Log.info(`[browser wdi5] navigation to ${sName} triggered`)
 
                 const router = sap.ui.getCore().getComponent(sComponentId).getRouter()
-                debugger
                 const hashChanger = window.compareVersions.compare("1.75.0", sap.ui.version, ">")
                     ? sap.ui.core.routing.HashChanger.getInstance()
                     : router.getHashChanger()
