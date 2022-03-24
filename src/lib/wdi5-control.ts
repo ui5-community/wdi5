@@ -23,7 +23,8 @@ export class WDI5Control {
     _generatedUI5Methods: Array<string>
     _initialisation = false
     _forceSelect = false
-    _wdioBridge = {}
+    // TODO: create type
+    _wdioBridge: WebdriverIO.Element = {}
     //  TODO: https://www.smashingmagazine.com/2021/01/dynamic-static-typing-typescript/
     _generatedWdioMethods: Array<string>
 
@@ -234,7 +235,7 @@ export class WDI5Control {
         // check the validity of param
         if (sReplFunctionNames) {
             sReplFunctionNames.forEach(async (sMethodName) => {
-                this._wdioBridge[sMethodName] = async () => {
+                this._wdioBridge[sMethodName] = async (): Promise<any> => {
                     return await (await this.getWebElement())[sMethodName]()
                 }
             })
