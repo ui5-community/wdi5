@@ -1,13 +1,6 @@
-// helper class "wdi5" contained in wdio service "ui5"
-const { wdi5 } = require("wdio-ui5-service")
-
 describe("Property locators", () => {
     const mainViewName = "test.Sample.view.Main"
     const otherViewName = "test.Sample.view.Other"
-
-    // before(async () => {
-    //     await Main.open()
-    // })
 
     it("should find the 'open dialog' button by the text property", async () => {
         const selectorByPropertyText = {

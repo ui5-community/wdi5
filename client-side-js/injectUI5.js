@@ -44,16 +44,20 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                 // known side effect this call triggers the back to node scope, the other sap.ui.require continue to run in background in browser scope
                 done(true)
             })
+
             // make sure the resources are required
+            // TODO: "sap/ui/test/matchers/Sibling",
             sap.ui.require(
                 [
                     "sap/ui/test/matchers/BindingPath",
                     "sap/ui/test/matchers/I18NText",
                     "sap/ui/test/matchers/Properties",
                     "sap/ui/test/matchers/Ancestor",
-                    "sap/ui/test/matchers/LabelFor"
+                    "sap/ui/test/matchers/LabelFor",
+                    "sap/ui/test/matchers/Descendant",
+                    "sap/ui/test/matchers/Interactable"
                 ],
-                (BindingPath, I18NText, Properties, Ancestor, LabelFor) => {
+                (BindingPath, I18NText, Properties, Ancestor, LabelFor, Descendant, Interactable) => {
                     /**
                      * used to dynamically create new control matchers when searching for elements
                      */
@@ -98,7 +102,11 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                             const isRootProperty =
                                 oSelector.bindingPath.propertyPath &&
                                 oSelector.bindingPath.propertyPath.charAt(0) === "/"
-                            if (hasNamedModel && isRootProperty && parseFloat(sap.ui.version) < 1.81) {
+                            if (
+                                hasNamedModel &&
+                                isRootProperty &&
+                                window.compareVersions.compare("1.81.0", sap.ui.version, ">")
+                            ) {
                                 // attach the double leading /
                                 // for UI5 < 1.81
                                 oSelector.bindingPath.propertyPath = `/${oSelector.bindingPath.propertyPath}`
@@ -129,6 +137,32 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                             }
                         }
 
+                        /*
+                        oSelector.matchers = []
+                        // since for these matcher a constructor call is neccessary
+                        if (oSelector.sibling && oSelector.sibling.options) {
+                            // don't construct matcher if not needed
+                            const options = oSelector.sibling.options
+                            delete oSelector.sibling.options
+                            oSelector.matchers.push(new Sibling(oSelector.sibling, options))
+                            delete oSelector.sibling
+                        }
+                        if (oSelector.descendant && (typeof oSelector.descendant.bDirect !== 'undefined')) {
+                            // don't construct matcher if not needed
+                            const bDirect = oSelector.descendant.bDirect
+                            delete oSelector.descendant.bDirect
+                            oSelector.matchers.push(new Descendant(oSelector.descendant, !!bDirect))
+                            delete oSelector.descendant
+                        }
+                        if (oSelector.ancestor && (typeof oSelector.ancestor.bDirect !== 'undefined')) {
+                            // don't construct matcher if not needed
+                            const bDirect = oSelector.ancestor.bDirect
+                            delete oSelector.ancestor.bDirect
+                            oSelector.matchers.push(new Ancestor(oSelector.ancestor, !!bDirect))
+                            delete oSelector.ancestor
+                        }
+
+                        */
                         return oSelector
                     }
 
