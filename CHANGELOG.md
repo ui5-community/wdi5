@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.9.0-rc2](https://github.com/js-soft/wdi5/compare/v0.9.0-rc1...v0.9.0-rc2) (2022-03-22)
+
 ## [0.9.0-rc1](https://github.com/js-soft/wdi5/compare/v0.9.0-alpha.1...v0.9.0-rc1) (2022-03-18)
 
 
