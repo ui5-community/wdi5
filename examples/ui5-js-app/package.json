@@ -13,9 +13,7 @@
     "test:lateInject": "wdio run wdio-ui5-late.conf.js",
     "test:ui5tooling": "wdio run wdio-ui5tooling.conf.js",
     "test:webserver": "wdio run wdio-webserver.conf.js",
-    "test:multiversion": "node wdi5-multiversion.js",
-    "test:docker-standalone": "wdio run wdio-docker-standalone.conf.js",
-    "test:docker": "run-p start test:docker-standalone"
+    "test:multiversion": "node wdi5-multiversion.js"
   },
   "devDependencies": {
     "@ui5/cli": "^2.14.6",

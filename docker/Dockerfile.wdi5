@@ -17,8 +17,4 @@ RUN mkdir -p report/screenshots
 
 RUN npm install
 
-# TODO: set path and rm navigation to wait-on
-# ENV PATH /app/node_modules/.bin:$PATH
-# node_modules/.bin/
-
 CMD node_modules/.bin/wait-on tcp:selenium-hub:4444 && npm run test:docker:grid
