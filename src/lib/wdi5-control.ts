@@ -259,6 +259,9 @@ export class WDI5Control {
             case "result":
                 // return result on array index 1 anyways
                 return result[1]
+            case "empty":
+                Logger.warn("No data found in property or aggregation")
+                return result[1]
             case "aggregation": // also applies for getAggregation convenience methods such as $ui5control.getItems()
                 // check weather to retrieve all elements in the aggreation as ui5 controls
                 if ((args.length > 0 && typeof args[0] === "boolean" && args[0] === false) || args.length === 0) {
