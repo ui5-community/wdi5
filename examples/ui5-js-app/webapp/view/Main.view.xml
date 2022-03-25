@@ -26,12 +26,21 @@
 					id="NavFwdButton"
 					text="{i18n>startPage.navButton.text}"
 					press="navFwd" />
+				<Button icon="sap-icon://forward"
+					id="NavFwdButtonDisabled"
+					text="can't click :("
+					press="navFwd"
+					busy="true" />
+				<Button icon="sap-icon://user-edit"
+					id="user-test-button"
+					text="{i18n>startPage.userButton.text}" />
 				<Button text="IA Sync"
 					press="onPress" />
 				<Text text="{i18n>startPage.text.username}" />
 				<Input id="mainUserInput"
 					value="{/Customers('TRAIH')/ContactName}" />
-				<Panel expandable="true">
+				<Panel expandable="true"
+					headerText="Header Text">
 					<headerToolbar>
 						<OverflowToolbar>
 							<Title text="Custom Toolbar with a header text" />
@@ -41,6 +50,8 @@
 						<Text text="Lorem ipsum dolor st amet" />
 					</content>
 				</Panel>
+				<Label labelFor="idDateTime"
+					text="labelFor DateTimePicker" />
 				<DateTimePicker id="idDateTime"
 					placeholder="Enter Date ..." />
 				<Button text="{testModel>/buttonText}"
@@ -62,9 +73,8 @@
 				<Button text="open Dialog"
 					press="openDialog"
 					id="openDialogButton" />
-				<MultiComboBox id="multiComboBox" items="{path: 'countries>/Countries'}">
-					<core:Item key="{countries>key}" text="{countries>text}" />
-				</MultiComboBox>
+				<!-- TODO -->
+				<!-- <SearchField id="idSearchfield" value="{testModel>/searchValue}"/> -->
 			</VBox>
 		</content>
 	</Page>
