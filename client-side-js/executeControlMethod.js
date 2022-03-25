@@ -8,11 +8,21 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                 let result = oControl[methodName].apply(oControl, args)
                 const metadata = oControl.getMetadata()
                 if (Array.isArray(result)) {
-                    // expect the method call delivers non-primitive results (like getId())
-                    // but delivers a complex/structured type
-                    // -> currenlty, only getAggregation(...) is supported
-                    result = window.wdi5.createControlIdMap(result)
-                    done(["success", result, "aggregation"])
+                    if (result.length === 0) {
+                        done(["success", result, "empty"])
+                    } else if (result[0]?.getParent) {
+                        // expect the method call delivers non-primitive results (like getId())
+                        // but delivers a complex/structured type
+                        // -> currenlty, only getAggregation(...) is supported
+
+                        // read classname eg. sap.m.ComboBox
+                        controlType = oControl.getMetadata()._sClassName
+
+                        result = window.wdi5.createControlIdMap(result, controlType)
+                        done(["success", result, "aggregation"])
+                    } else {
+                        done(["success", result, "result"])
+                    }
                 } else {
                     // ui5 api <control>.focus() doesn't have return value
                     if (methodName === "focus" && result === undefined) {

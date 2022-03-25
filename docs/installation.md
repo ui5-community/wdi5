@@ -59,7 +59,9 @@ At the end of the guided installation, you'll be greated with a message similar 
 :arrow_right: Continue with the [configuration](configuration) now.
 
 ## reinitialize setup
+
 If you have issues with your `wdio.conf.(j|t)s` file or want to reinitialize the guided installation:
+
 ```shell
 $> npx wdio config
 ```
