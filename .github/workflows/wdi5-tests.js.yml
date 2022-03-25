@@ -65,6 +65,10 @@ jobs:
       - name: build
         run: npm run build
 
-      # run the actual tests
+      # run wdi5 core tests
+      - name: test wdi5 core
+        run: npm test
+
+      # run wdi5 tests within app(s)
       - name: test js-app
         run: HEADLESS=true npm run test:js-app

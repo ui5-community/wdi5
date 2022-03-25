@@ -49,11 +49,6 @@ describe("mixed locators", () => {
             }
         }
 
-        if ((await browser.getUI5VersionAsFloat()) <= 1.6) {
-            selector.forceSelect = true
-            selector.selector.interaction = "root"
-        }
-
         const control = await browser.asControl(selector)
         const retrievedClassNameStatus = await control.hasStyleClass(className)
 
