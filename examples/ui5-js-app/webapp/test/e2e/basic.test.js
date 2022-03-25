@@ -11,7 +11,7 @@ describe("ui5 basic", () => {
     })
 
     // #118
-    it("should use a control selector with dots and colons", async () => {
+    it("should use a control selector with dots and colons (wdi5)", async () => {
         const selector = {
             selector: {
                 id: "Title::NoAction.h1",
@@ -21,14 +21,16 @@ describe("ui5 basic", () => {
 
         // ui5
         const titleWUi5 = await browser.asControl(selector).getText()
+        expect(titleWUi5).toEqual("UI5 demo")
+    })
 
+    // #118
+    /* it("should use a control selector with dots and colons (wdio)", async () => {
         // working webdriver example with xpath id selector
         const titleElement = await $('//*[@id="container-Sample---Main--Title::NoAction.h1"]')
         const titleWwdio = await titleElement.getText()
-
-        expect(titleWUi5).toEqual("UI5 demo")
         expect(titleWwdio).toEqual("UI5 demo")
-    })
+    }) */
 
     it("check for invalid control selector", async () => {
         const selector1 = {
@@ -48,4 +50,15 @@ describe("ui5 basic", () => {
         expect(invalidControl1).toContain("ERROR")
         expect(invalidControl2).toContain("ERROR")
     })
+
+    /* it("check for Searchfield Properties", async () => {
+        const searchFieldSelector = {
+            selector: {
+                id: "idSearchfield",
+                viewName: "test.Sample.view.Main"
+            }
+        }
+
+        expect(await browser.asControl(searchFieldSelector).getValue()).toEqual("search Value")
+    }) */
 })
