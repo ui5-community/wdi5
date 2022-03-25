@@ -11,7 +11,11 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                     // expect the method call delivers non-primitive results (like getId())
                     // but delivers a complex/structured type
                     // -> currenlty, only getAggregation(...) is supported
-                    result = window.wdi5.createControlIdMap(result)
+
+                    // read classname eg. sap.m.ComboBox
+                    controlType = oControl.getMetadata()._sClassName
+
+                    result = window.wdi5.createControlIdMap(result, controlType)
                     done(["success", result, "aggregation"])
                 } else {
                     // ui5 api <control>.focus() doesn't have return value
