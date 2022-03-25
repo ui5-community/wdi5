@@ -183,3 +183,18 @@ In VS Code, use a `jsconfig.json` at the root of your JavaScript-project, at the
 ```
 
 See an example at `/examples/ui5-js-app/jsconfig.json` in the wdi5 repository.
+
+## test a `sap.m.ComboBox`
+
+A `sap.m.ComboBox`'s items will only be rendered when it's opened (once).  
+So for programmatically working and testing the control, its' `.open()`-method needs to be used:
+
+```js
+it("get combobox single item aggregation as ui5 control", async () => {
+  const combobox = await browser.asControl(oComboboxSelector)
+  await combobox.open() // <--
+
+  const items = await combobox.getItems(4)
+  expect(await items.getTitle()).toEqual("Bahrain")
+})
+```
