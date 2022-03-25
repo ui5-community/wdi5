@@ -73,9 +73,22 @@
 				<Button text="open Dialog"
 					press="openDialog"
 					id="openDialogButton" />
+				<Label text="Country Combobox"/>
+				<ComboBox
+					id="combobox"
+					items="{
+						path: 'Countries>/CountriesCollection',
+						sorter: { path: 'text' }
+					}">
+					<core:Item key="{Countries>key}" text="{Countries>text}" />
+				</ComboBox>
+				<Label text="Country MultiCombobox"/>
 				<MultiComboBox id="multiComboBox"
-					items="{countries>/Countries}">
-					<core:Item key="{countries>key}" text="{countries>text}" />
+					items="{
+						path: 'Countries>/CountriesCollection',
+						sorter: { path: 'text' }
+					}">
+					<core:Item key="{Countries>key}" text="{Countries>text}" />
 				</MultiComboBox>
 				<!-- TODO -->
 				<!-- <SearchField id="idSearchfield" value="{testModel>/searchValue}"/> -->
