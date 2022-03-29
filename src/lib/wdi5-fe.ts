@@ -2,13 +2,16 @@ import { clientSide_testLibrary, initOPA, addToQueue, emptyQueue } from "../../c
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
 
-function createProxy(myObj: any, type: string, methodCalls: any[]) {
+const commonFunctions = ["and", "then", "when"]
+function createProxy(myObj: any, type: string, methodCalls: any[], pageKeys: string[]) {
     const thisProxy = new Proxy(myObj, {
-        get: function (obj, prop) {
-            console.log(prop)
-            if (prop === "onTheMainPage") {
+        get: function (obj, prop: string) {
+            if (pageKeys.indexOf(prop) !== -1) {
                 myObj.currentMethodCall = { type: type, target: prop, methods: [] }
                 methodCalls.push(myObj.currentMethodCall)
+                return thisProxy
+            } else if (commonFunctions.indexOf(prop) !== -1) {
+                myObj.currentMethodCall.methods.push({ name: prop, accessor: true })
                 return thisProxy
             }
             return function (...fnArgs) {
@@ -28,10 +31,10 @@ export class WDI5FE {
 
     async execute(fnFunction) {
         const methodCalls = []
-
-        const Given = createProxy({}, "Given", methodCalls)
-        const Then = createProxy({}, "Then", methodCalls)
-        const When = createProxy({}, "When", methodCalls)
+        const reservedPages = Object.keys(this.appConfig).concat()
+        const Given = createProxy({}, "Given", methodCalls, reservedPages)
+        const Then = createProxy({}, "Then", methodCalls, reservedPages)
+        const When = createProxy({}, "When", methodCalls, reservedPages)
         fnFunction(Given, Then, When) // PrepareQueue
         for (const methodCall of methodCalls) {
             const [type, content] = await addToQueue(methodCall.type, methodCall.target, methodCall.methods)

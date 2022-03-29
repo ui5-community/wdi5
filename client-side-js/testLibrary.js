@@ -71,6 +71,7 @@ async function initOPA(pageObjectConfig) {
         window.bridge
             .waitForUI5(window.wdi5.waitForUI5Options)
             .then(() => {
+                debugger
                 const pageConfig = {}
                 Object.keys(pageObjectConfig).map((pageKey) => {
                     Object.keys(pageObjectConfig[pageKey]).forEach((className) => {
@@ -95,6 +96,7 @@ async function initOPA(pageObjectConfig) {
                 done(["success", true])
             })
             .catch((err) => {
+                debugger
                 window.wdi5.Log.error(err)
                 done(["error", err.toString()])
             })
@@ -139,6 +141,9 @@ async function addToQueue(type, target, aMethods) {
                     scope = scope[target]
                     // execute all passed in methods
                     aMethods.reduce((obj, methodInfo) => {
+                        if (methodInfo.accessor) {
+                            return obj[methodInfo.name]
+                        }
                         return obj[methodInfo.name].apply(obj, methodInfo.args)
                     }, scope)
                 })
@@ -146,6 +151,7 @@ async function addToQueue(type, target, aMethods) {
                     done(["success", true])
                 })
                 .catch((err) => {
+                    debugger
                     window.wdi5.Log.error(err)
                     done(["error", err.toString()])
                 })
