@@ -54,7 +54,6 @@ async function clientSide_testLibrary(pageObject, aMethods, oOptions, isAssertio
                     done(["success", true])
                 })
                 .catch((err) => {
-                    debugger
                     window.wdi5.Log.error(err)
                     done(["error", err.toString()])
                 })
@@ -71,7 +70,6 @@ async function initOPA(pageObjectConfig) {
         window.bridge
             .waitForUI5(window.wdi5.waitForUI5Options)
             .then(() => {
-                debugger
                 const pageConfig = {}
                 Object.keys(pageObjectConfig).map((pageKey) => {
                     Object.keys(pageObjectConfig[pageKey]).forEach((className) => {
@@ -96,7 +94,6 @@ async function initOPA(pageObjectConfig) {
                 done(["success", true])
             })
             .catch((err) => {
-                debugger
                 window.wdi5.Log.error(err)
                 done(["error", err.toString()])
             })
@@ -114,7 +111,6 @@ async function emptyQueue() {
             })
             .catch((err) => {
                 window.wdi5.Log.error(err)
-                debugger
                 done(["error", err.errorMessage])
             })
     })
@@ -151,7 +147,6 @@ async function addToQueue(type, target, aMethods) {
                     done(["success", true])
                 })
                 .catch((err) => {
-                    debugger
                     window.wdi5.Log.error(err)
                     done(["error", err.toString()])
                 })
