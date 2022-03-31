@@ -118,7 +118,11 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                             const isRootProperty =
                                 oSelector.bindingPath.propertyPath &&
                                 oSelector.bindingPath.propertyPath.charAt(0) === "/"
-                            if (hasNamedModel && isRootProperty && parseFloat(sap.ui.version) < 1.81) {
+                            if (
+                                hasNamedModel &&
+                                isRootProperty &&
+                                window.compareVersions.compare("1.81.0", sap.ui.version, ">")
+                            ) {
                                 // attach the double leading /
                                 // for UI5 < 1.81
                                 oSelector.bindingPath.propertyPath = `/${oSelector.bindingPath.propertyPath}`
@@ -216,13 +220,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
 
                                 // filter not working methods
                                 // and those with a specific api from wdi5/wdio-ui5-service
-                                const aFilterFunctions = [
-                                    "$",
-                                    "getAggregation",
-                                    "constructor",
-                                    "getMetadata",
-                                    "fireEvent"
-                                ]
+                                const aFilterFunctions = ["$", "getAggregation", "constructor", "fireEvent"]
 
                                 if (aFilterFunctions.includes(item)) {
                                     return false
@@ -268,15 +266,19 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                      * @param {[sap.ui.core.Control]} aControls
                      * @return {Array} Object
                      */
-                    window.wdi5.createControlIdMap = (aControls) => {
+                    window.wdi5.createControlIdMap = (aControls, controlType = "") => {
                         // the array of UI5 controls need to be mapped (remove circular reference)
-
                         return aControls.map((element) => {
                             // just use the absolute ID of the control
-                            let item = {
-                                id: element.getId()
+                            if (controlType === "sap.m.ComboBox" && element.data("InputWithSuggestionsListItem")) {
+                                return {
+                                    id: element.data("InputWithSuggestionsListItem").getId()
+                                }
+                            } else {
+                                return {
+                                    id: element.getId()
+                                }
                             }
-                            return item
                         })
                     }
 

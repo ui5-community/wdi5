@@ -1,6 +1,6 @@
 {
   "name": "wdio-ui5-service",
-  "version": "0.9.0-rc2",
+  "version": "0.9.0-rc3",
   "description": "WebdriverIO plugin for testing UI5 browser-based apps",
   "keywords": [
     "wdio-service",
@@ -61,6 +61,7 @@
     "@wdio/spec-reporter": "^7.16.14",
     "chromedriver": "^98.0.1",
     "cross-env": "^7.0.3",
+    "deepmerge": "^4.2.2",
     "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
