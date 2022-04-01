@@ -14,6 +14,7 @@ declare global {
     namespace WebdriverIO {
         interface Browser {
             asControl: (arg: wdi5Selector) => Promise<any>
+            asControls: (arg: wdi5Selector) => Promise<any>
             screenshot: (arg: string) => Promise<any>
             goTo: (arg: string | object) => Promise<any>
             /**

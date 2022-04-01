@@ -1,6 +1,7 @@
 import * as util from "util"
 
 import { clientSide_getControl } from "../../client-side-js/getControl"
+import { clientSide_getControls } from "../../client-side-js/getControls"
 import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl"
 import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod"
 import { clientSide_getAggregation } from "../../client-side-js/_getAggregation"
@@ -397,6 +398,44 @@ export class WDI5Control {
         }
 
         this.writeResultLog(result, "getControl()")
+
+        return [result[1], result[3]]
+    }
+
+    /**
+     * retrieve a DOM element via UI5 locator
+     * @param {sap.ui.test.RecordReplay.ControlSelector} controlSelector
+     * @return {[WebdriverIO.Element | String, [aProtoFunctions]]} UI5 control or error message, array of function names of this control
+     */
+    private async getControls(controlSelector = this._controlSelector) {
+        // check whether we have a "by id regex" locator request
+        if (controlSelector.selector.id && typeof controlSelector.selector.id === "object") {
+            // make it a string for serializing into browser-scope and
+            // further processing there
+            controlSelector.selector.id = controlSelector.selector.id.toString()
+        }
+
+        if (
+            typeof controlSelector.selector.properties?.text === "object" &&
+            controlSelector.selector.properties?.text instanceof RegExp
+        ) {
+            // make it a string for serializing into browser-scope and
+            // further processing there
+            controlSelector.selector.properties.text = controlSelector.selector.properties.text.toString()
+        }
+
+        const result = await clientSide_getControls(controlSelector)
+        this.writeResultLog(result, "getControls()")
+
+        for await (const elem of result[1]) {
+            // domElement: domElement, id: id, aProtoFunctions
+
+            // save the webdriver representation by control id
+            if (elem.id) {
+                // only if the result is valid
+                elem.webdriverRepresentation = await $(`//*[@id="${elem.id}"]`)
+            }
+        }
 
         return [result[1], result[3]]
     }

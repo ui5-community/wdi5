@@ -11,6 +11,7 @@ import { clientSide_getSelectorForElement } from "../../client-side-js/getSelect
 import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready"
 import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version"
 import { clientSide__navTo } from "../../client-side-js/_navTo"
+import { clientSide_getControls } from "../../client-side-js/getControls"
 
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
@@ -78,6 +79,31 @@ export async function setup(config: wdi5Config) {
             }
             // @ts-ignore
             return makeFluent(browser._asControl(ui5ControlSelector))
+        }
+    }
+
+    if (!browser.asControls) {
+        browser.asControls = function (ui5ControlSelector) {
+            const asyncMethods = ["then", "catch", "finally"]
+            function makeFluent(target) {
+                const promise = Promise.resolve(target)
+                const handler = {
+                    get(_, prop) {
+                        return asyncMethods.includes(prop)
+                            ? (...boundArgs) => makeFluent(promise[prop](...boundArgs))
+                            : makeFluent(promise.then((object) => object[prop]))
+                    },
+                    apply(_, thisArg, boundArgs) {
+                        return makeFluent(
+                            promise.then((targetFunction) => Reflect.apply(targetFunction, thisArg, boundArgs))
+                        )
+                    }
+                }
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                return new Proxy(function () {}, handler)
+            }
+            // @ts-ignore
+            return makeFluent(browser._asControls(ui5ControlSelector))
         }
     }
 
@@ -195,6 +221,30 @@ export async function addWdi5Commands() {
             wdi5Selector.wdio_ui5_key = internalKey
             const wdi5Control = await new WDI5Control().init(wdi5Selector, wdi5Selector.forceSelect)
             browser._controls[internalKey] = wdi5Control
+        } else {
+            Logger.info(`reusing internal control with id ${internalKey}`)
+        }
+        return browser._controls[internalKey]
+    })
+
+    browser.addCommand("_asControls", async (wdi5Selector: wdi5Selector) => {
+        if (!_verifySelector(wdi5Selector)) {
+            return "ERROR: Specified selector is not valid -> abort"
+        }
+
+        const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
+        // either retrieve and cache a UI5 control
+        // or return a cached version
+        if (!browser._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
+            Logger.info(`creating internal control with id ${internalKey}`)
+            wdi5Selector.wdio_ui5_key = internalKey
+            // TODO:
+            const resultElements = clientSide_getControls(wdi5Selector)
+            // const wdi5Control = await new WDI5Control().init(wdi5Selector, wdi5Selector.forceSelect)
+
+            resultElements.forEach((wdi5Control) => {
+                browser._controls[internalKey] = wdi5Control
+            })
         } else {
             Logger.info(`reusing internal control with id ${internalKey}`)
         }
