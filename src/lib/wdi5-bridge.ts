@@ -219,7 +219,7 @@ export async function addWdi5Commands() {
         if (!browser._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
             Logger.info(`creating internal control with id ${internalKey}`)
             wdi5Selector.wdio_ui5_key = internalKey
-            const wdi5Control = await new WDI5Control().init(wdi5Selector, wdi5Selector.forceSelect)
+            const wdi5Control = await new WDI5Control({}).init(wdi5Selector, wdi5Selector.forceSelect)
             browser._controls[internalKey] = wdi5Control
         } else {
             Logger.info(`reusing internal control with id ${internalKey}`)
@@ -233,18 +233,37 @@ export async function addWdi5Commands() {
         }
 
         const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
-        // either retrieve and cache a UI5 control
-        // or return a cached version
-        if (!browser._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
-            Logger.info(`creating internal control with id ${internalKey}`)
-            wdi5Selector.wdio_ui5_key = internalKey
-            // TODO:
-            const resultElements = clientSide_getControls(wdi5Selector)
-            // const wdi5Control = await new WDI5Control().init(wdi5Selector, wdi5Selector.forceSelect)
 
-            resultElements.forEach((wdi5Control) => {
-                browser._controls[internalKey] = wdi5Control
-            })
+        if (!browser._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
+            // pre retrive control information
+            const response = await clientSide_getControls(wdi5Selector)
+            if (response[0] === "success") {
+                const retrievedElements = response[1]
+                const resultWDi5Elements = []
+
+                for await (const cControl of retrievedElements) {
+                    Logger.info(`creating internal control with id ${internalKey}`)
+                    wdi5Selector.wdio_ui5_key = internalKey
+
+                    const oOptions = {
+                        controlSelector: wdi5Selector,
+                        wdio_ui5_key: internalKey,
+                        forceSelect: wdi5Selector.forceSelect,
+                        generatedUI5Methods: cControl.aProtoFunctions,
+                        webdriverRepresentation: cControl.webdriverRepresentation,
+                        webElement: cControl.webElement
+                    }
+                    if (wdi5Selector.init) {
+                        resultWDi5Elements.push(await new WDI5Control(oOptions).init())
+                    } else {
+                        resultWDi5Elements.push(new WDI5Control(oOptions))
+                    }
+                }
+                browser._controls[internalKey] = resultWDi5Elements
+                return resultWDi5Elements
+            } else {
+                return "[WDI5] fetch multiple elements failed: " + response[1]
+            }
         } else {
             Logger.info(`reusing internal control with id ${internalKey}`)
         }

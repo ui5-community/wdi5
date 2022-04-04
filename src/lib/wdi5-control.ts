@@ -25,11 +25,27 @@ export class WDI5Control {
     _initialisation = false
     _forceSelect = false
 
-    constructor() {
+    constructor(oOptions) {
+        const { controlSelector, wdio_ui5_key, forceSelect, generatedUI5Methods, webdriverRepresentation, webElement } =
+            oOptions
+
+        this._controlSelector = controlSelector
+        this._wdio_ui5_key = wdio_ui5_key
+        this._forceSelect = forceSelect
+        this._wdio_ui5_key = wdio_ui5_key
+        this._generatedUI5Methods = generatedUI5Methods
+        this._webElement = webElement
+        this._webdriverRepresentation = webdriverRepresentation
+
+        this.attachControlBridge(this._generatedUI5Methods as Array<string>)
+
+        // set the succesful init param
+        this._initialisation = true
+
         return this
     }
 
-    async init(controlSelector, forceSelect) {
+    async init(controlSelector = this._controlSelector, forceSelect = this._forceSelect) {
         this._controlSelector = controlSelector
         this._wdio_ui5_key = controlSelector.wdio_ui5_key
         this._forceSelect = forceSelect
@@ -45,7 +61,7 @@ export class WDI5Control {
 
             // dynamic function bridge
             this._generatedUI5Methods = controlResult[1]
-            await this.attachControlBridge(this._generatedUI5Methods as Array<string>)
+            this.attachControlBridge(this._generatedUI5Methods as Array<string>)
 
             // set the succesful init param
             this._initialisation = true
@@ -78,6 +94,16 @@ export class WDI5Control {
         } else {
             return this._webdriverRepresentation
         }
+    }
+
+    /**
+     *
+     * @param id
+     * @returns
+     */
+    async renewWebElement(id: string) {
+        this._webdriverRepresentation = await $(`//*[@id="${id}"]`)
+        return this._webdriverRepresentation
     }
 
     /**
@@ -208,11 +234,11 @@ export class WDI5Control {
      *
      * @param sReplFunctionNames
      */
-    private async attachControlBridge(sReplFunctionNames: Array<string>) {
+    private attachControlBridge(sReplFunctionNames: Array<string>) {
         // check the validity of param
         if (sReplFunctionNames) {
             sReplFunctionNames.forEach(async (sMethodName) => {
-                this[sMethodName] = await this.executeControlMethod.bind(this, sMethodName, this._webElement)
+                this[sMethodName] = this.executeControlMethod.bind(this, sMethodName, this._webElement)
             })
         } else {
             Logger.warn(`${this._wdio_ui5_key} has no sReplFunctionNames`)

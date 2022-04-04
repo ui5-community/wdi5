@@ -25,7 +25,7 @@ async function clientSide_getControls(controlSelector) {
                     returnElements.push({ domElement: domElement, id: id, aProtoFunctions: aProtoFunctions })
                 })
 
-                done("success", returnElements)
+                done(["success", returnElements])
             })
             .catch((error) => {
                 window.wdi5.Log.error("[browser wdi5] ERR: ", error)
@@ -35,5 +35,5 @@ async function clientSide_getControls(controlSelector) {
 }
 
 module.exports = {
-    clientSide_getControl
+    clientSide_getControls
 }

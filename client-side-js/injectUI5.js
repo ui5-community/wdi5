@@ -204,7 +204,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
 
                                 // filter not working methods
                                 // and those with a specific api from wdi5/wdio-ui5-service
-                                const aFilterFunctions = ["$", "getAggregation", "constructor", "fireEvent"]
+                                const aFilterFunctions = ["$", "getAggregation", "constructor", "fireEvent", "init"]
 
                                 if (aFilterFunctions.includes(item)) {
                                     return false
