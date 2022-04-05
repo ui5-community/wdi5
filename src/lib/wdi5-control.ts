@@ -23,6 +23,11 @@ export class WDI5Control {
     _generatedUI5Methods: [] | string = null
     _initialisation = false
     _forceSelect = false
+    _metadata: {
+        className: ""
+        id: ""
+        methods: []
+    }
 
     constructor() {
         return this
@@ -58,6 +63,14 @@ export class WDI5Control {
      */
     getInitStatus(): boolean {
         return this._initialisation
+    }
+
+    getId(): string {
+        return this._domId
+    }
+
+    getMetadata(): sap.ui.core.ElementMetadata {
+        return this._metadata
     }
 
     /**

@@ -183,8 +183,11 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                         // create keys of all parent prototypes
                         let properties = new Set()
                         let currentObj = control
+                        const allMethods = Object.getOwnPropertyNames(currentObj)
+                        const publicMethods = currentObj.getMetadata().getPublicMethods()
+                        debugger
                         do {
-                            Object.getOwnPropertyNames(currentObj).map((item) => properties.add(item))
+                            publicMethods.map((item) => properties.add(item))
                         } while ((currentObj = Object.getPrototypeOf(currentObj)))
 
                         // filter for:
