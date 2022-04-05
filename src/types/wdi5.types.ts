@@ -110,6 +110,12 @@ export interface wdi5Selector {
     selector: wdi5ControlSelector
 }
 
+export interface wdi5ControlMetadata {
+    id: string
+    methods: []
+    className: string
+}
+
 // yet unused
 export interface wdi5Bridge extends Window {
     bridge: RecordReplay

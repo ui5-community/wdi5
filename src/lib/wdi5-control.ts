@@ -5,11 +5,10 @@ import { clientSide_interactWithControl } from "../../client-side-js/interactWit
 import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod"
 import { clientSide_getAggregation } from "../../client-side-js/_getAggregation"
 import { clientSide_fireEvent } from "../../client-side-js/fireEvent"
-
+import { wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types"
 import { Logger as _Logger } from "./Logger"
-const Logger = _Logger.getInstance()
 
-import { wdi5Selector } from "../types/wdi5.types"
+const Logger = _Logger.getInstance()
 
 /**
  * This is a bridge object to use from selector to UI5 control,
@@ -17,17 +16,21 @@ import { wdi5Selector } from "../types/wdi5.types"
  */
 export class WDI5Control {
     _controlSelector: wdi5Selector = null
-    _webElement: WebdriverIO.Element | string = null
+    // return value of Webdriver interface: JSON web token
+    _webElement: WebdriverIO.Element | string = null // TODO: type "org.openqa.selenium.WebElement"
+    // wdio elment retrieved separately via $()
     _webdriverRepresentation: WebdriverIO.Element = null
+    _metadata: wdi5ControlMetadata = {
+        className: "",
+        id: "",
+        methods: []
+    }
+
+    // TODO: move to _metadata
     _wdio_ui5_key: string = null
     _generatedUI5Methods: [] | string = null
     _initialisation = false
     _forceSelect = false
-    _metadata: {
-        className: ""
-        id: ""
-        methods: []
-    }
 
     constructor() {
         return this
@@ -66,10 +69,10 @@ export class WDI5Control {
     }
 
     getId(): string {
-        return this._domId
+        return this._metadata.id
     }
 
-    getMetadata(): sap.ui.core.ElementMetadata {
+    getMetadata(): wdi5.Metadata {
         return this._metadata
     }
 
@@ -403,6 +406,7 @@ export class WDI5Control {
 
         const result = await clientSide_getControl(controlSelector)
 
+        // TODO: move to constructor?
         // save the webdriver representation by control id
         if (result[2]) {
             // only if the result is valid
