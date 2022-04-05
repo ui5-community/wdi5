@@ -235,35 +235,10 @@ export async function addWdi5Commands() {
         const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
 
         if (!browser._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
-            // pre retrive control information
-            const response = await clientSide_getControls(wdi5Selector)
-            if (response[0] === "success") {
-                const retrievedElements = response[1]
-                const resultWDi5Elements = []
-
-                for await (const cControl of retrievedElements) {
-                    Logger.info(`creating internal control with id ${internalKey}`)
-                    wdi5Selector.wdio_ui5_key = internalKey
-
-                    const oOptions = {
-                        controlSelector: wdi5Selector,
-                        wdio_ui5_key: internalKey,
-                        forceSelect: wdi5Selector.forceSelect,
-                        generatedUI5Methods: cControl.aProtoFunctions,
-                        webdriverRepresentation: cControl.webdriverRepresentation,
-                        webElement: cControl.webElement
-                    }
-                    if (wdi5Selector.init) {
-                        resultWDi5Elements.push(await new WDI5Control(oOptions).init())
-                    } else {
-                        resultWDi5Elements.push(new WDI5Control(oOptions))
-                    }
-                }
-                browser._controls[internalKey] = resultWDi5Elements
-                return resultWDi5Elements
-            } else {
-                return "[WDI5] fetch multiple elements failed: " + response[1]
-            }
+            wdi5Selector.wdio_ui5_key = internalKey
+            Logger.info(`creating internal controls with id ${internalKey}`)
+            browser._controls[internalKey] = await _getControls(wdi5Selector)
+            return browser._controls[internalKey]
         } else {
             Logger.info(`reusing internal control with id ${internalKey}`)
         }
@@ -369,6 +344,59 @@ export async function addWdi5Commands() {
 }
 
 /**
+ * retrieve a DOM element via UI5 locator
+ * @param {sap.ui.test.RecordReplay.ControlSelector} controlSelector
+ * @return {[WebdriverIO.Element | String, [aProtoFunctions]]} UI5 control or error message, array of function names of this control
+ */
+async function _getControls(controlSelector = this._controlSelector) {
+    // check whether we have a "by id regex" locator request
+    if (controlSelector.selector.id && typeof controlSelector.selector.id === "object") {
+        // make it a string for serializing into browser-scope and
+        // further processing there
+        controlSelector.selector.id = controlSelector.selector.id.toString()
+    }
+
+    if (
+        typeof controlSelector.selector.properties?.text === "object" &&
+        controlSelector.selector.properties?.text instanceof RegExp
+    ) {
+        // make it a string for serializing into browser-scope and
+        // further processing there
+        controlSelector.selector.properties.text = controlSelector.selector.properties.text.toString()
+    }
+
+    // pre retrive control information
+    const response = await clientSide_getControls(controlSelector)
+    _writeResultLog(response, "getControls()")
+
+    if (response[0] === "success") {
+        const retrievedElements = response[1]
+        const resultWDi5Elements = []
+
+        // domElement: domElement, id: id, aProtoFunctions
+        for await (const cControl of retrievedElements) {
+            const oOptions = {
+                controlSelector: controlSelector,
+                wdio_ui5_key: controlSelector.wdio_ui5_key,
+                forceSelect: controlSelector.forceSelect,
+                generatedUI5Methods: cControl.aProtoFunctions,
+                webdriverRepresentation: controlSelector.init
+                    ? await $(`//*[@id="${cControl.id}"]`)
+                    : `//*[@id="${cControl.id}"]`,
+                webElement: cControl.domElement,
+                domId: cControl.id
+            }
+
+            resultWDi5Elements.push(new WDI5Control(oOptions))
+        }
+
+        return resultWDi5Elements
+    } else {
+        return "[WDI5] Error: fetch multiple elements failed: " + response[1]
+    }
+}
+
+/**
  * can be called to make sure before you access any eg. DOM Node the ui5 framework is done loading
  * @returns {Boolean} if the UI5 page is fully loaded and ready to interact.
  */
@@ -451,5 +479,20 @@ async function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bR
     } else {
         // Guess: was directly returned
         return result
+    }
+}
+
+/**
+ * create log based on the status of result[0]
+ * @param {Array} result
+ * @param {*} functionName
+ */
+function _writeResultLog(result, functionName) {
+    if (result[0] === "error") {
+        Logger.error(`call of ${functionName} failed because of: ${result[1]}`)
+    } else if (result[0] === "success") {
+        Logger.success(`call of function ${functionName} returned: ${JSON.stringify(result[1])}`)
+    } else {
+        Logger.warn(`Unknown status: ${functionName} returned: ${JSON.stringify(result[1])}`)
     }
 }
