@@ -72,7 +72,7 @@ export class WDI5Control {
         return this._metadata.id
     }
 
-    getMetadata(): wdi5.Metadata {
+    getMetadata(): wdi5ControlMetadata {
         return this._metadata
     }
 

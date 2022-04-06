@@ -184,10 +184,10 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                         let properties = new Set()
                         let currentObj = control
                         // TODO: check
-                        // const allMethods = Object.getOwnPropertyNames(currentObj)
-                        const publicMethods = currentObj.getMetadata().getPublicMethods()
+                        const allMethods = Object.getOwnPropertyNames(currentObj)
+                        // const publicMethods = currentObj.getMetadata().getPublicMethods()
                         do {
-                            publicMethods.map((item) => properties.add(item))
+                            allMethods.map((item) => properties.add(item))
                         } while ((currentObj = Object.getPrototypeOf(currentObj)))
 
                         // filter for:
