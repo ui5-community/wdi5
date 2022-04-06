@@ -1,39 +1,58 @@
 # Docker
 
+## Variants
+
+1. Run a single container containing application under test, testresources and chrome.
+
+2. Run a composed setup of four container (application under test, testresources, chrome, selenium) in parallel to be more flexible and able to switch betwenn eg. browsers.
+
 ## Prerequisite
 
 Prerequisite is a working/ running docker environment.
 
+## Setup
+
+In folder `/docker`.
+
+`package.json` contains depednecies and npm tasks needed to run the tests in docker.
+
 ## Available Container
 
-| Container             | Content                                        |
-| --------------------- | ---------------------------------------------- |
-| UI5 App               | The application under test                     |
-| WDI5 Test Environment | Test resources and environment                 |
-| Standalone            | Test resources, app under test, Chrome Browser |
+| Container             | Content                                        | Path/Dockerfile                  |
+| --------------------- | ---------------------------------------------- | -------------------------------- |
+| UI5 App               | The application under test                     | `examples/ui5-js-app/Dockerfile` |
+| WDI5 Test Environment | Test resources and environment                 | `docker/Dockerfile.wdi5`         |
+| Standalone            | Test resources, app under test, Chrome Browser | `docker/Dockerfile.standalone`   |
 
 ## Standalone
 
 Use `Dockerfile.standalone`.
 
-### Execute
+### Execute Standalone
 
 `docker build -f ./docker/Dockerfile.standalone -t test-standalone .`
+
 `docker run -t test-standalone`
 
 ## Grid
+
+`docker-compose.yaml` to build and start up all container.
+
+`Dockerfile.wdi5` is the containerized testenvironment.
 
 ### Required Container
 
 Four container needed
 
 - Chrome (Image)
-- Selenium (Image)
+- Selenium (Image) [Console](localhost:4444/grid/console)
 - Testenvironment (wdi5)
-- Application under test (ui5 app)
+- Application under test [ui5 app](localhost:8888)
 
-### Execute
+### Execute Grid
 
 `docker-compose -f ./docker/docker-compose.yaml build` (optional, will be excecuted first time by `up`)
+
 `docker-compose -f ./docker/docker-compose.yaml up`
+
 `docker-compose -f ./docker/docker-compose.yaml down`
