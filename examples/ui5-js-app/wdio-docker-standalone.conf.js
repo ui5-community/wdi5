@@ -16,7 +16,9 @@ exports.config = {
                     "--disable-gpu",
                     "--disable-software-rasterizer",
                     "--disable-dev-shm-usage",
-                    "--disable-infobars"
+                    "--disable-infobars",
+                    "--ignore-ssl-errors=yes",
+                    "--ignore-certificate-errors"
                 ]
             }
         }

@@ -45,9 +45,9 @@ Use `Dockerfile.standalone`.
 Four container needed
 
 - Chrome (Image)
-- Selenium (Image) [Console](localhost:4444/grid/console)
+- Selenium (Image) [Console](http://localhost:4444/ui/index.html#/)
 - Testenvironment (wdi5)
-- Application under test [ui5 app](localhost:8888)
+- Application under test [ui5 app](http://localhost:8888)
 
 ### Execute Grid
 

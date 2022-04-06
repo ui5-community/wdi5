@@ -22,7 +22,9 @@ exports.config = {
                     '--whitelisted-ips="selenium-hub"',
                     "--verbose",
                     "--ignore-certificate-errors",
-                    "--allow-insecure-localhost"
+                    "--allow-insecure-localhost",
+                    "--ignore-ssl-errors=yes",
+                    "--ignore-certificate-errors"
                 ]
             }
         }
