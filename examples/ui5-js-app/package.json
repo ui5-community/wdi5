@@ -16,14 +16,14 @@
     "test:multiversion": "node wdi5-multiversion.js"
   },
   "devDependencies": {
-    "@ui5/cli": "^2.14.6",
-    "@wdio/cli": "^7.16.15",
-    "@wdio/local-runner": "^7.16.15",
-    "@wdio/mocha-framework": "^7.16.15",
-    "@wdio/spec-reporter": "^7.16.14",
-    "chromedriver": "^98.0.0",
+    "@ui5/cli": "^2.14.7",
+    "@wdio/cli": "^7.19.3",
+    "@wdio/local-runner": "^7.19.3",
+    "@wdio/mocha-framework": "^7.19.3",
+    "@wdio/spec-reporter": "^7.19.1",
+    "chromedriver": "^100.0.0",
     "ui5-middleware-simpleproxy": "^0.8.0",
-    "wdio-chromedriver-service": "^7.2.6",
+    "wdio-chromedriver-service": "^7.3.2",
     "wdio-ui5-service": "*"
   },
   "ui5": {
