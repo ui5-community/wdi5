@@ -135,7 +135,7 @@ exports.config = {
       browserName: "chrome",
       acceptInsecureCerts: true,
       "goog:chromeOptions": {
-          ["window-size=1440,800", "--auto-open-devtools-for-tabs"] // <--
+        args: ["window-size=1440,800", "--auto-open-devtools-for-tabs"] // <--
       }
     }
   ]
@@ -161,13 +161,14 @@ exports.config = {
       browserName: "chrome",
       acceptInsecureCerts: true,
       "goog:chromeOptions": {
-          ["window-size=1440,800", "--headless"] // <--
+        args: ["window-size=1440,800", "--headless"] // <--
       }
     }
   ]
 }
 ```
 
+As
 Note that running headless can still be combined with a dedicated viewport, `1440,800` in the example above.
 
 ## DevX: code completion for `wdi5`- and `wdio`-API
