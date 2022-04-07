@@ -12,7 +12,6 @@
     "test:lateInject": "wdio run wdio-ui5-late.conf.js",
     "test:ui5tooling": "wdio run wdio-ui5tooling.conf.js",
     "test:webserver": "wdio run wdio-webserver.conf.js",
-    "test:selenium": "wdio run wdio-selenium-service.conf.js",
     "test:multiversion": "node wdi5-multiversion.js"
   },
   "devDependencies": {
@@ -20,7 +19,6 @@
     "@wdio/cli": "^7.16.15",
     "@wdio/local-runner": "^7.16.15",
     "@wdio/mocha-framework": "^7.16.15",
-    "@wdio/selenium-standalone-service": "^7.19.1",
     "@wdio/spec-reporter": "^7.16.14",
     "chromedriver": "^100.0.0",
     "ui5-middleware-simpleproxy": "^0.8.0",
