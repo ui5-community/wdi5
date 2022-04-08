@@ -6,7 +6,8 @@ const _config = {
     user: process.env.BROWSERSTACK_USERNAME,
     key: process.env.BROWSERSTACK_ACCESS_KEY,
     wdi5: {
-        url: "#"
+        url: "#",
+        waitForUI5Timeout: 1200000
     },
     specs: [join("webapp", "test", "e2e", "**/*.test.js")],
     exclude: [join("webapp", "test", "e2e", "ui5-late.test.js")],
