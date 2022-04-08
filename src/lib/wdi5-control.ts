@@ -24,7 +24,6 @@ export class WDI5Control {
     _initialisation = false
     _forceSelect = false
     _wdioBridge = <WebdriverIO.Element>{}
-    //  TODO: https://www.smashingmagazine.com/2021/01/dynamic-static-typing-typescript/
     _generatedWdioMethods: Array<string>
 
     constructor() {
