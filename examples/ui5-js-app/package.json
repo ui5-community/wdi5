@@ -12,8 +12,8 @@
     "test:lateInject": "wdio run wdio-ui5-late.conf.js",
     "test:ui5tooling": "wdio run wdio-ui5tooling.conf.js",
     "test:webserver": "wdio run wdio-webserver.conf.js",
-    "test:selenium": "wdio run wdio-selenium-service.conf.js",
-    "test:multiversion": "node wdi5-multiversion.js"
+    "test:multiversion": "node wdi5-multiversion.js",
+    "test-selenium": "wdio run wdio-selenium-service.conf.js"
   },
   "devDependencies": {
     "@ui5/cli": "^2.14.7",
