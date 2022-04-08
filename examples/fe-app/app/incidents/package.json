@@ -10,8 +10,7 @@
   "main": "webapp/index.html",
   "scripts": {
     "deploy": "npx -p @sap/ux-ui5-tooling fiori add deploy-config cf",
-    "test": "karma start --singleRun",
-    "serve": "ui5 serve"
+    "test": "karma start --singleRun"
   },
   "devDependencies": {
     "@sap/ux-specification": "latest",

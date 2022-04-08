@@ -29,7 +29,7 @@ exports.config = {
     // Level of logging verbosity: trace | debug | info | warn | error | silent
     logLevel: "error",
     bail: 0,
-    baseUrl: "http://localhost:8080",
+    baseUrl: "http://localhost:8088",
 
     waitforTimeout: 10000,
     connectionRetryTimeout: 120000,
