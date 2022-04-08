@@ -9,7 +9,10 @@ const _config = {
         url: "#"
     },
     specs: [join("webapp", "test", "e2e", "**/*.test.js")],
-    exclude: [join("webapp", "test", "e2e", "ui5-late.test.js")]
+    exclude: [join("webapp", "test", "e2e", "ui5-late.test.js")],
+    waitforTimeout: 100000,
+    connectionRetryTimeout: 1200000,
+    connectionRetryCount: 10
 }
 
 let conf = merge(baseConfig, _config)
@@ -18,20 +21,36 @@ let conf = merge(baseConfig, _config)
 conf.services = [["browserstack", { browserstackLocal: true }], "ui5"]
 conf.capabilities = [
     {
-        browserName: "chrome",
-        platformName: "MAC"
+        browserName: "Chrome",
+        browserVersion: "latest",
+        "bstack:options": {
+            os: "OS X",
+            osVersion: "Monterey"
+        }
     },
     {
-        browserName: "firefox",
-        platformName: "WINDOWS"
+        browserName: "Firefox",
+        browserVersion: "latest",
+        "bstack:options": {
+            os: "Windows",
+            osVersion: "11"
+        }
     },
     {
-        browserName: "safari",
-        platformName: "MAC"
+        browserName: "Safari",
+        browserVersion: "latest",
+        "bstack:options": {
+            os: "OS X",
+            osVersion: "Monterey"
+        }
     },
     {
-        browserName: "edge",
-        platformName: "WINDOWS"
+        browserName: "Edge",
+        browserVersion: "latest",
+        "bstack:options": {
+            os: "Windows",
+            osVersion: "11"
+        }
     }
 ]
 
