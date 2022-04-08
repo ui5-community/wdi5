@@ -1,12 +1,11 @@
 const Main = require("./pageObjects/Main")
-const viewName = "test.Sample.view.Main"
 
 const multiComboBoxSelector = {
     forceSelect: true,
     selector: {
         interaction: "root",
         id: "multiComboBox",
-        viewName: viewName
+        viewName: "test.Sample.view.Main"
     }
 }
 

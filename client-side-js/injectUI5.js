@@ -34,6 +34,22 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                 window.wdi5.Log.info("[browser wdi5] injected!")
             })
 
+            sap.ui.require(["sap/ui/test/autowaiter/_autoWaiterAsync"], (_autoWaiterAsync) => {
+                window.wdi5.waitForUI5 = function (oOptions, callback, errorCallback) {
+                    oOptions = oOptions || {}
+                    _autoWaiterAsync.extendConfig(oOptions)
+
+                    _autoWaiterAsync.waitAsync(function (sError) {
+                        if (sError) {
+                            errorCallback(new Error(sError))
+                        } else {
+                            callback()
+                        }
+                    })
+                }
+                window.wdi5.Log.info("[browser wdi5] window._autoWaiterAsync used in waitForUI5 function")
+            })
+
             // attach new bridge
             sap.ui.require(["sap/ui/test/RecordReplay"], (RecordReplay) => {
                 window.bridge = RecordReplay
@@ -204,13 +220,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
 
                                 // filter not working methods
                                 // and those with a specific api from wdi5/wdio-ui5-service
-                                const aFilterFunctions = [
-                                    "$",
-                                    "getAggregation",
-                                    "constructor",
-                                    "getMetadata",
-                                    "fireEvent"
-                                ]
+                                const aFilterFunctions = ["$", "getAggregation", "constructor", "fireEvent"]
 
                                 if (aFilterFunctions.includes(item)) {
                                     return false
@@ -256,15 +266,19 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                      * @param {[sap.ui.core.Control]} aControls
                      * @return {Array} Object
                      */
-                    window.wdi5.createControlIdMap = (aControls) => {
+                    window.wdi5.createControlIdMap = (aControls, controlType = "") => {
                         // the array of UI5 controls need to be mapped (remove circular reference)
-
                         return aControls.map((element) => {
                             // just use the absolute ID of the control
-                            let item = {
-                                id: element.getId()
+                            if (controlType === "sap.m.ComboBox" && element.data("InputWithSuggestionsListItem")) {
+                                return {
+                                    id: element.data("InputWithSuggestionsListItem").getId()
+                                }
+                            } else {
+                                return {
+                                    id: element.getId()
+                                }
                             }
-                            return item
                         })
                     }
 

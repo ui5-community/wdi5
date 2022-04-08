@@ -11,7 +11,9 @@ async function clientSide_getAggregation(webElement, aggregationName) {
                     if (cAggregation && !Array.isArray(cAggregation)) {
                         cAggregation = [cAggregation]
                     }
-                    let result = window.wdi5.createControlIdMap(cAggregation)
+                    // read classname eg. sap.m.ComboBox
+                    controlType = oControl.getMetadata()._sClassName
+                    let result = window.wdi5.createControlIdMap(cAggregation, controlType)
                     done(["success", result])
                 } catch (e) {
                     done(["error", e.toString()])

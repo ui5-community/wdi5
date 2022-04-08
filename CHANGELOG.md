@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.9.0-rc3](https://github.com/js-soft/wdi5/compare/v0.9.0-rc2...v0.9.0-rc3) (2022-03-25)
+
+
+### Features
+
+* **combobox:** make aggregation work ([#191](https://github.com/js-soft/wdi5/issues/191)) ([c2984bd](https://github.com/js-soft/wdi5/commit/c2984bd153633105fe7ebe60c318b19fa8580525)), closes [#121](https://github.com/js-soft/wdi5/issues/121)
+
+
+### Bug Fixes
+
+* control getShorthand returns array-valued property ([#170](https://github.com/js-soft/wdi5/issues/170)) ([b7a2789](https://github.com/js-soft/wdi5/commit/b7a2789b1c26dd754afa5713a0f6431de7a5fca5)), closes [#172](https://github.com/js-soft/wdi5/issues/172)
+* Version Checks ([#200](https://github.com/js-soft/wdi5/issues/200)) ([3648a98](https://github.com/js-soft/wdi5/commit/3648a984e442be37e17427b247c6f8d20a4422df))
+
 ## [0.9.0-rc2](https://github.com/js-soft/wdi5/compare/v0.9.0-rc1...v0.9.0-rc2) (2022-03-22)
 
 ## [0.9.0-rc1](https://github.com/js-soft/wdi5/compare/v0.9.0-alpha.1...v0.9.0-rc1) (2022-03-18)
