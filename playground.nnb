@@ -1,0 +1,18 @@
+{
+    "cells": [
+        {
+            "language": "markdown",
+            "source": [
+                "Example UI5 App Start"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const Main = require(\"./pageObjects/Main\")\n\ndescribe(\"ui5 basic\", () => {\n    before(async () => {\n        await Main.open()\n    })\n\n    it(\"should have the right title\", async () => {\n        const title = await browser.getTitle()\n        expect(title).toEqual(\"Sample UI5 Application\")\n    })\n});"
+            ],
+            "outputs": []
+        }
+    ]
+}
