@@ -135,7 +135,7 @@ exports.config = {
       browserName: "chrome",
       acceptInsecureCerts: true,
       "goog:chromeOptions": {
-          ["window-size=1440,800", "--auto-open-devtools-for-tabs"] // <--
+        args: ["--window-size=1440,800", "--auto-open-devtools-for-tabs"] // <--
       }
     }
   ]
@@ -146,7 +146,7 @@ The browser will be started by `wdi5` with the DevTools immediately available.![
 
 ## Chrome: run headless
 
-"headless" means running the browser without a GUI.  
+"headless" means running the browser without a GUI. Running browsers in "headless" mode is a great way for running automated tests, especially in an continous integration pipeline.
 In `wdio.conf.(j|t)s`, provide "headless" as `args` to the `chrome` capability:
 
 ```js
@@ -161,14 +161,14 @@ exports.config = {
       browserName: "chrome",
       acceptInsecureCerts: true,
       "goog:chromeOptions": {
-          ["window-size=1440,800", "--headless"] // <--
+        args: ["--window-size=1440,800", "--headless"] // <--
       }
     }
   ]
 }
 ```
 
-Note that running headless can still be combined with a dedicated viewport, `1440,800` in the example above.
+However, there can be one problem: The "invisible" browser window starts a viewport only the size of 800x600, which is often too small for modern responsive applications. You can combine running headless with a dedicated viewport, `1440,800` like in the example above.
 
 ## DevX: code completion for `wdi5`- and `wdio`-API
 
