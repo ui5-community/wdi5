@@ -54,7 +54,6 @@ async function clientSide_testLibrary(pageObject, aMethods, oOptions, isAssertio
                     done(["success", true])
                 })
                 .catch((err) => {
-                    debugger
                     window.wdi5.Log.error(err)
                     done(["error", err.toString()])
                 })
@@ -112,7 +111,6 @@ async function emptyQueue() {
             })
             .catch((err) => {
                 window.wdi5.Log.error(err)
-                debugger
                 done(["error", err.errorMessage])
             })
     })
@@ -139,6 +137,9 @@ async function addToQueue(type, target, aMethods) {
                     scope = scope[target]
                     // execute all passed in methods
                     aMethods.reduce((obj, methodInfo) => {
+                        if (methodInfo.accessor) {
+                            return obj[methodInfo.name]
+                        }
                         return obj[methodInfo.name].apply(obj, methodInfo.args)
                     }, scope)
                 })

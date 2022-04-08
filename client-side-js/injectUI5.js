@@ -48,9 +48,14 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
 
             // TODO: support FE pages other than the main/list page;
             // see also /client-side-js/testLibrary.js
-            sap.ui.require(["sap/fe/test/ListReport"], (ListReport) => {
-                window.fe_bridge.ListReport = ListReport
-            })
+            sap.ui.require(
+                ["sap/fe/test/ListReport", "sap/fe/test/ObjectPage", "sap/fe/test/Shell"],
+                (ListReport, ObjectPage, Shell) => {
+                    window.fe_bridge.ListReport = ListReport
+                    window.fe_bridge.ObjectPage = ObjectPage
+                    window.fe_bridge.Shell = Shell
+                }
+            )
             // make sure the resources are required
             sap.ui.require(
                 [
