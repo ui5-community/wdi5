@@ -202,7 +202,8 @@ export async function addWdi5Commands() {
         return browser._controls[internalKey]
     })
 
-    browser.addCommand("_allControls", async (wdi5Selector: wdi5Selector) => {
+    // no fluent API -> no private method
+    browser.addCommand("allControls", async (wdi5Selector: wdi5Selector) => {
         if (!_verifySelector(wdi5Selector)) {
             return "ERROR: Specified selector is not valid -> abort"
         }
