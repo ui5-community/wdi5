@@ -20,9 +20,11 @@ export class WDI5Control {
     _webElement: WebdriverIO.Element | string = null
     _webdriverRepresentation: WebdriverIO.Element = null
     _wdio_ui5_key: string = null
-    _generatedUI5Methods: [] | string = null
+    _generatedUI5Methods: Array<string>
     _initialisation = false
     _forceSelect = false
+    _wdioBridge = <WebdriverIO.Element>{}
+    _generatedWdioMethods: Array<string>
     _domId: string
 
     constructor(oOptions) {
@@ -45,6 +47,7 @@ export class WDI5Control {
         this._domId = domId
 
         this.attachControlBridge(this._generatedUI5Methods as Array<string>)
+        this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
 
         // set the succesful init param
         this._initialisation = true
@@ -69,6 +72,7 @@ export class WDI5Control {
             // dynamic function bridge
             this._generatedUI5Methods = controlResult[1]
             this.attachControlBridge(this._generatedUI5Methods as Array<string>)
+            this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
 
             // set the succesful init param
             this._initialisation = true
@@ -85,7 +89,7 @@ export class WDI5Control {
     }
 
     /**
-     * @return the webdriver Element
+     * @return {WebdriverIO.Element} the webdriver Element
      */
     async getWebElement() {
         if (!this._webdriverRepresentation) {
@@ -108,7 +112,14 @@ export class WDI5Control {
     }
 
     /**
-     *
+     * add conveniance to the getWebElement Function
+     * @returns {WebdriverIO.Element} the webdriver Element
+     */
+    $() {
+        return this._wdioBridge // this.getWebElement()
+    }
+
+    /**
      * @param id
      * @returns
      */
@@ -250,6 +261,19 @@ export class WDI5Control {
         if (sReplFunctionNames) {
             sReplFunctionNames.forEach(async (sMethodName) => {
                 this[sMethodName] = this.executeControlMethod.bind(this, sMethodName, this._webElement)
+            })
+        } else {
+            Logger.warn(`${this._wdio_ui5_key} has no sReplFunctionNames`)
+        }
+    }
+
+    private attachWdioControlBridge(sReplFunctionNames: Array<string>) {
+        // check the validity of param
+        if (sReplFunctionNames) {
+            sReplFunctionNames.forEach(async (sMethodName) => {
+                this._wdioBridge[sMethodName] = async (): Promise<any> => {
+                    return await (await this.getWebElement())[sMethodName]()
+                }
             })
         } else {
             Logger.warn(`${this._wdio_ui5_key} has no sReplFunctionNames`)
@@ -432,11 +456,56 @@ export class WDI5Control {
         if (result[2]) {
             // only if the result is valid
             this._webdriverRepresentation = await $(`//*[@id="${result[2]}"]`)
+            this._generatedWdioMethods = this._retrieveControlMethods(this._webdriverRepresentation)
         }
 
         this.writeResultLog(result, "getControl()")
 
         return [result[1], result[3]]
+    }
+
+    /**
+     *
+     * @param {WebDriver.Element} control
+     * @returns {Array<string>}
+     */
+    private _retrieveControlMethods(control) {
+        const _control = control
+        // create keys of all parent prototypes
+        const properties = new Set()
+        do {
+            Object.getOwnPropertyNames(control).map((item) => properties.add(item))
+        } while ((control = Object.getPrototypeOf(control)))
+
+        // @ts-ignore
+        const controlMethodsToProxy = [...properties.keys()].filter((item: string) => {
+            if (typeof _control[item] === "function") {
+                // function
+
+                // filter private methods
+                if (item.startsWith("_")) {
+                    return false
+                }
+
+                // filter not working methods
+                // and those with a specific api from wdi5/wdio-ui5-service
+                const aFilterFunctions = ["$", "constructor"]
+
+                if (aFilterFunctions.includes(item)) {
+                    return false
+                }
+
+                /* if (item.startsWith("is")) {
+                    // only check functions
+                    return true
+                } */
+
+                return true
+            }
+            return false
+        })
+
+        return controlMethodsToProxy as Array<string>
     }
 
     /**
