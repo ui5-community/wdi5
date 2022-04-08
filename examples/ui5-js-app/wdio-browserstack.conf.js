@@ -13,7 +13,26 @@ const _config = {
 }
 
 let conf = merge(baseConfig, _config)
+
 // override, not merge
 conf.services = [["browserstack", { browserstackLocal: true }], "ui5"]
+conf.capabilities = [
+    {
+        browserName: "chrome",
+        platformName: "MAC"
+    },
+    {
+        browserName: "firefox",
+        platformName: "WINDOWS"
+    },
+    {
+        browserName: "safari",
+        platformName: "MAC"
+    },
+    {
+        browserName: "edge",
+        platformName: "WINDOWS"
+    }
+]
 
 exports.config = conf
