@@ -34,6 +34,22 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                 window.wdi5.Log.info("[browser wdi5] injected!")
             })
 
+            sap.ui.require(["sap/ui/test/autowaiter/_autoWaiterAsync"], (_autoWaiterAsync) => {
+                window.wdi5.waitForUI5 = function (oOptions, callback, errorCallback) {
+                    oOptions = oOptions || {}
+                    _autoWaiterAsync.extendConfig(oOptions)
+
+                    _autoWaiterAsync.waitAsync(function (sError) {
+                        if (sError) {
+                            errorCallback(new Error(sError))
+                        } else {
+                            callback()
+                        }
+                    })
+                }
+                window.wdi5.Log.info("[browser wdi5] window._autoWaiterAsync used in waitForUI5 function")
+            })
+
             // attach new bridge
             sap.ui.require(["sap/ui/test/RecordReplay"], (RecordReplay) => {
                 window.bridge = RecordReplay
@@ -57,22 +73,25 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                 }
             )
             // make sure the resources are required
+            // TODO: "sap/ui/test/matchers/Sibling",
             sap.ui.require(
                 [
                     "sap/ui/test/matchers/BindingPath",
                     "sap/ui/test/matchers/I18NText",
                     "sap/ui/test/matchers/Properties",
                     "sap/ui/test/matchers/Ancestor",
-                    "sap/ui/test/matchers/LabelFor"
+                    "sap/ui/test/matchers/LabelFor",
+                    "sap/ui/test/matchers/Descendant",
+                    "sap/ui/test/matchers/Interactable"
                 ],
-                (BindingPath, I18NText, Properties, Ancestor, LabelFor) => {
+                (BindingPath, I18NText, Properties, Ancestor, LabelFor, Descendant, Interactable) => {
                     /**
                      * used to dynamically create new control matchers when searching for elements
                      */
                     window.wdi5.createMatcher = (oSelector) => {
-                        // Before version 1.60, the only available criteria is binding context path.
-                        // As of version 1.72, it is available as a declarative matcher
-                        const oldAPIVersion = 1.6
+                        // since 1.72.0 the declarative matchers are available. Before that
+                        // you had to instantiate the matchers manually
+                        const oldAPIVersion = "1.72.0"
                         // check whether we're looking for a control via regex
                         // hint: no IE support here :)
                         if (oSelector.id && oSelector.id.startsWith("/", 0)) {
@@ -110,33 +129,67 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                             const isRootProperty =
                                 oSelector.bindingPath.propertyPath &&
                                 oSelector.bindingPath.propertyPath.charAt(0) === "/"
-                            if (hasNamedModel && isRootProperty && parseFloat(sap.ui.version) < 1.81) {
+                            if (
+                                hasNamedModel &&
+                                isRootProperty &&
+                                window.compareVersions.compare("1.81.0", sap.ui.version, ">")
+                            ) {
                                 // attach the double leading /
                                 // for UI5 < 1.81
                                 oSelector.bindingPath.propertyPath = `/${oSelector.bindingPath.propertyPath}`
                             }
-                            if (oldAPIVersion > parseFloat(sap.ui.version)) {
-                                // for version < 1.60 create the matcher
-                                oSelector.bindingPath = new BindingPath(oSelector.bindingPath)
-                            }
                         }
-
-                        if (oldAPIVersion > parseFloat(sap.ui.version)) {
-                            // for version < 1.60 create the matcher
+                        if (window.compareVersions.compare(oldAPIVersion, sap.ui.version, ">")) {
+                            oSelector.matchers = []
+                            // for version < 1.72 declarative matchers are not available
+                            if (oSelector.bindingPath) {
+                                oSelector.matchers.push(new BindingPath(oSelector.bindingPath))
+                                delete oSelector.bindingPath
+                            }
                             if (oSelector.properties) {
-                                oSelector.properties = new Properties(oSelector.properties)
+                                oSelector.matchers.push(new Properties(oSelector.properties))
+                                delete oSelector.properties
                             }
                             if (oSelector.i18NText) {
-                                oSelector.i18NText = new I18NText(oSelector.i18NText)
+                                oSelector.matchers.push(new I18NText(oSelector.i18NText))
+                                delete oSelector.i18NText
                             }
                             if (oSelector.labelFor) {
-                                oSelector.labelFor = new LabelFor(oSelector.labelFor)
+                                oSelector.matchers.push(new LabelFor(oSelector.labelFor))
+                                delete oSelector.labelFor
                             }
                             if (oSelector.ancestor) {
-                                oSelector.ancestor = new Ancestor(oSelector.ancestor)
+                                oSelector.matchers.push(new Ancestor(oSelector.ancestor))
+                                delete oSelector.ancestor
                             }
                         }
 
+                        /*
+                        oSelector.matchers = []
+                        // since for these matcher a constructor call is neccessary
+                        if (oSelector.sibling && oSelector.sibling.options) {
+                            // don't construct matcher if not needed
+                            const options = oSelector.sibling.options
+                            delete oSelector.sibling.options
+                            oSelector.matchers.push(new Sibling(oSelector.sibling, options))
+                            delete oSelector.sibling
+                        }
+                        if (oSelector.descendant && (typeof oSelector.descendant.bDirect !== 'undefined')) {
+                            // don't construct matcher if not needed
+                            const bDirect = oSelector.descendant.bDirect
+                            delete oSelector.descendant.bDirect
+                            oSelector.matchers.push(new Descendant(oSelector.descendant, !!bDirect))
+                            delete oSelector.descendant
+                        }
+                        if (oSelector.ancestor && (typeof oSelector.ancestor.bDirect !== 'undefined')) {
+                            // don't construct matcher if not needed
+                            const bDirect = oSelector.ancestor.bDirect
+                            delete oSelector.ancestor.bDirect
+                            oSelector.matchers.push(new Ancestor(oSelector.ancestor, !!bDirect))
+                            delete oSelector.ancestor
+                        }
+
+                        */
                         return oSelector
                     }
 
@@ -178,13 +231,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
 
                                 // filter not working methods
                                 // and those with a specific api from wdi5/wdio-ui5-service
-                                const aFilterFunctions = [
-                                    "$",
-                                    "getAggregation",
-                                    "constructor",
-                                    "getMetadata",
-                                    "fireEvent"
-                                ]
+                                const aFilterFunctions = ["$", "getAggregation", "constructor", "fireEvent"]
 
                                 if (aFilterFunctions.includes(item)) {
                                     return false
@@ -230,15 +277,19 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                      * @param {[sap.ui.core.Control]} aControls
                      * @return {Array} Object
                      */
-                    window.wdi5.createControlIdMap = (aControls) => {
+                    window.wdi5.createControlIdMap = (aControls, controlType = "") => {
                         // the array of UI5 controls need to be mapped (remove circular reference)
-
                         return aControls.map((element) => {
                             // just use the absolute ID of the control
-                            let item = {
-                                id: element.getId()
+                            if (controlType === "sap.m.ComboBox" && element.data("InputWithSuggestionsListItem")) {
+                                return {
+                                    id: element.data("InputWithSuggestionsListItem").getId()
+                                }
+                            } else {
+                                return {
+                                    id: element.getId()
+                                }
                             }
-                            return item
                         })
                     }
 

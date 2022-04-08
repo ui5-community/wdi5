@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.9.0-rc3](https://github.com/js-soft/wdi5/compare/v0.9.0-rc2...v0.9.0-rc3) (2022-03-25)
+
+
+### Features
+
+* **combobox:** make aggregation work ([#191](https://github.com/js-soft/wdi5/issues/191)) ([c2984bd](https://github.com/js-soft/wdi5/commit/c2984bd153633105fe7ebe60c318b19fa8580525)), closes [#121](https://github.com/js-soft/wdi5/issues/121)
+
+
+### Bug Fixes
+
+* control getShorthand returns array-valued property ([#170](https://github.com/js-soft/wdi5/issues/170)) ([b7a2789](https://github.com/js-soft/wdi5/commit/b7a2789b1c26dd754afa5713a0f6431de7a5fca5)), closes [#172](https://github.com/js-soft/wdi5/issues/172)
+* Version Checks ([#200](https://github.com/js-soft/wdi5/issues/200)) ([3648a98](https://github.com/js-soft/wdi5/commit/3648a984e442be37e17427b247c6f8d20a4422df))
+
+## [0.9.0-rc2](https://github.com/js-soft/wdi5/compare/v0.9.0-rc1...v0.9.0-rc2) (2022-03-22)
+
+## [0.9.0-rc1](https://github.com/js-soft/wdi5/compare/v0.9.0-alpha.1...v0.9.0-rc1) (2022-03-18)
+
+
+### Features
+
+* **devx:** auto open dev tools when DEBUG is set ([#168](https://github.com/js-soft/wdi5/issues/168)) ([048767b](https://github.com/js-soft/wdi5/commit/048767b4a1e240b7420bf33b6c000d531c04cc97))
+* enhanced logger and tests ([#189](https://github.com/js-soft/wdi5/issues/189)) ([959f159](https://github.com/js-soft/wdi5/commit/959f159a78a3671ab169c415db9b1ed4781e351a))
+* **logger:** custom tags in logger ([17eef1a](https://github.com/js-soft/wdi5/commit/17eef1aba365b1ed1620b99bb607157de0d9acc4))
+* **matcher:** i18n, ancestor, descendant, sibling, labelFor ([1fd328c](https://github.com/js-soft/wdi5/commit/1fd328cab0de7cd0a6895d717447866ca7de0c7d)), closes [#129](https://github.com/js-soft/wdi5/issues/129) [#121](https://github.com/js-soft/wdi5/issues/121)
+
+
+### Bug Fixes
+
+* **118:** loggin of selector verification ([6ff7283](https://github.com/js-soft/wdi5/commit/6ff72836a1eccbf40cab524a3a07fe3c446c081d))
+* **docs:** wdi5 types ref ([bfe7f6b](https://github.com/js-soft/wdi5/commit/bfe7f6b4dcd29c49bfba9c399235c19552d56ff0))
+* **example-app:** types ref ([e983b4b](https://github.com/js-soft/wdi5/commit/e983b4b46d0993f78bef6f01bc4e29750ec80673))
+* rm i18n changes ([6a1bcda](https://github.com/js-soft/wdi5/commit/6a1bcdac2893b54050b4102f6d7800aa7559fd38))
+* safeguard empty baseURL ([#165](https://github.com/js-soft/wdi5/issues/165)) ([620f3b5](https://github.com/js-soft/wdi5/commit/620f3b5e0fa40280d87883d21fc366f9a8b6f7fb)), closes [#148](https://github.com/js-soft/wdi5/issues/148)
+
 ## [0.9.0-alpha.1](https://github.com/js-soft/wdi5/compare/v0.9.0-alpha.0...v0.9.0-alpha.1) (2022-03-04)
 
 

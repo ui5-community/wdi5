@@ -16,9 +16,20 @@ sap.ui.define(
                     checkbox: false,
                     barcode: ""
                 }
+                // TODO:
+                // searchValue: "search Value"
 
                 let testModel = new JSONModel(jData)
                 this.getView().setModel(testModel, "testModel")
+
+                this.initCombobox()
+            },
+
+            initCombobox: function () {
+                // set explored app's demo model on this sample
+                var oModel = new JSONModel()
+                oModel.loadData("model/countries.json")
+                this.getView().setModel(oModel, "Countries")
             },
 
             navFwd() {

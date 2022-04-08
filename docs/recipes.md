@@ -120,20 +120,81 @@ expect(await (await stat(downloadedFile)).size).toBeGreaterThan(1)
 
 ## Chrome: auto-open debug tools
 
+For debugging purposes, having the Developer Tools pane open automatically in the remote-controlled Chrome is essential.
+For achieving this, add "auto-open-devtools-for-tabs" as `args` to the `chrome` capability:
+
+```js
+exports.config = {
+  wdi5: {
+    // ...
+  },
+  // ...
+  capabilities: [
+    {
+      maxInstances: 5,
+      browserName: "chrome",
+      acceptInsecureCerts: true,
+      "goog:chromeOptions": {
+        args: ["--window-size=1440,800", "--auto-open-devtools-for-tabs"] // <--
+      }
+    }
+  ]
+}
+```
+
+The browser will be started by `wdi5` with the DevTools immediately available.![remote controlled Google Chrome with Developer Tools pane open](img/auto-open-dev-tools.png)
+
 ## Chrome: run headless
 
-## `wdi5`- and `wdio`-API autocompletion
+"headless" means running the browser without a GUI. Running browsers in "headless" mode is a great way for running automated tests, especially in an continous integration pipeline.
+In `wdio.conf.(j|t)s`, provide "headless" as `args` to the `chrome` capability:
+
+```js
+exports.config = {
+  wdi5: {
+    // ...
+  },
+  // ...
+  capabilities: [
+    {
+      maxInstances: 5,
+      browserName: "chrome",
+      acceptInsecureCerts: true,
+      "goog:chromeOptions": {
+        args: ["--window-size=1440,800", "--headless"] // <--
+      }
+    }
+  ]
+}
+```
+
+However, there can be one problem: The "invisible" browser window starts a viewport only the size of 800x600, which is often too small for modern responsive applications. You can combine running headless with a dedicated viewport, `1440,800` like in the example above.
+
+## DevX: code completion for `wdi5`- and `wdio`-API
 
 In VS Code, use a `jsconfig.json` at the root of your JavaScript-project, at the very least containing
 
 ```json
 {
   "compilerOptions": {
-    "types": ["node", "webdriverio/async", "wdio-ui5-service"]
+    "types": ["node", "webdriverio/async", "wdio-ui5-service/dist"]
   }
 }
 ```
 
 See an example at `/examples/ui5-js-app/jsconfig.json` in the wdi5 repository.
 
-## TDD with `wdi5`
+## test a `sap.m.ComboBox`
+
+A `sap.m.ComboBox`'s items will only be rendered when it's opened (once).  
+So for programmatically working and testing the control, its' `.open()`-method needs to be used:
+
+```js
+it("get combobox single item aggregation as ui5 control", async () => {
+  const combobox = await browser.asControl(oComboboxSelector)
+  await combobox.open() // <--
+
+  const items = await combobox.getItems(4)
+  expect(await items.getTitle()).toEqual("Bahrain")
+})
+```

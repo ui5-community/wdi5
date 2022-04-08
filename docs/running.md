@@ -13,4 +13,10 @@ Then, kick off the test(s) via `wdio` (that, for best practice, should be wrappe
 
 ![wdio for executing wdi5 tests](./img/23_running.png)
 
+To start the test without creating an npm script:
+
+```shell
+$> node_modules/.bin/wdio run wdio-ui5tooling.conf.js "--spec" "basic"
+```
+
 Voilà!

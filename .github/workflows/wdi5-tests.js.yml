@@ -37,7 +37,7 @@ jobs:
           google-chrome --version
 
       - name: check out repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: use node ${{ matrix.node-version }}
         uses: actions/setup-node@v2
@@ -65,6 +65,10 @@ jobs:
       - name: build
         run: npm run build
 
-      # run the actual tests
+      # run wdi5 core tests
+      - name: test wdi5 core
+        run: npm test
+
+      # run wdi5 tests within app(s)
       - name: test js-app
         run: HEADLESS=true npm run test:js-app
