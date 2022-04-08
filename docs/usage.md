@@ -4,6 +4,17 @@ With `wdi5` being a service to WebdriverIO, it provides a superset of `wdio`'s f
 
 At the same time, the `wdi5`-api can be mixed with `wdio`'s api during tests at will - there is no restriction to use either or. See below for many examples, denoting which api is used were.
 
+## Control Retrieval
+
+### asControl
+
+- `findDOMElementByControlSelector`
+
+### allControls
+
+- selector caching
+- `findAllDOMElementsByControlSelector`
+
 ## Control selectors
 
 The entry point to retrieve a control is always awaiting the `async` function `browser.asControl(oSelector)`.
