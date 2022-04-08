@@ -70,6 +70,7 @@ dist/**/*
 # multi-version test artifacts
 examples/ui5-js-app/wdio-wdi5* 
 examples/ui5-js-app/webapp/index-*.html
+examples/ui5-js-app/dist/**/*
 
 
 # .env
