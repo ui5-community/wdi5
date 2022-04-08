@@ -84,32 +84,13 @@ export class WDI5Control {
         return this._initialisation
     }
 
-    isAttached(): boolean {
-        if (this._webdriverRepresentation && typeof this._webdriverRepresentation === "string") {
-            Logger.info(`[WDI5] contol ${this._domId} is not attached`)
-            return false
-        } else if (this._webElement && this._webdriverRepresentation) {
-            Logger.info(`[WDI5] contol ${this._domId} is attached`)
-            return true
-        } else {
-            Logger.warn(`[WDI5] contol ${this._domId} has undefined status`)
-            return false
-        }
-    }
-
-    /**
-     *
-     * @returns WebdriverIO.Element
-     */
-    async attach(): Promise<WebdriverIO.Element> {
-        this._webdriverRepresentation = await $(`//*[@id="${this._domId}"]`)
-        return this._webdriverRepresentation
-    }
-
     /**
      * @return the webdriver Element
      */
     async getWebElement() {
+        if (!this._webdriverRepresentation) {
+            await this.renewWebElement()
+        }
         //// TODO: check this "fix"
         //// why is the renew necessary here?
         //// it causes hiccup with the fluent async api as the transition from node-scope
@@ -130,7 +111,7 @@ export class WDI5Control {
      * @param id
      * @returns
      */
-    async renewWebElement(id: string) {
+    async renewWebElement(id: string = this._domId) {
         this._webdriverRepresentation = await $(`//*[@id="${id}"]`)
         return this._webdriverRepresentation
     }

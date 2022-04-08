@@ -42,6 +42,12 @@ describe("ui5 basic, get all buttons", () => {
         expect(await buttons[0].isAttached()).toBeFalsy()
     })
 
+    it("test webelement", async () => {
+        const buttons = await browser.asControls(selector)
+        const webButton = await buttons[0].getWebElement()
+        expect(webButton).toBeTruthy()
+    })
+
     it("init and test isAttached", async () => {
         const buttons = await browser.asControls(selector)
         await buttons[0].attach()

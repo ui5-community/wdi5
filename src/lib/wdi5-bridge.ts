@@ -11,7 +11,7 @@ import { clientSide_getSelectorForElement } from "../../client-side-js/getSelect
 import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready"
 import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version"
 import { clientSide__navTo } from "../../client-side-js/_navTo"
-import { clientSide_getControls } from "../../client-side-js/getControls"
+import { clientSide_allControls } from "../../client-side-js/allControls"
 
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
@@ -79,31 +79,6 @@ export async function setup(config: wdi5Config) {
             }
             // @ts-ignore
             return makeFluent(browser._asControl(ui5ControlSelector))
-        }
-    }
-
-    if (!browser.asControls) {
-        browser.asControls = function (ui5ControlSelector) {
-            const asyncMethods = ["then", "catch", "finally"]
-            function makeFluent(target) {
-                const promise = Promise.resolve(target)
-                const handler = {
-                    get(_, prop) {
-                        return asyncMethods.includes(prop)
-                            ? (...boundArgs) => makeFluent(promise[prop](...boundArgs))
-                            : makeFluent(promise.then((object) => object[prop]))
-                    },
-                    apply(_, thisArg, boundArgs) {
-                        return makeFluent(
-                            promise.then((targetFunction) => Reflect.apply(targetFunction, thisArg, boundArgs))
-                        )
-                    }
-                }
-                // eslint-disable-next-line @typescript-eslint/no-empty-function
-                return new Proxy(function () {}, handler)
-            }
-            // @ts-ignore
-            return makeFluent(browser._asControls(ui5ControlSelector))
         }
     }
 
@@ -227,7 +202,7 @@ export async function addWdi5Commands() {
         return browser._controls[internalKey]
     })
 
-    browser.addCommand("_asControls", async (wdi5Selector: wdi5Selector) => {
+    browser.addCommand("_allControls", async (wdi5Selector: wdi5Selector) => {
         if (!_verifySelector(wdi5Selector)) {
             return "ERROR: Specified selector is not valid -> abort"
         }
@@ -237,7 +212,7 @@ export async function addWdi5Commands() {
         if (!browser._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
             wdi5Selector.wdio_ui5_key = internalKey
             Logger.info(`creating internal controls with id ${internalKey}`)
-            browser._controls[internalKey] = await _getControls(wdi5Selector)
+            browser._controls[internalKey] = await _allControls(wdi5Selector)
             return browser._controls[internalKey]
         } else {
             Logger.info(`reusing internal control with id ${internalKey}`)
@@ -348,7 +323,7 @@ export async function addWdi5Commands() {
  * @param {sap.ui.test.RecordReplay.ControlSelector} controlSelector
  * @return {[WebdriverIO.Element | String, [aProtoFunctions]]} UI5 control or error message, array of function names of this control
  */
-async function _getControls(controlSelector = this._controlSelector) {
+async function _allControls(controlSelector = this._controlSelector) {
     // check whether we have a "by id regex" locator request
     if (controlSelector.selector.id && typeof controlSelector.selector.id === "object") {
         // make it a string for serializing into browser-scope and
@@ -366,8 +341,8 @@ async function _getControls(controlSelector = this._controlSelector) {
     }
 
     // pre retrive control information
-    const response = await clientSide_getControls(controlSelector)
-    _writeResultLog(response, "getControls()")
+    const response = await clientSide_allControls(controlSelector)
+    _writeResultLog(response, "allControls()")
 
     if (response[0] === "success") {
         const retrievedElements = response[1]
@@ -380,9 +355,7 @@ async function _getControls(controlSelector = this._controlSelector) {
                 wdio_ui5_key: controlSelector.wdio_ui5_key,
                 forceSelect: controlSelector.forceSelect,
                 generatedUI5Methods: cControl.aProtoFunctions,
-                webdriverRepresentation: controlSelector.init
-                    ? await $(`//*[@id="${cControl.id}"]`)
-                    : `//*[@id="${cControl.id}"]`,
+                webdriverRepresentation: null,
                 webElement: cControl.domElement,
                 domId: cControl.id
             }

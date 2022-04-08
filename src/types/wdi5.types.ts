@@ -105,10 +105,6 @@ export interface wdi5Selector {
      */
     forceSelect?: boolean
     /**
-     *
-     */
-    init?: boolean
-    /**
      * OPA5-style selectors from RecordReplay
      */
     selector: wdi5ControlSelector
