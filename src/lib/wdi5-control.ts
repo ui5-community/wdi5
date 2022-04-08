@@ -89,6 +89,7 @@ export class WDI5Control {
      */
     async getWebElement() {
         if (!this._webdriverRepresentation) {
+            // to enable transition from wdi5 to wdio api in allControls
             await this.renewWebElement()
         }
         //// TODO: check this "fix"

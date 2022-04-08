@@ -15,7 +15,7 @@ describe("ui5 basic, get all buttons", () => {
 
     it("check number of buttons", async () => {
         const buttons = await browser.allControls(selector)
-        // 7 buttons in view and the panel expand button
+        // 7 buttons in view and the panel expand button => 8
         expect(buttons.length).toEqual(8)
     })
 

@@ -1,5 +1,0 @@
-# Receive Controls
-
-## asControl
-
-## allControls
