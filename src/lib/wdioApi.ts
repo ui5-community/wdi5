@@ -1,6 +1,7 @@
 const wdioApi = [
     "$",
     "$$",
+    "click",
     "addValue",
     "clearValue",
     "click",
@@ -20,6 +21,7 @@ const wdioApi = [
     "getText",
     "getValue",
     "isClickable",
+    "isLoading",
     "isDisplayed",
     "isDisplayedInViewport",
     "isEnabled",
