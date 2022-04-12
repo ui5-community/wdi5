@@ -5,13 +5,11 @@ import { clientSide_interactWithControl } from "../../client-side-js/interactWit
 import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod"
 import { clientSide_getAggregation } from "../../client-side-js/_getAggregation"
 import { clientSide_fireEvent } from "../../client-side-js/fireEvent"
-import { wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types"
-import { Timer as _Timer } from "./Timer"
+import { wdi5Selector } from "../types/wdi5.types"
 import { wdioApi } from "./wdioApi"
 
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
-const Timer = _Timer.getInstance()
 
 /**
  * This is a bridge object to use from selector to UI5 control,
@@ -28,7 +26,7 @@ export class WDI5Control {
     _wdioBridge = <WebdriverIO.Element>{}
     _generatedWdioMethods: Array<string>
     _domId: string
-    _metadata: wdi5ControlMetadata
+    _metadata: any
 
     constructor(oOptions) {
         const {
