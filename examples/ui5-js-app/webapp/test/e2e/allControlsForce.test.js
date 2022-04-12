@@ -20,7 +20,7 @@ describe("ui5 basic, get all buttons", () => {
 
         for await (let oCheckbox of aCheckbox) {
             const selected = await oCheckbox.getSelected()
-            console.log(`oCheckbox: ${oCheckbox.getControlInfo().id} isSelected: ${selected} `)
+            // console.log(`oCheckbox: ${oCheckbox.getControlInfo().id} isSelected: ${selected} `)
             if (!selected) {
                 await oCheckbox.press()
             }
