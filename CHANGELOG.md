@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.9.0-rc4.1](https://github.com/js-soft/wdi5/compare/v0.9.0-rc4...v0.9.0-rc4.1) (2022-04-12)
+
+
+### Features
+
+* wdio bridge via $() ([#179](https://github.com/js-soft/wdi5/issues/179)) ([41ef513](https://github.com/js-soft/wdi5/commit/41ef513960196de73c418d9f2357aec36f0fde13))
+
+
+### Bug Fixes
+
+* allControls with forceSelect ([#226](https://github.com/js-soft/wdi5/issues/226)) ([0dd6853](https://github.com/js-soft/wdi5/commit/0dd6853f3cebb4b4f134e7ef7664353bdbc4ec54)), closes [#225](https://github.com/js-soft/wdi5/issues/225)
+
 ## [0.9.0-rc4](https://github.com/js-soft/wdi5/compare/v0.9.0-rc3...v0.9.0-rc4) (2022-04-08)
 
 

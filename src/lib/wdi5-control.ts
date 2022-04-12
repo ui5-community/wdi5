@@ -192,7 +192,7 @@ export class WDI5Control {
      * this method is also used wdi5-internally to implement the extended forceSelect option
      */
     async renewWebElementReference() {
-        const newWebElement = (await this.getControl())[0] // { selector: { id: this._domId } }
+        const newWebElement = (await this.getControl({ selector: { id: this._domId } }))[0] // added to have a more stable retrieval experience
         this._webElement = newWebElement
         return newWebElement
     }
@@ -473,9 +473,8 @@ export class WDI5Control {
             // this._generatedWdioMethods = this._retrieveControlMethods(this._webdriverRepresentation)
             this._generatedWdioMethods = wdioApi
 
+            // set metadata
             this._metadata.className = result[4]
-
-            // set id
             this._domId = result[2]
         }
 

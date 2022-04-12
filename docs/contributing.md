@@ -27,7 +27,7 @@ $> npm run build
 $> npm run build:watch
 ```
 
-Then to work on a test:  
+Then to work on a test:
 ...in terminal 1:
 
 ```shell
@@ -106,6 +106,10 @@ All browser-scope commands (such as `browser.asControl()`) are provided with `/s
 
 Given the continous build watch is running (`npm run build:watch`), hack away at any part!
 
+### instantiation
+
+![wdi5 control instantiation](./wdi5-control-instantiation.png)
+
 ## work on a test
 
 recommended approach:
@@ -160,17 +164,17 @@ some more text
 optional 1-line footer
 ```
 
-Please don't look at the above as restrictions, but rather as conventions: it helps to provide a harmonized codebase, both formatting- and code-style wise. And the coventional commits allow for automtically generating a `CHANGELOG.md` that we all benefit from ("what's new in version ....?").  
+Please don't look at the above as restrictions, but rather as conventions: it helps to provide a harmonized codebase, both formatting- and code-style wise. And the coventional commits allow for automtically generating a `CHANGELOG.md` that we all benefit from ("what's new in version ....?").
 Also, all of this combined aids tremendously in cutting automated releases - so new features or fixes can be published quickly!
 
 Please issue your Pull Requests against the `main` branch of the repository.
 
 ## work on the docs
 
-All documentation is written in `markdown` and lives in `/docs`.  
+All documentation is written in `markdown` and lives in `/docs`.
 [`Docsify` is used](https://docsify.js.org/#/) for running the documentation GitHub pages site <https://js-soft.github.io/wdi5>. It can easily be used to also run locally to work and preview the documentation site.
 
-Install it globally: `$> npm i -g docsify-cli`  
+Install it globally: `$> npm i -g docsify-cli`
 Then serve the `docs` dir: `$> docsify serve ./docs`
 
 This will run the documentation site including live reload on <http://localhost:3000>
