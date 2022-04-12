@@ -8,7 +8,7 @@ const oCheckboxSelector = {
     }
 }
 
-describe.skip("ui5 basic, get all buttons", () => {
+describe("ui5 basic, get all buttons", () => {
     before(async () => {
         await Other.open()
     })
