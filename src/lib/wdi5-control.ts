@@ -485,9 +485,11 @@ export class WDI5Control {
         // save the webdriver representation by control id
         if (result[2]) {
             // only if the result is valid
-            this._metadata.className = result[4]
+            this._webdriverRepresentation = await $(`//*[@id="${result[2]}"]`)
+            this._generatedWdioMethods = this._retrieveControlMethods(this._webdriverRepresentation)
 
-            // set id
+            // add metadata
+            this._metadata.className = result[4]
             this._domId = result[2]
         }
 
