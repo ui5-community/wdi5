@@ -1,4 +1,6 @@
 const Main = require("./pageObjects/Main")
+const _Timer = require("../../../../../src/lib/Timer")
+const Timer = _Timer.getInstance()
 
 describe("ui5 basic", () => {
     before(async () => {
@@ -42,9 +44,10 @@ describe("ui5 basic", () => {
         const selector2 = {
             id: "some.test.string"
         }
-
+        Timer.start("invalid Selector")
         const invalidControl1 = await browser.asControl(selector1)
         const invalidControl2 = await browser.asControl(selector2)
+        Timer.stop("invalid Selector")
 
         // check if result contains the expected validation error
         expect(invalidControl1).toContain("ERROR")

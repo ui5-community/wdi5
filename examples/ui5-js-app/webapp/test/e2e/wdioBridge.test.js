@@ -1,5 +1,3 @@
-const { it } = require("mocha")
-const { Logger } = require("../../../../../dist/lib/Logger")
 const Main = require("./pageObjects/Main")
 
 const titleSelector = {
