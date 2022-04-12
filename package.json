@@ -87,5 +87,14 @@
   },
   "dependencies": {
     "semver": "^7.3.5"
-  }
+  },
+  "ui5-community": {
+     "types": [
+       "module"
+     ],
+     "tags": [
+       "testing",
+       "wdi5"
+     ]
+   }
 }
