@@ -57,6 +57,8 @@ export class WDI5Control {
         this.attachControlBridge(this._generatedUI5Methods as Array<string>)
         this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
 
+        this.setControlInfo()
+
         // set the succesful init param
         this._initialisation = true
 
@@ -82,6 +84,8 @@ export class WDI5Control {
             this.attachControlBridge(this._generatedUI5Methods as Array<string>)
             this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
 
+            this.setControlInfo()
+
             // set the succesful init param
             this._initialisation = true
         }
@@ -96,11 +100,24 @@ export class WDI5Control {
         return this._initialisation
     }
 
-    getId(): string {
-        return this._metadata.id
+    getControlInfo(): wdi5ControlMetadata {
+        return this._metadata
     }
 
-    getMetadata(): wdi5ControlMetadata {
+    setControlInfo(
+        metadata: wdi5ControlMetadata = {
+            key: this._wdio_ui5_key,
+            $: this._generatedWdioMethods,
+            methods: this._generatedUI5Methods,
+            id: this._domId
+        }
+    ) {
+        this._metadata.$ = metadata.$ ? metadata.$ : this._metadata.$
+        this._metadata.id = metadata.id ? metadata.id : this._metadata.id
+        this._metadata.methods = metadata.methods ? metadata.methods : this._metadata.methods
+        this._metadata.className = metadata.className ? metadata.className : this._metadata.className
+        this._metadata.key = metadata.key ? metadata.key : this._metadata.key
+
         return this._metadata
     }
 
@@ -472,8 +489,10 @@ export class WDI5Control {
         // save the webdriver representation by control id
         if (result[2]) {
             // only if the result is valid
-            this._webdriverRepresentation = await $(`//*[@id="${result[2]}"]`)
-            this._generatedWdioMethods = this._retrieveControlMethods(this._webdriverRepresentation)
+            this._metadata.className = result[4]
+
+            // set id
+            this._domId = result[2]
         }
 
         this.writeResultLog(result, "getControl()")

@@ -61,4 +61,18 @@ describe("ui5 basic", () => {
 
         expect(await browser.asControl(searchFieldSelector).getValue()).toEqual("search Value")
     }) */
+
+    it("check the metadata", async () => {
+        const button = await browser.asControl({
+            selector: {
+                id: "openDialogButton",
+                viewName: "test.Sample.view.Main"
+            }
+        })
+        const metadata = button.getControlInfo()
+
+        expect(metadata.id).toEqual("container-Sample---Main--openDialogButton")
+        expect(metadata.className).toEqual("sap.m.Button")
+        expect(metadata.key).toEqual("openDialogButtontestSample.view.Main")
+    })
 })

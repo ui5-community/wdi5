@@ -110,10 +110,15 @@ export interface wdi5Selector {
     selector: wdi5ControlSelector
 }
 
+/**
+ *
+ */
 export interface wdi5ControlMetadata {
-    id: string
-    methods: []
-    className: string
+    id?: string
+    methods?: string[]
+    className?: string
+    $?: Array<string>
+    key?: string
 }
 
 // yet unused
