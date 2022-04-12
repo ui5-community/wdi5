@@ -20,11 +20,7 @@ export class WDI5Control {
     _webElement: WebdriverIO.Element | string = null // TODO: type "org.openqa.selenium.WebElement"
     // wdio elment retrieved separately via $()
     _webdriverRepresentation: WebdriverIO.Element = null
-    _metadata: wdi5ControlMetadata = {
-        className: "",
-        id: "",
-        methods: []
-    }
+    _metadata: wdi5ControlMetadata = {}
 
     // TODO: move to _metadata
     _wdio_ui5_key: string = null
