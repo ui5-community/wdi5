@@ -26,7 +26,7 @@ export class WDI5Control {
     _wdioBridge = <WebdriverIO.Element>{}
     _generatedWdioMethods: Array<string>
     _domId: string
-    _metadata: any
+    _metadata: Record<string, unknown> = {}
 
     constructor(oOptions) {
         const {
