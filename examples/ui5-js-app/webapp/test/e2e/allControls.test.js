@@ -30,6 +30,8 @@ describe("ui5 basic, get all buttons", () => {
 
         const buttons = await browser.allControls(selectorWForce)
         expect(await buttons[0].getText()).toEqual("to Other view")
+        expect(await buttons[1].getText()).toEqual("can't click :(")
+        expect(await buttons[4].getText()).toEqual("Don't press me !!! -> binded")
     })
 
     it("reuse the cached wdi5 controls", async () => {

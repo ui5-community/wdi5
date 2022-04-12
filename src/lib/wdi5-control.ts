@@ -5,11 +5,13 @@ import { clientSide_interactWithControl } from "../../client-side-js/interactWit
 import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod"
 import { clientSide_getAggregation } from "../../client-side-js/_getAggregation"
 import { clientSide_fireEvent } from "../../client-side-js/fireEvent"
+import { wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types"
+import { Timer as _Timer } from "./Timer"
+import { wdioApi } from "./wdioApi"
 
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
-
-import { wdi5Selector } from "../types/wdi5.types"
+const Timer = _Timer.getInstance()
 
 /**
  * This is a bridge object to use from selector to UI5 control,
@@ -26,6 +28,7 @@ export class WDI5Control {
     _wdioBridge = <WebdriverIO.Element>{}
     _generatedWdioMethods: Array<string>
     _domId: string
+    _metadata: wdi5ControlMetadata
 
     constructor(oOptions) {
         const {
@@ -33,6 +36,7 @@ export class WDI5Control {
             wdio_ui5_key,
             forceSelect,
             generatedUI5Methods,
+            generatedWdioMethods,
             webdriverRepresentation,
             webElement,
             domId
@@ -42,12 +46,17 @@ export class WDI5Control {
         this._wdio_ui5_key = wdio_ui5_key
         this._forceSelect = forceSelect
         this._generatedUI5Methods = generatedUI5Methods
+        this._generatedWdioMethods = generatedWdioMethods
         this._webElement = webElement
         this._webdriverRepresentation = webdriverRepresentation
         this._domId = domId
 
-        this.attachControlBridge(this._generatedUI5Methods as Array<string>)
-        this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
+        if (this._generatedUI5Methods && this._generatedUI5Methods.length > 0) {
+            this.attachControlBridge(this._generatedUI5Methods as Array<string>)
+        }
+        if (this._generatedWdioMethods && this._generatedWdioMethods.length > 0) {
+            this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
+        }
 
         // set the succesful init param
         this._initialisation = true
@@ -183,7 +192,7 @@ export class WDI5Control {
      * this method is also used wdi5-internally to implement the extended forceSelect option
      */
     async renewWebElementReference() {
-        const newWebElement = (await this.getControl())[0]
+        const newWebElement = (await this.getControl())[0] // { selector: { id: this._domId } }
         this._webElement = newWebElement
         return newWebElement
     }
@@ -263,7 +272,7 @@ export class WDI5Control {
                 this[sMethodName] = this.executeControlMethod.bind(this, sMethodName, this._webElement)
             })
         } else {
-            Logger.warn(`${this._wdio_ui5_key} has no sReplFunctionNames`)
+            Logger.warn(`${this._wdio_ui5_key} has no ui5 sReplFunctionNames`)
         }
     }
 
@@ -276,7 +285,7 @@ export class WDI5Control {
                 }
             })
         } else {
-            Logger.warn(`${this._wdio_ui5_key} has no sReplFunctionNames`)
+            Logger.warn(`${this._wdio_ui5_key} has no wdio sReplFunctionNames`)
         }
     }
 
@@ -455,8 +464,19 @@ export class WDI5Control {
         // save the webdriver representation by control id
         if (result[2]) {
             // only if the result is valid
-            this._webdriverRepresentation = await $(`//*[@id="${result[2]}"]`)
-            this._generatedWdioMethods = this._retrieveControlMethods(this._webdriverRepresentation)
+
+            // this takes about 20ms -> just load it on demand
+            // Timer.start("_getControl")
+            // this._webdriverRepresentation = await $(`//*[@id="${result[2]}"]`)
+            // Timer.stop("_getControl")
+
+            // this._generatedWdioMethods = this._retrieveControlMethods(this._webdriverRepresentation)
+            this._generatedWdioMethods = wdioApi
+
+            this._metadata.className = result[4]
+
+            // set id
+            this._domId = result[2]
         }
 
         this.writeResultLog(result, "getControl()")

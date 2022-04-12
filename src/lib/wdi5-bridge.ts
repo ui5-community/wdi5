@@ -14,6 +14,7 @@ import { clientSide__navTo } from "../../client-side-js/_navTo"
 import { clientSide_allControls } from "../../client-side-js/allControls"
 
 import { Logger as _Logger } from "./Logger"
+import { wdioApi } from "./wdioApi"
 const Logger = _Logger.getInstance()
 
 /** store the status of initialization */
@@ -356,6 +357,7 @@ async function _allControls(controlSelector = this._controlSelector) {
                 wdio_ui5_key: controlSelector.wdio_ui5_key,
                 forceSelect: controlSelector.forceSelect,
                 generatedUI5Methods: cControl.aProtoFunctions,
+                generatedWdioMethods: wdioApi,
                 webdriverRepresentation: null,
                 webElement: cControl.domElement,
                 domId: cControl.id
