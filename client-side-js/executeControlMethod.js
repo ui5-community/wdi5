@@ -44,11 +44,28 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                             if (window.wdi5.isPrimitive(result)) {
                                 // getter
                                 done(["success", result, "result"])
-                            } else {
+                            } else if (
+                                typeof result === "object" &&
+                                !Array.isArray(result) &&
+                                result !== null &&
+                                window.wdi5.isCyclic(result)
+                            ) {
                                 // object, replacer function
-                                // TODO: create usefull content from result
-                                // result = JSON.stringify(result, window.wdi5.circularReplacer());
+                                // create usefull content from result
+                                // const nonCircularResultObject = window.wdi5.removeCyclic(result)
+                                // const stringOfNonCircularResult = JSON.stringify(result, window.wdi5.getCircularReplacer());
+                                const jsonNoncircular = JSON.parse(stringOfNonCircularResult)
 
+                                done([
+                                    "success",
+                                    result,
+                                    "result",
+                                    {
+                                        nonCircularResultObject:
+                                            /* nonCircularResultObject, strinifiedResult: stringOfNonCircularResult, parsed: */ jsonNoncircular
+                                    }
+                                ])
+                            } else {
                                 // check if of control to verify if the method result is a different control
                                 if (result && result.getId && oControl.getId() !== result.getId()) {
                                     // ui5 function like get parent might return another ui5 control -> return it to check with this wdi5 instance
