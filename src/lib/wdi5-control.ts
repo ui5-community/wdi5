@@ -103,11 +103,14 @@ export class WDI5Control {
      * @return {WebdriverIO.Element} the webdriver Element
      */
     async getWebElement() {
-        if (!this._webdriverRepresentation) {
-            // to enable transition from wdi5 to wdio api in allControls
+        if (util.types.isProxy(this._webdriverRepresentation)) {
+            const wdExists = await Promise.resolve(this._webdriverRepresentation)
+            if (!wdExists) {
+                await Promise.resolve(await this.renewWebElement())
+            }
+        } else if (!this._webdriverRepresentation) {
             await this.renewWebElement()
         }
-        this._webdriverRepresentation = await $(`//*[@id="${this._domId}"]`)
         //// TODO: check this "fix"
         //// why is the renew necessary here?
         //// it causes hiccup with the fluent async api as the transition from node-scope
@@ -136,7 +139,12 @@ export class WDI5Control {
      * @returns
      */
     async renewWebElement(id: string = this._domId) {
-        this._webdriverRepresentation = await $(`//*[@id="${id}"]`)
+        if (util.types.isProxy(id)) {
+            const _id = await Promise.resolve(id)
+            this._webdriverRepresentation = await Promise.resolve(await $(`//*[@id="${_id}"]`))
+        } else {
+            this._webdriverRepresentation = await $(`//*[@id="${id}"]`)
+        }
         return this._webdriverRepresentation
     }
 
@@ -180,6 +188,33 @@ export class WDI5Control {
      * this works both on a standalone control as well as with the fluent async api
      */
     async press() {
+        // renewWebElement
+        /* if (util.types.isProxy(id)) {
+            const _id = await Promise.resolve(id)
+            this._webdriverRepresentation = await Promise.resolve(await $(`//*[@id="${_id}"]`))
+        } else {
+            this._webdriverRepresentation = await $(`//*[@id="${id}"]`)
+        }
+        return this._webdriverRepresentation
+
+        // async getWebElement() {
+        if (util.types.isProxy(this._webdriverRepresentation)) {
+            const wdExists = await Promise.resolve(this._webdriverRepresentation)
+            if (!wdExists) {
+                await Promise.resolve(await this.renewWebElement())
+            }
+        } else if (!this._webdriverRepresentation) {
+            await this.renewWebElement()
+        }
+
+        if (util.types.isProxy(this.getWebElement)) {
+            const $el: WebdriverIO.Element = await Promise.resolve(this._webdriverRepresentation) // to plug into fluent async api
+            return $el
+        } else {
+            return this._webdriverRepresentation
+        } */
+
+        // end
         if (util.types.isProxy(this.getWebElement)) {
             const webelement = await Promise.resolve(this.getWebElement())
             await webelement.click()
