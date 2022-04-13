@@ -53,7 +53,10 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                                 // object, replacer function
                                 // create usefull content from result
                                 // const nonCircularResultObject = window.wdi5.removeCyclic(result)
-                                // const stringOfNonCircularResult = JSON.stringify(result, window.wdi5.getCircularReplacer());
+                                const stringOfNonCircularResult = JSON.stringify(
+                                    result,
+                                    window.wdi5.getCircularReplacer()
+                                )
                                 const jsonNoncircular = JSON.parse(stringOfNonCircularResult)
 
                                 done([
