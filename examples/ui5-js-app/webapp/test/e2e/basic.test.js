@@ -62,7 +62,7 @@ describe("ui5 basic", () => {
         expect(await browser.asControl(searchFieldSelector).getValue()).toEqual("search Value")
     }) */
 
-    it.only("check binding info", async () => {
+    it("check binding info", async () => {
         const title = await browser.asControl({ selector: { id: "container-Sample---Main--Title::NoAction.h1" } })
         const bindingInfo = await title.getBinding("text")
         expect(bindingInfo.oValue).toEqual("UI5 demo")
