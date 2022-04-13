@@ -52,22 +52,11 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                             ) {
                                 // object, replacer function
                                 // create usefull content from result
-                                // const nonCircularResultObject = window.wdi5.removeCyclic(result)
-                                const stringOfNonCircularResult = JSON.stringify(
-                                    result,
-                                    window.wdi5.getCircularReplacer()
+                                const jsonNoncircular = JSON.parse(
+                                    JSON.stringify(window.wdi5.removeCyclic(result), window.wdi5.getCircularReplacer())
                                 )
-                                const jsonNoncircular = JSON.parse(stringOfNonCircularResult)
 
-                                done([
-                                    "success",
-                                    result,
-                                    "result",
-                                    {
-                                        nonCircularResultObject:
-                                            /* nonCircularResultObject, strinifiedResult: stringOfNonCircularResult, parsed: */ jsonNoncircular
-                                    }
-                                ])
+                                done(["success", result, "result", { nonCircularResultObject: jsonNoncircular }])
                             } else {
                                 // check if of control to verify if the method result is a different control
                                 if (result && result.getId && oControl.getId() !== result.getId()) {
