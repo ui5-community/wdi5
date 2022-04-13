@@ -33,7 +33,7 @@ describe("custom wdi5 press event", async () => {
         await expect(await popup.getVisible()).toBeTruthy()
     })
 
-    it("wdi5 press() in fluent async api", async () => {
+    it.only("wdi5 press() in fluent async api", async () => {
         await browser.asControl(openButtonSelector).press()
         const popup = await browser.asControl(dialogSelector)
         await expect(await popup.getVisible()).toBeTruthy()

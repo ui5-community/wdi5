@@ -18,13 +18,13 @@ const Logger = _Logger.getInstance()
 export class WDI5Control {
     _controlSelector: wdi5Selector = null
     _webElement: WebdriverIO.Element | string = null
-    _webdriverRepresentation: WebdriverIO.Element = null
+    _webdriverRepresentation: WebdriverIO.Element | any = null
     _wdio_ui5_key: string = null
     _generatedUI5Methods: Array<string>
+    _generatedWdioMethods: Array<string>
     _initialisation = false
     _forceSelect = false
     _wdioBridge = <WebdriverIO.Element>{}
-    _generatedWdioMethods: Array<string>
     _domId: string
     _metadata: Record<string, unknown> = {}
 
@@ -78,8 +78,12 @@ export class WDI5Control {
 
             // dynamic function bridge
             this._generatedUI5Methods = controlResult[1]
-            this.attachControlBridge(this._generatedUI5Methods as Array<string>)
-            this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
+            if (this._generatedUI5Methods && this._generatedUI5Methods.length > 0) {
+                this.attachControlBridge(this._generatedUI5Methods as Array<string>)
+            }
+            if (this._generatedWdioMethods && this._generatedWdioMethods.length > 0) {
+                this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
+            }
 
             // set the succesful init param
             this._initialisation = true
@@ -103,6 +107,7 @@ export class WDI5Control {
             // to enable transition from wdi5 to wdio api in allControls
             await this.renewWebElement()
         }
+        this._webdriverRepresentation = await $(`//*[@id="${this._domId}"]`)
         //// TODO: check this "fix"
         //// why is the renew necessary here?
         //// it causes hiccup with the fluent async api as the transition from node-scope
@@ -465,13 +470,16 @@ export class WDI5Control {
 
             // this takes about 20ms -> just load it on demand
             // Timer.start("_getControl")
-            // this._webdriverRepresentation = await $(`//*[@id="${result[2]}"]`)
+            // const _webdriverRepresentation = await $(`//*[@id="${result[2]}"]`)
             // Timer.stop("_getControl")
+            // this._webdriverRepresentation = _webdriverRepresentation
 
-            // this._generatedWdioMethods = this._retrieveControlMethods(this._webdriverRepresentation)
+            // const _generatedWdioMethods = this._retrieveControlMethods(_webdriverRepresentation)
+            // this._generatedWdioMethods = _generatedWdioMethods
             this._generatedWdioMethods = wdioApi
 
             // set metadata
+            // TODO: refactor to constructor
             this._metadata.className = result[4]
             this._domId = result[2]
         }
