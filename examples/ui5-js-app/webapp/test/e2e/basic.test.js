@@ -64,7 +64,16 @@ describe("ui5 basic", () => {
 
     it("check binding info", async () => {
         const title = await browser.asControl({ selector: { id: "container-Sample---Main--Title::NoAction.h1" } })
-        const bindingInfo = await title.getBinding("text")
+        const bindingInfo = await title.getBinding("text", true)
         expect(bindingInfo.oValue).toEqual("UI5 demo")
+    })
+
+    it("check the getter for retun object is working the negative way", async () => {
+        const title = await browser.asControl({ selector: { id: "container-Sample---Main--Title::NoAction.h1" } })
+        let bindingInfo = await title.getBinding("text", false)
+        expect(bindingInfo.oValue).toBeUndefined()
+
+        bindingInfo = await title.getBinding("text")
+        expect(bindingInfo.oValue).toBeUndefined()
     })
 })

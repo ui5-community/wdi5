@@ -7,6 +7,7 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                     // DOM to UI5
                     const oControl = window.wdi5.getUI5CtlForWebObj(webElement)
                     // execute the function
+                    const returnOption = args.slice(-1).pop()
                     let result = oControl[methodName].apply(oControl, args)
                     const metadata = oControl.getMetadata()
                     if (Array.isArray(result)) {
@@ -41,10 +42,15 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                             ])
                         } else {
                             // result mus be a primitive
-                            if (window.wdi5.isPrimitive(result)) {
+                            if (window.wdi5.isPrimitive(result) && (!returnOption || returnOption === undefined)) {
                                 // getter
                                 done(["success", result, "result"])
-                            } else if (typeof result === "object" && !Array.isArray(result) && result !== null) {
+                            } else if (
+                                typeof result === "object" &&
+                                !Array.isArray(result) &&
+                                result !== null &&
+                                returnOption
+                            ) {
                                 // object, replacer function
                                 // create usefull content from result
                                 while (window.wdi5.isCyclic(result)) {
