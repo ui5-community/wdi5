@@ -7,14 +7,10 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                     // DOM to UI5
                     const oControl = window.wdi5.getUI5CtlForWebObj(webElement)
 
-                    let returnOption
-                    if (typeof args.slice(-1)[0] == "boolean") {
-                        returnOption = args.pop()
-                    }
-
                     // execute the function
                     let result = oControl[methodName].apply(oControl, args)
                     const metadata = oControl.getMetadata()
+
                     if (Array.isArray(result)) {
                         if (result.length === 0) {
                             done(["success", result, "empty"])
@@ -47,14 +43,13 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                             ])
                         } else {
                             // result mus be a primitive
-                            if (window.wdi5.isPrimitive(result) && (!returnOption || returnOption === undefined)) {
+                            if (window.wdi5.isPrimitive(result)) {
                                 // getter
                                 done(["success", result, "result"])
                             } else if (
                                 typeof result === "object" &&
-                                !Array.isArray(result) &&
                                 result !== null &&
-                                returnOption
+                                !(result instanceof sap.ui.core.Control)
                             ) {
                                 // object, replacer function
                                 // create usefull content from result
