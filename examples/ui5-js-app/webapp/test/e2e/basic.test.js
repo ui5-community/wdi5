@@ -1,5 +1,18 @@
 const Main = require("./pageObjects/Main")
 
+const titleSelector = { selector: { id: "container-Sample---Main--Title::NoAction.h1" } }
+
+const buttonSelector = {
+    wdio_ui5_key: "allButtons",
+    selector: {
+        controlType: "sap.m.Button",
+        viewName: "test.Sample.view.Main",
+        properties: {
+            text: new RegExp(/.*ialog.*/gm)
+        }
+    }
+}
+
 describe("ui5 basic", () => {
     before(async () => {
         await Main.open()
@@ -63,8 +76,27 @@ describe("ui5 basic", () => {
     }) */
 
     it("check binding info", async () => {
-        const title = await browser.asControl({ selector: { id: "container-Sample---Main--Title::NoAction.h1" } })
+        const title = await browser.asControl(titleSelector)
         const bindingInfo = await title.getBinding("text")
-        expect(bindingInfo.oValue).toEqual("UI5 demo")
+        const response = bindingInfo.oValue
+        expect(response).toEqual("UI5 demo")
+    })
+
+    it("check fluent api", async () => {
+        const response = await browser.asControl(buttonSelector).press().getText()
+        expect(response).toEqual("open Dialog")
+    })
+
+    it("check method chaining", async () => {
+        const newTitle = "new Title"
+
+        titleSelector.forceSelect = true
+        const title = await browser.asControl(titleSelector).setTitle(newTitle).getTitle()
+        expect(title).toEqual(newTitle)
+
+        const titleFirstTime = await browser.asControl(titleSelector).setTitle(newTitle)
+        const titleAgain = await titleFirstTime.setTitle(newTitle)
+        const response = await titleAgain.getTitle()
+        expect(response).toEqual(newTitle)
     })
 })
