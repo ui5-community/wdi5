@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.9.0-rc4.1](https://github.com/js-soft/wdi5/compare/v0.9.0-rc4...v0.9.0-rc4.1) (2022-04-12)
+
+
+### Features
+
+* wdio bridge via $() ([#179](https://github.com/js-soft/wdi5/issues/179)) ([41ef513](https://github.com/js-soft/wdi5/commit/41ef513960196de73c418d9f2357aec36f0fde13))
+
+
+### Bug Fixes
+
+* allControls with forceSelect ([#226](https://github.com/js-soft/wdi5/issues/226)) ([0dd6853](https://github.com/js-soft/wdi5/commit/0dd6853f3cebb4b4f134e7ef7664353bdbc4ec54)), closes [#225](https://github.com/js-soft/wdi5/issues/225)
+
+## [0.9.0-rc4](https://github.com/js-soft/wdi5/compare/v0.9.0-rc3...v0.9.0-rc4) (2022-04-08)
+
+
+### Features
+
+* added selenium-service configuration sample ([#220](https://github.com/js-soft/wdi5/issues/220)) ([99dd250](https://github.com/js-soft/wdi5/commit/99dd250fd696371b7f68d0d56be30d62beaaa3fe))
+* get all controls of a specific type ([#212](https://github.com/js-soft/wdi5/issues/212)) ([f4e8082](https://github.com/js-soft/wdi5/commit/f4e8082a6eae2116c12596524e7774bdb10bb6fa))
+* **performance:** using custom waitForUI5 function to overcome sap.ui.test.RecordReplay promiseWaiter issue ([#217](https://github.com/js-soft/wdi5/issues/217)) ([53fd065](https://github.com/js-soft/wdi5/commit/53fd06511eb4d05004dbef72fa1bb9e931a7200d)), closes [#196](https://github.com/js-soft/wdi5/issues/196)
+* wdio bridge via $() ([#179](https://github.com/js-soft/wdi5/issues/179)) ([acf026b](https://github.com/js-soft/wdi5/commit/acf026bd0cb7fdafa9412055ae0da23a51cad32c))
+
+
+### Bug Fixes
+
+* headless code example ([#216](https://github.com/js-soft/wdi5/issues/216)) ([a2d6ee8](https://github.com/js-soft/wdi5/commit/a2d6ee874627f699b9b5884ba14306e8245a2195))
+
 ## [0.9.0-rc3](https://github.com/js-soft/wdi5/compare/v0.9.0-rc2...v0.9.0-rc3) (2022-03-25)
 
 

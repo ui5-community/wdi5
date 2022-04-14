@@ -34,6 +34,22 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                 window.wdi5.Log.info("[browser wdi5] injected!")
             })
 
+            sap.ui.require(["sap/ui/test/autowaiter/_autoWaiterAsync"], (_autoWaiterAsync) => {
+                window.wdi5.waitForUI5 = function (oOptions, callback, errorCallback) {
+                    oOptions = oOptions || {}
+                    _autoWaiterAsync.extendConfig(oOptions)
+
+                    _autoWaiterAsync.waitAsync(function (sError) {
+                        if (sError) {
+                            errorCallback(new Error(sError))
+                        } else {
+                            callback()
+                        }
+                    })
+                }
+                window.wdi5.Log.info("[browser wdi5] window._autoWaiterAsync used in waitForUI5 function")
+            })
+
             // attach new bridge
             sap.ui.require(["sap/ui/test/RecordReplay"], (RecordReplay) => {
                 window.bridge = RecordReplay
@@ -204,7 +220,8 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
 
                                 // filter not working methods
                                 // and those with a specific api from wdi5/wdio-ui5-service
-                                const aFilterFunctions = ["$", "getAggregation", "constructor", "fireEvent"]
+                                // prevent overwriting wdi5-control's own init method
+                                const aFilterFunctions = ["$", "getAggregation", "constructor", "fireEvent", "init"]
 
                                 if (aFilterFunctions.includes(item)) {
                                     return false
