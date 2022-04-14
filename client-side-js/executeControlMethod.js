@@ -6,8 +6,13 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                 () => {
                     // DOM to UI5
                     const oControl = window.wdi5.getUI5CtlForWebObj(webElement)
+
+                    let returnOption
+                    if (typeof args.slice(-1)[0] == "boolean") {
+                        returnOption = args.pop()
+                    }
+
                     // execute the function
-                    const returnOption = args.slice(-1).pop()
                     let result = oControl[methodName].apply(oControl, args)
                     const metadata = oControl.getMetadata()
                     if (Array.isArray(result)) {
