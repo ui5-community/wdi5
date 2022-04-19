@@ -285,27 +285,11 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                     }
 
                     /**
-                     * JSON.stringify(circularReference, getCircularReplacer());
+                     * used as a replacer function in JSON.stringify
+                     * removes circular references in an object
                      * @returns
                      */
                     window.wdi5.getCircularReplacer = () => {
-                        const seen = new WeakSet()
-                        return (key, value) => {
-                            if (typeof value === "object" && value !== null) {
-                                if (seen.has(value)) {
-                                    return
-                                }
-                                seen.add(value)
-                            }
-                            return value
-                        }
-                    }
-
-                    /**
-                     * replaces circular references in objects
-                     * @returns function (key, value)
-                     */
-                    window.wdi5.circularReplacer = () => {
                         const seen = new WeakSet()
                         return (key, value) => {
                             if (typeof value === "object" && value !== null) {

@@ -319,12 +319,7 @@ export class WDI5Control {
                 // return $self after a called method of the wdi5 instance to allow method chaining
                 return this
             case "result":
-                const responseObj = result[3]
-                if (responseObj) {
-                    return responseObj.nonCircularResultObject
-                }
-                // return result on array index 1 anyways
-                return result[1]
+                return result[3] ? result[3].nonCircularResultObject : result[1]
             case "empty":
                 Logger.warn("No data found in property or aggregation")
                 return result[1]

@@ -75,22 +75,24 @@ describe("ui5 basic", () => {
         expect(await browser.asControl(searchFieldSelector).getValue()).toEqual("search Value")
     }) */
 
-    it("check binding info", async () => {
+    it("check getBinding returns a proper object", async () => {
         const title = await browser.asControl(titleSelector)
         const bindingInfo = await title.getBinding("text")
+        // bindingInfo is an object and it's oValue property can be accessed
         const response = bindingInfo.oValue
         expect(response).toEqual("UI5 demo")
     })
 
-    it("check fluent api", async () => {
+    it("checkmethod chaining with fluent api", async () => {
         const response = await browser.asControl(buttonSelector).press().getText()
         expect(response).toEqual("open Dialog")
     })
 
-    it("check method chaining", async () => {
+    it("method chaining without fluent api", async () => {
         const newTitle = "new Title"
 
         titleSelector.forceSelect = true
+        // setTitle still returns the wdi5 element, equivalent as in UI5
         const title = await browser.asControl(titleSelector).setTitle(newTitle).getTitle()
         expect(title).toEqual(newTitle)
 

@@ -49,6 +49,8 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                             } else if (
                                 typeof result === "object" &&
                                 result !== null &&
+                                // wdi5 returns a wdi5 control if the UI5 api return its control
+                                // allows method chaining
                                 !(result instanceof sap.ui.core.Control)
                             ) {
                                 // object, replacer function
