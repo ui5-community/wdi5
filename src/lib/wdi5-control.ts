@@ -5,6 +5,7 @@ import { clientSide_interactWithControl } from "../../client-side-js/interactWit
 import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod"
 import { clientSide_getAggregation } from "../../client-side-js/_getAggregation"
 import { clientSide_fireEvent } from "../../client-side-js/fireEvent"
+import { clientSide_dragAndDrop } from "../../client-side-js/dragAndDrop"
 
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
@@ -125,6 +126,30 @@ export class WDI5Control {
         } else {
             await ((await this.getWebElement()) as unknown as WebdriverIO.Element).click()
         }
+        return this
+    }
+
+    /**
+     *
+     * @param dropTarget: WDI5 object representation of the drop target UI5 control.
+     * @returns
+     */
+    async dragAndDrop(dropTarget) {
+        let sourceWebelement, destWebelement
+
+        if (util.types.isProxy(this.getWebElement)) {
+            sourceWebelement = await Promise.resolve(this.getWebElement())
+        } else {
+            sourceWebelement = (await this.getWebElement()) as unknown as WebdriverIO.Element
+        }
+
+        if (util.types.isProxy(dropTarget)) {
+            destWebelement = await Promise.resolve(dropTarget.getWebElement())
+        } else {
+            destWebelement = (await dropTarget.getWebElement()) as unknown as WebdriverIO.Element
+        }
+
+        await clientSide_dragAndDrop(sourceWebelement, destWebelement)
         return this
     }
 

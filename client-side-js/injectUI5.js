@@ -304,6 +304,19 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                             console.error("error creating new element by id of control: " + aControl)
                         }
                     }
+
+                    window.wdi5.simulateDragDrop = (
+                        oSourceControl,
+                        oDestinationControl,
+                        sAggregationName = "items"
+                    ) => {
+                        const oDrag = new Drag()
+                        oDrag.executeOn(oSourceControl)
+                        const oDrop = new Drop({
+                            aggregationName: sAggregationName
+                        })
+                        oDrop.executeOn(oDestinationControl)
+                    }
                 }
             )
         }
