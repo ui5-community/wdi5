@@ -62,15 +62,15 @@ export class WDI5Control {
 
         const controlResult = await this.getControl()
 
-        if (typeof controlResult[0] === "string" && controlResult[0].toLowerCase().includes("error:")) {
+        if (typeof controlResult.at(0) === "string" && controlResult.at(0).toLowerCase().includes("error:")) {
             // result is string and has error text -> its an error
             Logger.error(`error retrieving control: ${this._wdio_ui5_key}`)
             return this
         } else {
-            this._webElement = controlResult[0]
+            this._webElement = controlResult.at(0)
 
             // dynamic function bridge
-            this._generatedUI5Methods = controlResult[1]
+            this._generatedUI5Methods = controlResult.at(1)
             this.attachControlBridge(this._generatedUI5Methods as Array<string>)
             this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
 
@@ -370,7 +370,7 @@ export class WDI5Control {
         this.writeResultLog(result, "_getAggregation()")
 
         let wdiItems = []
-        if (result[0] === "success") {
+        if (result.at(0) === "success") {
             wdiItems = await this._retrieveElements(result[1])
         }
 
