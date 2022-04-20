@@ -2,6 +2,43 @@
 
 Here's a collection of "How-To"s for typical use cases in tests and how to do that with `wdi5`.
 
+## using wdio functions
+
+WebdriverIO has a extensive element [API](https://webdriver.io/docs/api/). The [Element API] specifically can be quite useful to check if the page elements are in a certain state eg. [isDisplayed](https://webdriver.io/docs/api/element/isDisplayed) or [isClickable](https://webdriver.io/docs/api/element/isClickable).
+
+To make use of these element functions, `wdi5` allows to switch APIs from UI5 to wdio by calling `$()`.
+
+```javascript
+const tile = await browser.asControl({
+  selector: {
+    id: "idIaSync", // sap.m.Button
+    viewName: "test.Sample.view.Main"
+  }
+})
+
+// using fluent API
+expect(await browser.asControl(iaSyncSelector).$().isDisplayed()).toBeTruthy()
+expect(await browser.asControl(iaSyncSelector).$().isClickable()).toBeTruthy()
+```
+
+The `$()` method integrates nicely in `wdi5`'s fluent API or can be called separately as `getWebElement()`.
+
+```javascript
+const tile = await browser.asControl({
+  selector: {
+    id: "idIaSync", // sap.m.Button
+    viewName: "test.Sample.view.Main"
+  }
+})
+
+// standard API
+const ui5Button = await browser.asControl(iaSyncSelector)
+expect(await ui5Button.getWebElement().isDisplayed()).toBeTruthy()
+
+const wdioButton = await ui5Button.getWebElement()
+expect(await wdioButton.isDisplayed()).toBeTruthy()
+```
+
 ## navigate an FLP tile
 
 Feasible if your project launches as a mocked Fiori Launchpad (FLP).
@@ -31,7 +68,7 @@ const $tile = await tile.getWebElement()
 await $tile.click()
 ```
 
-Why not locating that tile itself directly?  
+Why not locating that tile itself directly?
 Because in most cases it doesn't have a stable ID, and thus its‘ ID might change in the next UI5 rendering cycle - using a locator id such as `__tile0` might break the test eventually then.
 
 ## conducting a file upload
@@ -186,7 +223,7 @@ See an example at `/examples/ui5-js-app/jsconfig.json` in the wdi5 repository.
 
 ## test a `sap.m.ComboBox`
 
-A `sap.m.ComboBox`'s items will only be rendered when it's opened (once).  
+A `sap.m.ComboBox`'s items will only be rendered when it's opened (once).
 So for programmatically working and testing the control, its' `.open()`-method needs to be used:
 
 ```js
