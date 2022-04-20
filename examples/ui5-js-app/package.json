@@ -8,7 +8,7 @@
   "main": "webapp/index.html",
   "scripts": {
     "serve": "ui5 serve",
-    "start": "node node_modules/@sap/html5-app-deployer/index.js",
+    "build": "mbt build",
     "test": "run-s test:*",
     "test:lateInject": "wdio run wdio-ui5-late.conf.js",
     "test:ui5tooling": "wdio run wdio-ui5tooling.conf.js",
@@ -27,7 +27,8 @@
     "chromedriver": "^100.0.0",
     "ui5-middleware-simpleproxy": "^0.8.0",
     "wdio-chromedriver-service": "^7.3.2",
-    "wdio-ui5-service": "*"
+    "wdio-ui5-service": "*",
+    "mbt": "^1.2.7"
   },
   "ui5": {
     "dependencies": [
