@@ -35,6 +35,7 @@
 					id="user-test-button"
 					text="{i18n>startPage.userButton.text}" />
 				<Button text="IA Sync"
+					id="idIaSync"
 					press="onPress" />
 				<Text text="{i18n>startPage.text.username}" />
 				<Input id="mainUserInput"

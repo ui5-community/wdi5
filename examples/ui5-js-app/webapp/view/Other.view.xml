@@ -27,6 +27,18 @@
 					text="add Line Item"
 					press=".onAddLineItem" />
 			</VBox>
+
+			<List id="PeopleListSelect"
+				headerText="People List with CheckBox"
+				items="{/Employees}">
+				<CustomListItem>
+					<HBox>
+						<CheckBox
+							text="{FirstName} {LastName}"
+							select="onSelect" />
+					</HBox>
+				</CustomListItem>
+			</List>
 		</content>
 	</Page>
 </mvc:View>
