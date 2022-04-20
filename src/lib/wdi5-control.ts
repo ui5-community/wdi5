@@ -319,8 +319,7 @@ export class WDI5Control {
                 // return $self after a called method of the wdi5 instance to allow method chaining
                 return this
             case "result":
-                // return result on array index 1 anyways
-                return result[1]
+                return result[3] ? result[3].nonCircularResultObject : result[1]
             case "empty":
                 Logger.warn("No data found in property or aggregation")
                 return result[1]
@@ -450,20 +449,31 @@ export class WDI5Control {
             controlSelector.selector.properties.text = controlSelector.selector.properties.text.toString()
         }
 
-        const result = await clientSide_getControl(controlSelector)
+        const _result = await clientSide_getControl(controlSelector)
+        const { domElement, id, aProtoFunctions } = _result[1]
+        const result = _result[0]
 
         // save the webdriver representation by control id
-        if (result[2]) {
+        if (result) {
             // only if the result is valid
-            this._webdriverRepresentation = await $(`//*[@id="${result[2]}"]`)
+            this._webdriverRepresentation = await $(`//*[@id="${id}"]`)
             this._generatedWdioMethods = this._retrieveControlMethods(this._webdriverRepresentation)
-
-            this._domId = result[2]
+            this._domId = id
         }
 
-        this.writeResultLog(result, "getControl()")
+        this.writeObjectResultLog(_result, "getControl()")
 
-        return [result[1], result[3]]
+        return [domElement, aProtoFunctions]
+    }
+
+    private writeObjectResultLog(result, functionName) {
+        if (result[0] === "error") {
+            Logger.error(`call of ${functionName} failed because of: ${result[1]}`)
+        } else if (result[0] === "success") {
+            Logger.success(`call of function ${functionName} returned: ${JSON.stringify(result[1].domElement)}`)
+        } else {
+            Logger.warn(`Unknown status: ${functionName} returned: ${JSON.stringify(result[1])}`)
+        }
     }
 
     /**
