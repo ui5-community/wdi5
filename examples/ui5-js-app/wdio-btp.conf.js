@@ -1,18 +1,9 @@
-const { join } = require("path")
-const { baseConfig } = require("./wdio.base.conf")
-const merge = require("deepmerge")
+const { config } = require("./wdio.base.conf")
+const { setValue, getValue } = require("@wdio/shared-store-service")
 const login = require("./scripts/login")
+const selectIdentityProvider = require("./scripts/selectIdentityProvider")
 
-const _config = {
-    wdi5: {
-        url: "#",
-        skipInjectUI5OnStart: true
-    },
-    services: ["chromedriver", "ui5", "shared-store"],
-    baseUrl: "https://cockpit.hanatrial.ondemand.com/",
-    specs: [join("webapp", "test", "e2e", "**/*.test.js")],
-    exclude: [join("webapp", "test", "e2e", "ui5-late.test.js")],
-    bail: 0,
+const _config = Object.assign(config, {
     before: async function (config, capabilities, browser) {
         "use strict"
 
@@ -25,12 +16,20 @@ const _config = {
         if ((isWatch && loginCount < nrOfTests) || !isWatch) {
             await setValue("login_count", loginCount + 1)
 
-            const username = process.env.username
-            const password = process.env.password
+            const username = process.env.USERNAME
+            const password = process.env.PASSWORD
+
+            console.log(`MULTI_IDENT_PROVIDER: ${process.env.MULTI_IDENT_PROVIDER}`)
+            if (process.env.MULTI_IDENT_PROVIDER === "true") {
+                // multiple ident provider
+                await selectIdentityProvider()
+            } else {
+                console.log("no multi ident provider")
+            }
 
             await login(capabilities, username, password)
         }
     }
-}
+})
 
-exports.config = merge(baseConfig, _config)
+exports.config = _config
