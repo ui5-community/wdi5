@@ -18,3 +18,15 @@ Publisher: Microsoft
 ### Fileending
 
 `ipynb`
+
+## Flaws
+
+- async
+
+```js
+(async () => {
+    ...
+})();
+```
+
+- Need to restart Kernel Server
