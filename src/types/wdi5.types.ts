@@ -114,11 +114,11 @@ export interface wdi5Selector {
  *
  */
 export interface wdi5ControlMetadata {
-    id?: string
-    methods?: string[]
-    className?: string
-    $?: Array<string>
-    key?: string
+    id?: string // full UI5 control id as it is in DOM
+    methods?: string[] // list of UI5 methods attached to wdi5 control
+    className?: string // UI5 class name
+    $?: Array<string> // list of UwdioI5 methods attached to wdi5 control
+    key?: string // wdio_ui_key
 }
 
 // yet unused

@@ -422,3 +422,25 @@ In the test, you can navigate the UI5 webapp via `goTo(options)` in one of two w
   // or:
   await wdi5.goTo({ sHash: "#/Other" })
   ```
+
+## Control Info
+
+Control info is an object which can be retrieved from any wdi5 control by calling `getControlInfo()`. The control information object is loosely based on the UI5 metadata and also contains `className` and `id`.
+
+The list of attached wdio methods can be found in `$` and the UI5 control methods in the property `methods`.
+
+These properties can help to indentify the received control or test the control correctness.
+
+```js
+  const button = browser.asControl(oButtonSelector)
+
+  const controlInfo = button.getControlInfo() // <--
+  /*
+   * id?: string // full UI5 control id as it is in DOM
+   * methods?: string[] // list of UI5 methods attached to wdi5 control
+   * className?: string // UI5 class name
+   * $?: Array<string> // list of UwdioI5 methods attached to wdi5 control
+   * key?: string // wdio_ui_key
+   */
+})
+```
