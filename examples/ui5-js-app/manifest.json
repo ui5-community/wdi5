@@ -1,0 +1,8 @@
+{
+  "sap.app": {
+    "id": "myapp",
+    "applicationVersion": {
+      "version": "1.0.0"
+    }
+  }
+}

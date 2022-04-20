@@ -8,6 +8,7 @@
   "main": "webapp/index.html",
   "scripts": {
     "serve": "ui5 serve",
+    "start": "node node_modules/@sap/html5-app-deployer/index.js",
     "test": "run-s test:*",
     "test:lateInject": "wdio run wdio-ui5-late.conf.js",
     "test:ui5tooling": "wdio run wdio-ui5tooling.conf.js",
@@ -16,6 +17,7 @@
     "test-selenium": "wdio run wdio-selenium-service.conf.js"
   },
   "devDependencies": {
+    "@sap/html5-app-deployer": "^4.0.1",
     "@ui5/cli": "^2.14.7",
     "@wdio/cli": "^7.19.3",
     "@wdio/local-runner": "^7.19.3",
