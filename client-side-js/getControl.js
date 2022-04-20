@@ -26,7 +26,10 @@ async function clientSide_getControl(controlSelector) {
                         window.wdi5.Log.info(`[browser wdi5] control with id: ${id} located!`)
                         const aProtoFunctions = window.wdi5.retrieveControlMethods(ui5Control)
                         // @type [String, String?, String, "Array of Strings"]
-                        done(["success", domElement, id, aProtoFunctions, className])
+                        done([
+                            "success",
+                            { domElement: domElement, id: id, aProtoFunctions: aProtoFunctions, className: className }
+                        ])
                     })
                     .catch(errorHandling)
             },
