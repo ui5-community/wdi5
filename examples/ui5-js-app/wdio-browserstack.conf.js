@@ -13,7 +13,10 @@ const _config = {
     exclude: [join("webapp", "test", "e2e", "ui5-late.test.js")],
     waitforTimeout: 100000,
     connectionRetryTimeout: 1200000,
-    connectionRetryCount: 10
+    connectionRetryCount: 10,
+    mochaOpts: {
+        timeout: 120000
+    }
 }
 
 let conf = merge(baseConfig, _config)
@@ -31,10 +34,14 @@ conf.capabilities = [
     },
     {
         browserName: "Firefox",
-        browserVersion: "latest",
+        browserVersion: "98.0",
         "bstack:options": {
             os: "Windows",
-            osVersion: "11"
+            osVersion: "11",
+            local: true,
+            networkLogs: true,
+            seleniumVersion: "3.10.0",
+            video: false
         }
     },
     {
