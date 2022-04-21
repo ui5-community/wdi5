@@ -33,9 +33,7 @@ exports.config = {
         // path: "", // commented out to use the default paths
         screenshotPath: "report/screenshots",
         logLevel: "error", // error | verbose | silent
-        platform: "browser", // electron, browser, android, ios
-        url: "#",
-        deviceType: "web"
+        url: "#"
     },
     services: ["ui5"],
     logLevel: "error",
