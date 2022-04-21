@@ -2,9 +2,9 @@
 
 ## Variants
 
-1. Run a single container containing application under test, testresources and chrome.
+1. Run a single container containing application under test, test resources (the tests themselves + the `wdi5` config) and chrome.
 
-2. Run a composed setup of four container (application under test, testresources, chrome, selenium) in parallel to be more flexible and able to switch betwenn eg. browsers.
+2. Run a composed setup of four container (application under test, test resources, chrome, selenium) in parallel to be more flexible and able to switch between e.g. browsers.
 
 ## Prerequisite
 
@@ -14,15 +14,15 @@ Prerequisite is a working/ running docker environment.
 
 In folder `/docker`.
 
-`package.json` contains depednecies and npm tasks needed to run the tests in docker.
+`package.json` contains dependencies and `npm` tasks needed to run the tests in docker.
 
 ## Available Container
 
-| Container             | Content                                        | Path/Dockerfile                  |
-| --------------------- | ---------------------------------------------- | -------------------------------- |
-| UI5 App               | The application under test                     | `examples/ui5-js-app/Dockerfile` |
-| WDI5 Test Environment | Test resources and environment                 | `docker/Dockerfile.wdi5`         |
-| Standalone            | Test resources, app under test, Chrome Browser | `docker/Dockerfile.standalone`   |
+| Container               | Content                                        | Path/Dockerfile                  |
+| ----------------------- | ---------------------------------------------- | -------------------------------- |
+| UI5 App                 | The application under test                     | `examples/ui5-js-app/Dockerfile` |
+| `wdi5` Test Environment | Test resources and environment                 | `docker/Dockerfile.wdi5`         |
+| Standalone              | Test resources, app under test, Chrome Browser | `docker/Dockerfile.standalone`   |
 
 ## Standalone
 
