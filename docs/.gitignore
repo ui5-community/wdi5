@@ -1,2 +1,4 @@
 reveal.js/**/*
-!reveal.js/wdi5-presentation.html
+!reveal.js/wdi5*
+!reveal.js/wdi5-img/**/*
+.DS_Store
