@@ -11,10 +11,27 @@ networks:
     external: true
 
 services:
-  chrome:
+  # chrome:
+  #   restart: always
+  #   image: selenium/node-chrome:4.1.2-20220317
+  #   container_name: chrome
+  #   shm_size: 2g
+  #   depends_on:
+  #     - selenium-hub
+  #   environment:
+  #     - SE_EVENT_BUS_HOST=selenium-hub
+  #     - SE_EVENT_BUS_PUBLISH_PORT=4442
+  #     - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+  #     # no video
+  #     - START_XVFB=false
+  #     - JAVA_OPTS=-Dwebdriver.chrome.whitelistedIps=
+  #   networks:
+  #     - wdi5
+
+  firefox:
     restart: always
-    image: selenium/node-chrome:4.1.2-20220317
-    container_name: chrome
+    image: selenium/node-firefox:4.1.2-20220317
+    container_name: firefox
     shm_size: 2g
     depends_on:
       - selenium-hub
@@ -24,7 +41,7 @@ services:
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
       # no video
       - START_XVFB=false
-      - JAVA_OPTS=-Dwebdriver.chrome.whitelistedIps=
+      - JAVA_OPTS=-Dwebdriver.firefox.whitelistedIps=
     networks:
       - wdi5
 
@@ -52,8 +69,9 @@ services:
 
     depends_on:
       - selenium-hub
-      - chrome
+      # - chrome
       - test-app
+      - firefox
     networks:
       - wdi5
 

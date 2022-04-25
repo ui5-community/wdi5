@@ -66,6 +66,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "fs-extra": "^10.0.1",
+    "geckodriver": "^3.0.1",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.7",
     "mocha": "^9.2.2",
@@ -79,7 +80,8 @@
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3",
     "wait-on": "^6.0.1",
-    "wdio-chromedriver-service": "^7.3.2"
+    "wdio-chromedriver-service": "^7.3.2",
+    "wdio-geckodriver-service": "^2.1.1"
   },
   "engines": {
     "node": ">=14",
