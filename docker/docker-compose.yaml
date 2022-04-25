@@ -38,9 +38,6 @@ services:
     ports:
       - 5900
     environment:
-      - HUB_PORT_4444_TCP_ADDR=selenium-hub
-      - HUB_HOST=selenium-hub
-      - HUB_PORT=4444
       - SE_EVENT_BUS_HOST=selenium-hub
       - SE_EVENT_BUS_PUBLISH_PORT=4442
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443

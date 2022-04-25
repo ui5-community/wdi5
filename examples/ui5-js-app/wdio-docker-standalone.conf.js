@@ -1,4 +1,7 @@
-exports.config = {
+const { baseConfig } = require("./wdio.base.conf")
+const merge = require("deepmerge")
+
+const _config = {
     runner: "local",
     path: "/",
     specs: ["webapp/test/e2e/*.test.js"],
@@ -24,29 +27,9 @@ exports.config = {
         }
     ],
     wdi5: {
-        screenshotPath: "report/screenshots",
-        logLevel: "error", // error | verbose | silent
-        platform: "browser", // electron, browser, android, ios
-        url: "#",
-        deviceType: "web"
+        url: "#"
     },
-
-    services: [
-        "ui5", // service is officially registered "as a service" with webdriver.io
-        "chromedriver"
-    ],
-    logLevel: "error",
-    logLevels: {
-        webdriver: "error"
-    },
-    bail: 0,
-    baseUrl: "http://localhost:8888",
-    waitforTimeout: 10000,
-    framework: "mocha",
-    mochaOpts: {
-        timeout: 50000
-    },
-    connectionRetryTimeout: 60000,
-    connectionRetryCount: 3,
-    reporters: ["spec"]
+    baseUrl: "http://localhost:8888"
 }
+
+exports.config = merge(baseConfig, _config)
