@@ -9,7 +9,7 @@ WORKDIR /app
 
 # COPY . .
 COPY ./examples/ui5-js-app/webapp webapp
-COPY ./docker/package.json package.json
+COPY ./docker/package-app.json package.json
 
 RUN npm install
 

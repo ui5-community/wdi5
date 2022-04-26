@@ -28,6 +28,25 @@ services:
     networks:
       - wdi5
 
+  firefox:
+    restart: always
+    image: selenium/node-firefox:4.1.2-20220317
+    container_name: firefox
+    shm_size: 2g
+    depends_on:
+      - selenium-hub
+    ports:
+      - 5900
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      # no video
+      - START_XVFB=false
+      - JAVA_OPTS=-Dwebdriver.firefox.whitelistedIps=
+    networks:
+      - wdi5
+
   selenium-hub:
     restart: always
     image: selenium/hub:4.1.2-20220317
@@ -49,11 +68,13 @@ services:
     container_name: wdi5
     stdin_open: true # docker run -i
     tty: true # docker run -t
-
+    environment:
+      - BROWSERS=${BROWSERS}
     depends_on:
       - selenium-hub
-      - chrome
+      # - chrome
       - test-app
+      - firefox
     networks:
       - wdi5
 
