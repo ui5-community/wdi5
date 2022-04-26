@@ -3,7 +3,7 @@ const { join } = require("path")
 const args = process.env.HEADLESS
     ? ["window-size=1440,800", "--headless"]
     : process.env.DEBUG
-    ? ["window-size=1920,1280", "--auto-open-devtools-for-tabs"]
+    ? ["window-size=1920,1280", "--auto-open-devtools-for-tabs", "--devtools"]
     : ["window-size=1440,800"]
 
 const _baseConfig = {
