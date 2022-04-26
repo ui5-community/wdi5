@@ -68,7 +68,8 @@ services:
     container_name: wdi5
     stdin_open: true # docker run -i
     tty: true # docker run -t
-
+    environment:
+      - BROWSERS=${BROWSERS}
     depends_on:
       - selenium-hub
       # - chrome

@@ -16,6 +16,8 @@ In folder `/docker`.
 
 `package.json` contains dependencies and `npm` tasks needed to run the tests in docker.
 
+Note: there are two `package.json` files in the `/docker/` folder with the only difference of the source of `wdio-ui5-service` source in `devDependencies` This is required to make sure the `wdio-ui5-service` sources are loaded from your local file system and contain the most recent development.
+
 ## Available Container
 
 | Container               | Content                                        | Path/Dockerfile                  |
@@ -51,8 +53,18 @@ Four container needed
 
 ### Execute Grid
 
-`docker-compose -f ./docker/docker-compose.yaml build` (optional, will be excecuted first time by `up`)
-
 `docker-compose -f ./docker/docker-compose.yaml up`
 
 `docker-compose -f ./docker/docker-compose.yaml down`
+
+#### Single Browser
+
+This setup allows to run tests in multiple browsers. Firefox and Chrome are setup in this test-case and started by default.
+
+By setting environment varaibels `export BROWSERS=<firefox | chrome>` the executed brwoser can be selected.
+
+### Build
+
+`docker-compose -f ./docker/docker-compose.yaml build` (optional, will be excecuted first time by `up`)
+OR
+`docker-compose -f ./docker/docker-compose.yaml build <wdi5 | test-pp>` to just build a single container
