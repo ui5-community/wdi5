@@ -13,6 +13,13 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
             done(false)
         }
 
+        // TODO: remove
+        window.compareVersions = {
+            compare: function (a, b) {
+                return true
+            }
+        }
+
         // attach the function to be able to use the extracted method later
         if (!window.bridge) {
             // create empty
@@ -108,7 +115,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                             const [_, sRegEx, sFlags] = oSelector.properties.text.match(/\/(.*)\/(.*)/)
                             oSelector.properties.text = new RegExp(sRegEx, sFlags)
                         }
-
+                        debugger
                         if (oSelector.bindingPath) {
                             // TODO: for the binding Path there is no object creation
                             // fix (?) for 'leading slash issue' in propertyPath w/ a named model
