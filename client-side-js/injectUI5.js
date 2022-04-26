@@ -13,13 +13,6 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
             done(false)
         }
 
-        // TODO: remove
-        window.compareVersions = {
-            compare: function (a, b) {
-                return true
-            }
-        }
-
         // attach the function to be able to use the extracted method later
         if (!window.bridge) {
             // create empty
