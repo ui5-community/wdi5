@@ -10,6 +10,7 @@ async function clientSide_injectTools() {
             } else if (typeof exports === 'object') {
                 module.exports = factory();
             } else {
+                // replaced root with window as fix@vobu
                 window.compareVersions = factory();
             }
         })(this, function () {
