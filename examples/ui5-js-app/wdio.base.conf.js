@@ -1,16 +1,11 @@
 const { join } = require("path")
 
-const args = process.env.HEADLESS
-    ? ["window-size=1440,800", "--headless"]
-    : process.env.DEBUG
-    ? ["window-size=1920,1280", "--auto-open-devtools-for-tabs", "--devtools"]
-    : ["window-size=1440,800"]
-
 const _baseConfig = {
     wdi5: {
         screenshotPath: join("webapp", "test", "__screenshots__"),
         logLevel: "error"
     },
+    execArgv: process.env.DEBUG ? ["--inspect"] : [],
     maxInstances: 10,
     capabilities: [],
     logLevel: "error",
@@ -36,7 +31,11 @@ const chrome = {
     browserName: "chrome",
     acceptInsecureCerts: true,
     "goog:chromeOptions": {
-        args: args
+        args: process.env.HEADLESS
+            ? ["window-size=1440,800", "--headless"]
+            : process.env.DEBUG
+            ? ["window-size=1920,1280", "--auto-open-devtools-for-tabs"]
+            : ["window-size=1440,800"]
     }
 }
 
@@ -45,7 +44,11 @@ const firefox = {
     browserName: "firefox",
     "moz:firefoxOptions": {
         // flag to activate Firefox headless mode (see https://github.com/mozilla/geckodriver/blob/master/README.md#firefox-capabilities for more details about moz:firefoxOptions)
-        args: args
+        args: process.env.HEADLESS
+            ? ["-width=1440", "-height=800", "-headless"]
+            : process.env.DEBUG
+            ? ["-width=1920", "-height=1280", "-devtools", "-jsdebugger"]
+            : ["-width=1440", "-height=800"]
     }
 }
 
