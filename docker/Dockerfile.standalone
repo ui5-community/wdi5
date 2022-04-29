@@ -1,5 +1,5 @@
 # base image
-FROM node:14.15-buster
+FROM node:14-bullseye-slim
 
 RUN apt update
 RUN apt install -yq libgconf-2-4 gnupg2 wget ca-certificates lsb-release software-properties-common
