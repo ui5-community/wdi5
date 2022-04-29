@@ -1,35 +1,32 @@
 const { baseConfig } = require("./wdio.base.conf")
+const { join } = require("path")
 const merge = require("deepmerge")
 
+// avoid multiple chrome sessions
+delete baseConfig.capabilities
+
 const _config = {
-    runner: "local",
-    path: "/",
-    specs: ["webapp/test/e2e/*.test.js"],
+    wdi5: {
+        url: "#",
+        screenshotPath: join("report", "screenshots")
+    },
     maxInstances: 1,
     capabilities: [
         {
             maxInstances: 1,
             browserName: "chrome",
             "goog:chromeOptions": {
-                w3c: false,
                 args: [
                     "--headless",
                     "--no-sandbox",
-                    "--whitelisted-ips",
                     "--disable-gpu",
-                    "--disable-software-rasterizer",
                     "--disable-dev-shm-usage",
-                    "--disable-infobars",
-                    "--ignore-ssl-errors=yes",
-                    "--ignore-certificate-errors"
+                    "--window-size=1920,1080"
                 ]
             }
         }
     ],
-    wdi5: {
-        url: "#"
-    },
-    baseUrl: "http://localhost:8888"
+    specs: ["webapp/test/e2e/*.test.js"]
 }
 
 exports.config = merge(baseConfig, _config)
