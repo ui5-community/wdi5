@@ -30,6 +30,8 @@ Note: there are two `package.json` files in the `/docker/` folder with the only 
 
 Use `Dockerfile.standalone`.
 
+Uses `/docker/package-standalone.json`
+
 ### Execute Standalone
 
 `docker build -f ./docker/Dockerfile.standalone -t test-standalone .`
@@ -50,6 +52,18 @@ Four container needed
 - Selenium (Image) [Console](http://localhost:4444/ui/index.html#/)
 - Testenvironment (wdi5)
 - Application under test [ui5 app](http://localhost:8888)
+
+### Dependency Management
+
+`docker/package-app.json` for the `test-app` container.
+
+`docker/package-wdi5-dist.json` for the `wdi5` container in default production mode.
+
+#### Development
+
+Use `docker run -v docker/package-wdi5-dev.json:/app/package.json wdi5 .` to use your local development version of wdi5 in the container.
+
+Or you need to add a volume mount in docker-compose.
 
 ### Execute Grid
 

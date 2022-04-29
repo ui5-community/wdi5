@@ -21,7 +21,7 @@
     "soerver": "^0.0.3",
     "wait-on": "^6.0.1",
     "wdio-chromedriver-service": "^7.3.2",
-    "wdio-ui5-service": "*",
+    "wdio-ui5-service": "file:wdio-ui5-service",
     "webdriverio": "^7.19.1"
   },
   "engines": {
