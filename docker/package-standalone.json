@@ -1,13 +1,10 @@
 {
   "name": "wdi5",
   "version": "0.0.1",
-  "description": "test for wdi5 in docker",
-  "keywords": ["wdio-service", "ui5", "openui5", "sapui5", "docker"],
   "scripts": {
-    "test:docker:grid": "wdio wdio-docker.conf.js",
     "start": "soerver -d ./webapp -p 8888 -x ./webapp/proxyrc.json",
-    "test:standalone": "wdio run wdio-docker-standalone.conf.js",
-    "test:docker:standalone": "run-p start test:standalone"
+    "wdi5": "wdio run wdio-docker-standalone.conf.js --spec /basic.test.js",
+    "test": "run-p -r start wdi5"
   },
   "devDependencies": {
     "@wdio/cli": "^7.19.6",
@@ -23,9 +20,5 @@
     "wdio-chromedriver-service": "^7.3.2",
     "wdio-ui5-service": "latest",
     "webdriverio": "^7.19.5"
-  },
-  "engines": {
-    "node": ">=14",
-    "npm": ">=7"
   }
 }
