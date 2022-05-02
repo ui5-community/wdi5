@@ -1,11 +1,6 @@
 async function clientSide_allControls(controlSelector) {
     controlSelector = await Promise.resolve(controlSelector) // to plug into fluent async api
     return await browser.executeAsync((controlSelector, done) => {
-        const errorHandling = (error) => {
-            window.wdi5.Log.error("[browser wdi5] ERR: ", error)
-            done(["error", error.toString()])
-        }
-
         const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options)
         if (controlSelector.timeout) {
             waitForUI5Options.timeout = controlSelector.timeout
@@ -33,9 +28,9 @@ async function clientSide_allControls(controlSelector) {
 
                         done(["success", returnElements])
                     })
-                    .catch(errorHandling)
+                    .catch(window.wdi5.errorHandling.bind(this, done))
             },
-            errorHandling
+            window.wdi5.errorHandling.bind(this, done)
         )
     }, controlSelector)
 }

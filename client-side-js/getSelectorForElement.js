@@ -1,11 +1,5 @@
 async function clientSide_getSelectorForElement(oOptions) {
     return await browser.executeAsync((oOptions, done) => {
-        const errorHandling = (error) => {
-            window.wdi5.Log.error("[browser wdi5] ERR: ", error)
-            done(["error", error.toString()])
-            return error
-        }
-
         window.wdi5.waitForUI5(
             window.wdi5.waitForUI5Options,
             () => {
@@ -17,9 +11,9 @@ async function clientSide_getSelectorForElement(oOptions) {
                         done(["success", controlSelector])
                         return controlSelector
                     })
-                    .catch(errorHandling)
+                    .catch(window.wdi5.errorHandling.bind(this, done))
             },
-            errorHandling
+            window.wdi5.errorHandling.bind(this, done)
         )
     }, oOptions)
 }

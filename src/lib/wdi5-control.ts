@@ -59,9 +59,6 @@ export class WDI5Control {
 
         this.setControlInfo()
 
-        // set the succesful init param
-        this._initialisation = true
-
         return this
     }
 
@@ -85,9 +82,6 @@ export class WDI5Control {
             this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
 
             this.setControlInfo()
-
-            // set the succesful init param
-            this._initialisation = true
         }
 
         return this
@@ -97,6 +91,10 @@ export class WDI5Control {
      * @return whether this control was sucessfully initialised
      */
     getInitStatus(): boolean {
+        return this._initialisation
+    }
+
+    isInitialized(): boolean {
         return this._initialisation
     }
 
@@ -424,7 +422,7 @@ export class WDI5Control {
     private async interactWithControl(oOptions) {
         const result = await clientSide_interactWithControl(oOptions)
 
-        this.writeResultLog(result, "interactWithControl()")
+        this.writeObjectResultLog(result, "interactWithControl()")
         return result[1]
     }
 
@@ -495,6 +493,9 @@ export class WDI5Control {
             // add metadata
             this._metadata.className = className
             this._domId = id
+
+            // set the succesful init param
+            this._initialisation = true
         }
 
         this.writeObjectResultLog(_result, "getControl()")
