@@ -1,0 +1,53 @@
+# To execute this docker-compose yml file use `docker-compose -f docker-compose-v3.yml up`
+# Add the `-d` flag at the end for detached execution
+# To stop the execution, hit Ctrl+C, and then `docker-compose -f docker-compose-v3.yml down`
+
+# Mac M1 issues: https://github.com/SeleniumHQ/selenium/issues/9733
+version: "3"
+
+networks:
+  wdi5:
+    name: wdi5
+    external: true
+
+services:
+  selenium-hub:
+    restart: always
+    image: webdriverio/selenium-standalone
+    container_name: selenium-standalone
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+    networks:
+      - wdi5
+
+  wdi5:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.wdi5
+    image: wdi5
+    container_name: wdi5
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    # use for development
+    # volumes:
+    #   - ./docker/package-wdi5-dev.json:/app/package.json
+    environment:
+      - BROWSERS=${BROWSERS}
+    depends_on:
+      - selenium-hub
+      - test-app
+    networks:
+      - wdi5
+
+  test-app:
+    build:
+      context: ../
+      dockerfile: ./examples/ui5-js-app/Dockerfile
+    image: test-app
+    container_name: test-app
+    ports:
+      - "8888:8888"
+    networks:
+      - wdi5
