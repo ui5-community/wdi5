@@ -80,7 +80,7 @@ export class WDI5Control {
             this._webElement = controlResult[0]
 
             // dynamic function bridge
-            this._generatedUI5Methods = controlResult[0]
+            this._generatedUI5Methods = controlResult[1]
             this.attachControlBridge(this._generatedUI5Methods as Array<string>)
             this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
 
