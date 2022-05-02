@@ -403,7 +403,7 @@ export class WDI5Control {
         this.writeResultLog(result, "_getAggregation()")
 
         let wdiItems = []
-        if (result.at(0) === "success") {
+        if (result[0] === "success") {
             wdiItems = await this._retrieveElements(result[1])
         }
 
