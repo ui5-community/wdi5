@@ -3,7 +3,7 @@ async function clientSide_getControl(controlSelector) {
     return await browser.executeAsync((controlSelector, done) => {
         const errorHandling = (error) => {
             window.wdi5.Log.error("[browser wdi5] ERR: ", error)
-            done(["error", error.toString()])
+            done({ result: "error", message: error.toString() })
         }
 
         const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options)
@@ -26,10 +26,13 @@ async function clientSide_getControl(controlSelector) {
                         window.wdi5.Log.info(`[browser wdi5] control with id: ${id} located!`)
                         const aProtoFunctions = window.wdi5.retrieveControlMethods(ui5Control)
                         // @type [String, String?, String, "Array of Strings"]
-                        done([
-                            "success",
-                            { domElement: domElement, id: id, aProtoFunctions: aProtoFunctions, className: className }
-                        ])
+                        done({
+                            result: "success",
+                            domElement: domElement,
+                            id: id,
+                            aProtoFunctions: aProtoFunctions,
+                            className: className
+                        })
                     })
                     .catch(errorHandling)
             },

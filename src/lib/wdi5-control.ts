@@ -483,12 +483,11 @@ export class WDI5Control {
         }
 
         const _result = await clientSide_getControl(controlSelector)
-        const { domElement, id, aProtoFunctions, className } = _result[1]
-        const result = _result[0]
+        const { result, domElement, id, aProtoFunctions, className } = _result
 
         // TODO: move to constructor?
         // save the webdriver representation by control id
-        if (result) {
+        if (result === "success") {
             // only if the result is valid
             this._webdriverRepresentation = await $(`//*[@id="${id}"]`)
             this._generatedWdioMethods = this._retrieveControlMethods(this._webdriverRepresentation)
@@ -504,12 +503,12 @@ export class WDI5Control {
     }
 
     private writeObjectResultLog(result, functionName) {
-        if (result[0] === "error") {
-            Logger.error(`call of ${functionName} failed because of: ${result[1]}`)
-        } else if (result[0] === "success") {
-            Logger.success(`call of function ${functionName} returned: ${JSON.stringify(result[1].domElement)}`)
+        if (result.result === "error") {
+            Logger.error(`call of ${functionName} failed because of: ${result.message}`)
+        } else if (result.result === "success") {
+            Logger.success(`call of function ${functionName} returned: ${JSON.stringify(result.domElement)}`)
         } else {
-            Logger.warn(`Unknown status: ${functionName} returned: ${JSON.stringify(result[1])}`)
+            Logger.warn(`Unknown status: ${functionName} returned: ${JSON.stringify(result.message)}`)
         }
     }
 
