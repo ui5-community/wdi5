@@ -5,7 +5,7 @@ import { clientSide_interactWithControl } from "../../client-side-js/interactWit
 import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod"
 import { clientSide_getAggregation } from "../../client-side-js/_getAggregation"
 import { clientSide_fireEvent } from "../../client-side-js/fireEvent"
-import { wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types"
+import { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types"
 import { Logger as _Logger } from "./Logger"
 
 const Logger = _Logger.getInstance()
@@ -88,12 +88,17 @@ export class WDI5Control {
     }
 
     /**
-     * @return whether this control was sucessfully initialised
+     * @deprecated -> use isInitialized()
+     * @return {Boolean}
      */
     getInitStatus(): boolean {
         return this._initialisation
     }
 
+    /**
+     * after retrieving the ui5 control and connection this can be false eg. in cases when no DOM element was found by RecordReplay API
+     * @return {Boolean} whether this control was sucessfully initialised
+     */
     isInitialized(): boolean {
         return this._initialisation
     }
@@ -423,7 +428,7 @@ export class WDI5Control {
         const result = await clientSide_interactWithControl(oOptions)
 
         this.writeObjectResultLog(result, "interactWithControl()")
-        return result[1]
+        return result.result
     }
 
     /**
@@ -503,13 +508,17 @@ export class WDI5Control {
         return [domElement, aProtoFunctions]
     }
 
-    private writeObjectResultLog(result, functionName) {
-        if (result.result === "error") {
-            Logger.error(`call of ${functionName} failed because of: ${result.message}`)
-        } else if (result.result === "success") {
-            Logger.success(`call of function ${functionName} returned: ${JSON.stringify(result.domElement)}`)
+    private writeObjectResultLog(response: clientSide_ui5Response, functionName: string) {
+        if (response.status > 0) {
+            Logger.error(`call of ${functionName} failed because of: ${response.message}`)
+        } else if (response.status === 0) {
+            Logger.success(
+                `call of function ${functionName} returned: ${JSON.stringify(
+                    response.id ? response.id : response.result
+                )}`
+            )
         } else {
-            Logger.warn(`Unknown status: ${functionName} returned: ${JSON.stringify(result.message)}`)
+            Logger.warn(`Unknown status: ${functionName} returned: ${JSON.stringify(response.message)}`)
         }
     }
 

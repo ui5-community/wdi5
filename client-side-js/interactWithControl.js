@@ -9,7 +9,7 @@ async function clientSide_interactWithControl(oOptions) {
                     .interactWithControl(oOptions)
                     .then((result) => {
                         window.wdi5.Log.info("[browser wdi5] interaction complete! - Message: " + result)
-                        done(["success", result])
+                        done({ status: "success", result: result })
                     })
                     .catch(window.wdi5.errorHandling.bind(this, done))
             },
