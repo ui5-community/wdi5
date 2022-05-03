@@ -69,15 +69,15 @@ export class WDI5Control {
 
         const controlResult = await this.getControl()
 
-        if (typeof controlResult[0] === "string" && controlResult[0].toLowerCase().includes("error:")) {
+        if (typeof controlResult.status === "string" && controlResult.status.toLowerCase().includes("error:")) {
             // result is string and has error text -> its an error
             Logger.error(`error retrieving control: ${this._wdio_ui5_key}`)
             return this
         } else {
-            this._webElement = controlResult[0]
+            this._webElement = controlResult.domElement
 
             // dynamic function bridge
-            this._generatedUI5Methods = controlResult[1]
+            this._generatedUI5Methods = controlResult.aProtoFunctions
             this.attachControlBridge(this._generatedUI5Methods as Array<string>)
             this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
 
@@ -486,11 +486,11 @@ export class WDI5Control {
         }
 
         const _result = await clientSide_getControl(controlSelector)
-        const { result, domElement, id, aProtoFunctions, className } = _result
+        const { status, domElement, id, aProtoFunctions, className } = _result
 
         // TODO: move to constructor?
         // save the webdriver representation by control id
-        if (result === "success") {
+        if (status === 0) {
             // only if the result is valid
             this._webdriverRepresentation = await $(`//*[@id="${id}"]`)
             this._generatedWdioMethods = this._retrieveControlMethods(this._webdriverRepresentation)
@@ -505,7 +505,7 @@ export class WDI5Control {
 
         this.writeObjectResultLog(_result, "getControl()")
 
-        return [domElement, aProtoFunctions]
+        return { status: status, domElement: domElement, aProtoFunctions: aProtoFunctions }
     }
 
     private writeObjectResultLog(response: clientSide_ui5Response, functionName: string) {
