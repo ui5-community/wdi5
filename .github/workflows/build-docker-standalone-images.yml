@@ -1,0 +1,35 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node_version: [14, 16, 17]
+
+    steps:
+      - uses: actions/checkout@v3
+      # - name: Build the Docker image for node ${{ matrix.node_version }}
+      #   # run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      #   run: docker build --build-arg node_version=${{ matrix.node_version }} -f ./docker/Dockerfile.standalone -t wdi5:node${{ matrix.node_version }}  .
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push wdi5 docker image for node${{ matrix.node_version }}
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./docker/Dockerfile.standalone
+          build-args: node_version=${{ matrix.node_version }}
+          push: true
+          tags: wdi5:node${{ matrix.node_version }}
