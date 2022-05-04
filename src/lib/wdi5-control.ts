@@ -401,13 +401,13 @@ export class WDI5Control {
         if (util.types.isProxy(webElement)) {
             webElement = await Promise.resolve(webElement)
         }
-        const result = await clientSide_getAggregation(webElement, aggregationName)
+        const result = (await clientSide_getAggregation(webElement, aggregationName)) as clientSide_ui5Response
 
-        this.writeResultLog(result, "_getAggregation()")
+        this.writeObjectResultLog(result, "_getAggregation()")
 
         let wdiItems = []
-        if (result[0] === "success") {
-            wdiItems = await this._retrieveElements(result[1])
+        if (result.status === 0) {
+            wdiItems = await this._retrieveElements(result.result)
         }
 
         // else return empty array
