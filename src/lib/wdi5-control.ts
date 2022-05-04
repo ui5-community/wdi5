@@ -345,7 +345,7 @@ export class WDI5Control {
         const result = (await clientSide_executeControlMethod(webElement, methodName, args)) as clientSide_ui5Response
 
         // create logging
-        this.writeObjectResultLog(result, methodName)
+        this._writeObjectResultLog(result, methodName)
 
         switch (result.returnType) {
             case "newElement":
@@ -403,7 +403,7 @@ export class WDI5Control {
         }
         const result = (await clientSide_getAggregation(webElement, aggregationName)) as clientSide_ui5Response
 
-        this.writeObjectResultLog(result, "_getAggregation()")
+        this._writeObjectResultLog(result, "_getAggregation()")
 
         let wdiItems = []
         if (result.status === 0) {
@@ -427,7 +427,7 @@ export class WDI5Control {
     private async interactWithControl(oOptions) {
         const result = (await clientSide_interactWithControl(oOptions)) as clientSide_ui5Response
 
-        this.writeObjectResultLog(result, "interactWithControl()")
+        this._writeObjectResultLog(result, "interactWithControl()")
         return result.result
     }
 
@@ -443,7 +443,7 @@ export class WDI5Control {
             oOptions = "(" + oOptions.eval.toString() + ")"
         }
         const result = (await clientSide_fireEvent(webElement, eventName, oOptions)) as clientSide_ui5Response
-        this.writeObjectResultLog(result, "_fireEvent()")
+        this._writeObjectResultLog(result, "_fireEvent()")
         return result.result
     }
 
@@ -503,12 +503,12 @@ export class WDI5Control {
             this._initialisation = true
         }
 
-        this.writeObjectResultLog(_result, "getControl()")
+        this._writeObjectResultLog(_result, "getControl()")
 
         return { status: status, domElement: domElement, aProtoFunctions: aProtoFunctions }
     }
 
-    private writeObjectResultLog(response: clientSide_ui5Response, functionName: string) {
+    private _writeObjectResultLog(response: clientSide_ui5Response, functionName: string) {
         if (response.status > 0) {
             Logger.error(`call of ${functionName} failed because of: ${response.message}`)
         } else if (response.status === 0) {

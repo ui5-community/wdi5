@@ -338,7 +338,7 @@ async function _allControls(controlSelector = this._controlSelector) {
 
     // pre retrive control information
     const response = (await clientSide_allControls(controlSelector)) as clientSide_ui5Response
-    writeObjectResultLog(response, "allControls()")
+    _writeObjectResultLog(response, "allControls()")
 
     if (response.status === 0) {
         const retrievedElements = response.result
@@ -457,7 +457,7 @@ async function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bR
  * @param {Array} result
  * @param {*} functionName
  */
-function writeObjectResultLog(response: clientSide_ui5Response, functionName: string) {
+function _writeObjectResultLog(response: clientSide_ui5Response, functionName: string) {
     if (response.status > 0) {
         Logger.error(`call of ${functionName} failed because of: ${response.message}`)
     } else if (response.status === 0) {
