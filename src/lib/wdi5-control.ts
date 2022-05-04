@@ -565,19 +565,4 @@ export class WDI5Control {
 
         return controlMethodsToProxy as Array<string>
     }
-
-    /**
-     * create log based on the status of result[0]
-     * @param {Array} result
-     * @param {*} functionName
-     */
-    private writeResultLog(result, functionName) {
-        if (result[0] === "error") {
-            Logger.error(`call of ${functionName} failed because of: ${result[1]}`)
-        } else if (result[0] === "success") {
-            Logger.success(`call of function ${functionName} returned: ${JSON.stringify(result[1])}`)
-        } else {
-            Logger.warn(`Unknown status: ${functionName} returned: ${JSON.stringify(result[1])}`)
-        }
-    }
 }
