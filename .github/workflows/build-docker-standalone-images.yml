@@ -37,20 +37,20 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.REGISTRY }}/wdi5:${{ steps.package-version.outputs.current-version}}-node${{ matrix.node_version }}
+          images: ${{ env.REGISTRY }}/wdi5/${{ steps.package-version.outputs.current-version}}-node${{ matrix.node_version }}
 
-      - name: show tags + labels
-        run: |
-          echo ${{ steps.meta.outputs.tags }}
-          echo ${{ steps.meta.outputs.labels }}
+      # - name: show tags + labels
+      #   run: |
+      #     echo ${{ steps.meta.outputs.tags }}
+      #     echo ${{ steps.meta.outputs.labels }}
 
-      # - name: Build and push wdi5 docker image for node${{ matrix.node_version }}
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: .
-      #     file: ./docker/Dockerfile.standalone
-      #     build-args: node_version=${{ matrix.node_version }}
-      #     push: true
-      #     tags: ${{ env.REGISTRY }}/wdi5:${{ steps.package-version.outputs.current-version}}-node${{ matrix.node_version }}
-      #     # tags: ${{ steps.meta.outputs.tags }}
-      #     labels: ${{ steps.meta.outputs.labels }}
+      - name: Build and push wdi5 docker image for node${{ matrix.node_version }}
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./docker/Dockerfile.standalone
+          build-args: node_version=${{ matrix.node_version }}
+          push: true
+          tags: ${{ env.REGISTRY }}/wdi5/${{ steps.package-version.outputs.current-version}}-node${{ matrix.node_version }}
+          # tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
