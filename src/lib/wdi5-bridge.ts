@@ -3,7 +3,7 @@ import { writeFile } from "fs/promises"
 import { tmpdir } from "os"
 import * as semver from "semver"
 
-import { wdi5Config, wdi5Selector } from "../types/wdi5.types"
+import { clientSide_ui5Response, wdi5Config, wdi5Selector } from "../types/wdi5.types"
 import { WDI5Control } from "./wdi5-control"
 import { clientSide_injectTools } from "../../client-side-js/injectTools"
 import { clientSide_injectUI5 } from "../../client-side-js/injectUI5"
@@ -441,18 +441,19 @@ function _getDateString() {
  * @param {Boolean} bReplace
  */
 async function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) {
-    const result = await clientSide__navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace)
-    if (Array.isArray(result)) {
-        if (result[0] === "error") {
-            Logger.error("ERROR: navigation using UI5 router failed because of: " + result[1])
-            return result[1]
-        } else if (result[0] === "success") {
-            Logger.log(`SUCCESS: navigation using UI5 router to hash:  ${JSON.stringify(result[0])}`)
-            return result[1]
-        }
-    } else {
-        // Guess: was directly returned
-        return result
+    const result = (await clientSide__navTo(
+        sComponentId,
+        sName,
+        oParameters,
+        oComponentTargetInfo,
+        bReplace
+    )) as clientSide_ui5Response
+    if (result.status === 1) {
+        Logger.error("ERROR: navigation using UI5 router failed because of: " + result.message)
+        return result.result
+    } else if (result.status === 0) {
+        Logger.log(`SUCCESS: navigation using UI5 router to hash:  ${JSON.stringify(result.status)}`)
+        return result.result
     }
 }
 
