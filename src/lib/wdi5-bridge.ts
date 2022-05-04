@@ -230,19 +230,14 @@ export async function addWdi5Commands() {
      * @param {boolean} oOptions.settings.preferViewId
      */
     browser.addCommand("getSelectorForElement", async (oOptions) => {
-        const result = await clientSide_getSelectorForElement(oOptions)
+        const result = (await clientSide_getSelectorForElement(oOptions)) as clientSide_ui5Response
 
-        if (Array.isArray(result)) {
-            if (result[0] === "error") {
-                console.error("ERROR: getSelectorForElement() failed because of: " + result[1])
-                return result[1]
-            } else if (result[0] === "success") {
-                console.log(`SUCCESS: getSelectorForElement() returned:  ${JSON.stringify(result[0])}`)
-                return result[1]
-            }
-        } else {
-            // Guess: was directly returned
-            return result
+        if (result.status === 1) {
+            console.error("ERROR: getSelectorForElement() failed because of: " + result.message)
+            return result.message
+        } else if (result.status === 0) {
+            console.log(`SUCCESS: getSelectorForElement() returned:  ${JSON.stringify(result.result)}`)
+            return result.result
         }
     })
 

@@ -8,7 +8,7 @@ async function clientSide_getSelectorForElement(oOptions) {
                     .findControlSelectorByDOMElement(oOptions)
                     .then((controlSelector) => {
                         window.wdi5.Log.info("[browser wdi5] controlLocator created!")
-                        done(["success", controlSelector])
+                        done({ status: 0, result: controlSelector })
                         return controlSelector
                     })
                     .catch(window.wdi5.errorHandling.bind(this, done))
