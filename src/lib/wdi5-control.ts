@@ -442,9 +442,9 @@ export class WDI5Control {
         if (oOptions?.eval) {
             oOptions = "(" + oOptions.eval.toString() + ")"
         }
-        const result = await clientSide_fireEvent(webElement, eventName, oOptions)
-        this.writeResultLog(result, "_fireEvent()")
-        return result[1]
+        const result = (await clientSide_fireEvent(webElement, eventName, oOptions)) as clientSide_ui5Response
+        this.writeObjectResultLog(result, "_fireEvent()")
+        return result.result
     }
 
     // --- private internal ---

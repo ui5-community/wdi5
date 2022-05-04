@@ -357,7 +357,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
 
                     window.wdi5.errorHandling = (done, error) => {
                         window.wdi5.Log.error("[browser wdi5] ERR: ", error)
-                        done({ result: "error", messsage: error.toString() })
+                        done({ status: 1, messsage: error.toString() })
                     }
                 }
             )
