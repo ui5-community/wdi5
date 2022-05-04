@@ -67,9 +67,9 @@ export class WDI5Control {
         this._wdio_ui5_key = controlSelector.wdio_ui5_key
         this._forceSelect = forceSelect
 
-        const controlResult = await this.getControl()
+        const controlResult = (await this.getControl()) as clientSide_ui5Response
 
-        if (typeof controlResult.status === "string" && controlResult.status.toLowerCase().includes("error:")) {
+        if (controlResult.status === 1) {
             // result is string and has error text -> its an error
             Logger.error(`error retrieving control: ${this._wdio_ui5_key}`)
             return this
