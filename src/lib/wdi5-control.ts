@@ -7,6 +7,7 @@ import { clientSide_getAggregation } from "../../client-side-js/_getAggregation"
 import { clientSide_fireEvent } from "../../client-side-js/fireEvent"
 import { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types"
 import { Logger as _Logger } from "./Logger"
+import { wdioApi } from "./wdioApi"
 
 const Logger = _Logger.getInstance()
 
@@ -132,8 +133,9 @@ export class WDI5Control {
         //     await this._renewWebElementReference()
         // }
         if (util.types.isProxy(this.getWebElement)) {
-            const $el: WebdriverIO.Element = await Promise.resolve(this._webdriverRepresentation) // to plug into fluent async api
-            return $el
+            const id = await Promise.resolve(this._domId)
+            const el = await $(`//*[@id="${id}"]`)
+            return el
         } else {
             return this._webdriverRepresentation
         }
@@ -196,8 +198,9 @@ export class WDI5Control {
      * this works both on a standalone control as well as with the fluent async api
      */
     async press() {
-        if (util.types.isProxy(this.getWebElement)) {
-            const webelement = await Promise.resolve(this.getWebElement())
+        if (util.types.isProxy(this._domId)) {
+            const id = await Promise.resolve(this._domId)
+            const webelement = await $(`//*[@id="${id}"]`)
             await webelement.click()
         } else {
             await ((await this.getWebElement()) as unknown as WebdriverIO.Element).click()
@@ -490,8 +493,9 @@ export class WDI5Control {
         // save the webdriver representation by control id
         if (status === 0) {
             // only if the result is valid
-            this._webdriverRepresentation = await $(`//*[@id="${id}"]`)
-            this._generatedWdioMethods = this._retrieveControlMethods(this._webdriverRepresentation)
+            // this._webdriverRepresentation = await $(`//*[@id="${id}"]`)
+            // this._generatedWdioMethods = this._retrieveControlMethods(this._webdriverRepresentation)
+            this._generatedWdioMethods = wdioApi
 
             // add metadata
             this._metadata.className = className
