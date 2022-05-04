@@ -40,7 +40,7 @@ export async function setup(config: wdi5Config) {
         browser._controls = []
     }
 
-    addWdi5Commands()
+    _addWdi5Commands()
 
     // inspired by and after staring a long time hard at:
     // https://stackoverflow.com/questions/51635378/keep-object-chainable-using-async-methods
@@ -131,6 +131,7 @@ export async function checkForUI5Page() {
 }
 
 //******************************************************************************************
+// private
 
 /**
  * creates a string valid as object key from a selector
@@ -182,7 +183,7 @@ function _verifySelector(wdi5Selector: wdi5Selector) {
     return false
 }
 
-export async function addWdi5Commands() {
+async function _addWdi5Commands() {
     browser.addCommand("_asControl", async (wdi5Selector: wdi5Selector) => {
         if (!_verifySelector(wdi5Selector)) {
             return "ERROR: Specified selector is not valid -> abort"

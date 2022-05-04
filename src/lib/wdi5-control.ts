@@ -51,10 +51,10 @@ export class WDI5Control {
         this._domId = domId
 
         if (this._generatedUI5Methods && this._generatedUI5Methods.length > 0) {
-            this.attachControlBridge(this._generatedUI5Methods as Array<string>)
+            this._attachControlBridge(this._generatedUI5Methods as Array<string>)
         }
         if (this._generatedWdioMethods && this._generatedWdioMethods.length > 0) {
-            this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
+            this._attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
         }
 
         this.setControlInfo()
@@ -67,7 +67,7 @@ export class WDI5Control {
         this._wdio_ui5_key = controlSelector.wdio_ui5_key
         this._forceSelect = forceSelect
 
-        const controlResult = await this.getControl()
+        const controlResult = await this._getControl()
 
         if (controlResult.status === 1) {
             // result is string and has error text -> its an error
@@ -78,21 +78,13 @@ export class WDI5Control {
 
             // dynamic function bridge
             this._generatedUI5Methods = controlResult.aProtoFunctions
-            this.attachControlBridge(this._generatedUI5Methods as Array<string>)
-            this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
+            this._attachControlBridge(this._generatedUI5Methods as Array<string>)
+            this._attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
 
             this.setControlInfo()
         }
 
         return this
-    }
-
-    /**
-     * @deprecated -> use isInitialized()
-     * @return {Boolean}
-     */
-    getInitStatus(): boolean {
-        return this._initialisation
     }
 
     /**
@@ -137,7 +129,7 @@ export class WDI5Control {
         //// it causes hiccup with the fluent async api as the transition from node-scope
         //// to browser-scope errors out (in .getControl client-side)
         // if (this._forceSelect) {
-        //     await this.renewWebElementReference()
+        //     await this._renewWebElementReference()
         // }
         if (util.types.isProxy(this.getWebElement)) {
             const $el: WebdriverIO.Element = await Promise.resolve(this._webdriverRepresentation) // to plug into fluent async api
@@ -175,7 +167,7 @@ export class WDI5Control {
             : this._forceSelect
 
         if (_forceSelect) {
-            await this.renewWebElementReference()
+            await this._renewWebElementReference()
         }
         return await this._getAggregation(name)
     }
@@ -186,7 +178,7 @@ export class WDI5Control {
      */
     async enterText(text: string) {
         // if (this._forceSelect) {
-        //     this.renewWebElementReference();
+        //     this._renewWebElementReference();
         // }
 
         const oOptions = {
@@ -214,14 +206,44 @@ export class WDI5Control {
     }
 
     /**
-     * used to update the wdio control reference
-     * this can be used to manually trigger an control reference update after a ui5 control rerendering
-     * this method is also used wdi5-internally to implement the extended forceSelect option
+     * Interact with specific control.
+     * @param {object} oOptions
+     * @param {sap.ui.test.RecordReplay.ControlSelector} oOptions.selector - UI5 type
+     * @param {sap.ui.test.RecordReplay.InteractionType} oOptions.interactionType - UI5 type
+     * @param {string} oOptions.enterText
+     * @param {boolean} oOptions.clearTextFirst
      */
-    async renewWebElementReference() {
-        const newWebElement = (await this.getControl({ selector: { id: this._domId } })).domElement // added to have a more stable retrieval experience
-        this._webElement = newWebElement
-        return newWebElement
+    async interactWithControl(oOptions) {
+        const result = (await clientSide_interactWithControl(oOptions)) as clientSide_ui5Response
+
+        this._writeObjectResultLog(result, "interactWithControl()")
+        return result.result
+    }
+
+    /**
+     * fire a named event on a UI5 control
+     * @param {String} eventName
+     * @param {any} oOptions
+     * @param {WebdriverIO.Element} webElement
+     */
+    async fireEvent(eventName, oOptions, webElement = this._webElement) {
+        // Check the options have a eval property
+        if (oOptions?.eval) {
+            oOptions = "(" + oOptions.eval.toString() + ")"
+        }
+        const result = (await clientSide_fireEvent(webElement, eventName, oOptions)) as clientSide_ui5Response
+        this._writeObjectResultLog(result, "fireEvent()")
+        return result.result
+    }
+
+    // --- deprecated ---
+
+    /**
+     * @deprecated -> use isInitialized()
+     * @return {Boolean}
+     */
+    getInitStatus(): boolean {
+        return this._initialisation
     }
 
     // --- private methods ---
@@ -232,7 +254,7 @@ export class WDI5Control {
      * @param aControls strings of IDs of aggregation items
      * @returns instances of wdi5 class per control in the aggregation
      */
-    async _retrieveElements(aControls): Promise<Array<WDI5Control>> {
+    private async _retrieveElements(aControls): Promise<Array<WDI5Control>> {
         const aResultOfPromises = []
 
         // check the validity of param
@@ -264,7 +286,7 @@ export class WDI5Control {
      * @param eControl ID
      * @returns instances of wdi5 class per control in the aggregation
      */
-    async _retrieveElement(eControl) {
+    private async _retrieveElement(eControl) {
         let eResult = {}
 
         // check the validity of param
@@ -292,18 +314,18 @@ export class WDI5Control {
      *
      * @param sReplFunctionNames
      */
-    private attachControlBridge(sReplFunctionNames: Array<string>) {
+    private _attachControlBridge(sReplFunctionNames: Array<string>) {
         // check the validity of param
         if (sReplFunctionNames) {
             sReplFunctionNames.forEach(async (sMethodName) => {
-                this[sMethodName] = this.executeControlMethod.bind(this, sMethodName, this._webElement)
+                this[sMethodName] = this._executeControlMethod.bind(this, sMethodName, this._webElement)
             })
         } else {
             Logger.warn(`${this._wdio_ui5_key} has no sReplFunctionNames`)
         }
     }
 
-    private attachWdioControlBridge(sReplFunctionNames: Array<string>) {
+    private _attachWdioControlBridge(sReplFunctionNames: Array<string>) {
         // check the validity of param
         if (sReplFunctionNames) {
             sReplFunctionNames.forEach(async (sMethodName) => {
@@ -323,13 +345,13 @@ export class WDI5Control {
      * @param webElement representation of selected UI5 control in wdio
      * @param args proxied arguments to UI5 control method at runtime
      */
-    private async executeControlMethod(
+    private async _executeControlMethod(
         methodName: string,
         webElement: WebdriverIO.Element | string = this._webElement,
         ...args
     ) {
         if (this._forceSelect) {
-            this._webElement = await this.renewWebElementReference()
+            this._webElement = await this._renewWebElementReference()
         }
         // special case for custom data attached to a UI5 control:
         // pass the arguments to the event handler (like UI5 handles and expects them) also
@@ -414,47 +436,23 @@ export class WDI5Control {
         return wdiItems
     }
 
-    // --- private actions ---
-
     /**
-     * Interact with specific control.
-     * @param {object} oOptions
-     * @param {sap.ui.test.RecordReplay.ControlSelector} oOptions.selector - UI5 type
-     * @param {sap.ui.test.RecordReplay.InteractionType} oOptions.interactionType - UI5 type
-     * @param {string} oOptions.enterText
-     * @param {boolean} oOptions.clearTextFirst
+     * used to update the wdio control reference
+     * this can be used to manually trigger an control reference update after a ui5 control rerendering
+     * this method is also used wdi5-internally to implement the extended forceSelect option
      */
-    private async interactWithControl(oOptions) {
-        const result = (await clientSide_interactWithControl(oOptions)) as clientSide_ui5Response
-
-        this._writeObjectResultLog(result, "interactWithControl()")
-        return result.result
+    private async _renewWebElementReference() {
+        const newWebElement = (await this._getControl({ selector: { id: this._domId } })).domElement // added to have a more stable retrieval experience
+        this._webElement = newWebElement
+        return newWebElement
     }
-
-    /**
-     * fire a named event on a UI5 control
-     * @param {String} eventName
-     * @param {any} oOptions
-     * @param {WebdriverIO.Element} webElement
-     */
-    async fireEvent(eventName, oOptions, webElement = this._webElement) {
-        // Check the options have a eval property
-        if (oOptions?.eval) {
-            oOptions = "(" + oOptions.eval.toString() + ")"
-        }
-        const result = (await clientSide_fireEvent(webElement, eventName, oOptions)) as clientSide_ui5Response
-        this._writeObjectResultLog(result, "_fireEvent()")
-        return result.result
-    }
-
-    // --- private internal ---
 
     /**
      * retrieve a DOM element via UI5 locator
      * @param {sap.ui.test.RecordReplay.ControlSelector} controlSelector
      * @return {[WebdriverIO.Element | String, [aProtoFunctions]]} UI5 control or error message, array of function names of this control
      */
-    private async getControl(controlSelector = this._controlSelector) {
+    private async _getControl(controlSelector = this._controlSelector) {
         // check whether we have a "by id regex" locator request
         if (controlSelector.selector.id && typeof controlSelector.selector.id === "object") {
             // make it a string for serializing into browser-scope and
@@ -503,7 +501,7 @@ export class WDI5Control {
             this._initialisation = true
         }
 
-        this._writeObjectResultLog(_result, "getControl()")
+        this._writeObjectResultLog(_result, "_getControl()")
 
         return { status: status, domElement: domElement, aProtoFunctions: aProtoFunctions }
     }
