@@ -30,14 +30,15 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
+          # username: ${{ github.actor }}
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.REGISTRY }}/wdi5/${{ steps.package-version.outputs.current-version}}-node${{ matrix.node_version }}
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/wdi5/${{ steps.package-version.outputs.current-version}}-node${{ matrix.node_version }}
 
       # - name: show tags + labels
       #   run: |
@@ -51,6 +52,6 @@ jobs:
           file: ./docker/Dockerfile.standalone
           build-args: node_version=${{ matrix.node_version }}
           push: true
-          tags: ${{ env.REGISTRY }}/wdi5/${{ steps.package-version.outputs.current-version}}-node${{ matrix.node_version }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/wdi5/${{ steps.package-version.outputs.current-version}}-node${{ matrix.node_version }}
           # tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
