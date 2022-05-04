@@ -124,6 +124,8 @@ export interface clientSide_ui5Response {
     id?: string // getControl
     aProtoFunctions?: Array<string> // getControl
     className?: string // getControl
+    returnType?: string // executeControlMethod
+    nonCircularResultObject?: any
 }
 
 /**

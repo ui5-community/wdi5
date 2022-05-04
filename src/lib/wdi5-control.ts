@@ -342,43 +342,43 @@ export class WDI5Control {
         // returns the array of [0: "status", 1: result]
 
         // regular browser-time execution of UI5 control method
-        const result = await clientSide_executeControlMethod(webElement, methodName, args)
+        const result = (await clientSide_executeControlMethod(webElement, methodName, args)) as clientSide_ui5Response
 
         // create logging
-        this.writeResultLog(result, methodName)
+        this.writeObjectResultLog(result, methodName)
 
-        switch (result[2]) {
+        switch (result.returnType) {
             case "newElement":
                 // retrieve and return another instance of a wdi5 control
-                return await this._retrieveElement(result[1])
+                return await this._retrieveElement(result.result)
             case "element":
                 // return $self after a called method of the wdi5 instance to allow method chaining
                 return this
             case "result":
-                return result[3] ? result[3].nonCircularResultObject : result[1]
+                return result.nonCircularResultObject ? result.nonCircularResultObject : result.result
             case "empty":
                 Logger.warn("No data found in property or aggregation")
-                return result[1]
+                return result.result
             case "aggregation": // also applies for getAggregation convenience methods such as $ui5control.getItems()
                 // check weather to retrieve all elements in the aggreation as ui5 controls
                 if ((args.length > 0 && typeof args[0] === "boolean" && args[0] === false) || args.length === 0) {
                     // get all if param is false or undefined
-                    return await this._retrieveElements(result[1])
+                    return await this._retrieveElements(result.result)
                 } else if (String(args[0]) && typeof args[0] === "number") {
                     // here we're retrieving the UI5 control at index args[0] from the aggregation
-                    if (args[0] <= result[1].length) {
+                    if (args[0] <= result.result.length) {
                         // retieve only one
                         // need some code of separate feature branch here
-                        const wdioElement = result[1][args[0]]
+                        const wdioElement = result.result[args[0]]
                         return await this._retrieveElement(wdioElement)
                     } else {
                         console.error(
-                            `tried to get an control at index: ${args[0]} of an aggregation outside of aggregation length: ${result[1].length}`
+                            `tried to get an control at index: ${args[0]} of an aggregation outside of aggregation length: ${result.result.length}`
                         )
                     }
                 } else {
                     // return wdio elements
-                    return result[1]
+                    return result.result
                 }
             case "none":
                 return null
