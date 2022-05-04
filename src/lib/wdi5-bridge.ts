@@ -343,10 +343,10 @@ async function _allControls(controlSelector = this._controlSelector) {
 
     // pre retrive control information
     const response = (await clientSide_allControls(controlSelector)) as clientSide_ui5Response
-    _writeResultLog(response, "allControls()")
+    writeObjectResultLog(response, "allControls()")
 
-    if (response[0] === "success") {
-        const retrievedElements = response[1]
+    if (response.status === 0) {
+        const retrievedElements = response.result
         const resultWDi5Elements = []
 
         // domElement: domElement, id: id, aProtoFunctions
@@ -366,7 +366,7 @@ async function _allControls(controlSelector = this._controlSelector) {
 
         return resultWDi5Elements
     } else {
-        return "[WDI5] Error: fetch multiple elements failed: " + response[1]
+        return "[WDI5] Error: fetch multiple elements failed: " + response.message
     }
 }
 
@@ -458,16 +458,18 @@ async function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bR
 }
 
 /**
- * create log based on the status of result[0]
+ * create log based on the status of result.status
  * @param {Array} result
  * @param {*} functionName
  */
-function _writeResultLog(result, functionName) {
-    if (result[0] === "error") {
-        Logger.error(`call of ${functionName} failed because of: ${result[1]}`)
-    } else if (result[0] === "success") {
-        Logger.success(`call of function ${functionName} returned: ${JSON.stringify(result[1])}`)
+function writeObjectResultLog(response: clientSide_ui5Response, functionName: string) {
+    if (response.status > 0) {
+        Logger.error(`call of ${functionName} failed because of: ${response.message}`)
+    } else if (response.status === 0) {
+        Logger.success(
+            `call of function ${functionName} returned: ${JSON.stringify(response.id ? response.id : response.result)}`
+        )
     } else {
-        Logger.warn(`Unknown status: ${functionName} returned: ${JSON.stringify(result[1])}`)
+        Logger.warn(`Unknown status: ${functionName} returned: ${JSON.stringify(response.message)}`)
     }
 }

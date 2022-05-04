@@ -26,7 +26,7 @@ async function clientSide_allControls(controlSelector) {
                             returnElements.push({ domElement: domElement, id: id, aProtoFunctions: aProtoFunctions })
                         })
 
-                        done(["success", returnElements])
+                        done({ status: 0, result: returnElements })
                     })
                     .catch(window.wdi5.errorHandling.bind(this, done))
             },
