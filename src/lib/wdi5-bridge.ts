@@ -342,7 +342,7 @@ async function _allControls(controlSelector = this._controlSelector) {
     }
 
     // pre retrive control information
-    const response = await clientSide_allControls(controlSelector)
+    const response = (await clientSide_allControls(controlSelector)) as clientSide_ui5Response
     _writeResultLog(response, "allControls()")
 
     if (response[0] === "success") {

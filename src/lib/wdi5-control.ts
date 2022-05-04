@@ -425,7 +425,7 @@ export class WDI5Control {
      * @param {boolean} oOptions.clearTextFirst
      */
     private async interactWithControl(oOptions) {
-        const result = await clientSide_interactWithControl(oOptions)
+        const result = (await clientSide_interactWithControl(oOptions)) as clientSide_ui5Response
 
         this.writeObjectResultLog(result, "interactWithControl()")
         return result.result
@@ -485,7 +485,7 @@ export class WDI5Control {
             controlSelector.selector.properties.text = controlSelector.selector.properties.text.toString()
         }
 
-        const _result = await clientSide_getControl(controlSelector)
+        const _result = (await clientSide_getControl(controlSelector)) as clientSide_ui5Response
         const { status, domElement, id, aProtoFunctions, className } = _result
 
         // TODO: move to constructor?
