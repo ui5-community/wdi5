@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: build wdi5 docker images
 
 on:
   push:
@@ -7,6 +7,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     strategy:
       matrix:
@@ -14,9 +17,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      # - name: Build the Docker image for node ${{ matrix.node_version }}
-      #   # run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-      #   run: docker build --build-arg node_version=${{ matrix.node_version }} -f ./docker/Dockerfile.standalone -t wdi5:node${{ matrix.node_version }}  .
 
       - name: Log in to the Container registry
         uses: docker/login-action@v1
