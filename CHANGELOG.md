@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.9.0-rc4.3](https://github.com/js-soft/wdi5/compare/v0.9.0-rc4.2...v0.9.0-rc4.3) (2022-04-28)
+
+
+### Bug Fixes
+
+* **#241:** rm warning if control was not instatiated by $$ ([#242](https://github.com/js-soft/wdi5/issues/242)) ([0b6a111](https://github.com/js-soft/wdi5/commit/0b6a111ad66644fafb0856627850ba792641ce41)), closes [#241](https://github.com/js-soft/wdi5/issues/241)
+
+## [0.9.0-rc4.2](https://github.com/js-soft/wdi5/compare/v0.9.0-rc4.1...v0.9.0-rc4.2) (2022-04-20)
+
+
+### Features
+
+* add to "best of UI5" ([#231](https://github.com/js-soft/wdi5/issues/231)) ([b17685c](https://github.com/js-soft/wdi5/commit/b17685c68c3f51ca1bf8b013b49eac90de1f9c73))
+* proxy object-type return value ([#234](https://github.com/js-soft/wdi5/issues/234)) ([1959411](https://github.com/js-soft/wdi5/commit/1959411eb9e8dabf3b44521ee718991a7d9e2791))
+* **wdi5-control:** .getControlInfo() for info on capabilities ([#214](https://github.com/js-soft/wdi5/issues/214)) ([965d8bb](https://github.com/js-soft/wdi5/commit/965d8bb02154f2bc59bf3be3076eb8950d3c6333))
+* **wdi5-control:** .getControlInfo() for info on capabilities ([#214](https://github.com/js-soft/wdi5/issues/214)) ([073d917](https://github.com/js-soft/wdi5/commit/073d9177a89f898c7e89b6b9dfe5dd545e01ae54))
+
+## [0.9.0-rc4.1](https://github.com/js-soft/wdi5/compare/v0.9.0-rc4...v0.9.0-rc4.1) (2022-04-12)
+
+
+### Features
+
+* wdio bridge via $() ([#179](https://github.com/js-soft/wdi5/issues/179)) ([41ef513](https://github.com/js-soft/wdi5/commit/41ef513960196de73c418d9f2357aec36f0fde13))
+
+
+### Bug Fixes
+
+* allControls with forceSelect ([#226](https://github.com/js-soft/wdi5/issues/226)) ([0dd6853](https://github.com/js-soft/wdi5/commit/0dd6853f3cebb4b4f134e7ef7664353bdbc4ec54)), closes [#225](https://github.com/js-soft/wdi5/issues/225)
+
 ## [0.9.0-rc4](https://github.com/js-soft/wdi5/compare/v0.9.0-rc3...v0.9.0-rc4) (2022-04-08)
 
 

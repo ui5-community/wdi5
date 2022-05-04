@@ -5,11 +5,10 @@ import { clientSide_interactWithControl } from "../../client-side-js/interactWit
 import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod"
 import { clientSide_getAggregation } from "../../client-side-js/_getAggregation"
 import { clientSide_fireEvent } from "../../client-side-js/fireEvent"
-
+import { wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types"
 import { Logger as _Logger } from "./Logger"
-const Logger = _Logger.getInstance()
 
-import { wdi5Selector } from "../types/wdi5.types"
+const Logger = _Logger.getInstance()
 
 /**
  * This is a bridge object to use from selector to UI5 control,
@@ -17,8 +16,13 @@ import { wdi5Selector } from "../types/wdi5.types"
  */
 export class WDI5Control {
     _controlSelector: wdi5Selector = null
-    _webElement: WebdriverIO.Element | string = null
+    // return value of Webdriver interface: JSON web token
+    _webElement: WebdriverIO.Element | string = null // TODO: type "org.openqa.selenium.WebElement"
+    // wdio elment retrieved separately via $()
     _webdriverRepresentation: WebdriverIO.Element = null
+    _metadata: wdi5ControlMetadata = {}
+
+    // TODO: move to _metadata
     _wdio_ui5_key: string = null
     _generatedUI5Methods: Array<string>
     _initialisation = false
@@ -46,8 +50,14 @@ export class WDI5Control {
         this._webdriverRepresentation = webdriverRepresentation
         this._domId = domId
 
-        this.attachControlBridge(this._generatedUI5Methods as Array<string>)
-        this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
+        if (this._generatedUI5Methods && this._generatedUI5Methods.length > 0) {
+            this.attachControlBridge(this._generatedUI5Methods as Array<string>)
+        }
+        if (this._generatedWdioMethods && this._generatedWdioMethods.length > 0) {
+            this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
+        }
+
+        this.setControlInfo()
 
         // set the succesful init param
         this._initialisation = true
@@ -74,6 +84,8 @@ export class WDI5Control {
             this.attachControlBridge(this._generatedUI5Methods as Array<string>)
             this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
 
+            this.setControlInfo()
+
             // set the succesful init param
             this._initialisation = true
         }
@@ -86,6 +98,27 @@ export class WDI5Control {
      */
     getInitStatus(): boolean {
         return this._initialisation
+    }
+
+    getControlInfo(): wdi5ControlMetadata {
+        return this._metadata
+    }
+
+    setControlInfo(
+        metadata: wdi5ControlMetadata = {
+            key: this._wdio_ui5_key,
+            $: this._generatedWdioMethods,
+            methods: this._generatedUI5Methods,
+            id: this._domId
+        }
+    ) {
+        this._metadata.$ = metadata.$ ? metadata.$ : this._metadata.$
+        this._metadata.id = metadata.id ? metadata.id : this._metadata.id
+        this._metadata.methods = metadata.methods ? metadata.methods : this._metadata.methods
+        this._metadata.className = metadata.className ? metadata.className : this._metadata.className
+        this._metadata.key = metadata.key ? metadata.key : this._metadata.key
+
+        return this._metadata
     }
 
     /**
@@ -183,7 +216,7 @@ export class WDI5Control {
      * this method is also used wdi5-internally to implement the extended forceSelect option
      */
     async renewWebElementReference() {
-        const newWebElement = (await this.getControl())[0]
+        const newWebElement = (await this.getControl({ selector: { id: this._domId } }))[0] // added to have a more stable retrieval experience
         this._webElement = newWebElement
         return newWebElement
     }
@@ -319,8 +352,7 @@ export class WDI5Control {
                 // return $self after a called method of the wdi5 instance to allow method chaining
                 return this
             case "result":
-                // return result on array index 1 anyways
-                return result[1]
+                return result[3] ? result[3].nonCircularResultObject : result[1]
             case "empty":
                 Logger.warn("No data found in property or aggregation")
                 return result[1]
@@ -450,18 +482,35 @@ export class WDI5Control {
             controlSelector.selector.properties.text = controlSelector.selector.properties.text.toString()
         }
 
-        const result = await clientSide_getControl(controlSelector)
+        const _result = await clientSide_getControl(controlSelector)
+        const { domElement, id, aProtoFunctions, className } = _result[1]
+        const result = _result[0]
 
+        // TODO: move to constructor?
         // save the webdriver representation by control id
-        if (result[2]) {
+        if (result) {
             // only if the result is valid
-            this._webdriverRepresentation = await $(`//*[@id="${result[2]}"]`)
+            this._webdriverRepresentation = await $(`//*[@id="${id}"]`)
             this._generatedWdioMethods = this._retrieveControlMethods(this._webdriverRepresentation)
+
+            // add metadata
+            this._metadata.className = className
+            this._domId = id
         }
 
-        this.writeResultLog(result, "getControl()")
+        this.writeObjectResultLog(_result, "getControl()")
 
-        return [result[1], result[3]]
+        return [domElement, aProtoFunctions]
+    }
+
+    private writeObjectResultLog(result, functionName) {
+        if (result[0] === "error") {
+            Logger.error(`call of ${functionName} failed because of: ${result[1]}`)
+        } else if (result[0] === "success") {
+            Logger.success(`call of function ${functionName} returned: ${JSON.stringify(result[1].domElement)}`)
+        } else {
+            Logger.warn(`Unknown status: ${functionName} returned: ${JSON.stringify(result[1])}`)
+        }
     }
 
     /**

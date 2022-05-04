@@ -22,10 +22,14 @@ async function clientSide_getControl(controlSelector) {
                         // ui5 control
                         const ui5Control = window.wdi5.getUI5CtlForWebObj(domElement)
                         const id = ui5Control.getId()
+                        const className = ui5Control.getMetadata()._sClassName
                         window.wdi5.Log.info(`[browser wdi5] control with id: ${id} located!`)
                         const aProtoFunctions = window.wdi5.retrieveControlMethods(ui5Control)
                         // @type [String, String?, String, "Array of Strings"]
-                        done(["success", domElement, id, aProtoFunctions])
+                        done([
+                            "success",
+                            { domElement: domElement, id: id, aProtoFunctions: aProtoFunctions, className: className }
+                        ])
                     })
                     .catch(errorHandling)
             },

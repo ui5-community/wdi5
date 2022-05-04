@@ -235,3 +235,21 @@ it("get combobox single item aggregation as ui5 control", async () => {
   expect(await items.getTitle()).toEqual("Bahrain")
 })
 ```
+
+## use control info for analysis
+
+The control info object contains the following information:
+
+- **`id`**: `string` // full UI5 control id as it is in DOM
+- **`methods`**: `string[]` // list of available UI5 methods
+- **`className`**: `string` // UI5 class name (e.g. `sap.m.Button`)
+- **`$`**: `string[]` // list of WebdriverIO methods attached to `wdi5` control
+- **`key`**: `string` // entry in `wdi5` cache
+
+```js
+it("check the controlInfo for className", async () => {
+  const button = await browser.asControl(oButtonSelector)
+  const controlInfo = button.getControlInfo() // <--
+  expect(controlInfo.className).toEqual("sap.m.Button")
+})
+```
