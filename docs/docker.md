@@ -1,27 +1,29 @@
-# Docker
+# docker
 
 Prerequisite for all this is a working/running docker environment.
 
-## Variants
+## variants
 
-1. Run a single container that holds
+1. Run a single container that holds:
 
    - sample UI5 JS app incl tests from `wdi5` repo as application under test
    - sample WebdriverIO setup and `wdi5` config
-   - local webserver + proxy config serving the UI5 JS app at `localhost:8888`
-   - local `ui5-tooling` setup including `ui5-middleware-simpleproxy` serving the UI5 JS app at `localhost:8080`
+   - local webserver + proxy config serving the UI5 JS app at `<docker-container>:8888`
+   - local `ui5-tooling` setup including `ui5-middleware-simpleproxy` serving the UI5 JS app at `<docker-container>:8080`
 
-2. Run a composed setup of four container (sample UI5 JS app as application under test, test resources, chrome, selenium) in parallel to be more flexible and able to switch between browsers.
+2. (soon) Run a composed setup of four container (sample UI5 JS app as application under test, test resources, chrome, selenium) in parallel to be more flexible and able to switch between browsers.
 
-## Running
+## running
 
-### Standalone
+### standalone
 
-a sample execution is provided via a default "entry point":  
+The image serves `/app/webapp` both via the `ui5-server` at `http://<docker-container>:8080` and via a regular webserver ([`soerver`](https://www.npmjs.com/package/soerver)) at `http://<docker-container>:8888`. Both proxy request to a OData v2 sample service - [see the proxy config file](https://github.com/js-soft/wdi5/blob/main/examples/ui5-js-app/webapp/proxyrc.json) and the [ui5.yaml](https://github.com/js-soft/wdi5/blob/main/examples/ui5-js-app/ui5.yaml) for details on target host and "mountpoint".
+
+A sample execution is provided via a default "entry point":  
 `$> docker run --rm -ti wdi5`  
 will run the "basic" `wdi5` tests with Chrome headless against a local webserver on `localhost:8888`
 
-In order to provide your own UI5 app, `wdi5` config and/or run your custom test command, mount the respective files and folders into the container and supply bespoken command:
+In order to expose your own UI5 app + `wdi5` config to the docker container and/or run your custom test command, mount the respective files and folders into the container and supply bespoken command:
 
 ```bash
 # --rm auto-removes the container at stop
@@ -37,6 +39,10 @@ $> docker run --rm -ti \
 > node_modules/.bin/wdio
 ```
 
+### composed scenario
+
+(soon)
+
 ## docker image(s) setup
 
 ### standalone docker image
@@ -49,3 +55,7 @@ $> docker run --rm -ti \
 - WebdriverIO- + `wdi5`-config is composed of
   - `wdio`: `/app/wdio.base.conf.js` from repo's `/examples/ui5-js-app/wdio.base.conf.js`
   - `wdi5`: `/app/wdio.conf.js` as repo's `/examples/ui5-js-app/wdio-docker-standalone.conf.js`
+
+### swarm
+
+(soon)
