@@ -1,3 +1,11 @@
+var marky
+import("marky").then((_marky) => {
+    marky = _marky
+})
+
+// FIXME: dont know why this is not working
+// var marky = import("marky").then((module) => module)
+
 var instance
 /**
  *
@@ -23,5 +31,11 @@ module.exports = {
             instance = new Timer()
         }
         return instance
+    },
+    timerStart(label) {
+        marky.mark(label)
+    },
+    timerStop(label) {
+        return marky.stop(label)
     }
 }

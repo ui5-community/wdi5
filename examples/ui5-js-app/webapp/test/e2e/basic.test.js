@@ -1,6 +1,8 @@
 const Main = require("./pageObjects/Main")
 const _Timer = require("../../../../../src/lib/Timer")
-const Timer = _Timer.getInstance()
+const timerStart = require("../../../../../src/lib/Timer").timerStart
+const timerStop = require("../../../../../src/lib/Timer").timerStop
+const myTimer = _Timer.getInstance()
 
 const titleSelector = { selector: { id: "container-Sample---Main--Title::NoAction.h1" } }
 
@@ -57,10 +59,10 @@ describe("ui5 basic", () => {
         const selector2 = {
             id: "some.test.string"
         }
-        Timer.start("invalid Selector")
+        myTimer.start("invalid Selector")
         const invalidControl1 = await browser.asControl(selector1)
         const invalidControl2 = await browser.asControl(selector2)
-        Timer.stop("invalid Selector")
+        myTimer.stop("invalid Selector")
 
         // check if result contains the expected validation error
         expect(invalidControl1).toContain("ERROR")
@@ -100,9 +102,17 @@ describe("ui5 basic", () => {
         expect(response).toEqual("UI5 demo")
     })
 
-    it("checkmethod chaining with fluent api", async () => {
+    it("check method chaining with fluent api", async () => {
         const response = await browser.asControl(buttonSelector).press().getText()
         expect(response).toEqual("open Dialog")
+    })
+
+    it.only("test performance", async () => {
+        timerStart("1_fluentAPI")
+        const response = await browser.asControl(buttonSelector).press().getText()
+        var entry = timerStop("1_fluentAPI")
+        expect(response).toEqual("open Dialog")
+        console.log(entry)
     })
 
     it("method chaining without fluent api", async () => {

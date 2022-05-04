@@ -1,4 +1,7 @@
 import { chalk as console } from "./coloredConsole"
+// import { marky } from "marky"
+import marky = require("marky")
+
 /**
  *
  */
@@ -24,4 +27,12 @@ export class Timer {
     timeStamp(label: string) {
         console.timeStamp(label)
     }
+}
+
+export function start(label: string) {
+    marky.mark(label)
+}
+
+export function stop(label: string) {
+    return marky.stop(label)
 }
