@@ -24,7 +24,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14, 16, 17]
+        node-version: [14, 16, 17, 18]
 
     steps:
       - name: update chrome
