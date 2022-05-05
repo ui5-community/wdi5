@@ -18,10 +18,10 @@ class Timer {
         console.timeEnd(label)
     }
     timelog(label) {
-        console.time(label)
+        return console.timeLog(label)
     }
     timeStamp(label) {
-        console.timeStamp(label)
+        returnconsole.timeStamp(label)
     }
 }
 

@@ -105,13 +105,55 @@ describe("ui5 basic", () => {
     it("check method chaining with fluent api", async () => {
         const response = await browser.asControl(buttonSelector).press().getText()
         expect(response).toEqual("open Dialog")
+
+        // close popup
+        await browser.asControl({ selector: { id: "__button1" } }).press()
     })
 
-    it.only("test performance", async () => {
-        timerStart("1_fluentAPI")
-        const response = await browser.asControl(buttonSelector).press().getText()
-        var entry = timerStop("1_fluentAPI")
+    it("check button text", async () => {
+        myTimer.start("0_fluentAPI")
+        const response = await browser.asControl(buttonSelector).getText()
+        const timelog = myTimer.timelog("0_fluentAPI")
+        myTimer.stop("0_fluentAPI")
+
+        // expect(timelog).
         expect(response).toEqual("open Dialog")
+    })
+
+    it("test performance 1", async () => {
+        timerStart("1_fluentAPI")
+        myTimer.start("1_fluentAPI")
+
+        const response = await browser.asControl(buttonSelector).press().getText()
+
+        var entry = timerStop("1_fluentAPI")
+        myTimer.timelog("1_fluentAPI")
+        myTimer.stop("1_fluentAPI")
+
+        expect(response).toEqual("open Dialog")
+        expect(entry.duration).toBeLessThan(3000)
+
+        console.log(entry)
+
+        // close popup
+        await browser.asControl({ selector: { id: "__button1" } }).press()
+    })
+
+    it("test performance 2", async () => {
+        buttonSelector.forceSelect = true
+
+        timerStart("2_fluentAPI")
+        myTimer.start("2_fluentAPI")
+
+        const button = await browser.asControl(buttonSelector)
+        await button.press()
+        const text = await button.getText()
+
+        myTimer.timelog("2_fluentAPI")
+        var entry = timerStop("2_fluentAPI")
+        myTimer.stop("2_fluentAPI")
+
+        expect(text).toEqual("open Dialog")
         console.log(entry)
     })
 
