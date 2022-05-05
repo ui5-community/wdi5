@@ -1,24 +1,31 @@
 name: build wdi5 docker images
 
+# only run after wdi5/wdio-ui5-service package was released
 on:
-  push:
-    branches:
-      - main
-    paths:
-      # relevant
-      - "client-side-js/**"
-      - "docker/**"
-      - "examples/**"
-      - "scripts/**"
-      - "src/**"
-      # don't run on changes to these
-      - "!.husky/**"
-      - "!.vscode/**"
-      - "!docs/**"
-      - "!.*"
-      - "!*.md"
-      - "!*.cjs"
-      - "!test/**/*"
+  workflow_run:
+    workflows: ["build + publish wdi5 as wdio-ui5-service to npm"]
+    types:
+      - completed
+
+# on:
+#   push:
+#     branches:
+#       - main
+#     paths:
+#       # relevant
+#       - "client-side-js/**"
+#       - "docker/**"
+#       - "examples/**"
+#       - "scripts/**"
+#       - "src/**"
+#       # don't run on changes to these
+#       - "!.husky/**"
+#       - "!.vscode/**"
+#       - "!docs/**"
+#       - "!.*"
+#       - "!*.md"
+#       - "!*.cjs"
+#       - "!test/**/*"
 
 jobs:
   build:
