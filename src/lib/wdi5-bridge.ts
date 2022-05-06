@@ -13,7 +13,7 @@ import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version"
 import { clientSide__navTo } from "../../client-side-js/_navTo"
 import { clientSide_allControls } from "../../client-side-js/allControls"
 import { Logger as _Logger } from "./Logger"
-import { stop as timerStop, start as timerStart, enable, disable } from "./Timer"
+import { stop as timerStop, start as timerStart } from "./Timer"
 
 const Logger = _Logger.getInstance()
 

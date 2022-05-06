@@ -119,7 +119,7 @@ describe("ui5 basic", () => {
 
         const response = await browser.asControl(buttonSelector).press().getText()
 
-        var entry = timerStop("1_fluentAPI")
+        const entry = timerStop("1_fluentAPI")
 
         expect(response).toEqual("open Dialog")
         expect(entry.duration).toBeLessThan(3000)
@@ -139,7 +139,7 @@ describe("ui5 basic", () => {
         await button.press()
         const text = await button.getText()
 
-        var entry = timerStop("2_fluentAPI")
+        const entry = timerStop("2_fluentAPI")
 
         expect(text).toEqual("open Dialog")
         console.log(entry)
