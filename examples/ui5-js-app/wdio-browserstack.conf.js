@@ -38,11 +38,7 @@ const firefox = {
     browserVersion: "98.0",
     "bstack:options": {
         os: "Windows",
-        osVersion: "11",
-        local: true,
-        networkLogs: true,
-        seleniumVersion: "3.10.0",
-        video: false
+        osVersion: "11"
     }
 }
 const safari = {

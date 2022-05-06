@@ -488,7 +488,7 @@ export class WDI5Control {
 
         // TODO: move to constructor?
         // save the webdriver representation by control id
-        if (result && id) {
+        if (result === "success" && id) {
             // only if the result is valid
             this._webdriverRepresentation = await $(`//*[@id="${id}"]`)
             this._generatedWdioMethods = this._retrieveControlMethods(this._webdriverRepresentation)

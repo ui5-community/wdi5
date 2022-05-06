@@ -97,9 +97,47 @@ describe("ui5 basic", () => {
         expect(response).toEqual("UI5 demo")
     })
 
-    it("check method chaining with fluent api", async () => {
+    it.only("---- NOT working in firefox ---- check method chaining with fluent api", async () => {
+        // uses regex matcher
         const response = await browser.asControl(buttonSelector).press().getText()
         expect(response).toEqual("open Dialog")
+
+        // close popup
+        await browser.asControl({ selector: { id: "__button1" } }).press()
+    })
+
+    it.only("---- working in firefox ---- check button text without chaining", async () => {
+        const buttonSelector = {
+            wdio_ui5_key: "openDialogButton",
+            selector: {
+                controlType: "sap.m.Button",
+                viewName: "test.Sample.view.Main",
+                id: "openDialogButton"
+            }
+        }
+        const button = await browser.asControl(buttonSelector)
+        const buttonAgain = await button.press()
+        const text = await buttonAgain.getText()
+        expect(text).toEqual("open Dialog")
+
+        // close popup
+        await browser.asControl({ selector: { id: "__button1" } }).press()
+    })
+
+    it.only("---- working in firefox ---- check methods of fluent api", async () => {
+        const buttonSelector = {
+            wdio_ui5_key: "openDialogButton",
+            selector: {
+                controlType: "sap.m.Button",
+                viewName: "test.Sample.view.Main",
+                id: "openDialogButton"
+            }
+        }
+        const text = await browser.asControl(buttonSelector).press().getText()
+        expect(text).toEqual("open Dialog")
+
+        // close popup
+        await browser.asControl({ selector: { id: "__button1" } }).press()
     })
 
     it("method chaining without fluent api", async () => {
