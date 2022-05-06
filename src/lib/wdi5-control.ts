@@ -50,8 +50,12 @@ export class WDI5Control {
         this._webdriverRepresentation = webdriverRepresentation
         this._domId = domId
 
-        this.attachControlBridge(this._generatedUI5Methods as Array<string>)
-        this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
+        if (this._generatedUI5Methods && this._generatedUI5Methods.length > 0) {
+            this.attachControlBridge(this._generatedUI5Methods as Array<string>)
+        }
+        if (this._generatedWdioMethods && this._generatedWdioMethods.length > 0) {
+            this.attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
+        }
 
         this.setControlInfo()
 
@@ -484,7 +488,7 @@ export class WDI5Control {
 
         // TODO: move to constructor?
         // save the webdriver representation by control id
-        if (result) {
+        if (result && id) {
             // only if the result is valid
             this._webdriverRepresentation = await $(`//*[@id="${id}"]`)
             this._generatedWdioMethods = this._retrieveControlMethods(this._webdriverRepresentation)
