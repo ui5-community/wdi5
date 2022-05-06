@@ -1,8 +1,7 @@
 const Main = require("./pageObjects/Main")
 const _Timer = require("../../../../../src/lib/Timer")
-const timerStart = require("../../../../../src/lib/Timer").timerStart
-const timerStop = require("../../../../../src/lib/Timer").timerStop
-const myTimer = _Timer.getInstance()
+const timerStart = _Timer.start
+const timerStop = _Timer.stop
 
 const titleSelector = { selector: { id: "container-Sample---Main--Title::NoAction.h1" } }
 
@@ -59,10 +58,8 @@ describe("ui5 basic", () => {
         const selector2 = {
             id: "some.test.string"
         }
-        myTimer.start("invalid Selector")
         const invalidControl1 = await browser.asControl(selector1)
         const invalidControl2 = await browser.asControl(selector2)
-        myTimer.stop("invalid Selector")
 
         // check if result contains the expected validation error
         expect(invalidControl1).toContain("ERROR")
@@ -111,10 +108,7 @@ describe("ui5 basic", () => {
     })
 
     it("check button text", async () => {
-        myTimer.start("0_fluentAPI")
         const response = await browser.asControl(buttonSelector).getText()
-        const timelog = myTimer.timelog("0_fluentAPI")
-        myTimer.stop("0_fluentAPI")
 
         // expect(timelog).
         expect(response).toEqual("open Dialog")
@@ -122,13 +116,10 @@ describe("ui5 basic", () => {
 
     it("test performance 1", async () => {
         timerStart("1_fluentAPI")
-        myTimer.start("1_fluentAPI")
 
         const response = await browser.asControl(buttonSelector).press().getText()
 
         var entry = timerStop("1_fluentAPI")
-        myTimer.timelog("1_fluentAPI")
-        myTimer.stop("1_fluentAPI")
 
         expect(response).toEqual("open Dialog")
         expect(entry.duration).toBeLessThan(3000)
@@ -143,15 +134,12 @@ describe("ui5 basic", () => {
         buttonSelector.forceSelect = true
 
         timerStart("2_fluentAPI")
-        myTimer.start("2_fluentAPI")
 
         const button = await browser.asControl(buttonSelector)
         await button.press()
         const text = await button.getText()
 
-        myTimer.timelog("2_fluentAPI")
         var entry = timerStop("2_fluentAPI")
-        myTimer.stop("2_fluentAPI")
 
         expect(text).toEqual("open Dialog")
         console.log(entry)

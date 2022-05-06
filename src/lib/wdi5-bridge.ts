@@ -13,12 +13,7 @@ import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version"
 import { clientSide__navTo } from "../../client-side-js/_navTo"
 import { clientSide_allControls } from "../../client-side-js/allControls"
 import { Logger as _Logger } from "./Logger"
-import { Timer as _Timer } from "./Timer"
-import { stop as timerStop, start as timerStart, enable as timerEnable, disable as timerDisable } from "./Timer"
-
-timerDisable()
-const Timer = _Timer.getInstance()
-Timer.disable()
+import { stop as timerStop, start as timerStart, enable, disable } from "./Timer"
 
 const Logger = _Logger.getInstance()
 
@@ -202,12 +197,10 @@ export async function addWdi5Commands() {
             wdi5Selector.wdio_ui5_key = internalKey
 
             timerStart("retrieveSingleControl")
-            Timer.start("retrieveSingleControl")
 
             const wdi5Control = await new WDI5Control({}).init(wdi5Selector, wdi5Selector.forceSelect)
 
             timerStop("retrieveSingleControl")
-            Timer.stop("retrieveSingleControl")
 
             browser._controls[internalKey] = wdi5Control
         } else {
@@ -227,9 +220,7 @@ export async function addWdi5Commands() {
         if (!browser._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
             wdi5Selector.wdio_ui5_key = internalKey
             Logger.info(`creating internal controls with id ${internalKey}`)
-            Timer.start("retrieveAllControls")
             browser._controls[internalKey] = await _allControls(wdi5Selector)
-            Timer.stop("retrieveAllControls")
             return browser._controls[internalKey]
         } else {
             Logger.info(`reusing internal control with id ${internalKey}`)

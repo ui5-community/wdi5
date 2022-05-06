@@ -1,10 +1,14 @@
 import { chalk as console } from "./coloredConsole"
 import marky = require("marky")
 
+/**
+ * Timer to mesure performance in wdi5 or TS apps
+ */
+
 let active = true
 
 /**
- *
+ * do not use the Timer Class
  */
 export class Timer {
     private static instance: Timer
@@ -61,11 +65,21 @@ export function start(label: string) {
     }
 }
 
+export function getEntries() {
+    return marky.getEntries()
+}
+
+export function clear() {
+    marky.clear()
+}
+
 export function stop(label: string) {
     if (active) {
-        const result = marky.stop(label)
+        const _result = marky.stop(label)
+        const result = { name: _result.name, duration: _result.duration }
         console.log(result)
         return result
     }
-    return { startTime: "inactive", name: "inactive", duration: "inactive", entryType: "inactive" }
+
+    return { name: "inactive", duration: "inactive" }
 }
