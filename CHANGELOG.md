@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.9.0-rc4.3](https://github.com/js-soft/wdi5/compare/v0.9.0-rc4.2...v0.9.0-rc4.3) (2022-04-28)
+
+
+### Bug Fixes
+
+* **#241:** rm warning if control was not instatiated by $$ ([#242](https://github.com/js-soft/wdi5/issues/242)) ([0b6a111](https://github.com/js-soft/wdi5/commit/0b6a111ad66644fafb0856627850ba792641ce41)), closes [#241](https://github.com/js-soft/wdi5/issues/241)
+
+## [0.9.0-rc4.2](https://github.com/js-soft/wdi5/compare/v0.9.0-rc4.1...v0.9.0-rc4.2) (2022-04-20)
+
+
+### Features
+
+* add to "best of UI5" ([#231](https://github.com/js-soft/wdi5/issues/231)) ([b17685c](https://github.com/js-soft/wdi5/commit/b17685c68c3f51ca1bf8b013b49eac90de1f9c73))
+* proxy object-type return value ([#234](https://github.com/js-soft/wdi5/issues/234)) ([1959411](https://github.com/js-soft/wdi5/commit/1959411eb9e8dabf3b44521ee718991a7d9e2791))
+* **wdi5-control:** .getControlInfo() for info on capabilities ([#214](https://github.com/js-soft/wdi5/issues/214)) ([965d8bb](https://github.com/js-soft/wdi5/commit/965d8bb02154f2bc59bf3be3076eb8950d3c6333))
+* **wdi5-control:** .getControlInfo() for info on capabilities ([#214](https://github.com/js-soft/wdi5/issues/214)) ([073d917](https://github.com/js-soft/wdi5/commit/073d9177a89f898c7e89b6b9dfe5dd545e01ae54))
+
 ## [0.9.0-rc4.1](https://github.com/js-soft/wdi5/compare/v0.9.0-rc4...v0.9.0-rc4.1) (2022-04-12)
 
 
