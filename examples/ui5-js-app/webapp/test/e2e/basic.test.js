@@ -97,7 +97,7 @@ describe("ui5 basic", () => {
         expect(response).toEqual("UI5 demo")
     })
 
-    it("checkmethod chaining with fluent api", async () => {
+    it("check method chaining with fluent api", async () => {
         const response = await browser.asControl(buttonSelector).press().getText()
         expect(response).toEqual("open Dialog")
     })
