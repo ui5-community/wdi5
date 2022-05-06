@@ -5,4 +5,5 @@
 - [Usage](usage.md)
 - [Locators](locators.md)
 - [Recipes](recipes.md)
+- [Docker](docker.md)
 - [Contributing](contributing.md)
