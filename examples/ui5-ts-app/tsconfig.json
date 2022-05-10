@@ -5,8 +5,8 @@
       "webdriverio/async",
       "@wdio/mocha-framework",
       "expect-webdriverio",
-      "@openui5/ts-types-esm",
-      "../../src/types/browser-commands"
+      "@openui5/ts-types-esm"
+      // "browser-commands"  //TODO Geht nicht!!!! Was soll der MIst?!!?!?!?!11111
     ],
     "target": "ES5"
   }

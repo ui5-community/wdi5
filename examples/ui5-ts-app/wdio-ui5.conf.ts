@@ -23,11 +23,9 @@ export const config: wdi5Config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: ["./test/basics.test.ts"],
+    specs: ["./test/e2e/*.ts"],
     // Patterns to exclude.
-    exclude: [
-        // 'path/to/excluded/files'
-    ],
+    exclude: ["./test/e2e/selector.ts", "./test/e2e/UserInput.ts", "./test/e2e/Panel.ts", "./test/e2e/View.ts"],
     //
     // ============
     // Capabilities
