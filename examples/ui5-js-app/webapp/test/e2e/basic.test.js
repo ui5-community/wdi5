@@ -1,7 +1,5 @@
 const Main = require("./pageObjects/Main")
-const _Timer = require("../../../../../src/lib/Timer")
-const timerStart = _Timer.start
-const timerStop = _Timer.stop
+const marky = require("marky")
 
 const titleSelector = { selector: { id: "container-Sample---Main--Title::NoAction.h1" } }
 
@@ -115,11 +113,11 @@ describe("ui5 basic", () => {
     })
 
     it("test performance 1", async () => {
-        timerStart("1_fluentAPI")
+        marky.mark("1_fluentAPI")
 
         const response = await browser.asControl(buttonSelector).press().getText()
 
-        const entry = timerStop("1_fluentAPI")
+        const entry = marky.stop("1_fluentAPI")
 
         expect(response).toEqual("open Dialog")
         expect(entry.duration).toBeLessThan(3000)
@@ -133,13 +131,13 @@ describe("ui5 basic", () => {
     it("test performance 2", async () => {
         buttonSelector.forceSelect = true
 
-        timerStart("2_fluentAPI")
+        marky.mark("2_fluentAPI")
 
         const button = await browser.asControl(buttonSelector)
         await button.press()
         const text = await button.getText()
 
-        const entry = timerStop("2_fluentAPI")
+        const entry = marky.stop("2_fluentAPI")
 
         expect(text).toEqual("open Dialog")
         console.log(entry)

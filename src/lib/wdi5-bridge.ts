@@ -13,7 +13,7 @@ import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version"
 import { clientSide__navTo } from "../../client-side-js/_navTo"
 import { clientSide_allControls } from "../../client-side-js/allControls"
 import { Logger as _Logger } from "./Logger"
-import { stop as timerStop, start as timerStart } from "./Timer"
+import marky = require("marky")
 
 const Logger = _Logger.getInstance()
 
@@ -196,11 +196,11 @@ export async function addWdi5Commands() {
             Logger.info(`creating internal control with id ${internalKey}`)
             wdi5Selector.wdio_ui5_key = internalKey
 
-            timerStart("retrieveSingleControl")
+            marky.mark("retrieveSingleControl")
 
             const wdi5Control = await new WDI5Control({}).init(wdi5Selector, wdi5Selector.forceSelect)
 
-            timerStop("retrieveSingleControl")
+            marky.stop("retrieveSingleControl")
 
             browser._controls[internalKey] = wdi5Control
         } else {
