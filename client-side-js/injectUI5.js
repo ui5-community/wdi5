@@ -101,13 +101,16 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                         //         }
                         //     }
                         // }
-                        if (
-                            typeof oSelector.properties?.text === "string" &&
-                            oSelector.properties?.text.startsWith("/", 0)
-                        ) {
-                            const [_, sRegEx, sFlags] = oSelector.properties.text.match(/\/(.*)\/(.*)/)
-                            oSelector.properties.text = new RegExp(sRegEx, sFlags)
-                        }
+
+                        // if (oSelector.properties && oSelector.properties.test &&
+                        //     typeof oSelector.properties.text === "string" &&
+                        //     oSelector.properties.text.startsWith("/", 0)
+                        // ) {
+                        console.log(`--- 1: Selector: ${oSelector.properties.text.toString()} ----- `)
+                        const [sTarget, sRegEx, sFlags] = oSelector.properties.text.match(/\/(.*)\/(.*)/)
+                        oSelector.properties.text = new RegExp(sRegEx, sFlags)
+                        console.log(`--- 2: Selector: ${oSelector.properties.text.toString()} ----- `)
+                        // }
 
                         if (oSelector.bindingPath) {
                             // TODO: for the binding Path there is no object creation
@@ -129,6 +132,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                             }
                         }
                         if (window.compareVersions.compare(oldAPIVersion, sap.ui.version, ">")) {
+                            console.log("--- Selector: create matcher ---")
                             oSelector.matchers = []
                             // for version < 1.72 declarative matchers are not available
                             if (oSelector.bindingPath) {
@@ -179,6 +183,9 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                         }
 
                         */
+                        console.log(`--- 3: Selector.properties.text: ${oSelector.properties.text.toString()} ----- `)
+                        console.log(`--- 3: Selector.viewName: ${oSelector.viewName} ----- `)
+                        console.log(`--- 3: Selector.controlType: ${oSelector.controlType} ----- `)
                         return oSelector
                     }
 

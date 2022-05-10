@@ -8,7 +8,7 @@ const buttonSelector = {
         controlType: "sap.m.Button",
         viewName: "test.Sample.view.Main",
         properties: {
-            text: new RegExp(/.*ialog.*/gm)
+            text: new RegExp(/.*ialog.*/)
         }
     }
 }
@@ -106,7 +106,23 @@ describe("ui5 basic", () => {
         await browser.asControl({ selector: { id: "__button1" } }).press()
     })
 
-    it.only("---- working in firefox ---- check button text without chaining", async () => {
+    it("---- working in firefox ---- check method chaining with fluent api using ID Regex", async () => {
+        // uses regex matcher
+        const response = await browser
+            .asControl({
+                selector: {
+                    id: new RegExp(/.*DialogButton.*/gm)
+                }
+            })
+            .press()
+            .getText()
+        expect(response).toEqual("open Dialog")
+
+        // close popup
+        await browser.asControl({ selector: { id: "__button1" } }).press()
+    })
+
+    it("---- working in firefox ---- check button text without chaining", async () => {
         const buttonSelector = {
             wdio_ui5_key: "openDialogButton",
             selector: {
@@ -124,7 +140,7 @@ describe("ui5 basic", () => {
         await browser.asControl({ selector: { id: "__button1" } }).press()
     })
 
-    it.only("---- working in firefox ---- check methods of fluent api", async () => {
+    it("---- working in firefox ---- check methods of fluent api", async () => {
         const buttonSelector = {
             wdio_ui5_key: "openDialogButton",
             selector: {

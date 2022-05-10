@@ -14,6 +14,14 @@ async function clientSide_getControl(controlSelector) {
             waitForUI5Options,
             () => {
                 window.wdi5.Log.info("[browser wdi5] locating " + JSON.stringify(controlSelector))
+
+                console.log(`--- [browser wdi5] locating " + ${JSON.stringify(controlSelector)} ----- `)
+                console.log(
+                    `--- 0: Selector.properties.text: ${controlSelector.selector.properties.text.toString()} ----- `
+                )
+                console.log(`--- 0: Selector.viewName: ${controlSelector.selector.viewName} ----- `)
+                console.log(`--- 0: Selector.controlType: ${controlSelector.selector.controlType} ----- `)
+
                 controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector)
                 window.bridge
                     .findDOMElementByControlSelector(controlSelector)
