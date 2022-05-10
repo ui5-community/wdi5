@@ -39,6 +39,8 @@
     "_startApp:js-tooling": "npm run serve --workspace=examples/ui5-js-app",
     "_startApp:ts": "tbd",
     "_test:js-app": "wait-on tcp:8888 && wait-on tcp:8080 && npm run test --workspace=examples/ui5-js-app",
+    "_test:js-app-h": "wait-on tcp:8888 && wait-on tcp:8080 && npm run test-h --workspace=examples/ui5-js-app",
+    "test-h:js-app": "run-p -r _startApp:js _startApp:js-tooling _test-h:js-app",
     "test:js-app": "run-p -r _startApp:js _startApp:js-tooling _test:js-app",
     "test": "cross-env TS_NODE_PROJECT=\"test/tsconfig.json\" mocha",
     "prepare": "husky install",

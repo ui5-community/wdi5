@@ -71,4 +71,4 @@ jobs:
 
       # run wdi5 tests within app(s)
       - name: test js-app
-        run: npm run test:js-app -- -- --headless
+        run: npm run test-h:js-app
