@@ -489,9 +489,6 @@ export class WDI5Control {
         const _result = (await clientSide_getControl(controlSelector)) as clientSide_ui5Response
         const { status, domElement, id, aProtoFunctions, className } = _result
 
-        // TODO: move to constructor?
-        // save the webdriver representation by control id
-
         if (status === 0 && id) {
             // only if the result is valid
             this._generatedWdioMethods = wdioApi
@@ -521,49 +518,5 @@ export class WDI5Control {
         } else {
             Logger.warn(`Unknown status: ${functionName} returned: ${JSON.stringify(response.message)}`)
         }
-    }
-
-    /**
-     *
-     * @param {WebDriver.Element} control
-     * @returns {Array<string>}
-     */
-    private _retrieveControlMethods(control) {
-        const _control = control
-        // create keys of all parent prototypes
-        const properties = new Set()
-        do {
-            Object.getOwnPropertyNames(control).map((item) => properties.add(item))
-        } while ((control = Object.getPrototypeOf(control)))
-
-        // @ts-ignore
-        const controlMethodsToProxy = [...properties.keys()].filter((item: string) => {
-            if (typeof _control[item] === "function") {
-                // function
-
-                // filter private methods
-                if (item.startsWith("_")) {
-                    return false
-                }
-
-                // filter not working methods
-                // and those with a specific api from wdi5/wdio-ui5-service
-                const aFilterFunctions = ["$", "constructor"]
-
-                if (aFilterFunctions.includes(item)) {
-                    return false
-                }
-
-                /* if (item.startsWith("is")) {
-                    // only check functions
-                    return true
-                } */
-
-                return true
-            }
-            return false
-        })
-
-        return controlMethodsToProxy as Array<string>
     }
 }
