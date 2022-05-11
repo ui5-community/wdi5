@@ -97,7 +97,7 @@ describe("ui5 basic", () => {
         expect(response).toEqual("UI5 demo")
     })
 
-    it.only("---- NOT working in firefox ---- check method chaining with fluent api", async () => {
+    it("---- NOT working in firefox ---- check method chaining with fluent api", async () => {
         // uses regex matcher
         const response = await browser.asControl(buttonSelector).press().getText()
         expect(response).toEqual("open Dialog")
