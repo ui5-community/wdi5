@@ -2,6 +2,7 @@ import { resolve } from "path"
 import { writeFile } from "fs/promises"
 import { tmpdir } from "os"
 import * as semver from "semver"
+import { marky_mark, marky_stop } from "marky"
 
 import { wdi5Config, wdi5Selector } from "../types/wdi5.types"
 import { WDI5Control } from "./wdi5-control"
@@ -13,7 +14,6 @@ import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version"
 import { clientSide__navTo } from "../../client-side-js/_navTo"
 import { clientSide_allControls } from "../../client-side-js/allControls"
 import { Logger as _Logger } from "./Logger"
-import marky = require("marky")
 
 const Logger = _Logger.getInstance()
 
@@ -196,11 +196,12 @@ export async function addWdi5Commands() {
             Logger.info(`creating internal control with id ${internalKey}`)
             wdi5Selector.wdio_ui5_key = internalKey
 
-            marky.mark("retrieveSingleControl")
+            marky_mark("retrieveSingleControl")
 
             const wdi5Control = await new WDI5Control({}).init(wdi5Selector, wdi5Selector.forceSelect)
 
-            marky.stop("retrieveSingleControl")
+            const e = marky_stop("retrieveSingleControl")
+            Logger.info(`_asControl() needed ${e.duration} for ${internalKey}`)
 
             browser._controls[internalKey] = wdi5Control
         } else {
