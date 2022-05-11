@@ -2,17 +2,19 @@ const { join } = require("path")
 const { baseConfig } = require("./wdio.base.conf")
 const merge = require("deepmerge")
 const { wdi5 } = require("wdio-ui5-service")
+const { getBrowsers } = require("./scripts/getBrowsers")
 
 const chrome = {
     maxInstances: 5,
     browserName: "chrome",
     acceptInsecureCerts: true,
     "goog:chromeOptions": {
-        args: process.env.HEADLESS
-            ? ["window-size=1440,800", "--headless"]
-            : process.env.DEBUG
-            ? ["window-size=1920,1280", "--auto-open-devtools-for-tabs"]
-            : ["window-size=1440,800"]
+        args:
+            process.argv.indexOf("--headless") > -1
+                ? ["window-size=1440,800", "--headless"]
+                : process.argv.indexOf("--debug") > -1
+                ? ["window-size=1920,1280", "--auto-open-devtools-for-tabs"]
+                : ["window-size=1440,800"]
     }
 }
 
@@ -37,7 +39,8 @@ const _config = {
 
 // add browsers
 baseConfig.capabilities = []
-const _browsers = process.env.BROWSERS
+const _browsers = getBrowsers()
+
 if (_browsers && _browsers.length > 0) {
     wdi5.getLogger().log(`requested browsers: ${_browsers}`)
 

@@ -2,6 +2,7 @@ const { join } = require("path")
 const { baseConfig } = require("./wdio.base.conf")
 const merge = require("deepmerge")
 const { wdi5 } = require("wdio-ui5-service")
+const { getBrowsers } = require("./scripts/getBrowsers")
 
 const _config = {
     user: process.env.BROWSERSTACK_USERNAME,
@@ -61,7 +62,8 @@ const edge = {
 
 // add browsers
 conf.capabilities = []
-const _browsers = process.env.BROWSERS
+const _browsers = getBrowsers()
+
 if (_browsers && _browsers.length > 0) {
     wdi5.getLogger().log(`requested browsers: ${_browsers}`)
 
