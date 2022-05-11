@@ -47,7 +47,8 @@ if (_browsers && _browsers.length > 0) {
     }
 } else {
     _config.capabilities.push(chrome)
-    _config.capabilities.push(firefox)
+    // firefox not working with regex tests
+    // _config.capabilities.push(firefox)
 }
 
 exports.config = merge(baseConfig, _config)
