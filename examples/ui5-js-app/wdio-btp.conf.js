@@ -1,9 +1,9 @@
-const { config } = require("./wdio.base.conf")
+const { baseConfig } = require("./wdio.base.conf")
 const { setValue, getValue } = require("@wdio/shared-store-service")
 const login = require("./scripts/login")
 const selectIdentityProvider = require("./scripts/selectIdentityProvider")
 
-const _config = Object.assign(config, {
+const _config = Object.assign(baseConfig, {
     before: async function (config, capabilities, browser) {
         "use strict"
 

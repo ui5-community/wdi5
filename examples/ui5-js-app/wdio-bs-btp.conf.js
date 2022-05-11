@@ -9,7 +9,6 @@ const bs_conf = require("./wdio-browserstack.conf")
 
 const _config = {
     services: ["ui5", "shared-store"],
-    specs: ["examples/ui5-js-app/webapp/test/e2e/basic.test.js"],
     wdi5: {
         skipInjectUI5OnStart: true,
         url: "index.html"
@@ -26,12 +25,11 @@ if (!(process.env.USERNAME && process.env.PASSWORD)) {
     wdi5.getLogger().error("no username and/ or password for login provided")
 }
 
-let conf = merge(bs_conf, btp_conf)
+let conf = merge(btp_conf.config, bs_conf.config)
 
 conf.services = _config.services
 conf.wdi5.skipInjectUI5OnStart = _config.wdi5.skipInjectUI5OnStart
 conf.wdi5.url = _config.wdi5.url
 conf.baseUrl = _config.baseUrl
-conf.specs = _config.specs
 
 exports.config = conf
