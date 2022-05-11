@@ -135,7 +135,8 @@ describe("ui5 basic", () => {
 
         expect(response).toEqual("open Dialog")
         expect(entry.duration).toBeLessThan(3000)
-        wdi5.getLogger().log(entry)
+
+        wdi5.getLogger().info(entry)
 
         // close popup
         await browser.asControl({ selector: { id: "__button1" } }).press()
@@ -153,8 +154,7 @@ describe("ui5 basic", () => {
         const entry = marky.stop("2_fluentAPI")
 
         expect(text).toEqual("open Dialog")
-        expect(entry.duration).toBeLessThan(3000)
-        wdi5.getLogger().log(entry)
+        wdi5.getLogger().info(entry)
     })
 
     it("method chaining without fluent api", async () => {
