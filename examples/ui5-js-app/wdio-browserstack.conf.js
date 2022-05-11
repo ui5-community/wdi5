@@ -64,26 +64,16 @@ const edge = {
 conf.capabilities = []
 const _browsers = getBrowsers()
 
-if (_browsers && _browsers.length > 0) {
-    wdi5.getLogger().log(`requested browsers: ${_browsers}`)
-
-    if (_browsers.includes("chrome")) {
-        conf.capabilities.push(chrome)
-    }
-    if (_browsers.includes("safari")) {
-        conf.capabilities.push(safari)
-    }
-    if (_browsers.includes("firefox")) {
-        conf.capabilities.push(firefox)
-    }
-    if (_browsers.includes("edge")) {
-        conf.capabilities.push(edge)
-    }
-} else {
+if (_browsers.includes("chrome")) {
     conf.capabilities.push(chrome)
+}
+if (_browsers.includes("safari")) {
     conf.capabilities.push(safari)
-    // firefox not working with regex tests
-    // conf.capabilities.push(firefox)
+}
+if (_browsers.includes("firefox")) {
+    conf.capabilities.push(firefox)
+}
+if (_browsers.includes("edge")) {
     conf.capabilities.push(edge)
 }
 

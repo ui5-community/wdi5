@@ -58,18 +58,11 @@ config.capabilities = []
 
 const browsers = getBrowsers()
 
-if (browsers) {
-    if (browsers.includes("chrome")) {
-        config.capabilities.push(chrome)
-    }
-    if (browsers.includes("firefox")) {
-        config.capabilities.push(firefox)
-    }
-} else {
-    // nothing defined -> start all
+if (browsers.includes("chrome")) {
     config.capabilities.push(chrome)
-    // firefox failing with regex test
-    // config.capabilities.push(firefox)
+}
+if (browsers.includes("firefox")) {
+    config.capabilities.push(firefox)
 }
 
 exports.config = config
