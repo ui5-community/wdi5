@@ -1,5 +1,6 @@
 const Main = require("./pageObjects/Main")
 const marky = require("marky")
+const { wdi5 } = require("wdio-ui5-service")
 
 const titleSelector = { selector: { id: "container-Sample---Main--Title::NoAction.h1" } }
 
@@ -122,7 +123,7 @@ describe("ui5 basic", () => {
         expect(response).toEqual("open Dialog")
         expect(entry.duration).toBeLessThan(3000)
 
-        console.log(entry)
+        wdi5.getLogger().log(entry)
 
         // close popup
         await browser.asControl({ selector: { id: "__button1" } }).press()
@@ -140,7 +141,7 @@ describe("ui5 basic", () => {
         const entry = marky.stop("2_fluentAPI")
 
         expect(text).toEqual("open Dialog")
-        console.log(entry)
+        wdi5.getLogger().log(entry)
     })
 
     it("method chaining without fluent api", async () => {
