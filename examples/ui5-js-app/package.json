@@ -16,6 +16,7 @@
     "test:ui5tooling": "wdio run wdio-ui5tooling.conf.js",
     "test:webserver": "wdio run wdio-webserver.conf.js",
     "test-browserstack": "wdio run wdio-browserstack.conf.js",
+    "test:bs-btp": "wdio run wdio-bs-btp.conf.js",
     "test:multiversion": "node wdi5-multiversion.js",
     "test-selenium": "wdio run wdio-selenium-service.conf.js"
   },
