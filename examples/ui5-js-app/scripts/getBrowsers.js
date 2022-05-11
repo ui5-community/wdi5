@@ -17,12 +17,10 @@ exports.getBrowsers = function () {
             return availableBrowsers.includes(element)
         })
 
-        wdi5.getLogger().log(`BROWSERS: ${browsers}`)
         return browsers
     }
     // browsers not set return all
     const _browsersNoFirefox = ["chrome", "safari", "edge"]
 
-    wdi5.getLogger().log(`BROWSERS: ${_browsersNoFirefox}`)
     return _browsersNoFirefox
 }

@@ -59,9 +59,11 @@ config.capabilities = []
 const browsers = getBrowsers()
 
 if (browsers.includes("chrome")) {
+    wdi5.getLogger().info(`add BROWSER: chrome`)
     config.capabilities.push(chrome)
 }
 if (browsers.includes("firefox")) {
+    wdi5.getLogger().info(`add BROWSER: firefox`)
     config.capabilities.push(firefox)
 }
 

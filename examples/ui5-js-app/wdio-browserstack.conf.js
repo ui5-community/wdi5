@@ -65,15 +65,19 @@ conf.capabilities = []
 const _browsers = getBrowsers()
 
 if (_browsers.includes("chrome")) {
+    wdi5.getLogger().info(`add BROWSER: chrome`)
     conf.capabilities.push(chrome)
 }
 if (_browsers.includes("safari")) {
+    wdi5.getLogger().info(`add BROWSER: safari`)
     conf.capabilities.push(safari)
 }
 if (_browsers.includes("firefox")) {
+    wdi5.getLogger().info(`add BROWSER: firefox`)
     conf.capabilities.push(firefox)
 }
 if (_browsers.includes("edge")) {
+    wdi5.getLogger().info(`add BROWSER: edge`)
     conf.capabilities.push(edge)
 }
 
