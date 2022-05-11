@@ -47,9 +47,8 @@ jobs:
       # push to self aka main from within gh action with "release-state"
       # doesn't trigger this workflow again
       # b/c of missing personal access token here
-      ### all of the below commented out during alpha release phase!
-      # - run: git push --follow-tags origin main
+      - run: git push --follow-tags origin main
       ## finally publish the npm package
-      #- run: npm publish
-      #  env:
-      #    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
