@@ -65,6 +65,19 @@ describe("ui5 basic", () => {
         expect(invalidControl2).toContain("ERROR")
     })
 
+    it("check getControl error message", async () => {
+        const selector = {
+            selector: {
+                id: "some.test.string"
+            }
+        }
+
+        const invalidControl = await browser.asControl(selector)
+
+        // check if result contains the expected validation error
+        expect(invalidControl.getInitStatus()).toBeFalsy()
+    })
+
     /* it("check for Searchfield Properties", async () => {
         const searchFieldSelector = {
             selector: {
