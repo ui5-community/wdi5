@@ -8,7 +8,7 @@ const buttonSelector = {
         controlType: "sap.m.Button",
         viewName: "test.Sample.view.Main",
         properties: {
-            text: new RegExp(/.*ialog.*/)
+            text: new RegExp(/.*ialog.*/gm)
         }
     }
 }
