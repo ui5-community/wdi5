@@ -445,16 +445,16 @@ These properties can help to indentify the received control or test the control 
 })
 ```
 
-## Test Performane/ Responsiveness
+## Test Performance/Responsiveness
 
-Recommendation to use [marky](https://www.npmjs.com/package/marky).
+There is no tooling included with `wdi5` for asserting runtime performance metrics. Reason for this is to keep `wdi5`'s dependencies to a minimum - plus there are easy to use tools for that job such as [marky](https://www.npmjs.com/package/marky).
 
-Test to check responsiveness of an application after a button click
+Here's an example test to check the responsiveness via `marky` of an application opening a `sap.m.Dialog` after a clicking a button:
 
 ```js
 const marky = require("marky")
 
-...
+// ...
 
 it("test responsiveness of button action", async () => {
   marky.mark("start_action")
