@@ -59,11 +59,12 @@ export const config: wdi5Config = {
             //
             browserName: "chrome",
             "goog:chromeOptions": {
-                args: process.env.HEADLESS
-                    ? ["--headless"]
-                    : process.env.DEBUG
-                    ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
-                    : ["window-size=1440,800"]
+                args:
+                    process.argv.indexOf("--headless") > -1
+                        ? ["--headless"]
+                        : process.argv.indexOf("--debug") > -1
+                        ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
+                        : ["window-size=1440,800"]
             },
             acceptInsecureCerts: true
             // If outputDir is provided WebdriverIO can capture driver session logs
