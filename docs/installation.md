@@ -20,7 +20,7 @@ On the console, change into the folder with the UI5 app you want to test.
 $> cd any/ui5/app
 ```
 
-Then let the `@wdio/cli` guide you through the setup process, including installation of `wdi5` aka `wdio-ui5-service`.  
+Then let the `@wdio/cli` guide you through the setup process, including installation of `wdi5` aka `wdio-ui5-service`.
 (In this example, we'll do a minimum install for running `wdi5`/`wdio`
 
 - locally
@@ -53,7 +53,7 @@ As the final step, let the cli do the `npm install` for you:
 
 ![end of the setup process does an "npm install"](./img/09_installation.png)
 
-At the end of the guided installation, you'll be greated with a message similar to  
+At the end of the guided installation, you'll be greated with a message similar to
 `🤖 Successfully setup project at /Users/you/any/ui5/app 🎉`
 
 :arrow_right: Continue with the [configuration](configuration) now.
@@ -95,3 +95,17 @@ services: [
 ```
 
 :tada: Done! Proceed to [configuring wdi5](configuration) now.
+
+## using firefox
+
+manually start geckodriver
+
+```sh
+./geckodriver --port 4444
+```
+
+start with firefox only
+
+```sh
+export BROWSERS=firefox
+```

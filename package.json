@@ -1,6 +1,6 @@
 {
   "name": "wdio-ui5-service",
-  "version": "0.9.0-rc3",
+  "version": "0.9.0",
   "description": "WebdriverIO plugin for testing UI5 browser-based apps",
   "keywords": [
     "wdio-service",
@@ -41,6 +41,8 @@
     "_startApp:fe": "npm run serve --workspace=examples/fe-app",
     "_startApp:ts": "tbd",
     "_test:js-app": "wait-on tcp:8888 && wait-on tcp:8080 && npm run test --workspace=examples/ui5-js-app",
+    "_test-h:js-app": "wait-on tcp:8888 && wait-on tcp:8080 && npm run test-h --workspace=examples/ui5-js-app",
+    "test-h:js-app": "run-p -r _startApp:js _startApp:js-tooling _test-h:js-app",
     "test:js-app": "run-p -r _startApp:js _startApp:js-tooling _test:js-app",
     "_test:fe-app": "wait-on tcp:8088 && npm run test:wdi5 --workspace=examples/fe-app",
     "test:fe-app": "run-p -r _startApp:fe _test:fe-app",
@@ -73,6 +75,7 @@
     "fs-extra": "^10.0.1",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.7",
+    "marky": "^1.2.4",
     "mocha": "^9.2.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.6.2",

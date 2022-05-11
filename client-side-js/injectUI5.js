@@ -231,7 +231,8 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
 
                                 // filter not working methods
                                 // and those with a specific api from wdi5/wdio-ui5-service
-                                const aFilterFunctions = ["$", "getAggregation", "constructor", "fireEvent"]
+                                // prevent overwriting wdi5-control's own init method
+                                const aFilterFunctions = ["$", "getAggregation", "constructor", "fireEvent", "init"]
 
                                 if (aFilterFunctions.includes(item)) {
                                     return false
@@ -246,11 +247,60 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                         return controlMethodsToProxy
                     }
 
+                    window.wdi5.isCyclic = (obj) => {
+                        var seenObjects = []
+
+                        function detect(obj) {
+                            if (obj && typeof obj === "object") {
+                                if (seenObjects.indexOf(obj) !== -1) {
+                                    return true
+                                }
+                                seenObjects.push(obj)
+                                for (var key in obj) {
+                                    if (obj.hasOwnProperty(key) && detect(obj[key])) {
+                                        console.log(obj, "cycle at " + key)
+                                        return true
+                                    }
+                                }
+                            }
+                            return false
+                        }
+
+                        return detect(obj)
+                    }
+
+                    window.wdi5.removeCyclic = (obj) => {
+                        var seenObjects = []
+
+                        function detect(obj) {
+                            if (obj && typeof obj === "object") {
+                                if (seenObjects.indexOf(obj) !== -1) {
+                                    return obj
+                                }
+                                seenObjects.push(obj)
+                                for (var key in obj) {
+                                    if (obj.hasOwnProperty(key) && detect(obj[key])) {
+                                        console.log(obj, "cycle at " + key)
+                                        console.warn(`deleted: ${key}`)
+                                        delete obj[key]
+                                        return obj
+                                    }
+                                }
+                            } else {
+                                console.log(`removed ${typeof obj}`)
+                            }
+                            return obj
+                        }
+
+                        return detect(obj)
+                    }
+
                     /**
-                     * replaces circular references in objects
-                     * @returns function (key, value)
+                     * used as a replacer function in JSON.stringify
+                     * removes circular references in an object
+                     * @returns
                      */
-                    window.wdi5.circularReplacer = () => {
+                    window.wdi5.getCircularReplacer = () => {
                         const seen = new WeakSet()
                         return (key, value) => {
                             if (typeof value === "object" && value !== null) {
@@ -314,6 +364,11 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                         } else {
                             console.error("error creating new element by id of control: " + aControl)
                         }
+                    }
+
+                    window.wdi5.errorHandling = (done, error) => {
+                        window.wdi5.Log.error("[browser wdi5] ERR: ", error)
+                        done({ status: 1, messsage: error.toString() })
                     }
                 }
             )
