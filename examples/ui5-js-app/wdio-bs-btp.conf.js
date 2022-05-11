@@ -7,6 +7,9 @@ const merge = require("deepmerge")
 const btp_conf = require("./wdio-btp.conf")
 const bs_conf = require("./wdio-browserstack.conf")
 
+// clear browser to prevent double execution
+delete btp_conf.config.capabilities
+
 const _config = {
     services: ["ui5", "shared-store"],
     wdi5: {
