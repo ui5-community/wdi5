@@ -8,6 +8,7 @@
   "main": "webapp/index.html",
   "scripts": {
     "serve": "ui5 serve",
+    "build": "mbt build",
     "test": "run-s test:*",
     "test-h": "run-s \"test:* -- --headless\"",
     "start": "soerver -d ./webapp -p 8888 -x ./webapp/proxyrc.json",
@@ -19,13 +20,16 @@
     "test-selenium": "wdio run wdio-selenium-service.conf.js"
   },
   "devDependencies": {
+    "@sap/html5-app-deployer": "^4.0.1",
     "@ui5/cli": "^2.14.7",
     "@wdio/cli": "^7.19.3",
     "@wdio/local-runner": "^7.19.3",
     "@wdio/mocha-framework": "^7.19.3",
     "@wdio/selenium-standalone-service": "^7.19.1",
+    "@wdio/shared-store-service": "^7.19.5",
     "@wdio/spec-reporter": "^7.19.1",
     "chromedriver": "^100.0.0",
+    "mbt": "^1.2.7",
     "ui5-middleware-simpleproxy": "^0.8.0",
     "wdio-chromedriver-service": "^7.3.2",
     "wdio-ui5-service": "*"

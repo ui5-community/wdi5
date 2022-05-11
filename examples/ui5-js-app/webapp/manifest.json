@@ -1,5 +1,8 @@
 {
   "_version": "1.12.0",
+  "sap.cloud": {
+    "service": "basic.service"
+  },
   "sap.app": {
     "id": "test.Sample",
     "type": "application",

@@ -1,5 +1,5 @@
 const { join } = require("path")
-const { baseConfig } = require("./wdio.base.conf")
+const { config } = require("./wdio.base.conf")
 const merge = require("deepmerge")
 const { wdi5 } = require("wdio-ui5-service")
 const { getBrowsers } = require("./scripts/getBrowsers")

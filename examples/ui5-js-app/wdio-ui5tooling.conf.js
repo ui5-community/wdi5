@@ -1,5 +1,5 @@
 const { join } = require("path")
-const { baseConfig } = require("./wdio.base.conf")
+const { config } = require("./wdio.base.conf")
 const merge = require("deepmerge")
 
 const _config = {
@@ -10,4 +10,4 @@ const _config = {
     baseUrl: "http://localhost:8080"
 }
 
-exports.config = merge(baseConfig, _config)
+exports.config = merge(config, _config)
