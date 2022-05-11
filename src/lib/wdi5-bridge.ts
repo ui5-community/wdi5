@@ -111,8 +111,7 @@ export async function injectUI5(config: wdi5Config) {
     }
     const waitForUI5Timeout = config.wdi5.waitForUI5Timeout || 15000
     await clientSide_injectTools() // helpers for wdi5 browser scope
-    // expect boolean
-    const result = await clientSide_injectUI5(config, waitForUI5Timeout)
+    const result: boolean = await clientSide_injectUI5(config, waitForUI5Timeout)
 
     if (result) {
         // set when call returns
