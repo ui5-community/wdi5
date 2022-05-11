@@ -3,7 +3,7 @@ name: build wdi5 docker images
 # only run after wdi5/wdio-ui5-service package was released
 on:
   workflow_run:
-    workflows: [build + publish wdi5 as wdio-ui5-service to npm]
+    workflows: [build and publish wdi5 as wdio-ui5-service to npm]
     types:
       - completed
 
