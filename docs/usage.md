@@ -444,3 +444,30 @@ These properties can help to indentify the received control or test the control 
    */
 })
 ```
+
+## Test Performane/ Responsiveness
+
+Recommendation to use [marky](https://www.npmjs.com/package/marky).
+
+Test to check responsiveness of an application after a button click
+
+```js
+const marky = require("marky")
+
+...
+
+it("test responsiveness of button action", async () => {
+  marky.mark("start_action")
+  const response = await browser.asControl(buttonSelector).press().getText()
+  const entry = marky.stop("stop_action")
+
+  // verify the result of the button action
+  expect(response).toEqual("open Dialog")
+
+  // check the duration of the operation
+  expect(entry.duration).toBeLessThan(3000)
+
+  // logger can be used in combination
+  wdi5.getLogger().info(entry)
+}
+```
