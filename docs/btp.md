@@ -86,4 +86,6 @@ wdi5-test-app-xsuaa-service            xsuaa             application            
 
 Access the URL described in [Download and Deployment](#download-and-deployment) to view the web app. You are redirected to a sign-on page before you can see the web app.
 
-![webapp](result.png)
+The [wdi5 test app](https://davinci.cpp.cfapps.eu10.hana.ondemand.com/474a7c0c-c364-4075-b53e-983472d76120.basicservice.testSample-1.0.0/index.html)
+
+![webapp](./result.png)
