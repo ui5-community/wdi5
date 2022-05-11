@@ -28,6 +28,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: ${{secrets.ADMIN_WDI5}}
       - uses: actions/setup-node@v2
         with:
           node-version: 16
