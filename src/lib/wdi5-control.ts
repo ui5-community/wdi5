@@ -494,8 +494,6 @@ export class WDI5Control {
 
         if (status === 0 && id) {
             // only if the result is valid
-            // this._webdriverRepresentation = await $(`//*[@id="${id}"]`)
-            // this._generatedWdioMethods = this._retrieveControlMethods(this._webdriverRepresentation)
             this._generatedWdioMethods = wdioApi
 
             // add metadata
