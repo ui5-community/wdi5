@@ -2,6 +2,7 @@ const fsExtra = require("fs-extra")
 const path = require("path")
 const replace = require("replace-in-file")
 const Launcher = require("@wdio/cli").default
+const { wdi5 } = require("wdio-ui5-service")
 
 // lts version - with 1.71.19 being the exception
 // in that there seems to be stuff boken in ui5 > 1.71.19 <= 1.71.25
@@ -20,7 +21,7 @@ const versions = ["", "1.71.19", "1.84.3"]
             to: [`src="${bootstrapSrc}"`, "sap_belize"]
         }
         await replace(optionsIndex)
-        console.log(`created index-${version}!`)
+        wdi5.getLogger().log(`created index-${version}!`)
 
         // create a wdio/wdi5 config per version
         const targetWdioConf = path.resolve(__dirname, `wdio-wdi5-ui5-${version}.conf.js`)
@@ -34,7 +35,7 @@ const versions = ["", "1.71.19", "1.84.3"]
             ]
         }
         await replace(optionsWdioConf)
-        console.log(`created wdio-wdi5-ui5-${version}.conf.js`)
+        wdi5.getLogger().log(`created wdio-wdi5-ui5-${version}.conf.js`)
 
         // run it
         const wdio = new Launcher(targetWdioConf)

@@ -1,3 +1,4 @@
+const { wdi5 } = require("wdio-ui5-service")
 /**
  * analyse browser arguments
  */
@@ -16,10 +17,10 @@ exports.getBrowsers = function () {
             return availableBrowsers.includes(element)
         })
 
-        console.log(`BROWSERS: ${browsers}`)
+        wdi5.getLogger().log(`BROWSERS: ${browsers}`)
         return browsers
     }
     // browsers not set return all
-    console.log(`BROWSERS: ${availableBrowsers}`)
+    wdi5.getLogger().log(`BROWSERS: ${availableBrowsers}`)
     return availableBrowsers
 }
