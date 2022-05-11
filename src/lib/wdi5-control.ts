@@ -125,13 +125,7 @@ export class WDI5Control {
             // to enable transition from wdi5 to wdio api in allControls
             await this.renewWebElement()
         }
-        //// TODO: check this "fix"
-        //// why is the renew necessary here?
-        //// it causes hiccup with the fluent async api as the transition from node-scope
-        //// to browser-scope errors out (in .getControl client-side)
-        // if (this._forceSelect) {
-        //     await this._renewWebElementReference()
-        // }
+
         if (util.types.isProxy(this.getWebElement)) {
             const id = await Promise.resolve(this._domId)
             const el = await $(`//*[@id="${id}"]`)
