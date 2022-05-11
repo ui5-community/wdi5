@@ -71,4 +71,7 @@ jobs:
 
       # run wdi5 tests within app(s)
       - name: test js-app
+        env:
+          BROWSERSTACK_USERNAME: ${{secrets.BROWSERSTACK_USERNAME}}
+          BROWSERSTACK_ACCESS_KEY: ${{secrets.BROWSERSTACK_ACCESS_KEY}}
         run: npm run test-h:js-app
