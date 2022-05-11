@@ -2,7 +2,7 @@ import { resolve } from "path"
 import { writeFile } from "fs/promises"
 import { tmpdir } from "os"
 import * as semver from "semver"
-import { marky_mark, marky_stop } from "marky"
+import { mark as marky_mark, mark as marky_stop } from "marky"
 
 import { wdi5Config, wdi5Selector } from "../types/wdi5.types"
 import { WDI5Control } from "./wdi5-control"
