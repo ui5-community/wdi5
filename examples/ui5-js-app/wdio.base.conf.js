@@ -12,11 +12,12 @@ exports.baseConfig = {
             browserName: "chrome",
             acceptInsecureCerts: true,
             "goog:chromeOptions": {
-                args: process.env.HEADLESS
-                    ? ["window-size=1440,800", "--headless"]
-                    : process.env.DEBUG
-                    ? ["window-size=1920,1280", "--auto-open-devtools-for-tabs"]
-                    : ["window-size=1440,800"]
+                args:
+                    process.argv.indexOf("--headless") > -1
+                        ? ["window-size=1440,800", "--headless"]
+                        : process.argv.indexOf("--debug") > -1
+                        ? ["window-size=1920,1280", "--auto-open-devtools-for-tabs"]
+                        : ["window-size=1440,800"]
             }
         }
     ],
