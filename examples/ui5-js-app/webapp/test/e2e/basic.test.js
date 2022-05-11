@@ -1,4 +1,6 @@
 const Main = require("./pageObjects/Main")
+const marky = require("marky")
+const { wdi5 } = require("wdio-ui5-service")
 
 const titleSelector = { selector: { id: "container-Sample---Main--Title::NoAction.h1" } }
 
@@ -55,7 +57,6 @@ describe("ui5 basic", () => {
         const selector2 = {
             id: "some.test.string"
         }
-
         const invalidControl1 = await browser.asControl(selector1)
         const invalidControl2 = await browser.asControl(selector2)
 
@@ -97,9 +98,50 @@ describe("ui5 basic", () => {
         expect(response).toEqual("UI5 demo")
     })
 
-    it("checkmethod chaining with fluent api", async () => {
+    it("check method chaining with fluent api", async () => {
         const response = await browser.asControl(buttonSelector).press().getText()
         expect(response).toEqual("open Dialog")
+
+        // close popup
+        await browser.asControl({ selector: { id: "__button1" } }).press()
+    })
+
+    it("check button text", async () => {
+        const response = await browser.asControl(buttonSelector).getText()
+
+        // expect(timelog).
+        expect(response).toEqual("open Dialog")
+    })
+
+    it("test performance 1", async () => {
+        marky.mark("1_fluentAPI")
+
+        const response = await browser.asControl(buttonSelector).press().getText()
+
+        const entry = marky.stop("1_fluentAPI")
+
+        expect(response).toEqual("open Dialog")
+        expect(entry.duration).toBeLessThan(3000)
+
+        wdi5.getLogger().info(entry)
+
+        // close popup
+        await browser.asControl({ selector: { id: "__button1" } }).press()
+    })
+
+    it("test performance 2", async () => {
+        buttonSelector.forceSelect = true
+
+        marky.mark("2_fluentAPI")
+
+        const button = await browser.asControl(buttonSelector)
+        await button.press()
+        const text = await button.getText()
+
+        const entry = marky.stop("2_fluentAPI")
+
+        expect(text).toEqual("open Dialog")
+        wdi5.getLogger().info(entry)
     })
 
     it("method chaining without fluent api", async () => {

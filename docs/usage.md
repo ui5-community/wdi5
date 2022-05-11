@@ -444,3 +444,30 @@ These properties can help to indentify the received control or test the control 
    */
 })
 ```
+
+## Test Performance/Responsiveness
+
+There is no tooling included with `wdi5` for asserting runtime performance metrics. Reason for this is to keep `wdi5`'s dependencies to a minimum - plus there are easy to use tools for that job such as [marky](https://www.npmjs.com/package/marky).
+
+Here's an example test to check the responsiveness via `marky` of an application opening a `sap.m.Dialog` after a clicking a button:
+
+```js
+const marky = require("marky")
+
+// ...
+
+it("test responsiveness of button action", async () => {
+  marky.mark("start_action")
+  const response = await browser.asControl(buttonSelector).press().getText()
+  const entry = marky.stop("stop_action")
+
+  // verify the result of the button action
+  expect(response).toEqual("open Dialog")
+
+  // check the duration of the operation
+  expect(entry.duration).toBeLessThan(3000)
+
+  // logger can be used in combination
+  wdi5.getLogger().info(entry)
+}
+```
