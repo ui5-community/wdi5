@@ -26,7 +26,7 @@
     "watch": "npx cds watch",
     "postinstall": "cd app/incidents && npm i",
     "test": "cd app/incidents && npm run test",
-    "test:wdi5": "wdio run wdio.conf.js",
+    "test:wdi5": "wdio run wdio.conf.js --headless",
     "serve": "cd app/incidents && ui5 serve --port 8088"
   },
   "cds": {
