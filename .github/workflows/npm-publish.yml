@@ -9,7 +9,7 @@ on:
       - "client-side-js/**"
       - "src/**"
       # irrevelant
-      - "!.github/**"
+      # - "!.github/**"
       - "!.husky/**"
       - "!.vscode/**"
       - "!docs/**"
@@ -38,18 +38,18 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm run build
-      - run: |
-          git config --global user.name 'wdi5 bot'
-          git config --global user.email 'wdi5-bot@users.noreply.github.com'
-      # use standard-version for bumping versions in files,
-      # and generating changelog
-      # and tagging the release properly
-      # and auto-incrementing the release number
-      - run: npm run release
-      # push to self aka main from within gh action with "release-state"
-      # doesn't trigger this workflow again
-      # b/c of missing personal access token here
-      - run: git push --follow-tags origin main
+      # - run: |
+      #     git config --global user.name 'wdi5 bot'
+      #     git config --global user.email 'wdi5-bot@users.noreply.github.com'
+      # # use standard-version for bumping versions in files,
+      # # and generating changelog
+      # # and tagging the release properly
+      # # and auto-incrementing the release number
+      # - run: npm run release
+      # # push to self aka main from within gh action with "release-state"
+      # # doesn't trigger this workflow again
+      # # b/c of missing personal access token here
+      # - run: git push --follow-tags origin main
       ## finally publish the npm package
       - run: npm publish
         env:
