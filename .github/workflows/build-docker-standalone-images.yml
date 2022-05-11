@@ -1,8 +1,31 @@
 name: build wdi5 docker images
 
+# only run after wdi5/wdio-ui5-service package was released
 on:
-  push:
-    branches: [main]
+  workflow_run:
+    workflows: ["build + publish wdi5 as wdio-ui5-service to npm"]
+    types:
+      - completed
+
+# on:
+#   push:
+#     branches:
+#       - main
+#     paths:
+#       # relevant
+#       - "client-side-js/**"
+#       - "docker/**"
+#       - "examples/**"
+#       - "scripts/**"
+#       - "src/**"
+#       # don't run on changes to these
+#       - "!.husky/**"
+#       - "!.vscode/**"
+#       - "!docs/**"
+#       - "!.*"
+#       - "!*.md"
+#       - "!*.cjs"
+#       - "!test/**/*"
 
 jobs:
   build:
@@ -13,7 +36,7 @@ jobs:
 
     strategy:
       matrix:
-        node_version: [14, 16, 17]
+        node_version: [14, 16, 17, 18]
 
     env:
       REGISTRY: ghcr.io
@@ -38,7 +61,11 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/wdi5/${{ steps.package-version.outputs.current-version}}-node${{ matrix.node_version }}
+          images: |
+            ${{ env.REGISTRY }}/${{ github.repository_owner }}/wdi5
+          tags: |
+            type=semver,pattern={{version}},value=${{ steps.package-version.outputs.current-version}}
+            type=raw,value=node${{ matrix.node_version }}
 
       # - name: show tags + labels
       #   run: |
@@ -52,6 +79,7 @@ jobs:
           file: ./docker/Dockerfile.standalone
           build-args: node_version=${{ matrix.node_version }}
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/wdi5/${{ steps.package-version.outputs.current-version}}-node${{ matrix.node_version }}
+          tags: |
+            ${{ env.REGISTRY }}/${{ github.repository_owner }}/wdi5:${{ steps.package-version.outputs.current-version}}-node${{ matrix.node_version }}
           # tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
