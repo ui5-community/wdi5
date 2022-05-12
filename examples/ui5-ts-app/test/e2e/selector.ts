@@ -4,4 +4,5 @@ export interface Selector {
         controlType?: string
         viewName: string
     }
+    forceSelect?: boolean
 }

@@ -9,7 +9,7 @@ describe("UserInput", async () => {
                 viewName: "test.Sample.tsapp.view.Main"
             }
         }
-        const inputString: string = await (globalThis.Browser.asControl(inputText) as unknown as Input).getValue()
+        const inputString: string = await (browser.asControl(inputText) as unknown as Input).getValue()
         expect(inputString).toEqual("Helvetius Nagy")
     })
 
@@ -20,8 +20,8 @@ describe("UserInput", async () => {
                 viewName: "test.Sample.tsapp.view.Main"
             }
         }
-        await (globalThis.Browser.asControl(inputText) as unknown as Input).setValue("Smith Smithersson")
-        const input = await (globalThis.Browser.asControl(inputText) as unknown as Input).getValue()
+        await (browser.asControl(inputText) as unknown as Input).setValue("Smith Smithersson")
+        const input = await (browser.asControl(inputText) as unknown as Input).getValue()
         expect(input).toEqual("Smith Smithersson")
     })
 })

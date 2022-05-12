@@ -4,6 +4,7 @@
   "description": "UI5 Application: tsapp",
   "author": "tompaulusch",
   "license": "Apache-2.0",
+  "main": "index.js",
   "scripts": {
     "build": "npm-run-all build:ts build:ui5",
     "build:opt": "npm-run-all build:ts build:ui5:opt",

@@ -20,7 +20,7 @@ describe("basics", async () => {
             }
         }
 
-        const ArraysOfButtons = (await globalThis.Browser.allControls(allButtons)) as unknown as Array<Button>
+        const ArraysOfButtons = (await browser.allControls(allButtons)) as unknown as Array<Button>
         expect(ArraysOfButtons.length).toEqual(6)
     })
 })

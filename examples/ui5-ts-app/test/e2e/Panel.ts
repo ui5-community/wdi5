@@ -11,7 +11,7 @@ describe("basics", async () => {
                 }
             }
         }
-        const panelControl = await globalThis.Browser.asControl(panelButton)
+        const panelControl = await browser.asControl(panelButton)
         await panelControl.press()
     })
 
@@ -24,7 +24,7 @@ describe("basics", async () => {
                 }
             }
         }
-        const panelControl = await (globalThis.Browser.asControl(panelButton) as unknown as Button).getText()
+        const panelControl = await (browser.asControl(panelButton) as unknown as Button).getText()
         expect(panelControl).toEqual("Custom Toolbar with a header text")
     })
 
@@ -37,7 +37,7 @@ describe("basics", async () => {
                 }
             }
         }
-        const panelControl = await (globalThis.Browser.asControl(panelText) as unknown as Text).getText(true)
+        const panelControl = await (browser.asControl(panelText) as unknown as Text).getText(true)
         expect(panelControl).toEqual("Lorem ipsum dolor st amet")
     })
 })

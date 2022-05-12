@@ -25,7 +25,7 @@ export const config: wdi5Config = {
     //
     specs: ["./test/e2e/*.ts"],
     // Patterns to exclude.
-    exclude: ["./test/e2e/selector.ts", "./test/e2e/UserInput.ts", "./test/e2e/Panel.ts", "./test/e2e/View.ts"],
+    exclude: ["./test/e2e/selector.ts", "./test/e2e/UserInput.ts", "./test/e2e/Panel.ts", "./test/e2e/Basic.ts"],
     //
     // ============
     // Capabilities
@@ -102,7 +102,7 @@ export const config: wdi5Config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: "https://openui5.netweaver.ondemand.com/",
+    baseUrl: "http://localhost:8080/index.html",
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
