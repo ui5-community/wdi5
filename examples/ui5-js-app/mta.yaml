@@ -71,6 +71,24 @@ resources:
       config:
         HTML5Runtime_enabled: true
         version: 1.0.0
+  - name: btp-samples-simple-app-dest-srv
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: true
+        init_data:
+          instance:
+            destinations:
+              - Name: northwind
+                Authentication: NoAuthentication
+                ProxyType: Internet
+                Type: HTTP
+                URL: https://services.odata.org/
+            existing_destinations_policy: update
+        version: 1.0.0
+      service: destination
+      service-name: btp-samples-simple-app-dest-srv
+      service-plan: lite
   - name: wdi5-test-app_html_repo_host
     type: org.cloudfoundry.managed-service
     parameters:
