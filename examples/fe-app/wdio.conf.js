@@ -3,8 +3,9 @@ const { join } = require("path")
 exports.config = {
     wdi5: {
         screenshotPath: join("app", "incidents", "webapp", "wdi5-test", "__screenshots__"),
-        logLevel: "verbose", // error | verbose | silent
-        url: "index.html"
+        logLevel: "error", // error | verbose | silent
+        url: "index.html",
+        waitForUI5timeout: 30000
     },
     //// wdio runner config
     specs: [join("app", "incidents", "webapp", "wdi5-test", "**/*.test.js")],
