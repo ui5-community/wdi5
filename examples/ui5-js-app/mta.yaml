@@ -23,6 +23,9 @@ modules:
       - name: wdi5-test-app-destination-service
         parameters:
           content-target: true
+      - name: btp-samples-simple-app-dest-srv
+        parameters:
+          content-target: true
     parameters:
       content:
         instance:
