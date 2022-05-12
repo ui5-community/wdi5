@@ -1,6 +1,5 @@
 const path = require("path")
 require("dotenv").config({ path: path.resolve(__dirname, "../../../.env") })
-const { join } = require("path")
 const { wdi5 } = require("wdio-ui5-service")
 const merge = require("deepmerge")
 

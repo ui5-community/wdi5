@@ -11,8 +11,8 @@ const _config = {
         url: "#",
         waitForUI5Timeout: 1200000
     },
-    specs: [join("..", "webapp", "test", "e2e", "**/*.test.js")],
-    exclude: [join("..", "webapp", "test", "e2e", "ui5-late.test.js")],
+    specs: [join("webapp", "test", "e2e", "**/*.test.js")],
+    exclude: [join("webapp", "test", "e2e", "ui5-late.test.js")],
     waitforTimeout: 100000,
     connectionRetryTimeout: 1200000,
     connectionRetryCount: 10,

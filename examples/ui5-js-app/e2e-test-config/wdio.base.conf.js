@@ -2,7 +2,7 @@ const { join } = require("path")
 
 exports.baseConfig = {
     wdi5: {
-        screenshotPath: join("..", "webapp", "test", "__screenshots__"),
+        screenshotPath: join("webapp", "test", "__screenshots__"),
         logLevel: "error"
     },
     maxInstances: 10,

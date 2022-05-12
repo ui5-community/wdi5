@@ -6,8 +6,8 @@ const _config = {
     wdi5: {
         url: "#"
     },
-    specs: [join("..", "webapp", "test", "e2e", "**/*.test.js")],
-    exclude: [join("..", "webapp", "test", "e2e", "ui5-late.test.js")],
+    specs: [join("webapp", "test", "e2e", "**/*.test.js")],
+    exclude: [join("webapp", "test", "e2e", "ui5-late.test.js")],
     logLevel: "error",
     bail: 0,
     baseUrl: "http://localhost:8888",
