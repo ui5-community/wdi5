@@ -1,6 +1,7 @@
-const { getBrowsers } = require("./scripts/getBrowsers")
+const { getBrowsers } = require("../scripts/getBrowsers")
+const { baseConfig } = require("./wdio-docker-selenium.conf.js")
+const merge = require("deepmerge")
 
-// TODO: use wdio.base.conf.js
 const chrome = {
     maxInstances: 1,
     browserName: "chrome",
@@ -48,49 +49,22 @@ const firefox = {
 
 const _config = {
     specs: ["test/e2e/basic.test.js"],
-    hostname: "selenium-hub", // tests running inside the container should connect to the same network
-    port: 4444,
-    runner: "local",
-    path: "/wd/hub",
-    maxInstances: 1,
-    capabilities: [],
-    wdi5: {
-        screenshotPath: "report/screenshots",
-        logLevel: "error", // error | verbose | silent
-        url: "#"
-    },
-    services: ["ui5"],
-    logLevel: "info",
-    logLevels: {
-        webdriver: "error"
-    },
-    baseUrl: "http://test-app:8888",
-    bail: 0,
-    waitforTimeout: 10000,
-    connectionRetryTimeout: 60000,
-    connectionRetryCount: 3,
-    framework: "mocha",
-    reporters: ["spec"],
-    mochaOpts: {
-        ui: "bdd",
-        timeout: 60000
-    }
+    hostname: "selenium-hub" // tests running inside the container should connect to the same network
 }
+
+let config = merge(baseConfig, _config)
+config.services = ["ui5"]
+config.capabilities = []
 
 const browsers = getBrowsers()
 
-if (browsers) {
-    if (browsers.includes("chrome")) {
-        _config.capabilities.push(chrome)
-    }
-    if (browsers.includes("firefox")) {
-        _config.capabilities.push(firefox)
-    }
-} else {
-    // nothing defined -> start all
-    _config.capabilities.push(chrome)
-
-    _config.capabilities.push(firefox)
+if (browsers.includes("chrome")) {
+    wdi5.getLogger().info(`add BROWSER: chrome`)
+    config.capabilities.push(chrome)
+}
+if (browsers.includes("firefox")) {
+    wdi5.getLogger().info(`add BROWSER: firefox`)
+    config.capabilities.push(firefox)
 }
 
-exports.config = _config
+exports.config = config

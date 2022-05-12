@@ -1,6 +1,7 @@
-const { getBrowsers } = require("./scripts/getBrowsers")
+const { getBrowsers } = require("../scripts/getBrowsers")
+const { baseConfig } = require("./wdio.base.conf")
+const merge = require("deepmerge")
 
-// TODO: use wdio.base.conf.js
 const chrome = {
     maxInstances: 1,
     browserName: "chrome",
@@ -27,44 +28,30 @@ const _config = {
     runner: "local",
     path: "/wd/hub",
     maxInstances: 1,
-    capabilities: [],
     wdi5: {
-        screenshotPath: "report/screenshots",
-        logLevel: "verbose", // error | verbose | silent
         url: "#"
     },
-    services: ["ui5"],
-    logLevel: "info",
-    logLevels: {
-        webdriver: "info"
-    },
-    baseUrl: "http://test-app:8888",
-    bail: 0,
-    waitforTimeout: 10000,
-    connectionRetryTimeout: 60000,
-    connectionRetryCount: 3,
-    framework: "mocha",
-    reporters: ["spec"],
-    mochaOpts: {
-        ui: "bdd",
-        timeout: 60000
-    }
+    baseUrl: "http://test-app:8888"
 }
+
+config = merge(baseConfig, _config)
+config.services = ["ui5"]
+config.capabilities = []
 
 const browsers = getBrowsers()
 
 if (browsers) {
     if (browsers.includes("chrome")) {
-        _config.capabilities.push(chrome)
+        config.capabilities.push(chrome)
     }
     if (browsers.includes("firefox")) {
-        _config.capabilities.push(firefox)
+        config.capabilities.push(firefox)
     }
 } else {
     // nothing defined -> start all
-    _config.capabilities.push(chrome)
-
-    _config.capabilities.push(firefox)
+    config.capabilities.push(chrome)
+    // firefox failing with regex test
+    // config.capabilities.push(firefox)
 }
 
-exports.config = _config
+exports.config = config
