@@ -20,8 +20,8 @@ const _config = {
         url: "#"
     },
     capabilities: [],
-    specs: [join("..", "webapp", "test", "e2e", "**/*.test.js")],
-    exclude: [join("..", "webapp", "test", "e2e", "ui5-late.test.js")],
+    specs: [join("webapp", "test", "e2e", "**/*.test.js")],
+    exclude: [join("webapp", "test", "e2e", "ui5-late.test.js")],
     baseUrl: "http://localhost:8888"
 }
 
