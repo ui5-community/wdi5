@@ -9,7 +9,7 @@
   "scripts": {
     "serve": "ui5 serve",
     "build": "mbt build",
-    "test": "run-s test:*",
+    "test": "run-s test:bs-btp",
     "test-h": "run-s \"test:* -- --headless\"",
     "start": "soerver -d ./webapp -p 8888 -x ./webapp/proxyrc.json",
     "test:lateInject": "wdio run wdio-ui5-late.conf.js",
