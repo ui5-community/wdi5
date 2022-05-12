@@ -1,10 +1,5 @@
 async function clientSide_interactWithControl(oOptions) {
     return await browser.executeAsync((oOptions, done) => {
-        const errorHandling = (error) => {
-            window.wdi5.Log.error("[browser wdi5] ERR: ", error)
-            done(["error", error.toString()])
-        }
-
         window.wdi5.waitForUI5(
             window.wdi5.waitForUI5Options,
             () => {
@@ -14,11 +9,11 @@ async function clientSide_interactWithControl(oOptions) {
                     .interactWithControl(oOptions)
                     .then((result) => {
                         window.wdi5.Log.info("[browser wdi5] interaction complete! - Message: " + result)
-                        done(["success", result])
+                        done({ status: 0, result: result })
                     })
-                    .catch(errorHandling)
+                    .catch(window.wdi5.errorHandling.bind(this, done))
             },
-            errorHandling
+            window.wdi5.errorHandling.bind(this, done)
         )
     }, oOptions)
 }

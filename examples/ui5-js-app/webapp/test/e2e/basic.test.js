@@ -1,4 +1,6 @@
 const Main = require("./pageObjects/Main")
+const marky = require("marky")
+const { wdi5 } = require("wdio-ui5-service")
 
 const titleSelector = { selector: { id: "container-Sample---Main--Title::NoAction.h1" } }
 
@@ -55,13 +57,25 @@ describe("ui5 basic", () => {
         const selector2 = {
             id: "some.test.string"
         }
-
         const invalidControl1 = await browser.asControl(selector1)
         const invalidControl2 = await browser.asControl(selector2)
 
         // check if result contains the expected validation error
         expect(invalidControl1).toContain("ERROR")
         expect(invalidControl2).toContain("ERROR")
+    })
+
+    it("check getControl error message", async () => {
+        const selector = {
+            selector: {
+                id: "some.test.string"
+            }
+        }
+
+        const invalidControl = await browser.asControl(selector)
+
+        // check if result contains the expected validation error
+        expect(invalidControl.getInitStatus()).toBeFalsy()
     })
 
     /* it("check for Searchfield Properties", async () => {
@@ -98,9 +112,32 @@ describe("ui5 basic", () => {
     })
 
     it("---- NOT working in firefox ---- check method chaining with fluent api", async () => {
-        // uses regex matcher
+        // uses regex properties matcher
         const response = await browser.asControl(buttonSelector).press().getText()
         expect(response).toEqual("open Dialog")
+
+        // close popup
+        await browser.asControl({ selector: { id: "__button1" } }).press()
+    })
+
+    it("check button text", async () => {
+        const response = await browser.asControl(buttonSelector).getText()
+
+        // expect(timelog).
+        expect(response).toEqual("open Dialog")
+    })
+
+    it("test performance 1", async () => {
+        marky.mark("1_fluentAPI")
+
+        const response = await browser.asControl(buttonSelector).press().getText()
+
+        const entry = marky.stop("1_fluentAPI")
+
+        expect(response).toEqual("open Dialog")
+        expect(entry.duration).toBeLessThan(3000)
+
+        wdi5.getLogger().info(entry)
 
         // close popup
         await browser.asControl({ selector: { id: "__button1" } }).press()
@@ -154,19 +191,33 @@ describe("ui5 basic", () => {
 
         // close popup
         await browser.asControl({ selector: { id: "__button1" } }).press()
-    })
+        it("test performance 2", async () => {
+            buttonSelector.forceSelect = true
 
-    it("method chaining without fluent api", async () => {
-        const newTitle = "new Title"
+            marky.mark("2_fluentAPI")
 
-        titleSelector.forceSelect = true
-        // setTitle still returns the wdi5 element, equivalent as in UI5
-        const title = await browser.asControl(titleSelector).setTitle(newTitle).getTitle()
-        expect(title).toEqual(newTitle)
+            const button = await browser.asControl(buttonSelector)
+            await button.press()
+            const text = await button.getText()
 
-        const titleFirstTime = await browser.asControl(titleSelector).setTitle(newTitle)
-        const titleAgain = await titleFirstTime.setTitle(newTitle)
-        const response = await titleAgain.getTitle()
-        expect(response).toEqual(newTitle)
+            const entry = marky.stop("2_fluentAPI")
+
+            expect(text).toEqual("open Dialog")
+            wdi5.getLogger().info(entry)
+        })
+
+        it("method chaining without fluent api", async () => {
+            const newTitle = "new Title"
+
+            titleSelector.forceSelect = true
+            // setTitle still returns the wdi5 element, equivalent as in UI5
+            const title = await browser.asControl(titleSelector).setTitle(newTitle).getTitle()
+            expect(title).toEqual(newTitle)
+
+            const titleFirstTime = await browser.asControl(titleSelector).setTitle(newTitle)
+            const titleAgain = await titleFirstTime.setTitle(newTitle)
+            const response = await titleAgain.getTitle()
+            expect(response).toEqual(newTitle)
+        })
     })
 })
