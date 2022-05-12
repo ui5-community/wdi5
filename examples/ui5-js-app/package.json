@@ -10,7 +10,7 @@
     "serve": "ui5 serve",
     "build": "mbt build",
     "test": "run-s test:*",
-    "test-h": "run-s \"test:bs-btp\"",
+    "test-h": "run-s \"test:*\"",
     "test:bs-btp": "wdio run wdio-bs-btp.conf.js --spec /basic.test.js --browsers chrome",
     "start": "soerver -d ./webapp -p 8888 -x ./webapp/proxyrc.json",
     "test:lateInject": "wdio run wdio-ui5-late.conf.js",
