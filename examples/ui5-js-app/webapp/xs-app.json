@@ -1,4 +1,17 @@
 {
   "welcomeFile": "/index.html",
-  "authenticationMethod": "none"
+  "authenticationMethod": "none",
+  "routes": [
+    {
+      "source": "/user-api/currentUser$",
+      "target": "/currentUser",
+      "service": "sap-approuter-userapi"
+    },
+    {
+      "source": "^(.*)$",
+      "target": "$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa"
+    }
+  ]
 }
