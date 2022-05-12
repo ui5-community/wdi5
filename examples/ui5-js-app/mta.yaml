@@ -79,7 +79,7 @@ resources:
         init_data:
           instance:
             destinations:
-              - Name: northwind
+              - Name: northwindV2
                 Authentication: NoAuthentication
                 ProxyType: Internet
                 Type: HTTP

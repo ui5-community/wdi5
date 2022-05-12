@@ -2,6 +2,7 @@ const path = require("path")
 require("dotenv").config({ path: path.resolve(__dirname, "../../.env") })
 const merge = require("deepmerge")
 const bs_conf = require("./wdio-browserstack.conf")
+const { join } = require("path")
 
 const _config = {
     specs: [join("webapp", "test", "e2e", "basic.test.js")],
