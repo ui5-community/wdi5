@@ -83,7 +83,7 @@ resources:
                 Authentication: NoAuthentication
                 ProxyType: Internet
                 Type: HTTP
-                URL: https://services.odata.org/
+                URL: https://services.odata.org
             existing_destinations_policy: update
         version: 1.0.0
       service: destination

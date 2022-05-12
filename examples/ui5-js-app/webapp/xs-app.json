@@ -9,7 +9,7 @@
     },
     {
       "source": "^/V2/(.*)$",
-      "target": "V2/$1",
+      "target": "/$1",
       "destination": "northwind",
       "authenticationType": "none"
     },
