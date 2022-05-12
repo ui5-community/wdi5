@@ -84,3 +84,4 @@ examples/ui5-js-app/webapp/test/__screenshots__/**/*.png
 # btp
 *.zip
 *.mtar
+*.mta
