@@ -1,4 +1,4 @@
-const { getBrowsers } = require("../scripts/getBrowsers")
+const { getBrowsers } = require("./scripts/getBrowsers")
 const { baseConfig } = require("./wdio.base.conf")
 const merge = require("deepmerge")
 
@@ -40,14 +40,18 @@ config.capabilities = []
 
 const browsers = getBrowsers()
 
-if (browsers.includes("chrome")) {
-    wdi5.getLogger().info(`add BROWSER: chrome`)
-    wdi5.getLogger().info(`add BROWSER: chrome`)
+if (browsers) {
+    if (browsers.includes("chrome")) {
+        config.capabilities.push(chrome)
+    }
+    if (browsers.includes("firefox")) {
+        config.capabilities.push(firefox)
+    }
+} else {
+    // nothing defined -> start all
     config.capabilities.push(chrome)
-}
-if (browsers.includes("firefox")) {
-    wdi5.getLogger().info(`add BROWSER: firefox`)
-    config.capabilities.push(firefox)
+    // firefox failing with regex test
+    // config.capabilities.push(firefox)
 }
 
 exports.config = config

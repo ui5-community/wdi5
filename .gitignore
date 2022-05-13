@@ -82,6 +82,6 @@ examples/ui5-js-app/dist/**/*
 examples/ui5-js-app/webapp/test/__screenshots__/**/*.png
 
 # btp
-*.mtar
 *.zip
+*.mtar
 *.mta

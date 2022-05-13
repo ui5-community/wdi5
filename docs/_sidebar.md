@@ -6,4 +6,5 @@
 - [Locators](locators.md)
 - [Recipes](recipes.md)
 - [Docker](docker.md)
+- [Issues](issues.md)
 - [Contributing](contributing.md)

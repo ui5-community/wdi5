@@ -9,6 +9,7 @@ async function clientSide_getControl(controlSelector) {
             waitForUI5Options,
             () => {
                 window.wdi5.Log.info("[browser wdi5] locating " + JSON.stringify(controlSelector))
+
                 controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector)
                 window.bridge
                     .findDOMElementByControlSelector(controlSelector)

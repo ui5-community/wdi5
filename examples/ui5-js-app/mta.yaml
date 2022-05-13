@@ -1,0 +1,105 @@
+_schema-version: "3.2"
+ID: wdi5-test-app
+version: 1.0.0
+
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm install
+
+modules:
+  - name: wdi5-test-app-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: wdi5-test-app_uaa
+        parameters:
+          service-key:
+            name: wdi5-test-app_uaa-key
+      - name: wdi5-test-app_html_repo_host
+        parameters:
+          service-key:
+            name: wdi5-test-app_html_repo_host-key
+      - name: wdi5-test-app-destination-service
+        parameters:
+          content-target: true
+      - name: btp-samples-simple-app-dest-srv
+        parameters:
+          content-target: true
+    parameters:
+      content:
+        instance:
+          destinations:
+            - Name: my_service_hello_world_html_repo_host
+              ServiceInstanceName: wdi5-test-app_html_repo_host
+              ServiceKeyName: wdi5-test-app_html_repo_host-key
+              sap.cloud.service: basic.service
+            - Authentication: OAuth2UserTokenExchange
+              Name: my_service_uaa_hello_world
+              ServiceInstanceName: wdi5-test-app_uaa
+              ServiceKeyName: uaa_wdi5-test-app-key
+              sap.cloud.service: basic.service
+          existing_destinations_policy: update
+    build-parameters:
+      no-source: true
+  - name: wdi5-test-app_ui_deployer
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: wdi5-test-app_html_repo_host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - artifacts:
+            - HTML5Module-content.zip
+          name: HTML5Module
+          target-path: resources/
+  - name: HTML5Module
+    type: html5
+    path: webapp
+    build-parameters:
+      builder: custom
+      commands:
+        - npm run build
+      supported-platforms: []
+resources:
+  - name: wdi5-test-app-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-name: wdi5-test-app-destination-service
+      service-plan: lite
+      config:
+        HTML5Runtime_enabled: true
+        version: 1.0.0
+  - name: btp-samples-simple-app-dest-srv
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: true
+        init_data:
+          instance:
+            destinations:
+              - Name: northwindV2
+                Authentication: NoAuthentication
+                ProxyType: Internet
+                Type: HTTP
+                URL: https://services.odata.org/V2
+            existing_destinations_policy: update
+        version: 1.0.0
+      service: destination
+      service-name: btp-samples-simple-app-dest-srv
+      service-plan: lite
+  - name: wdi5-test-app_html_repo_host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+  - name: wdi5-test-app_uaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      path: ./xs-security.json
+      service: xsuaa
+      service-plan: application

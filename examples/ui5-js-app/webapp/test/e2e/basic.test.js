@@ -111,7 +111,8 @@ describe("ui5 basic", () => {
         expect(response).toEqual("UI5 demo")
     })
 
-    it("check method chaining with fluent api", async () => {
+    it("---- NOT working in firefox ---- check method chaining with fluent api", async () => {
+        // uses regex properties matcher
         const response = await browser.asControl(buttonSelector).press().getText()
         expect(response).toEqual("open Dialog")
 
@@ -142,32 +143,81 @@ describe("ui5 basic", () => {
         await browser.asControl({ selector: { id: "__button1" } }).press()
     })
 
-    it("test performance 2", async () => {
-        buttonSelector.forceSelect = true
+    it("---- working in firefox ---- check method chaining with fluent api using ID Regex", async () => {
+        // uses regex matcher
+        const response = await browser
+            .asControl({
+                selector: {
+                    id: new RegExp(/.*DialogButton.*/gm)
+                }
+            })
+            .press()
+            .getText()
+        expect(response).toEqual("open Dialog")
 
-        marky.mark("2_fluentAPI")
-
-        const button = await browser.asControl(buttonSelector)
-        await button.press()
-        const text = await button.getText()
-
-        const entry = marky.stop("2_fluentAPI")
-
-        expect(text).toEqual("open Dialog")
-        wdi5.getLogger().info(entry)
+        // close popup
+        await browser.asControl({ selector: { id: "__button1" } }).press()
     })
 
-    it("method chaining without fluent api", async () => {
-        const newTitle = "new Title"
+    it("---- working in firefox ---- check button text without chaining", async () => {
+        const buttonSelector = {
+            wdio_ui5_key: "openDialogButton",
+            selector: {
+                controlType: "sap.m.Button",
+                viewName: "test.Sample.view.Main",
+                id: "openDialogButton"
+            }
+        }
+        const button = await browser.asControl(buttonSelector)
+        const buttonAgain = await button.press()
+        const text = await buttonAgain.getText()
+        expect(text).toEqual("open Dialog")
 
-        titleSelector.forceSelect = true
-        // setTitle still returns the wdi5 element, equivalent as in UI5
-        const title = await browser.asControl(titleSelector).setTitle(newTitle).getTitle()
-        expect(title).toEqual(newTitle)
+        // close popup
+        await browser.asControl({ selector: { id: "__button1" } }).press()
+    })
 
-        const titleFirstTime = await browser.asControl(titleSelector).setTitle(newTitle)
-        const titleAgain = await titleFirstTime.setTitle(newTitle)
-        const response = await titleAgain.getTitle()
-        expect(response).toEqual(newTitle)
+    it("---- working in firefox ---- check methods of fluent api", async () => {
+        const buttonSelector = {
+            wdio_ui5_key: "openDialogButton",
+            selector: {
+                controlType: "sap.m.Button",
+                viewName: "test.Sample.view.Main",
+                id: "openDialogButton"
+            }
+        }
+        const text = await browser.asControl(buttonSelector).press().getText()
+        expect(text).toEqual("open Dialog")
+
+        // close popup
+        await browser.asControl({ selector: { id: "__button1" } }).press()
+        it("test performance 2", async () => {
+            buttonSelector.forceSelect = true
+
+            marky.mark("2_fluentAPI")
+
+            const button = await browser.asControl(buttonSelector)
+            await button.press()
+            const text = await button.getText()
+
+            const entry = marky.stop("2_fluentAPI")
+
+            expect(text).toEqual("open Dialog")
+            wdi5.getLogger().info(entry)
+        })
+
+        it("method chaining without fluent api", async () => {
+            const newTitle = "new Title"
+
+            titleSelector.forceSelect = true
+            // setTitle still returns the wdi5 element, equivalent as in UI5
+            const title = await browser.asControl(titleSelector).setTitle(newTitle).getTitle()
+            expect(title).toEqual(newTitle)
+
+            const titleFirstTime = await browser.asControl(titleSelector).setTitle(newTitle)
+            const titleAgain = await titleFirstTime.setTitle(newTitle)
+            const response = await titleAgain.getTitle()
+            expect(response).toEqual(newTitle)
+        })
     })
 })

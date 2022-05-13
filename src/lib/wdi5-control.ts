@@ -451,7 +451,11 @@ export class WDI5Control {
      */
     private async _getControl(controlSelector = this._controlSelector) {
         // check whether we have a "by id regex" locator request
-        if (controlSelector.selector.id && typeof controlSelector.selector.id === "object") {
+        if (
+            controlSelector.selector.id &&
+            typeof controlSelector.selector.id === "object" &&
+            controlSelector.selector.id instanceof RegExp
+        ) {
             // make it a string for serializing into browser-scope and
             // further processing there
             controlSelector.selector.id = controlSelector.selector.id.toString()
