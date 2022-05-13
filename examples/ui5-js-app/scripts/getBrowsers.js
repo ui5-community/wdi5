@@ -2,7 +2,7 @@
  * analyse browser arguments
  */
 exports.getBrowsers = function () {
-    const availableBrowsers = ["chrome", "safari", "edge", "firefox"]
+    const availableBrowsers = ["chrome", "safari", "edge"] // skip "firefox"
     const argv = process.argv
     let browsers = []
     const _browsers = argv.indexOf("--browsers")
