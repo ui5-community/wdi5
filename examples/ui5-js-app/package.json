@@ -11,7 +11,7 @@
     "build": "mbt build",
     "test": "run-s test:*",
     "test-h": "run-s \"test:*\"",
-    "test:bs-btp": "wdio run wdio-bs-btp.conf.js --spec /basic.test.js --browsers chrome",
+    "test:bs-btp": "wdio run wdio-bs-btp.conf.js",
     "start": "soerver -d ./webapp -p 8888 -x ./webapp/proxyrc.json",
     "test:lateInject": "wdio run wdio-ui5-late.conf.js",
     "test:ui5tooling": "wdio run wdio-ui5tooling.conf.js",
@@ -40,5 +40,8 @@
     "dependencies": [
       "ui5-middleware-simpleproxy"
     ]
+  },
+  "dependencies": {
+    "bestzip": "^2.2.1"
   }
 }

@@ -23,7 +23,7 @@ modules:
       - name: wdi5-test-app-destination-service
         parameters:
           content-target: true
-      - name: btp-samples-simple-app-dest-srv
+      - name: wdi5-dest-srv
         parameters:
           content-target: true
     parameters:
@@ -74,7 +74,7 @@ resources:
       config:
         HTML5Runtime_enabled: true
         version: 1.0.0
-  - name: btp-samples-simple-app-dest-srv
+  - name: wdi5-dest-srv
     type: org.cloudfoundry.managed-service
     parameters:
       config:
@@ -82,15 +82,15 @@ resources:
         init_data:
           instance:
             destinations:
-              - Name: northwindV2
-                Authentication: NoAuthentication
+              - Authentication: NoAuthentication
+                Name: northwindV2
                 ProxyType: Internet
                 Type: HTTP
                 URL: https://services.odata.org/V2
             existing_destinations_policy: update
         version: 1.0.0
       service: destination
-      service-name: btp-samples-simple-app-dest-srv
+      service-name: wdi5-dest-srv
       service-plan: lite
   - name: wdi5-test-app_html_repo_host
     type: org.cloudfoundry.managed-service
