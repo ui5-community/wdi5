@@ -11,11 +11,11 @@
     "test": "run-s test:*",
     "test-h": "run-s \"test:* -- --headless\"",
     "start": "soerver -d ./webapp -p 8888 -x ./webapp/proxyrc.json",
-    "test:lateInject": "wdio run wdio-ui5-late.conf.js",
-    "test:ui5tooling": "wdio run wdio-ui5tooling.conf.js",
-    "test:webserver": "wdio run wdio-webserver.conf.js",
-    "test:multiversion": "node wdi5-multiversion.js",
-    "test-selenium": "wdio run wdio-selenium-service.conf.js"
+    "test:lateInject": "wdio run e2e-test-config/wdio-ui5-late.conf.js",
+    "test:ui5tooling": "wdio run e2e-test-config/wdio-ui5tooling.conf.js",
+    "test:webserver": "wdio run e2e-test-config/wdio-webserver.conf.js",
+    "test:multiversion": "node e2e-test-config/wdi5-multiversion.js",
+    "test-selenium": "wdio run e2e-test-config/wdio-selenium-service.conf.js"
   },
   "devDependencies": {
     "@ui5/cli": "^2.14.7",
