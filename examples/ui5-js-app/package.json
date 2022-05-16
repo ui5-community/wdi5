@@ -40,8 +40,5 @@
     "dependencies": [
       "ui5-middleware-simpleproxy"
     ]
-  },
-  "dependencies": {
-    "bestzip": "^2.2.1"
   }
 }
