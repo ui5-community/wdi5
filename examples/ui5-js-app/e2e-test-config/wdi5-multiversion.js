@@ -11,9 +11,9 @@ const versions = ["", "1.71.19", "1.84.3"]
 ;(async () => {
     for (const version of versions) {
         // create an index.html for bootstrapping per version
-        const targetIndex = path.resolve(__dirname, `webapp/index-${version}.html`)
+        const targetIndex = path.resolve(__dirname, `../webapp/index-${version}.html`)
         const bootstrapSrc = `https://openui5nightly.hana.ondemand.com/${version}/resources/sap-ui-core.js`
-        fsExtra.copySync(path.resolve(__dirname, `webapp/index.html`), targetIndex)
+        fsExtra.copySync(path.resolve(__dirname, `../webapp/index.html`), targetIndex)
         const optionsIndex = {
             files: targetIndex,
             from: [/src=\".*\"/, /"sap_horizon"/],
@@ -23,14 +23,14 @@ const versions = ["", "1.71.19", "1.84.3"]
         console.log(`created index-${version}!`)
 
         // create a wdio/wdi5 config per version
-        const targetWdioConf = path.resolve(__dirname, `e2e-test-config/wdio-wdi5-ui5-${version}.conf.js`)
-        fsExtra.copySync(path.resolve(__dirname, "e2e-test-config/wdio-webserver.conf.js"), targetWdioConf)
+        const targetWdioConf = path.resolve(__dirname, `wdio-wdi5-ui5-${version}.conf.js`)
+        fsExtra.copySync(path.resolve(__dirname, "wdio-webserver.conf.js"), targetWdioConf)
         const optionsWdioConf = {
             files: targetWdioConf,
             from: [/url: "#"/, /specs: \[.*\]/],
             to: [
                 `url: "index-${version}"`, // this is only b/c of the "soerver" webserver in use...
-                `specs: ["${path.resolve(__dirname, "webapp/test/e2e/properties-matcher.test.js")}"]`
+                `specs: ["${path.resolve(__dirname, "../webapp/test/e2e/properties-matcher.test.js")}"]`
             ]
         }
         await replace(optionsWdioConf)
