@@ -1,5 +1,5 @@
-async function clientSide_executeControlMethod(webElement, methodName, args) {
-    return await browser.executeAsync(
+async function clientSide_executeControlMethod(webElement, methodName, browserInstance, args) {
+    return await browserInstance.executeAsync(
         (webElement, methodName, args, done) => {
             window.wdi5.waitForUI5(
                 window.wdi5.waitForUI5Options,

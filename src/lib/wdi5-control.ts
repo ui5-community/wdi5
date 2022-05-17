@@ -31,8 +31,10 @@ export class WDI5Control {
     _generatedWdioMethods: Array<string>
     _domId: string
 
+    _browserInstance: WebdriverIO.Browser
     constructor(oOptions) {
         const {
+            browserInstance,
             controlSelector,
             wdio_ui5_key,
             forceSelect,
@@ -46,6 +48,7 @@ export class WDI5Control {
         this._wdio_ui5_key = wdio_ui5_key
         this._forceSelect = forceSelect
         this._generatedUI5Methods = generatedUI5Methods
+        this._browserInstance = browserInstance
         this._webElement = webElement
         this._webdriverRepresentation = webdriverRepresentation
         this._domId = domId
@@ -157,7 +160,7 @@ export class WDI5Control {
      * @returns
      */
     async renewWebElement(id: string = this._domId) {
-        this._webdriverRepresentation = await $(`//*[@id="${id}"]`)
+        this._webdriverRepresentation = await this._browserInstance.$(`//*[@id="${id}"]`)
         return this._webdriverRepresentation
     }
 
@@ -246,7 +249,7 @@ export class WDI5Control {
                 }
 
                 // get WDI5 control
-                aResultOfPromises.push(browser.asControl(selector))
+                aResultOfPromises.push(this._browserInstance.asControl(selector))
             })
 
             return await Promise.all(aResultOfPromises)
@@ -276,7 +279,7 @@ export class WDI5Control {
             }
 
             // get WDI5 control
-            eResult = await browser.asControl(selector)
+            eResult = await this._browserInstance.asControl(selector)
         } else {
             Logger.warn(`${this._wdio_ui5_key} has no aControls`)
         }
@@ -339,7 +342,7 @@ export class WDI5Control {
         // returns the array of [0: "status", 1: result]
 
         // regular browser-time execution of UI5 control method
-        const result = await clientSide_executeControlMethod(webElement, methodName, args)
+        const result = await clientSide_executeControlMethod(webElement, methodName, this._browserInstance, args)
 
         // create logging
         this.writeResultLog(result, methodName)
@@ -398,7 +401,7 @@ export class WDI5Control {
         if (util.types.isProxy(webElement)) {
             webElement = await Promise.resolve(webElement)
         }
-        const result = await clientSide_getAggregation(webElement, aggregationName)
+        const result = await clientSide_getAggregation(webElement, aggregationName, this._browserInstance)
 
         this.writeResultLog(result, "_getAggregation()")
 
@@ -422,7 +425,7 @@ export class WDI5Control {
      * @param {boolean} oOptions.clearTextFirst
      */
     private async interactWithControl(oOptions) {
-        const result = await clientSide_interactWithControl(oOptions)
+        const result = await clientSide_interactWithControl(oOptions, this._browserInstance)
 
         this.writeResultLog(result, "interactWithControl()")
         return result[1]
@@ -439,7 +442,7 @@ export class WDI5Control {
         if (oOptions?.eval) {
             oOptions = "(" + oOptions.eval.toString() + ")"
         }
-        const result = await clientSide_fireEvent(webElement, eventName, oOptions)
+        const result = await clientSide_fireEvent(webElement, eventName, oOptions, this._browserInstance)
         this.writeResultLog(result, "_fireEvent()")
         return result[1]
     }
@@ -482,7 +485,7 @@ export class WDI5Control {
             controlSelector.selector.properties.text = controlSelector.selector.properties.text.toString()
         }
 
-        const _result = await clientSide_getControl(controlSelector)
+        const _result = await clientSide_getControl(controlSelector, this._browserInstance)
         const { domElement, id, aProtoFunctions, className } = _result[1]
         const result = _result[0]
 
@@ -490,7 +493,7 @@ export class WDI5Control {
         // save the webdriver representation by control id
         if (result && id) {
             // only if the result is valid
-            this._webdriverRepresentation = await $(`//*[@id="${id}"]`)
+            this._webdriverRepresentation = await this._browserInstance.$(`//*[@id="${id}"]`)
             this._generatedWdioMethods = this._retrieveControlMethods(this._webdriverRepresentation)
 
             // add metadata

@@ -1,6 +1,6 @@
-async function clientSide_getControl(controlSelector) {
+async function clientSide_getControl(controlSelector, browserInstance) {
     controlSelector = await Promise.resolve(controlSelector) // to plug into fluent async api
-    return await browser.executeAsync((controlSelector, done) => {
+    return await browserInstance.executeAsync((controlSelector, done) => {
         const errorHandling = (error) => {
             window.wdi5.Log.error("[browser wdi5] ERR: ", error)
             done(["error", error.toString()])
@@ -28,7 +28,12 @@ async function clientSide_getControl(controlSelector) {
                         // @type [String, String?, String, "Array of Strings"]
                         done([
                             "success",
-                            { domElement: domElement, id: id, aProtoFunctions: aProtoFunctions, className: className }
+                            {
+                                domElement: domElement,
+                                id: id,
+                                aProtoFunctions: aProtoFunctions,
+                                className: className
+                            }
                         ])
                     })
                     .catch(errorHandling)

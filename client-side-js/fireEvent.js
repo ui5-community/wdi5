@@ -1,5 +1,5 @@
-async function clientSide_fireEvent(webElement, eventName, oOptions) {
-    return await browser.executeAsync(
+async function clientSide_fireEvent(webElement, eventName, oOptions, browserInstance) {
+    return await browserInstance.executeAsync(
         (webElement, eventName, oOptions, done) => {
             const errorHandling = () => {
                 window.wdi5.Log.error("[browser wdi5] couldn't find " + webElement)

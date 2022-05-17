@@ -4,6 +4,7 @@ import { tmpdir } from "os"
 import * as semver from "semver"
 
 import { wdi5Config, wdi5Selector } from "../types/wdi5.types"
+import { MultiRemoteDriver } from "webdriverio/build/multiremote"
 import { WDI5Control } from "./wdi5-control"
 import { clientSide_injectTools } from "../../client-side-js/injectTools"
 import { clientSide_injectUI5 } from "../../client-side-js/injectUI5"
@@ -34,52 +35,12 @@ export async function setup(config: wdi5Config) {
     // jump-start the desired log level
     Logger.setLogLevel(config.wdi5.logLevel || "error")
 
-    // init control cache
-    if (!browser._controls) {
-        Logger.info("creating internal control map")
-        browser._controls = []
-    }
-
-    addWdi5Commands()
-
-    // inspired by and after staring a long time hard at:
-    // https://stackoverflow.com/questions/51635378/keep-object-chainable-using-async-methods
-    // https://github.com/Shigma/prochain
-    // https://github.com/l8js/l8/blob/main/src/core/liquify.js
-
-    // channel the async function browser._asControl (init'ed via browser.addCommand above) through a Proxy
-    // in order to chain calls of any subsequent UI5 api methods on the retrieved UI5 control:
-    // await browser.asControl(selector).methodOfUI5control().anotherMethodOfUI5control()
-    // the way this works is twofold:
-    // 1. (almost) all UI5 $control's API methods are reinjected from the browser-scope
-    //    into the Node.js scope via async WDI5._executeControlMethod(), which in term actually calls
-    //    the reinjected API method within the browser scope
-    // 2. the execution of each UI5 $control's API method (via async WDI5._executeControlMethod() => Promise) is then chained
-    //    via the below "then"-ing of the (async WDI5._executeControlMethod() => Promise)-Promises with the help of
-    //    the a Proxy and a recursive `handler` function
-    if (!browser.asControl) {
-        browser.asControl = function (ui5ControlSelector) {
-            const asyncMethods = ["then", "catch", "finally"]
-            function makeFluent(target) {
-                const promise = Promise.resolve(target)
-                const handler = {
-                    get(_, prop) {
-                        return asyncMethods.includes(prop)
-                            ? (...boundArgs) => makeFluent(promise[prop](...boundArgs))
-                            : makeFluent(promise.then((object) => object[prop]))
-                    },
-                    apply(_, thisArg, boundArgs) {
-                        return makeFluent(
-                            promise.then((targetFunction) => Reflect.apply(targetFunction, thisArg, boundArgs))
-                        )
-                    }
-                }
-                // eslint-disable-next-line @typescript-eslint/no-empty-function
-                return new Proxy(function () {}, handler)
-            }
-            // @ts-ignore
-            return makeFluent(browser._asControl(ui5ControlSelector))
-        }
+    if (browser instanceof MultiRemoteDriver) {
+        ;(browser as MultiRemoteDriver).instances.forEach((name) => {
+            initBrowser(browser[name])
+        })
+    } else {
+        initBrowser(browser)
     }
 
     _setupComplete = true
@@ -96,21 +57,42 @@ export async function start(config: wdi5Config) {
     }
 }
 
+function initBrowser(browserInstance: WebdriverIO.Browser) {
+    // init control cache
+    if (!browserInstance._controls) {
+        Logger.info("creating internal control map")
+        browserInstance._controls = []
+    }
+    addWdi5Commands(browserInstance)
+}
+
+function checkUI5Version(ui5Version: string) {
+    if (semver.lt(ui5Version, "1.60.0")) {
+        // the record replay api is only available since 1.60
+        Logger.error("The ui5 version of your application is to low. Minimum required UI5 version is 1.60")
+        throw new Error("The ui5 version of your application is to low. Minimum required UI5 version is 1.60")
+    }
+}
+
 /**
  * function library to setup the webdriver to UI5 bridge, it runs alle the initial setup
  * make sap/ui/test/RecordReplay accessible via wdio
  * attach the sap/ui/test/RecordReplay object to the application context window object as 'bridge'
  */
 export async function injectUI5(config: wdi5Config) {
-    const ui5Version = await browser.getUI5Version()
-    if (semver.lt(ui5Version, "1.60.0")) {
-        // the record replay api is only available since 1.60
-        Logger.error("The ui5 version of your application is to low. Minimum required UI5 version is 1.60")
-        throw new Error("The ui5 version of your application is to low. Minimum required UI5 version is 1.60")
+    if (browser instanceof MultiRemoteDriver) {
+        // FIXME: enable version check for multi remote driver
+        // await (browser as MultiRemoteDriver).instances.forEach(async (name) => {
+        //     const ui5Version = await (browser[name] as WebdriverIO.Browser).getUI5Version()
+        //     checkUI5Version(ui5Version)
+        // })
+    } else {
+        checkUI5Version(await browser.getUI5Version())
     }
+
     const waitForUI5Timeout = config.wdi5.waitForUI5Timeout || 15000
     await clientSide_injectTools() // helpers for wdi5 browser scope
-    // expect boolean
+    // expect boolean=
     const result = await clientSide_injectUI5(config, waitForUI5Timeout)
 
     if (result) {
@@ -182,8 +164,8 @@ function _verifySelector(wdi5Selector: wdi5Selector) {
     return false
 }
 
-export async function addWdi5Commands() {
-    browser.addCommand("_asControl", async (wdi5Selector: wdi5Selector) => {
+export async function addWdi5Commands(browserInstance: WebdriverIO.Browser) {
+    browserInstance.addCommand("_asControl", async (wdi5Selector: wdi5Selector) => {
         if (!_verifySelector(wdi5Selector)) {
             return "ERROR: Specified selector is not valid -> abort"
         }
@@ -191,34 +173,34 @@ export async function addWdi5Commands() {
         const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
         // either retrieve and cache a UI5 control
         // or return a cached version
-        if (!browser._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
+        if (!browserInstance._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
             Logger.info(`creating internal control with id ${internalKey}`)
             wdi5Selector.wdio_ui5_key = internalKey
-            const wdi5Control = await new WDI5Control({}).init(wdi5Selector, wdi5Selector.forceSelect)
-            browser._controls[internalKey] = wdi5Control
+            const wdi5Control = await new WDI5Control({ browserInstance }).init(wdi5Selector, wdi5Selector.forceSelect)
+            browserInstance._controls[internalKey] = wdi5Control
         } else {
             Logger.info(`reusing internal control with id ${internalKey}`)
         }
-        return browser._controls[internalKey]
+        return browserInstance._controls[internalKey]
     })
 
     // no fluent API -> no private method
-    browser.addCommand("allControls", async (wdi5Selector: wdi5Selector) => {
+    browserInstance.addCommand("allControls", async (wdi5Selector: wdi5Selector) => {
         if (!_verifySelector(wdi5Selector)) {
             return "ERROR: Specified selector is not valid -> abort"
         }
 
         const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
 
-        if (!browser._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
+        if (!browserInstance._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
             wdi5Selector.wdio_ui5_key = internalKey
             Logger.info(`creating internal controls with id ${internalKey}`)
-            browser._controls[internalKey] = await _allControls(wdi5Selector)
-            return browser._controls[internalKey]
+            browserInstance._controls[internalKey] = await _allControls(wdi5Selector, browserInstance)
+            return browserInstance._controls[internalKey]
         } else {
             Logger.info(`reusing internal control with id ${internalKey}`)
         }
-        return browser._controls[internalKey]
+        return browserInstance._controls[internalKey]
     })
 
     /**
@@ -229,8 +211,8 @@ export async function addWdi5Commands() {
      * @param {object} oOptions.settings - ui5 settings object
      * @param {boolean} oOptions.settings.preferViewId
      */
-    browser.addCommand("getSelectorForElement", async (oOptions) => {
-        const result = await clientSide_getSelectorForElement(oOptions)
+    browserInstance.addCommand("getSelectorForElement", async (oOptions) => {
+        const result = await clientSide_getSelectorForElement(oOptions, browserInstance)
 
         if (Array.isArray(result)) {
             if (result[0] === "error") {
@@ -246,7 +228,7 @@ export async function addWdi5Commands() {
         }
     })
 
-    browser.addCommand("getUI5Version", async () => {
+    browserInstance.addCommand("getUI5Version", async () => {
         if (!_sapUI5Version) {
             const resultVersion = await clientSide_getUI5Version()
             _sapUI5Version = resultVersion
@@ -258,19 +240,19 @@ export async function addWdi5Commands() {
     /**
      * uses the UI5 native waitForUI5 function to wait for all promises to be settled
      */
-    browser.addCommand("waitForUI5", async () => {
+    browserInstance.addCommand("waitForUI5", async () => {
         return await _waitForUI5()
     })
 
     /**
      * wait for ui5 and take a screenshot
      */
-    browser.addCommand("screenshot", async (fileAppendix) => {
+    browserInstance.addCommand("screenshot", async (fileAppendix) => {
         await _waitForUI5()
         await _writeScreenshot(fileAppendix)
     })
 
-    browser.addCommand("goTo", async (oOptions) => {
+    browserInstance.addCommand("goTo", async (oOptions) => {
         // allow for method sig to be both
         //  wdi5()...goTo("#/accounts/create")
         //  wdi5()...goTo({sHash:"#/accounts/create"})
@@ -283,25 +265,25 @@ export async function addWdi5Commands() {
         const oRoute = oOptions.oRoute
 
         if (sHash && sHash.length > 0) {
-            const url = (browser.config as wdi5Config).wdi5["url"] || (await browser.getUrl())
+            const url = (browserInstance.config as wdi5Config).wdi5["url"] || (await browserInstance.getUrl())
 
             // navigate via hash if defined
             if (url && url.length > 0 && url !== "#") {
                 // prefix url config if is not just a hash (#)
-                const currentUrl = await browser.getUrl()
+                const currentUrl = await browserInstance.getUrl()
                 const alreadyNavByHash = currentUrl.includes("#")
                 const navToRoot = url.startsWith("/")
                 if (alreadyNavByHash && !navToRoot) {
-                    await browser.url(`${currentUrl.split("#")[0]}${sHash}`)
+                    await browserInstance.url(`${currentUrl.split("#")[0]}${sHash}`)
                 } else {
-                    await browser.url(`${url}${sHash}`)
+                    await browserInstance.url(`${url}${sHash}`)
                 }
             } else if (url && url.length > 0 && url === "#") {
                 // route without the double hash
-                await browser.url(`${sHash}`)
+                await browserInstance.url(`${sHash}`)
             } else {
                 // just a fallback
-                await browser.url(`${sHash}`)
+                await browserInstance.url(`${sHash}`)
             }
         } else if (oRoute && oRoute.sName) {
             // navigate using the ui5 router
@@ -311,12 +293,53 @@ export async function addWdi5Commands() {
                 oRoute.sName,
                 oRoute.oParameters,
                 oRoute.oComponentTargetInfo,
-                oRoute.bReplace
+                oRoute.bReplace,
+                browserInstance
             )
         } else {
             Logger.error("ERROR: navigating to another page")
         }
     })
+
+    // inspired by and after staring a long time hard at:
+    // https://stackoverflow.com/questions/51635378/keep-object-chainable-using-async-methods
+    // https://github.com/Shigma/prochain
+    // https://github.com/l8js/l8/blob/main/src/core/liquify.js
+
+    // channel the async function browser._asControl (init'ed via browser.addCommand above) through a Proxy
+    // in order to chain calls of any subsequent UI5 api methods on the retrieved UI5 control:
+    // await browser.asControl(selector).methodOfUI5control().anotherMethodOfUI5control()
+    // the way this works is twofold:
+    // 1. (almost) all UI5 $control's API methods are reinjected from the browser-scope
+    //    into the Node.js scope via async WDI5._executeControlMethod(), which in term actually calls
+    //    the reinjected API method within the browser scope
+    // 2. the execution of each UI5 $control's API method (via async WDI5._executeControlMethod() => Promise) is then chained
+    //    via the below "then"-ing of the (async WDI5._executeControlMethod() => Promise)-Promises with the help of
+    //    the a Proxy and a recursive `handler` function
+    if (!browserInstance.asControl) {
+        browserInstance.asControl = function (ui5ControlSelector) {
+            const asyncMethods = ["then", "catch", "finally"]
+            function makeFluent(target) {
+                const promise = Promise.resolve(target)
+                const handler = {
+                    get(_, prop) {
+                        return asyncMethods.includes(prop)
+                            ? (...boundArgs) => makeFluent(promise[prop](...boundArgs))
+                            : makeFluent(promise.then((object) => object[prop]))
+                    },
+                    apply(_, thisArg, boundArgs) {
+                        return makeFluent(
+                            promise.then((targetFunction) => Reflect.apply(targetFunction, thisArg, boundArgs))
+                        )
+                    }
+                }
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                return new Proxy(function () {}, handler)
+            }
+            // @ts-ignore
+            return makeFluent(browserInstance._asControl(ui5ControlSelector))
+        }
+    }
 }
 
 /**
@@ -324,7 +347,7 @@ export async function addWdi5Commands() {
  * @param {sap.ui.test.RecordReplay.ControlSelector} controlSelector
  * @return {[WebdriverIO.Element | String, [aProtoFunctions]]} UI5 control or error message, array of function names of this control
  */
-async function _allControls(controlSelector = this._controlSelector) {
+async function _allControls(controlSelector = this._controlSelector, browserInstance = browser) {
     // check whether we have a "by id regex" locator request
     if (controlSelector.selector.id && typeof controlSelector.selector.id === "object") {
         // make it a string for serializing into browser-scope and
@@ -342,7 +365,7 @@ async function _allControls(controlSelector = this._controlSelector) {
     }
 
     // pre retrive control information
-    const response = await clientSide_allControls(controlSelector)
+    const response = await clientSide_allControls(controlSelector, browserInstance)
     _writeResultLog(response, "allControls()")
 
     if (response[0] === "success") {
@@ -361,6 +384,7 @@ async function _allControls(controlSelector = this._controlSelector) {
                 domId: cControl.id
             }
 
+            // FIXME: multi remote support by providing browserInstance in constructor
             resultWDi5Elements.push(new WDI5Control(oOptions))
         }
 
@@ -391,7 +415,13 @@ async function _waitForUI5() {
  * check for UI5 via the RecordReplay.waitForUI5 method
  */
 async function _checkForUI5Ready() {
+    let ready = false
     if (_isInitialized) {
+        if (browser instanceof MultiRemoteDriver) {
+            ;(browser as MultiRemoteDriver).instances.forEach(async (name) => {
+                ready = await clientSide__checkForUI5Ready((browser as MultiRemoteDriver).instances[name])
+            })
+        }
         // can only be executed when RecordReplay is attached
         return await clientSide__checkForUI5Ready()
     }
@@ -440,8 +470,15 @@ function _getDateString() {
  * @param {Object} oComponentTargetInfo
  * @param {Boolean} bReplace
  */
-async function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) {
-    const result = await clientSide__navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace)
+async function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace, browserInstance) {
+    const result = await clientSide__navTo(
+        sComponentId,
+        sName,
+        oParameters,
+        oComponentTargetInfo,
+        bReplace,
+        browserInstance
+    )
     if (Array.isArray(result)) {
         if (result[0] === "error") {
             Logger.error("ERROR: navigation using UI5 router failed because of: " + result[1])

@@ -1,5 +1,5 @@
-async function clientSide_getSelectorForElement(oOptions) {
-    return await browser.executeAsync((oOptions, done) => {
+async function clientSide_getSelectorForElement(oOptions, browserInstance) {
+    return await browserInstance.executeAsync((oOptions, done) => {
         const errorHandling = (error) => {
             window.wdi5.Log.error("[browser wdi5] ERR: ", error)
             done(["error", error.toString()])

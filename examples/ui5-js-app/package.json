@@ -14,6 +14,7 @@
     "test:ui5tooling": "wdio run wdio-ui5tooling.conf.js",
     "test:webserver": "wdio run wdio-webserver.conf.js",
     "test:multiversion": "node wdi5-multiversion.js",
+    "test:multiremote": "wdio run wdio-multiremote.conf.js",
     "test-selenium": "wdio run wdio-selenium-service.conf.js"
   },
   "devDependencies": {

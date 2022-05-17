@@ -1,6 +1,6 @@
-async function clientSide_allControls(controlSelector) {
+async function clientSide_allControls(controlSelector, browserInstance) {
     controlSelector = await Promise.resolve(controlSelector) // to plug into fluent async api
-    return await browser.executeAsync((controlSelector, done) => {
+    return await browserInstance.executeAsync((controlSelector, done) => {
         const errorHandling = (error) => {
             window.wdi5.Log.error("[browser wdi5] ERR: ", error)
             done(["error", error.toString()])

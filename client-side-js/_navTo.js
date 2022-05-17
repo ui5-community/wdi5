@@ -1,5 +1,5 @@
-async function clientSide__navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) {
-    return await browser.executeAsync(
+async function clientSide__navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace, browserInstance) {
+    return await browserInstance.executeAsync(
         (sComponentId, sName, oParameters, oComponentTargetInfo, bReplace, done) => {
             window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
                 window.wdi5.Log.info(`[browser wdi5] navigation to ${sName} triggered`)
