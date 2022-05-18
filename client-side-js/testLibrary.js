@@ -67,7 +67,6 @@ async function addToQueue(type, target, aMethods) {
                     }
                     scope = scope[target]
                     // execute all passed in methods
-                    debugger
                     aMethods.reduce((obj, methodInfo) => {
                         if (methodInfo.accessor) {
                             return obj[methodInfo.name]

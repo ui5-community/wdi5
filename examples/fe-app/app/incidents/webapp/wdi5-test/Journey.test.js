@@ -36,8 +36,7 @@ describe("FE basics", () => {
 
     it("should see an object page", async () => {
         await FioriElementsFacade.execute((Given, When, Then) => {
-            Then.onTheDetailPage.iSeeObjectPageInDisplayMode().and.iSeeTitleWithText("Password Reset")
-            Then.onTheDetailPage.onHeader().iCheckAction("Edit", { visible: true })
+            Then.onTheDetailPage.onHeader().iCheckEdit().and.iCheckTitle("Password Reset")
             When.onTheDetailPage.onHeader().iExecuteEdit()
             Then.onTheDetailPage.iSeeThisPage().and.iSeeObjectPageInEditMode()
             When.onTheDetailPage

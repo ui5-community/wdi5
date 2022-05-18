@@ -3,7 +3,7 @@ const { join } = require("path")
 exports.config = {
     wdi5: {
         screenshotPath: join("app", "incidents", "webapp", "wdi5-test", "__screenshots__"),
-        logLevel: "error", // error | verbose | silent
+        logLevel: "verbose", // error | verbose | silent
         url: "index.html",
         waitForUI5timeout: 30000
     },
