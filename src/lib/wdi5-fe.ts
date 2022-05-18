@@ -1,4 +1,4 @@
-import { clientSide_testLibrary, initOPA, addToQueue, emptyQueue } from "../../client-side-js/testLibrary"
+import { initOPA, addToQueue, emptyQueue } from "../../client-side-js/testLibrary"
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
 
@@ -43,9 +43,12 @@ export class WDI5FE {
             }
         }
         // ExecuteTest
-        const [type, content] = await emptyQueue()
+        const [type, content, feLogs] = await emptyQueue()
         if (type !== "success") {
             throw content
+        }
+        for (const log of feLogs) {
+            Logger.success(`[test library] ${log}`)
         }
     }
 }

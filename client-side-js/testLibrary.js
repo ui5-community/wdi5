@@ -1,70 +1,3 @@
-async function clientSide_testLibrary(pageObject, aMethods, oOptions, isAssertion = false) {
-    return await browser.executeAsync(
-        (pageObject, aMethods, oOptions, isAssertion, done) => {
-            window.bridge
-                .waitForUI5(window.wdi5.waitForUI5Options)
-                .then(() => {
-                    window.wdi5.Log.info(
-                        "[browser wdi5 FE] working " + aMethods.join(", ") + " for FE page" + pageObject
-                    )
-
-                    // "cache" created page objects to avoid dups
-                    if (!window.wdi5.pageObjects) {
-                        window.wdi5.pageObjects = {}
-                    }
-                    let pageClass
-                    if (!window.wdi5.pageObjects[pageObject]) {
-                        pageClass = new window.fe_bridge[pageObject](oOptions, {
-                            // TODO: this will need to come via oOptions
-                            actions: {},
-                            assertions: {}
-                        })
-                        window.wdi5.pageObjects[pageObject] = pageClass
-                    } else {
-                        pageClass = window.wdi5.pageObjects[pageObject]
-                    }
-                    return pageClass
-                })
-                .then((pageClass) => {
-                    // put page into OPA queue
-                    // TODO: support page objects other than main page
-                    sap.ui.test.Opa5.createPageObjects({ onTheMainPage: pageClass })
-
-                    // mock the generic OK handler in order to support assertions
-                    sap.ui.test.Opa5.assert = {
-                        ok: function () {
-                            window.wdi5.Log.info("mocked assert!")
-                            return true
-                        }
-                    }
-
-                    const scope = isAssertion
-                        ? sap.ui.test.Opa.config.assertions.onTheMainPage
-                        : sap.ui.test.Opa.config.actions.onTheMainPage
-
-                    // execute all passed in methods
-                    aMethods.reduce((obj, methodName) => {
-                        return obj[methodName]()
-                    }, scope)
-
-                    // shoot off OPA queue execution
-                    return sap.ui.test.Opa.emptyQueue()
-                })
-                .then(() => {
-                    done(["success", true])
-                })
-                .catch((err) => {
-                    window.wdi5.Log.error(err)
-                    done(["error", err.toString()])
-                })
-        },
-        pageObject,
-        aMethods,
-        oOptions,
-        isAssertion
-    )
-}
-
 async function initOPA(pageObjectConfig) {
     return await browser.executeAsync((pageObjectConfig, done) => {
         window.bridge
@@ -74,18 +7,15 @@ async function initOPA(pageObjectConfig) {
                 Object.keys(pageObjectConfig).map((pageKey) => {
                     Object.keys(pageObjectConfig[pageKey]).forEach((className) => {
                         const options = pageObjectConfig[pageKey][className]
-                        pageConfig[pageKey] = new window.fe_bridge[className](options, {
-                            // TODO: this will need to come via oOptions
-                            actions: {},
-                            assertions: {}
-                        })
+                        pageConfig[pageKey] = new window.fe_bridge[className](options)
                     })
                 })
                 sap.ui.test.Opa5.createPageObjects(pageConfig)
+
                 // mock the generic OK handler in order to support assertions
                 sap.ui.test.Opa5.assert = {
-                    ok: function () {
-                        //window.wdi5.Log.info("mocked assert!")
+                    ok: function (bSuccess, responseText) {
+                        window.fe_bridge.Log.push(responseText)
                         return true
                     }
                 }
@@ -107,7 +37,8 @@ async function emptyQueue() {
                 return sap.ui.test.Opa.emptyQueue()
             })
             .then(() => {
-                done(["success", true])
+                done(["success", true, window.fe_bridge.Log])
+                window.fe_bridge.Log = []
             })
             .catch((err) => {
                 window.wdi5.Log.error(err)
@@ -136,6 +67,7 @@ async function addToQueue(type, target, aMethods) {
                     }
                     scope = scope[target]
                     // execute all passed in methods
+                    debugger
                     aMethods.reduce((obj, methodInfo) => {
                         if (methodInfo.accessor) {
                             return obj[methodInfo.name]
@@ -158,7 +90,6 @@ async function addToQueue(type, target, aMethods) {
 }
 
 module.exports = {
-    clientSide_testLibrary,
     emptyQueue,
     initOPA,
     addToQueue

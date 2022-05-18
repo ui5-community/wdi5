@@ -61,8 +61,6 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                 // known side effect this call triggers the back to node scope, the other sap.ui.require continue to run in background in browser scope
                 done(true)
             })
-
-            // TODO: support FE pages other than the main/list page;
             // see also /client-side-js/testLibrary.js
             sap.ui.require(
                 ["sap/fe/test/ListReport", "sap/fe/test/ObjectPage", "sap/fe/test/Shell"],
@@ -70,6 +68,8 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                     window.fe_bridge.ListReport = ListReport
                     window.fe_bridge.ObjectPage = ObjectPage
                     window.fe_bridge.Shell = Shell
+                    // logs for the FE Testlib responses
+                    window.fe_bridge.Log = []
                 }
             )
             // make sure the resources are required
