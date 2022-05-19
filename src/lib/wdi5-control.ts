@@ -14,6 +14,8 @@ const Logger = _Logger.getInstance()
 /**
  * This is a bridge object to use from selector to UI5 control,
  * can be seen as a generic representation of a UI5 control
+ *
+ * Kind of equivalent representation of a sap.ui.core.control
  */
 export class WDI5Control {
     _controlSelector: wdi5Selector = null
@@ -374,7 +376,14 @@ export class WDI5Control {
                 // return $self after a called method of the wdi5 instance to allow method chaining
                 return this
             case "result":
-                return result.nonCircularResultObject ? result.nonCircularResultObject : result.result
+                if (result.nonCircularResultObject) {
+                    // enhance with uuid
+                    const r = result.nonCircularResultObject
+                    r.uuid = result.uuid
+                    return r
+                }
+                return result.result
+
             case "empty":
                 Logger.warn("No data found in property or aggregation")
                 return result.result

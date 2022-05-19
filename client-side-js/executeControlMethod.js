@@ -67,7 +67,8 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                                     status: 0,
                                     result: result,
                                     returnType: "result",
-                                    nonCircularResultObject: result
+                                    nonCircularResultObject: result,
+                                    uuid: window.wdi5.saveObject(result)
                                 })
                             } else {
                                 // check if of control to verify if the method result is a different control

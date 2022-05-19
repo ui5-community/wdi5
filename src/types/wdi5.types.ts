@@ -126,6 +126,14 @@ export interface clientSide_ui5Response {
     className?: string // getControl
     returnType?: string // executeControlMethod
     nonCircularResultObject?: any
+    uuid?: string // uniquie sap.ui.base.Object id
+}
+
+export interface clientSide_ui5Object {
+    uuid: string
+    status: wdi5StatusCode
+    aProtoFunctions?: []
+    className?: string
 }
 
 /**

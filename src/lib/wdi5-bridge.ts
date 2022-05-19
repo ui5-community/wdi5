@@ -4,7 +4,7 @@ import { tmpdir } from "os"
 import * as semver from "semver"
 import { mark as marky_mark, stop as marky_stop } from "marky"
 
-import { clientSide_ui5Response, wdi5Config, wdi5Selector } from "../types/wdi5.types"
+import { clientSide_ui5Object, clientSide_ui5Response, wdi5Config, wdi5Selector } from "../types/wdi5.types"
 import { WDI5Control } from "./wdi5-control"
 import { clientSide_injectTools } from "../../client-side-js/injectTools"
 import { clientSide_injectUI5 } from "../../client-side-js/injectUI5"
@@ -13,6 +13,7 @@ import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5R
 import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version"
 import { clientSide__navTo } from "../../client-side-js/_navTo"
 import { clientSide_allControls } from "../../client-side-js/allControls"
+import { clientSide_getObject } from "../../client-side-js/getObject"
 import { Logger as _Logger } from "./Logger"
 
 const Logger = _Logger.getInstance()
@@ -208,6 +209,16 @@ async function _addWdi5Commands() {
             Logger.info(`reusing internal control with id ${internalKey}`)
         }
         return browser._controls[internalKey]
+    })
+
+    browser.addCommand("asObject", async (uuid: string) => {
+        const _result = (await clientSide_getObject(uuid)) as clientSide_ui5Object
+        const { status, aProtoFunctions, className } = _result
+        if (status === 0) {
+        }
+        this._writeObjectResultLog(_result, "asObject()")
+
+        return { status: status, aProtoFunctions: aProtoFunctions, className: className }
     })
 
     // no fluent API -> no private method

@@ -23,7 +23,21 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                 waitForUI5Options: {
                     timeout: waitForUI5Timeout,
                     interval: 400
+                },
+                objectMap: {
+                    // GUID: {}
                 }
+            }
+
+            /**
+             *
+             * @param {sap.ui.base.Object} object
+             * @returns uuid
+             */
+            window.wdi5.saveObject = (object) => {
+                const uuid = crypto.randomUUID()
+                window.wdi5.objectMap[uuid] = object
+                return uuid
             }
 
             // load UI5 logger
