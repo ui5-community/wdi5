@@ -216,7 +216,7 @@ async function _addWdi5Commands() {
         const { status, aProtoFunctions, className } = _result
         if (status === 0) {
         }
-        this._writeObjectResultLog(_result, "asObject()")
+        _writeObjectResultLog(_result, "asObject()")
 
         return { status: status, aProtoFunctions: aProtoFunctions, className: className }
     })

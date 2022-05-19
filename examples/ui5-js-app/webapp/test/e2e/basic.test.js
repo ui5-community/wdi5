@@ -113,7 +113,7 @@ describe("ui5 basic", () => {
         // new uuid interface
         const fullBindingInfo = await browser.asObject(bindingInfo.uuid)
 
-        expect(fullBindingInfo.className).toEqual("sap.ui.model.odata.ODataPropertyBinding")
+        expect(fullBindingInfo.className).toEqual("sap.ui.model.resource.ResourcePropertyBinding")
     })
 
     it("check method chaining with fluent api", async () => {

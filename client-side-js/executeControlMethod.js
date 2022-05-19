@@ -53,6 +53,9 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                                 // allows method chaining
                                 !(result instanceof sap.ui.core.Control)
                             ) {
+                                // save before manipulate
+                                const uuid = window.wdi5.saveObject(result)
+
                                 // object, replacer function
                                 // create usefull content from result
                                 while (window.wdi5.isCyclic(result)) {
@@ -68,7 +71,7 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                                     result: result,
                                     returnType: "result",
                                     nonCircularResultObject: result,
-                                    uuid: window.wdi5.saveObject(result)
+                                    uuid: uuid
                                 })
                             } else {
                                 // check if of control to verify if the method result is a different control

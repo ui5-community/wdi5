@@ -1,11 +1,11 @@
-async function clientSide_getControl(uuid) {
+async function clientSide_getObject(uuid) {
     return await browser.executeAsync((uuid, done) => {
         const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options)
 
         window.wdi5.waitForUI5(
             waitForUI5Options,
             () => {
-                window.wdi5.Log.info("[browser wdi5] locating object " + JSON.stringify(uuid))
+                window.wdi5.Log.info("[browser wdi5] locating object " + uuid)
 
                 const object = window.wdi5.objectMap[uuid]
 
@@ -27,5 +27,5 @@ async function clientSide_getControl(uuid) {
 }
 
 module.exports = {
-    clientSide_getControl
+    clientSide_getObject
 }

@@ -1,4 +1,4 @@
-# get aboard ⛵️
+e# get aboard ⛵️
 
 "the more, the merrier" also holds true for contributions to `wdi5` 🤗
 
@@ -99,10 +99,20 @@ There are two main parts to `wdi5`:
 Then, the Node.js-browser bridge is injected client-side in `/client-side-js/injectUI5.js`.
 Subsequently, the Node.js runtime launches client-side JS execution via WebdriverIO's `browser.executeAsync()` api.
 
+### asControl
+
 A UI5 control from the browser-scope is represented in `wdi5` in the Node.js-scope in `/src/lib/wdi5-control.ts`.
 All browser-scope commands (such as `browser.asControl()`) are provided with `/src/lib/wdi5-bridge.ts`'s `addWdi5Commands()` method.
 
+### asObject
+
+Every call of an UI5 method, which is under the hood execued via `executeConrolMehtod`, which retuns an object aka. as type `clientSide_ui5Response` contains an uuid as reference to the object saved in the browser at `window.wdi5.objectMap`. This object can be used laster again by calling `browser.asObject(uuid)`.
+
+### Logger
+
 `wdi5` comes with it's own general-purpose Logger that can be used in the Node.js scope: `/src/lib/Logger.ts`.
+
+### transpile
 
 Given the continous build watch is running (`npm run build:watch`), hack away at any part!
 
