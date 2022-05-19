@@ -103,7 +103,7 @@ describe("ui5 basic", () => {
         expect(metadata.key).toEqual("openDialogButtontestSample.view.Main")
     })
 
-    it.only("check getBinding returns a proper object", async () => {
+    it("check getBinding returns a proper object", async () => {
         const title = await browser.asControl(titleSelector)
         const bindingInfo = await title.getBinding("text")
         // bindingInfo is an object and it's oValue property can be accessed
@@ -112,8 +112,20 @@ describe("ui5 basic", () => {
 
         // new uuid interface
         const fullBindingInfo = await browser.asObject(bindingInfo.uuid)
-
         expect(fullBindingInfo.className).toEqual("sap.ui.model.resource.ResourcePropertyBinding")
+    })
+
+    it.only("check new object implementation", async () => {
+        const input = await browser.asControl({
+            selector: {
+                id: "mainUserInput",
+                viewName: "test.Sample.view.Main"
+            }
+        })
+        // new object interface
+        const binding = await input.getBinding("value")
+        const path = await binding.object.getPath()
+        expect(path).toEqual("/Customers('TRAIH')/ContactName")
     })
 
     it("check method chaining with fluent api", async () => {

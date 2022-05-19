@@ -8,6 +8,7 @@ import { clientSide_fireEvent } from "../../client-side-js/fireEvent"
 import { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types"
 import { Logger as _Logger } from "./Logger"
 import { wdioApi } from "./wdioApi"
+import { WDI5Object } from "./wdi5-object"
 
 const Logger = _Logger.getInstance()
 
@@ -380,6 +381,7 @@ export class WDI5Control {
                     // enhance with uuid
                     const r = result.nonCircularResultObject
                     r.uuid = result.uuid
+                    r.object = new WDI5Object(result.uuid)
                     return r
                 }
                 return result.result

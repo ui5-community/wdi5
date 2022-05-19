@@ -1,3 +1,5 @@
+import { clientSide_executeObjectMethod } from "../../client-side-js/executeObjectMethod"
+import { clientSide_ui5Response } from "../types/wdi5.types"
 /**
  * * Kind of equivalent representation of a sap.ui.base.Object
  */
@@ -7,6 +9,27 @@ export class WDI5Object {
 
     constructor(uuid) {
         this._uuid = uuid
+    }
+
+    // TODO: remove just for testing
+    async getPath(args) {
+        const result = (await clientSide_executeObjectMethod(this._uuid, "getPath", args)) as clientSide_ui5Response
+        // returns type
+        if (result.returnType === "result") {
+            return result.result
+        } else {
+            return result
+        }
+    }
+
+    async getBinding(args) {
+        const result = (await clientSide_executeObjectMethod(this._uuid, "getBinding", args)) as clientSide_ui5Response
+
+        if (result.returnType === "object") {
+            return new WDI5Object(result.result)
+        } else {
+            return result
+        }
     }
 
     private _excuteObjectMethod(methodName: string) {
