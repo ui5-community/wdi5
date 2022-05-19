@@ -15,6 +15,7 @@ import { clientSide__navTo } from "../../client-side-js/_navTo"
 import { clientSide_allControls } from "../../client-side-js/allControls"
 import { clientSide_getObject } from "../../client-side-js/getObject"
 import { Logger as _Logger } from "./Logger"
+import { WDI5Object } from "./wdi5-object"
 
 const Logger = _Logger.getInstance()
 
@@ -211,10 +212,13 @@ async function _addWdi5Commands() {
         return browser._controls[internalKey]
     })
 
-    browser.addCommand("asObject", async (uuid: string) => {
-        const _result = (await clientSide_getObject(uuid)) as clientSide_ui5Object
-        const { status, aProtoFunctions, className } = _result
+    browser.addCommand("asObject", async (_uuid: string) => {
+        const _result = (await clientSide_getObject(_uuid)) as clientSide_ui5Object
+        const { uuid, status, aProtoFunctions, className } = _result
         if (status === 0) {
+            // TODO: create new WDI5-Object
+            // const object = new WDI5Object(uuid)
+            // return object
         }
         _writeObjectResultLog(_result, "asObject()")
 
