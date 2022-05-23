@@ -24,7 +24,7 @@
     "@wdio/mocha-framework": "^7.19.3",
     "@wdio/selenium-standalone-service": "^7.19.1",
     "@wdio/spec-reporter": "^7.19.1",
-    "chromedriver": "^100.0.0",
+    "chromedriver": "^101.0.0",
     "ui5-middleware-simpleproxy": "^0.8.0",
     "wdio-chromedriver-service": "^7.3.2",
     "wdio-ui5-service": "*"

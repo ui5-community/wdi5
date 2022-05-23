@@ -1,0 +1,34 @@
+{
+  "name": "incidents",
+  "version": "0.0.1",
+  "description": "SAP Fiori elements",
+  "keywords": [
+    "ui5",
+    "openui5",
+    "sapui5"
+  ],
+  "main": "webapp/index.html",
+  "scripts": {
+    "deploy": "npx -p @sap/ux-ui5-tooling fiori add deploy-config cf",
+    "test": "karma start --singleRun"
+  },
+  "devDependencies": {
+    "@sap/ux-specification": "latest",
+    "@sap/ux-ui5-fe-mockserver-middleware": "^1.4.8",
+    "@sap/ux-ui5-tooling": "1",
+    "@ui5/cli": "^2.14.4",
+    "@ui5/fs": "2.0.1",
+    "@ui5/logger": "2.0.0",
+    "karma": "^6.3.2",
+    "karma-ui5": "^2.4.0",
+    "karma-htmlfile-reporter": "^0.3.8",
+    "karma-junit-reporter": "^1.2.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^2.0.3"
+  },
+  "ui5": {
+    "dependencies": [
+      "@sap/ux-ui5-fe-mockserver-middleware"
+    ]
+  }
+}

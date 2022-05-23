@@ -1,0 +1,17 @@
+[
+  {
+    "code": "3_low",
+    "name": "Low",
+    "descr": ""
+  },
+  {
+    "code": "2_medium",
+    "name": "Medium",
+    "descr": ""
+  },
+  {
+    "code": "1_high",
+    "name": "High",
+    "descr": ""
+  }
+]
