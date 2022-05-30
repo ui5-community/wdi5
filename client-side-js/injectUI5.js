@@ -101,12 +101,11 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                         //         }
                         //     }
                         // }
-
                         if (
                             typeof oSelector.properties?.text === "string" &&
                             oSelector.properties?.text.startsWith("/", 0)
                         ) {
-                            const [sTarget, sRegEx, sFlags] = oSelector.properties.text.match(/\/(.*)\/(.*)/)
+                            const [_, sRegEx, sFlags] = oSelector.properties.text.match(/\/(.*)\/(.*)/)
                             oSelector.properties.text = new RegExp(sRegEx, sFlags)
                         }
 
@@ -178,7 +177,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                             oSelector.matchers.push(new Ancestor(oSelector.ancestor, !!bDirect))
                             delete oSelector.ancestor
                         }
-    
+
                         */
                         return oSelector
                     }
