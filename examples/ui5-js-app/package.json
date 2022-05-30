@@ -30,8 +30,8 @@
     "@wdio/selenium-standalone-service": "^7.19.1",
     "@wdio/shared-store-service": "^7.19.5",
     "@wdio/spec-reporter": "^7.19.1",
-    "chromedriver": "^100.0.0",
     "mbt": "^1.2.7",
+    "chromedriver": "^101.0.0",
     "ui5-middleware-simpleproxy": "^0.8.0",
     "wdio-chromedriver-service": "^7.3.2",
     "wdio-ui5-service": "*"

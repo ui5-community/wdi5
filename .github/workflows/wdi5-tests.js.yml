@@ -75,3 +75,8 @@ jobs:
           BROWSERSTACK_USERNAME: ${{secrets.BROWSERSTACK_USERNAME}}
           BROWSERSTACK_ACCESS_KEY: ${{secrets.BROWSERSTACK_ACCESS_KEY}}
         run: npm run test-h:js-app
+
+      # run fiori elements-related wdi5 tests
+      # explicit headless mode!
+      - name: test fe-app
+        run: npm run test:fe-app
