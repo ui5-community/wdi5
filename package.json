@@ -55,7 +55,9 @@
     "*.ts": "eslint --cache --fix"
   },
   "devDependencies": {
+    "@wdio/browserstack-service": "^7.19.7",
     "@commitlint/cli": "^17.0.1",
+    "dotenv": "^16.0.0",
     "@commitlint/config-conventional": "^17.0.0",
     "@sap/ux-ui5-fe-mockserver-middleware": "^1.6.0",
     "@types/openui5": "^1.102.0",
