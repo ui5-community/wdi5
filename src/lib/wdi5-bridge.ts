@@ -227,7 +227,7 @@ async function _addWdi5Commands() {
         }
         _writeObjectResultLog(_result, "asObject()")
 
-        return { status: status, aProtoFunctions: aProtoFunctions, className: className }
+        return { status: status, aProtoFunctions: aProtoFunctions, className: className, uuid: uuid }
     })
 
     // no fluent API -> no private method
