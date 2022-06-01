@@ -8,7 +8,6 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
                     const oObject = window.wdi5.objectMap[uuid]
 
                     // execute the function
-                    debugger
                     let result = oObject[methodName].apply(oObject, args)
                     const metadata = oObject.getMetadata()
 

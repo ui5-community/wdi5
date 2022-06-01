@@ -1,4 +1,4 @@
-e# get aboard ⛵️
+# get aboard ⛵️
 
 "the more, the merrier" also holds true for contributions to `wdi5` 🤗
 
@@ -106,7 +106,7 @@ All browser-scope commands (such as `browser.asControl()`) are provided with `/s
 
 ### asObject
 
-Every call of an UI5 method, which is under the hood execued via `executeConrolMehtod`, which retuns an object aka. as type `clientSide_ui5Response` contains an uuid as reference to the object saved in the browser at `window.wdi5.objectMap`. This object can be used laster again by calling `browser.asObject(uuid)`.
+Every call of an UI5 method, which is under the hood execued via `executeConrolMehtod`, which retuns an object aka. as type `clientSide_ui5Response` contains an uuid as reference to the object saved in the browser at `window.wdi5.objectMap`. This object can be used later again by calling `browser.asObject(uuid)`.
 
 ### Logger
 
