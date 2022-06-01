@@ -1,0 +1,884 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Communication.xml">
+    <edmx:Include Alias="Communication" Namespace="com.sap.vocabularies.Communication.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="IncidentService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="Category" EntityType="IncidentService.Category">
+          <NavigationPropertyBinding Path="texts" Target="Category_texts"/>
+          <NavigationPropertyBinding Path="localized" Target="Category_texts"/>
+        </EntitySet>
+        <EntitySet Name="Category_texts" EntityType="IncidentService.Category_texts"/>
+        <EntitySet Name="IncidentFlow" EntityType="IncidentService.IncidentFlow">
+          <NavigationPropertyBinding Path="incident" Target="Incidents"/>
+        </EntitySet>
+        <EntitySet Name="IncidentProcessTimeline" EntityType="IncidentService.IncidentProcessTimeline">
+          <NavigationPropertyBinding Path="incident" Target="Incidents"/>
+        </EntitySet>
+        <EntitySet Name="IncidentStatus" EntityType="IncidentService.IncidentStatus">
+          <NavigationPropertyBinding Path="texts" Target="IncidentStatus_texts"/>
+          <NavigationPropertyBinding Path="localized" Target="IncidentStatus_texts"/>
+        </EntitySet>
+        <EntitySet Name="IncidentStatus_texts" EntityType="IncidentService.IncidentStatus_texts"/>
+        <EntitySet Name="Incidents" EntityType="IncidentService.Incidents">
+          <NavigationPropertyBinding Path="category" Target="Category"/>
+          <NavigationPropertyBinding Path="priority" Target="Priority"/>
+          <NavigationPropertyBinding Path="incidentStatus" Target="IncidentStatus"/>
+          <NavigationPropertyBinding Path="assignedIndividual" Target="Individual"/>
+          <NavigationPropertyBinding Path="incidentFlow" Target="IncidentFlow"/>
+          <NavigationPropertyBinding Path="incidentProcessTimeline" Target="IncidentProcessTimeline"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="Incidents"/>
+        </EntitySet>
+        <EntitySet Name="Individual" EntityType="IncidentService.Individual">
+          <NavigationPropertyBinding Path="Incidents" Target="Incidents"/>
+        </EntitySet>
+        <EntitySet Name="Priority" EntityType="IncidentService.Priority">
+          <NavigationPropertyBinding Path="texts" Target="Priority_texts"/>
+          <NavigationPropertyBinding Path="localized" Target="Priority_texts"/>
+        </EntitySet>
+        <EntitySet Name="Priority_texts" EntityType="IncidentService.Priority_texts"/>
+      </EntityContainer>
+      <EntityType Name="Category">
+        <Key>
+          <PropertyRef Name="code"/>
+        </Key>
+        <Property Name="name" Type="Edm.String" MaxLength="255"/>
+        <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <NavigationProperty Name="texts" Type="Collection(IncidentService.Category_texts)">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="localized" Type="IncidentService.Category_texts">
+          <ReferentialConstraint Property="code" ReferencedProperty="code"/>
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="Category_texts">
+        <Key>
+          <PropertyRef Name="locale"/>
+          <PropertyRef Name="code"/>
+        </Key>
+        <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" MaxLength="255"/>
+        <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="20" Nullable="false"/>
+      </EntityType>
+      <EntityType Name="DraftAdministrativeData">
+        <Key>
+          <PropertyRef Name="DraftUUID"/>
+        </Key>
+        <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+        <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+      </EntityType>
+      <EntityType Name="IncidentFlow">
+        <Key>
+          <PropertyRef Name="id"/>
+        </Key>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="id" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="processStep" Type="Edm.String" MaxLength="30"/>
+        <Property Name="stepStatus" Type="Edm.String" MaxLength="10"/>
+        <Property Name="criticality" Type="Edm.Int32"/>
+        <Property Name="stepStartDate" Type="Edm.Date"/>
+        <Property Name="stepEndDate" Type="Edm.Date"/>
+        <NavigationProperty Name="incident" Type="IncidentService.Incidents" Partner="incidentFlow">
+          <ReferentialConstraint Property="incident_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="incident_ID" Type="Edm.Guid"/>
+      </EntityType>
+      <EntityType Name="IncidentProcessTimeline">
+        <Key>
+          <PropertyRef Name="id"/>
+        </Key>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="id" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="text" Type="Edm.String"/>
+        <Property Name="type" Type="Edm.String"/>
+        <Property Name="startTime" Type="Edm.DateTimeOffset"/>
+        <Property Name="endTime" Type="Edm.DateTimeOffset"/>
+        <NavigationProperty Name="incident" Type="IncidentService.Incidents" Partner="incidentProcessTimeline">
+          <ReferentialConstraint Property="incident_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="incident_ID" Type="Edm.Guid"/>
+      </EntityType>
+      <EntityType Name="IncidentStatus">
+        <Key>
+          <PropertyRef Name="code"/>
+        </Key>
+        <Property Name="name" Type="Edm.String" MaxLength="255"/>
+        <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <NavigationProperty Name="texts" Type="Collection(IncidentService.IncidentStatus_texts)">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="localized" Type="IncidentService.IncidentStatus_texts">
+          <ReferentialConstraint Property="code" ReferencedProperty="code"/>
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="IncidentStatus_texts">
+        <Key>
+          <PropertyRef Name="locale"/>
+          <PropertyRef Name="code"/>
+        </Key>
+        <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" MaxLength="255"/>
+        <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="20" Nullable="false"/>
+      </EntityType>
+      <EntityType Name="Incidents">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="identifier" Type="Edm.String" MaxLength="100"/>
+        <Property Name="title" Type="Edm.String" MaxLength="50"/>
+        <NavigationProperty Name="category" Type="IncidentService.Category">
+          <ReferentialConstraint Property="category_code" ReferencedProperty="code"/>
+        </NavigationProperty>
+        <NavigationProperty Name="priority" Type="IncidentService.Priority">
+          <ReferentialConstraint Property="priority_code" ReferencedProperty="code"/>
+        </NavigationProperty>
+        <NavigationProperty Name="incidentStatus" Type="IncidentService.IncidentStatus">
+          <ReferentialConstraint Property="incidentStatus_code" ReferencedProperty="code"/>
+        </NavigationProperty>
+        <Property Name="description" Type="Edm.String" MaxLength="1000"/>
+        <NavigationProperty Name="assignedIndividual" Type="IncidentService.Individual" Partner="Incidents">
+          <ReferentialConstraint Property="assignedIndividual_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <NavigationProperty Name="incidentFlow" Type="Collection(IncidentService.IncidentFlow)" Partner="incident"/>
+        <NavigationProperty Name="incidentProcessTimeline" Type="Collection(IncidentService.IncidentProcessTimeline)" Partner="incident"/>
+        <Property Name="isDraft" Type="Edm.Boolean"/>
+        <Property Name="identifierFieldControl" Type="Edm.Int32"/>
+        <Property Name="category_code" Type="Edm.String" MaxLength="20"/>
+        <Property Name="priority_code" Type="Edm.String" MaxLength="20"/>
+        <Property Name="incidentStatus_code" Type="Edm.String" MaxLength="20"/>
+        <Property Name="assignedIndividual_ID" Type="Edm.Guid"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="IncidentService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="IncidentService.Incidents"/>
+      </EntityType>
+      <EntityType Name="Individual">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="fullName" Type="Edm.String"/>
+        <Property Name="emailAddress" Type="Edm.String"/>
+        <NavigationProperty Name="Incidents" Type="Collection(IncidentService.Incidents)" Partner="assignedIndividual"/>
+      </EntityType>
+      <EntityType Name="Priority">
+        <Key>
+          <PropertyRef Name="code"/>
+        </Key>
+        <Property Name="name" Type="Edm.String" MaxLength="255"/>
+        <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="20" Nullable="false"/>
+        <Property Name="criticality" Type="Edm.Int32" Nullable="false"/>
+        <NavigationProperty Name="texts" Type="Collection(IncidentService.Priority_texts)">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+        <NavigationProperty Name="localized" Type="IncidentService.Priority_texts">
+          <ReferentialConstraint Property="code" ReferencedProperty="code"/>
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="Priority_texts">
+        <Key>
+          <PropertyRef Name="locale"/>
+          <PropertyRef Name="code"/>
+        </Key>
+        <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false"/>
+        <Property Name="name" Type="Edm.String" MaxLength="255"/>
+        <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+        <Property Name="code" Type="Edm.String" MaxLength="20" Nullable="false"/>
+      </EntityType>
+       <Action Name="myCustomAction" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IncidentService.Incidents"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IncidentService.Incidents"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="IncidentService.Incidents"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IncidentService.Incidents"/>
+        <ReturnType Type="IncidentService.Incidents"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="IncidentService.Incidents"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="IncidentService.Incidents"/>
+      </Action>
+      <Annotations Target="IncidentService.Category">
+        <Annotation Term="UI.Identification">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="name"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IncidentService.EntityContainer/Category">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IncidentService.Category/name">
+        <Annotation Term="Common.Label" String="Name"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Category/descr">
+        <Annotation Term="Common.Label" String="Description"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Category/code">
+        <Annotation Term="Common.Label" String="Category"/>
+        <Annotation Term="Common.Text" Path="name">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IncidentService.Category_texts/name">
+        <Annotation Term="Common.Label" String="Name"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Category_texts/descr">
+        <Annotation Term="Common.Label" String="Description"/>
+      </Annotations>
+      <Annotations Target="IncidentService.DraftAdministrativeData">
+        <Annotation Term="Common.Label" String="Draft Administrative Data"/>
+      </Annotations>
+      <Annotations Target="IncidentService.DraftAdministrativeData/DraftUUID">
+        <Annotation Term="Common.Label" String="Draft (Technical ID)"/>
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.DraftAdministrativeData/CreationDateTime">
+        <Annotation Term="Common.Label" String="Draft Created On"/>
+      </Annotations>
+      <Annotations Target="IncidentService.DraftAdministrativeData/CreatedByUser">
+        <Annotation Term="Common.Label" String="Draft Created By"/>
+      </Annotations>
+      <Annotations Target="IncidentService.DraftAdministrativeData/DraftIsCreatedByMe">
+        <Annotation Term="Common.Label" String="Draft Created By Me"/>
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.DraftAdministrativeData/LastChangeDateTime">
+        <Annotation Term="Common.Label" String="Draft Last Changed On"/>
+      </Annotations>
+      <Annotations Target="IncidentService.DraftAdministrativeData/LastChangedByUser">
+        <Annotation Term="Common.Label" String="Draft Last Changed By"/>
+      </Annotations>
+      <Annotations Target="IncidentService.DraftAdministrativeData/InProcessByUser">
+        <Annotation Term="Common.Label" String="Draft In Process By"/>
+      </Annotations>
+      <Annotations Target="IncidentService.DraftAdministrativeData/DraftIsProcessedByMe">
+        <Annotation Term="Common.Label" String="Draft In Process By Me"/>
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentFlow">
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="stepStatus"/>
+              <PropertyValue Property="Criticality" Path="criticality"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="processStep"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="stepStartDate"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="stepEndDate"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="incident/assignedIndividual/fullName"/>
+              <PropertyValue Property="Label" String="Created By"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IncidentService.EntityContainer/IncidentFlow">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentFlow/createdAt">
+        <Annotation Term="Common.Label" String="Created On"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentFlow/createdBy">
+        <Annotation Term="Common.Label" String="Created By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentFlow/modifiedAt">
+        <Annotation Term="Common.Label" String="Changed On"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentFlow/modifiedBy">
+        <Annotation Term="Common.Label" String="Changed By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentFlow/processStep">
+        <Annotation Term="Common.Label" String="Process Step"/>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentFlow/stepStatus">
+        <Annotation Term="Common.Label" String="Process Step Status"/>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentFlow/stepStartDate">
+        <Annotation Term="Common.Label" String="Starting at"/>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentFlow/stepEndDate">
+        <Annotation Term="Common.Label" String="Ending at"/>
+      </Annotations>
+      <Annotations Target="IncidentService.EntityContainer/IncidentProcessTimeline">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentProcessTimeline/createdAt">
+        <Annotation Term="Common.Label" String="Created On"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentProcessTimeline/createdBy">
+        <Annotation Term="Common.Label" String="Created By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentProcessTimeline/modifiedAt">
+        <Annotation Term="Common.Label" String="Changed On"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentProcessTimeline/modifiedBy">
+        <Annotation Term="Common.Label" String="Changed By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentStatus">
+        <Annotation Term="UI.Identification">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="name"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentStatus/name">
+        <Annotation Term="Common.Label" String="Name"/>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentStatus/descr">
+        <Annotation Term="Common.Label" String="Description"/>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentStatus/code">
+        <Annotation Term="Common.Label" String="Incident Status"/>
+        <Annotation Term="Common.Text" Path="name">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentStatus_texts/name">
+        <Annotation Term="Common.Label" String="Name"/>
+      </Annotations>
+      <Annotations Target="IncidentService.IncidentStatus_texts/descr">
+        <Annotation Term="Common.Label" String="Description"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents">
+        <Annotation Term="Common.SemanticKey">
+          <Collection>
+            <PropertyPath>identifier</PropertyPath>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.CollectionFacet">
+              <PropertyValue Property="Label" String="Incident Overview"/>
+              <PropertyValue Property="ID" String="IncidentOverviewFacet"/>
+              <PropertyValue Property="Facets">
+                <Collection>
+                  <Record Type="UI.ReferenceFacet">
+                    <PropertyValue Property="Label" String="Incident Details"/>
+                    <PropertyValue Property="ID" String="IncidentDetailsFacet"/>
+                    <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#IncidentDetails"/>
+                  </Record>
+                  <Record Type="UI.ReferenceFacet">
+                    <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#GeneralInformation"/>
+                    <PropertyValue Property="Label" String="General Information"/>
+                    <PropertyValue Property="ID" String="GeneralInformationFacet"/>
+                  </Record>
+                </Collection>
+              </PropertyValue>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="Label" String="Incident Process Flow"/>
+              <PropertyValue Property="ID" String="ProcessFlowFacet"/>
+              <PropertyValue Property="Target" AnnotationPath="incidentFlow/@UI.LineItem"/>
+              <Annotation Term="UI.Hidden" Path="isDraft"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="GeneralInformation">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="priority_code"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="category_code"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="incidentStatus_code"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="HeaderGeneralInformation">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="priority_code"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="incidentStatus_code"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="category_code"/>
+                </Record>
+                <Record Type="UI.DataFieldForAnnotation">
+                  <PropertyValue Property="Target" AnnotationPath="assignedIndividual/@Communication.Contact"/>
+                  <PropertyValue Property="Label" String="Assigned Contact"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="IncidentDetails">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="identifier"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="title"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="description"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.HeaderFacets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#HeaderGeneralInformation"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.HeaderInfo">
+          <Record Type="UI.HeaderInfoType">
+            <PropertyValue Property="Title">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="title"/>
+              </Record>
+            </PropertyValue>
+            <PropertyValue Property="TypeImageUrl" String="sap-icon://alert"/>
+            <PropertyValue Property="TypeName" String="Incident"/>
+            <PropertyValue Property="TypeNamePlural" String="Incidents"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.Identification">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="identifier"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="identifier"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="priority_code"/>
+              <PropertyValue Property="Criticality" Path="priority/criticality"/>
+              <PropertyValue Property="CriticalityRepresentation" EnumMember="UI.CriticalityRepresentationType/WithoutIcon"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="incidentStatus_code"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="category_code"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="title"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+                <PropertyValue Property="Label" String="Change Title"/>
+                <PropertyValue Property="Action" String="IncidentService.myCustomAction"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.SelectionFields">
+          <Collection>
+            <PropertyPath>incidentStatus_code</PropertyPath>
+            <PropertyPath>priority_code</PropertyPath>
+            <PropertyPath>category_code</PropertyPath>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IncidentService.EntityContainer/Incidents">
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="IncidentService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="IncidentService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="IncidentService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/createdAt">
+        <Annotation Term="Common.Label" String="Created On"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/createdBy">
+        <Annotation Term="Common.Label" String="Created By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/modifiedAt">
+        <Annotation Term="Common.Label" String="Changed On"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/modifiedBy">
+        <Annotation Term="Common.Label" String="Changed By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/ID">
+        <Annotation Term="Common.Label" String="ID"/>
+        <Annotation Term="Common.Text" Path="identifier">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+        </Annotation>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/identifier">
+        <Annotation Term="Common.FieldControl" Path="identifierFieldControl"/>
+        <Annotation Term="Common.Label" String="Identifier"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/title">
+        <Annotation Term="Common.Label" String="Title"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/category">
+        <Annotation Term="Common.Label" String="Category"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/priority">
+        <Annotation Term="Common.Label" String="Priority"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/incidentStatus">
+        <Annotation Term="Common.Label" String="Incident Status"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/description">
+        <Annotation Term="Common.Label" String="Incident Description"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/assignedIndividual">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/isDraft">
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/identifierFieldControl">
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/category_code">
+        <Annotation Term="Common.Label" String="Category"/>
+        <Annotation Term="Common.Text" Path="category/name">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+        </Annotation>
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="CollectionPath" String="Category"/>
+            <PropertyValue Property="Label" String="Category"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="category_code"/>
+                  <PropertyValue Property="ValueListProperty" String="code"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="descr"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/priority_code">
+        <Annotation Term="Common.Label" String="Priority"/>
+        <Annotation Term="Common.Text" Path="priority/name">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+        </Annotation>
+        <Annotation Term="Common.ValueListWithFixedValues" Bool="true"/>
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="Label" String="Priority"/>
+            <PropertyValue Property="CollectionPath" String="Priority"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="priority_code"/>
+                  <PropertyValue Property="ValueListProperty" String="code"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="name"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/incidentStatus_code">
+        <Annotation Term="Common.Label" String="Incident Status"/>
+        <Annotation Term="Common.Text" Path="incidentStatus/name">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+        </Annotation>
+        <Annotation Term="Common.ValueListWithFixedValues" Bool="true"/>
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="Label" String="Incident Status"/>
+            <PropertyValue Property="CollectionPath" String="IncidentStatus"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="incidentStatus_code"/>
+                  <PropertyValue Property="ValueListProperty" String="code"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="name"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/assignedIndividual_ID">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Incidents/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Individual">
+        <Annotation Term="Communication.Contact">
+          <Record Type="Communication.ContactType">
+            <PropertyValue Property="email">
+              <Collection>
+                <Record Type="Communication.EmailAddressType">
+                  <PropertyValue Property="address" Path="emailAddress"/>
+                  <PropertyValue Property="type" EnumMember="Communication.ContactInformationType/work"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+            <PropertyValue Property="fn" Path="fullName"/>
+            <PropertyValue Property="kind" EnumMember="Communication.KindType/individual"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IncidentService.EntityContainer/Individual">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IncidentService.Individual/createdAt">
+        <Annotation Term="Common.Label" String="Created On"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Individual/createdBy">
+        <Annotation Term="Common.Label" String="Created By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Individual/modifiedAt">
+        <Annotation Term="Common.Label" String="Changed On"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Individual/modifiedBy">
+        <Annotation Term="Common.Label" String="Changed By"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="User's unique ID"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Individual/fullName">
+        <Annotation Term="Common.Label" String="First Name"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Individual/emailAddress">
+        <Annotation Term="Common.Label" String="Email Address"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Priority">
+        <Annotation Term="UI.Identification">
+          <Collection>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="name"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IncidentService.EntityContainer/Priority">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IncidentService.Priority/name">
+        <Annotation Term="Common.Label" String="Name"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Priority/descr">
+        <Annotation Term="Common.Label" String="Description"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Priority/code">
+        <Annotation Term="Common.Label" String="Priority"/>
+        <Annotation Term="Common.Text" Path="name">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextOnly"/>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="IncidentService.Priority/criticality">
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Priority_texts/name">
+        <Annotation Term="Common.Label" String="Name"/>
+      </Annotations>
+      <Annotations Target="IncidentService.Priority_texts/descr">
+        <Annotation Term="Common.Label" String="Description"/>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>
