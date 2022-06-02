@@ -136,7 +136,7 @@ export interface clientSide_ui5Object {
     status: wdi5StatusCode
     aProtoFunctions?: []
     className?: string
-    object: any
+    object: WDI5Object
 }
 
 /**
