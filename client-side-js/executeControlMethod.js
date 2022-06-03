@@ -78,7 +78,13 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                                 if (result && result.getId && oControl.getId() !== result.getId()) {
                                     // ui5 function like get parent might return another ui5 control -> return it to check with this wdi5 instance
                                     result = window.wdi5.createControlId(result)
-                                    done({ status: 0, result: result, returnType: "newElement" })
+                                    const aProtoFunctions = window.wdi5.retrieveControlMethods(result)
+                                    done({
+                                        status: 0,
+                                        result: result,
+                                        returnType: "newElement",
+                                        aProtoFunctions: aProtoFunctions
+                                    })
                                 } else {
                                     done({
                                         status: 0,

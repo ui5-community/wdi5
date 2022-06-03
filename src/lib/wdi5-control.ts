@@ -381,7 +381,8 @@ export class WDI5Control {
                     // enhance with uuid
                     const r = result.nonCircularResultObject
                     r.uuid = result.uuid
-                    r.object = new WDI5Object(result.uuid)
+                    r.aProtoFunctions = result.aProtoFunctions
+                    r.object = new WDI5Object(result.uuid, result.aProtoFunctions)
                     return r
                 }
                 return result.result

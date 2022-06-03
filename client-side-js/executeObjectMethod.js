@@ -9,7 +9,6 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
 
                     // execute the function
                     let result = oObject[methodName].apply(oObject, args)
-                    const metadata = oObject.getMetadata()
 
                     // result mus be a primitive
                     if (window.wdi5.isPrimitive(result)) {
@@ -18,7 +17,8 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
                     } else {
                         // create new object
                         const uuid = window.wdi5.saveObject(result)
-                        done({ status: 0, result: uuid, returnType: "object" })
+                        const aProtoFunctions = window.wdi5.retrieveControlMethods(result)
+                        done({ status: 0, result: uuid, returnType: "object", aProtoFunctions: aProtoFunctions })
                     }
                 },
                 window.wdi5.errorHandling.bind(this, done)

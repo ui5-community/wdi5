@@ -20,7 +20,7 @@ describe("ui5 object tests", () => {
         await Main.open()
     })
 
-    it("check getBinding returns a proper object", async () => {
+    it.only("check getBinding returns a proper object", async () => {
         const title = await browser.asControl(titleSelector)
         const bindingInfo = await title.getBinding("text")
         // bindingInfo is an object and it's oValue property can be accessed
@@ -29,7 +29,9 @@ describe("ui5 object tests", () => {
 
         // new uuid interface
         const fullBindingInfo = await browser.asObject(bindingInfo.uuid)
-        expect(fullBindingInfo.className).toEqual("sap.ui.model.resource.ResourcePropertyBinding")
+        const bindingInfoMetadata = await fullBindingInfo.getMetadata()
+        const bindingTypeName = await bindingInfoMetadata.getName()
+        expect(bindingTypeName).toEqual("sap.ui.model.resource.ResourcePropertyBinding")
     })
 
     it("check new object implementation", async () => {

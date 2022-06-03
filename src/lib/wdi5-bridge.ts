@@ -221,9 +221,9 @@ async function _addWdi5Commands() {
         const _result = (await clientSide_getObject(_uuid)) as clientSide_ui5Object
         const { uuid, status, aProtoFunctions, className } = _result
         if (status === 0) {
-            // TODO: create new WDI5-Object
-            // const object = new WDI5Object(uuid)
-            // return object
+            // create new WDI5-Object
+            const object = new WDI5Object(uuid, aProtoFunctions)
+            return object
         }
         _writeObjectResultLog(_result, "asObject()")
 

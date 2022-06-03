@@ -8,8 +8,11 @@ async function clientSide_getObject(uuid) {
                 window.wdi5.Log.info("[browser wdi5] locating object " + uuid)
 
                 const object = window.wdi5.objectMap[uuid]
+                let className = ""
 
-                const className = object.getMetadata()._sClassName
+                if (object.getMetadata) {
+                    className = object.getMetadata()._sClassName
+                }
                 window.wdi5.Log.info(`[browser wdi5] object with uuid: ${uuid} located!`)
 
                 const aProtoFunctions = window.wdi5.retrieveControlMethods(object)
