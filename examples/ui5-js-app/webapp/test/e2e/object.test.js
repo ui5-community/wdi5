@@ -20,7 +20,7 @@ describe("ui5 object tests", () => {
         await Main.open()
     })
 
-    it.only("check getBinding returns a proper object", async () => {
+    it("check getBinding returns a proper object", async () => {
         const title = await browser.asControl(titleSelector)
         const bindingInfo = await title.getBinding("text")
         // bindingInfo is an object and it's oValue property can be accessed
