@@ -12,7 +12,7 @@ export class WDI5Object {
     }
 
     // TODO: remove just for testing
-    async getPath(args) {
+    async getPath(...args) {
         const result = (await clientSide_executeObjectMethod(this._uuid, "getPath", args)) as clientSide_ui5Response
         // returns type
         if (result.returnType === "result") {
@@ -22,13 +22,33 @@ export class WDI5Object {
         }
     }
 
-    async getBinding(args) {
+    async getBinding(...args) {
         const result = (await clientSide_executeObjectMethod(this._uuid, "getBinding", args)) as clientSide_ui5Response
 
         if (result.returnType === "object") {
             return new WDI5Object(result.result)
         } else {
-            return result
+            return result.result
+        }
+    }
+
+    async getModel(...args) {
+        const result = (await clientSide_executeObjectMethod(this._uuid, "getModel", args)) as clientSide_ui5Response
+
+        if (result.returnType === "object") {
+            return new WDI5Object(result.result)
+        } else {
+            return result.result
+        }
+    }
+
+    async getProperty(...args) {
+        const result = (await clientSide_executeObjectMethod(this._uuid, "getProperty", args)) as clientSide_ui5Response
+
+        if (result.returnType === "object") {
+            return new WDI5Object(result.result)
+        } else {
+            return result.result
         }
     }
 

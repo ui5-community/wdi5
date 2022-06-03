@@ -52,7 +52,6 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                 window.wdi5.waitForUI5 = function (oOptions, callback, errorCallback) {
                     oOptions = oOptions || {}
                     _autoWaiterAsync.extendConfig(oOptions)
-
                     _autoWaiterAsync.waitAsync(function (sError) {
                         if (sError) {
                             errorCallback(new Error(sError))

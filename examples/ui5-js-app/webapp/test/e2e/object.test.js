@@ -44,4 +44,17 @@ describe("ui5 object tests", () => {
         const path = await binding.object.getPath()
         expect(path).toEqual("/Customers('TRAIH')/ContactName")
     })
+
+    it.only("getModel and Property", async () => {
+        const mainView = await browser.asControl({
+            selector: {
+                id: "container-Sample---Main"
+            }
+        })
+        // new object interface
+        const result = await mainView.getModel()
+        const northwaveModel = await result.object
+        const customerName = await northwaveModel.getProperty("/Customers('TRAIH')/ContactName")
+        expect(customerName).toEqual("Helvetius Nagy")
+    })
 })
