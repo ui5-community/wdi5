@@ -12,7 +12,7 @@ describe("basics", async () => {
         expect(title).toEqual("UI5 Application tsapp")
     })
 
-    it.only("check number of buttons", async () => {
+    it("check number of buttons", async () => {
         const allButtons: Selector = {
             selector: {
                 controlType: "sap.m.Button",

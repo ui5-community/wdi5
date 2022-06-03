@@ -25,11 +25,10 @@
 						<Text text="Lorem ipsum dolor st amet"></Text>
 					</content>
 				</Panel>
-				<DateTimePicker id="idDateTime" placeholder="Enter Date ..." />
-				<Button text="{testModel>/buttonText}" press="onTest" class="myTestClass" />
-				<Input value="{testModel>/inputValue}" />
+				<DateTimePicker id="idDateTime" value="2022-05-29-12-00-00" valueFormat="yyyy-MM-dd-HH-mm-ss" />
+				<Button id="bindingButton" text="{testModel>/buttonText}" press="onTest" class="myTestClass"  />
+				<Input value="{testModel>/inputValue}" id="messageToast" />
 				<CheckBox id="idCheckbox" selected="{testModel>/checkbox}" text="test checkbox" select="onSelect" />
-				<Button text="open Barcodescanner" press="scanBarcode" id="barcodescannerplugin" />
 				<Input id="invisibleInputField" value="bla" visible="false" />
 				<Button text="open Dialog" press="openDialog" id="openDialogButton" />
 			</VBox>
