@@ -45,7 +45,7 @@ describe("ui5 object tests", () => {
         expect(path).toEqual("/Customers('TRAIH')/ContactName")
     })
 
-    it.only("getModel and Property", async () => {
+    it("getModel and Property", async () => {
         const mainView = await browser.asControl({
             selector: {
                 id: "container-Sample---Main"
