@@ -17,7 +17,7 @@
     "start:dist": "ui5 serve  --port 8080 -o index.html --config ui5-dist.yaml",
     "ts-typecheck": "tsc --noEmit",
     "lint": "eslint src",
-    "test": "../../node_modules/.bin/wdio run wdio-ui5.conf.ts"
+    "test": "wdio run wdio-ui5.conf.ts"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",
