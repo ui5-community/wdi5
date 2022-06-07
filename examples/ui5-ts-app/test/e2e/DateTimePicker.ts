@@ -10,7 +10,7 @@ describe("handling DateTimePicker", async () => {
             }
         }
         const oDateTimePicker = (await browser.asControl(dateTimePicker)) as unknown as DateTimePicker
-        oDateTimePicker.setValue("2000-01-01-12-00-01")
-        expect(oDateTimePicker.getValue()).toEqual("2000-01-01-12-00-01")
+        await oDateTimePicker.setValue("2000-01-01-12-00-01")
+        expect(await oDateTimePicker.getValue()).toEqual("2000-01-01-12-00-01")
     })
 })
