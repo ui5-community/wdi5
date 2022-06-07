@@ -25,15 +25,6 @@ export const config: wdi5Config = {
     //
     specs: ["./test/e2e/*.ts"],
     // Patterns to exclude.
-    exclude: [
-        "./test/e2e/Binding.ts",
-        "./test/e2e/selector.ts",
-        "./test/e2e/UserInput.ts",
-        "./test/e2e/Panel.ts",
-        "./test/e2e/Basic.ts",
-        "./test/e2e/View.ts",
-        "./test/e2e/checkbox.ts"
-    ],
     //
     // ============
     // Capabilities
