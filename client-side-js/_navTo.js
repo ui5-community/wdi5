@@ -10,21 +10,19 @@ async function clientSide__navTo(sComponentId, sName, oParameters, oComponentTar
                     : router.getHashChanger()
 
                 // on success result is the router
+                // FIXME: should this be changed to attach once?
                 hashChanger.attachEvent("hashChanged", (oEvent) => {
-                    done([
-                        "success",
-                        window.compareVersions.compare("1.75.0", sap.ui.version, ">")
+                    done({
+                        status: 0,
+                        result: window.compareVersions.compare("1.75.0", sap.ui.version, ">")
                             ? hashChanger.getHash()
                             : hashChanger.hash
-                    ])
+                    })
                 })
 
                 // get component and trigger router
                 // sName, oParameters?, oComponentTargetInfo?, bReplace?
                 router.navTo(sName, oParameters, oComponentTargetInfo, bReplace)
-                return window.compareVersions.compare("1.75.0", sap.ui.version, ">")
-                    ? hashChanger.getHash()
-                    : hashChanger.hash
             })
         },
         sComponentId,

@@ -111,6 +111,24 @@ export interface wdi5Selector {
 }
 
 /**
+ * 0 = success
+ * 1 = error
+ */
+export type wdi5StatusCode = 0 | 1
+
+export interface clientSide_ui5Response {
+    status: wdi5StatusCode
+    result?: any // any method
+    message?: string // case of error (status: 1)
+    domElement?: WebdriverIO.Element // getControl
+    id?: string // getControl
+    aProtoFunctions?: Array<string> // getControl
+    className?: string // getControl
+    returnType?: string // executeControlMethod
+    nonCircularResultObject?: any
+}
+
+/**
  *
  */
 export interface wdi5ControlMetadata {

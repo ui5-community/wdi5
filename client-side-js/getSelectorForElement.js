@@ -1,11 +1,5 @@
-async function clientSide_getSelectorForElement(oOptions, browserInstance) {
-    return await browserInstance.executeAsync((oOptions, done) => {
-        const errorHandling = (error) => {
-            window.wdi5.Log.error("[browser wdi5] ERR: ", error)
-            done(["error", error.toString()])
-            return error
-        }
-
+async function clientSide_getSelectorForElement(oOptions) {
+    return await browserInstance.executeAsync((controlSelector, done) => {
         window.wdi5.waitForUI5(
             window.wdi5.waitForUI5Options,
             () => {
@@ -14,12 +8,12 @@ async function clientSide_getSelectorForElement(oOptions, browserInstance) {
                     .findControlSelectorByDOMElement(oOptions)
                     .then((controlSelector) => {
                         window.wdi5.Log.info("[browser wdi5] controlLocator created!")
-                        done(["success", controlSelector])
+                        done({ status: 0, result: controlSelector })
                         return controlSelector
                     })
-                    .catch(errorHandling)
+                    .catch(window.wdi5.errorHandling.bind(this, done))
             },
-            errorHandling
+            window.wdi5.errorHandling.bind(this, done)
         )
     }, oOptions)
 }

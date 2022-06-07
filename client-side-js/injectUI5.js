@@ -354,6 +354,11 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                             console.error("error creating new element by id of control: " + aControl)
                         }
                     }
+
+                    window.wdi5.errorHandling = (done, error) => {
+                        window.wdi5.Log.error("[browser wdi5] ERR: ", error)
+                        done({ status: 1, messsage: error.toString() })
+                    }
                 }
             )
         }

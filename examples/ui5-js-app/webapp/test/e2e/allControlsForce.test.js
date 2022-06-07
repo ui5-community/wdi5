@@ -1,4 +1,5 @@
 const Other = require("./pageObjects/Other")
+const { wdi5 } = require("wdio-ui5-service")
 
 const oCheckboxSelector = {
     forceSelect: true,
@@ -20,7 +21,7 @@ describe("ui5 basic, get all buttons", () => {
 
         for await (let oCheckbox of aCheckbox) {
             const selected = await oCheckbox.getSelected()
-            // console.log(`oCheckbox: ${oCheckbox.getControlInfo().id} isSelected: ${selected} `)
+            wdi5.getLogger().log(`oCheckbox: ${oCheckbox.getControlInfo().id} isSelected: ${selected} `)
             if (!selected) {
                 await oCheckbox.press()
             }

@@ -2,8 +2,9 @@ import { resolve } from "path"
 import { writeFile } from "fs/promises"
 import { tmpdir } from "os"
 import * as semver from "semver"
+import { mark as marky_mark, stop as marky_stop } from "marky"
 
-import { wdi5Config, wdi5Selector } from "../types/wdi5.types"
+import { clientSide_ui5Response, wdi5Config, wdi5Selector } from "../types/wdi5.types"
 import { MultiRemoteDriver } from "webdriverio/build/multiremote"
 import { WDI5Control } from "./wdi5-control"
 import { clientSide_injectTools } from "../../client-side-js/injectTools"
@@ -13,8 +14,8 @@ import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5R
 import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version"
 import { clientSide__navTo } from "../../client-side-js/_navTo"
 import { clientSide_allControls } from "../../client-side-js/allControls"
-
 import { Logger as _Logger } from "./Logger"
+
 const Logger = _Logger.getInstance()
 
 /** store the status of initialization */
@@ -63,7 +64,48 @@ function initBrowser(browserInstance: WebdriverIO.Browser) {
         Logger.info("creating internal control map")
         browserInstance._controls = []
     }
-    addWdi5Commands(browserInstance)
+
+    _addWdi5Commands(browserInstance)
+
+    // inspired by and after staring a long time hard at:
+    // https://stackoverflow.com/questions/51635378/keep-object-chainable-using-async-methods
+    // https://github.com/Shigma/prochain
+    // https://github.com/l8js/l8/blob/main/src/core/liquify.js
+
+    // channel the async function browser._asControl (init'ed via browser.addCommand above) through a Proxy
+    // in order to chain calls of any subsequent UI5 api methods on the retrieved UI5 control:
+    // await browser.asControl(selector).methodOfUI5control().anotherMethodOfUI5control()
+    // the way this works is twofold:
+    // 1. (almost) all UI5 $control's API methods are reinjected from the browser-scope
+    //    into the Node.js scope via async WDI5._executeControlMethod(), which in term actually calls
+    //    the reinjected API method within the browser scope
+    // 2. the execution of each UI5 $control's API method (via async WDI5._executeControlMethod() => Promise) is then chained
+    //    via the below "then"-ing of the (async WDI5._executeControlMethod() => Promise)-Promises with the help of
+    //    the a Proxy and a recursive `handler` function
+    if (!browserInstance.asControl) {
+        browserInstance.asControl = function (ui5ControlSelector) {
+            const asyncMethods = ["then", "catch", "finally"]
+            function makeFluent(target) {
+                const promise = Promise.resolve(target)
+                const handler = {
+                    get(_, prop) {
+                        return asyncMethods.includes(prop)
+                            ? (...boundArgs) => makeFluent(promise[prop](...boundArgs))
+                            : makeFluent(promise.then((object) => object[prop]))
+                    },
+                    apply(_, thisArg, boundArgs) {
+                        return makeFluent(
+                            promise.then((targetFunction) => Reflect.apply(targetFunction, thisArg, boundArgs))
+                        )
+                    }
+                }
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                return new Proxy(function () {}, handler)
+            }
+            // @ts-ignore
+            return makeFluent(browserInstance._asControl(ui5ControlSelector))
+        }
+    }
 }
 
 function checkUI5Version(ui5Version: string) {
@@ -92,8 +134,7 @@ export async function injectUI5(config: wdi5Config) {
 
     const waitForUI5Timeout = config.wdi5.waitForUI5Timeout || 15000
     await clientSide_injectTools() // helpers for wdi5 browser scope
-    // expect boolean=
-    const result = await clientSide_injectUI5(config, waitForUI5Timeout)
+    const result: boolean = await clientSide_injectUI5(config, waitForUI5Timeout)
 
     if (result) {
         // set when call returns
@@ -113,6 +154,7 @@ export async function checkForUI5Page() {
 }
 
 //******************************************************************************************
+// private
 
 /**
  * creates a string valid as object key from a selector
@@ -164,7 +206,7 @@ function _verifySelector(wdi5Selector: wdi5Selector) {
     return false
 }
 
-export async function addWdi5Commands(browserInstance: WebdriverIO.Browser) {
+export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
     browserInstance.addCommand("_asControl", async (wdi5Selector: wdi5Selector) => {
         if (!_verifySelector(wdi5Selector)) {
             return "ERROR: Specified selector is not valid -> abort"
@@ -176,7 +218,14 @@ export async function addWdi5Commands(browserInstance: WebdriverIO.Browser) {
         if (!browserInstance._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
             Logger.info(`creating internal control with id ${internalKey}`)
             wdi5Selector.wdio_ui5_key = internalKey
+
+            marky_mark("retrieveSingleControl")
+
             const wdi5Control = await new WDI5Control({ browserInstance }).init(wdi5Selector, wdi5Selector.forceSelect)
+
+            const e = marky_stop("retrieveSingleControl")
+            Logger.info(`_asControl() needed ${e.duration} for ${internalKey}`)
+
             browserInstance._controls[internalKey] = wdi5Control
         } else {
             Logger.info(`reusing internal control with id ${internalKey}`)
@@ -212,19 +261,14 @@ export async function addWdi5Commands(browserInstance: WebdriverIO.Browser) {
      * @param {boolean} oOptions.settings.preferViewId
      */
     browserInstance.addCommand("getSelectorForElement", async (oOptions) => {
-        const result = await clientSide_getSelectorForElement(oOptions, browserInstance)
+        const result = (await clientSide_getSelectorForElement(oOptions)) as clientSide_ui5Response
 
-        if (Array.isArray(result)) {
-            if (result[0] === "error") {
-                console.error("ERROR: getSelectorForElement() failed because of: " + result[1])
-                return result[1]
-            } else if (result[0] === "success") {
-                console.log(`SUCCESS: getSelectorForElement() returned:  ${JSON.stringify(result[0])}`)
-                return result[1]
-            }
-        } else {
-            // Guess: was directly returned
-            return result
+        if (result.status === 1) {
+            console.error("ERROR: getSelectorForElement() failed because of: " + result.message)
+            return result.message
+        } else if (result.status === 0) {
+            console.log(`SUCCESS: getSelectorForElement() returned:  ${JSON.stringify(result.result)}`)
+            return result.result
         }
     })
 
@@ -366,10 +410,10 @@ async function _allControls(controlSelector = this._controlSelector, browserInst
 
     // pre retrive control information
     const response = await clientSide_allControls(controlSelector, browserInstance)
-    _writeResultLog(response, "allControls()")
+    _writeObjectResultLog(response, "allControls()")
 
-    if (response[0] === "success") {
-        const retrievedElements = response[1]
+    if (response.status === 0) {
+        const retrievedElements = response.result
         const resultWDi5Elements = []
 
         // domElement: domElement, id: id, aProtoFunctions
@@ -390,7 +434,7 @@ async function _allControls(controlSelector = this._controlSelector, browserInst
 
         return resultWDi5Elements
     } else {
-        return "[WDI5] Error: fetch multiple elements failed: " + response[1]
+        return "[WDI5] Error: fetch multiple elements failed: " + response.message
     }
 }
 
@@ -471,39 +515,36 @@ function _getDateString() {
  * @param {Boolean} bReplace
  */
 async function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace, browserInstance) {
-    const result = await clientSide__navTo(
+    const result = (await clientSide__navTo(
         sComponentId,
         sName,
         oParameters,
         oComponentTargetInfo,
         bReplace,
         browserInstance
-    )
-    if (Array.isArray(result)) {
-        if (result[0] === "error") {
-            Logger.error("ERROR: navigation using UI5 router failed because of: " + result[1])
-            return result[1]
-        } else if (result[0] === "success") {
-            Logger.log(`SUCCESS: navigation using UI5 router to hash:  ${JSON.stringify(result[0])}`)
-            return result[1]
-        }
-    } else {
-        // Guess: was directly returned
-        return result
+    )) as clientSide_ui5Response
+    if (result.status === 1) {
+        Logger.error("ERROR: navigation using UI5 router failed because of: " + result.message)
+        return result.result
+    } else if (result.status === 0) {
+        Logger.log(`SUCCESS: navigation using UI5 router to hash:  ${JSON.stringify(result.status)}`)
+        return result.result
     }
 }
 
 /**
- * create log based on the status of result[0]
+ * create log based on the status of result.status
  * @param {Array} result
  * @param {*} functionName
  */
-function _writeResultLog(result, functionName) {
-    if (result[0] === "error") {
-        Logger.error(`call of ${functionName} failed because of: ${result[1]}`)
-    } else if (result[0] === "success") {
-        Logger.success(`call of function ${functionName} returned: ${JSON.stringify(result[1])}`)
+function _writeObjectResultLog(response: clientSide_ui5Response, functionName: string) {
+    if (response.status > 0) {
+        Logger.error(`call of ${functionName} failed because of: ${response.message}`)
+    } else if (response.status === 0) {
+        Logger.success(
+            `call of function ${functionName} returned: ${JSON.stringify(response.id ? response.id : response.result)}`
+        )
     } else {
-        Logger.warn(`Unknown status: ${functionName} returned: ${JSON.stringify(result[1])}`)
+        Logger.warn(`Unknown status: ${functionName} returned: ${JSON.stringify(response.message)}`)
     }
 }

@@ -1,3 +1,5 @@
+const { getBrowsers } = require("./scripts/getBrowsers")
+
 // TODO: use wdio.base.conf.js
 const chrome = {
     maxInstances: 1,
@@ -49,8 +51,7 @@ const _config = {
     }
 }
 
-const browsers = process.env.BROWSERS
-console.log(`browsers: ${browsers}`)
+const browsers = getBrowsers()
 
 if (browsers) {
     if (browsers.includes("chrome")) {

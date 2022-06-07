@@ -9,6 +9,7 @@
   "scripts": {
     "serve": "ui5 serve",
     "test": "run-s test:*",
+    "test-h": "run-s \"test:* -- --headless\"",
     "start": "soerver -d ./webapp -p 8888 -x ./webapp/proxyrc.json",
     "test:lateInject": "wdio run wdio-ui5-late.conf.js",
     "test:ui5tooling": "wdio run wdio-ui5tooling.conf.js",
