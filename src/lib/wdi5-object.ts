@@ -9,54 +9,35 @@ const Logger = _Logger.getInstance()
 export class WDI5Object {
     private _uuid: any
     private _aProtoFunctions: []
+    private _baseObject: null
 
-    constructor(uuid, aProtoFunctions) {
+    constructor(uuid, aProtoFunctions, object) {
         this._uuid = uuid
-        this._aProtoFunctions = aProtoFunctions
 
-        this._attachObjectMethods(this._aProtoFunctions)
-    }
-
-    // TODO: remove just for testing
-    /* async getPath(...args) {
-        const result = (await clientSide_executeObjectMethod(this._uuid, "getPath", args)) as clientSide_ui5Response
-        // returns type
-        if (result.returnType === "result") {
-            return result.result
+        if (aProtoFunctions) {
+            this._aProtoFunctions = aProtoFunctions
+            this._attachObjectMethods(this._aProtoFunctions)
         } else {
-            return result
+            Logger.warn(`[WANING] creating object: ${uuid} without functions`)
+        }
+
+        if (object) {
+            this._baseObject = object
+            this._attachObjectProperties(this._baseObject)
+        } else {
+            Logger.warn(`[WANING] creating object: ${uuid} without properties`)
         }
     }
 
-    async getBinding(...args) {
-        const result = (await clientSide_executeObjectMethod(this._uuid, "getBinding", args)) as clientSide_ui5Response
-
-        if (result.returnType === "object") {
-            return new WDI5Object(result.result, result.aProtoFunctions)
-        } else {
-            return result.result
-        }
+    public getUUID() {
+        return this._uuid
     }
 
-    async getModel(...args) {
-        const result = (await clientSide_executeObjectMethod(this._uuid, "getModel", args)) as clientSide_ui5Response
-
-        if (result.returnType === "object") {
-            return new WDI5Object(result.result, result.aProtoFunctions)
-        } else {
-            return result.result
+    private _attachObjectProperties(oObject: any) {
+        for (const [key, value] of Object.entries(oObject)) {
+            this[key] = value
         }
     }
-
-    async getProperty(...args) {
-        const result = (await clientSide_executeObjectMethod(this._uuid, "getProperty", args)) as clientSide_ui5Response
-
-        if (result.returnType === "object") {
-            return new WDI5Object(result.result, result.aProtoFunctions)
-        } else {
-            return result.result
-        }
-    } */
 
     private async _excuteObjectMethod(methodName: string, uuid: string, ...args) {
         // call browser scope
@@ -67,7 +48,7 @@ export class WDI5Object {
         this._writeObjectResultLog(result, methodName)
 
         if (result.returnType === "object") {
-            return new WDI5Object(result.result, result.aProtoFunctions)
+            return new WDI5Object(result.uuid, result.aProtoFunctions, result.object)
         } else {
             return result.result
         }

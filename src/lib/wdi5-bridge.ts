@@ -219,11 +219,11 @@ async function _addWdi5Commands() {
 
     browser.addCommand("asObject", async (_uuid: string) => {
         const _result = (await clientSide_getObject(_uuid)) as clientSide_ui5Object
-        const { uuid, status, aProtoFunctions, className } = _result
+        const { uuid, status, aProtoFunctions, className, object } = _result
         if (status === 0) {
             // create new WDI5-Object
-            const object = new WDI5Object(uuid, aProtoFunctions)
-            return object
+            const wdiOjject = new WDI5Object(uuid, aProtoFunctions, object)
+            return wdiOjject
         }
         _writeObjectResultLog(_result, "asObject()")
 
@@ -261,10 +261,10 @@ async function _addWdi5Commands() {
         const result = (await clientSide_getSelectorForElement(oOptions)) as clientSide_ui5Response
 
         if (result.status === 1) {
-            console.error("ERROR: getSelectorForElement() failed because of: " + result.message)
+            Logger.error("ERROR: getSelectorForElement() failed because of: " + result.message)
             return result.message
         } else if (result.status === 0) {
-            console.log(`SUCCESS: getSelectorForElement() returned:  ${JSON.stringify(result.result)}`)
+            Logger.log(`SUCCESS: getSelectorForElement() returned:  ${JSON.stringify(result.result)}`)
             return result.result
         }
     })

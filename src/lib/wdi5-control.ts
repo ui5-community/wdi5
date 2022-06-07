@@ -369,52 +369,59 @@ export class WDI5Control {
         // create logging
         this._writeObjectResultLog(result, methodName)
 
-        switch (result.returnType) {
-            case "newElement":
-                // retrieve and return another instance of a wdi5 control
-                return await this._retrieveElement(result.result)
-            case "element":
-                // return $self after a called method of the wdi5 instance to allow method chaining
-                return this
-            case "result":
-                if (result.nonCircularResultObject) {
-                    // enhance with uuid
-                    const r = result.nonCircularResultObject
-                    r.uuid = result.uuid
-                    r.aProtoFunctions = result.aProtoFunctions
-                    r.object = new WDI5Object(result.uuid, result.aProtoFunctions)
-                    return r
-                }
-                return result.result
-
-            case "empty":
-                Logger.warn("No data found in property or aggregation")
-                return result.result
-            case "aggregation": // also applies for getAggregation convenience methods such as $ui5control.getItems()
-                // check weather to retrieve all elements in the aggreation as ui5 controls
-                if ((args.length > 0 && typeof args[0] === "boolean" && args[0] === false) || args.length === 0) {
-                    // get all if param is false or undefined
-                    return await this._retrieveElements(result.result)
-                } else if (String(args[0]) && typeof args[0] === "number") {
-                    // here we're retrieving the UI5 control at index args[0] from the aggregation
-                    if (args[0] <= result.result.length) {
-                        // retieve only one
-                        // need some code of separate feature branch here
-                        const wdioElement = result.result[args[0]]
-                        return await this._retrieveElement(wdioElement)
-                    } else {
-                        console.error(
-                            `tried to get an control at index: ${args[0]} of an aggregation outside of aggregation length: ${result.result.length}`
-                        )
-                    }
-                } else {
-                    // return wdio elements
+        if (result.status === 0) {
+            switch (result.returnType) {
+                case "newElement":
+                    // retrieve and return another instance of a wdi5 control
+                    return await this._retrieveElement(result.result)
+                case "element":
+                    // return $self after a called method of the wdi5 instance to allow method chaining
+                    return this
+                case "result":
                     return result.result
-                }
-            case "none":
-                return null
-            default:
-                return null
+                case "object":
+                    // enhance with uuid
+                    return new WDI5Object(result.uuid, result.aProtoFunctions, result.object)
+                case "empty":
+                    Logger.warn("No data found in property or aggregation")
+                    return result.result
+                case "aggregation": // also applies for getAggregation convenience methods such as $ui5control.getItems()
+                    // check weather to retrieve all elements in the aggreation as ui5 controls
+                    if ((args.length > 0 && typeof args[0] === "boolean" && args[0] === false) || args.length === 0) {
+                        // get all if param is false or undefined
+                        return await this._retrieveElements(result.result)
+                    } else if (String(args[0]) && typeof args[0] === "number") {
+                        // here we're retrieving the UI5 control at index args[0] from the aggregation
+                        if (args[0] <= result.result.length) {
+                            // retieve only one
+                            // need some code of separate feature branch here
+                            const wdioElement = result.result[args[0]]
+                            return await this._retrieveElement(wdioElement)
+                        } else {
+                            Logger.error(
+                                `tried to get an control at index: ${args[0]} of an aggregation outside of aggregation length: ${result.result.length}`
+                            )
+                        }
+                    } else {
+                        // return wdio elements
+                        return result.result
+                    }
+                case "unknown":
+                    Logger.warn(`${methodName} returned unknown status`)
+                    return null
+                case "none":
+                    Logger.warn(`${methodName} returned undefined status`)
+                    return null
+                default:
+                    Logger.warn(`${methodName} returned undefined status`)
+                    return null
+            }
+        } else if (result.status === 1) {
+            //  error
+        } else if (result.status === 2) {
+            //  unknown
+        } else {
+            // undefinded
         }
     }
 

@@ -56,34 +56,37 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                                 // save before manipulate
                                 const uuid = window.wdi5.saveObject(result)
 
-                                // object, replacer function
-                                // create usefull content from result
-                                while (window.wdi5.isCyclic(result)) {
-                                    result = JSON.parse(
-                                        JSON.stringify(
-                                            window.wdi5.removeCyclic(result),
-                                            window.wdi5.getCircularReplacer()
-                                        )
-                                    )
-                                }
+                                // extract the methods first
+                                const aProtoFunctions = window.wdi5.retrieveControlMethods(result, true)
+                                result = window.wdi5.createSerializeableCopy(result)
+
                                 done({
                                     status: 0,
-                                    result: result,
-                                    returnType: "result",
-                                    nonCircularResultObject: result,
+                                    object: result,
+                                    returnType: "object",
+                                    aProtoFunctions: aProtoFunctions,
                                     uuid: uuid
+                                })
+                            } else if (
+                                typeof result === "object" &&
+                                result !== null &&
+                                // wdi5 returns a wdi5 control if the UI5 api return its control
+                                // allows method chaining
+                                !(result instanceof sap.ui.base.Object)
+                            ) {
+                                done({
+                                    status: 2,
+                                    returnType: "unknown"
                                 })
                             } else {
                                 // check if of control to verify if the method result is a different control
                                 if (result && result.getId && oControl.getId() !== result.getId()) {
                                     // ui5 function like get parent might return another ui5 control -> return it to check with this wdi5 instance
                                     result = window.wdi5.createControlId(result)
-                                    const aProtoFunctions = window.wdi5.retrieveControlMethods(result)
                                     done({
                                         status: 0,
                                         result: result,
-                                        returnType: "newElement",
-                                        aProtoFunctions: aProtoFunctions
+                                        returnType: "newElement"
                                     })
                                 } else {
                                     done({

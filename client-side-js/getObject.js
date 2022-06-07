@@ -7,21 +7,28 @@ async function clientSide_getObject(uuid) {
             () => {
                 window.wdi5.Log.info("[browser wdi5] locating object " + uuid)
 
-                const object = window.wdi5.objectMap[uuid]
-                let className = ""
+                let object = window.wdi5.objectMap[uuid]
+                if (!object) {
+                    const errorMessage = `[browser wdi5] ERR: no object with uuid: ${uuid} found`
+                    window.wdi5.Log.error(errorMessage)
+                    done({ status: 1, messsage: errorMessage })
+                }
 
-                if (object.getMetadata) {
+                let className = ""
+                if (object && object.getMetadata) {
                     className = object.getMetadata()._sClassName
                 }
                 window.wdi5.Log.info(`[browser wdi5] object with uuid: ${uuid} located!`)
 
-                const aProtoFunctions = window.wdi5.retrieveControlMethods(object)
+                const aProtoFunctions = window.wdi5.retrieveControlMethods(object, true)
+                object = window.wdi5.createSerializeableCopy(object)
 
                 done({
                     status: 0,
                     uuid: uuid,
                     aProtoFunctions: aProtoFunctions,
-                    className: className
+                    className: className,
+                    object: object
                 })
             },
             window.wdi5.errorHandling.bind(this, done)

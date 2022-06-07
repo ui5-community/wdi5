@@ -26,12 +26,24 @@ describe("ui5 object tests", () => {
         // bindingInfo is an object and it's oValue property can be accessed
         const response = bindingInfo.oValue
         expect(response).toEqual("UI5 demo")
+    })
 
-        // new uuid interface
-        const fullBindingInfo = await browser.asObject(bindingInfo.uuid)
-        const bindingInfoMetadata = await fullBindingInfo.getMetadata()
+    it("check getBinding returns a wdi5 object with functions", async () => {
+        const title = await browser.asControl(titleSelector)
+        const bindingInfo = await title.getBinding("text")
+        // bindingInfo is an object and it's oValue property can be accessed
+        const response = await bindingInfo.getValue()
+        expect(response).toEqual("UI5 demo")
+
+        const bindingInfoMetadata = await bindingInfo.getMetadata()
         const bindingTypeName = await bindingInfoMetadata.getName()
         expect(bindingTypeName).toEqual("sap.ui.model.resource.ResourcePropertyBinding")
+
+        // new uuid interface
+        const fullBindingInfo = await browser.asObject(bindingInfo.getUUID())
+        const bindingInfoMetadata_new = await fullBindingInfo.getMetadata()
+        const bindingTypeName_new = await bindingInfoMetadata_new.getName()
+        expect(bindingTypeName_new).toEqual("sap.ui.model.resource.ResourcePropertyBinding")
     })
 
     it("check new object implementation", async () => {
@@ -43,7 +55,7 @@ describe("ui5 object tests", () => {
         })
         // new object interface
         const binding = await input.getBinding("value")
-        const path = await binding.object.getPath()
+        const path = await binding.getPath()
         expect(path).toEqual("/Customers('TRAIH')/ContactName")
     })
 
@@ -54,8 +66,7 @@ describe("ui5 object tests", () => {
             }
         })
         // new object interface
-        const result = await mainView.getModel()
-        const northwaveModel = await result.object
+        const northwaveModel = await mainView.getModel()
         const customerName = await northwaveModel.getProperty("/Customers('TRAIH')/ContactName")
         expect(customerName).toEqual("Helvetius Nagy")
     })

@@ -8,6 +8,7 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
                     const oObject = window.wdi5.objectMap[uuid]
 
                     // execute the function
+                    // TODO: if (methodName === "getName") { debugger }
                     let result = oObject[methodName].apply(oObject, args)
 
                     // result mus be a primitive
@@ -17,8 +18,16 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
                     } else {
                         // create new object
                         const uuid = window.wdi5.saveObject(result)
-                        const aProtoFunctions = window.wdi5.retrieveControlMethods(result)
-                        done({ status: 0, result: uuid, returnType: "object", aProtoFunctions: aProtoFunctions })
+                        const aProtoFunctions = window.wdi5.retrieveControlMethods(result, true)
+                        result = window.wdi5.createSerializeableCopy(result)
+
+                        done({
+                            status: 0,
+                            object: result,
+                            uuid: uuid,
+                            returnType: "object",
+                            aProtoFunctions: aProtoFunctions
+                        })
                     }
                 },
                 window.wdi5.errorHandling.bind(this, done)
