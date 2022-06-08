@@ -40,6 +40,7 @@ export async function setup(config: wdi5Config) {
         ;(browser as MultiRemoteDriver).instances.forEach((name) => {
             initBrowser(browser[name])
         })
+        initMultiRemoteBrowser()
     } else {
         initBrowser(browser)
     }
@@ -56,6 +57,21 @@ export async function start(config: wdi5Config) {
         Logger.info("open url with fallback '#' (this is not causing any issues since its is removed for navigation)")
         await browser.url("#")
     }
+}
+
+function initMultiRemoteBrowser() {
+    ;["asControl", "goTo", "screenshot", "waitForUI5", "getUI5Version", "getSelectorForElement", "allControls"].forEach(
+        (command) => {
+            browser.addCommand(command, async (...args) => {
+                const multiRemoteInstance = browser as unknown as MultiRemoteDriver
+                const result = []
+                multiRemoteInstance.instances.forEach((name) => {
+                    result.push(multiRemoteInstance[name][command].apply(this, args))
+                })
+                return Promise.all(result)
+            })
+        }
+    )
 }
 
 function initBrowser(browserInstance: WebdriverIO.Browser) {

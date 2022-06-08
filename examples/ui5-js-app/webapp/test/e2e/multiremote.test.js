@@ -37,4 +37,18 @@ describe("Multi Remote", () => {
         expect(text).toEqual("Here we are!")
         expect((await browser.one.asControl(dialogSelector)).domId).not.toExist()
     })
+    it("should return an array of results of both browsers if called directly by browser", async () => {
+        const button = await browser.asControl({
+            selector: {
+                id: "openDialogButton",
+                viewName: "test.Sample.view.Main"
+            }
+        })
+        const buttonOne = button[0]
+        const buttonTwo = button[1]
+        expect(buttonOne._browserInstance.sessionId).not.toEqual(buttonTwo._browserInstance.sessionId)
+
+        expect(await buttonOne.getText()).toEqual("open Dialog")
+        expect(await buttonTwo.getText()).toEqual("open Dialog")
+    })
 })
