@@ -1,5 +1,5 @@
-async function clientSide_interactWithControl(oOptions) {
-    return await browserInstance.executeAsync((controlSelector, done) => {
+async function clientSide_interactWithControl(oOptions, browserInstance) {
+    return await browserInstance.executeAsync((oOptions, done) => {
         window.wdi5.waitForUI5(
             window.wdi5.waitForUI5Options,
             () => {

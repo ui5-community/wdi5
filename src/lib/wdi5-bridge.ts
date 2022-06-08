@@ -448,7 +448,8 @@ async function _allControls(controlSelector = this._controlSelector, browserInst
                 generatedUI5Methods: cControl.aProtoFunctions,
                 webdriverRepresentation: null,
                 webElement: cControl.domElement,
-                domId: cControl.id
+                domId: cControl.id,
+                browserInstance
             }
 
             // FIXME: multi remote support by providing browserInstance in constructor
@@ -485,14 +486,19 @@ async function _checkForUI5Ready() {
     let ready = false
     if (_isInitialized) {
         if (browser instanceof MultiRemoteDriver) {
+            const results = []
             ;(browser as MultiRemoteDriver).instances.forEach(async (name) => {
-                ready = await clientSide__checkForUI5Ready((browser as MultiRemoteDriver).instances[name])
+                results.push(clientSide__checkForUI5Ready((browser as MultiRemoteDriver).instances[name]))
             })
+
+            return Promise.all(results)
+        } else {
+            // can only be executed when RecordReplay is attached
+            ready = await clientSide__checkForUI5Ready(browser)
+            return ready
         }
-        // can only be executed when RecordReplay is attached
-        return await clientSide__checkForUI5Ready()
     }
-    return false
+    return ready
 }
 
 /**
