@@ -11,7 +11,6 @@ describe("Planning Calendar test spec", () => {
         await browser.waitUntil(() => showBtn.$().isClickable())
         // I get the planning calendar
         const pc = await CL.getPlanningCalendar()
-        // console.log("PC ", pc);
         // I get aggregated rows
         const rows = await pc.getRows()
         for (const row of rows) {
