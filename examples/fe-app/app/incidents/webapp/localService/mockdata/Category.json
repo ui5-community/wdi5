@@ -1,0 +1,32 @@
+[
+  {
+    "code": "security",
+    "name": "Security",
+    "descr": "Reporting of security or login issues"
+  },
+  {
+    "code": "software",
+    "name": "Software",
+    "descr": "Operating system and Standard Software issues"
+  },
+  {
+    "code": "hardware",
+    "name": "Hardware",
+    "descr": "Hardware issues related to Desktop, Notebook, Beamer, Monitor, etc."
+  },
+  {
+    "code": "telephony",
+    "name": "Telephony",
+    "descr": "Mobile Phone, Softphone, Deskphone issues"
+  },
+  {
+    "code": "database",
+    "name": "Database",
+    "descr": "In-Memory Database, RDBMS, OODBMS issues"
+  },
+  {
+    "code": "inquiry",
+    "name": "Inquiry",
+    "descr": "Inquiries related to Facility Management, Hard-/Software Ordering, Travel Booking"
+  }
+]

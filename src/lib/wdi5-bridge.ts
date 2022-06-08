@@ -7,6 +7,7 @@ import { mark as marky_mark, stop as marky_stop } from "marky"
 import { clientSide_ui5Response, wdi5Config, wdi5Selector } from "../types/wdi5.types"
 import { MultiRemoteDriver } from "webdriverio/build/multiremote"
 import { WDI5Control } from "./wdi5-control"
+import { WDI5FE } from "./wdi5-fe"
 import { clientSide_injectTools } from "../../client-side-js/injectTools"
 import { clientSide_injectUI5 } from "../../client-side-js/injectUI5"
 import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement"
@@ -122,6 +123,12 @@ function initBrowser(browserInstance: WebdriverIO.Browser) {
             return makeFluent(browserInstance._asControl(ui5ControlSelector))
         }
     }
+
+    if (!(browser as any).fe) {
+        ;(browser as any).fe = WDI5FE
+    }
+
+    _setupComplete = true
 }
 
 function checkUI5Version(ui5Version: string) {

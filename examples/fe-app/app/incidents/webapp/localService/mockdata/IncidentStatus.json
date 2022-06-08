@@ -1,0 +1,32 @@
+[
+  {
+    "code": "new",
+    "name": "New",
+    "descr": "An incident that has been logged but not yet worked on."
+  },
+  {
+    "code": "assigned",
+    "name": "Assigned",
+    "descr": "Incident has been asssigned to a technician"
+  },
+  {
+    "code": "in process",
+    "name": "In Process",
+    "descr": "Case is being actively worked on"
+  },
+  {
+    "code": "on hold",
+    "name": "On Hold",
+    "descr": "Incident has been put on hold"
+  },
+  {
+    "code": "resolved",
+    "name": "Resolved",
+    "descr": "Resolution has been found"
+  },
+  {
+    "code": "closed",
+    "name": "Closed",
+    "descr": "Incident was acknowleged closed by end user"
+  }
+]

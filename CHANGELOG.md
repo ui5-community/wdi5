@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.9.1 (2022-05-23)
+
+
+### Features
+
+* support SAP's "v4 testing library" ([#221](https://github.com/js-soft/wdi5/issues/221)) ([0bbca82](https://github.com/js-soft/wdi5/commit/0bbca823277c8e814a04e6dc01bb497c3f683a42)), closes [#154](https://github.com/js-soft/wdi5/issues/154)
+
 ## 0.9.0 (2022-05-11)
 
 ## [0.9.0-rc4.3](https://github.com/js-soft/wdi5/compare/v0.9.0-rc4.2...v0.9.0-rc4.3) (2022-04-28)
