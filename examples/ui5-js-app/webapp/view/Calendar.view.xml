@@ -1,0 +1,75 @@
+<mvc:View controllerName="test.Sample.controller.Calendar"
+  displayBlock="true"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:core="sap.ui.core"
+  xmlns:unified="sap.ui.unified">
+
+      <Page title="Planning Calendar">
+        <content>
+          <VBox class="sapUiSmallMargin">
+            <PlanningCalendar id="PC1"
+              startDate="{path: '/startDate'}"
+              rows="{path: '/people'}"
+              appointmentsVisualization="Filled"
+              appointmentSelect="handleAppointmentSelect"
+              showEmptyIntervalHeaders="false"
+              showWeekNumbers="true">
+              <toolbarContent>
+                <Title text="Title"
+                  titleStyle="H4"/>
+              </toolbarContent>
+              <rows>
+                <PlanningCalendarRow icon="{pic}"
+                  title="{name}"
+                  text="{role}"
+                  appointments="{path : 'appointments', templateShareable: false}"
+                  intervalHeaders="{path: 'headers', templateShareable: false}">
+                  <customData>
+                    <core:CustomData key="emp-name"
+                      value="{name}"
+                      writeToDom="true"/>
+                  </customData>
+                  <appointments>
+                    <unified:CalendarAppointment startDate="{start}"
+                      endDate="{end}"
+                      icon="{pic}"
+                      title="{title}"
+                      text="{info}"
+                      type="{type}"
+                      tentative="{tentative}">
+                    </unified:CalendarAppointment>
+                  </appointments>
+                  <intervalHeaders>
+                    <unified:CalendarAppointment startDate="{start}"
+                      endDate="{end}"
+                      icon="{pic}"
+                      title="{title}"
+                      type="{type}">
+                    </unified:CalendarAppointment>
+                  </intervalHeaders>
+                </PlanningCalendarRow>
+              </rows>
+            </PlanningCalendar>
+            <Label text="Add available built-in views to the example:"/>
+            <MultiComboBox selectionFinish="handleSelectionFinish"
+              width="230px"
+              placeholder="Choose built-in views">
+              <items>
+                <core:Item key="Hour"
+                  text="Hour" />
+                <core:Item key="Day"
+                  text="Day" />
+                <core:Item key="Month"
+                  text="Month" />
+                <core:Item key="Week"
+                  text="1 week" />
+                <core:Item key="One Month"
+                  text="1 month" />
+              </items>
+            </MultiComboBox>
+          </VBox>
+        </content>
+      </Page>
+
+</mvc:View>

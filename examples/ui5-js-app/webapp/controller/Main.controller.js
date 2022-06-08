@@ -1,10 +1,5 @@
 sap.ui.define(
-    [
-        "test/Sample/controller/BaseController",
-        "sap/m/MessageToast",
-        "sap/ui/model/json/JSONModel",
-        "sap/ui/core/Fragment"
-    ],
+    ["./BaseController", "sap/m/MessageToast", "sap/ui/model/json/JSONModel", "sap/ui/core/Fragment"],
     (Controller, MessageToast, JSONModel, Fragment) => {
         return Controller.extend("test.Sample.controller.Main", {
             onInit() {
@@ -34,6 +29,10 @@ sap.ui.define(
 
             navFwd() {
                 return this.getOwnerComponent().getRouter().navTo("RouteOther")
+            },
+
+            navCalendar() {
+                return this.getOwnerComponent().getRouter().navTo("RouteCalendar")
             },
 
             onPress(oEvent) {

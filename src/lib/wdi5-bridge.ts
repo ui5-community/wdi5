@@ -60,7 +60,7 @@ export async function setup(config: wdi5Config) {
     //    via the below "then"-ing of the (async WDI5._executeControlMethod() => Promise)-Promises with the help of
     //    the a Proxy and a recursive `handler` function
     if (!browser.asControl) {
-        browser.asControl = function (ui5ControlSelector) {
+        browser.asControl = function (ui5ControlSelector, byId) {
             const asyncMethods = ["then", "catch", "finally"]
             function makeFluent(target) {
                 const promise = Promise.resolve(target)
@@ -80,7 +80,7 @@ export async function setup(config: wdi5Config) {
                 return new Proxy(function () {}, handler)
             }
             // @ts-ignore
-            return makeFluent(browser._asControl(ui5ControlSelector))
+            return makeFluent(browser._asControl(ui5ControlSelector, byId))
         }
     }
 
@@ -189,7 +189,7 @@ function _verifySelector(wdi5Selector: wdi5Selector) {
 }
 
 async function _addWdi5Commands() {
-    browser.addCommand("_asControl", async (wdi5Selector: wdi5Selector) => {
+    browser.addCommand("_asControl", async (wdi5Selector: wdi5Selector, byId: boolean) => {
         if (!_verifySelector(wdi5Selector)) {
             return "ERROR: Specified selector is not valid -> abort"
         }
@@ -203,7 +203,7 @@ async function _addWdi5Commands() {
 
             marky_mark("retrieveSingleControl")
 
-            const wdi5Control = await new WDI5Control({}).init(wdi5Selector, wdi5Selector.forceSelect)
+            const wdi5Control = await new WDI5Control({}).init(wdi5Selector, wdi5Selector.forceSelect, byId)
 
             const e = marky_stop("retrieveSingleControl")
             Logger.info(`_asControl() needed ${e.duration} for ${internalKey}`)

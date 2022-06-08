@@ -16,21 +16,22 @@ const Logger = _Logger.getInstance()
  * can be seen as a generic representation of a UI5 control
  */
 export class WDI5Control {
-    _controlSelector: wdi5Selector = null
+    private _controlSelector: wdi5Selector = null
     // return value of Webdriver interface: JSON web token
-    _webElement: WebdriverIO.Element | string = null // TODO: type "org.openqa.selenium.WebElement"
+    private _webElement: WebdriverIO.Element | string = null // TODO: type "org.openqa.selenium.WebElement"
     // wdio elment retrieved separately via $()
-    _webdriverRepresentation: WebdriverIO.Element = null
-    _metadata: wdi5ControlMetadata = {}
+    private _webdriverRepresentation: WebdriverIO.Element = null
+    private _metadata: wdi5ControlMetadata = {}
 
     // TODO: move to _metadata
-    _wdio_ui5_key: string = null
-    _generatedUI5Methods: Array<string>
-    _initialisation = false
-    _forceSelect = false
-    _wdioBridge = <WebdriverIO.Element>{}
-    _generatedWdioMethods: Array<string>
-    _domId: string
+    private _wdio_ui5_key: string = null
+    private _generatedUI5Methods: Array<string>
+    private _initialisation = false
+    private _forceSelect = false
+    private _wdioBridge = <WebdriverIO.Element>{}
+    private _generatedWdioMethods: Array<string>
+    private _domId: string
+    private _byId: boolean
 
     constructor(oOptions) {
         const {
@@ -63,10 +64,11 @@ export class WDI5Control {
         return this
     }
 
-    async init(controlSelector = this._controlSelector, forceSelect = this._forceSelect) {
+    async init(controlSelector = this._controlSelector, forceSelect = this._forceSelect, byId = false) {
         this._controlSelector = controlSelector
         this._wdio_ui5_key = controlSelector.wdio_ui5_key
         this._forceSelect = forceSelect
+        this._byId = byId
 
         const controlResult = await this._getControl()
 
@@ -298,7 +300,7 @@ export class WDI5Control {
             }
 
             // get WDI5 control
-            eResult = await browser.asControl(selector)
+            eResult = await browser.asControl(selector, true)
         } else {
             Logger.warn(`${this._wdio_ui5_key} has no aControls`)
         }
@@ -361,7 +363,12 @@ export class WDI5Control {
         // returns the array of [0: "status", 1: result]
 
         // regular browser-time execution of UI5 control method
-        const result = (await clientSide_executeControlMethod(webElement, methodName, args)) as clientSide_ui5Response
+        const result = (await clientSide_executeControlMethod(
+            webElement,
+            this._domId,
+            methodName,
+            args
+        )) as clientSide_ui5Response
 
         // create logging
         this._writeObjectResultLog(result, methodName)
@@ -480,7 +487,7 @@ export class WDI5Control {
             controlSelector.selector.properties.text = controlSelector.selector.properties.text.toString()
         }
 
-        const _result = (await clientSide_getControl(controlSelector)) as clientSide_ui5Response
+        const _result = (await clientSide_getControl(controlSelector, this._byId)) as clientSide_ui5Response
         const { status, domElement, id, aProtoFunctions, className } = _result
 
         if (status === 0 && id) {

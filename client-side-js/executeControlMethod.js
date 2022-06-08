@@ -1,11 +1,21 @@
-async function clientSide_executeControlMethod(webElement, methodName, args) {
+async function clientSide_executeControlMethod(webElement, ui5Id, methodName, args) {
+    if (!webElement) {
+        // workaround if webelement is null
+        webElement = "none"
+    }
     return await browser.executeAsync(
-        (webElement, methodName, args, done) => {
+        (webElement, ui5Id, methodName, args, done) => {
             window.wdi5.waitForUI5(
                 window.wdi5.waitForUI5Options,
                 () => {
                     // DOM to UI5
-                    const oControl = window.wdi5.getUI5CtlForWebObj(webElement)
+                    let oControl = null
+                    if (webElement !== "none") {
+                        // workaround if webelement is null
+                        oControl = window.wdi5.getUI5CtlForWebObj(webElement)
+                    } else if (ui5Id) {
+                        oControl = sap.ui.getCore().byId(ui5Id)
+                    }
 
                     // execute the function
                     let result = oControl[methodName].apply(oControl, args)
@@ -90,6 +100,7 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
             )
         },
         webElement,
+        ui5Id,
         methodName,
         args
     )

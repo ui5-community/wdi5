@@ -27,6 +27,10 @@
 					text="{i18n>startPage.navButton.text}"
 					press="navFwd" />
 				<Button icon="sap-icon://forward"
+					id="NavCalendarButton"
+					text="Naviagte to Planningcalendar"
+					press="navCalendar" />
+				<Button icon="sap-icon://forward"
 					id="NavFwdButtonDisabled"
 					text="can't click :("
 					press="navFwd"
