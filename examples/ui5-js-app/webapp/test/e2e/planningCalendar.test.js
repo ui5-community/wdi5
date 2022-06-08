@@ -1,6 +1,6 @@
 const CL = require("./pageObjects/ComponentLocator")
 
-describe("Planning Canedar test spec", () => {
+describe("Planning Calendar test spec", () => {
     before(async () => {
         await CL.open()
     })
