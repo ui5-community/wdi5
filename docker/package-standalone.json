@@ -6,7 +6,7 @@
     "start:webserver": "soerver -d ./webapp -p 8888 -x ./webapp/proxyrc.json",
     "//start:ui5-tooling": "have /app/webapp served on :8080 via ui5 tooling + simpleproxy",
     "start:ui5-tooling": "ui5 serve",
-    "wdi5": "wdio run wdio.conf.js --spec basic.test",
+    "wdi5": "wdio run e2e-test-config/wdio.conf.js --spec basic.test",
     "test": "run-p -r start:* wdi5"
   },
   "devDependencies": {
