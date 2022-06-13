@@ -129,6 +129,13 @@ export async function injectUI5(config: wdi5Config) {
 }
 
 export async function checkForUI5Page() {
+    // wait till the loading finished and the state is "completed"
+    await browser.waitUntil(async () => {
+        const state = await browser.executeAsync((done) => {
+            done(document.readyState)
+        })
+        return state === "complete"
+    })
     // sap in global window namespace denotes (most likely :) ) that ui5 is present
     return await browser.executeAsync((done) => {
         done(!!window.sap)
