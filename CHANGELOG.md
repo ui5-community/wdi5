@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.9.2 (2022-06-15)
+
+
+### Features
+
+* improved sync with ui5 core lifecycle ([#278](https://github.com/js-soft/wdi5/issues/278)) ([53e1a7e](https://github.com/js-soft/wdi5/commit/53e1a7e952a84825feb9b42a8a9a2684b2ff71f9))
+
 ### 0.9.1 (2022-05-23)
 
 
