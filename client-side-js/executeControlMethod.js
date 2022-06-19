@@ -53,22 +53,17 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                                 // allows method chaining
                                 !(result instanceof sap.ui.core.Control)
                             ) {
-                                // object, replacer function
-                                // create usefull content from result
-                                result = window.wdi5.collapseObject(result)
-                                // while (window.wdi5.isCyclic(result)) {
-                                //     result = JSON.parse(
-                                //         JSON.stringify(
-                                //             window.wdi5.removeCyclic(result),
-                                //             window.wdi5.getCircularReplacer()
-                                //         )
-                                //     )
-                                // }
+                                // flatten the prototype so we have all funcs available
+                                const collapsed = window.wdi5.collapseObject(result)
+                                // exclude cyclic references
+                                const collapsedAndNonCyclic = JSON.parse(
+                                    JSON.stringify(collapsed, window.wdi5.getCircularReplacer())
+                                )
                                 done({
                                     status: 0,
-                                    result: result,
+                                    result: collapsedAndNonCyclic,
                                     returnType: "result",
-                                    nonCircularResultObject: result
+                                    nonCircularResultObject: collapsedAndNonCyclic
                                 })
                             } else {
                                 // check if of control to verify if the method result is a different control
