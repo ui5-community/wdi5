@@ -247,28 +247,11 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                         return controlMethodsToProxy
                     }
 
-                    window.wdi5.isCyclic = (obj) => {
-                        var seenObjects = []
-
-                        function detect(obj) {
-                            if (obj && typeof obj === "object") {
-                                if (seenObjects.indexOf(obj) !== -1) {
-                                    return true
-                                }
-                                seenObjects.push(obj)
-                                for (var key in obj) {
-                                    if (obj.hasOwnProperty(key) && detect(obj[key])) {
-                                        console.log(obj, "cycle at " + key)
-                                        return true
-                                    }
-                                }
-                            }
-                            return false
-                        }
-
-                        return detect(obj)
-                    }
-
+                    /**
+                     * flatten all functions and properties on the Prototype directly into the returned object
+                     * @param {object} obj
+                     * @returns {object} all functions and properties of the inheritance chain in a flat structure
+                     */
                     window.wdi5.collapseObject = (obj) => {
                         let protoChain = []
                         let proto = obj
@@ -281,36 +264,10 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                         return collapsedObj
                     }
 
-                    window.wdi5.removeCyclic = (obj) => {
-                        var seenObjects = []
-
-                        function detect(obj) {
-                            if (obj && typeof obj === "object") {
-                                if (seenObjects.indexOf(obj) !== -1) {
-                                    return obj
-                                }
-                                seenObjects.push(obj)
-                                for (var key in obj) {
-                                    if (obj.hasOwnProperty(key) && detect(obj[key])) {
-                                        console.log(obj, "cycle at " + key)
-                                        console.warn(`deleted: ${key}`)
-                                        delete obj[key]
-                                        return obj
-                                    }
-                                }
-                            } else {
-                                console.log(`removed ${typeof obj}`)
-                            }
-                            return obj
-                        }
-
-                        return detect(obj)
-                    }
-
                     /**
                      * used as a replacer function in JSON.stringify
                      * removes circular references in an object
-                     * @returns
+                     * all credit to https://bobbyhadz.com/blog/javascript-typeerror-converting-circular-structure-to-json
                      */
                     window.wdi5.getCircularReplacer = () => {
                         const seen = new WeakSet()
