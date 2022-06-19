@@ -55,14 +55,15 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                             ) {
                                 // object, replacer function
                                 // create usefull content from result
-                                while (window.wdi5.isCyclic(result)) {
-                                    result = JSON.parse(
-                                        JSON.stringify(
-                                            window.wdi5.removeCyclic(result),
-                                            window.wdi5.getCircularReplacer()
-                                        )
-                                    )
-                                }
+                                result = window.wdi5.collapseObject(result)
+                                // while (window.wdi5.isCyclic(result)) {
+                                //     result = JSON.parse(
+                                //         JSON.stringify(
+                                //             window.wdi5.removeCyclic(result),
+                                //             window.wdi5.getCircularReplacer()
+                                //         )
+                                //     )
+                                // }
                                 done({
                                     status: 0,
                                     result: result,

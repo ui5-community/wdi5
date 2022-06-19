@@ -269,6 +269,18 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                         return detect(obj)
                     }
 
+                    window.wdi5.collapseObject = (obj) => {
+                        let protoChain = []
+                        let proto = obj
+                        while (proto !== null) {
+                            protoChain.unshift(proto)
+                            proto = Object.getPrototypeOf(proto)
+                        }
+                        let collapsedObj = {}
+                        protoChain.forEach((prop) => Object.assign(collapsedObj, prop))
+                        return collapsedObj
+                    }
+
                     window.wdi5.removeCyclic = (obj) => {
                         var seenObjects = []
 
