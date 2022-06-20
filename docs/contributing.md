@@ -106,7 +106,10 @@ All browser-scope commands (such as `browser.asControl()`) are provided with `/s
 
 Given the continous build watch is running (`npm run build:watch`), hack away at any part!
 
-### instantiation
+### control instantiation
+
+Here's a visualization of how UI5 controls are transferred between Node.js- and browser-scope.  
+Not the difference between the generic [`browser.asControl($selector)`](/usage#ascontrol) and [`browser.allControls($selector)`](/usage#allcontrols).
 
 ![wdi5 control instantiation](./wdi5-control-instantiation.png)
 
