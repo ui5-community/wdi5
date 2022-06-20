@@ -7,6 +7,7 @@ With `wdi5` [being a service to WebdriverIO](https://webdriver.io/docs/wdio-ui5-
 - UI5 app running in the browser, accessible via `http(s)://host.ext:port`.
   Recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like [`soerver`](https://github.com/vobu/soerver) or [`http-server`](https://www.npmjs.com/package/http-server).
 - Node.js version >= `14` (`lts/fermium`)
+- If you don't provide your framework libraries via a CDN but for example via the UI5 tooling. Please don't forget to add the following two libraries (sap.base, sap.ui.test) via `ui5 add sap.base sap.ui.test` to your `.yaml` file as wdi5 requires these libraries to work properly
 
 The installation of `wdi5` and WebdriverIO can either be done by using the [Webdriver.IO `cli`](https://webdriver.io/docs/gettingstarted.html) (recommended) or manually.
 
