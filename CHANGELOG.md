@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.9.3 (2022-06-20)
+
+
+### Bug Fixes
+
+* avoid referenced object manipulation ([#275](https://github.com/js-soft/wdi5/issues/275)) ([#280](https://github.com/js-soft/wdi5/issues/280)) ([a069544](https://github.com/js-soft/wdi5/commit/a069544166c4ba9b1494f63190bef121611d3229))
+
 ### 0.9.2 (2022-06-15)
 
 
