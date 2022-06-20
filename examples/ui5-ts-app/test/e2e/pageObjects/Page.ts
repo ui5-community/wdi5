@@ -1,18 +1,7 @@
-import { Selector } from "../selector"
+import { wdi5 } from "wdio-ui5-service"
 
 export default class Page {
-    open = () => {
-        super.open(`#/Other`)
-    }
-
-    async getList(force = false) {
-        const listSelector: Selector = {
-            selector: {
-                id: "PeopleList",
-                viewName: "test.sample.view.Other"
-            },
-            forceSelect: force
-        }
-        return await browser.asControl(listSelector)
+    async open(path) {
+        wdi5.goTo(path, null)
     }
 }
