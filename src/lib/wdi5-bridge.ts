@@ -284,7 +284,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
      * @param {boolean} oOptions.settings.preferViewId
      */
     browserInstance.addCommand("getSelectorForElement", async (oOptions) => {
-        const result = (await clientSide_getSelectorForElement(oOptions)) as clientSide_ui5Response
+        const result = (await clientSide_getSelectorForElement(oOptions, browserInstance)) as clientSide_ui5Response
 
         if (result.status === 1) {
             console.error("ERROR: getSelectorForElement() failed because of: " + result.message)
@@ -297,7 +297,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
 
     browserInstance.addCommand("getUI5Version", async () => {
         if (!_sapUI5Version) {
-            const resultVersion = await clientSide_getUI5Version()
+            const resultVersion = await clientSide_getUI5Version(browserInstance)
             _sapUI5Version = resultVersion
         }
 
