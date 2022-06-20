@@ -19,12 +19,12 @@ COPY ./examples/ui5-js-app/webapp webapp
 COPY ./examples/ui5-js-app/ui5.yaml ui5.yaml
 COPY ./docker/package-standalone.json package.json
 # this is the standard file and allows for a simple call like "wdio"
-COPY ./examples/ui5-js-app/wdio-docker-standalone.conf.js wdio.conf.js
-COPY ./examples/ui5-js-app/wdio.base.conf.js wdio.base.conf.js
+COPY ./examples/ui5-js-app/e2e-test-config/wdio-docker-standalone.conf.js wdio.conf.js
+COPY ./examples/ui5-js-app/e2e-test-config/wdio.base.conf.js wdio.base.conf.js
 RUN mkdir -p report/screenshots
 
-# install basic setup: 
-# - local minimal WebdriverIO environment 
+# install basic setup:
+# - local minimal WebdriverIO environment
 #   and setup, incl standard reporter + Chrome
 # - wdi5
 RUN npm install
