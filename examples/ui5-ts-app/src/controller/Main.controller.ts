@@ -11,7 +11,7 @@ import oDataModel from "sap/ui/model/odata/v2/ODataModel"
  * @namespace test.Sample.tsapp.controller
  */
 export default class Main extends BaseController {
-    dialog: any
+    dialog: any //TODO: check type
     onInit(): void {
         ;(this.getOwnerComponent().getModel() as oDataModel).read("/Customers('TRAIH')")
         const jData: jData = {
@@ -28,7 +28,7 @@ export default class Main extends BaseController {
         return this.getOwnerComponent().getRouter().navTo("RouteOther")
     }
     onBoo(_): void {
-        MessageToast.show(`👻`)
+        MessageToast.show(`👻`, { autoClose: false })
     }
 
     onTest(oEvent: Event): void {

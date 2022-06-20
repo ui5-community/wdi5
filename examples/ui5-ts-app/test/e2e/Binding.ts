@@ -1,10 +1,7 @@
-//TODO check messageToast
-
-import MessageToast from "sap/m/MessageToast"
 import { Selector } from "./selector"
 
 describe("Binding", async () => {
-    it.only("should klick Binding Button", async () => {
+    it("should click Binding Button", async () => {
         const bindingButton: Selector = {
             selector: {
                 id: "bindingButton",
@@ -12,9 +9,12 @@ describe("Binding", async () => {
             }
         }
 
-        const bindingButtonControl = await browser.asControl(bindingButton)
-        await bindingButtonControl.press()
-        const messageToast = (await browser.asControl(bindingButton)) as unknown as MessageToast
-        await expect(messageToast.show(`👻`))
+        const button = await (await browser.asControl(bindingButton)).getWebElement()
+        await button.click()
+    })
+    it("should open MessageToast", async () => {
+        const popup = await browser.$(".sapMMessageToast") // wdio-native api
+        await popup.waitForExist()
+        expect(await popup.isExisting()).toBe(true)
     })
 })
