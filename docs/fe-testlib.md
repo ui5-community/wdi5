@@ -1,22 +1,29 @@
 # 📚 Test Library Integration
 
-Using a test library provides you the following benefits
+A test library provides test functions that can be used to safeguard your Fiori / UI5 app in combination with your own test functions.
+
+## Why should you use the SAP Fiori elements for OData V4 test library?
+
+The SAP Fiori elements test library provides a set of test functions that can be reused within [OPA5](https://sapui5.hana.ondemand.com/#/topic/2696ab50faad458f9b4027ec2f9b884d) or [wdi5](https://github.com/js-soft/wdi5) tests of [SAP Fiori elements](https://experience.sap.com/fiori-design-web/smart-templates/) for OData V4 applications. When you write such tests, you only need to test the application-specific functionalities, e.g. a custom action. The core functionalities provided by SAP Fiori elements are already tested by the framework itself.
+
+Nevertheless, you need to implement certain steps to test the specific functionalities of the app, e.g. loading data into the list-report, navigating between a list-report and an object-page, saving business objects, etc. To implement these steps within a WDI5 test, you can reuse the test functions of the OData V4 OPA test library and you don´t need to re-implement these functions. This saves time and avoids redundancy.
+
+Another advantage of using the OData V4 test library is that updates for the test functions due to framework changes are automatically provided by the framework. This ensures that your tests will not break.
+
+### Main benefits of using the test library
 
 - Reduces test maintenance efforts and avoid code repetition.
 - Isolate generic actions and validations in the test library and reuse them across apps.
 - Tests are simplified and have compact page objects and short journeys.
-
-## What is the Fiori Elements Test Library?
-
-Fiori Elements developed a test library that provides quite a varity of test functions.
-
-🔗 https://sapui5.hana.ondemand.com/#/api/sap.fe.test
-
-Further benefits
-
 - Test library is kept up to date with component changes in the framework.
 
-### Content
+### What to test / not to test in a Fiori Elements app?
+
+- [Custom Actions](https://sapui5.hana.ondemand.com/sdk/#/topic/7619517a92414e27b71f02094bd08d06), Complex UI annotations
+- Code under your responsibility
+- Do NOT test framework functionality
+
+## Content of the test library
 
 - **Base arrangements:** Control the lifecycle of the app.
 - **ListReport, Object Page, Shell:** Provides a test page definition with corresponding parameters and test functions.
@@ -24,7 +31,7 @@ Further benefits
 - Further common test functions.
 - (JourneyRunner: Execute integration tests with given settings. - not used in wdi5)
 
-### Consistent naming of test functions
+## Consistent naming of test functions
 
 Unified expressions improve the readability.
 
@@ -35,11 +42,9 @@ Unified expressions improve the readability.
   - `i<DoSth><WithSth>.and.i<DoSth><WithSth>`
   - `i<ExpectSth>.and.i<ExpectSth>`
 
-### What to test / not to test in a Fiori Elements app?
+### API documentation
 
-- [Custom Actions](https://sapui5.hana.ondemand.com/sdk/#/topic/7619517a92414e27b71f02094bd08d06), Complex UI annotations
-- Code under your responsibility
-- Do NOT test framework functionality
+🔗 [https://sapui5.hana.ondemand.com/#/api/sap.fe.test](https://sapui5.hana.ondemand.com/#/api/sap.fe.test)
 
 ## How to use the Fiori Element Test Library?
 
@@ -49,9 +54,9 @@ Unified expressions improve the readability.
 - `SAPUI5`: > 1.88.0
 - `Fiori Elements OData v4 only`
 
-### Execute test functions of the library
+### How to integrate the test library
 
-#### Initialize the Facade
+First you need to initialize the `FioriElementsFacade` in the test-suite setup and pass the settings to refer to a Fiori elements app and the component and entityset of the used Fiori elements templates, like the ListReport or the ObjectPage.
 
 ```javascript
 before(async () => {
@@ -75,7 +80,7 @@ before(async () => {
 })
 ```
 
-**Configuration settings of the facade**
+**Configuration settings of a FioriElementsFacade**
 
 - **appId**: In the `manifest.json` - `"sap.app" → "id"`
 - **componentId**: In the target section for the list report/object page within the manifest.
@@ -85,7 +90,9 @@ before(async () => {
 
 > If you use jasmine instead of mocha syntax you need to initialize the facade in `beforeAll`.
 
-#### Calling test functions of the library
+#### How to call test functions of the library
+
+After initializing the `FioriElementsFacade` you can use all the provided test functions in your tests.
 
 ```javascript
 it("I search product 'Office Plant'", async () => {
@@ -129,6 +136,8 @@ it("I navigate back to list report", async () => {
 
 ### Combination of the test functions of the library with own test functions
 
+In case you need additional test functions to cover your custom coding you can easily combine the test library with your own test functions. You just need to write the test library functions within the `FioriElementsFacade` and your test functions outside.
+
 ```javascript
 it("I open custom dialog by clicking on a custom action", async () => {
     await FioriElementsFacade.execute((Given, When, Then) => {
@@ -147,16 +156,23 @@ it("I enter custom data", async () => {
     })
 })
 
-
-### Enable verbose mode for test library output
-
-Enable [verbose mode](configuration#loglevel) to get more output of the test library in your wdio configuration.
-
-``
-TODO: Sample output
-``
-
 ### Troubleshooting
 
-t.b.d.
+#### Enable verbose mode for test library output
+
+If your tests fail you can enable the [verbose mode](configuration#loglevel) in the wdio configuration to get more output of the test library.
+
+Sample output in verbose mode:
+
+``
+Error: the string "Checking table '{id: fe::table::Products::LineItem}' having 2 rows with values='', state='' and empty columns='' - FAILURE
+Opa timeout after 15 secosds
+This is what Opa logged:
+Found 0 blocking out of 613 tracked timeouts -  sap.ui.test.autowaiter._timeoutWaiter#hasPending
+AutoWaiter syncpoint -  sap.ui.test.autowaiter._autoWaiter
+Found view with ID 'product.manage::ProductsList' and viewName 'undefined' -  sap.ui.test.Opa5
+Found control with ID 'fe::table::Products::LineItem' and controlType 'sap.ui.mdc.Table' in view 'sap.fe.templates.ListReport.ListReport' -  sap.ui.test.Opa5
+1 out of 1 controls met the matchers pipeline requirements -  sap.ui.test.pipelines.MatcherPipeline 0 out of 1 controls met the matchers pipeline requirements -  sap.ui.test.pipelines.MatcherPipeline
+Matchers found no controls so check function will be skipped -  sap.ui.test.Opa5
+...
 ```
