@@ -104,20 +104,12 @@ function checkUI5Version(ui5Version: string) {
  * make sap/ui/test/RecordReplay accessible via wdio
  * attach the sap/ui/test/RecordReplay object to the application context window object as 'bridge'
  */
-export async function injectUI5(config: wdi5Config) {
-    if (browser instanceof MultiRemoteDriver) {
-        // FIXME: enable version check for multi remote driver
-        // await (browser as MultiRemoteDriver).instances.forEach(async (name) => {
-        //     const ui5Version = await (browser[name] as WebdriverIO.Browser).getUI5Version()
-        //     checkUI5Version(ui5Version)
-        // })
-    } else {
-        checkUI5Version(await browser.getUI5Version())
-    }
-
+export async function injectUI5(config: wdi5Config, browserInstance) {
     const waitForUI5Timeout = config.wdi5.waitForUI5Timeout || 15000
-    await clientSide_injectTools() // helpers for wdi5 browser scope
-    const result: boolean = await clientSide_injectUI5(config, waitForUI5Timeout)
+    checkUI5Version(await browser.getUI5Version())
+    await clientSide_injectTools(browser) // helpers for wdi5 browser scope
+
+    const result: boolean = await clientSide_injectUI5(config, waitForUI5Timeout, browserInstance)
 
     if (result) {
         // set when call returns
@@ -275,14 +267,14 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
      * uses the UI5 native waitForUI5 function to wait for all promises to be settled
      */
     browserInstance.addCommand("waitForUI5", async () => {
-        return await _waitForUI5()
+        return await _waitForUI5(browserInstance)
     })
 
     /**
      * wait for ui5 and take a screenshot
      */
     browserInstance.addCommand("screenshot", async (fileAppendix) => {
-        await _waitForUI5()
+        await _waitForUI5(browserInstance)
         await _writeScreenshot(fileAppendix)
     })
 
@@ -433,13 +425,13 @@ async function _allControls(controlSelector = this._controlSelector, browserInst
  * can be called to make sure before you access any eg. DOM Node the ui5 framework is done loading
  * @returns {Boolean} if the UI5 page is fully loaded and ready to interact.
  */
-async function _waitForUI5() {
+async function _waitForUI5(browserInstance) {
     if (_isInitialized) {
         // injectUI5 was already called and was successful attached
-        return await _checkForUI5Ready()
+        return await _checkForUI5Ready(browserInstance)
     } else {
-        if (await injectUI5(_config)) {
-            return await _checkForUI5Ready()
+        if (await injectUI5(_config, browserInstance)) {
+            return await _checkForUI5Ready(browserInstance)
         } else {
             return false
         }
@@ -449,21 +441,11 @@ async function _waitForUI5() {
 /**
  * check for UI5 via the RecordReplay.waitForUI5 method
  */
-async function _checkForUI5Ready() {
-    let ready = false
+async function _checkForUI5Ready(browserInstance) {
+    const ready = false
     if (_isInitialized) {
-        if (browser instanceof MultiRemoteDriver) {
-            const results = []
-            ;(browser as MultiRemoteDriver).instances.forEach(async (name) => {
-                results.push(clientSide__checkForUI5Ready((browser as MultiRemoteDriver).instances[name]))
-            })
-
-            return Promise.all(results)
-        } else {
-            // can only be executed when RecordReplay is attached
-            ready = await clientSide__checkForUI5Ready(browser)
-            return ready
-        }
+        // can only be executed when RecordReplay is attached
+        return await clientSide__checkForUI5Ready(browserInstance)
     }
     return ready
 }

@@ -23,10 +23,10 @@ function createProxy(myObj: any, type: string, methodCalls: any[], pageKeys: str
     return thisProxy
 }
 export class WDI5FE {
-    constructor(private appConfig: any) {}
-    static async initialize(appConfig) {
-        await initOPA(appConfig)
-        return new WDI5FE(appConfig)
+    constructor(private appConfig: any, private browserInstance: any) {}
+    static async initialize(appConfig, browserInstance = browser) {
+        await initOPA(appConfig, browserInstance)
+        return new WDI5FE(appConfig, browserInstance)
     }
 
     async execute(fnFunction) {
@@ -37,13 +37,18 @@ export class WDI5FE {
         const When = createProxy({}, "When", methodCalls, reservedPages)
         fnFunction(Given, Then, When) // PrepareQueue
         for (const methodCall of methodCalls) {
-            const [type, content] = await addToQueue(methodCall.type, methodCall.target, methodCall.methods)
+            const [type, content] = await addToQueue(
+                methodCall.type,
+                methodCall.target,
+                methodCall.methods,
+                this.browserInstance
+            )
             if (type !== "success") {
                 throw content
             }
         }
         // ExecuteTest
-        const [type, content, feLogs] = await emptyQueue()
+        const [type, content, feLogs] = await emptyQueue(this.browserInstance)
         if (type !== "success") {
             throw content
         }
