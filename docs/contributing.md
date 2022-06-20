@@ -169,6 +169,8 @@ Also, all of this combined aids tremendously in cutting automated releases - so 
 
 Please issue your Pull Requests against the `main` branch of the repository.
 
+?> it is not necessary to increase the version number in `package.json`. This happens automatically on merge of the Pull Request.
+
 ## work on the docs
 
 All documentation is written in `markdown` and lives in `/docs`.
