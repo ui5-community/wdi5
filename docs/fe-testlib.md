@@ -4,17 +4,17 @@ A test library provides test functions that can be used to safeguard your Fiori 
 
 ## Why should you use the SAP Fiori elements for OData V4 test library?
 
-The SAP Fiori elements test library provides a set of test functions that can be reused within [OPA5](https://sapui5.hana.ondemand.com/#/topic/2696ab50faad458f9b4027ec2f9b884d) or [wdi5](https://github.com/js-soft/wdi5) tests of [SAP Fiori elements](https://experience.sap.com/fiori-design-web/smart-templates/) for OData V4 applications. When you write such tests, you only need to test the application-specific functionalities, e.g. a custom action. The core functionalities provided by SAP Fiori elements are already tested by the framework itself.
+The SAP Fiori elements for OData V4 test library (hereinafter referred to as **test library**) provides a set of test functions that can be reused within [OPA5](https://sapui5.hana.ondemand.com/#/topic/2696ab50faad458f9b4027ec2f9b884d) or [wdi5](https://github.com/js-soft/wdi5) tests of [SAP Fiori elements](https://experience.sap.com/fiori-design-web/smart-templates/) OData V4 applications. When you write such tests, you only need to test the application-specific functionalities, e.g. a custom action. The core functionalities provided by SAP Fiori elements are already tested by the framework itself.
 
-Nevertheless, you need to implement certain steps to test the specific functionalities of the app, e.g. loading data into the list-report, navigating between a list-report and an object-page, saving business objects, etc. To implement these steps within a WDI5 test, you can reuse the test functions of the OData V4 OPA test library and you don´t need to re-implement these functions. This saves time and avoids redundancy.
+Nevertheless, you need to implement certain steps to test the specific functionalities of the app, e.g. loading data into the list-report, navigating between a list-report and an object-page, saving business objects, etc. To implement these steps within a wdi5 test, you can reuse the test functions of the test library and you don´t need to re-implement these functions. This saves time and avoids redundancy.
 
-Another advantage of using the OData V4 test library is that updates for the test functions due to framework changes are automatically provided by the framework. This ensures that your tests will not break.
+Another advantage of using the test library is that updates for the test functions due to framework changes are automatically provided by the framework. This ensures that your tests will not break.
 
 ### Main benefits of using the test library
 
 - Reduces test maintenance efforts and avoid code repetition.
 - Isolate generic actions and validations in the test library and reuse them across apps.
-- Tests are simplified and have compact page objects and short journeys.
+- Tests are readable and simplified.
 - Test library is kept up to date with component changes in the framework.
 
 ### What to test / not to test in a Fiori Elements app?
@@ -46,15 +46,13 @@ Unified expressions improve the readability.
 
 🔗 [https://sapui5.hana.ondemand.com/#/api/sap.fe.test](https://sapui5.hana.ondemand.com/#/api/sap.fe.test)
 
-## How to use the Fiori Element Test Library?
+## How to integrate the test library?
 
-### Prerequisites
+**Prerequisites**
 
 - `wdi5`: > 0.9.1
 - `SAPUI5`: > 1.88.0
 - `Fiori Elements OData v4 only`
-
-### How to integrate the test library
 
 First you need to initialize the `FioriElementsFacade` in the test-suite setup and pass the settings to refer to a Fiori elements app and the component and entityset of the used Fiori elements templates, like the ListReport or the ObjectPage.
 
@@ -90,7 +88,7 @@ before(async () => {
 
 > If you use jasmine instead of mocha syntax you need to initialize the facade in `beforeAll`.
 
-#### How to call test functions of the library
+## How to call test functions of the test library
 
 After initializing the `FioriElementsFacade` you can use all the provided test functions in your tests.
 
@@ -134,37 +132,38 @@ it("I navigate back to list report", async () => {
 })
 ```
 
-### Combination of the test functions of the library with own test functions
+## Combination of the test functions of the library with own test functions
 
 In case you need additional test functions to cover your custom coding you can easily combine the test library with your own test functions. You just need to write the test library functions within the `FioriElementsFacade` and your test functions outside.
 
 ```javascript
 it("I open custom dialog by clicking on a custom action", async () => {
-    await FioriElementsFacade.execute((Given, When, Then) => {
-        When.onTheMainPage.onTable().iExecuteAction("Custom Action")
-    })
-    // custom action in own page object
-    await ListReportPage.iShouldSeeCustomFieldsInDialog()
+  await FioriElementsFacade.execute((Given, When, Then) => {
+    When.onTheMainPage.onTable().iExecuteAction("Custom Action")
+  })
+  // custom action in own page object
+  await ListReportPage.iShouldSeeCustomFieldsInDialog()
 })
 
 it("I enter custom data", async () => {
-    // custom assertion in own page object
-    await ListReportPage.iEnterDataInCustomField("My custom data")
-    await FioriElementsFacade.execute((Given, When, Then) => {
-        Then.onTheMainPage.onDialog().iClose()
-        Then.onTheMainPage.onTable().iCheckCells({ "Custom Data": "My custom data" })
-    })
+  // custom assertion in own page object
+  await ListReportPage.iEnterDataInCustomField("My custom data")
+  await FioriElementsFacade.execute((Given, When, Then) => {
+    Then.onTheMainPage.onDialog().iClose()
+    Then.onTheMainPage.onTable().iCheckCells({ "Custom Data": "My custom data" })
+  })
 })
+```
 
-### Troubleshooting
+## Troubleshooting
 
-#### Enable verbose mode for test library output
+### Enable verbose mode for test library output
 
 If your tests fail you can enable the [verbose mode](configuration#loglevel) in the wdio configuration to get more output of the test library.
 
 Sample output in verbose mode:
 
-``
+```bash
 Error: the string "Checking table '{id: fe::table::Products::LineItem}' having 2 rows with values='', state='' and empty columns='' - FAILURE
 Opa timeout after 15 secosds
 This is what Opa logged:
