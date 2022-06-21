@@ -1,26 +1,28 @@
 //TODO
 
 import { Selector } from "./selector"
-import Page from "./pageObjects/Page"
+import { Other } from "./pageObjects/Other"
+import List from "sap/m/List"
 
-const pageItem = new Page()
+const pageItem = new Other()
 
-describe("View", async () => {
+describe("test list, items and view", async () => {
     before(async () => {
         await pageItem.open()
     })
-    // it("should open Other view", async () => {
-    //     const viewButton: Selector = {
-    //         selector: {
-    //             id: "NavFwdButton",
-    //             viewName: "test.Sample.tsapp.view.Main"
-    //         }
-    //     }
-    //     //const viewButtonControl = await browser.asControl(viewButton)
-    // })
 
-    it("should read all names on the list", async () => {
-        const pageItemID = await pageItem.getList()
-        expect(pageItemID.getId()).toContain("PeopleList")
+    it("Open the correct Url", async () => {
+        await expect(browser).toHaveUrl("http://localhost:8080/index.html#/Other")
+    })
+
+    it("check if the list ID is correct", async () => {
+        const list: Selector = {
+            selector: {
+                id: "PeopleList",
+                viewName: "test.Sample.tsapp.view.Other"
+            }
+        }
+        const olist = await (browser.asControl(list) as unknown as List).getId()
+        expect(olist).toContain("PeopleList")
     })
 })
