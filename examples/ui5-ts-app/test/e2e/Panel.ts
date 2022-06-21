@@ -1,7 +1,7 @@
 import Button from "sap/m/Button"
 import Text from "sap/m/Text"
 
-describe("basics", async () => {
+describe("Basic test for Panel", async () => {
     it("should open Panel", async () => {
         const panelButton = {
             selector: {

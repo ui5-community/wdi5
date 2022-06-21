@@ -1,7 +1,7 @@
 import Input from "sap/m/Input"
 import { Selector } from "./selector"
 
-describe("UserInput", async () => {
+describe("Basic test for UserInput", async () => {
     it("should read name from username field", async () => {
         const inputText: Selector = {
             selector: {

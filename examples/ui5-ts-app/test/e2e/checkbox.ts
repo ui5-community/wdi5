@@ -2,7 +2,7 @@
 import CheckBox from "sap/m/CheckBox"
 import { Selector } from "./selector"
 
-describe("Checkbox", async () => {
+describe("Basic test checkbox", async () => {
     it("check!", async () => {
         const Checkbox: Selector = {
             selector: {

@@ -1,7 +1,7 @@
 import { Selector } from "./selector"
 import DateTimePicker from "sap/m/DateTimePicker"
 
-describe("handling DateTimePicker", async () => {
+describe("Basic Test DateTimePicker", async () => {
     it.only("should using correct value", async () => {
         const dateTimePicker: Selector = {
             selector: {

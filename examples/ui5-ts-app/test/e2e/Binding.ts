@@ -1,6 +1,6 @@
 import { Selector } from "./selector"
 
-describe("Binding", async () => {
+describe("Test for MessageToast & Button", async () => {
     it("should click Binding Button", async () => {
         const bindingButton: Selector = {
             selector: {
