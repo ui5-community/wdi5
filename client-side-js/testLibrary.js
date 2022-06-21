@@ -88,8 +88,25 @@ async function addToQueue(type, target, aMethods) {
     )
 }
 
+async function loadFELibraries() {
+    return await browser.executeAsync((done) => {
+        sap.ui.require(
+            ["sap/fe/test/ListReport", "sap/fe/test/ObjectPage", "sap/fe/test/Shell"],
+            (ListReport, ObjectPage, Shell) => {
+                window.fe_bridge.ListReport = ListReport
+                window.fe_bridge.ObjectPage = ObjectPage
+                window.fe_bridge.Shell = Shell
+                // logs for the FE Testlib responses
+                window.fe_bridge.Log = []
+                done()
+            }
+        )
+    })
+}
+
 module.exports = {
     emptyQueue,
     initOPA,
-    addToQueue
+    addToQueue,
+    loadFELibraries
 }
