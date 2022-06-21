@@ -25,7 +25,7 @@ function createProxy(myObj: any, type: string, methodCalls: any[], pageKeys: str
 export class WDI5FE {
     constructor(private appConfig: any) {}
     static async initialize(appConfig) {
-        await loadLibraries()
+        await loadFELibraries()
         await initOPA(appConfig)
         return new WDI5FE(appConfig)
     }
