@@ -12,8 +12,8 @@ Another advantage of using the test library is that updates for the test functio
 
 ### Main benefits of using the test library
 
-- Reduces test maintenance efforts and avoid code repetition.
-- Isolate generic actions and validations in the test library and reuse them across apps.
+- Reduce test maintenance efforts and avoid code repetition.
+- Isolate generic actions and assertions in the test library and reuse them across apps.
 - Tests are readable and simplified.
 - Test library is kept up to date with component changes in the framework.
 
@@ -37,7 +37,9 @@ Unified expressions improve the readability.
 
 - Actions: `i<DoSth><WithSth>`
 - Assertions: `i<ExpectSth>`
-- Consistent parameter signature, e.g. TODO
+- Consistent parameter signature
+  - String for identifying UI elements via label on UI element, e.g. `iExecuteAction("Create")`
+  - Current state of UI elements, e.g. `iCheckEdit({visible: true})`
 - Supports chaining of functions on the same hierarchy, e.g. `onFilterBar()`
   - `i<DoSth><WithSth>.and.i<DoSth><WithSth>`
   - `i<ExpectSth>.and.i<ExpectSth>`
