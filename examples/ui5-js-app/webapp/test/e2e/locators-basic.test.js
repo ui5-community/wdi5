@@ -55,4 +55,49 @@ describe("mixed locators", () => {
         wdi5.getLogger().log("retrievedClassNameStatus", retrievedClassNameStatus)
         expect(retrievedClassNameStatus).toBeTruthy()
     })
+
+    it("should find the input field on a SearchField", async () => {
+        // will locate the input field
+        const searchFieldSelectorInput = {
+            selector: {
+              controlType: "sap.m.SearchField",
+              viewName,
+              interaction: "focus"
+            }
+          }
+        const placeholder = await browser.asControl(searchFieldSelectorInput)
+        const placeholderText = await browser.asControl(searchFieldSelectorInput).getPlaceholder()
+        expect(placeholderText).toEqual("Search...")
+      })
+      
+      it("should find the search button on a SearchField", async () => {
+        // will locate the search button (magnifier)
+        const searchFieldSelectorSearchButton = {
+          selector: {
+            controlType: "sap.m.SearchField",
+            viewName,
+            interaction: "press"
+          }
+        }
+        const searchFieldSelectorSearchButtonFocus = {
+          selector: {
+            controlType: "sap.m.SearchField",
+            viewName,
+            interaction: "focus"
+          }
+        }
+      const searchButton = await browser.asControl(searchFieldSelectorSearchButton)
+      const searchButtonFocus = await browser.asControl(searchFieldSelectorSearchButtonFocus)
+      // no difference in headless log
+      await searchButton.press();
+      await searchButtonFocus.press();
+      const webElement = await searchButton.getWebElement();
+      const webElementFocus = await searchButtonFocus.getWebElement();
+      // no difference in HTML
+      const html = await webElement.getHTML();
+      const htmlFocus = await webElementFocus.getHTML();
+      // expect(searchButtonText).toEqual("Search...")
+
+        
+      })
 })

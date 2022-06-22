@@ -91,8 +91,8 @@
 					}">
 					<core:Item key="{Countries>key}" text="{Countries>text}" />
 				</MultiComboBox>
-				<!-- TODO -->
-				<!-- <SearchField id="idSearchfield" value="{testModel>/searchValue}"/> -->
+				<Label text="Searchfield"/>
+				<SearchField id="idSearchfield" value="{testModel>/searchValue}" placeholder="Search..." />
 			</VBox>
 		</content>
 	</Page>
