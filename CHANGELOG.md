@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.9.5 (2022-06-24)
+
+
+### Features
+
+* add multiremote support ([#272](https://github.com/js-soft/wdi5/issues/272)) ([fcb47cf](https://github.com/js-soft/wdi5/commit/fcb47cf1047c30ef653a890e022472afe885d613)), closes [#281](https://github.com/js-soft/wdi5/issues/281)
+
 ### 0.9.4 (2022-06-21)
 
 
