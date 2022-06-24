@@ -1,5 +1,5 @@
-async function clientSide_fireEvent(webElement, eventName, oOptions) {
-    return await browser.executeAsync(
+async function clientSide_fireEvent(webElement, eventName, oOptions, browserInstance) {
+    return await browserInstance.executeAsync(
         (webElement, eventName, oOptions, done) => {
             window.wdi5.waitForUI5(
                 window.wdi5.waitForUI5Options,

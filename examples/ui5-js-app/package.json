@@ -14,6 +14,7 @@
     "test:lateInject": "wdio run e2e-test-config/wdio-ui5-late.conf.js",
     "test:ui5tooling": "wdio run e2e-test-config/wdio-ui5tooling.conf.js",
     "test:webserver": "wdio run e2e-test-config/wdio-webserver.conf.js",
+    "test:multiremote": "wdio run e2e-test-config/wdio-multiremote.conf.js",
     "test:multiversion": "node e2e-test-config/wdi5-multiversion.js",
     "test-selenium": "wdio run e2e-test-config/wdio-selenium-service.conf.js"
   },
@@ -24,7 +25,7 @@
     "@wdio/mocha-framework": "^7.19.7",
     "@wdio/selenium-standalone-service": "^7.19.5",
     "@wdio/spec-reporter": "^7.19.7",
-    "chromedriver": "^101.0.0",
+    "chromedriver": "^103.0.0",
     "ui5-middleware-simpleproxy": "^0.8.4",
     "wdio-chromedriver-service": "^7.3.2",
     "wdio-ui5-service": "*"

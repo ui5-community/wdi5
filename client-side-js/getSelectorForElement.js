@@ -1,5 +1,5 @@
-async function clientSide_getSelectorForElement(oOptions) {
-    return await browser.executeAsync((oOptions, done) => {
+async function clientSide_getSelectorForElement(oOptions, browserInstance) {
+    return await browserInstance.executeAsync((oOptions, done) => {
         window.wdi5.waitForUI5(
             window.wdi5.waitForUI5Options,
             () => {
