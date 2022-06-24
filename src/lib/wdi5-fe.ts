@@ -1,4 +1,4 @@
-import { initOPA, addToQueue, emptyQueue } from "../../client-side-js/testLibrary"
+import { initOPA, addToQueue, emptyQueue, loadFELibraries } from "../../client-side-js/testLibrary"
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
 
@@ -25,6 +25,7 @@ function createProxy(myObj: any, type: string, methodCalls: any[], pageKeys: str
 export class WDI5FE {
     constructor(private appConfig: any, private browserInstance: any) {}
     static async initialize(appConfig, browserInstance = browser) {
+        await loadFELibraries(browserInstance)
         await initOPA(appConfig, browserInstance)
         return new WDI5FE(appConfig, browserInstance)
     }
