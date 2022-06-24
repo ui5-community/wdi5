@@ -104,23 +104,14 @@ function checkUI5Version(ui5Version: string) {
  * make sap/ui/test/RecordReplay accessible via wdio
  * attach the sap/ui/test/RecordReplay object to the application context window object as 'bridge'
  */
-export async function injectUI5(config: wdi5Config) {
+export async function injectUI5(config: wdi5Config, browserInstance) {
     const waitForUI5Timeout = config.wdi5.waitForUI5Timeout || 15000
     let result = true
 
-    if (browser instanceof MultiRemoteDriver) {
-        for (const name of (browser as MultiRemoteDriver).instances) {
-            const version = await browser[name].getUI5Version()
-            await checkUI5Version(version)
-            await clientSide_injectTools(browser[name]) // helpers for wdi5 browser scope
-            result = result && (await clientSide_injectUI5(config, waitForUI5Timeout, browser[name]))
-        }
-    } else {
-        const version = await browser.getUI5Version()
-        await checkUI5Version(version)
-        result = await clientSide_injectUI5(config, waitForUI5Timeout, browser)
-        await clientSide_injectTools(browser) // helpers for wdi5 browser scope
-    }
+    const version = await (browserInstance as WebdriverIO.Browser).getUI5Version()
+    await checkUI5Version(version)
+    await clientSide_injectTools(browserInstance) // helpers for wdi5 browser scope
+    result = result && (await clientSide_injectUI5(config, waitForUI5Timeout, browserInstance))
 
     if (result) {
         // set when call returns
