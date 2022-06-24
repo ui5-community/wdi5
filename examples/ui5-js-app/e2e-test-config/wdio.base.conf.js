@@ -14,10 +14,10 @@ exports.baseConfig = {
             "goog:chromeOptions": {
                 args:
                     process.argv.indexOf("--headless") > -1
-                        ? ["window-size=1440,800", "--headless"]
+                        ? ["window-size=1920,1280", "--headless"]
                         : process.argv.indexOf("--debug") > -1
                         ? ["window-size=1920,1280", "--auto-open-devtools-for-tabs"]
-                        : ["window-size=1440,800"]
+                        : ["window-size=1920,1280"]
             }
         }
     ],
