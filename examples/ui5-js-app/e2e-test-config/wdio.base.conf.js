@@ -26,7 +26,7 @@ exports.baseConfig = {
     baseUrl: "http://localhost:8888",
 
     waitforTimeout: 10000,
-    connectionRetryTimeout: 120000,
+    connectionRetryTimeout: process.argv.indexOf("--debug") > -1 ? 1200000 : 120000,
     connectionRetryCount: 3,
 
     services: ["chromedriver", "ui5"],
@@ -34,7 +34,7 @@ exports.baseConfig = {
     framework: "mocha",
     mochaOpts: {
         ui: "bdd",
-        timeout: 60000
+        timeout: process.argv.indexOf("--debug") > -1 ? 600000 : 60000
     },
     reporters: ["spec"]
 }
