@@ -70,6 +70,13 @@ describe("mixed locators", () => {
          */
         const select = await browser.asControl(selector)
         await select.open() // <- meh, but needed to have the select items in the DOM
+        // alternative:
+        // await browser.asControl({
+        //     "controlType": "sap.m.Select"
+        //      "interaction": {
+        //          "idSuffix": "arrow"
+        //      }
+        //  }).press()
         const selectedItem = await select.getSelectedItem()
         const text = await selectedItem.getText()
         expect(text).toEqual("Algeria")
