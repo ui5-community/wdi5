@@ -55,4 +55,26 @@ describe("mixed locators", () => {
         wdi5.getLogger().log("retrievedClassNameStatus", retrievedClassNameStatus)
         expect(retrievedClassNameStatus).toBeTruthy()
     })
+
+    // #291
+    it("should find a sap.m.Select and get an entry", async () => {
+        const selector = {
+            selector: {
+                interaction: "root",
+                controlType: "sap.m.Select",
+                viewName
+            }
+        }
+        /**
+         * @type {import("sap/m/Select").default}
+         */
+        const select = await browser.asControl(selector)
+        await select.open() // <- meh, but needed to have the select items in the DOM
+        const selectedItem = await select.getSelectedItem()
+        const text = await selectedItem.getText()
+        expect(text).toEqual("Algeria")
+
+        const textViaFluentApi = await browser.asControl(selector).getSelectedItem().getText()
+        expect(textViaFluentApi).toEqual("Algeria")
+    })
 })
