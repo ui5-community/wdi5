@@ -14,6 +14,7 @@
     "test:lateInject": "wdio run e2e-test-config/wdio-ui5-late.conf.js",
     "test:ui5tooling": "wdio run e2e-test-config/wdio-ui5tooling.conf.js",
     "test:webserver": "wdio run e2e-test-config/wdio-webserver.conf.js",
+    "test:multiremote": "wdio run e2e-test-config/wdio-multiremote.conf.js",
     "test:multiversion": "node e2e-test-config/wdi5-multiversion.js",
     "test-selenium": "wdio run e2e-test-config/wdio-selenium-service.conf.js"
   },

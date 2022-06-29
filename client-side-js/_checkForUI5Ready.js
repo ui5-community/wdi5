@@ -1,5 +1,5 @@
-async function clientSide__checkForUI5Ready() {
-    return await browser.executeAsync((done) => {
+async function clientSide__checkForUI5Ready(browserInstance) {
+    return await browserInstance.executeAsync((done) => {
         window.bridge
             .waitForUI5(window.wdi5.waitForUI5Options)
             .then(() => {
