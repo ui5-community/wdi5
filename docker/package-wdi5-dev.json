@@ -4,9 +4,9 @@
   "description": "test for wdi5 in docker",
   "keywords": ["wdio-service", "ui5", "openui5", "sapui5", "docker"],
   "scripts": {
-    "test:docker:grid": "wdio wdio-docker.conf.js",
+    "test:docker:grid": "wdio e2e-test-config/wdio-docker.conf.js",
     "start": "soerver -d ./webapp -p 8888 -x ./webapp/proxyrc.json",
-    "test:standalone": "wdio run wdio-docker-standalone.conf.js",
+    "test:standalone": "wdio run e2e-test-config/wdio-docker-standalone.conf.js",
     "test:docker:standalone": "run-p start test:standalone"
   },
   "devDependencies": {

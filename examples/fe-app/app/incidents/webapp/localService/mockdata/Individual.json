@@ -1,0 +1,27 @@
+[
+  {
+    "ID": "067460c5-196c-4783-9563-ede797399da8",
+    "fullName": "Susanne Muster",
+    "emailAddress": "susanne.muster@sap.com"
+  },
+  {
+    "ID": "efec3e9f-ceea-4d17-80a7-50073f71c322",
+    "fullName": "Manfred Muster",
+    "emailAddress": "manfred.muster@sap.com"
+  },
+  {
+    "ID": "efec3e9f-ceea-4d17-80a7-50073f71c323",
+    "fullName": "Max Muster",
+    "emailAddress": "Max.Muster@sap.com"
+  },
+  {
+    "ID": "efec3e9f-ceea-4d17-80a7-50073f71c324",
+    "fullName": "Maxime Muster",
+    "emailAddress": "Maxime.Muster@sap.com"
+  },
+  {
+    "ID": "efec3e9f-ceea-4d17-80a7-50073f71c325",
+    "fullName": "Erika Muster",
+    "emailAddress": "Erika.Muster@sap.com"
+  }
+]

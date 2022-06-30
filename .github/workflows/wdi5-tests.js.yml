@@ -72,3 +72,8 @@ jobs:
       # run wdi5 tests within app(s)
       - name: test js-app
         run: npm run test-h:js-app
+
+      # run fiori elements-related wdi5 tests
+      # explicit headless mode!
+      - name: test fe-app
+        run: npm run test:fe-app

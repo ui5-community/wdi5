@@ -1,6 +1,6 @@
-async function clientSide_getAggregation(webElement, aggregationName) {
+async function clientSide_getAggregation(webElement, aggregationName, browserInstance) {
     webElement = await Promise.resolve(webElement) // to plug into fluent async api
-    return await browser.executeAsync(
+    return await browserInstance.executeAsync(
         (webElement, aggregationName, done) => {
             window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
                 // DOM to UI5
@@ -14,9 +14,9 @@ async function clientSide_getAggregation(webElement, aggregationName) {
                     // read classname eg. sap.m.ComboBox
                     controlType = oControl.getMetadata()._sClassName
                     let result = window.wdi5.createControlIdMap(cAggregation, controlType)
-                    done(["success", result])
+                    done({ status: 0, result: result })
                 } catch (e) {
-                    done(["error", e.toString()])
+                    done({ status: 1, message: e.toString() })
                 }
             })
         },

@@ -444,3 +444,92 @@ These properties can help to indentify the received control or test the control 
    */
 })
 ```
+
+## Test Performance/Responsiveness
+
+There is no tooling included with `wdi5` for asserting runtime performance metrics. Reason for this is to keep `wdi5`'s dependencies to a minimum - plus there are easy to use tools for that job such as [marky](https://www.npmjs.com/package/marky).
+
+Here's an example test to check the responsiveness via `marky` of an application opening a `sap.m.Dialog` after a clicking a button:
+
+```js
+const marky = require("marky")
+
+// ...
+
+it("test responsiveness of button action", async () => {
+  marky.mark("start_action")
+  const response = await browser.asControl(buttonSelector).press().getText()
+  const entry = marky.stop("stop_action")
+
+  // verify the result of the button action
+  expect(response).toEqual("open Dialog")
+
+  // check the duration of the operation
+  expect(entry.duration).toBeLessThan(3000)
+
+  // logger can be used in combination
+  wdi5.getLogger().info(entry)
+}
+```
+
+## Multiple browser instances ("multiremote")
+
+`wdi5` allows for operating multiple browser instances with a single test (suite) - think of a usecase such as "instant messaging test between two people". This is built on top of [WebdriverIO's "multiremote" feature of the same name](https://webdriver.io/docs/multiremote) ("running multiple automated sessions in a single test") and provides the same configuration options.
+
+Basic usage: change `capabilities` in your `wdio.conf.(j|t)s` to
+
+```js
+// ...
+  capabilities: {
+        one: {
+            capabilities: {
+                browserName: "chrome",
+                acceptInsecureCerts: true
+            }
+        },
+        two: {
+            capabilities: {
+                browserName: "chrome",
+                acceptInsecureCerts: true
+            }
+        }
+    }
+// ...
+```
+
+Now you can access each browser instances by calling them by their `capabilities` name, using the regular `wdi5` APIs [`browser.asControl($selector)`](/usage#ascontrol) and [`browser.allControls($selector)`](/usage#allcontrols) (just like in "single remote" test):
+
+```js
+const button1 = await browser.one.asControl({
+  selector: {
+    id: "openDialogButton",
+    viewName: "test.Sample.view.Main"
+  }
+})
+const button2 = await browser.two.asControl({
+  selector: {
+    id: "openDialogButton",
+    viewName: "test.Sample.view.Main"
+  }
+})
+```
+
+Or operate all browser instances at the same time:
+
+```js
+const buttonFromAllInstances = await browser.asControl({
+  selector: {
+    id: "openDialogButton",
+    viewName: "test.Sample.view.Main"
+  }
+})
+```
+
+...and get an array of controls back as retrieved by all instances. Subsequently, the control retrieved by each instance is accessible at the array index corresponding to the browser defined in the `capabilities` sequence in `wdio.conf.(j|t)s`:
+
+```js
+const buttonOne = buttonFromAllInstances[0]
+const buttonTwo = buttonFromAllInstances[1]
+```
+
+Some example tests are located at `/examples/ui5-js-app/webapp/test/e2e/multiremote.test.js`.

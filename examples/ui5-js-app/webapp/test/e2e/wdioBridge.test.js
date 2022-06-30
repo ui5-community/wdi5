@@ -1,4 +1,5 @@
 const Main = require("./pageObjects/Main")
+const { wdi5 } = require("wdio-ui5-service")
 
 const titleSelector = {
     selector: {
@@ -57,8 +58,10 @@ describe("wdio bridge", () => {
         // new fluent version of webelement access
         const wdioBridgeLocationFluent = await browser.asControl(iaSyncSelector).$().getLocation()
 
-        console.log(`[WDI5]: wdioLocation: ${wdioLocation.x}, ${wdioLocation.y}`)
-        console.log(`[WDI5]: wdioBridgeLocationFluent: ${wdioBridgeLocationFluent.x}, ${wdioBridgeLocationFluent.y}`)
+        wdi5.getLogger().log(`[WDI5]: wdioLocation: ${wdioLocation.x}, ${wdioLocation.y}`)
+        wdi5.getLogger().log(
+            `[WDI5]: wdioBridgeLocationFluent: ${wdioBridgeLocationFluent.x}, ${wdioBridgeLocationFluent.y}`
+        )
 
         expect(wdioLocation).toEqual(wdioBridgeLocationFluent)
     })

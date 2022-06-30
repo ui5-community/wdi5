@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.9.6 (2022-06-29)
+
+### 0.9.5 (2022-06-24)
+
+
+### Features
+
+* add multiremote support ([#272](https://github.com/js-soft/wdi5/issues/272)) ([fcb47cf](https://github.com/js-soft/wdi5/commit/fcb47cf1047c30ef653a890e022472afe885d613)), closes [#281](https://github.com/js-soft/wdi5/issues/281)
+
+### 0.9.4 (2022-06-21)
+
+
+### Bug Fixes
+
+* FE testLibrary initialization ([#286](https://github.com/js-soft/wdi5/issues/286)) ([d5fddee](https://github.com/js-soft/wdi5/commit/d5fddeeb348eb503288a8f8978e58204d0642494)), closes [#276](https://github.com/js-soft/wdi5/issues/276)
+
+### 0.9.3 (2022-06-20)
+
+
+### Bug Fixes
+
+* avoid referenced object manipulation ([#275](https://github.com/js-soft/wdi5/issues/275)) ([#280](https://github.com/js-soft/wdi5/issues/280)) ([a069544](https://github.com/js-soft/wdi5/commit/a069544166c4ba9b1494f63190bef121611d3229))
+
+### 0.9.2 (2022-06-15)
+
+
+### Features
+
+* improved sync with ui5 core lifecycle ([#278](https://github.com/js-soft/wdi5/issues/278)) ([53e1a7e](https://github.com/js-soft/wdi5/commit/53e1a7e952a84825feb9b42a8a9a2684b2ff71f9))
+
+### 0.9.1 (2022-05-23)
+
+
+### Features
+
+* support SAP's "v4 testing library" ([#221](https://github.com/js-soft/wdi5/issues/221)) ([0bbca82](https://github.com/js-soft/wdi5/commit/0bbca823277c8e814a04e6dc01bb497c3f683a42)), closes [#154](https://github.com/js-soft/wdi5/issues/154)
+
+## 0.9.0 (2022-05-11)
+
 ## [0.9.0-rc4.3](https://github.com/js-soft/wdi5/compare/v0.9.0-rc4.2...v0.9.0-rc4.3) (2022-04-28)
 
 

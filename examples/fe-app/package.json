@@ -1,0 +1,45 @@
+{
+  "name": "fiori_elements_tutorial",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^5",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "@wdio/cli": "^7.19.7",
+    "detect-libc": "^2.0.1",
+    "sqlite3": "^5.0.8",
+    "@wdio/local-runner": "^7.19.7",
+    "@wdio/mocha-framework": "^7.19.7",
+    "@wdio/selenium-standalone-service": "^7.19.5",
+    "@wdio/spec-reporter": "^7.19.7",
+    "chromedriver": "^103.0.0",
+    "wdio-chromedriver-service": "^7.3.2",
+    "wdio-ui5-service": "*"
+  },
+  "scripts": {
+    "start": "npx cds run",
+    "watch": "npx cds watch",
+    "postinstall": "cd app/incidents && npm i",
+    "test": "cd app/incidents && npm run test",
+    "test:wdi5": "wdio run wdio.conf.js --headless",
+    "serve": "cd app/incidents && ui5 serve --port 8088"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sql"
+      }
+    },
+    "odata": {
+      "version": "v4"
+    }
+  },
+  "sapux": [
+    "app/incidents"
+  ]
+}

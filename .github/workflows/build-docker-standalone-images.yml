@@ -3,7 +3,7 @@ name: build wdi5 docker images
 # only run after wdi5/wdio-ui5-service package was released
 on:
   workflow_run:
-    workflows: ["build + publish wdi5 as wdio-ui5-service to npm"]
+    workflows: [build and publish wdi5 as wdio-ui5-service to npm]
     types:
       - completed
 
@@ -29,6 +29,8 @@ on:
 
 jobs:
   build:
+    # only run if building and publishing was successful
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
