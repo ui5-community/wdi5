@@ -2,6 +2,7 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	displayBlock="true"
 	xmlns="sap.m"
+	xmlns:webc="sap.ui.webc.main"
 	xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
 
 	<Page id="OtherPage"
@@ -9,14 +10,12 @@
 		showNavButton="true"
 		navButtonPress="onNavBack">
 		<content>
-			<List id="PeopleList"
+			<webc:List id="PeopleList"
 				headerText="{i18n>otherPage.listHeader}"
 				items="{/Employees}"
-				itemPress="onItemPress">
-				<StandardListItem title="{FirstName} {LastName}"
-					type="Navigation"
-					data:key="{FirstName} {LastName}" />
-			</List>
+				itemClick="onItemClick">
+				<webc:StandardListItem text="{FirstName} {LastName}" />
+			</webc:List>
 
 			<VBox id="VBoxx"
 				class="sapUiMediumMargin">
