@@ -1,10 +1,9 @@
 {
-  "name": "tsapp",
-  "version": "1.0.0",
+  "name": "ui5-t-sapp",
+  "version": "0.8.15-notimportant",
   "description": "UI5 Application: tsapp",
-  "author": "tompaulusch",
+  "author": "nosotros-todos@ui5-community.org",
   "license": "Apache-2.0",
-  "main": "index.js",
   "scripts": {
     "build": "npm-run-all build:ts build:ui5",
     "build:opt": "npm-run-all build:ts build:ui5:opt",
@@ -13,7 +12,7 @@
     "build:ui5:opt": "ui5 build self-contained --clean-dest --all",
     "start": "npm-run-all --parallel watch:ts start:ui5",
     "watch:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files --watch",
-    "start:ui5": "ui5 serve --port 8080 -o index.html",
+    "start:ui5": "ui5 serve --port 8080",
     "start:dist": "ui5 serve  --port 8080 -o index.html --config ui5-dist.yaml",
     "ts-typecheck": "tsc --noEmit",
     "lint": "eslint src",
