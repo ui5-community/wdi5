@@ -1,9 +1,9 @@
 import Input from "sap/m/Input"
-import { Selector } from "./selector"
+import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
 
 describe("Basic test for UserInput", async () => {
     it("should read name from username field", async () => {
-        const inputText: Selector = {
+        const inputText: wdi5Selector = {
             selector: {
                 id: "mainUserInput",
                 viewName: "test.Sample.tsapp.view.Main"
@@ -14,7 +14,7 @@ describe("Basic test for UserInput", async () => {
     })
 
     it("should check if the field is writeable", async () => {
-        const inputText: Selector = {
+        const inputText: wdi5Selector = {
             selector: {
                 id: "mainUserInput",
                 viewName: "test.Sample.tsapp.view.Main"
