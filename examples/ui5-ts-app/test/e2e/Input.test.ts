@@ -1,7 +1,7 @@
 import Input from "sap/m/Input"
 import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
 
-describe("Basic test for UserInput", async () => {
+describe("Input", async () => {
     it("should read name from username field", async () => {
         const inputText: wdi5Selector = {
             selector: {

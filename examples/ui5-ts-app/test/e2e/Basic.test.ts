@@ -1,12 +1,12 @@
 import Button from "sap/m/Button"
 import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
 
-describe("basic test", async () => {
+describe("Basic", async () => {
     it("browser.allControls: check number of buttons", async () => {
         const allButtonsSelector: wdi5Selector = {
             selector: {
                 controlType: "sap.ui.webc.main.Button",
-                viewName: "test.Sample.tsapp.view.Main"
+                viewName: "test.Sample.tsapp.view.Other"
             }
         }
 

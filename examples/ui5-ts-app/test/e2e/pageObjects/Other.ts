@@ -1,24 +1,13 @@
-import { Selector } from "../selector"
+import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
 import Page from "./Page"
 
-const allNames = [
-    "Nancy Davolio",
-    "Andrew Fuller",
-    "Janet Leverling",
-    "Margaret Peacock",
-    "Steven Buchanan",
-    "Michael Suyama",
-    "Robert King",
-    "Laura Callahan",
-    "Anne Dodsworth"
-]
-export class Other extends Page {
+class Other extends Page {
     async open() {
         await super.open(`#/Other`)
     }
 
     async getList(force = false) {
-        const listSelector: Selector = {
+        const listSelector: wdi5Selector = {
             selector: {
                 id: "PeopleList",
                 viewName: "test.Sample.tsapp.view.Other"
@@ -34,3 +23,5 @@ export class Other extends Page {
         return await list.getAggregation("items")
     }
 }
+
+export default new Other()
