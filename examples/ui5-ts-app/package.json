@@ -5,17 +5,9 @@
   "author": "nosotros-todos@ui5-community.org",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "npm-run-all build:ts build:ui5",
-    "build:opt": "npm-run-all build:ts build:ui5:opt",
-    "build:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files",
-    "build:ui5": "ui5 build --clean-dest",
-    "build:ui5:opt": "ui5 build self-contained --clean-dest --all",
     "start": "npm-run-all --parallel watch:ts start:ui5",
     "watch:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files --watch",
     "start:ui5": "ui5 serve --port 8080",
-    "start:dist": "ui5 serve  --port 8080 -o index.html --config ui5-dist.yaml",
-    "ts-typecheck": "tsc --noEmit",
-    "lint": "eslint src",
     "test": "wdio run wdio-ui5.conf.ts"
   },
   "devDependencies": {
