@@ -6,7 +6,7 @@ describe("Basic", async () => {
         const allButtonsSelector: wdi5Selector = {
             selector: {
                 controlType: "sap.ui.webc.main.Button",
-                viewName: "test.Sample.tsapp.view.Other"
+                viewName: "test.Sample.tsapp.view.Main"
             }
         }
 

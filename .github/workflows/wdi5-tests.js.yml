@@ -59,7 +59,9 @@ jobs:
         run: |
           npm set-script prepare ""
           npm ci
-          npm i -w examples/ui5-js-app
+      # npm i -w examples/ui5-js-app
+      # npm i -w examples/ui5-ts-app
+      # npm i -w examples/fe-app
 
       # build things
       - name: build
@@ -72,6 +74,9 @@ jobs:
       # run wdi5 tests within app(s)
       - name: test js-app
         run: npm run test-h:js-app
+
+      - name: test ts-app
+        run: npm run test-h:ts-app
 
       # run fiori elements-related wdi5 tests
       # explicit headless mode!
