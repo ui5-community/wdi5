@@ -25,10 +25,10 @@
     "@wdio/mocha-framework": "^7.19.7",
     "@wdio/selenium-standalone-service": "^7.19.5",
     "@wdio/spec-reporter": "^7.19.7",
-    "chromedriver": "^103.0.0",
+    "chromedriver": "latest",
     "ui5-middleware-simpleproxy": "^0.8.4",
     "wdio-chromedriver-service": "^7.3.2",
-    "wdio-ui5-service": "*"
+    "wdio-ui5-service": "latest"
   },
   "ui5": {
     "dependencies": [

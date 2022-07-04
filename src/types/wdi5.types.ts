@@ -35,8 +35,11 @@ export interface wdi5Config extends WebdriverIO.Config {
         /** path relative to the command `wdio` is run from to store screenshots */
         screenshotPath?: string
         /**
+         * whether to generally disable/enable screenshots
+         */
+        screenshotsDisabled?: boolean
+        /**
          * late-inject wdi5 <-> UI5 bridge, useful for testing in hybrid non-UI5/UI5 apps
-         * TODO: link to document on how to inject late programmatically
          */
         skipInjectUI5OnStart?: boolean
         /**
