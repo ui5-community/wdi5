@@ -14,7 +14,7 @@
     "@wdio/cli": "^7.19.6",
     "@wdio/mocha-framework": "^7.19.5",
     "@wdio/spec-reporter": "^7.19.5",
-    "chromedriver": "^100.0.0",
+    "chromedriver": "latest",
     "@wdio/local-runner": "^7.19.5",
     "fs-extra": "^10.1.0",
     "mocha": "^9.2.2",
@@ -22,7 +22,7 @@
     "soerver": "^0.0.3",
     "ui5-middleware-simpleproxy": "latest",
     "wait-on": "^6.0.1",
-    "wdio-chromedriver-service": "^7.3.2",
+    "wdio-chromedriver-service": "^7",
     "wdio-ui5-service": "latest",
     "webdriverio": "^7.19.5"
   },
