@@ -11,8 +11,8 @@ WORKDIR /app
 # COPY all to root
 COPY ../docker/package-wdi5.json package.json
 COPY ../examples/ui5-js-app/webapp/test test
-COPY ../examples/ui5-js-app/wdio-docker-selenium.conf.js wdio-docker-selenium.conf.js
-COPY ../examples/ui5-js-app/wdio.base.conf.js wdio.base.conf.js
+COPY ../examples/ui5-js-app/e2e-test-config/wdio-docker-selenium.conf.js wdio-docker-selenium.conf.js
+COPY ../examples/ui5-js-app/e2e-test-config/wdio.base.conf.js wdio.base.conf.js
 
 COPY ../ wdio-ui5-service
 

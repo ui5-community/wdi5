@@ -471,3 +471,65 @@ it("test responsiveness of button action", async () => {
   wdi5.getLogger().info(entry)
 }
 ```
+
+## Multiple browser instances ("multiremote")
+
+`wdi5` allows for operating multiple browser instances with a single test (suite) - think of a usecase such as "instant messaging test between two people". This is built on top of [WebdriverIO's "multiremote" feature of the same name](https://webdriver.io/docs/multiremote) ("running multiple automated sessions in a single test") and provides the same configuration options.
+
+Basic usage: change `capabilities` in your `wdio.conf.(j|t)s` to
+
+```js
+// ...
+  capabilities: {
+        one: {
+            capabilities: {
+                browserName: "chrome",
+                acceptInsecureCerts: true
+            }
+        },
+        two: {
+            capabilities: {
+                browserName: "chrome",
+                acceptInsecureCerts: true
+            }
+        }
+    }
+// ...
+```
+
+Now you can access each browser instances by calling them by their `capabilities` name, using the regular `wdi5` APIs [`browser.asControl($selector)`](/usage#ascontrol) and [`browser.allControls($selector)`](/usage#allcontrols) (just like in "single remote" test):
+
+```js
+const button1 = await browser.one.asControl({
+  selector: {
+    id: "openDialogButton",
+    viewName: "test.Sample.view.Main"
+  }
+})
+const button2 = await browser.two.asControl({
+  selector: {
+    id: "openDialogButton",
+    viewName: "test.Sample.view.Main"
+  }
+})
+```
+
+Or operate all browser instances at the same time:
+
+```js
+const buttonFromAllInstances = await browser.asControl({
+  selector: {
+    id: "openDialogButton",
+    viewName: "test.Sample.view.Main"
+  }
+})
+```
+
+...and get an array of controls back as retrieved by all instances. Subsequently, the control retrieved by each instance is accessible at the array index corresponding to the browser defined in the `capabilities` sequence in `wdio.conf.(j|t)s`:
+
+```js
+const buttonOne = buttonFromAllInstances[0]
+const buttonTwo = buttonFromAllInstances[1]
+```
+
+Some example tests are located at `/examples/ui5-js-app/webapp/test/e2e/multiremote.test.js`.

@@ -1,5 +1,5 @@
-async function clientSide_executeControlMethod(webElement, methodName, args) {
-    return await browser.executeAsync(
+async function clientSide_executeControlMethod(webElement, methodName, browserInstance, args) {
+    return await browserInstance.executeAsync(
         (webElement, methodName, args, done) => {
             window.wdi5.waitForUI5(
                 window.wdi5.waitForUI5Options,
@@ -42,35 +42,30 @@ async function clientSide_executeControlMethod(webElement, methodName, args) {
                                 returnType: "none"
                             })
                         } else {
-                            // result mus be a primitive
                             if (window.wdi5.isPrimitive(result)) {
-                                // getter
                                 done({ status: 0, result: result, returnType: "result" })
                             } else if (
+                                // we have an object that is not a UI5 control
                                 typeof result === "object" &&
                                 result !== null &&
-                                // wdi5 returns a wdi5 control if the UI5 api return its control
-                                // allows method chaining
-                                !(result instanceof sap.ui.core.Control)
+                                !(result instanceof sap.ui.core.Control) &&
+                                !(result instanceof sap.ui.core.Item)
                             ) {
-                                // object, replacer function
-                                // create usefull content from result
-                                while (window.wdi5.isCyclic(result)) {
-                                    result = JSON.parse(
-                                        JSON.stringify(
-                                            window.wdi5.removeCyclic(result),
-                                            window.wdi5.getCircularReplacer()
-                                        )
-                                    )
-                                }
+                                // flatten the prototype so we have all funcs available
+                                const collapsed = window.wdi5.collapseObject(result)
+                                // exclude cyclic references
+                                const collapsedAndNonCyclic = JSON.parse(
+                                    JSON.stringify(collapsed, window.wdi5.getCircularReplacer())
+                                )
                                 done({
                                     status: 0,
-                                    result: result,
+                                    result: collapsedAndNonCyclic,
                                     returnType: "result",
-                                    nonCircularResultObject: result
+                                    nonCircularResultObject: collapsedAndNonCyclic
                                 })
                             } else {
-                                // check if of control to verify if the method result is a different control
+                                // we got ourselves a regular UI5 control
+                                // check that we're not working against ourselves :)
                                 if (result && result.getId && oControl.getId() !== result.getId()) {
                                     // ui5 function like get parent might return another ui5 control -> return it to check with this wdi5 instance
                                     result = window.wdi5.createControlId(result)

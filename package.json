@@ -1,6 +1,6 @@
 {
   "name": "wdio-ui5-service",
-  "version": "0.9.0",
+  "version": "0.9.8",
   "description": "WebdriverIO plugin for testing UI5 browser-based apps",
   "keywords": [
     "wdio-service",
@@ -19,12 +19,14 @@
     "Volker Buzek <volker.buzek@js-soft.com> (https://www.js-soft.com/)"
   ],
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "client-side-js"
   ],
   "workspaces": [
     ".",
+    "examples/fe-app",
     "examples/ui5-js-app",
     "examples/ui5-ts-app"
   ],
@@ -37,11 +39,18 @@
     "// test time": "refers to testing wdio-ui5-service",
     "_startApp:js": "soerver -d ./examples/ui5-js-app/webapp -p 8888 -x ./examples/ui5-js-app/webapp/proxyrc.json",
     "_startApp:js-tooling": "npm run serve --workspace=examples/ui5-js-app",
-    "_startApp:ts": "tbd",
+    "_startApp:ts": "npm run start --workspace=examples/ui5-ts-app",
+    "_startApp:fe": "npm run serve --workspace=examples/fe-app",
     "_test:js-app": "wait-on tcp:8888 && wait-on tcp:8080 && npm run test --workspace=examples/ui5-js-app",
+    "_test:ts-app": "wait-on tcp:8080 && npm run test --workspace=examples/ui5-ts-app",
     "_test-h:js-app": "wait-on tcp:8888 && wait-on tcp:8080 && npm run test-h --workspace=examples/ui5-js-app",
+    "_test-h:ts-app": "wait-on tcp:8080 && npm run test -w examples/ui5-ts-app -- --headless",
     "test-h:js-app": "run-p -r _startApp:js _startApp:js-tooling _test-h:js-app",
+    "test:ts-app": "run-p -r _startApp:ts _test:ts-app",
+    "test-h:ts-app": "run-p -r _startApp:ts _test-h:ts-app",
     "test:js-app": "run-p -r _startApp:js _startApp:js-tooling _test:js-app",
+    "_test:fe-app": "wait-on tcp:8088 && npm run test:wdi5 --workspace=examples/fe-app",
+    "test:fe-app": "run-p -r _startApp:fe _test:fe-app",
     "test": "cross-env TS_NODE_PROJECT=\"test/tsconfig.json\" mocha",
     "prepare": "husky install",
     "release": "standard-version"
@@ -51,36 +60,37 @@
     "*.ts": "eslint --cache --fix"
   },
   "devDependencies": {
-    "@commitlint/cli": "^16.2.3",
-    "@commitlint/config-conventional": "^16.2.1",
-    "@types/openui5": "^1.100.0",
+    "@commitlint/cli": "^17.0.1",
+    "@commitlint/config-conventional": "^17.0.0",
+    "@sap/ux-ui5-fe-mockserver-middleware": "^1.6.0",
+    "@types/openui5": "^1.102.0",
     "@types/sinon": "^10.0.11",
-    "@typescript-eslint/eslint-plugin": "^5.18.0",
-    "@typescript-eslint/parser": "^5.18.0",
-    "@wdio/cli": "^7.19.3",
-    "@wdio/local-runner": "^7.19.3",
-    "@wdio/mocha-framework": "^7.19.3",
-    "@wdio/spec-reporter": "^7.19.1",
-    "chromedriver": "^100.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.26.0",
+    "@typescript-eslint/parser": "^5.26.0",
+    "@wdio/cli": "^7.19.7",
+    "@wdio/local-runner": "^7.19.7",
+    "@wdio/mocha-framework": "^7.19.7",
+    "@wdio/spec-reporter": "^7.19.7",
+    "chromedriver": "latest",
     "cross-env": "^7.0.3",
     "deepmerge": "^4.2.2",
-    "eslint": "^8.12.0",
+    "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "fs-extra": "^10.0.1",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.3.7",
+    "fs-extra": "^10.1.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^12.4.3",
     "marky": "^1.2.4",
-    "mocha": "^9.2.2",
+    "mocha": "^10.0.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.6.2",
-    "replace-in-file": "^6.3.2",
+    "replace-in-file": "^6.3.5",
     "rimraf": "^3.0.2",
-    "sinon": "^13.0.1",
+    "sinon": "^14.0.0",
     "soerver": "^0.0.3",
-    "standard-version": "^9.3.2",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.6.3",
+    "standard-version": "^9.5.0",
+    "ts-node": "^10.8.0",
+    "typescript": "^4.7.2",
     "wait-on": "^6.0.1",
     "wdio-chromedriver-service": "^7.3.2"
   },
@@ -89,6 +99,6 @@
     "npm": ">=7"
   },
   "dependencies": {
-    "semver": "^7.3.5"
+    "semver": "^7.3.7"
   }
 }
