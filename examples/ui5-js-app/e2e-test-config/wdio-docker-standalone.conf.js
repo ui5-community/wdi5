@@ -7,9 +7,10 @@ delete baseConfig.capabilities
 
 const _config = {
     wdi5: {
-        url: "#",
+        url: "index.html",
         screenshotPath: join("report", "screenshots")
     },
+    baseUrl: "http://localhost:8080",
     maxInstances: 1,
     capabilities: [
         {
@@ -17,7 +18,7 @@ const _config = {
             browserName: "chrome",
             "goog:chromeOptions": {
                 args: [
-                    "--headless",
+                    process.env.HEADFUL === undefined ? "--headless" : "--dummy",
                     "--no-sandbox",
                     "--disable-gpu",
                     "--disable-dev-shm-usage",
