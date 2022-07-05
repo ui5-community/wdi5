@@ -416,7 +416,7 @@ In the test, you can navigate the UI5 webapp via `goTo(options)` in one of two w
     sComponentId: "container-Sample",
     sName: "RouteOther"
   }
-  await wdi5.goTo("", oRouteOptions)
+  await wdi5.goTo(oRouteOptions)
   // or:
   await wdi5.goTo("#/Other")
   // or:

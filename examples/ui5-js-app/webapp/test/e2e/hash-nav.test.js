@@ -13,7 +13,7 @@ describe("hash-based nav", () => {
             sComponentId: "container-Sample",
             sName: "RouteOther"
         }
-        await wdi5.goTo("", oRouteOptions)
+        await wdi5.goTo(oRouteOptions)
 
         const items = await browser.asControl(listSelector).getItems(true)
         expect(items.length).toEqual(9)
