@@ -1,0 +1,122 @@
+{
+  "_version": "1.12.0",
+  "sap.app": {
+    "id": "test.Sample.tsapp",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+    "dataSources": {
+      "BackendDataSource": {
+        "uri": "/V2/Northwind/Northwind.svc/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "2.0"
+        }
+      },
+      "LatestUI5Datasource": {
+        "uri": "",
+        "type": "JSON"
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {},
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "rootView": {
+      "viewName": "test.Sample.tsapp.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "app"
+    },
+    "dependencies": {
+      "minUI5Version": "1.100.0",
+      "libs": {
+        "sap.ui.core": {},
+        "sap.ui.layout": {},
+        "sap.ui.unified": {},
+        "sap.m": {}
+      }
+    },
+    "handleValidation": true,
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "test.Sample.tsapp.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "BackendDataSource",
+        "settings": {
+          "useBatch": false,
+          "autoExpandSelect": true,
+          "operationMode": "Server",
+          "groupId": "$direct",
+          "synchronizationMode": "None"
+        }
+      },
+      "LatestUI5": {
+        "type": "sap.ui.model.json.JSONModel",
+        "dataSource": "LatestUI5Datasource"
+      }
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "test.Sample.tsapp.view",
+        "controlId": "app",
+        "controlAggregation": "pages",
+        "async": true
+      },
+      "routes": [
+        {
+          "name": "RouteMain",
+          "pattern": "",
+          "target": ["TargetMain"]
+        },
+        {
+          "name": "RouteMainNamed",
+          "pattern": "main",
+          "target": ["TargetMain"]
+        },
+        {
+          "name": "RouteOther",
+          "pattern": "other",
+          "target": ["TargetOther"]
+        }
+      ],
+      "targets": {
+        "TargetMain": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Main",
+          "viewName": "Main"
+        },
+        "TargetOther": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Other",
+          "viewName": "Other"
+        }
+      }
+    }
+  }
+}

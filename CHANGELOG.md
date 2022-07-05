@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.9.8 (2022-07-04)
+
+
+### Features
+
+* ts app sample ([#299](https://github.com/js-soft/wdi5/issues/299)) ([5f61a52](https://github.com/js-soft/wdi5/commit/5f61a52c6153f6463eb56330119fdd81ad721c64))
+
+### 0.9.7 (2022-07-04)
+
+
+### Bug Fixes
+
+* remove typo from error handling ([#297](https://github.com/js-soft/wdi5/issues/297)) ([d549c74](https://github.com/js-soft/wdi5/commit/d549c747f15c750d94884cefbb497c866ce5133c))
+
 ### 0.9.6 (2022-06-29)
 
 ### 0.9.5 (2022-06-24)

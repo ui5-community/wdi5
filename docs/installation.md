@@ -7,9 +7,6 @@ With `wdi5` [being a service to WebdriverIO](https://webdriver.io/docs/wdio-ui5-
 - UI5 app running in the browser, accessible via `http(s)://host.ext:port`.
   Recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like [`soerver`](https://github.com/vobu/soerver) or [`http-server`](https://www.npmjs.com/package/http-server).
 - Node.js version >= `14` (`lts/fermium`)
-- If you don't provide your framework libraries via a CDN but via the UI5 tooling:  
-  Please don't forget to add the two libraries `sap.base` and `sap.ui.test` to your project/`ui5.yaml` as wdi5 requires these libraries to work properly.  
-  `$> ui5 add sap.base sap.ui.test`
 
 The installation of `wdi5` and WebdriverIO can either be done by using (a) `npm init wdi5`, (b) the [Webdriver.IO `cli`](https://webdriver.io/docs/gettingstarted.html) or (c) manually.
 
@@ -23,10 +20,10 @@ $> npm init wdi5
 This will
 
 - install `wdi5` and all required WebdriverIO peer dependencies
-- add a config file (`wdio.conf.js`) to your current working directory,  
-  looking for tests in `$ui5-app/webapp/test/**/*`  
+- add a config file (`wdio.conf.js`) to your current working directory,
+  looking for tests in `$ui5-app/webapp/test/**/*`
   that follow the name pattern `*.test.js`
-- set an `npm` script named "wdi5" to run `wdi5`  
+- set an `npm` script named "wdi5" to run `wdi5`
   so you can immediately do `npm run wdi5`
 
 Note this is a _minimal_ install for running `wdi5`
