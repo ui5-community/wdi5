@@ -20,10 +20,16 @@ export class wdi5 {
     static async goTo(param: string, browserInstance?: WebdriverIO.Browser)
     static async goTo(byWhat, browserInstance: WebdriverIO.Browser = browser) {
         if (typeof byWhat === "string") {
-            Logger.getInstance().log(`Navigating to: ${JSON.stringify(byWhat)}`)
+            Logger.getInstance().log(`Navigating via string hash: ${byWhat}`)
             await browserInstance.goTo(byWhat)
+        } else if (typeof byWhat === "object" && byWhat.sHash) {
+            Logger.getInstance().log(`Navigating via sHash: ${JSON.stringify(byWhat)}`)
+            await browserInstance.goTo(byWhat)
+        } else if (typeof byWhat === "object") {
+            Logger.getInstance().log(`Navigating via oRoute: ${JSON.stringify(byWhat)}`)
+            await browserInstance.goTo({ oRoute: byWhat })
         } else {
-            Logger.getInstance().log(`Navigating to: ${JSON.stringify(byWhat)}`)
+            Logger.getInstance().log(`Navigating via generic object: ${JSON.stringify(byWhat)}`)
             // ui5 router based navigation
             await browserInstance.goTo({ byWhat })
         }
