@@ -30,7 +30,6 @@ export class wdi5 {
             await browserInstance.goTo({ oRoute: byWhat })
         } else {
             Logger.getInstance().log(`Navigating via generic object: ${JSON.stringify(byWhat)}`)
-            // ui5 router based navigation
             await browserInstance.goTo({ byWhat })
         }
     }
