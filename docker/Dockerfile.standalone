@@ -1,6 +1,6 @@
 # base image
 ## pass this via docker build --build-arg node_version=17
-ARG node_version=14
+ARG node_version=16
 FROM node:${node_version}-bullseye-slim
 
 # basic tools
