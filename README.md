@@ -9,6 +9,18 @@ It is used for end-to-end tests of a UI5 web-application.
 :speech_balloon: The [#wdi5 slack channel](https://openui5.slack.com/) is a place for friendly curiosity-driven talk about `wdi5` ([sign-up link](https://ui5-slack-invite.cfapps.eu10.hana.ondemand.com/))  
 :mega: watch the [Disucssions](https://github.com/js-soft/wdi5/discussions) and the [@\_wdi5\_ twitter account](https://twitter.com/_wdi5*) for announcements
 
+## Steering Committee
+
+`wdi5` is governed by a fine group of people deciding on strategy and next steps for the tool (in alphabetical order of last name):
+
+- Peder Hveem Alsvik [@ph-alsvik](https://github.com/ph-alsvik)
+- Arnaud Buchholz [@ArnaudBuchholz](https://github.com/ArnaudBuchholz)
+- Dominik Feininger [@dominikfeininger](https://github.com/dominikfeininger)
+- Nicolai Geburek [@nicogeburek](https://github.com/nicogeburek)
+- Constantin Lebrecht [@monavari-lebrecht](https://github.com/monavari-lebrecht)
+- Hristo Manchev [@hmanchev](https://github.com/hmanchev)
+- Sebastian Wolf [@SebastianWolf-SAP](https://github.com/SebastianWolf-SAP)
+
 ## License
 
 This work is dual-licensed under Apache 2.0 and the Derived Beer-ware 🍺 License. The official license will be Apache 2.0 but finally you can choose between one of them if you use this work.
