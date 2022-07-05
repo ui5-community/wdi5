@@ -17,7 +17,7 @@ const _config = {
             browserName: "chrome",
             "goog:chromeOptions": {
                 args: [
-                    "--headless",
+                    process.env.HEADFUL === undefined ? "--headless" : "--dummy",
                     "--no-sandbox",
                     "--disable-gpu",
                     "--disable-dev-shm-usage",
