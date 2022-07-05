@@ -18,7 +18,17 @@ export class wdi5 {
      * @param browserInstance the currently remote controlled browser
      */
     static async goTo(param: string, browserInstance?: WebdriverIO.Browser)
-    static async goTo(byWhat, browserInstance: WebdriverIO.Browser = browser) {
+    /**
+     * @deprecated please use single parameter as nav option and optionally a browser instance
+     */
+    static async goTo(param: any, oRoute: any, browserInstance?: WebdriverIO.Browser)
+    static async goTo(byWhat, oRoute: any, browserInstance: WebdriverIO.Browser = browser) {
+        if (oRoute) {
+            Logger.getInstance().warn(
+                "deprecated signature: please use single parameter as nav option and optionally a browser instance"
+            )
+            byWhat = oRoute
+        }
         if (typeof byWhat === "string") {
             Logger.getInstance().log(`Navigating via string hash: ${byWhat}`)
             await browserInstance.goTo(byWhat)
