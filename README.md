@@ -13,4 +13,4 @@ It is used for end-to-end tests of a UI5 web-application.
 
 This work is dual-licensed under Apache 2.0 and the Derived Beer-ware 🍺 License. The official license will be Apache 2.0 but finally you can choose between one of them if you use this work.
 
-Thus, when you like this stuff, buy [any (or all 😆) of the contributors](https://github.com/js-soft/wdi5/graphs/contributors) a beer when you see them.
+Thus, when you like this stuff, buy [any (or all 😆) of the contributors](https://github.com/ui5-community/wdi5/graphs/contributors) a beer when you see them.
