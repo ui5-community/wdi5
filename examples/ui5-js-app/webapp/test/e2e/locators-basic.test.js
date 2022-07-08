@@ -95,11 +95,11 @@ describe("mixed locators", () => {
             }
         }
         const placeholder = await browser.asControl(searchFieldSelectorInput)
-        const placeholderText = await browser.asControl(searchFieldSelectorInput).getPlaceholder()
+        const placeholderText = await placeholder.getPlaceholder()
         expect(placeholderText).toEqual("Search...")
     })
 
-    it("should find the search button on a SearchField", async () => {
+    it("should operate the search button on a SearchField", async () => {
         // will locate the search button (magnifier)
         const searchFieldSelectorSearchButton = {
             selector: {
@@ -108,6 +108,7 @@ describe("mixed locators", () => {
                 interaction: "press"
             }
         }
+
         const searchFieldSelectorSearchButtonFocus = {
             selector: {
                 controlType: "sap.m.SearchField",
@@ -115,16 +116,27 @@ describe("mixed locators", () => {
                 interaction: "focus"
             }
         }
-        const searchButton = await browser.asControl(searchFieldSelectorSearchButton)
-        const searchButtonFocus = await browser.asControl(searchFieldSelectorSearchButtonFocus)
-        // no difference in headless log
-        await searchButton.press()
-        await searchButtonFocus.press()
-        const webElement = await searchButton.getWebElement()
-        const webElementFocus = await searchButtonFocus.getWebElement()
-        // no difference in HTML
-        const html = await webElement.getHTML()
-        const htmlFocus = await webElementFocus.getHTML()
-        // expect(searchButtonText).toEqual("Search...")
+
+        const searchResult = {
+            forceSelect: true,
+            selector: {
+                id: "idSearchResult",
+                viewName
+            }
+        }
+
+        const searchText = "mySearch"
+
+        // no "search" triggered yet
+        const emptyResult = await browser.asControl(searchResult).getText()
+        expect(emptyResult).toEqual("")
+
+        // do a "search"
+        const searchField = await browser.asControl(searchFieldSelectorSearchButtonFocus)
+        await searchField.enterText(searchText)
+        await browser.asControl(searchFieldSelectorSearchButton).press()
+
+        const nonEmptyResult = await browser.asControl(searchResult).getText()
+        expect(nonEmptyResult).toEqual(searchText)
     })
 })

@@ -195,13 +195,37 @@ export class WDI5Control {
      * this works both on a standalone control as well as with the fluent async api
      */
     async press() {
-        if (util.types.isProxy(this._domId)) {
-            const id = await Promise.resolve(this._domId)
-            const webelement = await $(`//*[@id="${id}"]`)
-            await webelement.click()
+        // route operations on a sap.m.SearchField
+        // via the RecordReplay api instead of via WebdriverIO
+        if (
+            this.getControlInfo().className.includes("sap.m.SearchField") &&
+            this._controlSelector.selector.interaction.match(/press/i)
+        ) {
+            const __selector: wdi5Selector = null
+            const oOptions = {
+                selector: __selector,
+                clearTextFirst: true,
+                interactionType: "PRESS"
+            }
+            // supporting fluent async api
+            if (util.types.isProxy(this._domId)) {
+                const _controlSelector = await Promise.resolve(this._controlSelector)
+                const _selector = await Promise.resolve(_controlSelector.selector)
+                oOptions.selector = _selector as wdi5Selector
+            } else {
+                oOptions.selector = this._controlSelector.selector as wdi5Selector
+            }
+            await this.interactWithControl(oOptions)
         } else {
-            await ((await this.getWebElement()) as unknown as WebdriverIO.Element).click()
+            if (util.types.isProxy(this._domId)) {
+                const id = await Promise.resolve(this._domId)
+                const webelement = await $(`//*[@id="${id}"]`)
+                await webelement.click()
+            } else {
+                await ((await this.getWebElement()) as unknown as WebdriverIO.Element).click()
+            }
         }
+
         return this
     }
 
