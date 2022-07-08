@@ -8,12 +8,28 @@ const listSelector = {
 }
 
 describe("hash-based nav", () => {
-    it('should allow the deep entry to "Other" view using wdi5 helper class and the UI5 router', async () => {
+    it("should still nav correctly w/ deprecated goTo() signature", async () => {
         const oRouteOptions = {
             sComponentId: "container-Sample",
             sName: "RouteOther"
         }
         await wdi5.goTo("", oRouteOptions)
+
+        const list = await browser.asControl(listSelector)
+        expect(await list.getVisible()).toBeTruthy()
+
+        // only prep for subsequent test(s)
+        await wdi5.goTo("", {
+            sComponentId: "container-Sample",
+            sName: "RouteMain"
+        })
+    })
+    it('should allow the deep entry to "Other" view using wdi5 helper class and the UI5 router', async () => {
+        const oRouteOptions = {
+            sComponentId: "container-Sample",
+            sName: "RouteOther"
+        }
+        await wdi5.goTo(oRouteOptions)
 
         const items = await browser.asControl(listSelector).getItems(true)
         expect(items.length).toEqual(9)

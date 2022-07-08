@@ -1,0 +1,31 @@
+<mvc:View controllerName="test.Sample.tsapp.controller.Other"
+	xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:webc="sap.ui.webc.main"
+	xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+
+	<Page id="OtherPage"
+		title="{i18n>otherPage.title}"
+		showNavButton="true"
+		navButtonPress="onNavBack">
+		<content>
+			<webc:List id="PeopleList"
+				headerText="{i18n>otherPage.listHeader}"
+				items="{/Employees}"
+				itemClick="onItemClick">
+				<webc:StandardListItem text="{FirstName} {LastName}" />
+			</webc:List>
+
+			<VBox id="VBoxx"
+				class="sapUiMediumMargin">
+				<Label text="Pressed List Item Selection" />
+				<Text id="idTextFieldClickResult"
+					text="some text to be replaced by the selection" />
+				<Button id="idAddLineItemButton"
+					text="add Line Item"
+					press=".onAddLineItem" />
+			</VBox>
+		</content>
+	</Page>
+</mvc:View>

@@ -282,7 +282,7 @@ Under the hoode, this first retrieves the UI5 control, then feeds it to [Webdriv
 
 ### fluent async api
 
-`wdi5` supports `async `method chaining. This means you can directly call a `UI5` control's methods after retrieveing it via `browser.asControl(selector)`:
+`wdi5` supports `async` method chaining. This means you can directly call a `UI5` control's methods after retrieveing it via `browser.asControl(selector)`:
 
 ```javascript
 // sap.m.List has .getItems()
@@ -346,7 +346,7 @@ await control.fireEvent("itemPress", {
 
 ## Assertions
 
-Recommendation is to use the [`Webdriver.IO`](https://webdriver.io)-native extension to JEST's [expect](https://jestjs.io/docs/en/expect) and [matchers](https://jestjs.io/docs/en/using-matchers) as described in https://webdriver.io/docs/assertion.html.
+Recommendation is to use the [`Webdriver.IO`](https://webdriver.io)-native extension to JEST's [expect](https://jestjs.io/docs/en/expect) and [matchers](https://jestjs.io/docs/en/using-matchers) as described in <https://webdriver.io/docs/assertion.html>.
 
 ## Screenshots
 
@@ -416,7 +416,7 @@ In the test, you can navigate the UI5 webapp via `goTo(options)` in one of two w
     sComponentId: "container-Sample",
     sName: "RouteOther"
   }
-  await wdi5.goTo("", oRouteOptions)
+  await wdi5.goTo(oRouteOptions)
   // or:
   await wdi5.goTo("#/Other")
   // or:

@@ -1,5 +1,5 @@
-async function initOPA(pageObjectConfig) {
-    return await browser.executeAsync((pageObjectConfig, done) => {
+async function initOPA(pageObjectConfig, browserInstance) {
+    return await browserInstance.executeAsync((pageObjectConfig, done) => {
         window.bridge
             .waitForUI5(window.wdi5.waitForUI5Options)
             .then(() => {
@@ -29,8 +29,8 @@ async function initOPA(pageObjectConfig) {
             })
     }, pageObjectConfig)
 }
-async function emptyQueue() {
-    return await browser.executeAsync((done) => {
+async function emptyQueue(browserInstance) {
+    return await browserInstance.executeAsync((done) => {
         window.bridge
             .waitForUI5(window.wdi5.waitForUI5Options)
             .then(() => {
@@ -47,8 +47,8 @@ async function emptyQueue() {
     })
 }
 
-async function addToQueue(type, target, aMethods) {
-    return await browser.executeAsync(
+async function addToQueue(type, target, aMethods, browserInstance) {
+    return await browserInstance.executeAsync(
         (type, target, aMethods, done) => {
             window.bridge
                 .waitForUI5(window.wdi5.waitForUI5Options)
@@ -88,8 +88,25 @@ async function addToQueue(type, target, aMethods) {
     )
 }
 
+async function loadFELibraries(browserInstance = browser) {
+    return await browserInstance.executeAsync((done) => {
+        sap.ui.require(
+            ["sap/fe/test/ListReport", "sap/fe/test/ObjectPage", "sap/fe/test/Shell"],
+            (ListReport, ObjectPage, Shell) => {
+                window.fe_bridge.ListReport = ListReport
+                window.fe_bridge.ObjectPage = ObjectPage
+                window.fe_bridge.Shell = Shell
+                // logs for the FE Testlib responses
+                window.fe_bridge.Log = []
+                done()
+            }
+        )
+    })
+}
+
 module.exports = {
     emptyQueue,
     initOPA,
-    addToQueue
+    addToQueue,
+    loadFELibraries
 }

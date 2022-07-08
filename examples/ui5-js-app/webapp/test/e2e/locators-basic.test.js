@@ -56,48 +56,75 @@ describe("mixed locators", () => {
         expect(retrievedClassNameStatus).toBeTruthy()
     })
 
+    // #291
+    it("should find a sap.m.Select and get an entry", async () => {
+        const selector = {
+            selector: {
+                interaction: "root",
+                controlType: "sap.m.Select",
+                viewName
+            }
+        }
+        /**
+         * @type {import("sap/m/Select").default}
+         */
+        const select = await browser.asControl(selector)
+        await select.open() // <- meh, but needed to have the select items in the DOM
+        // alternative:
+        // await browser.asControl({
+        //     "controlType": "sap.m.Select"
+        //      "interaction": {
+        //          "idSuffix": "arrow"
+        //      }
+        //  }).press()
+        const selectedItem = await select.getSelectedItem()
+        const text = await selectedItem.getText()
+        expect(text).toEqual("Algeria")
+
+        const textViaFluentApi = await browser.asControl(selector).getSelectedItem().getText()
+        expect(textViaFluentApi).toEqual("Algeria")
+    })
+
     it("should find the input field on a SearchField", async () => {
         // will locate the input field
         const searchFieldSelectorInput = {
             selector: {
-              controlType: "sap.m.SearchField",
-              viewName,
-              interaction: "focus"
+                controlType: "sap.m.SearchField",
+                viewName,
+                interaction: "focus"
             }
-          }
+        }
         const placeholder = await browser.asControl(searchFieldSelectorInput)
         const placeholderText = await browser.asControl(searchFieldSelectorInput).getPlaceholder()
         expect(placeholderText).toEqual("Search...")
-      })
-      
-      it("should find the search button on a SearchField", async () => {
+    })
+
+    it("should find the search button on a SearchField", async () => {
         // will locate the search button (magnifier)
         const searchFieldSelectorSearchButton = {
-          selector: {
-            controlType: "sap.m.SearchField",
-            viewName,
-            interaction: "press"
-          }
+            selector: {
+                controlType: "sap.m.SearchField",
+                viewName,
+                interaction: "press"
+            }
         }
         const searchFieldSelectorSearchButtonFocus = {
-          selector: {
-            controlType: "sap.m.SearchField",
-            viewName,
-            interaction: "focus"
-          }
+            selector: {
+                controlType: "sap.m.SearchField",
+                viewName,
+                interaction: "focus"
+            }
         }
-      const searchButton = await browser.asControl(searchFieldSelectorSearchButton)
-      const searchButtonFocus = await browser.asControl(searchFieldSelectorSearchButtonFocus)
-      // no difference in headless log
-      await searchButton.press();
-      await searchButtonFocus.press();
-      const webElement = await searchButton.getWebElement();
-      const webElementFocus = await searchButtonFocus.getWebElement();
-      // no difference in HTML
-      const html = await webElement.getHTML();
-      const htmlFocus = await webElementFocus.getHTML();
-      // expect(searchButtonText).toEqual("Search...")
-
-        
-      })
+        const searchButton = await browser.asControl(searchFieldSelectorSearchButton)
+        const searchButtonFocus = await browser.asControl(searchFieldSelectorSearchButtonFocus)
+        // no difference in headless log
+        await searchButton.press()
+        await searchButtonFocus.press()
+        const webElement = await searchButton.getWebElement()
+        const webElementFocus = await searchButtonFocus.getWebElement()
+        // no difference in HTML
+        const html = await webElement.getHTML()
+        const htmlFocus = await webElementFocus.getHTML()
+        // expect(searchButtonText).toEqual("Search...")
+    })
 })
