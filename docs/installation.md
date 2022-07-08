@@ -12,6 +12,10 @@ The installation of `wdi5` and WebdriverIO can either be done by using (a) `npm 
 
 ## a) quickstart with `npm init wdi5`
 
+<!-- tabs:start -->
+
+#### **JavaScript**
+
 ```shell
 $> cd any/ui5/app
 $> npm init wdi5
@@ -26,11 +30,30 @@ This will
 - set an `npm` script named "wdi5" to run `wdi5`
   so you can immediately do `npm run wdi5`
 
+#### **TypeScript**
+
+```shell
+$> cd any/ui5/app
+$> npm init wdi5 -- --ts
+# yeah, it's "-- --ts" b/c of the way
+# `npm init` works:
+# https://docs.npmjs.com/cli/v8/commands/npm-init#forwarding-additional-options
+```
+
+This will
+
+- install `wdi5` and all required WebdriverIO peer dependencies
+- add config files (`wdio.conf.ts` + `tsconfig.json`) to a folder `test` in your current working directory
+- look for tests to run in `$ui5-app/test/**/*`
+  that follow the name pattern `*.test.js`
+- set an `npm` script named "wdi5" to run `wdi5`
+so you can immediately do `npm run wdi5`
+<!-- tabs:end -->
+
 Note this is a _minimal_ install for running `wdi5`
 
 - locally
 - with `Chrome` as target browser
-- plain JavaScript as notation
 - `mocha` as the syntax for tests
 - `spec` as the output format of the test results
 
