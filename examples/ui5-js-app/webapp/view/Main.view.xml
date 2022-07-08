@@ -97,10 +97,15 @@
 						<core:Item key="{Countries>key}"
 							text="{Countries>text}" />
 					</MultiComboBox>
-					<Label text="Searchfield" />
+					<Label text="sap.m.SearchField" />
+
 					<SearchField id="idSearchfield"
 						value="{testModel>/searchValue}"
-						placeholder="Search..." />
+						placeholder="Search..."
+						search="onSearch" />
+					<Text id="idSearchResult"
+						text="" />
+
 					<Label text="sap.m.Select" />
 					<Select id="select"
 						items="{
