@@ -94,6 +94,11 @@ interface wdi5ControlSelector {
      * Interactable matcher, {@link sap.ui.test.matchers.Interactable}
      */
     interactable?: Record<string, unknown>
+
+    /**
+     * interaction adapter
+     */
+    interaction?: "root" | "focus" | "press" | "auto"
 }
 
 export interface wdi5Selector {
