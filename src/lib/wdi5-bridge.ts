@@ -347,17 +347,27 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
     if (!browserInstance.asControl) {
         browserInstance.asControl = function (ui5ControlSelector) {
             const asyncMethods = ["then", "catch", "finally"]
+            const functionQueue = []
             function makeFluent(target) {
                 const promise = Promise.resolve(target)
                 const handler = {
                     get(_, prop) {
+                        functionQueue.push(prop)
                         return asyncMethods.includes(prop)
                             ? (...boundArgs) => makeFluent(promise[prop](...boundArgs))
                             : makeFluent(promise.then((object) => object[prop]))
                     },
                     apply(_, thisArg, boundArgs) {
                         return makeFluent(
-                            promise.then((targetFunction) => Reflect.apply(targetFunction, thisArg, boundArgs))
+                            promise.then((targetFunction) =>
+                                targetFunction
+                                    ? Reflect.apply(targetFunction, thisArg, boundArgs)
+                                    : Logger.error(
+                                          `Can not call "${functionQueue.filter(
+                                              (name) => !asyncMethods.includes(name)
+                                          )}", because control could not be found`
+                                      )
+                            )
                         )
                     }
                 }
