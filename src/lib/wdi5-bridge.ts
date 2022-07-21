@@ -359,6 +359,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
                     },
                     apply(_, thisArg, boundArgs) {
                         return makeFluent(
+                            // When "targetFunction" is empty we can assume that the ui5 control was not found
                             promise.then((targetFunction) =>
                                 targetFunction
                                     ? Reflect.apply(targetFunction, thisArg, boundArgs)
