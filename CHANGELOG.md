@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.9.10 (2022-07-27)
+
+
+### Features
+
+* improve error messages when control is not found ([#309](https://github.com/js-soft/wdi5/issues/309)) ([f7b3182](https://github.com/js-soft/wdi5/commit/f7b318263fe9eebc87ede950feeece51b865dec2)), closes [#304](https://github.com/js-soft/wdi5/issues/304)
+
 ## 0.9.9 (2022-07-05)
 
 ## 0.9.8 (2022-07-04)
