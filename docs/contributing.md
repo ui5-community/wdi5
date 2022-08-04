@@ -177,7 +177,7 @@ Please issue your Pull Requests against the `main` branch of the repository.
 ## work on the docs
 
 All documentation is written in `markdown` and lives in `/docs`.
-[`Docsify` is used](https://docsify.js.org/#/) for running the documentation GitHub pages site <https://js-soft.github.io/wdi5>. It can easily be used to also run locally to work and preview the documentation site.
+[`Docsify` is used](https://docsify.js.org/#/) for running the documentation GitHub pages site <https://ui5-community.github.io/wdi5>. It can easily be used to also run locally to work and preview the documentation site.
 
 Install it globally: `$> npm i -g docsify-cli`
 Then serve the `docs` dir: `$> docsify serve ./docs`
