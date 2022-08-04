@@ -18,16 +18,16 @@ Prerequisite for all this is a working/running docker environment.
 
 ### standalone
 
-The `wdi5` version is published as a docker image for all major `Node.js`-versions at <https://github.com/js-soft/wdi5/pkgs/container/wdi5>
+The `wdi5` version is published as a docker image for all major `Node.js`-versions at <https://github.com/ui5-community/wdi5/pkgs/container/wdi5>
 
 Pick the desired `wdi5`-version and the Node.js-version, e.g. for `wdi5` Release Candidate 4.3 and `node 17`:  
-`$> docker pull ghcr.io/js-soft/wdi5:0.9.0-node18` retrieves the image.
+`$> docker pull ghcr.io/ui5-community/wdi5:0.9.10-node18` retrieves the image.
 
 A sample execution is provided via a default "entry point":  
-`$> docker run --rm -ti ghcr.io/js-soft/wdi5:0.9.0-node18`  
+`$> docker run --rm -ti ghcr.io/ui5-community/wdi5:0.9.10-node18`  
 will run the "basic" `wdi5` tests with Chrome headless against a local webserver on `localhost:8888`
 
-The image serves `/app/webapp` both via the `ui5-server` at `http://<docker-container>:8080` and via a regular webserver ([`soerver`](https://www.npmjs.com/package/soerver)) at `http://<docker-container>:8888`. Both proxy request to a OData v2 sample service - [see the proxy config file](https://github.com/js-soft/wdi5/blob/main/examples/ui5-js-app/webapp/proxyrc.json) and the [ui5.yaml](https://github.com/js-soft/wdi5/blob/main/examples/ui5-js-app/ui5.yaml) for details on target host and "mountpoint".
+The image serves `/app/webapp` both via the `ui5-server` at `http://<docker-container>:8080` and via a regular webserver ([`soerver`](https://www.npmjs.com/package/soerver)) at `http://<docker-container>:8888`. Both proxy request to a OData v2 sample service - [see the proxy config file](https://github.com/ui5-community/wdi5/blob/main/examples/ui5-js-app/webapp/proxyrc.json) and the [ui5.yaml](https://github.com/ui5-community/wdi5/blob/main/examples/ui5-js-app/ui5.yaml) for details on target host and "mountpoint".
 
 In order to expose your own UI5 app + `wdi5` config to the docker container and/or run your custom test command, mount the respective files and folders into the container and supply bespoken command:
 
@@ -40,7 +40,7 @@ $> docker run --rm -ti \
 # this provides a different wdio/wdi5-config
 > -v ~/_tmp/ui5-js-app/wdio.conf.js:/app/wdio.conf.js \
 # regular image name
-> ghcr.io/js-soft/wdi5:0.9.0-node18 \
+> ghcr.io/ui5-community/wdi5:0.9.10-node18 \
 # custom command to execute in the container (against Chrome only)
 > node_modules/.bin/wdio
 ```
