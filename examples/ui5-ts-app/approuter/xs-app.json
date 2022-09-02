@@ -1,0 +1,19 @@
+{
+  "welcomeFile": "index.html",
+  "authenticationMethod": "none",
+  "routes": [
+    {
+      "source": "/V2(.*)",
+      "target": "$1",
+      "destination": "V2",
+      "authenticationType": "none",
+      "csrfProtection": false
+    },
+    {
+      "source": "^(.*)$",
+      "target": "$1",
+      "authenticationType": "none",
+      "localDir": "webapp/"
+    }
+  ]
+}
