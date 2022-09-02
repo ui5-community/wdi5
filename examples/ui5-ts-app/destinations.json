@@ -1,0 +1,16 @@
+{
+  "init_data": {
+    "subaccount": {
+      "existing_destinations_policy": "update",
+      "destinations": [
+        {
+          "Name": "V2",
+          "Authentication": "NoAuthentication",
+          "ProxyType": "Internet",
+          "Type": "HTTP",
+          "URL": "https://services.odata.org/V2"
+        }
+      ]
+    }
+  }
+}
