@@ -1,6 +1,6 @@
 {
   "welcomeFile": "index.html",
-  "authenticationMethod": "none",
+  "authenticationMethod": "route",
   "routes": [
     {
       "source": "/V2(.*)",
@@ -22,9 +22,21 @@
       "destination": "ui5"
     },
     {
-      "source": "^(.*)$",
+      "source": "^/no-auth/(.*)$",
       "target": "$1",
       "authenticationType": "none",
+      "localDir": "webapp/"
+    },
+    {
+      "source": "^/xsuaa/(.*)$",
+      "target": "$1",
+      "authenticationType": "xsuaa",
+      "localDir": "webapp/"
+    },
+    {
+      "source": "^/basic-auth/(.*)$",
+      "target": "$1",
+      "authenticationType": "basic",
       "localDir": "webapp/"
     }
   ]
