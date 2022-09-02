@@ -67,6 +67,7 @@
     "@types/sinon": "^10.0.13",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.32.0",
+    "@ui5/cli": "^2.14.10",
     "@wdio/cli": "^7.20.9",
     "@wdio/local-runner": "^7.20.9",
     "@wdio/mocha-framework": "^7.20.7",
