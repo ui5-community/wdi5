@@ -8,16 +8,13 @@
     "openui5",
     "sapui5"
   ],
+  "homepage": "https://github.com/ui5-community/wdi5#readme",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:ui5-community/wdi5.git"
+    "url": "https://github.com/ui5-community/wdi5.git"
   },
   "license": "(Apache-2.0 or DERIVED BEER-WARE)",
-  "author": "j&s-soft GmbH <info@js-soft.com> (https://www.js-soft.com)",
-  "contributors": [
-    "Dominik Feininger <dominik.feininger@js-soft.com> (https://www.js-soft.com/)",
-    "Volker Buzek <volker.buzek@js-soft.com> (https://www.js-soft.com/)"
-  ],
+  "author": "the UI5 community <do_not_use@openui5.org> (https://github.com/ui5-community)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -59,6 +56,9 @@
     "*": "prettier --ignore-unknown --write",
     "*.ts": "eslint --cache --fix"
   },
+  "dependencies": {
+    "semver": "^7.3.7"
+  },
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
@@ -97,8 +97,5 @@
   "engines": {
     "node": ">=14",
     "npm": ">=7"
-  },
-  "dependencies": {
-    "semver": "^7.3.7"
   }
 }
