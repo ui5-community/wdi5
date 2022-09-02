@@ -9,6 +9,13 @@
           "ProxyType": "Internet",
           "Type": "HTTP",
           "URL": "https://services.odata.org/V2"
+        },
+        {
+          "Name": "ui5",
+          "Authentication": "NoAuthentication",
+          "ProxyType": "Internet",
+          "Type": "HTTP",
+          "URL": "https://ui5.sap.com"
         }
       ]
     }
