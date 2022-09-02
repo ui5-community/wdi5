@@ -11,7 +11,7 @@
     "test": "wdio run wdio-ui5.conf.ts",
     "build:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files",
     "build:ui5": "ui5 build --clean-dest",
-    "build:mtar": "mbt build",
+    "build:mtar": "mv dist approuter/webapp && mbt build",
     "clean": "rimraf dist webapp approuter/webapp",
     "build:cf": "npm-run-all --sequential clean build:ts build:ui5 build:mtar"
   },

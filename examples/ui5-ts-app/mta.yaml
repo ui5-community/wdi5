@@ -14,13 +14,6 @@ modules:
     requires:
       - name: html5-destination
       - name: html5-uaa
-  - name: ui5
-    type: html5
-    path: ./
-    build-parameters:
-      builder: custom
-      commands:
-        - mv dist ./approuter/webapp
 resources:
   - name: html5-destination
     type: org.cloudfoundry.managed-service
