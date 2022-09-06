@@ -94,6 +94,10 @@ interface wdi5ControlSelector {
      * Interactable matcher, {@link sap.ui.test.matchers.Interactable}
      */
     interactable?: Record<string, unknown>
+    /**
+     * search in dialogs
+     */
+    searchOpenDialogs?: boolean
 
     /**
      * interaction adapter

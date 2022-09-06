@@ -124,18 +124,20 @@ export class WDI5Control {
      * @return {WebdriverIO.Element} the webdriver Element
      */
     async getWebElement() {
+        if (util.types.isProxy(this._domId)) {
+            const id = await Promise.resolve(this._domId)
+            if (id) {
+                const webElement = await $(`//*[@id="${id}"]`)
+                return webElement
+            } else {
+                throw Error("control could not be found")
+            }
+        }
         if (!this._webdriverRepresentation) {
             // to enable transition from wdi5 to wdio api in allControls
             await this.renewWebElement()
         }
-
-        if (util.types.isProxy(this.getWebElement)) {
-            const id = await Promise.resolve(this._domId)
-            const el = await $(`//*[@id="${id}"]`)
-            return el
-        } else {
-            return this._webdriverRepresentation
-        }
+        return this._webdriverRepresentation
     }
 
     /**
@@ -151,8 +153,12 @@ export class WDI5Control {
      * @returns
      */
     async renewWebElement(id: string = this._domId) {
-        this._webdriverRepresentation = await this._browserInstance.$(`//*[@id="${id}"]`)
-        return this._webdriverRepresentation
+        if (this._domId) {
+            this._webdriverRepresentation = await this._browserInstance.$(`//*[@id="${id}"]`)
+            return this._webdriverRepresentation
+        } else {
+            throw Error("control could not be found")
+        }
     }
 
     /**
@@ -166,7 +172,11 @@ export class WDI5Control {
             : this._forceSelect
 
         if (_forceSelect) {
-            await this._renewWebElementReference()
+            try {
+                await this._renewWebElementReference()
+            } catch (error) {
+                Logger.error(`Can not get aggregation "${name}", because ${error.message}`)
+            }
         }
         return await this._getAggregation(name)
     }
@@ -380,7 +390,11 @@ export class WDI5Control {
         ...args
     ) {
         if (this._forceSelect) {
-            this._webElement = await this._renewWebElementReference()
+            try {
+                this._webElement = await this._renewWebElementReference()
+            } catch (error) {
+                Logger.error(`Can not execute ${methodName}(), because ${error.message}`)
+            }
         }
         // special case for custom data attached to a UI5 control:
         // pass the arguments to the event handler (like UI5 handles and expects them) also
@@ -480,9 +494,13 @@ export class WDI5Control {
      * this method is also used wdi5-internally to implement the extended forceSelect option
      */
     private async _renewWebElementReference() {
-        const newWebElement = (await this._getControl({ selector: { id: this._domId } })).domElement // added to have a more stable retrieval experience
-        this._webElement = newWebElement
-        return newWebElement
+        if (this._domId) {
+            const newWebElement = (await this._getControl({ selector: { id: this._domId } })).domElement // added to have a more stable retrieval experience
+            this._webElement = newWebElement
+            return newWebElement
+        } else {
+            throw Error("control could not be found")
+        }
     }
 
     /**

@@ -82,7 +82,7 @@ const ui5Service = new _ui5Service()
 await ui5Service.injectUI5()
 ```
 
-See <https://github.com/js-soft/wdi5/tree/main/examples/ui5-js-app/webapp/test/e2e/ui5-late.test.js> for a complete example.
+See <https://github.com/ui5-community/wdi5/tree/main/examples/ui5-js-app/webapp/test/e2e/ui5-late.test.js> for a complete example.
 
 ### `waitForUI5Timeout`
 
