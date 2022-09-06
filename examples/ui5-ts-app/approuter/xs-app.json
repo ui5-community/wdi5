@@ -3,20 +3,20 @@
   "authenticationMethod": "route",
   "routes": [
     {
-      "source": "/V2(.*)",
+      "source": ".*/V2(.*)",
       "target": "$1",
       "destination": "V2",
       "authenticationType": "none",
       "csrfProtection": false
     },
     {
-      "source": "^/resources/(.*)$",
+      "source": "^.*/resources/(.*)$",
       "target": "/resources/$1",
       "authenticationType": "none",
       "destination": "ui5"
     },
     {
-      "source": "^/test-resources/(.*)$",
+      "source": "^.*/test-resources/(.*)$",
       "target": "/test-resources/$1",
       "authenticationType": "none",
       "destination": "ui5"
