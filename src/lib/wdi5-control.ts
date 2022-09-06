@@ -207,6 +207,7 @@ export class WDI5Control {
     async press() {
         // route operations on a sap.m.SearchField
         // via the RecordReplay api instead of via WebdriverIO
+        // TODO: are there any other controls that require a special "interact with" behaviour?
         if (
             this.getControlInfo().className.includes("sap.m.SearchField") &&
             this._controlSelector.selector.interaction.match(/press/i)
@@ -227,12 +228,12 @@ export class WDI5Control {
             }
             await this.interactWithControl(oOptions)
         } else {
-            if (util.types.isProxy(this._domId)) {
-                const id = await Promise.resolve(this._domId)
-                const webelement = await $(`//*[@id="${id}"]`)
-                await webelement.click()
-            } else {
+            // interact via wdio
+
+            try {
                 await ((await this.getWebElement()) as unknown as WebdriverIO.Element).click()
+            } catch (error) {
+                Logger.error(`Can not call press(), because ${error.message}`)
             }
         }
 
