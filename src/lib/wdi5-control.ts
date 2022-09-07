@@ -121,23 +121,15 @@ export class WDI5Control {
     }
 
     /**
+     * tries to retrieve the webdriver representation of the current wdi5 control
      * @return {WebdriverIO.Element} the webdriver Element
      */
     async getWebElement() {
-        if (util.types.isProxy(this._domId)) {
-            const id = await Promise.resolve(this._domId)
-            if (id) {
-                const webElement = await $(`//*[@id="${id}"]`)
-                return webElement
-            } else {
-                throw Error("control could not be found")
-            }
+        try {
+            return await this._getWebElement()
+        } catch (error) {
+            Logger.error(`Can not call "getWebElement()", because ${error.message}`)
         }
-        if (!this._webdriverRepresentation) {
-            // to enable transition from wdi5 to wdio api in allControls
-            await this.renewWebElement()
-        }
-        return this._webdriverRepresentation
     }
 
     /**
@@ -149,36 +141,16 @@ export class WDI5Control {
     }
 
     /**
-     * @param id
-     * @returns
-     */
-    async renewWebElement(id: string = this._domId) {
-        if (this._domId) {
-            this._webdriverRepresentation = await this._browserInstance.$(`//*[@id="${id}"]`)
-            return this._webdriverRepresentation
-        } else {
-            throw Error("control could not be found")
-        }
-    }
-
-    /**
      * bridge to UI5 control api "getAggregation"
      * @param name name of the aggregation
      * @return array of UI5 controls representing the aggregation
      */
     async getAggregation(name: string) {
-        const _forceSelect: boolean = util.types.isProxy(this._forceSelect)
-            ? await Promise.resolve(this._forceSelect)
-            : this._forceSelect
-
-        if (_forceSelect) {
-            try {
-                await this._renewWebElementReference()
-            } catch (error) {
-                Logger.error(`Can not get aggregation "${name}", because ${error.message}`)
-            }
+        try {
+            return await this._getAggregation(name)
+        } catch (error) {
+            Logger.error(`Can not get aggregation "${name}", because ${error.message}`)
         }
-        return await this._getAggregation(name)
     }
 
     /**
@@ -186,17 +158,17 @@ export class WDI5Control {
      * @param text
      */
     async enterText(text: string) {
-        // if (this._forceSelect) {
-        //     this._renewWebElementReference();
-        // }
-
         const oOptions = {
             enterText: text,
             selector: this._controlSelector.selector,
             clearTextFirst: true,
             interactionType: "ENTER_TEXT"
         }
-        await this.interactWithControl(oOptions)
+        try {
+            await this._interactWithControl(oOptions)
+        } catch (error) {
+            Logger.error(`Can not call enterText(), because ${error.message}`)
+        }
         return this
     }
 
@@ -206,26 +178,11 @@ export class WDI5Control {
      */
     async press() {
         try {
-            await ((await this.getWebElement()) as unknown as WebdriverIO.Element).click()
+            await ((await this._getWebElement()) as unknown as WebdriverIO.Element).click()
         } catch (error) {
             Logger.error(`Can not call press(), because ${error.message}`)
         }
         return this
-    }
-
-    /**
-     * Interact with specific control.
-     * @param {object} oOptions
-     * @param {sap.ui.test.RecordReplay.ControlSelector} oOptions.selector - UI5 type
-     * @param {sap.ui.test.RecordReplay.InteractionType} oOptions.interactionType - UI5 type
-     * @param {string} oOptions.enterText
-     * @param {boolean} oOptions.clearTextFirst
-     */
-    async interactWithControl(oOptions) {
-        const result = (await clientSide_interactWithControl(oOptions, this._browserInstance)) as clientSide_ui5Response
-
-        this._writeObjectResultLog(result, "interactWithControl()")
-        return result.result
     }
 
     /**
@@ -260,6 +217,63 @@ export class WDI5Control {
     }
 
     // --- private methods ---
+
+    /**
+     * Interact with specific control.
+     * @param {object} oOptions
+     * @param {sap.ui.test.RecordReplay.ControlSelector} oOptions.selector - UI5 type
+     * @param {sap.ui.test.RecordReplay.InteractionType} oOptions.interactionType - UI5 type
+     * @param {string} oOptions.enterText
+     * @param {boolean} oOptions.clearTextFirst
+     */
+    private async _interactWithControl(oOptions) {
+        if (this._domId) {
+            const result = (await clientSide_interactWithControl(
+                oOptions,
+                this._browserInstance
+            )) as clientSide_ui5Response
+
+            this._writeObjectResultLog(result, "interactWithControl()")
+            return result.result
+        } else {
+            throw Error("control could not be found")
+        }
+    }
+
+    /**
+     * returns the wdio web element.
+     * @throws will throw an error when no DOM Element was found
+     * @return {WebdriverIO.Element} the webdriver Element
+     */
+    private async _getWebElement() {
+        if (util.types.isProxy(this._domId)) {
+            const id = await Promise.resolve(this._domId)
+            if (id) {
+                const webElement = await $(`//*[@id="${id}"]`)
+                return webElement
+            } else {
+                throw Error("control could not be found")
+            }
+        }
+        if (!this._webdriverRepresentation) {
+            // to enable transition from wdi5 to wdio api in allControls
+            await this._renewWebElement()
+        }
+        return this._webdriverRepresentation
+    }
+
+    /**
+     * @param id
+     * @returns
+     */
+    private async _renewWebElement(id: string = this._domId) {
+        if (this._domId) {
+            this._webdriverRepresentation = await this._browserInstance.$(`//*[@id="${id}"]`)
+            return this._webdriverRepresentation
+        } else {
+            throw Error("control could not be found")
+        }
+    }
 
     /**
      * retrieve UI5 control represenation of a UI5 control's aggregation
@@ -436,14 +450,25 @@ export class WDI5Control {
      *
      * @param aggregationName
      * @param webElement
+     * @throws will throw an error when no webElement was found
      * @return {any}
      */
     private async _getAggregation(
         aggregationName: string,
         webElement: WebdriverIO.Element | string = this._webElement
     ) {
+        const _forceSelect: boolean = util.types.isProxy(this._forceSelect)
+            ? await Promise.resolve(this._forceSelect)
+            : this._forceSelect
+
+        if (_forceSelect) {
+            await this._renewWebElementReference()
+        }
         if (util.types.isProxy(webElement)) {
             webElement = await Promise.resolve(webElement)
+        }
+        if (!webElement) {
+            throw Error("control could not be found")
         }
         const result = (await clientSide_getAggregation(
             webElement,
