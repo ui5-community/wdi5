@@ -256,13 +256,26 @@ it("check the controlInfo for className", async () => {
 
 ## using `interaction` on a selector
 
-If you need to interact with a specific DOM element of this tree, use an interaction adapter.  
+If you need to interact with a specific DOM element on [any of the supported controls](https://openui5.hana.ondemand.com/api/sap.ui.test.actions.Press#properties), use an `interaction` adapter.
 
-The interaction can be any one of: root, focus, press, auto (default), and {idSuffix: "myIDsuffix"}.
+The `interaction` can be any one of: `root`, `focus`, `press`, `auto` (default), and `{idSuffix: "myIDsuffix"}`.
 
 Located element for each case:
 
-- **`root`**: the root DOM element of the control
+- **`root`**: the root DOM element of the control  
+  Use this with many controls having an `items` aggregation (such as `sap.m.List`) in order to select the List itself, not the first element of the control.  
+  See the `listSelector` in `examples/ui5-js-app/webapp/test/e2e/generated-methods.test.js` for an example:
+
+  ```js
+  const listSelector = {
+    selector: {
+      id: "PeopleList",
+      viewName: "test.Sample.view.Other",
+      interaction: "root" // <-- hooray!
+    }
+  }
+  ```
+
 - **`focus`**: the DOM element that typically gets the focus
 - **`press`**: the DOM element that gets the press events
 - **`auto`**: the DOM element that receives events. It searches for special elements with the following priority: press, focus, root.
