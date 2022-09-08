@@ -43,16 +43,16 @@ export class wdi5 {
             byWhat = oRoute
         }
         if (typeof byWhat === "string") {
-            Logger.getInstance().log(`Navigating via string hash: ${byWhat}`)
+            Logger.getInstance().info(`Navigating via string hash: ${byWhat}`)
             await browserInstance.goTo(byWhat)
         } else if (typeof byWhat === "object" && byWhat.sHash) {
-            Logger.getInstance().log(`Navigating via object w/ property sHash: ${JSON.stringify(byWhat)}`)
+            Logger.getInstance().info(`Navigating via object w/ property sHash: ${JSON.stringify(byWhat)}`)
             await browserInstance.goTo(byWhat)
         } else if (typeof byWhat === "object") {
-            Logger.getInstance().log(`Navigating via UI5 router object: ${JSON.stringify(byWhat)}`)
+            Logger.getInstance().info(`Navigating via UI5 router object: ${JSON.stringify(byWhat)}`)
             await browserInstance.goTo({ oRoute: byWhat })
         } else {
-            Logger.getInstance().log(`Navigating via generic object: ${JSON.stringify(byWhat)}`)
+            Logger.getInstance().info(`Navigating via generic object: ${JSON.stringify(byWhat)}`)
             await browserInstance.goTo({ byWhat })
         }
     }
