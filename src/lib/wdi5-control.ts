@@ -128,7 +128,7 @@ export class WDI5Control {
         try {
             return await this._getWebElement()
         } catch (error) {
-            Logger.error(`Can not call "getWebElement()", because ${error.message}`)
+            Logger.error(`cannot call "getWebElement()", because ${error.message}`)
         }
     }
 
@@ -149,7 +149,7 @@ export class WDI5Control {
         try {
             return await this._getAggregation(name)
         } catch (error) {
-            Logger.error(`Can not get aggregation "${name}", because ${error.message}`)
+            Logger.error(`cannot get aggregation "${name}", because ${error.message}`)
         }
     }
 
@@ -167,7 +167,7 @@ export class WDI5Control {
         try {
             await this._interactWithControl(oOptions)
         } catch (error) {
-            Logger.error(`Can not call enterText(), because ${error.message}`)
+            Logger.error(`cannot call enterText(), because ${error.message}`)
         }
         return this
     }
@@ -180,7 +180,7 @@ export class WDI5Control {
         try {
             await ((await this._getWebElement()) as unknown as WebdriverIO.Element).click()
         } catch (error) {
-            Logger.error(`Can not call press(), because ${error.message}`)
+            Logger.error(`cannot call press(), because ${error.message}`)
         }
         return this
     }
@@ -381,7 +381,7 @@ export class WDI5Control {
             try {
                 this._webElement = await this._renewWebElementReference()
             } catch (error) {
-                Logger.error(`Can not execute ${methodName}(), because ${error.message}`)
+                Logger.error(`cannot execute ${methodName}(), because ${error.message}`)
             }
         }
         // special case for custom data attached to a UI5 control:
