@@ -284,10 +284,14 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                     /**
                      * creates a array of objects containing their id as a property
                      * @param {[sap.ui.core.Control]} aControls
+                     * @throws {Error} error if the aggregation was not found that has to be catched
                      * @return {Array} Object
                      */
                     window.wdi5.createControlIdMap = (aControls, controlType = "") => {
                         // the array of UI5 controls need to be mapped (remove circular reference)
+                        if (!aControls) {
+                            throw new Error("Aggregation was not found!")
+                        }
                         return aControls.map((element) => {
                             // just use the absolute ID of the control
                             if (controlType === "sap.m.ComboBox" && element.data("InputWithSuggestionsListItem")) {

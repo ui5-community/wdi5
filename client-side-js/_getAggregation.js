@@ -1,5 +1,6 @@
 async function clientSide_getAggregation(webElement, aggregationName, browserInstance) {
     webElement = await Promise.resolve(webElement) // to plug into fluent async api
+    browserInstance = await Promise.resolve(browserInstance)
     return await browserInstance.executeAsync(
         (webElement, aggregationName, done) => {
             window.bridge.waitForUI5(window.wdi5.waitForUI5Options).then(() => {
