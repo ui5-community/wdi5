@@ -99,17 +99,18 @@ describe("mixed locators", () => {
         expect(placeholderText).toEqual("Search...")
     })
 
-    it("should operate the search button on a SearchField", async () => {
+    it.only("should operate a SearchField via OPA5-compatible press- and focus-interaction", async () => {
         // will locate the search button (magnifier)
         const searchFieldSelectorSearchButton = {
             selector: {
-                controlType: "sap.m.SearchField",
+                id: "idSearchfield",
                 viewName,
                 interaction: "press"
             }
         }
 
         const searchFieldSelectorSearchButtonFocus = {
+            forceSelect: true,
             selector: {
                 controlType: "sap.m.SearchField",
                 viewName,
@@ -125,18 +126,37 @@ describe("mixed locators", () => {
             }
         }
 
-        const searchText = "mySearch"
+        const searchText1 = "mySearch"
+        const searchText2 = "mySearch again"
 
         // no "search" triggered yet
         const emptyResult = await browser.asControl(searchResult).getText()
         expect(emptyResult).toEqual("")
 
-        // do a "search"
+        // enter searchterm via regular api
         const searchField = await browser.asControl(searchFieldSelectorSearchButtonFocus)
-        await searchField.enterText(searchText)
-        await browser.asControl(searchFieldSelectorSearchButton).press()
+        await searchField.enterText(searchText1)
+        const nonEmptyResult1 = await browser.asControl(searchResult).getText()
+        expect(nonEmptyResult1).toEqual(searchText1)
 
-        const nonEmptyResult = await browser.asControl(searchResult).getText()
-        expect(nonEmptyResult).toEqual(searchText)
+        // enter searchterm via fluent api
+        await browser.asControl(searchFieldSelectorSearchButtonFocus).enterText(searchText2)
+        const nonEmptyResult2 = await browser.asControl(searchResult).getText()
+        expect(nonEmptyResult2).toEqual(searchText2)
+
+        // trigger search via fluent api
+        const searchText3 = "click1"
+        await browser.asControl(searchFieldSelectorSearchButtonFocus).setValue(searchText3)
+        await browser.asControl(searchFieldSelectorSearchButton).press()
+        const nonEmptyResult3 = await browser.asControl(searchResult).getText()
+        expect(nonEmptyResult3).toEqual(searchText3)
+
+        // trigger search via regular api
+        const searchText4 = "click2"
+        await browser.asControl(searchFieldSelectorSearchButtonFocus).setValue(searchText4)
+        const button = await browser.asControl(searchFieldSelectorSearchButton)
+        await button.press()
+        const nonEmptyResult4 = await browser.asControl(searchResult).getText()
+        expect(nonEmptyResult4).toEqual(searchText4)
     })
 })

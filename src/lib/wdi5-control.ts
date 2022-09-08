@@ -32,6 +32,23 @@ export class WDI5Control {
     _generatedWdioMethods: Array<string>
     _domId: string
 
+    // these controls receive the specific "interaction": "press" operator
+    // instead of a regular "click" event
+    // see https://openui5.hana.ondemand.com/api/sap.ui.test.actions.Press#properties
+    _specificInteractionControls = [
+        "sap.m.ComboBox",
+        "sap.m.SearchField",
+        "sap.m.Input",
+        "sap.m.List",
+        "sap.m.Table",
+        "sap.m.ObjectIdentifier",
+        "sap.m.ObjectAttribute",
+        "sap.m.Page",
+        "sap.m.semantic.FullscreenPage",
+        "sap.m.semantic.DetailPage",
+        "sap.ui.comp.smartfilterbar.SmartFilterBar"
+    ]
+
     _browserInstance: WebdriverIO.Browser
     constructor(oOptions) {
         const {
@@ -184,35 +201,43 @@ export class WDI5Control {
      * this works both on a standalone control as well as with the fluent async api
      */
     async press() {
+        // support fluent async api
+        let className
+        let controlSelector
+        let specificInteractionControls
+        if (util.types.isProxy(this._domId)) {
+            specificInteractionControls = await Promise.resolve(this._specificInteractionControls)
+            const _controlInfo = await Promise.resolve(this._metadata)
+            className = _controlInfo.className
+            controlSelector = await Promise.resolve(this._controlSelector)
+        } else {
+            specificInteractionControls = this._specificInteractionControls
+            className = this.getControlInfo().className
+            controlSelector = this._controlSelector
+        }
+
         // route operations on a sap.m.SearchField
         // via the RecordReplay api instead of via WebdriverIO
-        // TODO: are there any other controls that require a special "interact with" behaviour?
         if (
-            this.getControlInfo().className.includes("sap.m.SearchField") &&
-            this._controlSelector.selector.interaction.match(/press/i)
+            specificInteractionControls.includes(className as string) &&
+            controlSelector.selector.interaction.match(/press/i)
         ) {
-            const __selector: wdi5Selector = null
+            Logger.info(`using OPA5 Press action to interact with this ${className}...`)
             const oOptions = {
-                selector: __selector,
-                clearTextFirst: true,
+                selector: controlSelector.selector,
                 interactionType: "PRESS"
             }
-            // supporting fluent async api
-            if (util.types.isProxy(this._domId)) {
-                const _controlSelector = await Promise.resolve(this._controlSelector)
-                const _selector = await Promise.resolve(_controlSelector.selector)
-                oOptions.selector = _selector as wdi5Selector
-            } else {
-                oOptions.selector = this._controlSelector.selector as wdi5Selector
+            try {
+                await this._interactWithControl(oOptions)
+            } catch (error) {
+                Logger.error(`cannot issue OPA5-press() on control, because ${error.message}`)
             }
-            await this.interactWithControl(oOptions)
         } else {
             // interact via wdio
-
             try {
-                await ((await this.getWebElement()) as unknown as WebdriverIO.Element).click()
+                await ((await this._getWebElement()) as unknown as WebdriverIO.Element).click()
             } catch (error) {
-                Logger.error(`Can not call press(), because ${error.message}`)
+                Logger.error(`cannot call press(), because ${error.message}`)
             }
         }
 
@@ -261,14 +286,23 @@ export class WDI5Control {
      * @param {boolean} oOptions.clearTextFirst
      */
     private async _interactWithControl(oOptions) {
-        if (this._domId) {
-            const result = (await clientSide_interactWithControl(
-                oOptions,
-                this._browserInstance
-            )) as clientSide_ui5Response
+        // const domId = util.types.isProxy(this._domId) ? await Promise.resolve(this._domId) : this._domId
+        let domId
+        if (util.types.isProxy(this._domId)) {
+            domId = await Promise.resolve(this._domId)
+        } else {
+            domId = this._domId
+        }
+        const browserInstance = util.types.isProxy(this._browserInstance)
+            ? await Promise.resolve(this._browserInstance)
+            : this._browserInstance
+
+        if (domId) {
+            const result = (await clientSide_interactWithControl(oOptions, browserInstance)) as clientSide_ui5Response
 
             this._writeObjectResultLog(result, "interactWithControl()")
-            return result.result
+            // return result.result
+            return this
         } else {
             throw Error("control could not be found")
         }
