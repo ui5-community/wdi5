@@ -124,8 +124,6 @@ describe("Error logging", () => {
             }
         }
 
-        // we need the wdi5 control for the assertions. As we are not using forceSelect
-        // there should be no additional error messages
         await browser.asControl(selectorWithWrongId).getAggregation("tooltip")
 
         expect(console.red.callCount).toEqual(1)
