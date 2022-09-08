@@ -186,7 +186,9 @@ describe("Error logging", () => {
                 )
         ).toBeTruthy()
         expect(
-            console.red.getCall(1).calledWith("[wdi5]", `Cannot read property 'getSecondWrongFunction' of undefined`)
+            console.red
+                .getCall(1)
+                .calledWith("[wdi5]", `Cannot read property 'getSecondWrongFunction' in the execution queue!`)
         ).toBeTruthy()
     })
 })

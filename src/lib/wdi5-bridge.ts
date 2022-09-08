@@ -361,7 +361,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
                                       try {
                                           return object[prop]
                                       } catch (error) {
-                                          Logger.error(error.message)
+                                          Logger.error(`Cannot read property '${prop}' in the execution queue!`)
                                       }
                                   })
                               )
