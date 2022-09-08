@@ -7,6 +7,7 @@ const _config = {
         skipInjectUI5OnStart: true,
         url: "/ui5-community/wdi5/"
     },
+    logLevel: "info",
     specs: [join("webapp", "test", "e2e", "ui5-late.test.js")],
     baseUrl: "https://github.com"
 }
