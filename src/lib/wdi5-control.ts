@@ -158,9 +158,16 @@ export class WDI5Control {
      * @param text
      */
     async enterText(text: string) {
+        let selector
+        if (util.types.isProxy(this._controlSelector)) {
+            const _controlSelector = await Promise.resolve(this._controlSelector)
+            selector = await Promise.resolve(_controlSelector.selector)
+        } else {
+            selector = this._controlSelector.selector
+        }
         const oOptions = {
             enterText: text,
-            selector: this._controlSelector.selector,
+            selector,
             clearTextFirst: true,
             interactionType: "ENTER_TEXT"
         }
