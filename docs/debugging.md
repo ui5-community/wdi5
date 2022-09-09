@@ -17,3 +17,5 @@ In the `Terminal` are of VS Code, start a "JavaScript Debug Terminal"...
 Subsequently `wdi5` will halt execution at that breakpoint and allows inspecting things in the Debugger pane:
 
 ![screenshot of VS Code halted at breakpoint](img/vscode-debugger-halted.png)
+
+?> for debugging tests, remember [to have a webserver running](running), serving the UI5 app under test
