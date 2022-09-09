@@ -7,7 +7,7 @@ It is used for end-to-end tests of a UI5 web-application.
 :bicyclist: Roadmap: <https://github.com/orgs/ui5-community/projects/2/views/1>  
 :raising_hand: Please use GitHub's [Issues](https://github.com/ui5-community/wdi5/issues) for support and questions  
 :speech_balloon: The [#wdi5 slack channel](https://openui5.slack.com/) is a place for friendly curiosity-driven talk about `wdi5` ([sign-up link](https://ui5-slack-invite.cfapps.eu10.hana.ondemand.com/))  
-:mega: watch the [Discussions](https://github.com/ui5-community/wdi5/discussions) and the [@\_wdi5\_ twitter account](https://twitter.com/_wdi5*) for announcements
+:mega: watch the [Discussions](https://github.com/ui5-community/wdi5/discussions) and the [@\_wdi5\_ twitter account](https://twitter.com/_wdi5_) for announcements
 
 ## Steering Committee
 
