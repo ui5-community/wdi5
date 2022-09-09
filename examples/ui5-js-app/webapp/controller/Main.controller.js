@@ -42,7 +42,9 @@ sap.ui.define(
             onBoo(oEvent) {
                 MessageToast.show(`👻`)
             },
-
+            onSearch(oEvent) {
+                this.getView().byId("idSearchResult").setText(oEvent.getSource().getValue())
+            },
             onTest(oEvent) {
                 this.onBoo(oEvent)
             },

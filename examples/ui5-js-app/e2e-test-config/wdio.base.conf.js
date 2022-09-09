@@ -9,7 +9,7 @@ exports.baseConfig = {
     maxInstances: 10,
     capabilities: [
         {
-            maxInstances: 5,
+            maxInstances: 4,
             browserName: "chrome",
             acceptInsecureCerts: true,
             "goog:chromeOptions": {

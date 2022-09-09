@@ -535,7 +535,7 @@ async function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bR
         Logger.error("ERROR: navigation using UI5 router failed because of: " + result.message)
         return result.result
     } else if (result.status === 0) {
-        Logger.log(`SUCCESS: navigation using UI5 router to hash: ${JSON.stringify(result.status)}`)
+        Logger.info(`SUCCESS: navigation using UI5 router to hash: ${JSON.stringify(result.status)}`)
         return result.result
     }
 }
