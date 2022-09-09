@@ -151,21 +151,22 @@ describe("Error logging", () => {
             console.red.getCall(2).calledWith("[wdi5]", `cannot call enterText(), because control could not be found`)
         ).toBeTruthy()
     })
-    // TODO: introudce fluent async api for enterText
-    // it("should log the correct error messages when 'enterText' is executed on an not found control WITH fluent async api", async () => {
-    //     const selectorWithWrongId = {
-    //         selector: {
-    //             id: "wrongIdWithEnterTextFluentAsync"
-    //         }
-    //     }
+    it("should log the correct error messages when 'enterText' is executed on an not found control WITH fluent async api", async () => {
+        const selectorWithWrongId = {
+            selector: {
+                id: "wrongIdWithEnterTextFluentAsync"
+            }
+        }
 
-    //     const wdi5ControlWithWrongId = await (await browser.asControl(selectorWithWrongId)).enterText()
+        const wdi5ControlWithWrongId = await browser.asControl(selectorWithWrongId).enterText()
 
-    //     expectDefaultErrorMessages(wdi5ControlWithWrongId)
+        expectDefaultErrorMessages(wdi5ControlWithWrongId)
 
-    //     expect(console.red.callCount).toEqual(3)
-    //     expect(console.red.getCall(2).calledWith("[wdi5]", `cannot call enterText(), because control could not be found`)).toBeTruthy()
-    // });
+        expect(console.red.callCount).toEqual(3)
+        expect(
+            console.red.getCall(2).calledWith("[wdi5]", `cannot call enterText(), because control could not be found`)
+        ).toBeTruthy()
+    })
 
     it("should log the correct error messages when multiple functions are executed on an control where an error in the queue occurrs; WITH fluent async api", async () => {
         const selectorWithWrongId = {

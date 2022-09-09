@@ -99,7 +99,7 @@ describe("mixed locators", () => {
         expect(placeholderText).toEqual("Search...")
     })
 
-    it.only("should operate a SearchField via OPA5-compatible press- and focus-interaction", async () => {
+    it("should operate a SearchField via OPA5-compatible press- and focus-interaction", async () => {
         // will locate the search button (magnifier)
         const searchFieldSelectorSearchButton = {
             selector: {
