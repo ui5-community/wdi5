@@ -2,6 +2,7 @@
 - [Installation](installation.md)
 - [Configuration](configuration.md)
 - [Running](running.md)
+- [Debugging](debugging.md)
 - [Usage](usage.md)
 - [Locators](locators.md)
 - [Recipes](recipes.md)
