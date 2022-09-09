@@ -9,3 +9,4 @@
 - [Test Library Integration](fe-testlib.md)
 - [Docker](docker.md)
 - [Contributing](contributing.md)
+- [Resources](resources.md)
