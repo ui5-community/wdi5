@@ -28,6 +28,7 @@ export class WDI5Control {
     _generatedUI5Methods: Array<string>
     _initialisation = false
     _forceSelect = false
+    _logging: boolean
     _wdioBridge = <WebdriverIO.Element>{}
     _generatedWdioMethods: Array<string>
     _domId: string
@@ -87,12 +88,15 @@ export class WDI5Control {
         this._controlSelector = controlSelector
         this._wdio_ui5_key = controlSelector.wdio_ui5_key
         this._forceSelect = forceSelect
+        this._logging = this._controlSelector?.logging ?? true
 
         const controlResult = await this._getControl()
 
         if (controlResult.status === 1) {
             // result is string and has error text -> its an error
-            Logger.error(`error retrieving control: ${this._wdio_ui5_key}`)
+            if (this._logging) {
+                Logger.error(`error retrieving control: ${this._wdio_ui5_key}`)
+            }
             return this
         } else {
             this._webElement = controlResult.domElement
@@ -145,7 +149,9 @@ export class WDI5Control {
         try {
             return await this._getWebElement()
         } catch (error) {
-            Logger.error(`cannot call "getWebElement()", because ${error.message}`)
+            if (this._logging) {
+                Logger.error(`cannot call "getWebElement()", because ${error.message}`)
+            }
         }
     }
 
@@ -166,7 +172,9 @@ export class WDI5Control {
         try {
             return await this._getAggregation(name)
         } catch (error) {
-            Logger.error(`cannot get aggregation "${name}", because ${error.message}`)
+            if (this._logging) {
+                Logger.error(`cannot get aggregation "${name}", because ${error.message}`)
+            }
         }
     }
 
@@ -176,11 +184,14 @@ export class WDI5Control {
      */
     async enterText(text: string) {
         let selector
+        let logging
         if (util.types.isProxy(this._controlSelector)) {
             const _controlSelector = await Promise.resolve(this._controlSelector)
             selector = await Promise.resolve(_controlSelector.selector)
+            logging = await Promise.resolve(this._logging)
         } else {
             selector = this._controlSelector.selector
+            logging = this._logging
         }
         const oOptions = {
             enterText: text,
@@ -191,7 +202,9 @@ export class WDI5Control {
         try {
             await this._interactWithControl(oOptions)
         } catch (error) {
-            Logger.error(`cannot call enterText(), because ${error.message}`)
+            if (logging) {
+                Logger.error(`cannot call enterText(), because ${error.message}`)
+            }
         }
         return this
     }
@@ -205,15 +218,18 @@ export class WDI5Control {
         let className
         let controlSelector
         let specificInteractionControls
+        let logging
         if (util.types.isProxy(this._domId)) {
             specificInteractionControls = await Promise.resolve(this._specificInteractionControls)
             const _controlInfo = await Promise.resolve(this._metadata)
             className = _controlInfo.className
             controlSelector = await Promise.resolve(this._controlSelector)
+            logging = await Promise.resolve(this._logging)
         } else {
             specificInteractionControls = this._specificInteractionControls
             className = this.getControlInfo().className
             controlSelector = this._controlSelector
+            logging = this._logging
         }
 
         // route operations on a sap.m.SearchField
@@ -222,7 +238,9 @@ export class WDI5Control {
             specificInteractionControls.includes(className as string) &&
             controlSelector.selector.interaction.match(/press/i)
         ) {
-            Logger.info(`using OPA5 Press action to interact with this ${className}...`)
+            if (logging) {
+                Logger.info(`using OPA5 Press action to interact with this ${className}...`)
+            }
             const oOptions = {
                 selector: controlSelector.selector,
                 interactionType: "PRESS"
@@ -230,14 +248,18 @@ export class WDI5Control {
             try {
                 await this._interactWithControl(oOptions)
             } catch (error) {
-                Logger.error(`cannot issue OPA5-press() on control, because ${error.message}`)
+                if (logging) {
+                    Logger.error(`cannot issue OPA5-press() on control, because ${error.message}`)
+                }
             }
         } else {
             // interact via wdio
             try {
                 await ((await this._getWebElement()) as unknown as WebdriverIO.Element).click()
             } catch (error) {
-                Logger.error(`cannot call press(), because ${error.message}`)
+                if (logging) {
+                    Logger.error(`cannot call press(), because ${error.message}`)
+                }
             }
         }
 
@@ -261,7 +283,9 @@ export class WDI5Control {
             oOptions,
             this._browserInstance
         )) as clientSide_ui5Response
-        this._writeObjectResultLog(result, "fireEvent()")
+        if (this._logging) {
+            this._writeObjectResultLog(result, "fireEvent()")
+        }
         return result.result
     }
 
@@ -288,10 +312,13 @@ export class WDI5Control {
     private async _interactWithControl(oOptions) {
         // const domId = util.types.isProxy(this._domId) ? await Promise.resolve(this._domId) : this._domId
         let domId
+        let logging
         if (util.types.isProxy(this._domId)) {
             domId = await Promise.resolve(this._domId)
+            logging = await Promise.resolve(this._logging)
         } else {
             domId = this._domId
+            logging = this._logging
         }
         const browserInstance = util.types.isProxy(this._browserInstance)
             ? await Promise.resolve(this._browserInstance)
@@ -299,8 +326,9 @@ export class WDI5Control {
 
         if (domId) {
             const result = (await clientSide_interactWithControl(oOptions, browserInstance)) as clientSide_ui5Response
-
-            this._writeObjectResultLog(result, "interactWithControl()")
+            if (logging) {
+                this._writeObjectResultLog(result, "interactWithControl()")
+            }
             // return result.result
             return this
         } else {
@@ -371,7 +399,9 @@ export class WDI5Control {
 
             return await Promise.all(aResultOfPromises)
         } else {
-            Logger.warn(`${this._wdio_ui5_key} has no aControls`)
+            if (this._logging) {
+                Logger.warn(`${this._wdio_ui5_key} has no aControls`)
+            }
         }
     }
 
@@ -398,7 +428,9 @@ export class WDI5Control {
             // get WDI5 control
             eResult = await this._browserInstance.asControl(selector)
         } else {
-            Logger.warn(`${this._wdio_ui5_key} has no aControls`)
+            if (this._logging) {
+                Logger.warn(`${this._wdio_ui5_key} has no aControls`)
+            }
         }
 
         return eResult
@@ -416,7 +448,9 @@ export class WDI5Control {
                 this[sMethodName] = this._executeControlMethod.bind(this, sMethodName, this._webElement)
             })
         } else {
-            Logger.warn(`${this._wdio_ui5_key} has no sReplFunctionNames`)
+            if (this._logging) {
+                Logger.warn(`${this._wdio_ui5_key} has no sReplFunctionNames`)
+            }
         }
     }
 
@@ -429,7 +463,9 @@ export class WDI5Control {
                 }
             })
         } else {
-            Logger.warn(`${this._wdio_ui5_key} has no sReplFunctionNames`)
+            if (this._logging) {
+                Logger.warn(`${this._wdio_ui5_key} has no sReplFunctionNames`)
+            }
         }
     }
 
@@ -449,7 +485,9 @@ export class WDI5Control {
             try {
                 this._webElement = await this._renewWebElementReference()
             } catch (error) {
-                Logger.error(`cannot execute ${methodName}(), because ${error.message}`)
+                if (this._logging) {
+                    Logger.error(`cannot execute ${methodName}(), because ${error.message}`)
+                }
             }
         }
         // special case for custom data attached to a UI5 control:
@@ -483,7 +521,9 @@ export class WDI5Control {
             case "result":
                 return result.nonCircularResultObject ? result.nonCircularResultObject : result.result
             case "empty":
-                Logger.warn("No data found in property or aggregation")
+                if (this._logging) {
+                    Logger.warn("No data found in property or aggregation")
+                }
                 return result.result
             case "aggregation": // also applies for getAggregation convenience methods such as $ui5control.getItems()
                 // check weather to retrieve all elements in the aggreation as ui5 controls
@@ -529,6 +569,10 @@ export class WDI5Control {
             ? await Promise.resolve(this._forceSelect)
             : this._forceSelect
 
+        const _logging: boolean = util.types.isProxy(this._logging)
+            ? await Promise.resolve(this._logging)
+            : this._logging
+
         if (_forceSelect) {
             await this._renewWebElementReference()
         }
@@ -543,8 +587,9 @@ export class WDI5Control {
             aggregationName,
             this._browserInstance
         )) as clientSide_ui5Response
-
-        this._writeObjectResultLog(result, "_getAggregation()")
+        if (_logging) {
+            this._writeObjectResultLog(result, "_getAggregation()")
+        }
 
         let wdiItems = []
         if (result.status === 0) {
@@ -620,8 +665,9 @@ export class WDI5Control {
             // set the succesful init param
             this._initialisation = true
         }
-
-        this._writeObjectResultLog(_result, "_getControl()")
+        if (this._logging) {
+            this._writeObjectResultLog(_result, "_getControl()")
+        }
 
         return { status: status, domElement: domElement, aProtoFunctions: aProtoFunctions }
     }
