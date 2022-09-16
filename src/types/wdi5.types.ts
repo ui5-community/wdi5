@@ -98,6 +98,11 @@ interface wdi5ControlSelector {
      * search in dialogs
      */
     searchOpenDialogs?: boolean
+
+    /**
+     * interaction adapter
+     */
+    interaction?: "root" | "focus" | "press" | "auto"
 }
 
 export interface wdi5Selector {
