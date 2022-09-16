@@ -71,12 +71,15 @@ The `forceSelect` option also updates the `wdio` control reference each time a m
 
 The `timeout` option (default based on the global configuration `waitForUI5Timeout` [setting](wdio-ui5-service/README.md#installation)) controls the maximum waiting time while checking for UI5 availability _(meaning no pending requests / promises / timeouts)_.
 
+The `logging` (default: `true`) property can be set to `false` to disable the log for this specific selector. This can be useful when you want to assert, that specific controls should not be visible on the UI to decrease the amount of pointless error messages.
+
 ```javascript
 it("validates that $control's text is ...", async () => {
   const oSelector = {
     wdio_ui5_key: "wdio-ui5-button", // optional unique internal key to map and find a control
     forceSelect: true, // forces the test framework to again retrieve the control from the browser context
     timeout: 15000, // maximum waiting time (ms) before failing the search
+    logging: false, // optional (default: `true`) disables the log for this specific selector
     selector: {
       // sap.ui.test.RecordReplay.ControlSelector
       id: "UI5control_ID",
