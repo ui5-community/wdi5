@@ -2,14 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### 0.9.13 (2022-09-16)
+## 0.9.13 (2022-09-16)
 
-### 0.9.12 (2022-09-09)
+### Features
 
-### 0.9.11 (2022-09-08)
+* turn off logging per selector
 
-### 0.9.10 (2022-07-27)
+## 0.9.12 (2022-09-09)
 
+### Features
+
+* support `press` OPA5 interaction for `wdi5` `press()` API
+* enable `enterText()` in fluent async api
+* more precise error messages (with causes)
+
+## 0.9.11 (2022-09-08)
+
+### Bug Fixes
+
+## 0.9.10 (2022-07-27)
 
 ### Features
 
