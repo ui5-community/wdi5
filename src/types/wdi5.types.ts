@@ -120,6 +120,10 @@ export interface wdi5Selector {
      * OPA5-style selectors from RecordReplay
      */
     selector: wdi5ControlSelector
+    /**
+     * disables the logging for the selector
+     */
+    logging?: boolean
 }
 
 /**

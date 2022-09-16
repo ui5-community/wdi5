@@ -348,6 +348,8 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
         browserInstance.asControl = function (ui5ControlSelector) {
             const asyncMethods = ["then", "catch", "finally"]
             const functionQueue = []
+            // we need to do the same operation as in the 'init' of 'wdi5-control.ts'
+            const logging = ui5ControlSelector?.logging ?? true
             function makeFluent(target) {
                 const promise = Promise.resolve(target)
                 const handler = {
@@ -362,7 +364,9 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
                                           return object[prop]
                                       } catch (error) {
                                           // different node versions return a different `error.message` so we use our own message
-                                          Logger.error(`Cannot read property '${prop}' in the execution queue!`)
+                                          if (logging) {
+                                              Logger.error(`Cannot read property '${prop}' in the execution queue!`)
+                                          }
                                       }
                                   })
                               )
@@ -376,7 +380,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
                                 } else {
                                     // a functionQueue without a 'then' can be ignored
                                     // as the original error was already logged
-                                    if (functionQueue.includes("then")) {
+                                    if (functionQueue.includes("then") && logging) {
                                         functionQueue.splice(functionQueue.indexOf("then"))
                                         Logger.error(
                                             `One of the calls in the queue "${functionQueue.join(

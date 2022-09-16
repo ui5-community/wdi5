@@ -193,3 +193,126 @@ describe("Error logging", () => {
         ).toBeTruthy()
     })
 })
+
+/**
+ * test that the wdi5 logger can be disabled for specific selectors
+ * for every test we are using a slightly different selector so we don't have
+ * to use "foceSelect: true" all the time
+ */
+describe("No error logging", () => {
+    const sandbox = sinon.createSandbox()
+
+    beforeEach(() => {
+        sandbox.spy(console, "red")
+    })
+
+    afterEach(() => {
+        sandbox.restore()
+    })
+    it("should log nothing when control was not found", async () => {
+        const selectorWithWrongId = {
+            logging: false,
+            selector: {
+                id: "wrongIdNoLog"
+            }
+        }
+        await browser.asControl(selectorWithWrongId)
+        expect(console.red.callCount).toEqual(0)
+    })
+
+    it("should log when control was not found with 'logging' explicitly set to 'true'", async () => {
+        const selectorWithWrongId = {
+            logging: true,
+            selector: {
+                id: "wrongIdExplicitLog"
+            }
+        }
+        const wdi5ControlWithWrongId = await browser.asControl(selectorWithWrongId)
+
+        expectDefaultErrorMessages(wdi5ControlWithWrongId)
+        expect(console.red.callCount).toEqual(2)
+    })
+
+    it("should log nothing when 'press' is executed on an not found control; WITHOUT fluent async api", async () => {
+        const selectorWithWrongId = {
+            logging: false,
+            selector: {
+                id: "wrongIdWithPressNoLog"
+            }
+        }
+        wdi5ControlWithWrongIdNoLog = await browser.asControl(selectorWithWrongId)
+        await wdi5ControlWithWrongIdNoLog.press()
+        expect(console.red.callCount).toEqual(0)
+    })
+
+    it("should log nothing when 'press' is executed on an not found control; WITH fluent async api", async () => {
+        const selectorWithWrongId = {
+            logging: false,
+            selector: {
+                id: "wrongIdWithPressNoLogFluentAsync"
+            }
+        }
+        wdi5ControlWithWrongIdNoLog = await browser.asControl(selectorWithWrongId).press()
+
+        expect(console.red.callCount).toEqual(0)
+    })
+
+    it("should log nothing when 'enterText' is executed on an not found control; WITHOUT fluent async api", async () => {
+        const selectorWithWrongId = {
+            logging: false,
+            selector: {
+                id: "wrongIdWithEnterTextNoLog"
+            }
+        }
+
+        const wdi5ControlWithWrongId = await browser.asControl(selectorWithWrongId)
+        await wdi5ControlWithWrongId.enterText("test")
+
+        expect(console.red.callCount).toEqual(0)
+    })
+    it("should log nothing when 'enterText' is executed on an not found control; WITH fluent async api", async () => {
+        const selectorWithWrongId = {
+            logging: false,
+            selector: {
+                id: "wrongIdWithEnterTextNoLogFluentAsync"
+            }
+        }
+
+        await browser.asControl(selectorWithWrongId).enterText()
+
+        expect(console.red.callCount).toEqual(0)
+    })
+
+    it("should log nothing when multiple functions are executed on an control where an error in the queue occurrs; WITH fluent async api", async () => {
+        const selectorWithWrongId = {
+            logging: false,
+            forceSelect: true, // we need the forceSelect as the NavFwdButton was already located
+            selector: {
+                id: "container-Sample---Main--NavFwdButton"
+            }
+        }
+
+        await browser.asControl(selectorWithWrongId).getWrongFunction().getSecondWrongFunction()
+
+        expect(console.red.callCount).toEqual(0)
+    })
+
+    it("should log the first selector but not the second", async () => {
+        const firstSelectorWithLog = {
+            selector: {
+                id: "wrongIdWithLog"
+            }
+        }
+        const secondSelectorNoLog = {
+            logging: false,
+            selector: {
+                id: "wrongIdWithoutLog"
+            }
+        }
+        const wdi5ControlWithLogOutput = await browser.asControl(firstSelectorWithLog)
+        await browser.asControl(secondSelectorNoLog)
+
+        expectDefaultErrorMessages(wdi5ControlWithLogOutput)
+        expect(console.red.callCount).toEqual(2)
+    })
+})
