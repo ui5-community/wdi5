@@ -1,0 +1,33 @@
+ID: ui5-approuter
+_schema-version: 3.2.0
+version: 1.0.0
+parameters:
+  enable-parallel-deployments: true
+
+modules:
+  - name: approuter
+    type: approuter.nodejs
+    path: ./approuter
+    parameters:
+      disk-quota: 256M
+      memory: 256M
+      routes:
+        - route: wdi5-sample-app.cfapps.eu20.hana.ondemand.com
+    requires:
+      - name: html5-destination
+      - name: html5-uaa
+resources:
+  - name: html5-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: lite
+      service: destination
+      path: ./destinations.json
+  - name: html5-uaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      config:
+        xsappname: "ui5-approuter-uaa"
+        tenant-mode: dedicated
