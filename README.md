@@ -16,7 +16,7 @@ It is used for end-to-end tests of a UI5 web-application.
 - Peder Hveem Alsvik [@ph-alsvik](https://github.com/ph-alsvik)
 - Arnaud Buchholz [@ArnaudBuchholz](https://github.com/ArnaudBuchholz)
 - Dominik Feininger [@dominikfeininger](https://github.com/dominikfeininger)
-- Nicolai Geburek [@nicogeburek](https://github.com/nicogeburek)
+- Nicolai Geburek [@nicogeburek](https://github.com/nicoschoenteich)
 - Constantin Lebrecht [@monavari-lebrecht](https://github.com/monavari-lebrecht)
 - Hristo Manchev [@hmanchev](https://github.com/hmanchev)
 - Sebastian Wolf [@SebastianWolf-SAP](https://github.com/SebastianWolf-SAP)
