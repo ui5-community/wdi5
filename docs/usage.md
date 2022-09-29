@@ -4,6 +4,72 @@ With `wdi5` being a service to WebdriverIO, it provides a superset of `wdio`'s f
 
 At the same time, the `wdi5`-api can be mixed with `wdio`'s api during tests at will - there is no restriction to use either or. See below for many examples, denoting which api is used were.
 
+## Files
+
+### Location
+
+The files containing tests should reside in `$ui5-app/webapp/test/` and be named `*.test.(j|t)s`.  
+Yet both test file directory and naming pattern can be specified [via WebdriverIO's `specs`](https://webdriver.io/docs/options#specs) in [`wdio.conf.(j|t)s`](/configuration#wdi5).
+
+### Test suites
+
+WebdriverIO and `wdi5` can be used with [Mocha](http://mochajs.org/), [Jasmine](http://jasmine.github.io/), and [Cucumber](https://cucumber.io/), with Mocha being used in [all examples](https://github.com/ui5-community/wdi5/tree/main/examples) in `wdi5`.
+
+Mocha tests are structured with `describe`-blocks ("suite"), containint `it`s ("tests")[. They can contain [hooks](https://mochajs.org/#describing-hooks), e.g. to run code before all tests (`before`).](https://mochajs.org/#getting-started)
+
+<!-- tabs:start -->
+
+#### **JavaScript**
+
+```js
+const { wdi5 } = require("wdio-ui5-service")
+
+describe("test suite description", () => {
+  before(async () => {
+    await wdi5.goTo("#/Page")
+  })
+
+  it("should do this", async () => {
+    const selector = {
+      /* ... */
+    }
+    const prop = await browser.asControl(selector).getProperty("...")
+    expect(prop).toEqual("...")
+  })
+  it("should do that", async () => {
+    //...
+  })
+})
+```
+
+#### **TypeScript**
+
+```ts
+import { wdi5 } from "wdio-ui5-service"
+import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
+
+describe("test suite description", () => {
+  before(async () => {
+    await wdi5.goTo("#/Page")
+  })
+
+  it("should do this", async () => {
+    const selector: wdi5Selector = {
+      /* ... */
+    }
+    const prop: string = await browser.asControl(selector).getProperty("...")
+    expect(prop).toEqual("...")
+  })
+  it("should do that", async () => {
+    //...
+  })
+})
+```
+
+<!-- tabs:end -->
+
+Another recommendation is to only use one `describe` per test file, named similar to the file name, in order to stay organized.
+
 ## Control retrieval
 
 ### asControl
