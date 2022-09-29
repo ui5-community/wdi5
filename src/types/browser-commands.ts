@@ -13,7 +13,7 @@ type cachedControl = {
 declare global {
     // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace WebdriverIO {
-        interface Browser {
+        export interface Browser {
             asControl: (arg: wdi5Selector) => Promise<WDI5Control & Control> // Intersection Types
             allControls: (arg: wdi5Selector) => Promise<WDI5Control & Control> // Intersection Types
             screenshot: (arg: string) => Promise<any>

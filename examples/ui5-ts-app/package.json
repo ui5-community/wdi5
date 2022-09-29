@@ -1,0 +1,35 @@
+{
+  "name": "ui5-t-sapp",
+  "version": "0.8.15-notimportant",
+  "description": "UI5 Application: tsapp",
+  "author": "nosotros-todos@ui5-community.org",
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "npm-run-all --parallel watch:ts start:ui5",
+    "watch:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files --watch",
+    "start:ui5": "ui5 serve --port 8080",
+    "test": "wdio run wdio-ui5.conf.ts",
+    "build:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files",
+    "build:ui5": "ui5 build --clean-dest",
+    "build:mtar": "mv dist approuter/webapp && mbt build",
+    "clean": "rimraf dist webapp approuter/webapp",
+    "build:cf": "npm-run-all --sequential clean build:ts build:ui5 build:mtar"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/preset-typescript": "^7.18.6",
+    "@openui5/ts-types-esm": "^1.106.0",
+    "@sap/approuter": "^11.3.4",
+    "@types/jquery": "3.5.14",
+    "babel-preset-transform-ui5": "^7.0.5",
+    "mbt": "^1.2.18",
+    "ui5-middleware-simpleproxy": "^0.9.0"
+  },
+  "ui5": {
+    "dependencies": [
+      "ui5-middleware-simpleproxy"
+    ]
+  }
+}

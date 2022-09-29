@@ -1,5 +1,5 @@
-async function clientSide_injectUI5(config, waitForUI5Timeout) {
-    return await browser.executeAsync((waitForUI5Timeout, done) => {
+async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) {
+    return await browserInstance.executeAsync((waitForUI5Timeout, done) => {
         if (window.bridge) {
             // setup sap testing already done
             done(true)
@@ -332,17 +332,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                 // known side effect this call triggers the back to node scope, the other sap.ui.require continue to run in background in browser scope
                 done(true)
             })
-            // see also /client-side-js/testLibrary.js
-            sap.ui.require(
-                ["sap/fe/test/ListReport", "sap/fe/test/ObjectPage", "sap/fe/test/Shell"],
-                (ListReport, ObjectPage, Shell) => {
-                    window.fe_bridge.ListReport = ListReport
-                    window.fe_bridge.ObjectPage = ObjectPage
-                    window.fe_bridge.Shell = Shell
-                    // logs for the FE Testlib responses
-                    window.fe_bridge.Log = []
-                }
-            )
+
             // make sure the resources are required
             // TODO: "sap/ui/test/matchers/Sibling",
             sap.ui.require(
@@ -469,6 +459,152 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                      */
                     window.wdi5.getUI5CtlForWebObj = (ui5Control) => {
                         return jQuery(ui5Control).control(0)
+                    }
+
+                    /**
+                     * FIXME: douplicate method
+                     * gets a UI5 controls' methods to proxy from browser- to Node.js-runtime
+                     *
+                     * @param {sap.<lib>.<Control>} control UI5 control
+                     * @returns {String[]} UI5 control's method names
+                     */
+                    window.wdi5.retrieveControlMethods = (control) => {
+                        // create keys of all parent prototypes
+                        let properties = new Set()
+                        let currentObj = control
+                        do {
+                            Object.getOwnPropertyNames(currentObj).map((item) => properties.add(item))
+                        } while ((currentObj = Object.getPrototypeOf(currentObj)))
+
+                        // filter for:
+                        // @ts-ignore
+                        let controlMethodsToProxy = [...properties.keys()].filter((item) => {
+                            if (typeof control[item] === "function") {
+                                // function
+
+                                // filter private methods
+                                if (item.startsWith("_")) {
+                                    return false
+                                }
+
+                                if (item.indexOf("Render") !== -1) {
+                                    return false
+                                }
+
+                                // filter not working methods
+                                // and those with a specific api from wdi5/wdio-ui5-service
+                                // prevent overwriting wdi5-control's own init method
+                                const aFilterFunctions = ["$", "getAggregation", "constructor", "fireEvent", "init"]
+
+                                if (aFilterFunctions.includes(item)) {
+                                    return false
+                                }
+
+                                // if not already discarded -> should be in the result
+                                return true
+                            }
+                            return false
+                        })
+
+                        return controlMethodsToProxy
+                    }
+
+                    /**
+                     * flatten all functions and properties on the Prototype directly into the returned object
+                     * @param {object} obj
+                     * @returns {object} all functions and properties of the inheritance chain in a flat structure
+                     */
+                    window.wdi5.collapseObject = (obj) => {
+                        let protoChain = []
+                        let proto = obj
+                        while (proto !== null) {
+                            protoChain.unshift(proto)
+                            proto = Object.getPrototypeOf(proto)
+                        }
+                        let collapsedObj = {}
+                        protoChain.forEach((prop) => Object.assign(collapsedObj, prop))
+                        return collapsedObj
+                    }
+
+                    /**
+                     * FIXME: douplicate method
+                     * used as a replacer function in JSON.stringify
+                     * removes circular references in an object
+                     * all credit to https://bobbyhadz.com/blog/javascript-typeerror-converting-circular-structure-to-json
+                     */
+                    window.wdi5.getCircularReplacer = () => {
+                        const seen = new WeakSet()
+                        return (key, value) => {
+                            if (typeof value === "object" && value !== null) {
+                                if (seen.has(value)) {
+                                    return
+                                }
+                                seen.add(value)
+                            }
+                            return value
+                        }
+                    }
+
+                    /**
+                     * if parameter is JS primitive type
+                     * returns {boolean}
+                     * @param {*} test
+                     */
+                    window.wdi5.isPrimitive = (test) => {
+                        return test !== Object(test)
+                    }
+
+                    /**
+                     * creates a array of objects containing their id as a property
+                     * @param {[sap.ui.core.Control]} aControls
+                     * @throws {Error} error if the aggregation was not found that has to be catched
+                     * @return {Array} Object
+                     */
+                    window.wdi5.createControlIdMap = (aControls, controlType = "") => {
+                        // the array of UI5 controls need to be mapped (remove circular reference)
+                        if (!aControls) {
+                            throw new Error("Aggregation was not found!")
+                        }
+                        return aControls.map((element) => {
+                            // just use the absolute ID of the control
+                            if (controlType === "sap.m.ComboBox" && element.data("InputWithSuggestionsListItem")) {
+                                return {
+                                    id: element.data("InputWithSuggestionsListItem").getId()
+                                }
+                            } else {
+                                return {
+                                    id: element.getId()
+                                }
+                            }
+                        })
+                    }
+
+                    /**
+                     * creates an object containing their id as a property
+                     * @param {sap.ui.core.Control} aControl
+                     * @return {Object} Object
+                     */
+                    window.wdi5.createControlId = (aControl) => {
+                        // the array of UI5 controls need to be mapped (remove circular reference)
+                        if (!Array.isArray(aControl)) {
+                            // if in aControls is a single control -> create an array first
+
+                            // this is causes by sap.ui.base.ManagedObject -> get Aggregation defines its return value as:
+                            // sap.ui.base.ManagedObject or sap.ui.base.ManagedObject[] or null
+
+                            // aControls = [aControls]
+                            let item = {
+                                id: aControl.getId()
+                            }
+                            return item
+                        } else {
+                            console.error("error creating new element by id of control: " + aControl)
+                        }
+                    }
+
+                    window.wdi5.errorHandling = (done, error) => {
+                        window.wdi5.Log.error("[browser wdi5] ERR: ", error)
+                        done({ status: 1, message: error.toString() })
                     }
                 }
             )

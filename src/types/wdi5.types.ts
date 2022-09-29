@@ -36,8 +36,11 @@ export interface wdi5Config extends WebdriverIO.Config {
         /** path relative to the command `wdio` is run from to store screenshots */
         screenshotPath?: string
         /**
+         * whether to generally disable/enable screenshots
+         */
+        screenshotsDisabled?: boolean
+        /**
          * late-inject wdi5 <-> UI5 bridge, useful for testing in hybrid non-UI5/UI5 apps
-         * TODO: link to document on how to inject late programmatically
          */
         skipInjectUI5OnStart?: boolean
         /**
@@ -92,6 +95,15 @@ interface wdi5ControlSelector {
      * Interactable matcher, {@link sap.ui.test.matchers.Interactable}
      */
     interactable?: Record<string, unknown>
+    /**
+     * search in dialogs
+     */
+    searchOpenDialogs?: boolean
+
+    /**
+     * interaction adapter
+     */
+    interaction?: "root" | "focus" | "press" | "auto"
 }
 
 export interface wdi5Selector {
@@ -109,6 +121,10 @@ export interface wdi5Selector {
      * OPA5-style selectors from RecordReplay
      */
     selector: wdi5ControlSelector
+    /**
+     * disables the logging for the selector
+     */
+    logging?: boolean
 }
 
 /**

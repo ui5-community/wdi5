@@ -2,7 +2,77 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### 0.9.1 (2022-05-23)
+## 0.9.13 (2022-09-16)
+
+### Features
+
+* turn off logging per selector
+
+## 0.9.12 (2022-09-09)
+
+### Features
+
+* support `press` OPA5 interaction for `wdi5` `press()` API
+* enable `enterText()` in fluent async api
+* more precise error messages (with causes)
+
+## 0.9.11 (2022-09-08)
+
+### Bug Fixes
+
+## 0.9.10 (2022-07-27)
+
+### Features
+
+* improve error messages when control is not found ([#309](https://github.com/js-soft/wdi5/issues/309)) ([f7b3182](https://github.com/js-soft/wdi5/commit/f7b318263fe9eebc87ede950feeece51b865dec2)), closes [#304](https://github.com/js-soft/wdi5/issues/304)
+
+## 0.9.9 (2022-07-05)
+
+## 0.9.8 (2022-07-04)
+
+
+### Features
+
+* ts app sample ([#299](https://github.com/js-soft/wdi5/issues/299)) ([5f61a52](https://github.com/js-soft/wdi5/commit/5f61a52c6153f6463eb56330119fdd81ad721c64))
+
+### 0.9.7 (2022-07-04)
+
+
+### Bug Fixes
+
+* remove typo from error handling ([#297](https://github.com/js-soft/wdi5/issues/297)) ([d549c74](https://github.com/js-soft/wdi5/commit/d549c747f15c750d94884cefbb497c866ce5133c))
+
+## 0.9.6 (2022-06-29)
+
+## 0.9.5 (2022-06-24)
+
+
+### Features
+
+* add multiremote support ([#272](https://github.com/js-soft/wdi5/issues/272)) ([fcb47cf](https://github.com/js-soft/wdi5/commit/fcb47cf1047c30ef653a890e022472afe885d613)), closes [#281](https://github.com/js-soft/wdi5/issues/281)
+
+## 0.9.4 (2022-06-21)
+
+
+### Bug Fixes
+
+* FE testLibrary initialization ([#286](https://github.com/js-soft/wdi5/issues/286)) ([d5fddee](https://github.com/js-soft/wdi5/commit/d5fddeeb348eb503288a8f8978e58204d0642494)), closes [#276](https://github.com/js-soft/wdi5/issues/276)
+
+## 0.9.3 (2022-06-20)
+
+
+### Bug Fixes
+
+* avoid referenced object manipulation ([#275](https://github.com/js-soft/wdi5/issues/275)) ([#280](https://github.com/js-soft/wdi5/issues/280)) ([a069544](https://github.com/js-soft/wdi5/commit/a069544166c4ba9b1494f63190bef121611d3229))
+
+## 0.9.2 (2022-06-15)
+
+
+### Features
+
+* improved sync with ui5 core lifecycle ([#278](https://github.com/js-soft/wdi5/issues/278)) ([53e1a7e](https://github.com/js-soft/wdi5/commit/53e1a7e952a84825feb9b42a8a9a2684b2ff71f9))
+
+## 0.9.1 (2022-05-23)
 
 
 ### Features

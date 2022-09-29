@@ -71,12 +71,15 @@ The `forceSelect` option also updates the `wdio` control reference each time a m
 
 The `timeout` option (default based on the global configuration `waitForUI5Timeout` [setting](wdio-ui5-service/README.md#installation)) controls the maximum waiting time while checking for UI5 availability _(meaning no pending requests / promises / timeouts)_.
 
+The `logging` (default: `true`) property can be set to `false` to disable the log for this specific selector. This can be useful when you want to assert, that specific controls should not be visible on the UI to decrease the amount of pointless error messages.
+
 ```javascript
 it("validates that $control's text is ...", async () => {
   const oSelector = {
     wdio_ui5_key: "wdio-ui5-button", // optional unique internal key to map and find a control
     forceSelect: true, // forces the test framework to again retrieve the control from the browser context
     timeout: 15000, // maximum waiting time (ms) before failing the search
+    logging: false, // optional (default: `true`) disables the log for this specific selector
     selector: {
       // sap.ui.test.RecordReplay.ControlSelector
       id: "UI5control_ID",
@@ -282,7 +285,7 @@ Under the hoode, this first retrieves the UI5 control, then feeds it to [Webdriv
 
 ### fluent async api
 
-`wdi5` supports `async `method chaining. This means you can directly call a `UI5` control's methods after retrieveing it via `browser.asControl(selector)`:
+`wdi5` supports `async` method chaining. This means you can directly call a `UI5` control's methods after retrieveing it via `browser.asControl(selector)`:
 
 ```javascript
 // sap.m.List has .getItems()
@@ -346,7 +349,7 @@ await control.fireEvent("itemPress", {
 
 ## Assertions
 
-Recommendation is to use the [`Webdriver.IO`](https://webdriver.io)-native extension to JEST's [expect](https://jestjs.io/docs/en/expect) and [matchers](https://jestjs.io/docs/en/using-matchers) as described in https://webdriver.io/docs/assertion.html.
+Recommendation is to use the [`Webdriver.IO`](https://webdriver.io)-native extension to JEST's [expect](https://jestjs.io/docs/en/expect) and [matchers](https://jestjs.io/docs/en/using-matchers) as described in <https://webdriver.io/docs/assertion.html>.
 
 ## Screenshots
 
@@ -416,7 +419,7 @@ In the test, you can navigate the UI5 webapp via `goTo(options)` in one of two w
     sComponentId: "container-Sample",
     sName: "RouteOther"
   }
-  await wdi5.goTo("", oRouteOptions)
+  await wdi5.goTo(oRouteOptions)
   // or:
   await wdi5.goTo("#/Other")
   // or:
@@ -471,3 +474,65 @@ it("test responsiveness of button action", async () => {
   wdi5.getLogger().info(entry)
 }
 ```
+
+## Multiple browser instances ("multiremote")
+
+`wdi5` allows for operating multiple browser instances with a single test (suite) - think of a usecase such as "instant messaging test between two people". This is built on top of [WebdriverIO's "multiremote" feature of the same name](https://webdriver.io/docs/multiremote) ("running multiple automated sessions in a single test") and provides the same configuration options.
+
+Basic usage: change `capabilities` in your `wdio.conf.(j|t)s` to
+
+```js
+// ...
+  capabilities: {
+        one: {
+            capabilities: {
+                browserName: "chrome",
+                acceptInsecureCerts: true
+            }
+        },
+        two: {
+            capabilities: {
+                browserName: "chrome",
+                acceptInsecureCerts: true
+            }
+        }
+    }
+// ...
+```
+
+Now you can access each browser instances by calling them by their `capabilities` name, using the regular `wdi5` APIs [`browser.asControl($selector)`](/usage#ascontrol) and [`browser.allControls($selector)`](/usage#allcontrols) (just like in "single remote" test):
+
+```js
+const button1 = await browser.one.asControl({
+  selector: {
+    id: "openDialogButton",
+    viewName: "test.Sample.view.Main"
+  }
+})
+const button2 = await browser.two.asControl({
+  selector: {
+    id: "openDialogButton",
+    viewName: "test.Sample.view.Main"
+  }
+})
+```
+
+Or operate all browser instances at the same time:
+
+```js
+const buttonFromAllInstances = await browser.asControl({
+  selector: {
+    id: "openDialogButton",
+    viewName: "test.Sample.view.Main"
+  }
+})
+```
+
+...and get an array of controls back as retrieved by all instances. Subsequently, the control retrieved by each instance is accessible at the array index corresponding to the browser defined in the `capabilities` sequence in `wdio.conf.(j|t)s`:
+
+```js
+const buttonOne = buttonFromAllInstances[0]
+const buttonTwo = buttonFromAllInstances[1]
+```
+
+Some example tests are located at `/examples/ui5-js-app/webapp/test/e2e/multiremote.test.js`.

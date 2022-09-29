@@ -3,21 +3,22 @@ const { join } = require("path")
 exports.baseConfig = {
     wdi5: {
         screenshotPath: join("webapp", "test", "__screenshots__"),
-        logLevel: "error"
+        logLevel: "error",
+        waitForUI5Timeout: 29000
     },
     maxInstances: 10,
     capabilities: [
         {
-            maxInstances: 5,
+            maxInstances: 4,
             browserName: "chrome",
             acceptInsecureCerts: true,
             "goog:chromeOptions": {
                 args:
                     process.argv.indexOf("--headless") > -1
-                        ? ["window-size=1440,800", "--headless"]
+                        ? ["window-size=1920,1280", "--headless"]
                         : process.argv.indexOf("--debug") > -1
                         ? ["window-size=1920,1280", "--auto-open-devtools-for-tabs"]
-                        : ["window-size=1440,800"]
+                        : ["window-size=1920,1280"]
             }
         }
     ],
@@ -25,8 +26,8 @@ exports.baseConfig = {
     bail: 0,
     baseUrl: "http://localhost:8888",
 
-    waitforTimeout: 10000,
-    connectionRetryTimeout: 120000,
+    waitforTimeout: 20000,
+    connectionRetryTimeout: process.argv.indexOf("--debug") > -1 ? 1200000 : 120000,
     connectionRetryCount: 3,
 
     services: ["chromedriver", "ui5"],
@@ -34,7 +35,7 @@ exports.baseConfig = {
     framework: "mocha",
     mochaOpts: {
         ui: "bdd",
-        timeout: 60000
+        timeout: process.argv.indexOf("--debug") > -1 ? 600000 : 90000
     },
     reporters: ["spec"]
 }
