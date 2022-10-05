@@ -294,7 +294,10 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                         }
                         return aControls.map((element) => {
                             // just use the absolute ID of the control
-                            if (controlType === "sap.m.ComboBox" && element.data("InputWithSuggestionsListItem")) {
+                            if (
+                                (controlType === "sap.m.ComboBox" || controlType === "sap.m.MultiComboBox") &&
+                                element.data("InputWithSuggestionsListItem")
+                            ) {
                                 return {
                                     id: element.data("InputWithSuggestionsListItem").getId()
                                 }
