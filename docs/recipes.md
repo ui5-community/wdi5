@@ -221,9 +221,9 @@ In VS Code, use a `jsconfig.json` at the root of your JavaScript-project, at the
 
 See an example at `/examples/ui5-js-app/jsconfig.json` in the wdi5 repository.
 
-## test a `sap.m.ComboBox`
+## test a `sap.m.ComboBox` `sap.m.MultiComboBox`
 
-A `sap.m.ComboBox`'s items will only be rendered when it's opened (once).
+A `sap.m.ComboBox`'or `sap.m.MultiComboBox`s items will only be rendered when it's opened (once).
 So for programmatically working and testing the control, its' `.open()`-method needs to be used:
 
 ```js
@@ -262,8 +262,8 @@ The `interaction` can be any one of: `root`, `focus`, `press`, `auto` (default),
 
 Located element for each case:
 
-- **`root`**: the root DOM element of the control  
-  Use this with many controls having an `items` aggregation (such as `sap.m.List`) in order to select the List itself, not the first element of the control.  
+- **`root`**: the root DOM element of the control
+  Use this with many controls having an `items` aggregation (such as `sap.m.List`) in order to select the List itself, not the first element of the control.
   See the `listSelector` in `examples/ui5-js-app/webapp/test/e2e/generated-methods.test.js` for an example:
 
   ```js
