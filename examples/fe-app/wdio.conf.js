@@ -12,11 +12,11 @@ exports.config = {
     // Patterns to exclude.
     exclude: [],
     //// capabilities ("browser") config
-    maxInstances: 10,
+    maxInstances: 2,
     capabilities: [
         {
             // overwrite global "maxInstances"
-            maxInstances: 5,
+            maxInstances: 2,
             browserName: "chrome",
             acceptInsecureCerts: true,
             "goog:chromeOptions": {
