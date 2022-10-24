@@ -31,7 +31,7 @@ export const config: wdi5Config = {
     logLevel: "error",
     bail: 0,
 
-    waitforTimeout: 10000,
+    waitforTimeout: 120000,
     connectionRetryTimeout: process.argv.indexOf("--debug") > -1 ? 1200000 : 120000,
     connectionRetryCount: 3,
 
@@ -40,6 +40,6 @@ export const config: wdi5Config = {
     framework: "mocha",
     mochaOpts: {
         ui: "bdd",
-        timeout: process.argv.indexOf("--debug") > -1 ? 600000 : 60000
+        timeout: process.argv.indexOf("--debug") > -1 ? 600000 : 120000
     }
 }

@@ -4,7 +4,7 @@ exports.baseConfig = {
     wdi5: {
         screenshotPath: join("webapp", "test", "__screenshots__"),
         logLevel: "error",
-        waitForUI5Timeout: 29000
+        waitForUI5Timeout: 120000
     },
     maxInstances: 10,
     capabilities: [
@@ -26,7 +26,7 @@ exports.baseConfig = {
     bail: 0,
     baseUrl: "http://localhost:8888",
 
-    waitforTimeout: 20000,
+    waitforTimeout: 120000,
     connectionRetryTimeout: process.argv.indexOf("--debug") > -1 ? 1200000 : 120000,
     connectionRetryCount: 3,
 
@@ -35,7 +35,7 @@ exports.baseConfig = {
     framework: "mocha",
     mochaOpts: {
         ui: "bdd",
-        timeout: process.argv.indexOf("--debug") > -1 ? 600000 : 90000
+        timeout: process.argv.indexOf("--debug") > -1 ? 120000 : 120000
     },
     reporters: ["spec"]
 }
