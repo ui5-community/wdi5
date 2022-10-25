@@ -19,7 +19,7 @@ on:
       - "!*.cjs"
 
 jobs:
-  build:
+  test-fe-app:
     runs-on: ubuntu-latest
 
     strategy:

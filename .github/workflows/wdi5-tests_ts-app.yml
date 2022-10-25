@@ -19,7 +19,7 @@ on:
       - "!*.cjs"
 
 jobs:
-  build:
+  test-ts-app:
     runs-on: ubuntu-latest
 
     strategy:
