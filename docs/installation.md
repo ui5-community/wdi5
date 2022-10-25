@@ -19,7 +19,7 @@ The installation of `wdi5` and WebdriverIO can either be done by using (a) `npm 
 
 ```shell
 $> cd any/ui5/app
-$> npm init wdi5
+$> npm init wdi5@latest
 ```
 
 This will
@@ -35,7 +35,7 @@ This will
 
 ```shell
 $> cd any/ui5/app
-$> npm init wdi5 -- --ts
+$> npm init wdi5@latest -- --ts
 # yeah, it's "-- --ts" b/c of the way
 # `npm init` works:
 # https://docs.npmjs.com/cli/v8/commands/npm-init#forwarding-additional-options

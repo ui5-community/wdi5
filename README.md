@@ -13,13 +13,19 @@ It is used for end-to-end tests of a UI5 web-application.
 
 `wdi5` is governed by a fine group of people deciding on strategy and next steps for the tool (in alphabetical order of last name):
 
-- Peder Hveem Alsvik [@ph-alsvik](https://github.com/ph-alsvik)
 - Arnaud Buchholz [@ArnaudBuchholz](https://github.com/ArnaudBuchholz)
 - Dominik Feininger [@dominikfeininger](https://github.com/dominikfeininger)
 - Nicolai Schoenteich [@nicoschoenteich](https://github.com/nicoschoenteich)
 - Constantin Lebrecht [@monavari-lebrecht](https://github.com/monavari-lebrecht)
 - Hristo Manchev [@hmanchev](https://github.com/hmanchev)
+- Nicholas O'Malley [@aiopa](https://github.com/aiopa)
 - Sebastian Wolf [@SebastianWolf-SAP](https://github.com/SebastianWolf-SAP)
+
+### Former Committee Members
+
+Thank you for having accompanied our journey! 🏅
+
+- Peder Hveem Alsvik [@ph-alsvik](https://github.com/ph-alsvik) - July 2022..October 2022
 
 ## License
 
