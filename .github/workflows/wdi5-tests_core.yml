@@ -1,4 +1,4 @@
-name: wdi5 tests
+name: wdi5 core tests
 
 on:
   pull_request:
@@ -6,11 +6,11 @@ on:
       - main
     paths:
       # relevant
-      - "client-side-js/**"
-      - "examples/**"
-      - "scripts/**"
       - "src/**"
       # don't run on changes to these
+      - "!client-side-js/**"
+      - "!examples/**"
+      - "!scripts/**"
       - "!.husky/**"
       - "!.vscode/**"
       - "!docs/**"
@@ -24,18 +24,9 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14, 16, 17, 18]
+        node-version: [14, 16, 18, 19]
 
     steps:
-      - name: update chrome
-        run: |
-          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-          sudo apt-get update
-          sudo apt-get --only-upgrade install google-chrome-stable
-          # check chrome version
-          google-chrome --version
-
       - name: check out repo
         uses: actions/checkout@v3
 
@@ -67,15 +58,3 @@ jobs:
       # run wdi5 core tests
       - name: test wdi5 core
         run: npm test
-
-      # run wdi5 tests within app(s)
-      - name: test js-app
-        run: npm run test-h:js-app
-
-      - name: test ts-app
-        run: npm run test-h:ts-app
-
-      # run fiori elements-related wdi5 tests
-      # explicit headless mode!
-      - name: test fe-app
-        run: npm run test:fe-app
