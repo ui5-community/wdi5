@@ -21,6 +21,7 @@ const Logger = _Logger.getInstance()
 
 /** store the status of initialization */
 let _isInitialized = false
+
 /** stores the status of the setup process */
 let _setupComplete = false
 /** currently running sap.ui.version */
