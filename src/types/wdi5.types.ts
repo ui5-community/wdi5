@@ -30,8 +30,9 @@ export interface wdi5Config extends WebdriverIO.Config {
          * typically "index.html"
          * @example http://localhost:8080/index.html -> "index.html"
          * @example https://ui5.sap.com/anotherIndex.html -> "anotherIndex.html"
+         * @deprecated
          */
-        url: string
+        url?: string
         /** path relative to the command `wdio` is run from to store screenshots */
         screenshotPath?: string
         /**

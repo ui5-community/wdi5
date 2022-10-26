@@ -51,13 +51,13 @@ export async function setup(config: wdi5Config) {
 }
 
 export async function start(config: wdi5Config) {
-    // TODO: document that we require wdio.config.baseUrl with a trailing slash à la "http://localhost:8080/"
-    if (config.wdi5.url !== "") {
+    if (config.wdi5.url) {
+        // still support the old logic that we don't have breaking changes
         Logger.info(`open url: ${config.wdi5.url}`)
         await browser.url(config.wdi5.url)
     } else {
-        Logger.info("open url with fallback '#' (this is not causing any issues since its is removed for navigation)")
-        await browser.url("#")
+        Logger.info(`open url: ${browser.config.baseUrl}`)
+        await browser.url("")
     }
 }
 
