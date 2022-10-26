@@ -294,25 +294,30 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
         const oRoute = oOptions.oRoute
 
         if (sHash && sHash.length > 0) {
-            const url = (browserInstance.config as wdi5Config).wdi5["url"] || (await browserInstance.getUrl())
+            // we need to still support the old url property
+            if ((browserInstance.config as wdi5Config).wdi5.url) {
+                const url = (browserInstance.config as wdi5Config).wdi5["url"] || (await browserInstance.getUrl())
 
-            // navigate via hash if defined
-            if (url && url.length > 0 && url !== "#") {
-                // prefix url config if is not just a hash (#)
-                const currentUrl = await browserInstance.getUrl()
-                const alreadyNavByHash = currentUrl.includes("#")
-                const navToRoot = url.startsWith("/")
-                if (alreadyNavByHash && !navToRoot) {
-                    await browserInstance.url(`${currentUrl.split("#")[0]}${sHash}`)
+                // navigate via hash if defined
+                if (url && url.length > 0 && url !== "#") {
+                    // prefix url config if is not just a hash (#)
+                    const currentUrl = await browserInstance.getUrl()
+                    const alreadyNavByHash = currentUrl.includes("#")
+                    const navToRoot = url.startsWith("/")
+                    if (alreadyNavByHash && !navToRoot) {
+                        await browserInstance.url(`${currentUrl.split("#")[0]}${sHash}`)
+                    } else {
+                        await browserInstance.url(`${url}${sHash}`)
+                    }
+                } else if (url && url.length > 0 && url === "#") {
+                    // route without the double hash
+                    await browserInstance.url(`${sHash}`)
                 } else {
-                    await browserInstance.url(`${url}${sHash}`)
+                    // just a fallback
+                    await browserInstance.url(`${sHash}`)
                 }
-            } else if (url && url.length > 0 && url === "#") {
-                // route without the double hash
-                await browserInstance.url(`${sHash}`)
             } else {
-                // just a fallback
-                await browserInstance.url(`${sHash}`)
+                await browserInstance.url(sHash)
             }
         } else if (oRoute && oRoute.sName) {
             // navigate using the ui5 router
