@@ -22,10 +22,14 @@ export default class Service implements Services.ServiceInstance {
         if (!this._config.wdi5.skipInjectUI5OnStart) {
             if (browser instanceof MultiRemoteDriver) {
                 for (const name of (browser as MultiRemoteDriver).instances) {
-                    await injectUI5(this._config as wdi5Config, browser[name])
+                    if (await checkForUI5Page()) {
+                        await injectUI5(this._config as wdi5Config, browser[name])
+                    }
                 }
             } else {
-                await injectUI5(this._config as wdi5Config, browser)
+                if (await checkForUI5Page()) {
+                    await injectUI5(this._config as wdi5Config, browser)
+                }
             }
         } else {
             Logger.warn("skipped wdi5 injection!")
