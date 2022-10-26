@@ -27,6 +27,13 @@ Thank you for having accompanied our journey! 🏅
 
 - Peder Hveem Alsvik [@ph-alsvik](https://github.com/ph-alsvik) - July 2022..October 2022
 
+## Credits
+
+:raised_hands: for providing us with infrastructure goes to:
+
+![BrowserStack Logo](https://d98b8t1nnulk5.cloudfront.net/production/images/layout/logo-header.png?1469004780)   
+[![Testing Powered By SauceLabs](https://opensource.saucelabs.com/images/opensauce/powered-by-saucelabs-badge-white.png?sanitize=true "Testing Powered By SauceLabs")](https://saucelabs.com)
+
 ## License
 
 This work is dual-licensed under Apache 2.0 and the Derived Beer-ware 🍺 License. The official license will be Apache 2.0 but finally you can choose between one of them if you use this work.
