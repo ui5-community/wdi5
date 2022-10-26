@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.9.15 (2022-10-26)
+
+
+### Bug Fixes
+
+* multi-combo-box handling ([3432687](https://github.com/ui5-community/wdi5/commit/34326871e214d4a742fcc549adc1bdd1bd7a0232)), closes [#354](https://github.com/ui5-community/wdi5/issues/354)
+
 ### 0.9.14 (2022-10-26)
 
 ## 0.9.13 (2022-09-16)
