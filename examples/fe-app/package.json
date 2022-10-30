@@ -22,7 +22,7 @@
     "@wdio/selenium-standalone-service": "^7.19.5",
     "@wdio/spec-reporter": "^7.19.7",
     "chromedriver": "*",
-    "wdio-chromedriver-service": "^7.3.2",
+    "wdio-chromedriver-service": "*",
     "wdio-ui5-service": "*",
     "@sap/ux-specification": "latest",
     "@sap/ux-ui5-fe-mockserver-middleware": "^1.6.0",
