@@ -9,6 +9,8 @@
         "ecmaVersion": 2017
     },
     "globals": {
+        "browser": true,
+        "before": true,
         "SELECT": true,
         "INSERT": true,
         "UPDATE": true,

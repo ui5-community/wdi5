@@ -1,11 +1,19 @@
 {
-  "name": "fiori_elements_tutorial",
-  "version": "1.0.0",
-  "description": "A simple CAP project.",
-  "repository": "<Add your repository here>",
-  "license": "UNLICENSED",
-  "private": true,
-  "dependencies": {},
+  "name": "incidents",
+  "version": "0.0.1",
+  "description": "SAP Fiori elements",
+  "keywords": [
+    "ui5",
+    "openui5",
+    "sapui5"
+  ],
+  "main": "webapp/index.html",
+  "scripts": {
+    "deploy": "npx -p @sap/ux-ui5-tooling fiori add deploy-config cf",
+    "test": "karma start --singleRun",
+    "test:wdi5": "wdio run wdio.conf.js --headless",
+    "serve": "ui5 serve --port 8088"
+  },
   "devDependencies": {
     "@wdio/cli": "^7.19.7",
     "detect-libc": "^2.0.1",
@@ -14,28 +22,24 @@
     "@wdio/selenium-standalone-service": "^7.19.5",
     "@wdio/spec-reporter": "^7.19.7",
     "chromedriver": "*",
-    "wdio-chromedriver-service": "^7.3.2",
-    "wdio-ui5-service": "*"
+    "wdio-chromedriver-service": "*",
+    "wdio-ui5-service": "*",
+    "@sap/ux-specification": "latest",
+    "@sap/ux-ui5-fe-mockserver-middleware": "^1.6.0",
+    "@sap/ux-ui5-tooling": "1",
+    "@ui5/cli": "^2.14.9",
+    "@ui5/fs": "2.0.6",
+    "@ui5/logger": "2.0.1",
+    "karma": "^6.3.20",
+    "karma-ui5": "^2.4.0",
+    "karma-htmlfile-reporter": "^0.3.8",
+    "karma-junit-reporter": "^2.0.1",
+    "karma-chrome-launcher": "^3.1.1",
+    "karma-coverage": "^2.2.0"
   },
-  "scripts": {
-    "start": "npx cds run",
-    "watch": "npx cds watch",
-    "postinstall": "cd app/incidents && npm i",
-    "test": "cd app/incidents && npm run test",
-    "test:wdi5": "wdio run wdio.conf.js --headless",
-    "serve": "cd app/incidents && ui5 serve --port 8088"
-  },
-  "cds": {
-    "requires": {
-      "db": {
-        "kind": "sql"
-      }
-    },
-    "odata": {
-      "version": "v4"
-    }
-  },
-  "sapux": [
-    "app/incidents"
-  ]
+  "ui5": {
+    "dependencies": [
+      "@sap/ux-ui5-fe-mockserver-middleware"
+    ]
+  }
 }
