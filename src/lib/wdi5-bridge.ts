@@ -16,6 +16,7 @@ import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version"
 import { clientSide__navTo } from "../../client-side-js/_navTo"
 import { clientSide_allControls } from "../../client-side-js/allControls"
 import { Logger as _Logger } from "./Logger"
+import BTPAuthenticator from "./authentication/BTPAuthenticator"
 
 const Logger = _Logger.getInstance()
 
@@ -136,6 +137,16 @@ export async function checkForUI5Page() {
     return await browser.executeAsync((done) => {
         done(!!window.sap)
     })
+}
+
+export async function authenticate(options) {
+    switch (options.provider) {
+        case "BTP":
+            await BTPAuthenticator.login()
+            break
+        default:
+            break
+    }
 }
 
 //******************************************************************************************

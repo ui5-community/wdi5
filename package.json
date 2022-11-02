@@ -57,6 +57,7 @@
     "*.ts": "eslint --cache --fix"
   },
   "dependencies": {
+    "dotenv": "^16.0.3",
     "semver": "^7.3.7"
   },
   "devDependencies": {

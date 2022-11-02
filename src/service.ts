@@ -1,7 +1,7 @@
 import { Capabilities, Services } from "@wdio/types"
 import { MultiRemoteDriver } from "webdriverio/build/multiremote"
 
-import { start, injectUI5, setup, checkForUI5Page } from "./lib/wdi5-bridge"
+import { start, injectUI5, setup, checkForUI5Page, authenticate } from "./lib/wdi5-bridge"
 import { wdi5Config } from "./types/wdi5.types"
 
 import { Logger as _Logger } from "./lib/Logger"
@@ -25,6 +25,9 @@ export default class Service implements Services.ServiceInstance {
                     await injectUI5(this._config as wdi5Config, browser[name])
                 }
             } else {
+                if (this._capabilities["wdi5:authenticate"]) {
+                    await authenticate(this._capabilities["wdi5:authentication"])
+                }
                 await injectUI5(this._config as wdi5Config, browser)
             }
         } else {
