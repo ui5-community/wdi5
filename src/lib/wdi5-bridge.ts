@@ -17,6 +17,7 @@ import { clientSide__navTo } from "../../client-side-js/_navTo"
 import { clientSide_allControls } from "../../client-side-js/allControls"
 import { Logger as _Logger } from "./Logger"
 import BTPAuthenticator from "./authentication/BTPAuthenticator"
+import BasicAuthenticator from "./authentication/BasicAuthenticator"
 
 const Logger = _Logger.getInstance()
 
@@ -144,6 +145,8 @@ export async function authenticate(options) {
         case "BTP":
             await BTPAuthenticator.login()
             break
+        case "BasicAuth":
+            await BasicAuthenticator.login()
         default:
             break
     }
