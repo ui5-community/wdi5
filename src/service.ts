@@ -28,7 +28,6 @@ export default class Service implements Services.ServiceInstance {
                 if (this._capabilities["wdi5:authentication"]) {
                     await authenticate(this._capabilities["wdi5:authentication"])
                 }
-                await checkForUI5Page()
                 await injectUI5(this._config as wdi5Config, browser)
             }
         } else {

@@ -18,6 +18,7 @@ import { clientSide_allControls } from "../../client-side-js/allControls"
 import { Logger as _Logger } from "./Logger"
 import BTPAuthenticator from "./authentication/BTPAuthenticator"
 import BasicAuthenticator from "./authentication/BasicAuthenticator"
+import CustomAuthenticator from "./authentication/CustomAuthenticator"
 
 const Logger = _Logger.getInstance()
 
@@ -147,6 +148,9 @@ export async function authenticate(options) {
             break
         case "BasicAuth":
             await BasicAuthenticator.login()
+            break
+        case "custom":
+            await CustomAuthenticator.login(options)
         default:
             break
     }
