@@ -1,9 +1,16 @@
 import Authenticator from "./Authenticator"
 class CustomAuthenticator extends Authenticator {
-    async login(options) {
-        const username = await $(options.usernameSelector)
-        const submit = await $(options.submitSelector)
-        const password = await $(options.passwordSelector)
+    constructor(options) {
+        super()
+        this.usernameSelector = options.usernameSelector ?? "Logger.error()"
+        this.passwordSelector = options.passwordSelector ?? "Logger.error()"
+        this.submitSelector = options.submitSelector ?? "Logger.error"
+    }
+
+    async login() {
+        const username = await $(this.usernameSelector)
+        const submit = await $(this.submitSelector)
+        const password = await $(this.passwordSelector)
 
         await username.setValue(process.env.wdi5_username)
         await password.setValue(process.env.wdi5_password)
@@ -11,4 +18,4 @@ class CustomAuthenticator extends Authenticator {
     }
 }
 
-export default new CustomAuthenticator()
+export default CustomAuthenticator

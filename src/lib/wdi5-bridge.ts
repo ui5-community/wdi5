@@ -144,13 +144,13 @@ export async function checkForUI5Page() {
 export async function authenticate(options) {
     switch (options.provider) {
         case "BTP":
-            await BTPAuthenticator.login()
+            await new BTPAuthenticator(options).login()
             break
         case "BasicAuth":
             await BasicAuthenticator.login()
             break
         case "custom":
-            await CustomAuthenticator.login(options)
+            await new CustomAuthenticator(options).login()
         default:
             break
     }

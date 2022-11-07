@@ -1,1 +1,5 @@
-export default class Authenticator {}
+export default class Authenticator {
+    usernameSelector: string
+    passwordSelector: string
+    submitSelector: string
+}
