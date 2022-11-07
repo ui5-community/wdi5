@@ -63,6 +63,10 @@ interface wdi5ControlSelector {
      */
     viewName?: string
     /**
+     * in Fiori Element land, this attribute is used in dynamic UI compositions 
+     */
+    viewId?: string
+    /**
      * Fully qualified control class name in dot notation, eg: "sap.m.ObjectHeader"
      */
     controlType?: string
