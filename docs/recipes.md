@@ -219,7 +219,39 @@ In VS Code, use a `jsconfig.json` at the root of your JavaScript-project, at the
 
 See an example at `/examples/ui5-js-app/jsconfig.json` in the wdi5 repository.
 
-## test a `sap.m.ComboBox` `sap.m.MultiComboBox`
+## DevX: (JS) cast to proper type for code completion
+
+If your editor supports TypeScript, enjoy proper code completion in JavaScript test files by using JSDoc to inline-cast the result of `browser.asControl()` to the proper type.  
+This is possible by [TypeScript's support of prefixing expressions in parenthesis with a type annotation](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html#casts).  
+So by wrapping `browser.asControl()` in additional paranthesis and prefixing it by the JSDoc `type` annotation, the editor gets triggered to provide API completions.
+
+The below allows for suggesting `press()` on the retrieved control, as it is cast to a [`WDI5Control`](https://github.com/ui5-community/wdi5/blob/d92eac292e4018ebefeffe268a04bb3912076e02/src/lib/wdi5-control.ts#L18):
+
+<!-- prettier-ignore-start -->
+```js
+const { WDI5Control } = require("wdio-ui5-service/dist/lib/wdi5-control")
+//...
+/** @type {WDI5Control} */ (await browser
+.asControl({
+    selector: { /** ... */ }
+}))
+.press() // <-- code completion
+```
+<!-- prettier-ignore-end -->
+
+Another example: trigger a `sap.m.List`'s aggregation function...
+
+<!-- prettier-ignore-start -->
+```js
+/** @type {sap.m.List} */ (await browser.asControl({ selector: { id: "myList" } })).getItems()
+```
+<!-- prettier-ignore-end -->
+
+... and how this looks in an editor supporting JSDoc annotations:
+
+![screenshot of code completion at coding-time by using the proper JSDoc type cast](./img/jsdoc-type-cast-codecompletion.png)
+
+## test a `sap.m.ComboBox` or `sap.m.MultiComboBox`
 
 A `sap.m.ComboBox`'s or `sap.m.MultiComboBox`'s items will only be rendered when it's opened (once).
 So for programmatically working and testing the control, its' `.open()`-method needs to be used:
