@@ -221,7 +221,7 @@ See an example at `/examples/ui5-js-app/jsconfig.json` in the wdi5 repository.
 
 ## test a `sap.m.ComboBox` `sap.m.MultiComboBox`
 
-A `sap.m.ComboBox`'or `sap.m.MultiComboBox`s items will only be rendered when it's opened (once).
+A `sap.m.ComboBox`'s or `sap.m.MultiComboBox`'s items will only be rendered when it's opened (once).
 So for programmatically working and testing the control, its' `.open()`-method needs to be used:
 
 ```js
