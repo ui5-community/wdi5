@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.9.16 (2022-11-08)
+
+
+### Features
+
+* **types:** add viewId for dynamic UIs ([#365](https://github.com/ui5-community/wdi5/issues/365)) ([362d7d5](https://github.com/ui5-community/wdi5/commit/362d7d5498cea1b03bb62662d1e2c478486b86ea))
+
 ### 0.9.15 (2022-10-26)
 
 
