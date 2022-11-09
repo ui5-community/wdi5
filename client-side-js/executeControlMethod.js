@@ -51,6 +51,13 @@ async function clientSide_executeControlMethod(webElement, methodName, browserIn
                                 !(result instanceof sap.ui.core.Control) &&
                                 !(result instanceof sap.ui.core.Item)
                             ) {
+                                // save before manipulate
+                                const uuid = window.wdi5.saveObject(result)
+
+                                // extract the methods first
+                                const aProtoFunctions = window.wdi5.retrieveControlMethods(result, true)
+                                result = window.wdi5.createSerializeableCopy(result)
+
                                 // flatten the prototype so we have all funcs available
                                 const collapsed = window.wdi5.collapseObject(result)
                                 // exclude cyclic references
@@ -59,9 +66,22 @@ async function clientSide_executeControlMethod(webElement, methodName, browserIn
                                 )
                                 done({
                                     status: 0,
-                                    result: collapsedAndNonCyclic,
-                                    returnType: "result",
+                                    object: collapsedAndNonCyclic,
+                                    returnType: "object",
+                                    aProtoFunctions: aProtoFunctions,
+                                    uuid: uuid,
                                     nonCircularResultObject: collapsedAndNonCyclic
+                                })
+                            } else if (
+                                typeof result === "object" &&
+                                result !== null &&
+                                // wdi5 returns a wdi5 control if the UI5 api return its control
+                                // allows method chaining
+                                !(result instanceof sap.ui.base.Object)
+                            ) {
+                                done({
+                                    status: 2,
+                                    returnType: "unknown"
                                 })
                             } else {
                                 // we got ourselves a regular UI5 control

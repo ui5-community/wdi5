@@ -8,7 +8,7 @@ At the same time, the `wdi5`-api can be mixed with `wdio`'s api during tests at 
 
 ### Location
 
-The files containing tests should reside in `$ui5-app/webapp/test/` and be named `*.test.(j|t)s`.  
+The files containing tests should reside in `$ui5-app/webapp/test/` and be named `*.test.(j|t)s`.
 Yet both test file directory and naming pattern can be specified [via WebdriverIO's `specs`](https://webdriver.io/docs/options#specs) in [`wdio.conf.(j|t)s`](/configuration#wdi5).
 
 ### Test suites
@@ -122,6 +122,10 @@ const buttons = await browser.allControls(manySelector)
 const $button0 = await buttons[0].getWebElement()
 const $button = await browser.asControl(singleSelector).getWebElement()
 ```
+
+### asObject
+
+Every call of an UI5 method, which is under the hood execued via `executeConrolMehtod`, which retuns an object aka. as type `clientSide_ui5Response` contains an uuid as reference to the object saved in the browser at `window.wdi5.objectMap`. This object can be used later again by calling `browser.asObject(uuid)`.
 
 ## Control selectors
 

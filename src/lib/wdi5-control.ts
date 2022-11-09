@@ -8,6 +8,7 @@ import { clientSide_fireEvent } from "../../client-side-js/fireEvent"
 import { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types"
 import { Logger as _Logger } from "./Logger"
 import { wdioApi } from "./wdioApi"
+import { WDI5Object } from "./wdi5-object"
 
 const Logger = _Logger.getInstance()
 
@@ -520,6 +521,9 @@ export class WDI5Control {
                 return this
             case "result":
                 return result.nonCircularResultObject ? result.nonCircularResultObject : result.result
+            case "object":
+                // enhance with uuid
+                return new WDI5Object(result.uuid, result.aProtoFunctions, result.object)
             case "empty":
                 if (this._logging) {
                     Logger.warn("No data found in property or aggregation")
@@ -546,6 +550,9 @@ export class WDI5Control {
                     // return wdio elements
                     return result.result
                 }
+            case "unknown":
+                Logger.warn(`${methodName} returned unknown status`)
+                return null
             case "none":
                 return null
             default:
