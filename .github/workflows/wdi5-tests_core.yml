@@ -42,7 +42,7 @@ jobs:
         run: npm --version
       - name: update npm
         run: |
-          npm i -g npm@latest
+          npm i -g npm@8
           npm --version
 
       # install both module + sample app(s) deps
