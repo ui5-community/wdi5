@@ -33,7 +33,8 @@
     "babel-preset-transform-ui5": "^7.0.5",
     "mbt": "^1.2.18",
     "ts-deepmerge": "^5.0.0",
-    "ui5-middleware-simpleproxy": "^0.9.0"
+    "ui5-middleware-simpleproxy": "^0.9.0",
+    "wdio-ui5-service": "latest"
   },
   "ui5": {
     "dependencies": [
