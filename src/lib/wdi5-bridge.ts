@@ -142,19 +142,19 @@ export async function checkForUI5Page() {
     })
 }
 
-export async function authenticate(options) {
+export async function authenticate(options, browserInstanceName?) {
     switch (options.provider) {
         case "BTP":
-            await new BTPAuthenticator(options).login()
+            await new BTPAuthenticator(options, browserInstanceName).login()
             break
         case "BasicAuth":
-            await BasicAuthenticator.login()
+            await new BasicAuthenticator(browserInstanceName).login()
             break
         case "Office365":
-            await new Office365Authenticator(options).login()
+            await new Office365Authenticator(options, browserInstanceName).login()
             break
         case "custom":
-            await new CustomAuthenticator(options).login()
+            await new CustomAuthenticator(options, browserInstanceName).login()
         default:
             break
     }

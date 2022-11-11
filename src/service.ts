@@ -22,6 +22,9 @@ export default class Service implements Services.ServiceInstance {
         if (!this._config.wdi5.skipInjectUI5OnStart) {
             if (browser instanceof MultiRemoteDriver) {
                 for (const name of (browser as MultiRemoteDriver).instances) {
+                    if (this._capabilities[name].capabilities["wdi5:authentication"]) {
+                        await authenticate(this._capabilities[name].capabilities["wdi5:authentication"], name)
+                    }
                     await injectUI5(this._config as wdi5Config, browser[name])
                 }
             } else {

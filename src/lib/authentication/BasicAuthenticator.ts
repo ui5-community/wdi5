@@ -1,16 +1,19 @@
 import Authenticator from "./Authenticator"
 class BasicAuthenticator extends Authenticator {
+    constructor(browserInstanceName) {
+        super(browserInstanceName)
+    }
     async login() {
-        const url = await browser.getUrl()
+        const url = await this.browserInstance.getUrl()
         const matches = await url.match(/(\w*:?\/\/)(.+)/)
 
-        const basicAuthUrl = matches[1] + process.env.wdi5_username + ":" + process.env.wdi5_password + "@" + matches[2]
+        const basicAuthUrl = matches[1] + this.getUsername() + ":" + this.getPassword() + "@" + matches[2]
 
-        await browser.url(basicAuthUrl)
+        await this.browserInstance.url(basicAuthUrl)
 
         // trick 17
-        await browser.url(url)
+        await this.browserInstance.url(url)
     }
 }
 
-export default new BasicAuthenticator()
+export default BasicAuthenticator

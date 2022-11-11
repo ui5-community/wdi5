@@ -8,12 +8,13 @@
     "start": "npm-run-all --parallel watch:ts start:ui5",
     "watch:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files --watch",
     "start:ui5": "ui5 serve --port 8080",
-    "test": "run-s test:authentication",
+    "test": "run-s test:*",
     "test:basic": "wdio run wdio-ui5.conf.ts",
     "test:authentication": "run-s authentication:*",
     "authentication:btp": "wdio run test/e2e/authentication/wdio-btp-authentication.conf.ts",
     "authentication:basic-auth": "wdio run test/e2e/authentication/wdio-basic-auth-authentication.conf.ts",
     "authentication:custom": "wdio run test/e2e/authentication/wdio-custom-authentication.conf.ts",
+    "authentication:multiRemote": "wdio run test/e2e/authentication/wdio-btp-authentication-multiremote.conf.ts",
     "build:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files",
     "build:ui5": "ui5 build --clean-dest",
     "build:mtar": "mv dist approuter/webapp && mbt build",
@@ -30,6 +31,7 @@
     "@types/jquery": "3.5.14",
     "babel-preset-transform-ui5": "^7.0.5",
     "mbt": "^1.2.18",
+    "ts-deepmerge": "^5.0.0",
     "ui5-middleware-simpleproxy": "^0.9.0"
   },
   "ui5": {

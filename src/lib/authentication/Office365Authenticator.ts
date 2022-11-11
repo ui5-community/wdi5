@@ -1,8 +1,8 @@
 import Authenticator from "./Authenticator"
 class Office365Authenticator extends Authenticator {
     staySignedIn: boolean
-    constructor(options) {
-        super()
+    constructor(options, browserInstanceName) {
+        super(browserInstanceName)
         this.usernameSelector = options.usernameSelector ?? "[name=loginfmt]"
         this.passwordSelector = options.passwordSelector ?? "[name=passwd]"
         this.submitSelector = options.submitSelector ?? "[data-report-event=Signin_Submit]"
@@ -10,15 +10,15 @@ class Office365Authenticator extends Authenticator {
     }
 
     async login() {
-        const username = await $(this.usernameSelector)
-        await username.setValue(process.env.wdi5_username)
+        const usernameControl = await $(this.usernameSelector)
+        await usernameControl.setValue(this.getUsername())
         await $(this.submitSelector).click()
         await browser.waitUntil(async () => await (await $(this.passwordSelector)).isClickable(), {
             timeout: 5000,
             timeoutMsg: "Password field is not visible"
         })
-        const password = await $(this.passwordSelector)
-        await password.setValue(process.env.wdi5_password)
+        const passwordControl = await $(this.passwordSelector)
+        await passwordControl.setValue(this.getPassword())
         await $(this.submitSelector).click()
         if (this.staySignedIn) {
             await browser.waitUntil(async () => await (await $("#KmsiDescription")).isClickable(), {

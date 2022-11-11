@@ -1,26 +1,28 @@
 import Authenticator from "./Authenticator"
 class BTPAuthenticator extends Authenticator {
-    constructor(options) {
-        super()
+    constructor(options, browserInstanceName) {
+        super(browserInstanceName)
         this.usernameSelector = options.usernameSelector ?? "#j_username"
         this.passwordSelector = options.passwordSelector ?? "#j_password"
         this.submitSelector = options.submitSelector ?? "#logOnFormSubmit"
     }
 
     async login() {
-        const username = await $(this.usernameSelector)
-        const submit = await $(this.submitSelector)
-        const password = await $(this.passwordSelector)
+        const usernameControl = await this.browserInstance.$(this.usernameSelector)
+        const passwordControl = await this.browserInstance.$(this.passwordSelector)
+        const submit = await this.browserInstance.$(this.submitSelector)
+        const wdi5Username = this.getUsername()
+        const wdi5Password = this.getPassword()
 
-        if (await password.isExisting()) {
-            await username.setValue(process.env.wdi5_username)
-            await password.setValue(process.env.wdi5_password)
+        if (await passwordControl.isExisting()) {
+            await usernameControl.setValue(wdi5Username)
+            await passwordControl.setValue(wdi5Password)
             await submit.click()
         } else {
-            await username.setValue(process.env.wdi5_username)
+            await usernameControl.setValue(wdi5Username)
             await submit.click()
-            const password = await $(this.passwordSelector)
-            await password.setValue(process.env.wdi5_password)
+            const password = await this.browserInstance.$(this.passwordSelector)
+            await password.setValue(wdi5Password)
             await submit.click()
         }
     }
