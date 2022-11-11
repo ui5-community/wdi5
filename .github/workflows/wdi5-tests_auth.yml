@@ -27,7 +27,7 @@ env:
   wdi5_two_password: ${{secrets.BTP_PASSWORD}}
 
 jobs:
-  test-ts-app:
+  test-auth:
     runs-on: ubuntu-latest
 
     strategy:
@@ -69,4 +69,4 @@ jobs:
           npm ci
 
       - name: btp/sap cloud id, basic auth, office 365, custom auth
-        run: npm run test-h:authentication -w examples/ui5-ts-app
+        run: npm run test:auth
