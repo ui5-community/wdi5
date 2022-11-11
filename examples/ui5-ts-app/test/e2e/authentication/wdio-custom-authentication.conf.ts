@@ -32,5 +32,5 @@ const _config = {
     capabilities: [capability]
 }
 const config = merge(baseConf, _config)
-config.specs = ["./test/e2e/**/Custom.test.ts"]
+config.specs = ["./test/e2e/Custom.test.ts"]
 export { config }
