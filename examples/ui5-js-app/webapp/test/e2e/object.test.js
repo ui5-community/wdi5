@@ -1,6 +1,7 @@
 const Main = require("./pageObjects/Main")
 const marky = require("marky")
 const { wdi5 } = require("wdio-ui5-service")
+const Other = require("./pageObjects/Other")
 
 const titleSelector = { selector: { id: "container-Sample---Main--Title::NoAction.h1" } }
 
@@ -69,5 +70,19 @@ describe("ui5 object tests", () => {
         const northwaveModel = await mainView.getModel()
         const customerName = await northwaveModel.getProperty("/Customers('TRAIH')/ContactName")
         expect(customerName).toEqual("Helvetius Nagy")
+    })
+
+    it("getModel via BindingContext and Object", async () => {
+        // test equivalent of
+        // sap.ui.getCore().byId("container-Sample---Other--PeopleList").getItems()[0].getBindingContext().getObject().FirstName
+
+        await wdi5.goTo({ sHash: "#/Other" })
+
+        const table = await Other.getList(true)
+        const firstItem = await table.getItems(0)
+        const itemContext = await firstItem.getBindingContext()
+        const myObject = await itemContext.getObject()
+
+        expect(myObject.FirstName).toEqual("Nancy")
     })
 })
