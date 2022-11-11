@@ -1,11 +1,19 @@
 {
-  "name": "fiori_elements_tutorial",
-  "version": "1.0.0",
-  "description": "A simple CAP project.",
-  "repository": "<Add your repository here>",
-  "license": "UNLICENSED",
-  "private": true,
-  "dependencies": {},
+  "name": "incidents",
+  "version": "0.0.1",
+  "description": "SAP Fiori elements",
+  "keywords": [
+    "ui5",
+    "openui5",
+    "sapui5"
+  ],
+  "main": "webapp/index.html",
+  "scripts": {
+    "deploy": "npx -p @sap/ux-ui5-tooling fiori add deploy-config cf",
+    "test": "karma start --singleRun",
+    "test:wdi5": "wdio run wdio.conf.js --headless",
+    "serve": "ui5 serve --port 8088"
+  },
   "devDependencies": {
     "@wdio/cli": "^7",
     "detect-libc": "^2.0.1",
@@ -17,25 +25,9 @@
     "wdio-chromedriver-service": "^7",
     "wdio-ui5-service": "*"
   },
-  "scripts": {
-    "start": "npx cds run",
-    "watch": "npx cds watch",
-    "postinstall": "cd app/incidents && npm i",
-    "test": "cd app/incidents && npm run test",
-    "test:wdi5": "wdio run wdio.conf.js --headless",
-    "serve": "cd app/incidents && ui5 serve --port 8088"
-  },
-  "cds": {
-    "requires": {
-      "db": {
-        "kind": "sql"
-      }
-    },
-    "odata": {
-      "version": "v4"
-    }
-  },
-  "sapux": [
-    "app/incidents"
-  ]
+  "ui5": {
+    "dependencies": [
+      "@sap/ux-ui5-fe-mockserver-middleware"
+    ]
+  }
 }
