@@ -57,7 +57,7 @@ jobs:
       # install both module + sample app(s) deps
       - name: install packages (wdi5 + sample app(s))
         run: |
-          npm pkg set scripts.prepare ""
+          npm pkg delete scripts.prepare
           npm ci
 
       # build things
