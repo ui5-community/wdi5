@@ -47,6 +47,39 @@ export interface wdi5Config extends WebdriverIO.Config {
          */
         waitForUI5Timeout?: number
     }
+    capabilities: wdi5Capabilites[]
+}
+
+/**
+ * the "wdi5" prefix is to comply with W3C standards
+ */
+interface wdi5Capabilites extends WebDriver.DesiredCapabilities {
+    "wdi5:authentication"?: BTPAuthenticator | BasicAuthAuthenticator | CustomAuthenticator | Office365Authenticator
+}
+
+type BTPAuthenticator = {
+    provider: "BTP"
+    usernameSelector?: string
+    passwordSelector?: string
+    submitSelector?: string
+}
+
+type BasicAuthAuthenticator = {
+    provider: "BasicAuth"
+}
+
+type CustomAuthenticator = {
+    provider: "custom"
+    usernameSelector: string
+    passwordSelector: string
+    submitSelector: string
+}
+
+type Office365Authenticator = {
+    provider: "Office365"
+    usernameSelector?: string
+    passwordSelector?: string
+    submitSelector?: string
 }
 
 interface wdi5ControlSelector {

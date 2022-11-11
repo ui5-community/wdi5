@@ -19,6 +19,7 @@ import { Logger as _Logger } from "./Logger"
 import BTPAuthenticator from "./authentication/BTPAuthenticator"
 import BasicAuthenticator from "./authentication/BasicAuthenticator"
 import CustomAuthenticator from "./authentication/CustomAuthenticator"
+import Office365Authenticator from "./authentication/Office365Authenticator"
 
 const Logger = _Logger.getInstance()
 
@@ -148,6 +149,9 @@ export async function authenticate(options) {
             break
         case "BasicAuth":
             await BasicAuthenticator.login()
+            break
+        case "Office365":
+            await new Office365Authenticator(options).login()
             break
         case "custom":
             await new CustomAuthenticator(options).login()
