@@ -1,6 +1,7 @@
 import { join } from "path"
 import { wdi5Config } from "wdio-ui5-service/dist/types/wdi5.types"
-
+process.env.wdi5_username = "tomsmith"
+process.env.wdi5_password = "SuperSecretPassword!"
 export const config: wdi5Config = {
     wdi5: {
         screenshotPath: join("test", "__screenshots__"),
@@ -11,12 +12,11 @@ export const config: wdi5Config = {
 
     services: ["chromedriver", "ui5"],
 
-    // specs: ["./test/e2e/**/basic.test.ts"],
+    specs: ["./test/e2e/**/Custom.test.ts"],
 
     maxInstances: 10,
     capabilities: [
         {
-            //@ts-ignore
             "wdi5:authentication": {
                 provider: "custom",
                 usernameSelector: "input[id='username']",
