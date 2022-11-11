@@ -23,7 +23,8 @@
     "@wdio/spec-reporter": "^7",
     "chromedriver": "*",
     "wdio-chromedriver-service": "^7",
-    "wdio-ui5-service": "*"
+    "wdio-ui5-service": "*",
+    "@sap/ux-ui5-fe-mockserver-middleware": "latest"
   },
   "ui5": {
     "dependencies": [
