@@ -47,14 +47,17 @@ export interface wdi5Config extends WebdriverIO.Config {
          */
         waitForUI5Timeout?: number
     }
-    capabilities: wdi5Capabilites[]
+    capabilities: wdi5Capabilites[] | wdi5MultiRemoteCapability
 }
 
 /**
  * the "wdi5" prefix is to comply with W3C standards
  */
-interface wdi5Capabilites extends WebDriver.DesiredCapabilities {
+export interface wdi5Capabilites extends WebDriver.DesiredCapabilities {
     "wdi5:authentication"?: BTPAuthenticator | BasicAuthAuthenticator | CustomAuthenticator | Office365Authenticator
+}
+export interface wdi5MultiRemoteCapability {
+    [key: string]: { capabilities: wdi5Capabilites }
 }
 
 type BTPAuthenticator = {
