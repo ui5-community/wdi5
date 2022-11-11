@@ -19,11 +19,16 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
                         // create new object
                         const uuid = window.wdi5.saveObject(result)
                         const aProtoFunctions = window.wdi5.retrieveControlMethods(result, true)
-                        result = window.wdi5.createSerializeableCopy(result)
+
+                        result = window.wdi5.collapseObject(result)
+
+                        const collapsedAndNonCyclic = JSON.parse(
+                            JSON.stringify(result, window.wdi5.getCircularReplacer())
+                        )
 
                         done({
                             status: 0,
-                            object: result,
+                            object: collapsedAndNonCyclic,
                             uuid: uuid,
                             returnType: "object",
                             aProtoFunctions: aProtoFunctions

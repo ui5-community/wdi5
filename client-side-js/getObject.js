@@ -21,14 +21,17 @@ async function clientSide_getObject(uuid) {
                 window.wdi5.Log.info(`[browser wdi5] object with uuid: ${uuid} located!`)
 
                 const aProtoFunctions = window.wdi5.retrieveControlMethods(object, true)
-                object = window.wdi5.createSerializeableCopy(object)
+
+                object = window.wdi5.collapseObject(object)
+
+                const collapsedAndNonCyclic = JSON.parse(JSON.stringify(object, window.wdi5.getCircularReplacer()))
 
                 done({
                     status: 0,
                     uuid: uuid,
                     aProtoFunctions: aProtoFunctions,
                     className: className,
-                    object: object
+                    object: collapsedAndNonCyclic
                 })
             },
             window.wdi5.errorHandling.bind(this, done)

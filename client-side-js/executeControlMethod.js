@@ -56,7 +56,6 @@ async function clientSide_executeControlMethod(webElement, methodName, browserIn
 
                                 // extract the methods first
                                 const aProtoFunctions = window.wdi5.retrieveControlMethods(result, true)
-                                result = window.wdi5.createSerializeableCopy(result)
 
                                 // flatten the prototype so we have all funcs available
                                 const collapsed = window.wdi5.collapseObject(result)
