@@ -3,21 +3,17 @@ import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
 
 describe("Basic", async () => {
     it("browser.allControls: check number of buttons", async () => {
-        // const allButtonsSelector: wdi5Selector = {
-        //     selector: {
-        //         controlType: "sap.ui.webc.main.Button",
-        //         viewName: "test.Sample.tsapp.view.Main"
-        //     }
-        // }
-        // // @ts-ignore
-        // const allButtonsTwo = (await browser.two.allControls(allButtonsSelector)) as unknown as Array<Button>
-        // // @ts-ignore
-        // const allButtonsOne = (await browser.one.allControls(allButtonsSelector)) as unknown as Array<Button>
-        // expect(allButtonsTwo.length).toEqual(1)
-        // expect(allButtonsOne.length).toEqual(1)
+        const allButtonsSelector: wdi5Selector = {
+            selector: {
+                controlType: "sap.ui.webc.main.Button",
+                viewName: "test.Sample.tsapp.view.Main"
+            }
+        }
         // @ts-ignore
-        browser.one.pause(3000)
+        const allButtonsTwo = (await browser.two.allControls(allButtonsSelector)) as unknown as Array<Button>
         // @ts-ignore
-        browser.two.pause(3000)
+        const allButtonsOne = (await browser.one.allControls(allButtonsSelector)) as unknown as Array<Button>
+        expect(allButtonsTwo.length).toEqual(1)
+        expect(allButtonsOne.length).toEqual(1)
     })
 })
