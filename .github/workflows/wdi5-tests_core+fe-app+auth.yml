@@ -1,5 +1,4 @@
-name: FE app - wdi5 tests
-
+name: core+FE-app+auth
 on:
   pull_request:
     branches:
@@ -19,7 +18,7 @@ on:
       - "!*.cjs"
 
 jobs:
-  test-fe-app:
+  tests:
     runs-on: ubuntu-latest
 
     strategy:
