@@ -1,5 +1,4 @@
-name: JS-+TS-app
-
+name: FE-app
 on:
   pull_request:
     branches:
@@ -64,11 +63,7 @@ jobs:
       - name: build
         run: npm run build
 
-      # run wdi5 core tests > moved to separate action
-
-      # run wdi5 tests within app(s)
-      - name: test js-app
-        run: npm run test-h:js-app
-
-      - name: test ts-app
-        run: npm run test-h:ts-app
+      # run fiori elements-related wdi5 tests
+      # explicit headless mode!
+      - name: test fe-app
+        run: npm run test:fe-app

@@ -1,4 +1,5 @@
-name: core+FE-app+auth
+name: TS-app
+
 on:
   pull_request:
     branches:
@@ -63,13 +64,6 @@ jobs:
       - name: build
         run: npm run build
 
-      - name: test wdi5 core
-        run: npm test
-
-      # run fiori elements-related wdi5 tests
-      # explicit headless mode!
-      - name: test fe-app
-        run: npm run test:fe-app
-
-      - name: btp/sap cloud id, basic auth, office 365, custom auth
-        run: npm run test:auth
+      # run wdi5 tests within app(s)
+      - name: test ts-app
+        run: npm run test-h:ts-app
