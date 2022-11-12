@@ -17,6 +17,14 @@ on:
       - "!*.md"
       - "!*.cjs"
 
+env:
+  wdi5_username: ${{secrets.BTP_LOGIN}}
+  wdi5_one_username: ${{secrets.BTP_LOGIN}}
+  wdi5_two_username: ${{secrets.BTP_LOGIN}}
+  wdi5_password: ${{secrets.BTP_PASSWORD}}
+  wdi5_one_password: ${{secrets.BTP_PASSWORD}}
+  wdi5_two_password: ${{secrets.BTP_PASSWORD}}
+
 jobs:
   tests:
     runs-on: ubuntu-latest
