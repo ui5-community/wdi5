@@ -1,10 +1,22 @@
+import { CustomAuthenticator as CustomAuthenticatorType } from "../../types/wdi5.types"
+import { Logger } from "../Logger"
 import Authenticator from "./Authenticator"
+
 class CustomAuthenticator extends Authenticator {
-    constructor(options, browserInstance) {
+    constructor(
+        options: CustomAuthenticatorType,
+        browserInstance: WebdriverIO.Browser | WebdriverIO.MultiRemoteBrowser
+    ) {
+        if (!options.usernameSelector || !options.passwordSelector || !options.submitSelector) {
+            const msg =
+                "all options must be provided for a custom authenticator:\nusernameSelector, passwordSelector, submitSelector"
+            Logger.getInstance().error(msg)
+            throw new Error(msg)
+        }
         super(browserInstance)
-        this.usernameSelector = options.usernameSelector ?? "Logger.error()"
-        this.passwordSelector = options.passwordSelector ?? "Logger.error()"
-        this.submitSelector = options.submitSelector ?? "Logger.error"
+        this.usernameSelector = options.usernameSelector
+        this.passwordSelector = options.passwordSelector
+        this.submitSelector = options.submitSelector
     }
 
     async login() {
