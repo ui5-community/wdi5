@@ -4,7 +4,7 @@ import { tmpdir } from "os"
 import * as semver from "semver"
 import { mark as marky_mark, stop as marky_stop } from "marky"
 
-import { clientSide_ui5Response, wdi5Config, wdi5Selector } from "../types/wdi5.types"
+import { clientSide_ui5Object, clientSide_ui5Response, wdi5Config, wdi5Selector } from "../types/wdi5.types"
 import { MultiRemoteDriver } from "webdriverio/build/multiremote"
 import { WDI5Control } from "./wdi5-control"
 import { WDI5FE } from "./wdi5-fe"
@@ -12,10 +12,12 @@ import { clientSide_injectTools } from "../../client-side-js/injectTools"
 import { clientSide_injectUI5 } from "../../client-side-js/injectUI5"
 import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement"
 import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready"
+import { clientSide_getObject } from "../../client-side-js/getObject"
 import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version"
 import { clientSide__navTo } from "../../client-side-js/_navTo"
 import { clientSide_allControls } from "../../client-side-js/allControls"
 import { Logger as _Logger } from "./Logger"
+import { WDI5Object } from "./wdi5-object"
 import BTPAuthenticator from "./authentication/BTPAuthenticator"
 import BasicAuthenticator from "./authentication/BasicAuthenticator"
 import CustomAuthenticator from "./authentication/CustomAuthenticator"
@@ -238,6 +240,19 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
             Logger.info(`reusing internal control with id ${internalKey}`)
         }
         return browserInstance._controls[internalKey]
+    })
+
+    browser.addCommand("asObject", async (_uuid: string) => {
+        const _result = (await clientSide_getObject(_uuid)) as clientSide_ui5Object
+        const { uuid, status, aProtoFunctions, className, object } = _result
+        if (status === 0) {
+            // create new WDI5-Object
+            const wdiOjject = new WDI5Object(uuid, aProtoFunctions, object)
+            return wdiOjject
+        }
+        _writeObjectResultLog(_result, "asObject()")
+
+        return { status: status, aProtoFunctions: aProtoFunctions, className: className, uuid: uuid }
     })
 
     // no fluent API -> no private method
