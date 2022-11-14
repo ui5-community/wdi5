@@ -46,7 +46,7 @@ jobs:
       # and generating changelog
       # and tagging the release properly
       # and auto-incrementing the release number
-      - run: npm run release -- --prerelease pre
+      - run: npm run release -- --prerelease pre --release-as major
       # push to self aka main from within gh action with "release-state"
       # doesn't trigger this workflow again
       # b/c of missing personal access token here
