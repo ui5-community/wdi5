@@ -60,25 +60,25 @@ export interface wdi5MultiRemoteCapability {
     [key: string]: { capabilities: wdi5Capabilites }
 }
 
-type BTPAuthenticator = {
+export type BTPAuthenticator = {
     provider: "BTP"
     usernameSelector?: string
     passwordSelector?: string
     submitSelector?: string
 }
 
-type BasicAuthAuthenticator = {
+export type BasicAuthAuthenticator = {
     provider: "BasicAuth"
 }
 
-type CustomAuthenticator = {
+export type CustomAuthenticator = {
     provider: "custom"
     usernameSelector: string
     passwordSelector: string
     submitSelector: string
 }
 
-type Office365Authenticator = {
+export type Office365Authenticator = {
     provider: "Office365"
     usernameSelector?: string
     passwordSelector?: string
