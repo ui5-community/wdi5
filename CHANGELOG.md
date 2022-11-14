@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.0.0-pre.1 (2022-11-14)
+
+
+### Features
+
+* getObject ([#366](https://github.com/ui5-community/wdi5/issues/366)) ([2bca472](https://github.com/ui5-community/wdi5/commit/2bca472c792c7b3a6e82b197d7d4afedaa2c346f))
+
 ## 1.0.0-pre.0 (2022-11-14)
 
 
