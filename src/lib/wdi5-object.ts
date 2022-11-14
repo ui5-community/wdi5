@@ -4,7 +4,7 @@ import { Logger as _Logger } from "./Logger"
 
 const Logger = _Logger.getInstance()
 /**
- * * Kind of equivalent representation of a sap.ui.base.Object
+ * equivalent representation of a sap.ui.base.Object in Node.js-scope
  */
 export class WDI5Object {
     private _uuid: any
@@ -41,7 +41,7 @@ export class WDI5Object {
 
     private async _excuteObjectMethod(methodName: string, uuid: string, ...args) {
         // call browser scope
-        // regular browser-time execution of UI5 control method
+        // regular browser-time execution of UI5 object method
         const result = (await clientSide_executeObjectMethod(uuid, methodName, args)) as clientSide_ui5Response
 
         // create logging
