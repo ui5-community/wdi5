@@ -125,7 +125,9 @@ const $button = await browser.asControl(singleSelector).getWebElement()
 
 ### asObject
 
-Every call of an UI5 method, which is under the hood execued via `executeConrolMehtod`, which retuns an object aka. as type `clientSide_ui5Response` contains an uuid as reference to the object saved in the browser at `window.wdi5.objectMap`. This object can be used later again by calling `browser.asObject(uuid)`.
+(insert proper docs here :) )  
+(original:  
+Every call of an UI5 method, which is under the hood execued via `executeControlMehtod`, which retuns an object aka. as type `clientSide_ui5Response` contains an uuid as reference to the object saved in the browser at `window.wdi5.objectMap`. This object can be used later again by calling `browser.asObject(uuid)`.)
 
 ## Control selectors
 
