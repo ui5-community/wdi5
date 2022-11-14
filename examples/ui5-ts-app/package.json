@@ -8,7 +8,14 @@
     "start": "npm-run-all --parallel watch:ts start:ui5",
     "watch:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files --watch",
     "start:ui5": "ui5 serve --port 8080",
+    "//test": "run-s test:*",
     "test": "wdio run wdio-ui5.conf.ts",
+    "test:authentication": "run-s authentication:*",
+    "test-h:authentication": "run-s \"authentication:* -- --headless\"",
+    "authentication:btp": "wdio run test/e2e/authentication/wdio-btp-authentication.conf.ts",
+    "authentication:basic-auth": "wdio run test/e2e/authentication/wdio-basic-auth-authentication.conf.ts",
+    "authentication:custom": "wdio run test/e2e/authentication/wdio-custom-authentication.conf.ts",
+    "authentication:multiRemote": "wdio run test/e2e/authentication/wdio-btp-authentication-multiremote.conf.ts",
     "build:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files",
     "build:ui5": "ui5 build --clean-dest",
     "build:mtar": "mv dist approuter/webapp && mbt build",
@@ -20,12 +27,14 @@
     "@babel/core": "^7.18.10",
     "@babel/preset-env": "^7.18.10",
     "@babel/preset-typescript": "^7.18.6",
-    "@openui5/ts-types-esm": "^1.106.0",
-    "@sap/approuter": "^11.3.4",
+    "@openui5/ts-types-esm": "latest",
+    "@sap/approuter": "^11.6.1",
     "@types/jquery": "3.5.14",
     "babel-preset-transform-ui5": "^7.0.5",
     "mbt": "^1.2.18",
-    "ui5-middleware-simpleproxy": "^0.9.0"
+    "ts-deepmerge": "^5.0.0",
+    "ui5-middleware-simpleproxy": "^0.9.0",
+    "wdio-ui5-service": "latest"
   },
   "ui5": {
     "dependencies": [

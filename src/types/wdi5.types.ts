@@ -48,6 +48,43 @@ export interface wdi5Config extends WebdriverIO.Config {
          */
         waitForUI5Timeout?: number
     }
+    capabilities: wdi5Capabilites[] | wdi5MultiRemoteCapability
+}
+
+/**
+ * the "wdi5" prefix is to comply with W3C standards
+ */
+export interface wdi5Capabilites extends WebDriver.DesiredCapabilities {
+    "wdi5:authentication"?: BTPAuthenticator | BasicAuthAuthenticator | CustomAuthenticator | Office365Authenticator
+}
+export interface wdi5MultiRemoteCapability {
+    [key: string]: { capabilities: wdi5Capabilites }
+}
+
+export type BTPAuthenticator = {
+    provider: "BTP"
+    usernameSelector?: string
+    passwordSelector?: string
+    submitSelector?: string
+}
+
+export type BasicAuthAuthenticator = {
+    provider: "BasicAuth"
+}
+
+export type CustomAuthenticator = {
+    provider: "custom"
+    usernameSelector: string
+    passwordSelector: string
+    submitSelector: string
+}
+
+export type Office365Authenticator = {
+    provider: "Office365"
+    usernameSelector?: string
+    passwordSelector?: string
+    submitSelector?: string
+    staySignedIn?: boolean
 }
 
 interface wdi5ControlSelector {
@@ -63,6 +100,10 @@ interface wdi5ControlSelector {
      * Name of the control's view parent
      */
     viewName?: string
+    /**
+     * in Fiori Element land, this attribute is used in dynamic UI compositions
+     */
+    viewId?: string
     /**
      * Fully qualified control class name in dot notation, eg: "sap.m.ObjectHeader"
      */

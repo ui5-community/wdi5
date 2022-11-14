@@ -18,6 +18,10 @@ import { clientSide__navTo } from "../../client-side-js/_navTo"
 import { clientSide_allControls } from "../../client-side-js/allControls"
 import { Logger as _Logger } from "./Logger"
 import { WDI5Object } from "./wdi5-object"
+import BTPAuthenticator from "./authentication/BTPAuthenticator"
+import BasicAuthenticator from "./authentication/BasicAuthenticator"
+import CustomAuthenticator from "./authentication/CustomAuthenticator"
+import Office365Authenticator from "./authentication/Office365Authenticator"
 
 const Logger = _Logger.getInstance()
 
@@ -138,6 +142,24 @@ export async function checkForUI5Page() {
     return await browser.executeAsync((done) => {
         done(!!window.sap)
     })
+}
+
+export async function authenticate(options, browserInstanceName?) {
+    switch (options.provider) {
+        case "BTP":
+            await new BTPAuthenticator(options, browserInstanceName).login()
+            break
+        case "BasicAuth":
+            await new BasicAuthenticator(browserInstanceName).login()
+            break
+        case "Office365":
+            await new Office365Authenticator(options, browserInstanceName).login()
+            break
+        case "custom":
+            await new CustomAuthenticator(options, browserInstanceName).login()
+        default:
+            break
+    }
 }
 
 //******************************************************************************************

@@ -1,4 +1,4 @@
-name: TS app - wdi5 tests
+name: TS-app
 
 on:
   pull_request:
@@ -19,7 +19,7 @@ on:
       - "!*.cjs"
 
 jobs:
-  test-ts-app:
+  tests:
     runs-on: ubuntu-latest
 
     strategy:
@@ -64,5 +64,6 @@ jobs:
       - name: build
         run: npm run build
 
+      # run wdi5 tests within app(s)
       - name: test ts-app
         run: npm run test-h:ts-app

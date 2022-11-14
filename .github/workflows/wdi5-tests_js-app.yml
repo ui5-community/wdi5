@@ -1,4 +1,4 @@
-name: JS app - wdi5 tests
+name: JS-app
 
 on:
   pull_request:
@@ -19,7 +19,7 @@ on:
       - "!*.cjs"
 
 jobs:
-  test-js-app:
+  tests:
     runs-on: ubuntu-latest
 
     strategy:
@@ -63,8 +63,6 @@ jobs:
       # build things
       - name: build
         run: npm run build
-
-      # run wdi5 core tests > moved to separate action
 
       # run wdi5 tests within app(s)
       - name: test js-app
