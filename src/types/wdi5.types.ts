@@ -83,6 +83,7 @@ export type Office365Authenticator = {
     usernameSelector?: string
     passwordSelector?: string
     submitSelector?: string
+    staySignedIn?: boolean
 }
 
 interface wdi5ControlSelector {

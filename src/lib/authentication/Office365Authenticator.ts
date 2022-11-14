@@ -1,7 +1,9 @@
+import { Office365Authenticator as Office365AuthenticatorType } from "../../types/wdi5.types"
 import Authenticator from "./Authenticator"
+
 class Office365Authenticator extends Authenticator {
     staySignedIn: boolean
-    constructor(options, browserInstanceName) {
+    constructor(options: Office365AuthenticatorType, browserInstanceName) {
         super(browserInstanceName)
         this.usernameSelector = options.usernameSelector ?? "[name=loginfmt]"
         this.passwordSelector = options.passwordSelector ?? "[name=passwd]"
