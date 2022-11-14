@@ -54,6 +54,8 @@ async function clientSide_executeControlMethod(webElement, methodName, browserIn
                                 // save before manipulate
                                 const uuid = window.wdi5.saveObject(result)
 
+                                // FIXME: extract, collapse and remove cylic in 1 step
+
                                 // extract the methods first
                                 const aProtoFunctions = window.wdi5.retrieveControlMethods(result, true)
 

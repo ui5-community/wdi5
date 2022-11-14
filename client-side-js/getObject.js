@@ -20,6 +20,8 @@ async function clientSide_getObject(uuid) {
                 }
                 window.wdi5.Log.info(`[browser wdi5] object with uuid: ${uuid} located!`)
 
+                // FIXME: extract, collapse and remove cylic in 1 step
+
                 const aProtoFunctions = window.wdi5.retrieveControlMethods(object, true)
 
                 object = window.wdi5.collapseObject(object)
