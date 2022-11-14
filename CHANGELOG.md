@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.0.0-pre.0 (2022-11-14)
+
+
+### Features
+
+* authentication capabilities ([#369](https://github.com/ui5-community/wdi5/issues/369)) ([9c23bda](https://github.com/ui5-community/wdi5/commit/9c23bda7769a4421ed58eff28cae362ad9ea84ca)), closes [#207](https://github.com/ui5-community/wdi5/issues/207)
+
 ### 0.9.16 (2022-11-08)
 
 
