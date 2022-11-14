@@ -1,6 +1,8 @@
+import { BTPAuthenticator as BTPAuthenticatorType } from "../../types/wdi5.types"
 import Authenticator from "./Authenticator"
+
 class BTPAuthenticator extends Authenticator {
-    constructor(options, browserInstanceName) {
+    constructor(options: BTPAuthenticatorType, browserInstanceName) {
         super(browserInstanceName)
         this.usernameSelector = options.usernameSelector ?? "#j_username"
         this.passwordSelector = options.passwordSelector ?? "#j_password"
