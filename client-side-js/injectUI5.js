@@ -315,6 +315,10 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                                 return {
                                     id: element.data("InputWithSuggestionsListItem").getId()
                                 }
+                            } else if (controlType === "sap.m.PlanningCalendar") {
+                                return {
+                                    id: `${element.getId()}-CLI`
+                                }
                             } else {
                                 return {
                                     id: element.getId()
