@@ -1,7 +1,12 @@
+import Authenticator from "./lib/authentication/Authenticator"
 import { Logger } from "./lib/Logger"
 export class wdi5 {
     static getLogger(sPrefix = "wdi5") {
         return Logger.getInstance(sPrefix)
+    }
+    static async isLoggedIn(browserInstanceName?): Promise<boolean> {
+        const authenticator = new Authenticator(browserInstanceName)
+        return authenticator.getIsLoggedIn()
     }
 
     /**
@@ -31,6 +36,7 @@ export class wdi5 {
      * @param browserInstance the currently remote controlled browser
      */
     static async goTo(hash: string, browserInstance?: WebdriverIO.Browser)
+
     /**
      * @deprecated please supply only a single parameter to .goTo() and optionally a browser instance
      */
