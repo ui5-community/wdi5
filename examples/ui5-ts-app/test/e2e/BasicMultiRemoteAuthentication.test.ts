@@ -1,4 +1,4 @@
-import { wdi5 } from "../../../../dist"
+import { wdi5 } from "wdio-ui5-service"
 
 describe("MultiRemote Authentication", async () => {
     it("isLoggedIn status", async () => {
