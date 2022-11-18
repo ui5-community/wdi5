@@ -30,8 +30,8 @@ const _config = {
     capabilities: [],
     wdi5: {
         screenshotPath: "report/screenshots",
-        logLevel: "verbose", // error | verbose | silent
-        url: "#"
+        logLevel: "verbose" // error | verbose | silent
+        // url: "#"
     },
     services: ["ui5"],
     logLevel: "info",

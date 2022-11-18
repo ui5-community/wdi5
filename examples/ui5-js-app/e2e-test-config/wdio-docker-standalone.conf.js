@@ -7,10 +7,10 @@ delete baseConfig.capabilities
 
 const _config = {
     wdi5: {
-        url: "index.html",
+        // url: "index.html",
         screenshotPath: join("report", "screenshots")
     },
-    baseUrl: "http://localhost:8080",
+    baseUrl: "http://localhost:8080/index.html",
     maxInstances: 1,
     capabilities: [
         {
