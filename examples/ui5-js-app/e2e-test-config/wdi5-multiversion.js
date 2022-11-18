@@ -26,9 +26,9 @@ const versions = ["", "1.71", "1.84", "1.96"]
         fsExtra.copySync(path.resolve(__dirname, "wdio-webserver.conf.js"), targetWdioConf)
         const optionsWdioConf = {
             files: targetWdioConf,
-            from: [/url: "#"/, /specs: \[.*\]/],
+            from: [/8888"/, /specs: \[.*\]/],
             to: [
-                `url: "index-${version}"`, // this is only b/c of the "soerver" webserver in use...
+                `8888/index-${version}"`, // this is only b/c of the "soerver" webserver in use...
                 `specs: ["${path.resolve(__dirname, "../webapp/test/e2e/properties-matcher.test.js")}"]`
             ]
         }
