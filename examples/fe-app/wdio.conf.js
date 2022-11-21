@@ -33,7 +33,7 @@ exports.config = {
     // Level of logging verbosity: trace | debug | info | warn | error | silent
     logLevel: "error",
     bail: 0,
-    baseUrl: "http://localhost:8088/index.html",
+    baseUrl: "http://localhost:8088/index.html#fe-lrop-v4",
 
     waitforTimeout: 10000,
     connectionRetryTimeout: 120000,
