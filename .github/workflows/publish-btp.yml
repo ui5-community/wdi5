@@ -23,12 +23,14 @@ jobs:
       - run: |
           cd examples/ui5-ts-app
           npm run build:cf
+      # let's check where we are
+      - run: pwd
       - name: provide mtar
         uses: actions/upload-artifact@v3
         with:
           name: mtar
           path: |
-            mta_archives/ui5-approuter_1.0.0.mtar
+            examples/ui5-ts-app/mta_archives/ui5-approuter_1.0.0.mtar
 
   publish-sample-ts-app-to-btp:
     runs-on: ubuntu-latest
@@ -40,4 +42,4 @@ jobs:
           name: mtar
       - run: |
           cf login -a https://api.cf.eu20.hana.ondemand.com -u ${{secrets.BTP_LOGIN}} -p ${{secrets.BTP_PASSWORD}} -o "${{secrets.BTP_ORG}}" -s ${{secrets.BTP_SPACE}}
-          cf deploy mta_archives/ui5-approuter_1.0.0.mtar -f
+          cf deploy examples/ui5-ts-app/mta_archives/ui5-approuter_1.0.0.mtar -f
