@@ -10,22 +10,25 @@ class BTPAuthenticator extends Authenticator {
     }
 
     async login() {
-        const usernameControl = await this.browserInstance.$(this.usernameSelector)
-        const passwordControl = await this.browserInstance.$(this.passwordSelector)
-        const submit = await this.browserInstance.$(this.submitSelector)
-        const wdi5Username = this.getUsername()
-        const wdi5Password = this.getPassword()
+        if (!(await this.getIsLoggedIn())) {
+            const usernameControl = await this.browserInstance.$(this.usernameSelector)
+            const passwordControl = await this.browserInstance.$(this.passwordSelector)
+            const submit = await this.browserInstance.$(this.submitSelector)
+            const wdi5Username = this.getUsername()
+            const wdi5Password = this.getPassword()
 
-        if (await passwordControl.isExisting()) {
-            await usernameControl.setValue(wdi5Username)
-            await passwordControl.setValue(wdi5Password)
-            await submit.click()
-        } else {
-            await usernameControl.setValue(wdi5Username)
-            await submit.click()
-            const password = await this.browserInstance.$(this.passwordSelector)
-            await password.setValue(wdi5Password)
-            await submit.click()
+            if (await passwordControl.isExisting()) {
+                await usernameControl.setValue(wdi5Username)
+                await passwordControl.setValue(wdi5Password)
+                await submit.click()
+            } else {
+                await usernameControl.setValue(wdi5Username)
+                await submit.click()
+                const password = await this.browserInstance.$(this.passwordSelector)
+                await password.setValue(wdi5Password)
+                await submit.click()
+            }
+            this.setIsLoggedIn(true)
         }
     }
 }

@@ -19,22 +19,26 @@ export default class Service implements Services.ServiceInstance {
         Logger.info("started")
         await setup(this._config)
         Logger.info("setup complete")
-        if (!this._config.wdi5.skipInjectUI5OnStart) {
-            if (browser instanceof MultiRemoteDriver) {
-                for (const name of (browser as MultiRemoteDriver).instances) {
-                    if (this._capabilities[name].capabilities["wdi5:authentication"]) {
-                        await authenticate(this._capabilities[name].capabilities["wdi5:authentication"], name)
-                    }
+        if (browser instanceof MultiRemoteDriver) {
+            for (const name of (browser as MultiRemoteDriver).instances) {
+                if (this._capabilities[name].capabilities["wdi5:authentication"]) {
+                    await authenticate(this._capabilities[name].capabilities["wdi5:authentication"], name)
+                }
+                if (!this._config.wdi5.skipInjectUI5OnStart) {
                     await injectUI5(this._config as wdi5Config, browser[name])
+                } else {
+                    Logger.warn("skipped wdi5 injection!")
                 }
-            } else {
-                if (this._capabilities["wdi5:authentication"]) {
-                    await authenticate(this._capabilities["wdi5:authentication"])
-                }
-                await injectUI5(this._config as wdi5Config, browser)
             }
         } else {
-            Logger.warn("skipped wdi5 injection!")
+            if (this._capabilities["wdi5:authentication"]) {
+                await authenticate(this._capabilities["wdi5:authentication"])
+            }
+            if (!this._config.wdi5.skipInjectUI5OnStart) {
+                await injectUI5(this._config as wdi5Config, browser)
+            } else {
+                Logger.warn("skipped wdi5 injection!")
+            }
         }
     }
 

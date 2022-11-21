@@ -29,7 +29,10 @@ const _config = {
     // we silently acknowledge that this is not a UI5 app
     // being tested, so browser-scoped errors are ok
     baseUrl: "https://the-internet.herokuapp.com/login",
-    capabilities: [capability]
+    capabilities: [capability],
+    wdi5: {
+        skipInjectUI5OnStart: true
+    }
 }
 const config = merge(baseConf, _config)
 config.specs = ["./test/e2e/Custom.test.ts"]

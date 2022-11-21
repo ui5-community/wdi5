@@ -4,15 +4,18 @@ class BasicAuthenticator extends Authenticator {
         super(browserInstanceName)
     }
     async login() {
-        const url = await this.browserInstance.getUrl()
-        const matches = await url.match(/(\w*:?\/\/)(.+)/)
+        if (!(await this.getIsLoggedIn())) {
+            const url = await this.browserInstance.getUrl()
+            const matches = await url.match(/(\w*:?\/\/)(.+)/)
 
-        const basicAuthUrl = matches[1] + this.getUsername() + ":" + this.getPassword() + "@" + matches[2]
+            const basicAuthUrl = matches[1] + this.getUsername() + ":" + this.getPassword() + "@" + matches[2]
 
-        await this.browserInstance.url(basicAuthUrl)
+            await this.browserInstance.url(basicAuthUrl)
 
-        // trick 17
-        await this.browserInstance.url(url)
+            // trick 17
+            await this.browserInstance.url(url)
+            this.setIsLoggedIn(true)
+        }
     }
 }
 

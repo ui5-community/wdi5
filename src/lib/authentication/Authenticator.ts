@@ -16,7 +16,7 @@ export default class Authenticator {
         }
     }
 
-    getUsername() {
+    getUsername(): string {
         let envName = "wdi5_username"
         if (browser instanceof MultiRemoteDriver) {
             envName = `wdi5_${this.browserInstanceName}_username`
@@ -24,11 +24,24 @@ export default class Authenticator {
         return process.env[envName]
     }
 
-    getPassword() {
+    getPassword(): string {
         let envName = "wdi5_password"
         if (browser instanceof MultiRemoteDriver) {
             envName = `wdi5_${this.browserInstanceName}_password`
         }
         return process.env[envName]
+    }
+
+    async getIsLoggedIn(): Promise<boolean> {
+        const cookies = await this.browserInstance.getCookies()
+        const index = cookies.findIndex((item) => {
+            return item.name === "isLoggedIn"
+        })
+        const value = index !== -1 ? cookies[index].value : "false"
+        return value === "true"
+    }
+
+    async setIsLoggedIn(status: boolean) {
+        await this.browserInstance.setCookies({ name: "isLoggedIn", value: status.toString() })
     }
 }
