@@ -32,6 +32,10 @@ sap.ui.define(
                 this.getView().setModel(oModel, "Countries")
             },
 
+            navCalendar() {
+                return this.getOwnerComponent().getRouter().navTo("RouteCalendar")
+            },
+
             navFwd() {
                 return this.getOwnerComponent().getRouter().navTo("RouteOther")
             },

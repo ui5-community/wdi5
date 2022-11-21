@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.0.0-pre.2 (2022-11-16)
+
+
+### Bug Fixes
+
+* planningcalender special case ([#371](https://github.com/ui5-community/wdi5/issues/371)) ([0258d71](https://github.com/ui5-community/wdi5/commit/0258d719b42786cb1913623838396dcbcfefe4ef))
+
 ## 1.0.0-pre.1 (2022-11-14)
 
 

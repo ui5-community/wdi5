@@ -9,7 +9,7 @@ on:
       - "!examples/ui5-js-app/**"
 
 jobs:
-  publish-sample-ts-app-to-btp:
+  build-sample-ts-app:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -23,5 +23,21 @@ jobs:
       - run: |
           cd examples/ui5-ts-app
           npm run build:cf
+      - name: provide mtar
+        uses: actions/upload-artifact@v3
+        with:
+          name: mtar
+          path: |
+            mta_archives/ui5-approuter_1.0.0.mtar
+
+  publish-sample-ts-app-to-btp:
+    runs-on: ubuntu-latest
+    container: ppiper/cf-cli
+    steps:
+      - name: get mtar
+        uses: actions/download-artifact@v3
+        with:
+          name: mtar
+      - run: |
           cf login -a https://api.cf.eu20.hana.ondemand.com -u ${{secrets.BTP_LOGIN}} -p ${{secrets.BTP_PASSWORD}} -o "${{secrets.BTP_ORG}}" -s ${{secrets.BTP_SPACE}}
           cf deploy mta_archives/ui5-approuter_1.0.0.mtar -f
