@@ -4,6 +4,7 @@
 - [Running](running.md)
 - [Debugging](debugging.md)
 - [Usage](usage.md)
+- [Authentication](authentication.md)
 - [Locators](locators.md)
 - [Recipes](recipes.md)
 - [Test Library Integration](fe-testlib.md)
