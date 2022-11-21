@@ -11,7 +11,12 @@ export const config: wdi5Config = {
 
     specs: ["./test/e2e/**/*.test.ts"],
     // these are for authentication tests only
-    exclude: ["./test/e2e/Custom.test.ts", "./test/e2e/multiremote.test.ts"],
+    exclude: [
+        "./test/e2e/Custom.test.ts",
+        "./test/e2e/multiremote.test.ts",
+        "./test/e2e/BasicMultiRemoteAuthentication.test.ts",
+        "./test/e2e/Authentication.test.ts"
+    ],
 
     maxInstances: 10,
     capabilities: [

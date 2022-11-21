@@ -20,15 +20,18 @@ class CustomAuthenticator extends Authenticator {
     }
 
     async login() {
-        const username = await this.browserInstance.$(this.usernameSelector)
-        const submit = await this.browserInstance.$(this.submitSelector)
-        const password = await this.browserInstance.$(this.passwordSelector)
-        const wdi5Username = this.getUsername()
-        const wdi5Password = this.getPassword()
+        if (!(await this.getIsLoggedIn())) {
+            const username = await this.browserInstance.$(this.usernameSelector)
+            const submit = await this.browserInstance.$(this.submitSelector)
+            const password = await this.browserInstance.$(this.passwordSelector)
+            const wdi5Username = this.getUsername()
+            const wdi5Password = this.getPassword()
 
-        await username.setValue(wdi5Username)
-        await password.setValue(wdi5Password)
-        await submit.click()
+            await username.setValue(wdi5Username)
+            await password.setValue(wdi5Password)
+            await submit.click()
+            this.setIsLoggedIn(true)
+        }
     }
 }
 
