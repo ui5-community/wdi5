@@ -1,12 +1,24 @@
 import Authenticator from "./lib/authentication/Authenticator"
 import { Logger } from "./lib/Logger"
+
+const authenticatorInstances = {}
 export class wdi5 {
     static getLogger(sPrefix = "wdi5") {
         return Logger.getInstance(sPrefix)
     }
     static async isLoggedIn(browserInstanceName?): Promise<boolean> {
-        const authenticator = new Authenticator(browserInstanceName)
-        return authenticator.getIsLoggedIn()
+        let authenticatorInstance
+        if (!browserInstanceName) {
+            return new Authenticator().getIsLoggedIn()
+        }
+
+        if (!authenticatorInstances[browserInstanceName]) {
+            authenticatorInstance = new Authenticator(browserInstanceName)
+            authenticatorInstances[browserInstanceName] = authenticatorInstance
+        } else {
+            authenticatorInstance = authenticatorInstances[browserInstanceName]
+        }
+        return authenticatorInstance.getIsLoggedIn()
     }
 
     /**

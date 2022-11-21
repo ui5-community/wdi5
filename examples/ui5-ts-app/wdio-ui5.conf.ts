@@ -15,7 +15,7 @@ export const config: wdi5Config = {
     exclude: [
         "./test/e2e/Custom.test.ts",
         "./test/e2e/multiremote.test.ts",
-        "./test/e2e/BasicMuliRemoteAuthentication.test.ts",
+        "./test/e2e/BasicMultiRemoteAuthentication.test.ts",
         "./test/e2e/Authentication.test.ts"
     ],
 

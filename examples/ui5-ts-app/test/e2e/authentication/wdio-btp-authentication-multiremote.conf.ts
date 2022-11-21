@@ -43,5 +43,5 @@ const _config = {
     capabilities: multiRemoteCapability
 }
 const config = merge(baseConf, _config)
-config.specs = ["./test/e2e/multiremote.test.ts", "./test/e2e/BasicMuliRemoteAuthentication.test.ts"]
+config.specs = ["./test/e2e/multiremote.test.ts", "./test/e2e/BasicMultiRemoteAuthentication.test.ts"]
 export { config }
