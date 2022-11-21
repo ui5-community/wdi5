@@ -1,6 +1,7 @@
 {
-  "name": "ui5-t-sapp",
+  "name": "ui5-ts-app",
   "version": "0.8.15-notimportant",
+  "private": true,
   "description": "UI5 Application: tsapp",
   "author": "nosotros-todos@ui5-community.org",
   "license": "Apache-2.0",
@@ -34,7 +35,7 @@
     "mbt": "^1.2.18",
     "ts-deepmerge": "^5.0.0",
     "ui5-middleware-simpleproxy": "^0.9.0",
-    "wdio-ui5-service": "latest"
+    "wdio-ui5-service": "*"
   },
   "ui5": {
     "dependencies": [
