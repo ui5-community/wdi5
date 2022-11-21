@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.0.0-pre.3 (2022-11-21)
+
+
+### Features
+
+* add watch support for authentication ([#372](https://github.com/ui5-community/wdi5/issues/372)) ([8eb564d](https://github.com/ui5-community/wdi5/commit/8eb564d338ac25d8279026c547a0324d2cd690c3))
+
 ## 1.0.0-pre.2 (2022-11-16)
 
 
