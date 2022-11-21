@@ -1,5 +1,3 @@
-const { wdi5 } = require("wdio-ui5-service")
-
 describe("FE basics", () => {
     let FioriElementsFacade
     before(async () => {
