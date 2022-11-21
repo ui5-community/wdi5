@@ -63,7 +63,7 @@ export async function start(config: wdi5Config) {
         await browser.url(config.wdi5.url)
     } else {
         Logger.info(`open url: ${browser.config.baseUrl}`)
-        await browser.url("")
+        await browser.url(browser.config.baseUrl)
     }
 }
 
