@@ -8,7 +8,7 @@
   "main": "webapp/index.html",
   "scripts": {
     "serve": "ui5 serve",
-    "test": "run-s test:urlDeprecation",
+    "test": "run-s test:*",
     "test-h": "run-s \"test:* -- --headless\"",
     "start": "soerver -d ./webapp -p 8888 -x ./webapp/proxyrc.json",
     "test:lateInject": "wdio run e2e-test-config/wdio-ui5-late.conf.js",
