@@ -11,6 +11,8 @@ export const config: wdi5Config = {
     services: ["chromedriver", "ui5"],
 
     specs: ["./test/e2e/**/*.test.ts"],
+    // these are for authentication tests only
+    exclude: ["./test/e2e/Custom.test.ts", "./test/e2e/multiremote.test.ts"],
 
     maxInstances: 10,
     capabilities: [

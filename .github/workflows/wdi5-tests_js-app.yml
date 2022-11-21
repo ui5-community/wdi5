@@ -1,4 +1,4 @@
-name: JS app - wdi5 tests
+name: JS-app
 
 on:
   pull_request:
@@ -19,7 +19,7 @@ on:
       - "!*.cjs"
 
 jobs:
-  test-js-app:
+  tests:
     runs-on: ubuntu-latest
 
     strategy:
@@ -51,20 +51,18 @@ jobs:
         run: npm --version
       - name: update npm
         run: |
-          npm i -g npm@latest
+          npm i -g npm@8
           npm --version
 
       # install both module + sample app(s) deps
       - name: install packages (wdi5 + sample app(s))
         run: |
-          npm set-script prepare ""
+          npm pkg delete scripts.prepare
           npm ci
 
       # build things
       - name: build
         run: npm run build
-
-      # run wdi5 core tests > moved to separate action
 
       # run wdi5 tests within app(s)
       - name: test js-app

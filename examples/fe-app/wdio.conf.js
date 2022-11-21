@@ -8,7 +8,7 @@ exports.config = {
         waitForUI5Timeout: 30000
     },
     //// wdio runner config
-    specs: [join("app", "incidents", "webapp", "wdi5-test", "**/*.test.js")],
+    specs: [join("webapp", "wdi5-test", "**/*.test.js")],
     // Patterns to exclude.
     exclude: [],
     //// capabilities ("browser") config

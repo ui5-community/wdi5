@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.0.0-pre.2 (2022-11-16)
+
+
+### Bug Fixes
+
+* planningcalender special case ([#371](https://github.com/ui5-community/wdi5/issues/371)) ([0258d71](https://github.com/ui5-community/wdi5/commit/0258d719b42786cb1913623838396dcbcfefe4ef))
+
+## 1.0.0-pre.1 (2022-11-14)
+
+
+### Features
+
+* getObject ([#366](https://github.com/ui5-community/wdi5/issues/366)) ([2bca472](https://github.com/ui5-community/wdi5/commit/2bca472c792c7b3a6e82b197d7d4afedaa2c346f))
+
+## 1.0.0-pre.0 (2022-11-14)
+
+
+### Features
+
+* authentication capabilities ([#369](https://github.com/ui5-community/wdi5/issues/369)) ([9c23bda](https://github.com/ui5-community/wdi5/commit/9c23bda7769a4421ed58eff28cae362ad9ea84ca)), closes [#207](https://github.com/ui5-community/wdi5/issues/207)
+
+### 0.9.16 (2022-11-08)
+
+
+### Features
+
+* **types:** add viewId for dynamic UIs ([#365](https://github.com/ui5-community/wdi5/issues/365)) ([362d7d5](https://github.com/ui5-community/wdi5/commit/362d7d5498cea1b03bb62662d1e2c478486b86ea))
+
 ### 0.9.15 (2022-10-26)
 
 
