@@ -116,7 +116,7 @@ Number in milliseconds (default: `15000`) to wait for UI5-related operations wit
 
 ## `package.json`
 
-Not required, but as a convention, put a `test` script into your UI5.app's `package.json` to start `wdi5/wdio`.
+Not required, but as a convention, put a `test` or `wdi5` script into your UI5.app's `package.json` to start `wdi5/wdio`.
 
 ```json
 {
@@ -124,7 +124,8 @@ Not required, but as a convention, put a `test` script into your UI5.app's `pack
   // ...
   "scripts": {
     // ...
-    "test": "wdio run wdio.conf.js"
+    "test": "wdio run wdio.conf.js --headless",
+    "wdi5": "wdio run wdio.conf.js"
     // ...
   },
   "devDependencies": {
