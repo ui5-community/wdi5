@@ -15,6 +15,11 @@ export default class Service implements Services.ServiceInstance {
     ) {}
 
     async before(/*capabilities* , specs*/) {
+        // if no wdi5 config is available we add it manually
+        if (!this._config.wdi5) {
+            this._config["wdi5"] = {}
+        }
+
         await start(this._config)
         Logger.info("started")
         await setup(this._config)
