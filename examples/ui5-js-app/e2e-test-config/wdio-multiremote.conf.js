@@ -7,7 +7,6 @@ delete baseConfig.capabilities
 
 const _config = {
     wdi5: {
-        url: "#",
         screenshotPath: join("report", "screenshots")
     },
     maxInstances: 1,

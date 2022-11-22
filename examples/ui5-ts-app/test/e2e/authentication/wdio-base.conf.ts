@@ -5,7 +5,6 @@ type _wdi5Config = Omit<wdi5Config, "capabilities">
 export const config: _wdi5Config = {
     wdi5: {
         screenshotPath: join("test", "__screenshots__"),
-        url: "#",
         waitForUI5Timeout: 30000
     },
     baseUrl: "https://wdi5-sample-app.cfapps.eu20.hana.ondemand.com/basic-auth/",
