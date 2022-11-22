@@ -23,7 +23,7 @@ import { WDI5Object } from "../lib/wdi5-object"
 export type wdi5LogLevel = "silent" | "error" | "verbose"
 
 export interface wdi5Config extends WebdriverIO.Config {
-    wdi5: {
+    wdi5?: {
         /** wdi5-specific logging of UI5-related operations */
         logLevel?: wdi5LogLevel
         /**
