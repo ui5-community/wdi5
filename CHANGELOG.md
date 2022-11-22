@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.0.0-pre.5 (2022-11-22)
+
+
+### Bug Fixes
+
+* make wdi5 config optional ([#376](https://github.com/ui5-community/wdi5/issues/376)) ([998e5c7](https://github.com/ui5-community/wdi5/commit/998e5c71ff818a75f3c953f95da69f0487176672))
+
 ## 1.0.0-pre.4 (2022-11-22)
 
 ## 1.0.0-pre.3 (2022-11-21)
