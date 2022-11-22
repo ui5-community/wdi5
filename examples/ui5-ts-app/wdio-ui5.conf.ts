@@ -3,10 +3,9 @@ import { wdi5Config } from "wdio-ui5-service/dist/types/wdi5.types"
 
 export const config: wdi5Config = {
     wdi5: {
-        screenshotPath: join("test", "__screenshots__"),
-        url: "index.html"
+        screenshotPath: join("test", "__screenshots__")
     },
-    baseUrl: "http://localhost:8080/",
+    baseUrl: "http://localhost:8080/index.html",
 
     services: ["chromedriver", "ui5"],
 
