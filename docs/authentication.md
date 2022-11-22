@@ -2,10 +2,10 @@
 
 `wdi5` currently support these authentication mechanisms and/or providers:
 
-- SAP Cloud IdP (default BTP Identity Provider)
-- Office 365
-- custom IdP
-- Basic Authentication
+- [SAP Cloud IdP (default BTP Identity Provider)](#sap-cloud-idp-default-btp-identity-provider)
+- [Office 365](#office-365)
+- [custom IdP](#custom-idp)
+- [Basic Authentication](#basic-authentication)
 
 Generally speaking, the authentication behavior mimicks that of a regular user session: first, the `baseUrl` (from the `wdio.conf.(j|t)s`-file) is opened in the configured browser. Then, the redirect to the Authentication provider is awaited and [the credentials](#credentials) are supplied.
 
