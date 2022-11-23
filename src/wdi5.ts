@@ -3,6 +3,9 @@ import { Logger } from "./lib/Logger"
 
 const authenticatorInstances = {}
 
+/**
+ * a (static) helper class named after the tool
+ */
 export class wdi5 {
     static getLogger(sPrefix = "wdi5") {
         return Logger.getInstance(sPrefix)
