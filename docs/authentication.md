@@ -13,7 +13,7 @@ BTP-, Office365- and custom IdP all supply credentials as a user would, meaning 
 Basic Authentication prepends username and password in encoded form to the URL, resulting in an `HTTP` `GET` in the form of `https://username:encoded-pwd@your-deployed-UI5.app`.
 
 For you as users, authentication is done at design-time, meaning: **by configuration only, not programmatically**.  
-This especially means that no changes in the test source code files are needed for using authentication in `wdi5` tests!
+This especially means that no changes in the test code are needed for using authentication in `wdi5` tests!
 
 ?> No [skipping of the UI5 injection](configuration#skipinjectui5onstart) is necessary, `wdi5` takes care of the correct order of operation (first authentication, then injecting UI5) itself.
 
