@@ -12,6 +12,8 @@ Generally speaking, the authentication behavior mimicks that of a regular user s
 BTP-, Office365- and custom IdP all supply credentials as a user would, meaning they're literally typed into the respective input fields on each login screen.  
 Basic Authentication prepends username and password in encoded form to the URL, resulting in an `HTTP` `GET` in the form of `https://username:encoded-pwd@your-deployed-UI5.app`.
 
+!> Multi-Factor Authentication is not supported as it's nearly to manage any media break (e.g. browser &harr; mobile) in authentication flows out of the box
+
 For you as users, authentication is done at design-time, meaning: **by configuration only, not programmatically**.  
 This especially means that no changes in the test code are needed for using authentication in `wdi5` tests!
 
@@ -33,9 +35,7 @@ For a single browser:
 baseUrl: "https://your-deployed-ui5.app",
 capabilities: {
     // browserName: "..."
-    "wdi5:authentication": {
-        provider: "BTP" // "Office365" | "custom" | "BasicAuth"
-    }
+    "wdi5:authentication": { /* ... */ }
     // ...
 }
 //...
@@ -50,18 +50,14 @@ capabilities: {
     // "one" is the literal reference to a browser instance
     one: {
         capabilities: {
-            "wdi5:authentication": {
-                provider: "BTP" // "Office365" | "custom" | "BasicAuth"
-            },
+            "wdi5:authentication": { /* ... */ }
             // ...
         }
     },
     // "two" is the literal reference to a browser instance
     two: {
         capabilities: {
-            "wdi5:authentication": {
-                provider: "BTP" // "Office365" | "custom" | "BasicAuth"
-            },
+            "wdi5:authentication": { /* ... */ }
             // ...
         }
     }
