@@ -26,6 +26,7 @@ This will
 
 - install `wdi5` and all required WebdriverIO peer dependencies
 - add a config file (`wdio.conf.js`) to your current working directory,
+  using `http://localhost:8080/index.html` as `baseUrl`,  
   looking for tests in `$ui5-app/webapp/test/**/*`
   that follow the name pattern `*.test.js`
 - set an `npm` script named "wdi5" to run `wdi5`
@@ -45,7 +46,8 @@ This will
 
 - install `wdi5` and all required WebdriverIO peer dependencies
 - add config files (`wdio.conf.ts` + `tsconfig.json`) to a folder `test` in your current working directory
-- look for tests to run in `$ui5-app/test/**/*`
+- uses `http://localhost:8080/index.html` as `baseUrl`,  
+  look for tests to run in `$ui5-app/test/**/*`
   that follow the name pattern `*.test.js`
 - set an `npm` script named "wdi5" to run `wdi5`
 so you can immediately do `npm run wdi5`
