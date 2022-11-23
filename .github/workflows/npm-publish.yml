@@ -9,7 +9,6 @@ on:
       - "client-side-js/**"
       - "src/**"
       - "docker/**"
-      - ".github/workflows/npm-publish.yml"
       # irrevelant
       - "!.github/**"
       - "!.husky/**"

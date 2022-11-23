@@ -2,6 +2,7 @@ import Authenticator from "./lib/authentication/Authenticator"
 import { Logger } from "./lib/Logger"
 
 const authenticatorInstances = {}
+
 export class wdi5 {
     static getLogger(sPrefix = "wdi5") {
         return Logger.getInstance(sPrefix)
