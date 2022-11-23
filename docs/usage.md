@@ -22,7 +22,7 @@ const name = await bindingInfo.getProperty("/path/in/model") // same .getPropert
 
 ?> there is no [fluent async api](#fluent-async-api) available for both the aligned Managed Object API and [`.asObject`](#asobject)
 
-At the same time, the `wdi5`-api can be mixed with `wdio`'s api during tests at will - there is no restriction to use either or. Even a [fluent async transition](ttps://ui5-community.github.io/wdi5/#/recipes?id=using-wdio-functions) between the two is possible:
+At the same time, the `wdi5`-api can be mixed with `wdio`'s api during tests at will - there is no restriction to use either one. Even a [fluent async transition](ttps://ui5-community.github.io/wdi5/#/recipes?id=using-wdio-functions) between the two is possible:
 
 ```js
 // from wdi5 -> wdio
