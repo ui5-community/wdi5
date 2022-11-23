@@ -318,7 +318,7 @@ it("should find the search button on a SearchField", async () => {
 
 ## using wdio functions
 
-WebdriverIO has a extensive element [API](https://webdriver.io/docs/api/). The [Element API] specifically can be quite useful to check if the page elements are in a certain state eg. [isDisplayed](https://webdriver.io/docs/api/element/isDisplayed) or [isClickable](https://webdriver.io/docs/api/element/isClickable).
+WebdriverIO has a extensive element [API](https://webdriver.io/docs/api/). The [Element API] specifically can be quite useful to check if the page elements are in a certain state e.g. [isDisplayed](https://webdriver.io/docs/api/element/isDisplayed) or [isClickable](https://webdriver.io/docs/api/element/isClickable).
 
 To make use of these element functions, `wdi5` allows to switch APIs from UI5 to wdio by calling `$()`.
 
