@@ -10,6 +10,13 @@ export class wdi5 {
     static getLogger(sPrefix = "wdi5") {
         return Logger.getInstance(sPrefix)
     }
+
+    /**
+     * expose the current authentication status
+     *
+     * @param browserInstanceName
+     * @returns the current authentication status
+     */
     static async isLoggedIn(browserInstanceName?): Promise<boolean> {
         let authenticatorInstance
         if (!browserInstanceName) {
