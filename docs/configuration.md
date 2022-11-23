@@ -4,10 +4,13 @@
 
 ## `wdi5`
 
-All options go into a top-level `wdi5` object in `wdio.conf.(j|t)s`:
+All options go into a top-level `wdi5` object in `wdio.conf.(j|t)s`,  
+with the exception of the `baseUrl` pointing to your UI5 app.
 
 ```javascript
 exports.config = {
+  //...
+  baseUrl: "http://localhost:8080/index.html", // [mandatory] {string}, URL to your running UI5 app
   // ...
   wdi5: {
     screenshotPath: require("path").join("some", "dir", "for", "screenshots"), // [optional] {string}, default: ""
