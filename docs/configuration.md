@@ -4,22 +4,26 @@
 
 ## `wdi5`
 
-All options go into a top-level `wdi5` object in `wdio.conf.(j|t)s`:
+All options go into a top-level `wdi5` object in `wdio.conf.(j|t)s`,  
+with the exception of the `baseUrl` pointing to your UI5 app.
 
 ```javascript
 exports.config = {
+  //...
+  baseUrl: "http://localhost:8080/index.html", // [mandatory] {string}, URL to your running UI5 app
   // ...
   wdi5: {
     screenshotPath: require("path").join("some", "dir", "for", "screenshots"), // [optional] {string}, default: ""
     screenshotsDisabled: false, // [optional] {boolean}, default: false; if set to true, screenshots won't be taken and not written to file system
     logLevel: "verbose", // [optional] error | verbose | silent, default: "error"
-    url: "index.html", // [mandatory] {string} name of your bootstrap html file. If your server autoredirects to a 'domain:port/'-like root url, use empty string ''
     skipInjectUI5OnStart: false, // [optional] {boolean}, default: false; true when UI5 is not on the start page, you need to later call <wdioUI5service>.injectUI5() manually
     waitForUI5Timeout: 15000 // [optional] {number}, default: 15000; maximum waiting time in milliseconds while checking for UI5 availability
   }
   // ...
 }
 ```
+
+!> as of `wdi5` `1.0`, the `url` config property is deprecated. Please provide the full FQDN in the regular `baseUrl` configuration option.
 
 ### `screenshotPath`
 
@@ -58,15 +62,40 @@ const Logger = wdi5.getLogger()
 Logger.info("...")
 ```
 
-### `url`
+### `url` (deprecated!)
 
-A string denoting the "directory index" aka HTML-file containing the UI5 bootstrap code.
+As of `wdi5` `1.0`, the `wdi5`-specific `url` property was deprecated in favor of the regular and [always mandatory `baseUrl`](https://webdriver.io/docs/options/#baseurl).
 
-When using the [ui5-tooling](https://sap.github.io/ui5-tooling/) for serving your UI5 app, `url` needs to point to the HTML file containing the `<script id="sap-ui-bootstrap" ...>` tag for referencing UI5 core.
+Example for `ui5-tooling`-based webservers:
 
-In a webserver-like scenario, this might be the empty string `""`!  
-Reason being is that many webservers reroute incoming traffic to a domain (e.g. `https://example.org)` default to a directory index file, generally `index.html` (e.g. `https://example.org/index.html`) - but the user never sees that index file as part of the url in the browser bar.  
-As `wdi5`/`wdio` operates the browser "as a user would", it doesn't "see" that "directory index" redirect, and providing it with `url: ""` in the config caters to that.
+```diff
+-   wdi5: {
+-       url: "index.html"
+-   },
+-   baseUrl: "http://localhost:8080"
++   baseUrl: "http://localhost:8080/index.html"
+```
+
+Example for standard webservers:
+
+```diff
+-   wdi5: {
+-       url: "#"
+-   },
+    baseUrl: "http://localhost:8888"
+```
+
+User feedback was that two URL-related setting were rather confusing. Deprecating `wdi5`'s `url` config parameter avoids that and also reduces config effort.
+
+?> There's a legacy fallback in place so that `wdi5`'s `url` configuration option will continue to work, albeit receive a deprecation warning in the console log.
+
+~~A string denoting the "directory index" aka HTML-file containing the UI5 bootstrap code.~~
+
+~~When using the [ui5-tooling](https://sap.github.io/ui5-tooling/) for serving your UI5 app, `url` needs to point to the HTML file containing the `<script id="sap-ui-bootstrap" ...>` tag for referencing UI5 core.~~
+
+~~In a webserver-like scenario, this might be the empty string `""`! ~~
+~~Reason being is that many webservers reroute incoming traffic to a domain (e.g. `https://example.org)` default to a directory index file, generally `index.html` (e.g. `https://example.org/index.html`) - but the user never sees that index file as part of the url in the browser bar. ~~
+~~As `wdi5`/`wdio` operates the browser "as a user would", it doesn't "see" that "directory index" redirect, and providing it with `url: ""` in the config caters to that.~~
 
 ### `skipInjectUI5OnStart`
 
@@ -90,7 +119,7 @@ Number in milliseconds (default: `15000`) to wait for UI5-related operations wit
 
 ## `package.json`
 
-Not required, but as a convention, put a `test` script into your UI5.app's `package.json` to start `wdi5/wdio`.
+Not required, but as a convention, put a `test` or `wdi5` script into your UI5.app's `package.json` to start `wdi5/wdio`.
 
 ```json
 {
@@ -98,7 +127,8 @@ Not required, but as a convention, put a `test` script into your UI5.app's `pack
   // ...
   "scripts": {
     // ...
-    "test": "wdio run wdio.conf.js"
+    "test": "wdio run wdio.conf.js --headless",
+    "wdi5": "wdio run wdio.conf.js"
     // ...
   },
   "devDependencies": {
