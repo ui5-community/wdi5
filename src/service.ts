@@ -54,7 +54,9 @@ export default class Service implements Services.ServiceInstance {
      */
     async injectUI5(browserInstance = browser) {
         if (await checkForUI5Page(browserInstance)) {
-            await injectUI5(this._config as wdi5Config, browserInstance)
+            // depending on the scenario (lateInject, multiRemote) we have to access the config differently
+            const config = this._config ? this._config : browserInstance.config
+            await injectUI5(config as wdi5Config, browserInstance)
         } else {
             throw new Error("wdi5: no UI5 page/app present to work on :(")
         }
