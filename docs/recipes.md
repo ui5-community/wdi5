@@ -152,8 +152,8 @@ See an example at `/examples/ui5-js-app/jsconfig.json` in the wdi5 repository.
 
 ## DevX: (JS) cast to proper type for code completion
 
-If your editor supports TypeScript, enjoy proper code completion in JavaScript test files by using JSDoc to inline-cast the result of `browser.asControl()` to the proper type.  
-This is possible by [TypeScript's support of prefixing expressions in parenthesis with a type annotation](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html#casts).  
+If your editor supports TypeScript, enjoy proper code completion in JavaScript test files by using JSDoc to inline-cast the result of `browser.asControl()` to the proper type.
+This is possible by [TypeScript's support of prefixing expressions in parenthesis with a type annotation](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html#casts).
 So by wrapping `browser.asControl()` in additional paranthesis and prefixing it by the JSDoc `type` annotation, the editor gets triggered to provide API completions.
 
 The below allows for suggesting `press()` on the retrieved control, as it is cast to a [`WDI5Control`](https://github.com/ui5-community/wdi5/blob/d92eac292e4018ebefeffe268a04bb3912076e02/src/lib/wdi5-control.ts#L18):
@@ -181,38 +181,6 @@ Another example: trigger a `sap.m.List`'s aggregation function...
 ... and how this looks in an editor supporting JSDoc annotations:
 
 ![screenshot of code completion at coding-time by using the proper JSDoc type cast](./img/jsdoc-type-cast-codecompletion.png)
-
-## navigate an FLP tile
-
-Feasible if your project launches as a mocked Fiori Launchpad (FLP).
-
-Given the FLP is also a UI5 app, `wdi5`‘s standard mechanism of retrieving controls could be used in the tests.
-
-Via the text property matcher, the tile‘s label is located (a `sap.m.Text`).
-
-```javascript
-const tile = await browser.asControl({
-  selector: {
-    properties: {
-      text: "SAP Community Profile Picture Editor"
-    },
-    controlType: "sap.m.Text"
-  }
-})
-```
-
-Then we navigate up the control tree with the help of [`wdi5`'s fluent async api](usage#fluent-async-api) until we reach the tile itself via `.getParent().getParent()`.
-A click on it brings us to the linked app itself.
-
-```javascript
-// get wdio element reference
-const $tile = await tile.getWebElement()
-// use wdio api
-await $tile.click()
-```
-
-Why not locating that tile itself directly?
-Because in most cases it doesn't have a stable ID, and thus its‘ ID might change in the next UI5 rendering cycle - using a locator id such as `__tile0` might break the test eventually then.
 
 ## send keyboard events to a Control/element
 
