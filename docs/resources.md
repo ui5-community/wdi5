@@ -20,3 +20,4 @@ The best place to follow announcements :mega: regarding `wdi5` are [the GitHub d
 - [UI5 Journey Recorder](https://github.com/ui5-community/ui5-journey-recorder)  
   a chrome extension for recording the user path through a UI5 app and exporting it to `wdi5`
 - [UI5 Test Recorder](https://ui5.sap.com/#/topic/2535ef9272064cb6bd6b44e5402d531d) for finetuning control selectors and test assertions (`expect`s)
+- [wdio/wdi5 VS Code extension](https://github.com/marcellourbani/vscode-wdio) - test cockpit integration in VS Code
