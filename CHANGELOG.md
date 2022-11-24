@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.0.1 (2022-11-24)
+
+
+### Bug Fixes
+
+* wait for the injection of wdi5 till the redirection finished ([#379](https://github.com/ui5-community/wdi5/issues/379)) ([2cc492e](https://github.com/ui5-community/wdi5/commit/2cc492e675d02af1618003e98abfb97c3324beab))
+
 ## 1.0.0 (2022-11-23)
 
 ## 1.0.0-pre.5 (2022-11-22)
