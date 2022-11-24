@@ -53,8 +53,8 @@ export default class Service implements Services.ServiceInstance {
      * to the injectUI5 function of the actual wdi5-bridge
      */
     async injectUI5(browserInstance = browser) {
-        if (await checkForUI5Page()) {
-            await injectUI5(browserInstance.config as wdi5Config, browserInstance)
+        if (await checkForUI5Page(browserInstance)) {
+            await injectUI5(this._config as wdi5Config, browserInstance)
         } else {
             throw new Error("wdi5: no UI5 page/app present to work on :(")
         }
