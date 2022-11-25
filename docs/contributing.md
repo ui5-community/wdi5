@@ -106,7 +106,10 @@ All browser-scope commands (such as `browser.asControl()`) are provided with `/s
 
 Given the continous build watch is running (`npm run build:watch`), hack away at any part!
 
-### instantiation
+### control instantiation
+
+Here's a visualization of how UI5 controls are transferred between Node.js- and browser-scope.  
+Not the difference between the generic [`browser.asControl($selector)`](/usage#ascontrol) and [`browser.allControls($selector)`](/usage#allcontrols).
 
 ![wdi5 control instantiation](./wdi5-control-instantiation.png)
 
@@ -169,10 +172,12 @@ Also, all of this combined aids tremendously in cutting automated releases - so 
 
 Please issue your Pull Requests against the `main` branch of the repository.
 
+?> it is not necessary to increase the version number in `package.json`. This happens automatically on merge of the Pull Request.
+
 ## work on the docs
 
 All documentation is written in `markdown` and lives in `/docs`.
-[`Docsify` is used](https://docsify.js.org/#/) for running the documentation GitHub pages site <https://js-soft.github.io/wdi5>. It can easily be used to also run locally to work and preview the documentation site.
+[`Docsify` is used](https://docsify.js.org/#/) for running the documentation GitHub pages site <https://ui5-community.github.io/wdi5>. It can easily be used to also run locally to work and preview the documentation site.
 
 Install it globally: `$> npm i -g docsify-cli`
 Then serve the `docs` dir: `$> docsify serve ./docs`

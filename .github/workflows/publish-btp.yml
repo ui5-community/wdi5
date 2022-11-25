@@ -1,0 +1,45 @@
+name: build and publish wdi5 TS sample app to BTP
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "examples/ui5-ts-app/**"
+      - "!examples/ui5-js-app/**"
+
+jobs:
+  build-sample-ts-app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
+          registry-url: https://registry.npmjs.org/
+      - run: npm ci
+      - run: |
+          cd examples/ui5-ts-app
+          npm run build:cf
+      # let's check where we are
+      - run: pwd
+      - name: provide mtar
+        uses: actions/upload-artifact@v3
+        with:
+          name: mtar
+          path: |
+            examples/ui5-ts-app/mta_archives/ui5-approuter_1.0.0.mtar
+
+  publish-sample-ts-app-to-btp:
+    runs-on: ubuntu-latest
+    container: ppiper/cf-cli
+    steps:
+      - name: get mtar
+        uses: actions/download-artifact@v3
+        with:
+          name: mtar
+      - run: |
+          cf login -a https://api.cf.eu20.hana.ondemand.com -u ${{secrets.BTP_LOGIN}} -p ${{secrets.BTP_PASSWORD}} -o "${{secrets.BTP_ORG}}" -s ${{secrets.BTP_SPACE}}
+          cf deploy examples/ui5-ts-app/mta_archives/ui5-approuter_1.0.0.mtar -f

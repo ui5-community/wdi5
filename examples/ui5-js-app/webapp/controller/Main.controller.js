@@ -32,6 +32,10 @@ sap.ui.define(
                 this.getView().setModel(oModel, "Countries")
             },
 
+            navCalendar() {
+                return this.getOwnerComponent().getRouter().navTo("RouteCalendar")
+            },
+
             navFwd() {
                 return this.getOwnerComponent().getRouter().navTo("RouteOther")
             },
@@ -42,7 +46,9 @@ sap.ui.define(
             onBoo(oEvent) {
                 MessageToast.show(`👻`)
             },
-
+            onSearch(oEvent) {
+                this.getView().byId("idSearchResult").setText(oEvent.getSource().getValue())
+            },
             onTest(oEvent) {
                 this.onBoo(oEvent)
             },

@@ -1,0 +1,184 @@
+code {
+    color: #dcdcdc;
+    background-color: #3f3f3f;
+}
+
+figcaption {
+    font-size: 35.12%;
+    text-align: right;
+}
+
+.center {
+    text-align: center;
+}
+
+.chapter {
+    color: #924164;
+}
+
+.tint {
+    filter: brightness(0.5);
+    -webkit-filter: brightness(0.5);
+    -moz-filter: brightness(0.5);
+    -o-filter: brightness(0.5);
+    -ms-filter: brightness(0.5);
+}
+
+.remedy {
+    color: green;
+}
+
+li ul.no-bullets,
+ul.no-bullets {
+    list-style-type: none;
+}
+
+li ul.left,
+ul.left {
+    display: block !important;
+    margin: 0 0 0 5em;
+}
+
+table.noBorder tr td {
+    border: 0;
+}
+
+table.simple thead {
+    font-weight: bold;
+}
+
+table.procon {
+    width: 90%;
+    font-size: 91.12%;
+}
+
+table.procon td:nth-child(1),
+table.procon td:nth-child(2),
+table.procon td:nth-child(3) {
+    width: 33%;
+}
+
+table.procon td {
+    border-bottom: none;
+}
+
+table.procon td.center {
+    text-align: center;
+}
+
+table.procon tr:nth-child(even) {
+    color: #d3cdbb;
+}
+
+table.procon thead tr td {
+    text-align: center;
+}
+
+.slide-number::before {
+    content: "(c) j&s-soft GmbH -  ";
+}
+
+.noUpper {
+    text-transform: none;
+}
+
+.differentBold {
+    font-weight: bold !important;
+    color: #eee8d5;
+}
+
+.left {
+    text-align: left;
+    margin: 0 0 0 1em !important;
+}
+
+.small {
+    font-size: 1.5rem;
+}
+
+.smaller {
+    font-size: 1.8rem;
+}
+
+.credits li {
+    font-size: 1.5rem;
+}
+
+.topRight {
+    position: absolute;
+    top: 0em;
+    right: 2em;
+}
+
+.serviceCenter p {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #924164;
+    font-weight: bold;
+}
+
+.reveal section img.nada {
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+.reveal section img.m {
+    background: none;
+    border: none;
+    box-shadow: none;
+    vertical-align: middle;
+    padding-bottom: 0.3em;
+}
+
+.reveal section img.subtleWhite {
+    margin: 15px 0;
+    background: rgba(255, 255, 255, 0.9);
+    border: 3px solid #93a1a1;
+    padding: 0.25em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+.reveal section img.white {
+    background: #ffffff;
+    border: 3px solid #93a1a1;
+    padding: 1em;
+}
+
+.reveal section img.subtleWhite1 {
+    margin: 15px 0;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid #93a1a1;
+    padding: 0.25em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+.reveal section img.subtle {
+    margin: 15px 0px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid #93a1a1;
+    padding: 0.25em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+.reveal section .maskMeBottomLeft {
+    -webkit-mask-image: linear-gradient(to right top, transparent 42%, black 50%);
+    mask-image: linear-gradient(to right top, transparent 42%, black 50%);
+}
+
+.reveal section .maskMeRight {
+    -webkit-mask-image: linear-gradient(to left, transparent 25%, black 75%);
+    mask-image: linear-gradient(to left, transparent 25%, black 75%);
+}
+
+.reveal section .maskMeBottom {
+    -webkit-mask-image: linear-gradient(to top, transparent 75%, black 85%);
+    mask-image: linear-gradient(to top, transparent 75%, black 85%);
+}
+
+.reveal section pre.fullWidth {
+    width: 100%;
+}

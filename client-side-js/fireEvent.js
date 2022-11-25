@@ -1,11 +1,6 @@
-async function clientSide_fireEvent(webElement, eventName, oOptions) {
-    return await browser.executeAsync(
+async function clientSide_fireEvent(webElement, eventName, oOptions, browserInstance) {
+    return await browserInstance.executeAsync(
         (webElement, eventName, oOptions, done) => {
-            const errorHandling = () => {
-                window.wdi5.Log.error("[browser wdi5] couldn't find " + webElement)
-                done(["error", false])
-            }
-
             window.wdi5.waitForUI5(
                 window.wdi5.waitForUI5Options,
                 () => {
@@ -22,15 +17,15 @@ async function clientSide_fireEvent(webElement, eventName, oOptions) {
                             }
                             oControl.fireEvent(eventName, oOptions)
                             // convert to boolean
-                            done(["success", true])
+                            done({ status: 0, resuklt: true })
                         } catch (e) {
-                            done(["error", e.toString()])
+                            window.wdi5.errorHandling.bind(this, done)
                         }
                     } else {
-                        errorHandling()
+                        window.wdi5.errorHandling(this, done)
                     }
                 },
-                errorHandling
+                window.wdi5.errorHandling.bind(this, done)
             )
         },
         webElement,

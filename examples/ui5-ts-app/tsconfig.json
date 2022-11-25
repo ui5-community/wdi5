@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
+    "module": "CommonJS",
     "types": [
       "node",
       "webdriverio/async",
       "@wdio/mocha-framework",
       "expect-webdriverio",
-      "openui5",
-      "../src/types/browser-commands"
+      "wdio-ui5-service/dist",
+      "@openui5/ts-types-esm"
     ],
-    "target": "ES5"
+    "target": "es2015"
   }
 }

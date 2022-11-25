@@ -1,6 +1,7 @@
 import Log from "sap/base/Log"
 import RecordReplay from "sap/ui/test/RecordReplay"
 import { ControlSelector } from "sap/ui/test/RecordReplay"
+import { WDI5Object } from "../lib/wdi5-object"
 
 // // copypasta from
 // // https://stackoverflow.com/questions/41285211/overriding-interface-property-type-defined-in-typescript-d-ts-file/65561287#65561287
@@ -22,7 +23,7 @@ import { ControlSelector } from "sap/ui/test/RecordReplay"
 export type wdi5LogLevel = "silent" | "error" | "verbose"
 
 export interface wdi5Config extends WebdriverIO.Config {
-    wdi5: {
+    wdi5?: {
         /** wdi5-specific logging of UI5-related operations */
         logLevel?: wdi5LogLevel
         /**
@@ -30,13 +31,17 @@ export interface wdi5Config extends WebdriverIO.Config {
          * typically "index.html"
          * @example http://localhost:8080/index.html -> "index.html"
          * @example https://ui5.sap.com/anotherIndex.html -> "anotherIndex.html"
+         * @deprecated
          */
-        url: string
+        url?: string
         /** path relative to the command `wdio` is run from to store screenshots */
         screenshotPath?: string
         /**
+         * whether to generally disable/enable screenshots
+         */
+        screenshotsDisabled?: boolean
+        /**
          * late-inject wdi5 <-> UI5 bridge, useful for testing in hybrid non-UI5/UI5 apps
-         * TODO: link to document on how to inject late programmatically
          */
         skipInjectUI5OnStart?: boolean
         /**
@@ -44,6 +49,43 @@ export interface wdi5Config extends WebdriverIO.Config {
          */
         waitForUI5Timeout?: number
     }
+    capabilities: wdi5Capabilites[] | wdi5MultiRemoteCapability
+}
+
+/**
+ * the "wdi5" prefix is to comply with W3C standards
+ */
+export interface wdi5Capabilites extends WebDriver.DesiredCapabilities {
+    "wdi5:authentication"?: BTPAuthenticator | BasicAuthAuthenticator | CustomAuthenticator | Office365Authenticator
+}
+export interface wdi5MultiRemoteCapability {
+    [key: string]: { capabilities: wdi5Capabilites }
+}
+
+export type BTPAuthenticator = {
+    provider: "BTP"
+    usernameSelector?: string
+    passwordSelector?: string
+    submitSelector?: string
+}
+
+export type BasicAuthAuthenticator = {
+    provider: "BasicAuth"
+}
+
+export type CustomAuthenticator = {
+    provider: "custom"
+    usernameSelector: string
+    passwordSelector: string
+    submitSelector: string
+}
+
+export type Office365Authenticator = {
+    provider: "Office365"
+    usernameSelector?: string
+    passwordSelector?: string
+    submitSelector?: string
+    staySignedIn?: boolean
 }
 
 interface wdi5ControlSelector {
@@ -59,6 +101,10 @@ interface wdi5ControlSelector {
      * Name of the control's view parent
      */
     viewName?: string
+    /**
+     * in Fiori Element land, this attribute is used in dynamic UI compositions
+     */
+    viewId?: string
     /**
      * Fully qualified control class name in dot notation, eg: "sap.m.ObjectHeader"
      */
@@ -91,6 +137,15 @@ interface wdi5ControlSelector {
      * Interactable matcher, {@link sap.ui.test.matchers.Interactable}
      */
     interactable?: Record<string, unknown>
+    /**
+     * search in dialogs
+     */
+    searchOpenDialogs?: boolean
+
+    /**
+     * interaction adapter
+     */
+    interaction?: "root" | "focus" | "press" | "auto"
 }
 
 export interface wdi5Selector {
@@ -108,6 +163,38 @@ export interface wdi5Selector {
      * OPA5-style selectors from RecordReplay
      */
     selector: wdi5ControlSelector
+    /**
+     * disables the logging for the selector
+     */
+    logging?: boolean
+}
+
+/**
+ * 0 = success
+ * 1 = error
+ */
+export type wdi5StatusCode = 0 | 1
+
+export interface clientSide_ui5Response {
+    status: wdi5StatusCode
+    result?: any // any method
+    message?: string // case of error (status: 1)
+    domElement?: WebdriverIO.Element // getControl
+    id?: string // getControl
+    aProtoFunctions?: Array<string> // getControl
+    className?: string // getControl
+    returnType?: string // executeControlMethod
+    nonCircularResultObject?: any
+    uuid?: string // uniquie sap.ui.base.Object id
+    object: WDI5Object
+}
+
+export interface clientSide_ui5Object {
+    uuid: string
+    status: wdi5StatusCode
+    aProtoFunctions?: []
+    className?: string
+    object: WDI5Object
 }
 
 /**

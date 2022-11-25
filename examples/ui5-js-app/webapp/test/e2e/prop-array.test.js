@@ -26,4 +26,12 @@ describe("ui5 property array test", () => {
         const aSelectedKeys = await oMultiComboBox.getSelectedKeys()
         expect(aSelectedKeys.length).toEqual(2)
     })
+
+    it("get text from items list", async () => {
+        const oMultiComboBox = await browser.asControl(multiComboBoxSelector)
+        await oMultiComboBox.open()
+        const items = await oMultiComboBox.getItems()
+        const firstItemText = await items[2].getTitle()
+        expect(firstItemText).toEqual("Australia")
+    })
 })

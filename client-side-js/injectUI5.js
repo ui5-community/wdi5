@@ -1,5 +1,5 @@
-async function clientSide_injectUI5(config, waitForUI5Timeout) {
-    return await browser.executeAsync((waitForUI5Timeout, done) => {
+async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) {
+    return await browserInstance.executeAsync((waitForUI5Timeout, done) => {
         if (window.bridge) {
             // setup sap testing already done
             done(true)
@@ -23,7 +23,21 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                 waitForUI5Options: {
                     timeout: waitForUI5Timeout,
                     interval: 400
+                },
+                objectMap: {
+                    // GUID: {}
                 }
+            }
+
+            /**
+             *
+             * @param {sap.ui.base.Object} object
+             * @returns uuid
+             */
+            window.wdi5.saveObject = (object) => {
+                const uuid = crypto.randomUUID()
+                window.wdi5.objectMap[uuid] = object
+                return uuid
             }
 
             // load UI5 logger
@@ -53,10 +67,11 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
             // attach new bridge
             sap.ui.require(["sap/ui/test/RecordReplay"], (RecordReplay) => {
                 window.bridge = RecordReplay
-                window.wdi5.Log.info("[browser wdi5] injected!")
+                window.fe_bridge = {} // empty init for fiori elements test api
+                window.wdi5.Log.info("[browser wdi5] APIs injected!")
                 window.wdi5.isInitialized = true
 
-                // here setup is successfull
+                // here setup is successful
                 // known side effect this call triggers the back to node scope, the other sap.ui.require continue to run in background in browser scope
                 done(true)
             })
@@ -236,58 +251,27 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                         return controlMethodsToProxy
                     }
 
-                    window.wdi5.isCyclic = (obj) => {
-                        var seenObjects = []
-
-                        function detect(obj) {
-                            if (obj && typeof obj === "object") {
-                                if (seenObjects.indexOf(obj) !== -1) {
-                                    return true
-                                }
-                                seenObjects.push(obj)
-                                for (var key in obj) {
-                                    if (obj.hasOwnProperty(key) && detect(obj[key])) {
-                                        console.log(obj, "cycle at " + key)
-                                        return true
-                                    }
-                                }
-                            }
-                            return false
+                    /**
+                     * flatten all functions and properties on the Prototype directly into the returned object
+                     * @param {object} obj
+                     * @returns {object} all functions and properties of the inheritance chain in a flat structure
+                     */
+                    window.wdi5.collapseObject = (obj) => {
+                        let protoChain = []
+                        let proto = obj
+                        while (proto !== null) {
+                            protoChain.unshift(proto)
+                            proto = Object.getPrototypeOf(proto)
                         }
-
-                        return detect(obj)
-                    }
-
-                    window.wdi5.removeCyclic = (obj) => {
-                        var seenObjects = []
-
-                        function detect(obj) {
-                            if (obj && typeof obj === "object") {
-                                if (seenObjects.indexOf(obj) !== -1) {
-                                    return obj
-                                }
-                                seenObjects.push(obj)
-                                for (var key in obj) {
-                                    if (obj.hasOwnProperty(key) && detect(obj[key])) {
-                                        console.log(obj, "cycle at " + key)
-                                        console.warn(`deleted: ${key}`)
-                                        delete obj[key]
-                                        return obj
-                                    }
-                                }
-                            } else {
-                                console.log(`removed ${typeof obj}`)
-                            }
-                            return obj
-                        }
-
-                        return detect(obj)
+                        let collapsedObj = {}
+                        protoChain.forEach((prop) => Object.assign(collapsedObj, prop))
+                        return collapsedObj
                     }
 
                     /**
                      * used as a replacer function in JSON.stringify
                      * removes circular references in an object
-                     * @returns
+                     * all credit to https://bobbyhadz.com/blog/javascript-typeerror-converting-circular-structure-to-json
                      */
                     window.wdi5.getCircularReplacer = () => {
                         const seen = new WeakSet()
@@ -314,15 +298,26 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                     /**
                      * creates a array of objects containing their id as a property
                      * @param {[sap.ui.core.Control]} aControls
+                     * @throws {Error} error if the aggregation was not found that has to be catched
                      * @return {Array} Object
                      */
                     window.wdi5.createControlIdMap = (aControls, controlType = "") => {
                         // the array of UI5 controls need to be mapped (remove circular reference)
+                        if (!aControls) {
+                            throw new Error("Aggregation was not found!")
+                        }
                         return aControls.map((element) => {
                             // just use the absolute ID of the control
-                            if (controlType === "sap.m.ComboBox" && element.data("InputWithSuggestionsListItem")) {
+                            if (
+                                (controlType === "sap.m.ComboBox" || controlType === "sap.m.MultiComboBox") &&
+                                element.data("InputWithSuggestionsListItem")
+                            ) {
                                 return {
                                     id: element.data("InputWithSuggestionsListItem").getId()
+                                }
+                            } else if (controlType === "sap.m.PlanningCalendar") {
+                                return {
+                                    id: `${element.getId()}-CLI`
                                 }
                             } else {
                                 return {
@@ -355,17 +350,17 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                         }
                     }
 
-                    window.wdi5.simulateDragDrop = (
-                        oSourceControl,
-                        oDestinationControl,
-                        sAggregationName = "items"
-                    ) => {
+                    window.wdi5.simulateDragDrop = (oSourceControl, oDestinationControl, sAggregationName = "items") => {
                         const oDrag = new Drag()
                         oDrag.executeOn(oSourceControl)
                         const oDrop = new Drop({
                             aggregationName: sAggregationName
                         })
                         oDrop.executeOn(oDestinationControl)
+                    }
+                    window.wdi5.errorHandling = (done, error) => {
+                        window.wdi5.Log.error("[browser wdi5] ERR: ", error)
+                        done({ status: 1, message: error.toString() })
                     }
                 }
             )

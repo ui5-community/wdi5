@@ -1,0 +1,33 @@
+# base image
+## pass this via docker build --build-arg node_version=17
+ARG node_version=16
+FROM node:${node_version}-bullseye-slim
+
+# basic tools
+RUN apt update
+RUN apt install -yq libgconf-2-4 gnupg2 wget ca-certificates lsb-release software-properties-common vim procps
+# install google chrome
+RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+RUN wget -O- https://dl.google.com/linux/linux_signing_key.pub |gpg --dearmor > /etc/apt/trusted.gpg.d/google.gpg
+RUN apt update
+RUN apt install -y google-chrome-stable --no-install-recommends
+
+WORKDIR /app
+
+# copy sample app to /app
+COPY ./examples/ui5-js-app/webapp webapp
+COPY ./examples/ui5-js-app/ui5.yaml ui5.yaml
+COPY ./docker/package-standalone.json package.json
+# this is the standard file and allows for a simple call like "wdio"
+COPY ./examples/ui5-js-app/e2e-test-config/wdio-docker-standalone.conf.js wdio.conf.js
+COPY ./examples/ui5-js-app/e2e-test-config/wdio.base.conf.js wdio.base.conf.js
+RUN mkdir -p report/screenshots
+
+# install basic setup:
+# - local minimal WebdriverIO environment
+#   and setup, incl standard reporter + Chrome
+# - wdi5
+RUN npm install
+
+# run wdio + wdi5
+CMD npm test
