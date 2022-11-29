@@ -1,3 +1,8 @@
+// the cucumber framework uses the 'console' module which also modifies the console object.
+// We need to import the console specifically otherwise we run into duplicate names and node
+// will kill the whole processes
+import console from "node:console"
+
 const translate = (color) => {
     switch (color) {
         case "red":
