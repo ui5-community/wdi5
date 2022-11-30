@@ -1,7 +1,7 @@
 // the cucumber framework uses the 'console' module which also modifies the console object.
 // We need to import the console specifically otherwise we run into duplicate names and node
-// will kill the whole processes
-import console from "node:console"
+// will kill the whole processes.
+import * as coloredConsole from "console"
 
 const translate = (color) => {
     switch (color) {
@@ -28,8 +28,8 @@ export const colored =
     (color) =>
     (msg, ...other) =>
         typeof msg === "string"
-            ? console.log(`\x1b[${translate(color)}m%s\x1b[0m`, msg, ...other)
-            : console.log(msg, ...other)
+            ? coloredConsole.log(`\x1b[${translate(color)}m%s\x1b[0m`, msg, ...other)
+            : coloredConsole.log(msg, ...other)
 
 const _ = {
     red: colored("red"),
@@ -40,5 +40,5 @@ const _ = {
     cyan: colored("cyan"),
     default: colored("default")
 }
-
-export const chalk = Object.assign(console, { ..._ })
+// we need to use a copy of the original object as 'coloredConsole' is a frozen object
+export const chalk = Object.assign({ ...coloredConsole }, { ..._ })
