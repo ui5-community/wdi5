@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.0.2 (2022-11-30)
+
+
+### Bug Fixes
+
+* wait for ui5 ([02d7f58](https://github.com/ui5-community/wdi5/commit/02d7f583ca7796af4b22879fd2286d8a44fef4f5))
+
 ### 1.0.1 (2022-11-24)
 
 
