@@ -3,7 +3,7 @@
   "authenticationMethod": "route",
   "routes": [
     {
-      "source": ".*/V2(.*)",
+      "source": "^.*/V2(.*)",
       "target": "$1",
       "destination": "V2",
       "authenticationType": "none",
