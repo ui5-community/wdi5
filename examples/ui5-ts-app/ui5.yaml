@@ -20,3 +20,11 @@ server:
         baseUri: "https://services.odata.org/V2"
         strictSSL: false
         debug: true
+builder:
+  customTasks:
+    - name: ui5-task-zipper
+      afterTask: uglify
+      configuration:
+        archiveName: "test.Sample.tsapp"
+        additionalFiles:
+          - approuter/xs-app.json
