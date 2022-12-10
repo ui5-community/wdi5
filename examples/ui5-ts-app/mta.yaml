@@ -3,6 +3,14 @@ _schema-version: 3.2.0
 version: 1.0.0
 parameters:
   enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm run clean
+        - npm run build:ts
+        - npm run build:ui5
+        - cp -r dist approuter/webapp
 
 modules:
   - name: wdi5-sample-app
@@ -23,10 +31,7 @@ modules:
       build-result: dist
       builder: custom
       commands:
-        - npm run clean
-        - npm run build:ts
-        - npm run build:ui5
-        - cp -r dist approuter/webapp
+        - echo "no additional step required"
       supported-platforms: []
 
   - name: wdi5-sample-app-deployer
@@ -55,7 +60,9 @@ modules:
         parameters:
           service-key:
             name: wdi5-sample-app-repo-host-key
-      - name: wdi5-sample-app-connectivity
+      - name: wdi5-sample-app-destination
+        parameters:
+          content-target: true
     parameters:
       content:
         subaccount:
@@ -98,8 +105,3 @@ resources:
     parameters:
       service-plan: app-runtime
       service: html5-apps-repo
-  - name: wdi5-sample-app-connectivity
-    parameters:
-      service-plan: lite
-      service: connectivity
-    type: org.cloudfoundry.managed-service
