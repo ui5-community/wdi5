@@ -27,4 +27,4 @@ builder:
       configuration:
         archiveName: "test.Sample.tsapp"
         additionalFiles:
-          - approuter/xs-app.json
+          - xs-app.json
