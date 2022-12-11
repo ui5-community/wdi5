@@ -20,10 +20,21 @@
         "settings": {
           "odataVersion": "2.0"
         }
-      },
-      "LatestUI5Datasource": {
-        "uri": "",
-        "type": "JSON"
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "fe-inbound": {
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          },
+          "semanticObject": "TestSampleTSapp",
+          "action": "display",
+          "title": "Sample App",
+          "subTitle": "TypeScript",
+          "icon": ""
+        }
       }
     }
   },
@@ -73,10 +84,6 @@
           "groupId": "$direct",
           "synchronizationMode": "None"
         }
-      },
-      "LatestUI5": {
-        "type": "sap.ui.model.json.JSONModel",
-        "dataSource": "LatestUI5Datasource"
       }
     },
     "routing": {
