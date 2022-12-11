@@ -18,7 +18,7 @@
     "authentication:custom": "wdio run test/e2e/authentication/wdio-custom-authentication.conf.ts",
     "authentication:multiRemote": "wdio run test/e2e/authentication/wdio-btp-authentication-multiremote.conf.ts",
     "build:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files",
-    "build:ui5": "ui5 build --clean-dest",
+    "build:ui5": "ui5 build --clean-dest --include-task=generateManifestBundle",
     "clean": "rimraf dist webapp approuter/webapp",
     "build:cf": "mbt build"
   },
