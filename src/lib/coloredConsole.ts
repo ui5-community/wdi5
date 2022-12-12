@@ -3,9 +3,10 @@
 // will kill the whole processes.
 
 const node14Up = parseInt(process.versions.node.substring(0, 2)) > 14
+let console = global.console
 if (node14Up) {
     ;(async () => {
-        global.console = await import("node:console")
+        console = await import("node:console")
     })()
 }
 
