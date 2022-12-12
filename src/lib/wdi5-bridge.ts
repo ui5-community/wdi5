@@ -124,7 +124,7 @@ export async function injectUI5(config: wdi5Config, browserInstance) {
     if (result) {
         // set when call returns
         _isInitialized = true
-        Logger.success("sucessfully initialized wdio-ui5 bridge")
+        Logger.success("successfully initialized wdio-ui5 bridge")
     } else {
         Logger.error("bridge was not initialized correctly")
     }
