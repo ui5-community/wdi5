@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.0.3 (2022-12-12)
+
+
+### Bug Fixes
+
+* **injectTools:** narrow down the UMD loader to window ([#387](https://github.com/ui5-community/wdi5/issues/387)) ([4f7994b](https://github.com/ui5-community/wdi5/commit/4f7994bbeedf65d50d27b86ce607f6034ad6d432)), closes [#386](https://github.com/ui5-community/wdi5/issues/386)
+
 ### 1.0.2 (2022-11-30)
 
 
