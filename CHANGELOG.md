@@ -2,6 +2,246 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.0.4 (2022-12-13)
+
+
+### Bug Fixes
+
+* resolve cucumber namespace conflict  ([#382](https://github.com/ui5-community/wdi5/issues/382)) ([acc4086](https://github.com/ui5-community/wdi5/commit/acc4086950b8ddfdcaaf918b00d52be400f42571)), closes [#348](https://github.com/ui5-community/wdi5/issues/348)
+
+### 1.0.3 (2022-12-12)
+
+
+### Bug Fixes
+
+* **injectTools:** narrow down the UMD loader to window ([#387](https://github.com/ui5-community/wdi5/issues/387)) ([4f7994b](https://github.com/ui5-community/wdi5/commit/4f7994bbeedf65d50d27b86ce607f6034ad6d432)), closes [#386](https://github.com/ui5-community/wdi5/issues/386)
+
+### 1.0.2 (2022-11-30)
+
+
+### Bug Fixes
+
+* wait for ui5 ([02d7f58](https://github.com/ui5-community/wdi5/commit/02d7f583ca7796af4b22879fd2286d8a44fef4f5))
+
+### 1.0.1 (2022-11-24)
+
+
+### Bug Fixes
+
+* wait for the injection of wdi5 till the redirection finished ([#379](https://github.com/ui5-community/wdi5/issues/379)) ([2cc492e](https://github.com/ui5-community/wdi5/commit/2cc492e675d02af1618003e98abfb97c3324beab))
+
+## 1.0.0 (2022-11-23)
+
+## 1.0.0-pre.5 (2022-11-22)
+
+
+### Bug Fixes
+
+* make wdi5 config optional ([#376](https://github.com/ui5-community/wdi5/issues/376)) ([998e5c7](https://github.com/ui5-community/wdi5/commit/998e5c71ff818a75f3c953f95da69f0487176672))
+
+## 1.0.0-pre.4 (2022-11-22)
+
+## 1.0.0-pre.3 (2022-11-21)
+
+
+### Features
+
+* add watch support for authentication ([#372](https://github.com/ui5-community/wdi5/issues/372)) ([8eb564d](https://github.com/ui5-community/wdi5/commit/8eb564d338ac25d8279026c547a0324d2cd690c3))
+
+## 1.0.0-pre.2 (2022-11-16)
+
+
+### Bug Fixes
+
+* planningcalender special case ([#371](https://github.com/ui5-community/wdi5/issues/371)) ([0258d71](https://github.com/ui5-community/wdi5/commit/0258d719b42786cb1913623838396dcbcfefe4ef))
+
+## 1.0.0-pre.1 (2022-11-14)
+
+
+### Features
+
+* getObject ([#366](https://github.com/ui5-community/wdi5/issues/366)) ([2bca472](https://github.com/ui5-community/wdi5/commit/2bca472c792c7b3a6e82b197d7d4afedaa2c346f))
+
+## 1.0.0-pre.0 (2022-11-14)
+
+
+### Features
+
+* authentication capabilities ([#369](https://github.com/ui5-community/wdi5/issues/369)) ([9c23bda](https://github.com/ui5-community/wdi5/commit/9c23bda7769a4421ed58eff28cae362ad9ea84ca)), closes [#207](https://github.com/ui5-community/wdi5/issues/207)
+
+### 0.9.16 (2022-11-08)
+
+
+### Features
+
+* **types:** add viewId for dynamic UIs ([#365](https://github.com/ui5-community/wdi5/issues/365)) ([362d7d5](https://github.com/ui5-community/wdi5/commit/362d7d5498cea1b03bb62662d1e2c478486b86ea))
+
+### 0.9.15 (2022-10-26)
+
+
+### Bug Fixes
+
+* multi-combo-box handling ([3432687](https://github.com/ui5-community/wdi5/commit/34326871e214d4a742fcc549adc1bdd1bd7a0232)), closes [#354](https://github.com/ui5-community/wdi5/issues/354)
+
+### 0.9.14 (2022-10-26)
+
+## 0.9.13 (2022-09-16)
+
+### Features
+
+* turn off logging per selector
+
+## 0.9.12 (2022-09-09)
+
+### Features
+
+* support `press` OPA5 interaction for `wdi5` `press()` API
+* enable `enterText()` in fluent async api
+* more precise error messages (with causes)
+
+## 0.9.11 (2022-09-08)
+
+### Bug Fixes
+
+## 0.9.10 (2022-07-27)
+
+### Features
+
+* improve error messages when control is not found ([#309](https://github.com/js-soft/wdi5/issues/309)) ([f7b3182](https://github.com/js-soft/wdi5/commit/f7b318263fe9eebc87ede950feeece51b865dec2)), closes [#304](https://github.com/js-soft/wdi5/issues/304)
+
+## 0.9.9 (2022-07-05)
+
+## 0.9.8 (2022-07-04)
+
+
+### Features
+
+* ts app sample ([#299](https://github.com/js-soft/wdi5/issues/299)) ([5f61a52](https://github.com/js-soft/wdi5/commit/5f61a52c6153f6463eb56330119fdd81ad721c64))
+
+### 0.9.7 (2022-07-04)
+
+
+### Bug Fixes
+
+* remove typo from error handling ([#297](https://github.com/js-soft/wdi5/issues/297)) ([d549c74](https://github.com/js-soft/wdi5/commit/d549c747f15c750d94884cefbb497c866ce5133c))
+
+## 0.9.6 (2022-06-29)
+
+## 0.9.5 (2022-06-24)
+
+
+### Features
+
+* add multiremote support ([#272](https://github.com/js-soft/wdi5/issues/272)) ([fcb47cf](https://github.com/js-soft/wdi5/commit/fcb47cf1047c30ef653a890e022472afe885d613)), closes [#281](https://github.com/js-soft/wdi5/issues/281)
+
+## 0.9.4 (2022-06-21)
+
+
+### Bug Fixes
+
+* FE testLibrary initialization ([#286](https://github.com/js-soft/wdi5/issues/286)) ([d5fddee](https://github.com/js-soft/wdi5/commit/d5fddeeb348eb503288a8f8978e58204d0642494)), closes [#276](https://github.com/js-soft/wdi5/issues/276)
+
+## 0.9.3 (2022-06-20)
+
+
+### Bug Fixes
+
+* avoid referenced object manipulation ([#275](https://github.com/js-soft/wdi5/issues/275)) ([#280](https://github.com/js-soft/wdi5/issues/280)) ([a069544](https://github.com/js-soft/wdi5/commit/a069544166c4ba9b1494f63190bef121611d3229))
+
+## 0.9.2 (2022-06-15)
+
+
+### Features
+
+* improved sync with ui5 core lifecycle ([#278](https://github.com/js-soft/wdi5/issues/278)) ([53e1a7e](https://github.com/js-soft/wdi5/commit/53e1a7e952a84825feb9b42a8a9a2684b2ff71f9))
+
+## 0.9.1 (2022-05-23)
+
+
+### Features
+
+* support SAP's "v4 testing library" ([#221](https://github.com/js-soft/wdi5/issues/221)) ([0bbca82](https://github.com/js-soft/wdi5/commit/0bbca823277c8e814a04e6dc01bb497c3f683a42)), closes [#154](https://github.com/js-soft/wdi5/issues/154)
+
+## 0.9.0 (2022-05-11)
+
+## [0.9.0-rc4.3](https://github.com/js-soft/wdi5/compare/v0.9.0-rc4.2...v0.9.0-rc4.3) (2022-04-28)
+
+
+### Bug Fixes
+
+* **#241:** rm warning if control was not instatiated by $$ ([#242](https://github.com/js-soft/wdi5/issues/242)) ([0b6a111](https://github.com/js-soft/wdi5/commit/0b6a111ad66644fafb0856627850ba792641ce41)), closes [#241](https://github.com/js-soft/wdi5/issues/241)
+
+## [0.9.0-rc4.2](https://github.com/js-soft/wdi5/compare/v0.9.0-rc4.1...v0.9.0-rc4.2) (2022-04-20)
+
+
+### Features
+
+* add to "best of UI5" ([#231](https://github.com/js-soft/wdi5/issues/231)) ([b17685c](https://github.com/js-soft/wdi5/commit/b17685c68c3f51ca1bf8b013b49eac90de1f9c73))
+* proxy object-type return value ([#234](https://github.com/js-soft/wdi5/issues/234)) ([1959411](https://github.com/js-soft/wdi5/commit/1959411eb9e8dabf3b44521ee718991a7d9e2791))
+* **wdi5-control:** .getControlInfo() for info on capabilities ([#214](https://github.com/js-soft/wdi5/issues/214)) ([965d8bb](https://github.com/js-soft/wdi5/commit/965d8bb02154f2bc59bf3be3076eb8950d3c6333))
+* **wdi5-control:** .getControlInfo() for info on capabilities ([#214](https://github.com/js-soft/wdi5/issues/214)) ([073d917](https://github.com/js-soft/wdi5/commit/073d9177a89f898c7e89b6b9dfe5dd545e01ae54))
+
+## [0.9.0-rc4.1](https://github.com/js-soft/wdi5/compare/v0.9.0-rc4...v0.9.0-rc4.1) (2022-04-12)
+
+
+### Features
+
+* wdio bridge via $() ([#179](https://github.com/js-soft/wdi5/issues/179)) ([41ef513](https://github.com/js-soft/wdi5/commit/41ef513960196de73c418d9f2357aec36f0fde13))
+
+
+### Bug Fixes
+
+* allControls with forceSelect ([#226](https://github.com/js-soft/wdi5/issues/226)) ([0dd6853](https://github.com/js-soft/wdi5/commit/0dd6853f3cebb4b4f134e7ef7664353bdbc4ec54)), closes [#225](https://github.com/js-soft/wdi5/issues/225)
+
+## [0.9.0-rc4](https://github.com/js-soft/wdi5/compare/v0.9.0-rc3...v0.9.0-rc4) (2022-04-08)
+
+
+### Features
+
+* added selenium-service configuration sample ([#220](https://github.com/js-soft/wdi5/issues/220)) ([99dd250](https://github.com/js-soft/wdi5/commit/99dd250fd696371b7f68d0d56be30d62beaaa3fe))
+* get all controls of a specific type ([#212](https://github.com/js-soft/wdi5/issues/212)) ([f4e8082](https://github.com/js-soft/wdi5/commit/f4e8082a6eae2116c12596524e7774bdb10bb6fa))
+* **performance:** using custom waitForUI5 function to overcome sap.ui.test.RecordReplay promiseWaiter issue ([#217](https://github.com/js-soft/wdi5/issues/217)) ([53fd065](https://github.com/js-soft/wdi5/commit/53fd06511eb4d05004dbef72fa1bb9e931a7200d)), closes [#196](https://github.com/js-soft/wdi5/issues/196)
+* wdio bridge via $() ([#179](https://github.com/js-soft/wdi5/issues/179)) ([acf026b](https://github.com/js-soft/wdi5/commit/acf026bd0cb7fdafa9412055ae0da23a51cad32c))
+
+
+### Bug Fixes
+
+* headless code example ([#216](https://github.com/js-soft/wdi5/issues/216)) ([a2d6ee8](https://github.com/js-soft/wdi5/commit/a2d6ee874627f699b9b5884ba14306e8245a2195))
+
+## [0.9.0-rc3](https://github.com/js-soft/wdi5/compare/v0.9.0-rc2...v0.9.0-rc3) (2022-03-25)
+
+
+### Features
+
+* **combobox:** make aggregation work ([#191](https://github.com/js-soft/wdi5/issues/191)) ([c2984bd](https://github.com/js-soft/wdi5/commit/c2984bd153633105fe7ebe60c318b19fa8580525)), closes [#121](https://github.com/js-soft/wdi5/issues/121)
+
+
+### Bug Fixes
+
+* control getShorthand returns array-valued property ([#170](https://github.com/js-soft/wdi5/issues/170)) ([b7a2789](https://github.com/js-soft/wdi5/commit/b7a2789b1c26dd754afa5713a0f6431de7a5fca5)), closes [#172](https://github.com/js-soft/wdi5/issues/172)
+* Version Checks ([#200](https://github.com/js-soft/wdi5/issues/200)) ([3648a98](https://github.com/js-soft/wdi5/commit/3648a984e442be37e17427b247c6f8d20a4422df))
+
+## [0.9.0-rc2](https://github.com/js-soft/wdi5/compare/v0.9.0-rc1...v0.9.0-rc2) (2022-03-22)
+
+## [0.9.0-rc1](https://github.com/js-soft/wdi5/compare/v0.9.0-alpha.1...v0.9.0-rc1) (2022-03-18)
+
+
+### Features
+
+* **devx:** auto open dev tools when DEBUG is set ([#168](https://github.com/js-soft/wdi5/issues/168)) ([048767b](https://github.com/js-soft/wdi5/commit/048767b4a1e240b7420bf33b6c000d531c04cc97))
+* enhanced logger and tests ([#189](https://github.com/js-soft/wdi5/issues/189)) ([959f159](https://github.com/js-soft/wdi5/commit/959f159a78a3671ab169c415db9b1ed4781e351a))
+* **logger:** custom tags in logger ([17eef1a](https://github.com/js-soft/wdi5/commit/17eef1aba365b1ed1620b99bb607157de0d9acc4))
+* **matcher:** i18n, ancestor, descendant, sibling, labelFor ([1fd328c](https://github.com/js-soft/wdi5/commit/1fd328cab0de7cd0a6895d717447866ca7de0c7d)), closes [#129](https://github.com/js-soft/wdi5/issues/129) [#121](https://github.com/js-soft/wdi5/issues/121)
+
+
+### Bug Fixes
+
+* **118:** loggin of selector verification ([6ff7283](https://github.com/js-soft/wdi5/commit/6ff72836a1eccbf40cab524a3a07fe3c446c081d))
+* **docs:** wdi5 types ref ([bfe7f6b](https://github.com/js-soft/wdi5/commit/bfe7f6b4dcd29c49bfba9c399235c19552d56ff0))
+* **example-app:** types ref ([e983b4b](https://github.com/js-soft/wdi5/commit/e983b4b46d0993f78bef6f01bc4e29750ec80673))
+* rm i18n changes ([6a1bcda](https://github.com/js-soft/wdi5/commit/6a1bcdac2893b54050b4102f6d7800aa7559fd38))
+* safeguard empty baseURL ([#165](https://github.com/js-soft/wdi5/issues/165)) ([620f3b5](https://github.com/js-soft/wdi5/commit/620f3b5e0fa40280d87883d21fc366f9a8b6f7fb)), closes [#148](https://github.com/js-soft/wdi5/issues/148)
+
 ## [0.9.0-alpha.1](https://github.com/js-soft/wdi5/compare/v0.9.0-alpha.0...v0.9.0-alpha.1) (2022-03-04)
 
 

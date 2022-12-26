@@ -1,0 +1,43 @@
+{
+  "welcomeFile": "index.html",
+  "authenticationMethod": "route",
+  "routes": [
+    {
+      "source": ".*/V2(.*)",
+      "target": "$1",
+      "destination": "V2",
+      "authenticationType": "none",
+      "csrfProtection": false
+    },
+    {
+      "source": "^.*/resources/(.*)$",
+      "target": "/resources/$1",
+      "authenticationType": "none",
+      "destination": "ui5"
+    },
+    {
+      "source": "^.*/test-resources/(.*)$",
+      "target": "/test-resources/$1",
+      "authenticationType": "none",
+      "destination": "ui5"
+    },
+    {
+      "source": "^/no-auth/(.*)$",
+      "target": "$1",
+      "authenticationType": "none",
+      "localDir": "webapp/"
+    },
+    {
+      "source": "^/xsuaa/(.*)$",
+      "target": "$1",
+      "authenticationType": "xsuaa",
+      "localDir": "webapp/"
+    },
+    {
+      "source": "^/basic-auth/(.*)$",
+      "target": "$1",
+      "authenticationType": "basic",
+      "localDir": "webapp/"
+    }
+  ]
+}

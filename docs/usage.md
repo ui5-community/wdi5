@@ -2,7 +2,174 @@
 
 With `wdi5` being a service to WebdriverIO, it provides a superset of `wdio`'s functionality.
 
-At the same time, the `wdi5`-api can be mixed with `wdio`'s api during tests at will - there is no restriction to use either or. See below for many examples, denoting which api is used were.
+When a control [is located via `wdi5`](#control-selectors), its' methods in Node.js-scope are aligned with those [of the UI5 control](https://ui5.sap.com/#/api).
+
+```js
+// assuming input is of type sap.m.Input
+const input = await browser.asControl(selector)
+await control.getValue() // same .getValue in wdi5 and UI5!
+```
+
+Additionally, all object APIs in `wdi5` are aligned with their [UI5 Managed Object counterpart](https://ui5.sap.com/#/api/sap.ui.base.ManagedObject).
+
+```js
+// assuming title is a sap.m.Title
+const title = await browser.asControl(selector)
+// bindingInfo is a UI5 Managed Object, not a UI5 control!
+const bindingInfo = await title.getModel()
+const name = await bindingInfo.getProperty("/path/in/model") // same .getProperty in wdi5 and UI5!
+```
+
+?> there is no [fluent async api](#fluent-async-api) available for both the aligned Managed Object API and [`.asObject`](#asobject)
+
+At the same time, the `wdi5`-api can be mixed with `wdio`'s api during tests at will - there is no restriction to use either one. Even a [fluent async transition](ttps://ui5-community.github.io/wdi5/#/recipes?id=using-wdio-functions) between the two is possible:
+
+```js
+// from wdi5 -> wdio
+const htmlInput = await browser.asControl(selector).$().$("input")
+await htmlInput.click("") // dummy to bring focus to the <input>
+await browser.keys(["Ctrl", "v"])
+```
+
+See below for many more examples on both using `wdi5`- and `wdio`-APIs, denoting which API is used where.
+
+## Files
+
+### Location
+
+The files containing tests should reside in `$ui5-app/webapp/test/` and be named `*.test.(j|t)s`.
+Yet both test file directory and naming pattern can be specified [via WebdriverIO's `specs`](https://webdriver.io/docs/options#specs) in [`wdio.conf.(j|t)s`](/configuration#wdi5).
+
+### Test suites
+
+WebdriverIO and `wdi5` can be used with [Mocha](http://mochajs.org/), [Jasmine](http://jasmine.github.io/), and [Cucumber](https://cucumber.io/), with Mocha being used in [all examples](https://github.com/ui5-community/wdi5/tree/main/examples) in `wdi5`.
+
+Mocha tests [are structured with `describe`-blocks ("suite"), containint `it`s ("tests")](https://mochajs.org/#getting-started). They can contain [hooks](https://mochajs.org/#describing-hooks), e.g. to run code before all tests (`before`).
+
+<!-- tabs:start -->
+
+#### **JavaScript**
+
+```js
+const { wdi5 } = require("wdio-ui5-service")
+
+describe("test suite description", () => {
+  before(async () => {
+    await wdi5.goTo("#/Page")
+  })
+
+  it("should do this", async () => {
+    const selector = {
+      /* ... */
+    }
+    const prop = await browser.asControl(selector).getProperty("...")
+    expect(prop).toEqual("...")
+  })
+  it("should do that", async () => {
+    //...
+  })
+})
+```
+
+#### **TypeScript**
+
+```ts
+import { wdi5 } from "wdio-ui5-service"
+import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
+
+describe("test suite description", () => {
+  before(async () => {
+    await wdi5.goTo("#/Page")
+  })
+
+  it("should do this", async () => {
+    const selector: wdi5Selector = {
+      /* ... */
+    }
+    const prop: string = await browser.asControl(selector).getProperty("...")
+    expect(prop).toEqual("...")
+  })
+  it("should do that", async () => {
+    //...
+  })
+})
+```
+
+<!-- tabs:end -->
+
+Another recommendation is to only use one `describe` per test file, named similar to the file name, in order to stay organized.
+
+## Control retrieval
+
+### asControl
+
+The entry point to retrieve a control is always `await browser.asControl(selector)` (for [`selector` as locator, see 👇](#control-selectors)). It transfers the UI control from the browser into the Node.js-scope and make the UI5 control's API available to the test.
+
+Internally, `wdi5` uses [`sap.ui.test.RecordReplay.findDOMElementByControlSelector`](https://ui5.sap.com/#/api/sap.ui.test.RecordReplay%23methods/sap.ui.test.RecordReplay.findDOMElementByControlSelector) to locate the control via a selector.
+
+You can either retrieve the control specifically and subsequently operate on its' UI5 API methods or use the fluent async api to query a specific method:
+
+```js
+// retrieve specfically
+const control = await browser.asControl(selector)
+const text = await control.getText()
+const property = await control.getProperty("...")
+
+// use fluent async api
+const text = await browser.asControl(selector).getText()
+```
+
+### allControls
+
+The alternative [to `browser.asControl`](#asControl) is `await browser.allControls(selector)` to retrieve all controls of a certain type.
+
+```js
+// get all sap.m.Buttons on that view
+const selector = {
+  selector: {
+    controlType: "sap.m.Button",
+    viewName: "test.Sample.view.Main"
+  }
+}
+const buttons = await browser.allControls(selector)
+
+// query one of the buttons
+const textOfButton1 = await buttons[0].getText()
+```
+
+Internally, `wdi5` uses [`sap.ui.test.RecordReplay.findAllDOMElementsByControlSelector`](https://ui5.sap.com/#/api/sap.ui.test.RecordReplay%23methods/sap.ui.test.RecordReplay.findAllDOMElementsByControlSelector) to locate the UI5 controls.
+
+?> the `selector` is used to establish a cache for _all_ controls. So providing [the `forceSelect: true` selector option](#control-selectors), the cache for all controls of that type will be invalidated.
+
+?> there is no [fluent async api](#fluent-async-api) available for `.allControls`.
+
+Switching between `wdi5`- and WebdriverIO-API is possible on any of the controls retrieved by `allControls` just as it is for a single control located via `.asControl`
+
+```js
+const buttons = await browser.allControls(manySelector)
+// $button0 and $button have the WebdriverIO api
+const $button0 = await buttons[0].getWebElement()
+const $button = await browser.asControl(singleSelector).getWebElement()
+```
+
+### asObject
+
+If `wdi5` detects a [UI5 managed object](https://ui5.sap.com/#/api/sap.ui.base.ManagedObject) as a result of a method call on a retrieved UI5 control (e.g. `await control.getBindingContext()`), it will transparently deliver that object back to Node.js-scope [as a `wdi5-object`](https://github.com/ui5-community/wdi5/blob/main/src/lib/wdi5-object.ts). This allows for an API alignment between Node.js- and browser-/UI5-scope.
+
+?> there is no [fluent async api](#fluent-async-api) available for `.asObject` and for the aligned Managed Object API
+
+The dedicated `browser.asObject($uuid)` re-fetches a previously retrieved UI5 Object from the browser-scope. `$uuid` can be obtained by querying the UI5 Object with `.getUUID()`.
+
+```js
+// earlier...
+const bindingInfo = await control.getBinding("text")
+//...
+// later:
+const object = await browser.asObject(bindingInfo.getUUID())
+const bindingInfoMetadata = await object.getMetadata()
+const bindingTypeName = await bindingInfoMetadata.getName()
+expect(bindingTypeName).toEqual("sap.ui.model.resource.ResourcePropertyBinding")
+```
 
 ## Control selectors
 
@@ -18,12 +185,15 @@ The `forceSelect` option also updates the `wdio` control reference each time a m
 
 The `timeout` option (default based on the global configuration `waitForUI5Timeout` [setting](wdio-ui5-service/README.md#installation)) controls the maximum waiting time while checking for UI5 availability _(meaning no pending requests / promises / timeouts)_.
 
+The `logging` (default: `true`) property can be set to `false` to disable the log for this specific selector. This can be useful when you want to assert, that specific controls should not be visible on the UI to decrease the amount of pointless error messages.
+
 ```javascript
 it("validates that $control's text is ...", async () => {
   const oSelector = {
     wdio_ui5_key: "wdio-ui5-button", // optional unique internal key to map and find a control
     forceSelect: true, // forces the test framework to again retrieve the control from the browser context
     timeout: 15000, // maximum waiting time (ms) before failing the search
+    logging: false, // optional (default: `true`) disables the log for this specific selector
     selector: {
       // sap.ui.test.RecordReplay.ControlSelector
       id: "UI5control_ID",
@@ -45,16 +215,22 @@ These are the supported selectors from [sap.ui.test.RecordReplay.ControlSelector
 
 |      selector | supported in `wdi5` |
 | ------------: | ------------------- |
-|          `id` | &check;             |
-|    `viewName` | &check;             |
-| `controlType` | &check;             |
+|   `ancestor` | &check;             |
 | `bindingPath` | &check;             |
-|    `I18NText` | -                   |
-|   `Anchestor` | -                   |
-|    `labelFor` | -                   |
+| `controlType` | &check;             |
+|  `descendant` | &check;             |
+|    `I18NText` | &check;             |
+|          `id` | &check;             |
+|`interactable` | &check;             |
+|    `labelFor` | &check;             |
 |  `properties` | &check;             |
+|     `RegEx`   | &check;             |
+|     `sibling` | &check;             |
+|    `viewName` | &check;             |
 
 <!-- prettier-ignore-end -->
+
+?> Please see the [dedicated section on "locators"](locators) for more usage examples for each `locator`/`matcher`!
 
 ```javascript
 const bindingPathSelector = {
@@ -223,7 +399,7 @@ Under the hoode, this first retrieves the UI5 control, then feeds it to [Webdriv
 
 ### fluent async api
 
-`wdi5` supports `async `method chaining. This means you can directly call a `UI5` control's methods after retrieveing it via `browser.asControl(selector)`:
+`wdi5` supports `async` method chaining. This means you can directly call a `UI5` control's methods after retrieveing it via `browser.asControl(selector)`:
 
 ```javascript
 // sap.m.List has .getItems()
@@ -287,7 +463,7 @@ await control.fireEvent("itemPress", {
 
 ## Assertions
 
-Recommendation is to use the [`Webdriver.IO`](https://webdriver.io)-native extension to JEST's [expect](https://jestjs.io/docs/en/expect) and [matchers](https://jestjs.io/docs/en/using-matchers) as described in https://webdriver.io/docs/assertion.html.
+Recommendation is to use the [`Webdriver.IO`](https://webdriver.io)-native extension to JEST's [expect](https://jestjs.io/docs/en/expect) and [matchers](https://jestjs.io/docs/en/using-matchers) as described in <https://webdriver.io/docs/assertion.html>.
 
 ## Screenshots
 
@@ -308,7 +484,7 @@ Example: `5-5-17-46-47-screenshot--some-id.png`
 
 ## Logger
 
-For convenient console output, use `wdi5.getLogger()`. It supports the `syslog`-like levels `log`, `info`, `warn` and `error`:
+For convenient console output, use `wdi5.getLogger('tag')`. It supports the `syslog`-like levels `log`, `info`, `warn` and `error`:
 
 ```javascript
 const wdi5 = require("wdi5")
@@ -317,6 +493,12 @@ wdi5.getLogger().log("any", "number", "of", "log", "parts")
 
 The log level is set by the either in `wdio.conf.js` via `wdi5.logLevel` or
 by `wdi5.getLogger().setLoglevel(level = {string} "error"| "verbose" | "silent")`
+
+The 'tag' is an optional parameter and when passed will display logs on the console log with a prefix as follows:
+
+```cmd
+[TAG] any number of log parts
+```
 
 ## Navigation
 
@@ -351,9 +533,120 @@ In the test, you can navigate the UI5 webapp via `goTo(options)` in one of two w
     sComponentId: "container-Sample",
     sName: "RouteOther"
   }
-  await wdi5.goTo("", oRouteOptions)
+  await wdi5.goTo(oRouteOptions)
   // or:
   await wdi5.goTo("#/Other")
   // or:
   await wdi5.goTo({ sHash: "#/Other" })
   ```
+
+## Control Info
+
+Control info is an object which can be retrieved from any wdi5 control by calling `getControlInfo()`. The control information object is loosely based on the UI5 metadata and also contains `className` and `id`.
+
+The list of attached wdio methods can be found in `$` and the UI5 control methods in the property `methods`.
+
+These properties can help to indentify the received control or test the control correctness.
+
+```js
+  const button = browser.asControl(oButtonSelector)
+
+  const controlInfo = button.getControlInfo() // <--
+  /*
+   * id?: string // full UI5 control id as it is in DOM
+   * methods?: string[] // list of UI5 methods attached to wdi5 control
+   * className?: string // UI5 class name
+   * $?: Array<string> // list of UwdioI5 methods attached to wdi5 control
+   * key?: string // wdio_ui_key
+   */
+})
+```
+
+## Test Performance/Responsiveness
+
+There is no tooling included with `wdi5` for asserting runtime performance metrics. Reason for this is to keep `wdi5`'s dependencies to a minimum - plus there are easy to use tools for that job such as [marky](https://www.npmjs.com/package/marky).
+
+Here's an example test to check the responsiveness via `marky` of an application opening a `sap.m.Dialog` after a clicking a button:
+
+```js
+const marky = require("marky")
+
+// ...
+
+it("test responsiveness of button action", async () => {
+  marky.mark("start_action")
+  const response = await browser.asControl(buttonSelector).press().getText()
+  const entry = marky.stop("stop_action")
+
+  // verify the result of the button action
+  expect(response).toEqual("open Dialog")
+
+  // check the duration of the operation
+  expect(entry.duration).toBeLessThan(3000)
+
+  // logger can be used in combination
+  wdi5.getLogger().info(entry)
+}
+```
+
+## Multiple browser instances ("multiremote")
+
+`wdi5` allows for operating multiple browser instances with a single test (suite) - think of a usecase such as "instant messaging test between two people". This is built on top of [WebdriverIO's "multiremote" feature of the same name](https://webdriver.io/docs/multiremote) ("running multiple automated sessions in a single test") and provides the same configuration options.
+
+Basic usage: change `capabilities` in your `wdio.conf.(j|t)s` to
+
+```js
+// ...
+  capabilities: {
+        one: {
+            capabilities: {
+                browserName: "chrome",
+                acceptInsecureCerts: true
+            }
+        },
+        two: {
+            capabilities: {
+                browserName: "chrome",
+                acceptInsecureCerts: true
+            }
+        }
+    }
+// ...
+```
+
+Now you can access each browser instances by calling them by their `capabilities` name, using the regular `wdi5` APIs [`browser.asControl($selector)`](/usage#ascontrol) and [`browser.allControls($selector)`](/usage#allcontrols) (just like in "single remote" test):
+
+```js
+const button1 = await browser.one.asControl({
+  selector: {
+    id: "openDialogButton",
+    viewName: "test.Sample.view.Main"
+  }
+})
+const button2 = await browser.two.asControl({
+  selector: {
+    id: "openDialogButton",
+    viewName: "test.Sample.view.Main"
+  }
+})
+```
+
+Or operate all browser instances at the same time:
+
+```js
+const buttonFromAllInstances = await browser.asControl({
+  selector: {
+    id: "openDialogButton",
+    viewName: "test.Sample.view.Main"
+  }
+})
+```
+
+...and get an array of controls back as retrieved by all instances. Subsequently, the control retrieved by each instance is accessible at the array index corresponding to the browser defined in the `capabilities` sequence in `wdio.conf.(j|t)s`:
+
+```js
+const buttonOne = buttonFromAllInstances[0]
+const buttonTwo = buttonFromAllInstances[1]
+```
+
+Some example tests are located at `/examples/ui5-js-app/webapp/test/e2e/multiremote.test.js`.

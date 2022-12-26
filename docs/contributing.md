@@ -13,10 +13,12 @@
 ## 🏃 for the impatient developer
 
 ```shell
-# you need npm 7+ → we're using npm's workspaces feature
-$> npm --version
 # use reference node version
 $> nvm use
+# you need npm 7+ → we're using npm's workspaces feature
+$> npm --version
+# eventually update npm itself with command:
+$> npm install -g npm@latest
 # will also install all deps in workspaces + setup pre-commit hooks
 $> npm i
 # build entire proj once
@@ -25,7 +27,7 @@ $> npm run build
 $> npm run build:watch
 ```
 
-Then to work on a test:  
+Then to work on a test:
 ...in terminal 1:
 
 ```shell
@@ -104,6 +106,13 @@ All browser-scope commands (such as `browser.asControl()`) are provided with `/s
 
 Given the continous build watch is running (`npm run build:watch`), hack away at any part!
 
+### control instantiation
+
+Here's a visualization of how UI5 controls are transferred between Node.js- and browser-scope.  
+Not the difference between the generic [`browser.asControl($selector)`](/usage#ascontrol) and [`browser.allControls($selector)`](/usage#allcontrols).
+
+![wdi5 control instantiation](./wdi5-control-instantiation.png)
+
 ## work on a test
 
 recommended approach:
@@ -158,17 +167,19 @@ some more text
 optional 1-line footer
 ```
 
-Please don't look at the above as restrictions, but rather as conventions: it helps to provide a harmonized codebase, both formatting- and code-style wise. And the coventional commits allow for automtically generating a `CHANGELOG.md` that we all benefit from ("what's new in version ....?").  
+Please don't look at the above as restrictions, but rather as conventions: it helps to provide a harmonized codebase, both formatting- and code-style wise. And the coventional commits allow for automtically generating a `CHANGELOG.md` that we all benefit from ("what's new in version ....?").
 Also, all of this combined aids tremendously in cutting automated releases - so new features or fixes can be published quickly!
 
 Please issue your Pull Requests against the `main` branch of the repository.
 
+?> it is not necessary to increase the version number in `package.json`. This happens automatically on merge of the Pull Request.
+
 ## work on the docs
 
-All documentation is written in `markdown` and lives in `/docs`.  
-[`Docsify` is used](https://docsify.js.org/#/) for running the documentation GitHub pages site <https://js-soft.github.io/wdi5>. It can easily be used to also run locally to work and preview the documentation site.
+All documentation is written in `markdown` and lives in `/docs`.
+[`Docsify` is used](https://docsify.js.org/#/) for running the documentation GitHub pages site <https://ui5-community.github.io/wdi5>. It can easily be used to also run locally to work and preview the documentation site.
 
-Install it globally: `$> npm i -g docsify-cli`  
+Install it globally: `$> npm i -g docsify-cli`
 Then serve the `docs` dir: `$> docsify serve ./docs`
 
 This will run the documentation site including live reload on <http://localhost:3000>

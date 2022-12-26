@@ -25,7 +25,7 @@ describe("ui5 aggregation retrieval", () => {
 
         // shorthand getContent()
         const content = await page.getContent()
-        expect(content.length).toBe(2)
+        expect(content.length).toBe(3)
 
         // shorthand getContent($atIndex)
         const firstContentItem = await page.getContent(0)
@@ -37,7 +37,7 @@ describe("ui5 aggregation retrieval", () => {
 
         // regular getAggregation($name)
         const aggregation = await page.getAggregation("content")
-        expect(aggregation.length).toBe(2)
+        expect(aggregation.length).toBe(3)
 
         const listIdViaAggregationItem = await aggregation[0].getId()
         const vboxIdViaAggregationItem = await aggregation[1].getId()

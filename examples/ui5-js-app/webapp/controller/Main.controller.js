@@ -16,9 +16,24 @@ sap.ui.define(
                     checkbox: false,
                     barcode: ""
                 }
+                // TODO:
+                // searchValue: "search Value"
 
                 let testModel = new JSONModel(jData)
                 this.getView().setModel(testModel, "testModel")
+
+                this.initCombobox()
+            },
+
+            initCombobox: function () {
+                // set explored app's demo model on this sample
+                var oModel = new JSONModel()
+                oModel.loadData("model/countries.json")
+                this.getView().setModel(oModel, "Countries")
+            },
+
+            navCalendar() {
+                return this.getOwnerComponent().getRouter().navTo("RouteCalendar")
             },
 
             navFwd() {
@@ -31,7 +46,9 @@ sap.ui.define(
             onBoo(oEvent) {
                 MessageToast.show(`👻`)
             },
-
+            onSearch(oEvent) {
+                this.getView().byId("idSearchResult").setText(oEvent.getSource().getValue())
+            },
             onTest(oEvent) {
                 this.onBoo(oEvent)
             },

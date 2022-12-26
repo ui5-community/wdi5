@@ -1,3 +1,4 @@
+docs/reveal.js
 yarn-error.log
 report/appium
 
@@ -68,8 +69,10 @@ dist/**/*
 # Testing
 
 # multi-version test artifacts
-examples/ui5-js-app/wdio-wdi5* 
+examples/ui5-js-app/wdio-wdi5*
+examples/ui5-js-app/e2e-test-config/wdio-wdi5*
 examples/ui5-js-app/webapp/index-*.html
+examples/ui5-js-app/dist/**/*
 
 
 # .env
@@ -78,3 +81,9 @@ examples/ui5-js-app/webapp/index-*.html
 
 # js sample app screenshots
 examples/ui5-js-app/webapp/test/__screenshots__/**/*.png
+
+# btp
+mta_archives
+*.mtar
+*.zip
+*.mta

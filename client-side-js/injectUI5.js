@@ -1,5 +1,5 @@
-async function clientSide_injectUI5(config, waitForUI5Timeout) {
-    return await browser.executeAsync((waitForUI5Timeout, done) => {
+async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) {
+    return await browserInstance.executeAsync((waitForUI5Timeout, done) => {
         if (window.bridge) {
             // setup sap testing already done
             done(true)
@@ -23,7 +23,21 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                 waitForUI5Options: {
                     timeout: waitForUI5Timeout,
                     interval: 400
+                },
+                objectMap: {
+                    // GUID: {}
                 }
+            }
+
+            /**
+             *
+             * @param {sap.ui.base.Object} object
+             * @returns uuid
+             */
+            window.wdi5.saveObject = (object) => {
+                const uuid = crypto.randomUUID()
+                window.wdi5.objectMap[uuid] = object
+                return uuid
             }
 
             // load UI5 logger
@@ -34,33 +48,54 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                 window.wdi5.Log.info("[browser wdi5] injected!")
             })
 
+            sap.ui.require(["sap/ui/test/autowaiter/_autoWaiterAsync"], (_autoWaiterAsync) => {
+                window.wdi5.waitForUI5 = function (oOptions, callback, errorCallback) {
+                    oOptions = oOptions || {}
+                    _autoWaiterAsync.extendConfig(oOptions)
+
+                    _autoWaiterAsync.waitAsync(function (sError) {
+                        if (sError) {
+                            errorCallback(new Error(sError))
+                        } else {
+                            callback()
+                        }
+                    })
+                }
+                window.wdi5.Log.info("[browser wdi5] window._autoWaiterAsync used in waitForUI5 function")
+            })
+
             // attach new bridge
             sap.ui.require(["sap/ui/test/RecordReplay"], (RecordReplay) => {
                 window.bridge = RecordReplay
-                window.wdi5.Log.info("[browser wdi5] injected!")
+                window.fe_bridge = {} // empty init for fiori elements test api
+                window.wdi5.Log.info("[browser wdi5] APIs injected!")
                 window.wdi5.isInitialized = true
 
-                // here setup is successfull
+                // here setup is successful
                 // known side effect this call triggers the back to node scope, the other sap.ui.require continue to run in background in browser scope
                 done(true)
             })
+
             // make sure the resources are required
+            // TODO: "sap/ui/test/matchers/Sibling",
             sap.ui.require(
                 [
                     "sap/ui/test/matchers/BindingPath",
                     "sap/ui/test/matchers/I18NText",
                     "sap/ui/test/matchers/Properties",
                     "sap/ui/test/matchers/Ancestor",
-                    "sap/ui/test/matchers/LabelFor"
+                    "sap/ui/test/matchers/LabelFor",
+                    "sap/ui/test/matchers/Descendant",
+                    "sap/ui/test/matchers/Interactable"
                 ],
-                (BindingPath, I18NText, Properties, Ancestor, LabelFor) => {
+                (BindingPath, I18NText, Properties, Ancestor, LabelFor, Descendant, Interactable) => {
                     /**
                      * used to dynamically create new control matchers when searching for elements
                      */
                     window.wdi5.createMatcher = (oSelector) => {
-                        // Before version 1.60, the only available criteria is binding context path.
-                        // As of version 1.72, it is available as a declarative matcher
-                        const oldAPIVersion = 1.6
+                        // since 1.72.0 the declarative matchers are available. Before that
+                        // you had to instantiate the matchers manually
+                        const oldAPIVersion = "1.72.0"
                         // check whether we're looking for a control via regex
                         // hint: no IE support here :)
                         if (oSelector.id && oSelector.id.startsWith("/", 0)) {
@@ -98,33 +133,67 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                             const isRootProperty =
                                 oSelector.bindingPath.propertyPath &&
                                 oSelector.bindingPath.propertyPath.charAt(0) === "/"
-                            if (hasNamedModel && isRootProperty && parseFloat(sap.ui.version) < 1.81) {
+                            if (
+                                hasNamedModel &&
+                                isRootProperty &&
+                                window.compareVersions.compare("1.81.0", sap.ui.version, ">")
+                            ) {
                                 // attach the double leading /
                                 // for UI5 < 1.81
                                 oSelector.bindingPath.propertyPath = `/${oSelector.bindingPath.propertyPath}`
                             }
-                            if (oldAPIVersion > parseFloat(sap.ui.version)) {
-                                // for version < 1.60 create the matcher
-                                oSelector.bindingPath = new BindingPath(oSelector.bindingPath)
-                            }
                         }
-
-                        if (oldAPIVersion > parseFloat(sap.ui.version)) {
-                            // for version < 1.60 create the matcher
+                        if (window.compareVersions.compare(oldAPIVersion, sap.ui.version, ">")) {
+                            oSelector.matchers = []
+                            // for version < 1.72 declarative matchers are not available
+                            if (oSelector.bindingPath) {
+                                oSelector.matchers.push(new BindingPath(oSelector.bindingPath))
+                                delete oSelector.bindingPath
+                            }
                             if (oSelector.properties) {
-                                oSelector.properties = new Properties(oSelector.properties)
+                                oSelector.matchers.push(new Properties(oSelector.properties))
+                                delete oSelector.properties
                             }
                             if (oSelector.i18NText) {
-                                oSelector.i18NText = new I18NText(oSelector.i18NText)
+                                oSelector.matchers.push(new I18NText(oSelector.i18NText))
+                                delete oSelector.i18NText
                             }
                             if (oSelector.labelFor) {
-                                oSelector.labelFor = new LabelFor(oSelector.labelFor)
+                                oSelector.matchers.push(new LabelFor(oSelector.labelFor))
+                                delete oSelector.labelFor
                             }
                             if (oSelector.ancestor) {
-                                oSelector.ancestor = new Ancestor(oSelector.ancestor)
+                                oSelector.matchers.push(new Ancestor(oSelector.ancestor))
+                                delete oSelector.ancestor
                             }
                         }
 
+                        /*
+                        oSelector.matchers = []
+                        // since for these matcher a constructor call is neccessary
+                        if (oSelector.sibling && oSelector.sibling.options) {
+                            // don't construct matcher if not needed
+                            const options = oSelector.sibling.options
+                            delete oSelector.sibling.options
+                            oSelector.matchers.push(new Sibling(oSelector.sibling, options))
+                            delete oSelector.sibling
+                        }
+                        if (oSelector.descendant && (typeof oSelector.descendant.bDirect !== 'undefined')) {
+                            // don't construct matcher if not needed
+                            const bDirect = oSelector.descendant.bDirect
+                            delete oSelector.descendant.bDirect
+                            oSelector.matchers.push(new Descendant(oSelector.descendant, !!bDirect))
+                            delete oSelector.descendant
+                        }
+                        if (oSelector.ancestor && (typeof oSelector.ancestor.bDirect !== 'undefined')) {
+                            // don't construct matcher if not needed
+                            const bDirect = oSelector.ancestor.bDirect
+                            delete oSelector.ancestor.bDirect
+                            oSelector.matchers.push(new Ancestor(oSelector.ancestor, !!bDirect))
+                            delete oSelector.ancestor
+                        }
+
+                        */
                         return oSelector
                     }
 
@@ -166,13 +235,8 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
 
                                 // filter not working methods
                                 // and those with a specific api from wdi5/wdio-ui5-service
-                                const aFilterFunctions = [
-                                    "$",
-                                    "getAggregation",
-                                    "constructor",
-                                    "getMetadata",
-                                    "fireEvent"
-                                ]
+                                // prevent overwriting wdi5-control's own init method
+                                const aFilterFunctions = ["$", "getAggregation", "constructor", "fireEvent", "init"]
 
                                 if (aFilterFunctions.includes(item)) {
                                     return false
@@ -188,10 +252,28 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                     }
 
                     /**
-                     * replaces circular references in objects
-                     * @returns function (key, value)
+                     * flatten all functions and properties on the Prototype directly into the returned object
+                     * @param {object} obj
+                     * @returns {object} all functions and properties of the inheritance chain in a flat structure
                      */
-                    window.wdi5.circularReplacer = () => {
+                    window.wdi5.collapseObject = (obj) => {
+                        let protoChain = []
+                        let proto = obj
+                        while (proto !== null) {
+                            protoChain.unshift(proto)
+                            proto = Object.getPrototypeOf(proto)
+                        }
+                        let collapsedObj = {}
+                        protoChain.forEach((prop) => Object.assign(collapsedObj, prop))
+                        return collapsedObj
+                    }
+
+                    /**
+                     * used as a replacer function in JSON.stringify
+                     * removes circular references in an object
+                     * all credit to https://bobbyhadz.com/blog/javascript-typeerror-converting-circular-structure-to-json
+                     */
+                    window.wdi5.getCircularReplacer = () => {
                         const seen = new WeakSet()
                         return (key, value) => {
                             if (typeof value === "object" && value !== null) {
@@ -216,17 +298,32 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                     /**
                      * creates a array of objects containing their id as a property
                      * @param {[sap.ui.core.Control]} aControls
+                     * @throws {Error} error if the aggregation was not found that has to be catched
                      * @return {Array} Object
                      */
-                    window.wdi5.createControlIdMap = (aControls) => {
+                    window.wdi5.createControlIdMap = (aControls, controlType = "") => {
                         // the array of UI5 controls need to be mapped (remove circular reference)
-
+                        if (!aControls) {
+                            throw new Error("Aggregation was not found!")
+                        }
                         return aControls.map((element) => {
                             // just use the absolute ID of the control
-                            let item = {
-                                id: element.getId()
+                            if (
+                                (controlType === "sap.m.ComboBox" || controlType === "sap.m.MultiComboBox") &&
+                                element.data("InputWithSuggestionsListItem")
+                            ) {
+                                return {
+                                    id: element.data("InputWithSuggestionsListItem").getId()
+                                }
+                            } else if (controlType === "sap.m.PlanningCalendar") {
+                                return {
+                                    id: `${element.getId()}-CLI`
+                                }
+                            } else {
+                                return {
+                                    id: element.getId()
+                                }
                             }
-                            return item
                         })
                     }
 
@@ -251,6 +348,11 @@ async function clientSide_injectUI5(config, waitForUI5Timeout) {
                         } else {
                             console.error("error creating new element by id of control: " + aControl)
                         }
+                    }
+
+                    window.wdi5.errorHandling = (done, error) => {
+                        window.wdi5.Log.error("[browser wdi5] ERR: ", error)
+                        done({ status: 1, message: error.toString() })
                     }
                 }
             )

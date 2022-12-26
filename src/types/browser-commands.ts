@@ -1,5 +1,6 @@
 import Control from "sap/ui/core/Control"
 import { wdi5Selector } from "./wdi5.types"
+import { WDI5Control } from "../lib/wdi5-control"
 
 /**
  * wdi5 control cache aka
@@ -12,8 +13,9 @@ type cachedControl = {
 declare global {
     // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace WebdriverIO {
-        interface Browser {
-            asControl: (arg: wdi5Selector) => Promise<any>
+        export interface Browser {
+            asControl: (arg: wdi5Selector) => Promise<WDI5Control & Control> // Intersection Types
+            allControls: (arg: wdi5Selector) => Promise<WDI5Control & Control> // Intersection Types
             screenshot: (arg: string) => Promise<any>
             goTo: (arg: string | object) => Promise<any>
             /**
@@ -22,7 +24,6 @@ declare global {
             _controls: cachedControl[]
 
             getUI5Version: () => Promise<string>
-            getUI5VersionAsFloat: () => Promise<number>
         }
 
         // interface MultiRemoteBrowser {

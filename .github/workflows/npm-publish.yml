@@ -1,4 +1,4 @@
-name: build + publish wdi5 as wdio-ui5-service to npm
+name: build and publish wdi5 as wdio-ui5-service to npm
 
 on:
   push:
@@ -8,6 +8,7 @@ on:
       # relevant
       - "client-side-js/**"
       - "src/**"
+      - "docker/**"
       # irrevelant
       - "!.github/**"
       - "!.husky/**"
@@ -28,6 +29,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: ${{secrets.ADMIN_WDI5}}
       - uses: actions/setup-node@v2
         with:
           node-version: 16
@@ -47,9 +50,8 @@ jobs:
       # push to self aka main from within gh action with "release-state"
       # doesn't trigger this workflow again
       # b/c of missing personal access token here
-      ### all of the below commented out during alpha release phase!
-      # - run: git push --follow-tags origin main
+      - run: git push --follow-tags origin main
       ## finally publish the npm package
-      #- run: npm publish
-      #  env:
-      #    NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
