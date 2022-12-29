@@ -116,7 +116,7 @@ Then we use `wdio` to get the file `input` element. As per the WebDriver spec, t
 ```javascript
 // prep the file to upload
 const fileName = "wdi5-logo.png" // relative to wdio.conf.(j|t)s
-const remoteFilePath = await browser.uploadFile(filePath) // this also works in CI senarios!
+const remoteFilePath = await browser.uploadFile(fileName) // this also works in CI senarios!
 // transition from wdi5 api -> wdio api
 const $uploader = await uploader.getWebElement() // wdi5
 const $fileInput = await $uploader.$("input[type=file]") // wdio
