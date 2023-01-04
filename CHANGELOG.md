@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.0.2 (2022-11-30)
+
+
+### Bug Fixes
+
+* wait for ui5 ([02d7f58](https://github.com/ui5-community/wdi5/commit/02d7f583ca7796af4b22879fd2286d8a44fef4f5))
+
+### 1.0.1 (2022-11-24)
+
+
+### Bug Fixes
+
+* wait for the injection of wdi5 till the redirection finished ([#379](https://github.com/ui5-community/wdi5/issues/379)) ([2cc492e](https://github.com/ui5-community/wdi5/commit/2cc492e675d02af1618003e98abfb97c3324beab))
+
+## 1.0.0 (2022-11-23)
+
+## 1.0.0-pre.5 (2022-11-22)
+
+
+### Bug Fixes
+
+* make wdi5 config optional ([#376](https://github.com/ui5-community/wdi5/issues/376)) ([998e5c7](https://github.com/ui5-community/wdi5/commit/998e5c71ff818a75f3c953f95da69f0487176672))
+
+## 1.0.0-pre.4 (2022-11-22)
+
+## 1.0.0-pre.3 (2022-11-21)
+
+
+### Features
+
+* add watch support for authentication ([#372](https://github.com/ui5-community/wdi5/issues/372)) ([8eb564d](https://github.com/ui5-community/wdi5/commit/8eb564d338ac25d8279026c547a0324d2cd690c3))
+
+## 1.0.0-pre.2 (2022-11-16)
+
+
+### Bug Fixes
+
+* planningcalender special case ([#371](https://github.com/ui5-community/wdi5/issues/371)) ([0258d71](https://github.com/ui5-community/wdi5/commit/0258d719b42786cb1913623838396dcbcfefe4ef))
+
 ## 1.0.0-pre.1 (2022-11-14)
 
 

@@ -3,16 +3,20 @@ import { wdi5Config } from "wdio-ui5-service/dist/types/wdi5.types"
 
 export const config: wdi5Config = {
     wdi5: {
-        screenshotPath: join("test", "__screenshots__"),
-        url: "index.html"
+        screenshotPath: join("test", "__screenshots__")
     },
-    baseUrl: "http://localhost:8080/",
+    baseUrl: "http://localhost:8080/index.html",
 
     services: ["chromedriver", "ui5"],
 
     specs: ["./test/e2e/**/*.test.ts"],
     // these are for authentication tests only
-    exclude: ["./test/e2e/Custom.test.ts", "./test/e2e/multiremote.test.ts"],
+    exclude: [
+        "./test/e2e/Custom.test.ts",
+        "./test/e2e/multiremote.test.ts",
+        "./test/e2e/BasicMultiRemoteAuthentication.test.ts",
+        "./test/e2e/Authentication.test.ts"
+    ],
 
     maxInstances: 10,
     capabilities: [

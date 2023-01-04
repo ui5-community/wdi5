@@ -1,7 +1,35 @@
+import Authenticator from "./lib/authentication/Authenticator"
 import { Logger } from "./lib/Logger"
+
+const authenticatorInstances = {}
+
+/**
+ * a (static) helper class named after the tool
+ */
 export class wdi5 {
     static getLogger(sPrefix = "wdi5") {
         return Logger.getInstance(sPrefix)
+    }
+
+    /**
+     * expose the current authentication status
+     *
+     * @param browserInstanceName
+     * @returns the current authentication status
+     */
+    static async isLoggedIn(browserInstanceName?): Promise<boolean> {
+        let authenticatorInstance
+        if (!browserInstanceName) {
+            return new Authenticator().getIsLoggedIn()
+        }
+
+        if (!authenticatorInstances[browserInstanceName]) {
+            authenticatorInstance = new Authenticator(browserInstanceName)
+            authenticatorInstances[browserInstanceName] = authenticatorInstance
+        } else {
+            authenticatorInstance = authenticatorInstances[browserInstanceName]
+        }
+        return authenticatorInstance.getIsLoggedIn()
     }
 
     /**
@@ -31,6 +59,7 @@ export class wdi5 {
      * @param browserInstance the currently remote controlled browser
      */
     static async goTo(hash: string, browserInstance?: WebdriverIO.Browser)
+
     /**
      * @deprecated please supply only a single parameter to .goTo() and optionally a browser instance
      */

@@ -2,7 +2,36 @@
 
 With `wdi5` being a service to WebdriverIO, it provides a superset of `wdio`'s functionality.
 
-At the same time, the `wdi5`-api can be mixed with `wdio`'s api during tests at will - there is no restriction to use either or. See below for many examples, denoting which api is used were.
+When a control [is located via `wdi5`](#control-selectors), its' methods in Node.js-scope are aligned with those [of the UI5 control](https://ui5.sap.com/#/api).
+
+```js
+// assuming input is of type sap.m.Input
+const input = await browser.asControl(selector)
+await control.getValue() // same .getValue in wdi5 and UI5!
+```
+
+Additionally, all object APIs in `wdi5` are aligned with their [UI5 Managed Object counterpart](https://ui5.sap.com/#/api/sap.ui.base.ManagedObject).
+
+```js
+// assuming title is a sap.m.Title
+const title = await browser.asControl(selector)
+// bindingInfo is a UI5 Managed Object, not a UI5 control!
+const bindingInfo = await title.getModel()
+const name = await bindingInfo.getProperty("/path/in/model") // same .getProperty in wdi5 and UI5!
+```
+
+?> there is no [fluent async api](#fluent-async-api) available for both the aligned Managed Object API and [`.asObject`](#asobject)
+
+At the same time, the `wdi5`-api can be mixed with `wdio`'s api during tests at will - there is no restriction to use either one. Even a [fluent async transition](ttps://ui5-community.github.io/wdi5/#/recipes?id=using-wdio-functions) between the two is possible:
+
+```js
+// from wdi5 -> wdio
+const htmlInput = await browser.asControl(selector).$().$("input")
+await htmlInput.click("") // dummy to bring focus to the <input>
+await browser.keys(["Ctrl", "v"])
+```
+
+See below for many more examples on both using `wdi5`- and `wdio`-APIs, denoting which API is used where.
 
 ## Files
 
@@ -125,9 +154,22 @@ const $button = await browser.asControl(singleSelector).getWebElement()
 
 ### asObject
 
-(insert proper docs here :) )  
-(original:  
-Every call of an UI5 method, which is under the hood execued via `executeControlMehtod`, which retuns an object aka. as type `clientSide_ui5Response` contains an uuid as reference to the object saved in the browser at `window.wdi5.objectMap`. This object can be used later again by calling `browser.asObject(uuid)`.)
+If `wdi5` detects a [UI5 managed object](https://ui5.sap.com/#/api/sap.ui.base.ManagedObject) as a result of a method call on a retrieved UI5 control (e.g. `await control.getBindingContext()`), it will transparently deliver that object back to Node.js-scope [as a `wdi5-object`](https://github.com/ui5-community/wdi5/blob/main/src/lib/wdi5-object.ts). This allows for an API alignment between Node.js- and browser-/UI5-scope.
+
+?> there is no [fluent async api](#fluent-async-api) available for `.asObject` and for the aligned Managed Object API
+
+The dedicated `browser.asObject($uuid)` re-fetches a previously retrieved UI5 Object from the browser-scope. `$uuid` can be obtained by querying the UI5 Object with `.getUUID()`.
+
+```js
+// earlier...
+const bindingInfo = await control.getBinding("text")
+//...
+// later:
+const object = await browser.asObject(bindingInfo.getUUID())
+const bindingInfoMetadata = await object.getMetadata()
+const bindingTypeName = await bindingInfoMetadata.getName()
+expect(bindingTypeName).toEqual("sap.ui.model.resource.ResourcePropertyBinding")
+```
 
 ## Control selectors
 

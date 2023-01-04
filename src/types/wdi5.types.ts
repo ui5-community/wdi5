@@ -23,7 +23,7 @@ import { WDI5Object } from "../lib/wdi5-object"
 export type wdi5LogLevel = "silent" | "error" | "verbose"
 
 export interface wdi5Config extends WebdriverIO.Config {
-    wdi5: {
+    wdi5?: {
         /** wdi5-specific logging of UI5-related operations */
         logLevel?: wdi5LogLevel
         /**
@@ -31,8 +31,9 @@ export interface wdi5Config extends WebdriverIO.Config {
          * typically "index.html"
          * @example http://localhost:8080/index.html -> "index.html"
          * @example https://ui5.sap.com/anotherIndex.html -> "anotherIndex.html"
+         * @deprecated
          */
-        url: string
+        url?: string
         /** path relative to the command `wdio` is run from to store screenshots */
         screenshotPath?: string
         /**

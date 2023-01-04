@@ -57,13 +57,14 @@ export async function setup(config: wdi5Config) {
 }
 
 export async function start(config: wdi5Config) {
-    // TODO: document that we require wdio.config.baseUrl with a trailing slash à la "http://localhost:8080/"
-    if (config.wdi5.url !== "") {
+    if (config.wdi5.url) {
+        // still support the old logic that we don't have breaking changes
+        Logger.warn(`'url' property in config file deprecated: please use 'baseUrl' only!`)
         Logger.info(`open url: ${config.wdi5.url}`)
         await browser.url(config.wdi5.url)
     } else {
-        Logger.info("open url with fallback '#' (this is not causing any issues since its is removed for navigation)")
-        await browser.url("#")
+        Logger.info(`open url: ${browser.config.baseUrl}`)
+        await browser.url(browser.config.baseUrl)
     }
 }
 
@@ -130,16 +131,16 @@ export async function injectUI5(config: wdi5Config, browserInstance) {
     return result
 }
 
-export async function checkForUI5Page() {
+export async function checkForUI5Page(browserInstance) {
     // wait till the loading finished and the state is "completed"
-    await browser.waitUntil(async () => {
-        const state = await browser.executeAsync((done) => {
-            done(document.readyState)
+    await browserInstance.waitUntil(async () => {
+        const checkState = await browserInstance.executeAsync((done) => {
+            done({ state: document.readyState, sapReady: !!window.sap })
         })
-        return state === "complete"
+        return checkState.state === "complete" && checkState.sapReady
     })
     // sap in global window namespace denotes (most likely :) ) that ui5 is present
-    return await browser.executeAsync((done) => {
+    return await browserInstance.executeAsync((done) => {
         done(!!window.sap)
     })
 }
@@ -331,25 +332,30 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
         const oRoute = oOptions.oRoute
 
         if (sHash && sHash.length > 0) {
-            const url = (browserInstance.config as wdi5Config).wdi5["url"] || (await browserInstance.getUrl())
+            // we need to still support the old url property
+            if ((browserInstance.config as wdi5Config).wdi5.url) {
+                const url = (browserInstance.config as wdi5Config).wdi5["url"] || (await browserInstance.getUrl())
 
-            // navigate via hash if defined
-            if (url && url.length > 0 && url !== "#") {
-                // prefix url config if is not just a hash (#)
-                const currentUrl = await browserInstance.getUrl()
-                const alreadyNavByHash = currentUrl.includes("#")
-                const navToRoot = url.startsWith("/")
-                if (alreadyNavByHash && !navToRoot) {
-                    await browserInstance.url(`${currentUrl.split("#")[0]}${sHash}`)
+                // navigate via hash if defined
+                if (url && url.length > 0 && url !== "#") {
+                    // prefix url config if is not just a hash (#)
+                    const currentUrl = await browserInstance.getUrl()
+                    const alreadyNavByHash = currentUrl.includes("#")
+                    const navToRoot = url.startsWith("/")
+                    if (alreadyNavByHash && !navToRoot) {
+                        await browserInstance.url(`${currentUrl.split("#")[0]}${sHash}`)
+                    } else {
+                        await browserInstance.url(`${url}${sHash}`)
+                    }
+                } else if (url && url.length > 0 && url === "#") {
+                    // route without the double hash
+                    await browserInstance.url(`${sHash}`)
                 } else {
-                    await browserInstance.url(`${url}${sHash}`)
+                    // just a fallback
+                    await browserInstance.url(`${sHash}`)
                 }
-            } else if (url && url.length > 0 && url === "#") {
-                // route without the double hash
-                await browserInstance.url(`${sHash}`)
             } else {
-                // just a fallback
-                await browserInstance.url(`${sHash}`)
+                await browserInstance.url(sHash)
             }
         } else if (oRoute && oRoute.sName) {
             // navigate using the ui5 router

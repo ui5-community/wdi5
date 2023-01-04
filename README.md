@@ -15,10 +15,10 @@ It is used for end-to-end tests of a UI5 web-application.
 
 - Arnaud Buchholz [@ArnaudBuchholz](https://github.com/ArnaudBuchholz)
 - Dominik Feininger [@dominikfeininger](https://github.com/dominikfeininger)
-- Nicolai Schoenteich [@nicoschoenteich](https://github.com/nicoschoenteich)
 - Constantin Lebrecht [@monavari-lebrecht](https://github.com/monavari-lebrecht)
 - Hristo Manchev [@hmanchev](https://github.com/hmanchev)
 - Nicholas O'Malley [@aiopa](https://github.com/aiopa)
+- Nicolai Schoenteich [@nicoschoenteich](https://github.com/nicoschoenteich)
 - Sebastian Wolf [@SebastianWolf-SAP](https://github.com/SebastianWolf-SAP)
 
 ### Former Committee Members

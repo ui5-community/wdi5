@@ -26,6 +26,7 @@ This will
 
 - install `wdi5` and all required WebdriverIO peer dependencies
 - add a config file (`wdio.conf.js`) to your current working directory,
+  using `http://localhost:8080/index.html` as `baseUrl`,  
   looking for tests in `$ui5-app/webapp/test/**/*`
   that follow the name pattern `*.test.js`
 - set an `npm` script named "wdi5" to run `wdi5`
@@ -45,7 +46,8 @@ This will
 
 - install `wdi5` and all required WebdriverIO peer dependencies
 - add config files (`wdio.conf.ts` + `tsconfig.json`) to a folder `test` in your current working directory
-- look for tests to run in `$ui5-app/test/**/*`
+- uses `http://localhost:8080/index.html` as `baseUrl`,  
+  look for tests to run in `$ui5-app/test/**/*`
   that follow the name pattern `*.test.js`
 - set an `npm` script named "wdi5" to run `wdi5`
 so you can immediately do `npm run wdi5`
@@ -57,6 +59,18 @@ Note this is a _minimal_ install for running `wdi5`
 - with `Chrome` as target browser
 - `mocha` as the syntax for tests
 - `spec` as the output format of the test results
+
+?> as of `create-wdi5` (the module "behind" `npm init wdi5`) `0.3.0`, you can now pass the options  
+`--configPath <target path>` for a custom target directory to put `wdio.conf.(j|t)s` in  
+`--specs <path glob>` the file sys/dir pattern to scan for test files
+`--baseUrl <application url>` custom url to your application  
+examples:  
+`$> npm init wdi5@latest --configPath some/sub/folder/ \`
+`--specs ./my/test/**/*.js \`
+`--baseUrl http://localhost:4004/app/index.html`
+`$> npm init wdi5@latest -- --ts --configPath some/other/folder/ \`
+`--specs ./ts-tests/**/*.test.ts \`
+`--baseUrl http://localhost:4004/ts-app/index.html`
 
 :tada: Done! Proceed to [configuring wdi5](configuration) now.
 
