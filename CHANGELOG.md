@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.0.5 (2023-01-13)
+
+
+### Bug Fixes
+
+* cucumber. again. ([#398](https://github.com/ui5-community/wdi5/issues/398)) ([a6123eb](https://github.com/ui5-community/wdi5/commit/a6123eba733ca9ccd5ad3e558060a02161d0c242)), closes [#348](https://github.com/ui5-community/wdi5/issues/348)
+
 ### 1.0.4 (2022-12-13)
 
 
