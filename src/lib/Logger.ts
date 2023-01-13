@@ -1,5 +1,32 @@
-import { chalk as console } from "./coloredConsole"
 import { wdi5LogLevel } from "../types/wdi5.types"
+
+const translate = (color) => {
+    switch (color) {
+        case "red":
+            return "31"
+        case "green":
+            return "32"
+        case "yellow":
+            return "33"
+        case "blue":
+            return "34"
+        case "magenta":
+            return "35"
+        case "cyan":
+            return "36"
+        case "default":
+            return "0"
+        default:
+            return "32" // all is good
+    }
+}
+
+const colored =
+    (color) =>
+    (prefix, msg, ...other) =>
+        typeof msg === "string"
+            ? console.log(`\x1b[${translate(color)}m%s\x1b[0m`, prefix, msg, ...other)
+            : console.log(prefix, msg, ...other)
 
 export class Logger {
     private static instance: Record<string, Logger> = {}
@@ -27,32 +54,32 @@ export class Logger {
 
     error(msg: string, ..._: string[]) {
         if (this.logLevel !== "silent") {
-            console.red(this.prefix, msg, ..._)
+            colored("red")(this.prefix, msg, ..._)
         }
     }
     warn(msg: string, ..._: string[]) {
         if (this.logLevel !== "silent") {
-            console.yellow(this.prefix, msg, ..._)
+            colored("yellow")(this.prefix, msg, ..._)
         }
     }
     info(msg: string, ..._: string[]) {
         if (this.logLevel === "verbose") {
-            console.blue(this.prefix, msg, ..._)
+            colored("blue")(this.prefix, msg, ..._)
         }
     }
     success(msg: string, ..._: string[]) {
         if (this.logLevel === "verbose") {
-            console.green(this.prefix, msg, ..._)
+            colored("green")(this.prefix, msg, ..._)
         }
     }
     log(msg: string, ..._: string[]) {
         if (this.logLevel !== "silent") {
-            console.default(this.prefix, msg, ..._)
+            colored("default")(this.prefix, msg, ..._)
         }
     }
     debug(msg: string, ..._: string[]) {
         if (this.logLevel === "verbose") {
-            console.magenta(this.prefix, msg, ..._)
+            colored("magenta")(this.prefix, msg, ..._)
         }
     }
 }
