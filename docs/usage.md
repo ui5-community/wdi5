@@ -44,7 +44,7 @@ Yet both test file directory and naming pattern can be specified [via WebdriverI
 
 WebdriverIO and `wdi5` can be used with [Mocha](http://mochajs.org/), [Jasmine](http://jasmine.github.io/), and [Cucumber](https://cucumber.io/), with Mocha being used in [all examples](https://github.com/ui5-community/wdi5/tree/main/examples) in `wdi5`.
 
-Mocha tests [are structured with `describe`-blocks ("suite"), containing `it`'s ("tests")](https://mochajs.org/#getting-started). They can contain [hooks](https://mochajs.org/#describing-hooks), e.g. to run code before all tests (`before`).
+Mocha tests [are structured with `describe`-blocks ("suite"), containing `it`s ("tests")](https://mochajs.org/#getting-started). They can contain [hooks](https://mochajs.org/#describing-hooks), e.g. to run code before all tests (`before`).
 
 <!-- tabs:start -->
 
