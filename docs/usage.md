@@ -7,7 +7,7 @@ When a control [is located via `wdi5`](#control-selectors), its' methods in Node
 ```js
 // assuming input is of type sap.m.Input
 const input = await browser.asControl(selector)
-await control.getValue() // same .getValue in wdi5 and UI5!
+await input.getValue() // same .getValue in wdi5 and UI5!
 ```
 
 Additionally, all object APIs in `wdi5` are aligned with their [UI5 Managed Object counterpart](https://ui5.sap.com/#/api/sap.ui.base.ManagedObject).
@@ -44,7 +44,7 @@ Yet both test file directory and naming pattern can be specified [via WebdriverI
 
 WebdriverIO and `wdi5` can be used with [Mocha](http://mochajs.org/), [Jasmine](http://jasmine.github.io/), and [Cucumber](https://cucumber.io/), with Mocha being used in [all examples](https://github.com/ui5-community/wdi5/tree/main/examples) in `wdi5`.
 
-Mocha tests [are structured with `describe`-blocks ("suite"), containint `it`s ("tests")](https://mochajs.org/#getting-started). They can contain [hooks](https://mochajs.org/#describing-hooks), e.g. to run code before all tests (`before`).
+Mocha tests [are structured with `describe`-blocks ("suite"), containing `it`s ("tests")](https://mochajs.org/#getting-started). They can contain [hooks](https://mochajs.org/#describing-hooks), e.g. to run code before all tests (`before`).
 
 <!-- tabs:start -->
 
@@ -491,7 +491,7 @@ const wdi5 = require("wdi5")
 wdi5.getLogger().log("any", "number", "of", "log", "parts")
 ```
 
-The log level is set by the either in `wdio.conf.js` via `wdi5.logLevel` or
+The log level is either set in `wdio.conf.js` via `wdi5.logLevel` or
 by `wdi5.getLogger().setLoglevel(level = {string} "error"| "verbose" | "silent")`
 
 The 'tag' is an optional parameter and when passed will display logs on the console log with a prefix as follows:
@@ -546,7 +546,7 @@ Control info is an object which can be retrieved from any wdi5 control by callin
 
 The list of attached wdio methods can be found in `$` and the UI5 control methods in the property `methods`.
 
-These properties can help to indentify the received control or test the control correctness.
+These properties can help to identify the received control or test the control correctness.
 
 ```js
   const button = browser.asControl(oButtonSelector)

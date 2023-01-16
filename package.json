@@ -53,7 +53,8 @@
     "test:auth": "npm run test-h:authentication -w examples/ui5-ts-app",
     "test": "cross-env TS_NODE_PROJECT=\"test/tsconfig.json\" mocha",
     "prepare": "husky install",
-    "release": "standard-version"
+    "release": "standard-version",
+    "startDoc": "docsify serve ./docs"
   },
   "lint-staged": {
     "*": "prettier --ignore-unknown --write",
