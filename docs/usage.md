@@ -139,7 +139,9 @@ const textOfButton1 = await buttons[0].getText()
 
 Internally, `wdi5` uses [`sap.ui.test.RecordReplay.findAllDOMElementsByControlSelector`](https://ui5.sap.com/#/api/sap.ui.test.RecordReplay%23methods/sap.ui.test.RecordReplay.findAllDOMElementsByControlSelector) to locate the UI5 controls.
 
-?> the `selector` is used to establish a cache for _all_ controls. So providing [the `forceSelect: true` selector option](#control-selectors), the cache for all controls of that type will be invalidated.
+!> the `findAllDOMElementsByControlSelector` UI5 API is only available in UI5 >= 1.87.7, so you can use `browser.allControls(...)` only with UI5 (apps) >= 1.87.7
+
+?> the `selector` is used to establish a cache for _all_ controls. So when providing [the `forceSelect: true` selector option](#control-selectors), the cache for all controls of that type will be invalidated.
 
 ?> there is no [fluent async api](#fluent-async-api) available for `.allControls`.
 
