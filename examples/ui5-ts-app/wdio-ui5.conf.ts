@@ -21,7 +21,7 @@ export const config: wdi5Config = {
     maxInstances: 10,
     capabilities: [
         {
-            maxInstances: 5,
+            maxInstances: 2,
             browserName: "chrome",
             "goog:chromeOptions": {
                 args:
