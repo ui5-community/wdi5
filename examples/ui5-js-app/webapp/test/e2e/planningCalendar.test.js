@@ -16,7 +16,9 @@ describe("Planning Calendar test spec", () => {
         // each people has a row
 
         const cells0 = await rows[0].getCells()
-        // the first two rows have two cell which are the the reminders and the appointments, third row does not have reminders!
+        // The first two rows have two cell which are the the reminders and the appointments, third row does not have reminders!
+        // This will log a lot of expected errors. It tries to load all calendar entries.
+        // All entries which are not visible are not in dom -> throws error when tried to retrieve
         const appointments0 = await cells0[1].getAppointments()
         expect(appointments0.length).toBeGreaterThan(4) // four appointments visible on the selected date, but 22 in total
 
