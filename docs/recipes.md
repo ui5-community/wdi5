@@ -116,7 +116,7 @@ Then we use `wdio` to get the file `input` element. As per the WebDriver spec, t
 ```javascript
 // prep the file to upload
 const fileName = "wdi5-logo.png" // relative to wdio.conf.(j|t)s
-const remoteFilePath = await browser.uploadFile(filePath) // this also works in CI senarios!
+const remoteFilePath = await browser.uploadFile(fileName) // this also works in CI senarios!
 // transition from wdi5 api -> wdio api
 const $uploader = await uploader.getWebElement() // wdi5
 const $fileInput = await $uploader.$("input[type=file]") // wdio
@@ -154,7 +154,7 @@ See an example at `/examples/ui5-js-app/jsconfig.json` in the wdi5 repository.
 
 If your editor supports TypeScript, enjoy proper code completion in JavaScript test files by using JSDoc to inline-cast the result of `browser.asControl()` to the proper type.  
 This is possible by [TypeScript's support of prefixing expressions in parenthesis with a type annotation](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html#casts).  
-So by wrapping `browser.asControl()` in additional paranthesis and prefixing it by the JSDoc `type` annotation, the editor gets triggered to provide API completions.
+So by wrapping `browser.asControl()` in additional parantheses and prefixing it by the JSDoc `type` annotation, the editor gets triggered to provide API completions.
 
 The below allows for suggesting `press()` on the retrieved control, as it is cast to a [`WDI5Control`](https://github.com/ui5-community/wdi5/blob/d92eac292e4018ebefeffe268a04bb3912076e02/src/lib/wdi5-control.ts#L18):
 
@@ -267,7 +267,7 @@ The `interaction` can be any one of: `root`, `focus`, `press`, `auto` (default),
 
 Located element for each case:
 
-- **`root`**: the root DOM element of the control
+- **`root`**: the root DOM element of the control.   
   Use this with many controls having an `items` aggregation (such as `sap.m.List`) in order to select the List itself, not the first element of the control.
   See the `listSelector` in `examples/ui5-js-app/webapp/test/e2e/generated-methods.test.js` for an example:
 
@@ -318,7 +318,7 @@ it("should find the search button on a SearchField", async () => {
 
 ## using wdio functions
 
-WebdriverIO has a extensive element [API](https://webdriver.io/docs/api/). The [Element API] specifically can be quite useful to check if the page elements are in a certain state e.g. [isDisplayed](https://webdriver.io/docs/api/element/isDisplayed) or [isClickable](https://webdriver.io/docs/api/element/isClickable).
+WebdriverIO has an extensive element [API](https://webdriver.io/docs/api/). The [Element API] specifically can be quite useful to check if the page elements are in a certain state e.g. [isDisplayed](https://webdriver.io/docs/api/element/isDisplayed) or [isClickable](https://webdriver.io/docs/api/element/isClickable).
 
 To make use of these element functions, `wdi5` allows to switch APIs from UI5 to wdio by calling `$()`.
 
