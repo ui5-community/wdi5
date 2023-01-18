@@ -17,6 +17,8 @@
     "authentication:basic-auth": "wdio run test/e2e/authentication/wdio-basic-auth-authentication.conf.ts",
     "authentication:custom": "wdio run test/e2e/authentication/wdio-custom-authentication.conf.ts",
     "authentication:multiRemote": "wdio run test/e2e/authentication/wdio-btp-authentication-multiremote.conf.ts",
+    "test:protocol devtools": "wdio run test/e2e/protocol/wdio-ui5-devtools.conf.ts",
+    "test:protocol webdriver": "wdio run test/e2e/protocol/wdio-ui5-webdriver.conf.ts",
     "build:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files",
     "build:ui5": "ui5 build --clean-dest",
     "build:mtar": "mv dist approuter/webapp && mbt build",
