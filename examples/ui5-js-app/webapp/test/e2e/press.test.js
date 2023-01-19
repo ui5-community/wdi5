@@ -10,7 +10,6 @@ describe("custom wdi5 press event", async () => {
     }
 
     const dialogSelector = {
-        forceSelect: true,
         selector: {
             id: "Dialog",
             controlType: "sap.m.Dialog",
