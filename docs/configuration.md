@@ -5,7 +5,9 @@
 ## `wdi5`
 
 All options go into a top-level `wdi5` object in `wdio.conf.(j|t)s`,
-with the exception of the `baseUrl` pointing to your UI5 app.
+with the exception of the `baseUrl` pointing to the `index.html` of your UI5 app.
+
+?> Do not account for redirects etc. (think application router), `wdi5` wants to be pointed directly to where UI5 is being bootstrapped.
 
 ```javascript
 exports.config = {
