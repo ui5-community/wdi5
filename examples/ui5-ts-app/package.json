@@ -10,6 +10,7 @@
     "watch:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files --watch",
     "start:ui5": "ui5 serve --port 8080",
     "//test": "run-s test:*",
+    "wdi5": "wdio run wdio-ui5.conf.ts",
     "test": "wdio run wdio-ui5.conf.ts",
     "test:authentication": "run-s authentication:*",
     "test-h:authentication": "run-s \"authentication:* -- --headless\"",
@@ -41,5 +42,8 @@
     "dependencies": [
       "ui5-middleware-simpleproxy"
     ]
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3"
   }
 }
