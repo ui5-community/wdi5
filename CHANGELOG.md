@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.0.5 (2023-01-13)
+
+
+### Bug Fixes
+
+* cucumber. again. ([#398](https://github.com/ui5-community/wdi5/issues/398)) ([a6123eb](https://github.com/ui5-community/wdi5/commit/a6123eba733ca9ccd5ad3e558060a02161d0c242)), closes [#348](https://github.com/ui5-community/wdi5/issues/348)
+
+### 1.0.4 (2022-12-13)
+
+
+### Bug Fixes
+
+* resolve cucumber namespace conflict  ([#382](https://github.com/ui5-community/wdi5/issues/382)) ([acc4086](https://github.com/ui5-community/wdi5/commit/acc4086950b8ddfdcaaf918b00d52be400f42571)), closes [#348](https://github.com/ui5-community/wdi5/issues/348)
+
+### 1.0.3 (2022-12-12)
+
+
+### Bug Fixes
+
+* **injectTools:** narrow down the UMD loader to window ([#387](https://github.com/ui5-community/wdi5/issues/387)) ([4f7994b](https://github.com/ui5-community/wdi5/commit/4f7994bbeedf65d50d27b86ce607f6034ad6d432)), closes [#386](https://github.com/ui5-community/wdi5/issues/386)
+
 ### 1.0.2 (2022-11-30)
 
 
