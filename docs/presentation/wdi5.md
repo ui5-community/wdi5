@@ -45,6 +45,35 @@
 
 # wdi5
 
+## where
+
+```
+          ┌───────────┐
+          │           │     you are
+          │    e2e    │◄───  here
+          │           │
+      ┌───┴───────────┴───┐
+      │                   │
+      │                   │
+      │    Integration    │
+      │                   │
+   ┌──┴───────────────────┴──┐
+   │                         │
+   │                         │
+   │        Component        │
+   │                         │
+┌──┴─────────────────────────┴──┐
+│                               │
+│             Unit              │
+│                               │
+│                               │
+└───────────────────────────────┘
+```
+
+---
+
+# wdi5
+
 ## why
 
 - auto-sync w/ UI5 runtime
@@ -61,3 +90,4 @@
 
 - `wdio^8` enablement
 - support SAP BUILD Work Zone, std edition
+- hybride DSAG Schulung "CI mit UI5 + wdi5", 8.3.23
