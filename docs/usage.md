@@ -414,6 +414,8 @@ const title = await browser.asControl(listSelector).getItems(1).getTitle()
 // const title = await item.getTitle()
 ```
 
+Note that chaining only works if you start your call with `browser.asControl()`. The fluent async api will not work starting with an already retrieved UI5 element.
+
 The `this` context of each step in the `async` chain changes to the retrieved/referenced `UI5` element.
 
 In the above example:
