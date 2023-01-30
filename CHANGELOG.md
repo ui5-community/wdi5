@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.1.0 (2023-01-30)
+
+
+### Features
+
+* make FE Test Library recognize Timeout Setting ([#411](https://github.com/ui5-community/wdi5/issues/411)) ([9d84414](https://github.com/ui5-community/wdi5/commit/9d8441400f735bfd4ad162943488e6a836624510))
+
 ### 1.0.5 (2023-01-13)
 
 
