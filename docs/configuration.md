@@ -119,7 +119,7 @@ See <https://github.com/ui5-community/wdi5/tree/main/examples/ui5-js-app/webapp/
 
 Number in milliseconds (default: `15000`) to wait for UI5-related operations within a UI5 app. This is the equivalent to OPA5's [`waitFor()` option `timeout`](https://ui5.sap.com/sdk/#/api/sap.ui.test.Opa5/methods/waitFor).
 
-?> When setting this timeout to 30 seconds or higher requires increasing the [session script timeout](https://webdriver.io/docs/timeouts/#session-script-timeout) as well.
+?> Setting this timeout to 30 seconds or higher requires the [session script timeout](https://webdriver.io/docs/timeouts/#session-script-timeout) to be increased as well.
 
 ## `package.json`
 
