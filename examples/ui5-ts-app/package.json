@@ -8,9 +8,10 @@
   "scripts": {
     "start": "npm-run-all --parallel watch:ts start:ui5",
     "watch:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files --watch",
-    "start:ui5": "ui5 serve --port 8080",
+    "start:ui5": "ui5 serve --port 8080 --accept-remote-connections",
     "//test": "run-s test:*",
     "test": "wdio run wdio-ui5.conf.ts",
+    "test:browserstack": "wdio run test/e2e/cloud-services/browserstack.conf.ts",
     "test:authentication": "run-s authentication:*",
     "test-h:authentication": "run-s \"authentication:* -- --headless\"",
     "test:lateInject": "wdio run wdio-ui5-late.conf.ts",
