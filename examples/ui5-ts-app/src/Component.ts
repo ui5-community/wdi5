@@ -1,10 +1,11 @@
-import UIComponent from "sap/ui/core/UIComponent"
+//@ts-expect-error type not available
+import AppComponent from "sap/fe/core/AppComponent"
 import { support } from "sap/ui/Device"
 
 /**
  * @namespace test.Sample.tsapp
  */
-export default class Component extends UIComponent {
+export default class Component extends AppComponent {
     public static metadata = {
         manifest: "json"
     }

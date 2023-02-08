@@ -45,7 +45,9 @@
         "sap.ui.core": {},
         "sap.ui.layout": {},
         "sap.ui.unified": {},
-        "sap.m": {}
+        "sap.m": {},
+        "sap.fe.core": {},
+        "sap.fe.macros": {}
       }
     },
     "handleValidation": true,
