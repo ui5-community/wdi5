@@ -12,4 +12,10 @@ export default class Main extends BaseController {
     navFwd(): any {
         return this.getOwnerComponent().getRouter().navTo("RouteOther")
     }
+
+    async asyncFn(): Promise<number> {
+        return new Promise((resolve) => {
+            resolve(10)
+        })
+    }
 }
