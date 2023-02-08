@@ -1,4 +1,4 @@
-import { Capabilities, Services } from "@wdio/types"
+import { Services } from "@wdio/types"
 import { MultiRemoteDriver } from "webdriverio/build/multiremote"
 
 import { start, injectUI5, setup, checkForUI5Page, authenticate } from "./lib/wdi5-bridge"
@@ -8,11 +8,8 @@ import { Logger as _Logger } from "./lib/Logger"
 const Logger = _Logger.getInstance()
 
 export default class Service implements Services.ServiceInstance {
-    constructor(
-        private _options: wdi5Config,
-        private _capabilities: Capabilities.RemoteCapability,
-        private _config: wdi5Config // an enhanced version of the regular wdio config
-    ) {}
+    private _config: any
+    private _capabilities: any
 
     async before(/*capabilities* , specs*/) {
         // if no wdi5 config is available we add it manually
