@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.2.0 (2023-02-08)
+
+
+### Features
+
+* allow for async client-side controller functions ([#423](https://github.com/ui5-community/wdi5/issues/423)) ([bde49d1](https://github.com/ui5-community/wdi5/commit/bde49d11cad0da58897326978c9fc65b6fd565ea)), closes [#417](https://github.com/ui5-community/wdi5/issues/417)
+
 ### 1.1.1 (2023-02-08)
 
 
