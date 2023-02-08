@@ -11,6 +11,11 @@ export default class Service implements Services.ServiceInstance {
     private _config: any
     private _capabilities: any
 
+    constructor() {
+        this._config = {}
+        this._capabilities = {}
+    }
+
     async before(/*capabilities* , specs*/) {
         // if no wdi5 config is available we add it manually
         if (!this._config.wdi5) {
