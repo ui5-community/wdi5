@@ -3,13 +3,23 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
         (uuid, methodName, args, done) => {
             window.wdi5.waitForUI5(
                 window.wdi5.waitForUI5Options,
-                () => {
+                async () => {
                     // DOM to UI5
                     const oObject = window.wdi5.objectMap[uuid]
 
                     // execute the function
                     // TODO: if (methodName === "getName") { debugger }
-                    let result = oObject[methodName].apply(oObject, args)
+                    let result
+                    if (oObject[methodName].constructor.name === "AsyncFunction") {
+                        try {
+                            result = await oObject[methodName].apply(oObject, args)
+                        } catch (error) {
+                            window.wdi5.Log.error(JSON.stringify(error))
+                            done({ status: 1, messsage: JSON.stringify(error) })
+                        }
+                    } else {
+                        result = oObject[methodName].apply(oObject, args)
+                    }
 
                     // result mus be a primitive
                     if (window.wdi5.isPrimitive(result)) {
