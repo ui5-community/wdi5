@@ -87,3 +87,6 @@ mta_archives
 *.mtar
 *.zip
 *.mta
+
+# cloud testing
+*.err
