@@ -18,4 +18,9 @@ export default class Main extends BaseController {
             resolve(10)
         })
     }
+    async asyncRejectFn(): Promise<number> {
+        return new Promise((resolve, reject) => {
+            reject("meh")
+        })
+    }
 }
