@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.1.1 (2023-02-08)
+
+
+### Bug Fixes
+
+* rm obsolete design time artifacts ([#422](https://github.com/ui5-community/wdi5/issues/422)) ([f9bf300](https://github.com/ui5-community/wdi5/commit/f9bf3009a0760fdf1a025f23182d4ab7d03c11d2)), closes [#421](https://github.com/ui5-community/wdi5/issues/421)
+
 ## 1.1.0 (2023-01-30)
 
 
