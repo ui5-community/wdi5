@@ -34,6 +34,8 @@
     "@openui5/ts-types-esm": "latest",
     "@sap/approuter": "^11.6.1",
     "@types/jquery": "3.5.14",
+    "@wdio/browserstack-service": "^7.30.0",
+    "@wdio/sauce-service": "^7.30.0",
     "babel-preset-transform-ui5": "^7.0.5",
     "mbt": "^1.2.18",
     "ts-deepmerge": "^5.0.0",
