@@ -11,10 +11,10 @@
     },
     "dataSources": {
       "BackendDataSource": {
-        "uri": "/V2/Northwind/Northwind.svc/",
+        "uri": "/V4/Northwind/Northwind.svc/",
         "type": "OData",
         "settings": {
-          "odataVersion": "2.0"
+          "odataVersion": "4.0"
         }
       },
       "LatestUI5Datasource": {
@@ -65,10 +65,7 @@
       "": {
         "dataSource": "BackendDataSource",
         "settings": {
-          "useBatch": false,
           "autoExpandSelect": true,
-          "operationMode": "Server",
-          "groupId": "$direct",
           "synchronizationMode": "None"
         }
       },
