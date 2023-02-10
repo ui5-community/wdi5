@@ -6,7 +6,7 @@ import BaseController from "./BaseController"
 /**
  * @namespace test.Sample.tsapp.controller
  */
-export default class Main extends BaseController {
+export default class Other extends BaseController {
     onItemClick(oEvent): void {
         ;(this.getView().byId("idTextFieldClickResult") as Text).setText(
             (oEvent.getParameter("item") as StandardListItem).getText()

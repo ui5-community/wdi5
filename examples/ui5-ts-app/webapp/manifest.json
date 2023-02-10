@@ -10,16 +10,12 @@
       "version": "1.0.0"
     },
     "dataSources": {
-      "BackendDataSource": {
+      "mainService": {
         "uri": "/V4/Northwind/Northwind.svc/",
         "type": "OData",
         "settings": {
           "odataVersion": "4.0"
         }
-      },
-      "LatestUI5Datasource": {
-        "uri": "",
-        "type": "JSON"
       }
     }
   },
@@ -45,9 +41,20 @@
         "sap.ui.core": {},
         "sap.ui.layout": {},
         "sap.ui.unified": {},
+        "sap.ui.webc.main": {},
         "sap.m": {},
-        "sap.fe.core": {},
-        "sap.fe.macros": {}
+        "sap.fe.core": {
+          "lazy": true
+        },
+        "sap.fe.macros": {
+          "lazy": true
+        },
+        "sap.fe.templates": {
+          "lazy": true
+        },
+        "sap.ui.codeeditor": {
+          "lazy": true
+        }
       }
     },
     "handleValidation": true,
@@ -63,15 +70,13 @@
         }
       },
       "": {
-        "dataSource": "BackendDataSource",
+        "dataSource": "mainService",
         "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
           "autoExpandSelect": true,
-          "synchronizationMode": "None"
+          "earlyRequests": true
         }
-      },
-      "LatestUI5": {
-        "type": "sap.ui.model.json.JSONModel",
-        "dataSource": "LatestUI5Datasource"
       }
     },
     "routing": {
@@ -109,11 +114,16 @@
           "viewName": "Main"
         },
         "TargetOther": {
-          "viewType": "XML",
-          "transition": "slide",
-          "clearControlAggregation": false,
-          "viewId": "Other",
-          "viewName": "Other"
+          "type": "Component",
+          "id": "TargetOther",
+          "name": "sap.fe.core.fpm",
+          "options": {
+            "settings": {
+              "viewName": "test.Sample.tsapp.view.Other",
+              "contextPath": "",
+              "entitySet": "Employees"
+            }
+          }
         }
       }
     }

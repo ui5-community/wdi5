@@ -3,21 +3,21 @@
 	displayBlock="true"
 	xmlns="sap.m"
 	xmlns:webc="sap.ui.webc.main"
-	xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:macros="sap.fe.macros">
 
 	<Page id="OtherPage"
 		title="{i18n>otherPage.title}"
 		showNavButton="true"
 		navButtonPress="onNavBack">
 		<content>
-			<webc:List id="PeopleList"
-				headerText="{i18n>otherPage.listHeader}"
-				items="{/Employees}"
-				itemClick="onItemClick">
+			<!-- <webc:List id="PeopleList" headerText="{i18n>otherPage.listHeader}" items="{/Employees}" itemClick="onItemClick">
 				<webc:StandardListItem text="{FirstName} {LastName}" />
-			</webc:List>
+			</webc:List> -->
+			<macros:Table metaPath="/Employees/@com.sap.vocabularies.UI.v1.LineItem"
+				readOnly="true" />
 
-			<VBox id="VBoxx"
+			<VBox id="VBox"
 				class="sapUiMediumMargin">
 				<Label text="Pressed List Item Selection" />
 				<Text id="idTextFieldClickResult"

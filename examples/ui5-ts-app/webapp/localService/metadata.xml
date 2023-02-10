@@ -954,6 +954,24 @@
                 <EntitySet Name="Summary_of_Sales_by_Years"
                     EntityType="NorthwindModel.Summary_of_Sales_by_Year" />
             </EntityContainer>
+            <Annotations Target="NorthwindModel.Employee">
+                <Annotation Term="com.sap.vocabularies.UI.v1.LineItem">
+                    <Collection>
+                        <Record Type="com.sap.vocabularies.UI.v1.DataField">
+                            <PropertyValue Property="Value"
+                                Path="Firstname" />
+                            <Annotation Term="com.sap.vocabularies.UI.v1.Importance"
+                                EnumMember="com.sap.vocabularies.UI.v1.ImportanceType/High" />
+                        </Record>
+                        <Record Type="com.sap.vocabularies.UI.v1.DataField">
+                            <PropertyValue Property="Value"
+                                Path="LastName" />
+                            <Annotation Term="com.sap.vocabularies.UI.v1.Importance"
+                                EnumMember="com.sap.vocabularies.UI.v1.ImportanceType/High" />
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
         </Schema>
     </edmx:DataServices>
 </edmx:Edmx>
