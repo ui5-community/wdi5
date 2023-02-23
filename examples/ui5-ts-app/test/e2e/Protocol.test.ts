@@ -1,18 +1,7 @@
 import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
 import Button from "sap/ui/webc/main/Button"
-/* eslint @typescript-eslint/no-var-requires: "off" */
-const _ui5Service = require("wdio-ui5-service").default
-const ui5Service = new _ui5Service()
 
 describe("Protocol", async () => {
-    it("switch to iframe and inject wdi5", async () => {
-        await browser.waitUntil(async function () {
-            return (await browser.getTitle()) === "Sample App"
-        })
-        await browser.switchToFrame(await browser.$("#application-TestSampleTSapp-display"))
-        await ui5Service.injectUI5()
-    })
-
     it("should see the button text - wdio", async () => {
         const buttonWDI5 = await getButtonOnPage1()
         const buttonWDIO = await buttonWDI5.getWebElement()
@@ -40,7 +29,7 @@ describe("Protocol", async () => {
         const wdi5Button: wdi5Selector = {
             forceSelect: true,
             selector: {
-                id: "application-TestSampleTSapp-display-component---Main--NavFwdButton"
+                id: "__component0---Main--NavFwdButton"
             }
         }
         return await browser.asControl(wdi5Button)
@@ -50,7 +39,7 @@ describe("Protocol", async () => {
         const wdi5Button: wdi5Selector = {
             forceSelect: true,
             selector: {
-                id: "application-TestSampleTSapp-display-component---Other--idAddLineItemButton"
+                id: "__component0---Other--idAddLineItemButton"
             }
         }
         return await browser.asControl(wdi5Button)
