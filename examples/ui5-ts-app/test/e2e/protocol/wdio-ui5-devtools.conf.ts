@@ -1,19 +1,27 @@
 import { wdi5Config } from "wdio-ui5-service/dist/types/wdi5.types"
-
+import { setDefaultResultOrder } from "node:dns"
 export const config: wdi5Config = {
     baseUrl: "https://wdi5-sample-app.cfapps.eu20.hana.ondemand.com/no-auth/",
-    services: ["ui5"] /* no drivers, so wdio is falling back to devtools*/,
+    services: ["ui5"] /* no drivers, so wdio is falling back to devtools + puppeteer*/,
     specs: ["test/e2e/Protocol.test.ts"],
     capabilities: [
         {
-            browserName: "chrome"
+            browserName: "chrome",
+            "goog:chromeOptions": {
+                args: process.argv.indexOf("--headless") > -1 ? ["--headless"] : []
+            },
+            acceptInsecureCerts: true
         }
     ],
-    waitforTimeout: 20000,
-    logLevel: "debug",
+    waitforTimeout: 29000,
+    logLevel: "error",
     reporters: ["spec"],
     framework: "mocha",
     mochaOpts: {
-        timeout: 20000
+        timeout: 29000
+    },
+
+    beforeSession: () => {
+        setDefaultResultOrder("ipv4first")
     }
 }
