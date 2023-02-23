@@ -8,7 +8,7 @@ export const config: wdi5Config = {
         {
             browserName: "chrome",
             "goog:chromeOptions": {
-                args: process.argv.indexOf("--headless") > -1 ? ["--headless"] : []
+                args: process.argv.indexOf("--headless") > -1 ? ["headless", "disable-gpu"] : []
             },
             acceptInsecureCerts: true
         }
