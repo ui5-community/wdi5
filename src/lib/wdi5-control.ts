@@ -1,5 +1,5 @@
 import * as util from "util"
-import { ELEMENT_KEY as _ELEMENT_KEY } from "webdriverio/build/constants"
+import { ELEMENT_KEY } from "webdriverio/build/constants"
 import { clientSide_getControl } from "../../client-side-js/getControl"
 import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl"
 import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod"
@@ -9,7 +9,6 @@ import { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../ty
 import { Logger as _Logger } from "./Logger"
 import { wdioApi } from "./wdioApi"
 import { WDI5Object } from "./wdi5-object"
-const ELEMENT_KEY = _ELEMENT_KEY
 const Logger = _Logger.getInstance()
 
 /**
