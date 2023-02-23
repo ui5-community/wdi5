@@ -6,14 +6,18 @@ export const config: wdi5Config = {
     specs: ["test/e2e/Protocol.test.ts"],
     capabilities: [
         {
-            browserName: "chrome"
+            browserName: "chrome",
+            "goog:chromeOptions": {
+                args: process.argv.indexOf("--headless") > -1 ? ["--headless"] : []
+            },
+            acceptInsecureCerts: true
         }
     ],
-    waitforTimeout: 20000,
-    logLevel: "debug",
+    waitforTimeout: 29000,
+    logLevel: "error",
     reporters: ["spec"],
     framework: "mocha",
     mochaOpts: {
-        timeout: 20000
+        timeout: 29000
     }
 }
