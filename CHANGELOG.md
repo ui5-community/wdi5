@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.2.1 (2023-02-23)
+
+
+### Bug Fixes
+
+* make saveObject() work in unsecure contexts ([#419](https://github.com/ui5-community/wdi5/issues/419)) ([c293f0f](https://github.com/ui5-community/wdi5/commit/c293f0f23d7e8e8d3959a8be3d933f41a2e70ff0)), closes [#416](https://github.com/ui5-community/wdi5/issues/416)
+
 ## 1.2.0 (2023-02-08)
 
 
