@@ -29,12 +29,6 @@
     }
   },
   "sap.ui5": {
-    "rootView": {
-      "viewName": "test.Sample.tsapp.view.App",
-      "type": "XML",
-      "async": true,
-      "id": "app"
-    },
     "dependencies": {
       "minUI5Version": "1.100.0",
       "libs": {
@@ -80,14 +74,6 @@
       }
     },
     "routing": {
-      "config": {
-        "routerClass": "sap.m.routing.Router",
-        "viewType": "XML",
-        "viewPath": "test.Sample.tsapp.view",
-        "controlId": "app",
-        "controlAggregation": "pages",
-        "async": true
-      },
       "routes": [
         {
           "name": "RouteMain",
@@ -107,11 +93,15 @@
       ],
       "targets": {
         "TargetMain": {
-          "viewType": "XML",
-          "transition": "slide",
-          "clearControlAggregation": false,
-          "viewId": "Main",
-          "viewName": "Main"
+          "type": "Component",
+          "id": "TargetMain",
+          "name": "sap.fe.core.fpm",
+          "options": {
+            "settings": {
+              "viewName": "test.Sample.tsapp.view.Main",
+              "contextPath": "/"
+            }
+          }
         },
         "TargetOther": {
           "type": "Component",
@@ -120,8 +110,7 @@
           "options": {
             "settings": {
               "viewName": "test.Sample.tsapp.view.Other",
-              "contextPath": "",
-              "entitySet": "Employees"
+              "contextPath": "/Employees"
             }
           }
         }

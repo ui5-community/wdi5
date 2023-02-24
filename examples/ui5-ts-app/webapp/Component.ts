@@ -1,4 +1,3 @@
-//@ts-expect-error type not available
 import AppComponent from "sap/fe/core/AppComponent"
 import { support } from "sap/ui/Device"
 
