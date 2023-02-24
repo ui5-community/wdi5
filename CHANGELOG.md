@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.3.0 (2023-02-24)
+
+
+### Features
+
+* devtools protocol enablement ([#430](https://github.com/ui5-community/wdi5/issues/430)) ([5eb8254](https://github.com/ui5-community/wdi5/commit/5eb8254a1f8f5ffc772f05eee958dab2f1ff0eac))
+
 ### 1.2.1 (2023-02-23)
 
 
