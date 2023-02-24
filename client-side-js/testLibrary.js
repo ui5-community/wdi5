@@ -10,7 +10,13 @@ async function initOPA(pageObjectConfig, browserInstance) {
                         pageConfig[pageKey] = new window.fe_bridge[className](options)
                     })
                 })
+
                 sap.ui.test.Opa5.createPageObjects(pageConfig)
+                // use the same timouts and intervals that wdi5 uses
+                sap.ui.test.Opa.extendConfig({
+                    timeout: new Date(window.wdi5.waitForUI5Options.timeout).getSeconds(), // convert milliseconds to seconds
+                    pollingInterval: window.wdi5.waitForUI5Options.interval
+                })
 
                 // mock the generic OK handler in order to support assertions
                 sap.ui.test.Opa5.assert = {
