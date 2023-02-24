@@ -659,7 +659,7 @@ export class WDI5Control {
 
         const _result = (await clientSide_getControl(controlSelector, this._browserInstance)) as clientSide_ui5Response
 
-        // When chromedriver service is not used the domElement is not set accordingly via devtool protocol
+        // When the WebDriver protocol is not used, the domElement is not set accordingly (via devtool protocol)
         // Therefore we get element reference by calling browser execute function manually
         if (_result.status === 0 && !_result.domElement[ELEMENT_KEY]) {
             const elementReference = (await this._browserInstance.execute((id) => {
