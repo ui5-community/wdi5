@@ -29,7 +29,8 @@ describe("Protocol", async () => {
         const wdi5Button: wdi5Selector = {
             forceSelect: true,
             selector: {
-                id: "__component0---Main--NavFwdButton"
+                id: "NavFwdButton",
+                viewName: "test.Sample.tsapp.view.Main"
             }
         }
         return await browser.asControl(wdi5Button)
@@ -39,7 +40,8 @@ describe("Protocol", async () => {
         const wdi5Button: wdi5Selector = {
             forceSelect: true,
             selector: {
-                id: "__component0---Other--idAddLineItemButton"
+                id: "idAddLineItemButton",
+                viewName: "test.Sample.tsapp.view.Main"
             }
         }
         return await browser.asControl(wdi5Button)
