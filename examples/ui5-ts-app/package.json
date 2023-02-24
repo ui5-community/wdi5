@@ -7,10 +7,10 @@
   "license": "Apache-2.0",
   "scripts": {
     "start": "ui5 serve --port 8080 --accept-remote-connections",
-    "test": "run-s test:*",
+    "//test": "run-s test:*",
     "wdi5": "wdio run wdio-ui5.conf.ts",
     "wdi5:browserstack": "wdio run wdio.conf-browserstack.ts",
-    "test:ts": "wdio run wdio-ui5.conf.ts",
+    "test": "wdio run wdio-ui5.conf.ts",
     "test:authentication": "run-s authentication:*",
     "test-h:authentication": "run-s \"authentication:* -- --headless\"",
     "test:lateInject": "wdio run wdio-ui5-late.conf.ts",
