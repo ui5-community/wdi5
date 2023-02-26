@@ -161,11 +161,10 @@ interface wdi5ControlSelector {
      * search in dialogs
      */
     searchOpenDialogs?: boolean
-
     /**
      * interaction adapter
      */
-    interaction?: "root" | "focus" | "press" | "auto"
+    interaction?: "root" | "focus" | "press" | "auto" | { idSuffix: string }
 }
 
 export interface wdi5Selector {
