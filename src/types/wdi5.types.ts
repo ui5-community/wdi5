@@ -126,6 +126,10 @@ interface wdi5ControlSelector {
      */
     properties?: Record<string, unknown>
     /**
+     * Property strict equals matcher, {@link sap.ui.test.matchers.PropertyStrictEquals}
+     */
+    propertyStrictEquals?: { name: string; value: any }
+    /**
      * Ancestor matcher, {@link sap.ui.test.matchers.Ancestor}
      */
     ancestor?: Record<string, unknown>
@@ -137,6 +141,22 @@ interface wdi5ControlSelector {
      * Interactable matcher, {@link sap.ui.test.matchers.Interactable}
      */
     interactable?: Record<string, unknown>
+    /**
+     * Aggregation length equals matcher, {@link sap.ui.test.matchers.AggregationLengthEquals}
+     */
+    aggregationLengthEquals?: { name: string; length: number }
+    /**
+     * Aggregation filled matcher, {@link sap.ui.test.matchers.AggregationFilled}
+     */
+    aggregationFilled?: { name: string }
+    /**
+     * Aggregation empty matcher, {@link sap.ui.test.matchers.AggregationEmpty}
+     */
+    aggregationEmpty?: { name: string }
+    /**
+     * Aggregation contains property equal matcher, {@link sap.ui.test.matchers.AggregationContainsPropertyEqual}
+     */
+    aggregationContainsPropertyEqual?: { aggregationName: string; propertyName: string; propertyValue: string }
     /**
      * search in dialogs
      */
