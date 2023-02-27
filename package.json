@@ -1,6 +1,6 @@
 {
   "name": "wdio-ui5-service",
-  "version": "1.2.0",
+  "version": "1.3.1",
   "description": "WebdriverIO plugin for testing UI5 browser-based apps",
   "keywords": [
     "wdio-service",
@@ -51,6 +51,8 @@
     "_test:fe-app": "wait-on tcp:8088 && npm run test:wdi5 --workspace=examples/fe-app",
     "test:fe-app": "run-p -r _startApp:fe _test:fe-app",
     "test:auth": "npm run test-h:authentication -w examples/ui5-ts-app",
+    "//test:protocol": "runs the same test with webdriver and devtools protocol",
+    "test:protocol": "npm run test:protocol -w examples/ui5-ts-app",
     "test": "cross-env TS_NODE_PROJECT=\"test/tsconfig.json\" mocha",
     "prepare": "husky install",
     "release": "standard-version",
