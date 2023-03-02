@@ -9,8 +9,9 @@ describe("Input", async () => {
                 viewName: "test.Sample.tsapp.view.Main"
             }
         }
-        const inputString: string = await (browser.asControl(inputText) as unknown as Input).getValue()
-        expect(inputString).toEqual("Helvetius Nagy")
+        const input = await browser.asControl<Input>(inputText)
+        const value = await input.getValue()
+        expect(value).toEqual("Helvetius Nagy")
     })
 
     it("should check if the field is writeable", async () => {
