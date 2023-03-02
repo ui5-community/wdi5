@@ -11,8 +11,8 @@ const ts = `${_ts.getFullYear()}-${_ts.getMonth() + 1}-${
 const defaultsWin = {
     name: "wdi5-ts-app",
     build: `${process.env.USER}::${ts}`,
-    screenResolution: "1400x1050",
-    extendedDebugging: true
+    screenResolution: "1400x1050"
+    // extendedDebugging: true
 }
 const defaultsMac = {
     name: "wdi5-ts-app",
@@ -23,7 +23,7 @@ const defaultsMac = {
 const acceptInsecureCerts = true
 
 const _config = {
-    connectionRetryTimeout: 10000,
+    connectionRetryTimeout: 100000,
     connectionRetryCount: 1,
 
     services: [["sauce", { sauceConnect: true }], "ui5"],
@@ -31,84 +31,74 @@ const _config = {
     key: process.env.SAUCE_ACCESS_KEY,
     region: "eu",
 
-    maxInstances: 10,
-    maxInstancesPerCapability: 1,
+    maxInstances: 5,
+    maxInstancesPerCapability: 5,
     capabilities: [
+        // Windows
         {
-            browserName: "chrome",
+            browserName: "MicrosoftEdge",
             browserVersion: "latest",
-            platformName: "Windows 10",
+            platformName: "Windows 11",
             acceptInsecureCerts,
             "sauce:options": {
                 ...defaultsWin
             }
+        },
+        {
+            browserName: "chrome",
+            browserVersion: "latest",
+            platformName: "Windows 11",
+            acceptInsecureCerts,
+            "sauce:options": {
+                ...defaultsWin
+            }
+        },
+        {
+            browserName: "firefox",
+            browserVersion: "latest",
+            platformName: "Windows 11",
+            acceptInsecureCerts,
+            "sauce:options": {
+                ...defaultsWin
+            }
+        },
+        // macOS
+        {
+            browserName: "safari",
+            browserVersion: "latest",
+            platformName: "macOS 13",
+            acceptInsecureCerts,
+            "sauce:options": {
+                ...defaultsMac
+            }
+        },
+        {
+            browserName: "MicrosoftEdge",
+            browserVersion: "latest",
+            platformName: "macOS 13",
+            acceptInsecureCerts,
+            "sauce:options": {
+                ...defaultsMac
+            }
+        },
+        {
+            browserName: "chrome",
+            browserVersion: "latest",
+            platformName: "macOS 13",
+            acceptInsecureCerts,
+            "sauce:options": {
+                ...defaultsMac
+            }
+        },
+        {
+            browserName: "firefox",
+            browserVersion: "latest",
+            platformName: "macOS 13",
+            acceptInsecureCerts,
+            "sauce:options": {
+                ...defaultsMac
+            }
         }
-        // Windows
-        // {
-        //     browserName: "MicrosoftEdge",
-        //     browserVersion: "latest",
-        //     platformName: "Windows 11",
-        //     acceptInsecureCerts,
-        //     "sauce:options": {
-        //         ...defaultsWin
-        //     }
-        // }
-        // ,
-        // {
-        //     browserName: "chrome",
-        //     browserVersion: "latest",
-        //     platformName: "Windows 11",
-        //     acceptInsecureCerts,
-        //     "sauce:options": {
-        //         ...defaultsWin
-        //     }
-        // },
-        // {
-        //     browserName: "firefox",
-        //     browserVersion: "latest",
-        //     platformName: "Windows 11",
-        //     acceptInsecureCerts,
-        //     "sauce:options": {
-        //         ...defaultsWin
-        //     }
-        // },
-        // // macOS
-        // {
-        //     browserName: "safari",
-        //     browserVersion: "latest",
-        //     platformName: "macOS 13",
-        //     acceptInsecureCerts,
-        //     "sauce:options": {
-        //         ...defaultsMac
-        //     }
-        // },
-        // {
-        //     browserName: "MicrosoftEdge",
-        //     browserVersion: "latest",
-        //     platformName: "macOS 13",
-        //     acceptInsecureCerts,
-        //     "sauce:options": {
-        //         ...defaultsMac
-        //     }
-        // },
-        // {
-        //     browserName: "chrome",
-        //     browserVersion: "latest",
-        //     platformName: "macOS 13",
-        //     acceptInsecureCerts,
-        //     "sauce:options": {
-        //         ...defaultsMac
-        //     }
-        // },
-        // {
-        //     browserName: "chrome",
-        //     browserVersion: "latest",
-        //     platformName: "macOS 13",
-        //     acceptInsecureCerts,
-        //     "sauce:options": {
-        //         ...defaultsMac
-        //     }
-        // }
     ]
 }
 
