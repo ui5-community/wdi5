@@ -15,13 +15,14 @@ export const config: wdi5Config = {
         "./test/e2e/Custom.test.ts",
         "./test/e2e/multiremote.test.ts",
         "./test/e2e/BasicMultiRemoteAuthentication.test.ts",
-        "./test/e2e/Authentication.test.ts"
+        "./test/e2e/Authentication.test.ts",
+        "./test/e2e/ui5-late.test.ts"
     ],
 
     maxInstances: 10,
     capabilities: [
         {
-            maxInstances: 5,
+            maxInstances: 2,
             browserName: "chrome",
             "goog:chromeOptions": {
                 args:

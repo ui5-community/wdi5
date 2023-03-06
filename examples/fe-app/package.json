@@ -21,7 +21,7 @@
     "@wdio/mocha-framework": "^7",
     "@wdio/selenium-standalone-service": "^7",
     "@wdio/spec-reporter": "^7",
-    "chromedriver": "*",
+    "chromedriver": "latest",
     "wdio-chromedriver-service": "^7",
     "wdio-ui5-service": "*",
     "@sap/ux-ui5-fe-mockserver-middleware": "latest"

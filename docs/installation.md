@@ -60,9 +60,23 @@ Note this is a _minimal_ install for running `wdi5`
 - `mocha` as the syntax for tests
 - `spec` as the output format of the test results
 
+?> as of `create-wdi5` (the module "behind" `npm init wdi5`) `0.3.0`, you can now pass the options  
+`--configPath <target path>` for a custom target directory to put `wdio.conf.(j|t)s` in  
+`--specs <path glob>` the file sys/dir pattern to scan for test files
+`--baseUrl <application url>` custom url to your application  
+examples:  
+`$> npm init wdi5@latest --configPath some/sub/folder/ \`
+`--specs ./my/test/**/*.js \`
+`--baseUrl http://localhost:4004/app/index.html`
+`$> npm init wdi5@latest -- --ts --configPath some/other/folder/ \`
+`--specs ./ts-tests/**/*.test.ts \`
+`--baseUrl http://localhost:4004/ts-app/index.html`
+
 :tada: Done! Proceed to [configuring wdi5](configuration) now.
 
 ## b) guided install via `wdio` cli
+
+!> `wdi5` is not compatible with `wdio 8` at this time. If you have an existing `wdio` project you will have to downgrade your existing `wdio` packages to version `7.x.x` manually. If you are starting a new `wdio` project with this guide, you will have to change the package versions to be compatible with version `7.x.x` for all wdio related pacakges.
 
 ?> This step assumes that you have neither installed WebdriverIO nor `wdi5` previously for that UI5 app. If so, see [manual install](#manual-installation) below.
 

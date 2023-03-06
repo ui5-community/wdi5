@@ -4,8 +4,10 @@
 
 ## `wdi5`
 
-All options go into a top-level `wdi5` object in `wdio.conf.(j|t)s`,  
-with the exception of the `baseUrl` pointing to your UI5 app.
+All options go into a top-level `wdi5` object in `wdio.conf.(j|t)s`,
+with the exception of the `baseUrl` pointing to the `index.html` of your UI5 app.
+
+?> Do not account for redirects etc. (think application router), `wdi5` wants to be pointed directly to where UI5 is being bootstrapped.
 
 ```javascript
 exports.config = {
@@ -27,7 +29,7 @@ exports.config = {
 
 ### `screenshotPath`
 
-A string pointing to a directory, relative to the location of the `wdio.conf.(j|t)s` configuration file.  
+A string pointing to a directory, relative to the location of the `wdio.conf.(j|t)s` configuration file.
 In case your UI5 app lives in `/app` with a files system structure similar to ...
 
 ```shell
@@ -52,8 +54,8 @@ Boolean (default: `false`) to turn screenshotting on or off, e.g. in a local dev
 
 ### `logLevel`
 
-Any of `"verbose"`, `"error"` or `"silent"`. Default: `verbose`.  
-`wdi5` comes with its own minimal console-logger. It helps in monitoring what the "ui5" service is currently executing in the WebdriverIO context.  
+Any of `"verbose"`, `"error"` or `"silent"`. Default: `verbose`.
+`wdi5` comes with its own minimal console-logger. It helps in monitoring what the "ui5" service is currently executing in the WebdriverIO context.
 Additionally, it can be used in tests via a static `getter` on the `wdi5`-object provided by `wdio-ui5-service`:
 
 ```javascript
@@ -116,6 +118,8 @@ See <https://github.com/ui5-community/wdi5/tree/main/examples/ui5-js-app/webapp/
 ### `waitForUI5Timeout`
 
 Number in milliseconds (default: `15000`) to wait for UI5-related operations within a UI5 app. This is the equivalent to OPA5's [`waitFor()` option `timeout`](https://ui5.sap.com/sdk/#/api/sap.ui.test.Opa5/methods/waitFor).
+
+?> Setting this timeout to 30 seconds or higher requires the [session script timeout](https://webdriver.io/docs/timeouts/#session-script-timeout) to be increased as well.
 
 ## `package.json`
 

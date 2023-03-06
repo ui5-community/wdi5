@@ -1,6 +1,6 @@
 {
   "name": "wdio-ui5-service",
-  "version": "1.0.1",
+  "version": "1.3.1",
   "description": "WebdriverIO plugin for testing UI5 browser-based apps",
   "keywords": [
     "wdio-service",
@@ -25,7 +25,8 @@
     ".",
     "examples/fe-app",
     "examples/ui5-js-app",
-    "examples/ui5-ts-app"
+    "examples/ui5-ts-app",
+    "examples/cucumber"
   ],
   "scripts": {
     "// build time": "refers to developing wdi5/wdio-ui5-service itself",
@@ -41,17 +42,21 @@
     "_test:js-app": "wait-on tcp:8888 && wait-on tcp:8080 && npm run test --workspace=examples/ui5-js-app",
     "_test:ts-app": "wait-on tcp:8080 && npm run test --workspace=examples/ui5-ts-app",
     "_test-h:js-app": "wait-on tcp:8888 && wait-on tcp:8080 && npm run test-h --workspace=examples/ui5-js-app",
-    "_test-h:ts-app": "wait-on tcp:8080 && npm run test -w examples/ui5-ts-app -- --headless",
+    "_test-h:ts-app": "wait-on tcp:8080 && npm run test -w examples/ui5-ts-app -- --headless && npm run test:lateInject -w examples/ui5-ts-app -- --headless",
     "test-h:js-app": "run-p -r _startApp:js _startApp:js-tooling _test-h:js-app",
     "test:ts-app": "run-p -r _startApp:ts _test:ts-app",
+    "test:cucumber": "npm run test --workspace=examples/cucumber",
     "test-h:ts-app": "run-p -r _startApp:ts _test-h:ts-app",
     "test:js-app": "run-p -r _startApp:js _startApp:js-tooling _test:js-app",
     "_test:fe-app": "wait-on tcp:8088 && npm run test:wdi5 --workspace=examples/fe-app",
     "test:fe-app": "run-p -r _startApp:fe _test:fe-app",
     "test:auth": "npm run test-h:authentication -w examples/ui5-ts-app",
+    "//test:protocol": "runs the same test with webdriver and devtools protocol",
+    "test:protocol": "npm run test:protocol -w examples/ui5-ts-app",
     "test": "cross-env TS_NODE_PROJECT=\"test/tsconfig.json\" mocha",
     "prepare": "husky install",
-    "release": "standard-version"
+    "release": "standard-version",
+    "startDoc": "docsify serve ./docs"
   },
   "lint-staged": {
     "*": "prettier --ignore-unknown --write",

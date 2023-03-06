@@ -7,7 +7,7 @@ When a control [is located via `wdi5`](#control-selectors), its' methods in Node
 ```js
 // assuming input is of type sap.m.Input
 const input = await browser.asControl(selector)
-await control.getValue() // same .getValue in wdi5 and UI5!
+await input.getValue() // same .getValue in wdi5 and UI5!
 ```
 
 Additionally, all object APIs in `wdi5` are aligned with their [UI5 Managed Object counterpart](https://ui5.sap.com/#/api/sap.ui.base.ManagedObject).
@@ -44,7 +44,7 @@ Yet both test file directory and naming pattern can be specified [via WebdriverI
 
 WebdriverIO and `wdi5` can be used with [Mocha](http://mochajs.org/), [Jasmine](http://jasmine.github.io/), and [Cucumber](https://cucumber.io/), with Mocha being used in [all examples](https://github.com/ui5-community/wdi5/tree/main/examples) in `wdi5`.
 
-Mocha tests [are structured with `describe`-blocks ("suite"), containint `it`s ("tests")](https://mochajs.org/#getting-started). They can contain [hooks](https://mochajs.org/#describing-hooks), e.g. to run code before all tests (`before`).
+Mocha tests [are structured with `describe`-blocks ("suite"), containing `it`s ("tests")](https://mochajs.org/#getting-started). They can contain [hooks](https://mochajs.org/#describing-hooks), e.g. to run code before all tests (`before`).
 
 <!-- tabs:start -->
 
@@ -139,7 +139,9 @@ const textOfButton1 = await buttons[0].getText()
 
 Internally, `wdi5` uses [`sap.ui.test.RecordReplay.findAllDOMElementsByControlSelector`](https://ui5.sap.com/#/api/sap.ui.test.RecordReplay%23methods/sap.ui.test.RecordReplay.findAllDOMElementsByControlSelector) to locate the UI5 controls.
 
-?> the `selector` is used to establish a cache for _all_ controls. So providing [the `forceSelect: true` selector option](#control-selectors), the cache for all controls of that type will be invalidated.
+!> the `findAllDOMElementsByControlSelector` UI5 API is only available in UI5 >= 1.87.7, so you can use `browser.allControls(...)` only with UI5 (apps) >= 1.87.7
+
+?> the `selector` is used to establish a cache for _all_ controls. So when providing [the `forceSelect: true` selector option](#control-selectors), the cache for all controls of that type will be invalidated.
 
 ?> there is no [fluent async api](#fluent-async-api) available for `.allControls`.
 
@@ -412,6 +414,8 @@ const title = await browser.asControl(listSelector).getItems(1).getTitle()
 // const title = await item.getTitle()
 ```
 
+Note that chaining only works if you start your call with `browser.asControl()`. The fluent async api will not work starting with an already retrieved UI5 element.
+
 The `this` context of each step in the `async` chain changes to the retrieved/referenced `UI5` element.
 
 In the above example:
@@ -491,7 +495,7 @@ const wdi5 = require("wdi5")
 wdi5.getLogger().log("any", "number", "of", "log", "parts")
 ```
 
-The log level is set by the either in `wdio.conf.js` via `wdi5.logLevel` or
+The log level is either set in `wdio.conf.js` via `wdi5.logLevel` or
 by `wdi5.getLogger().setLoglevel(level = {string} "error"| "verbose" | "silent")`
 
 The 'tag' is an optional parameter and when passed will display logs on the console log with a prefix as follows:
@@ -546,7 +550,7 @@ Control info is an object which can be retrieved from any wdi5 control by callin
 
 The list of attached wdio methods can be found in `$` and the UI5 control methods in the property `methods`.
 
-These properties can help to indentify the received control or test the control correctness.
+These properties can help to identify the received control or test the control correctness.
 
 ```js
   const button = browser.asControl(oButtonSelector)

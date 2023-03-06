@@ -65,5 +65,10 @@ jobs:
         run: npm run build
 
       # run wdi5 tests within app(s)
+      # this includes test for late-injecting wdi5
       - name: test ts-app
         run: npm run test-h:ts-app
+
+      # this runs against the deployed wdi5 TS sample app
+      - name: test devtools support
+        run: npm run test:protocol

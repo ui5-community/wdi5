@@ -2,6 +2,71 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.3.1 (2023-02-27)
+
+## 1.3.0 (2023-02-24)
+
+
+### Features
+
+* devtools protocol enablement ([#430](https://github.com/ui5-community/wdi5/issues/430)) ([5eb8254](https://github.com/ui5-community/wdi5/commit/5eb8254a1f8f5ffc772f05eee958dab2f1ff0eac))
+
+### 1.2.1 (2023-02-23)
+
+
+### Bug Fixes
+
+* make saveObject() work in unsecure contexts ([#419](https://github.com/ui5-community/wdi5/issues/419)) ([c293f0f](https://github.com/ui5-community/wdi5/commit/c293f0f23d7e8e8d3959a8be3d933f41a2e70ff0)), closes [#416](https://github.com/ui5-community/wdi5/issues/416)
+
+## 1.2.0 (2023-02-08)
+
+
+### Features
+
+* allow for async client-side controller functions ([#423](https://github.com/ui5-community/wdi5/issues/423)) ([bde49d1](https://github.com/ui5-community/wdi5/commit/bde49d11cad0da58897326978c9fc65b6fd565ea)), closes [#417](https://github.com/ui5-community/wdi5/issues/417)
+
+### 1.1.1 (2023-02-08)
+
+
+### Bug Fixes
+
+* rm obsolete design time artifacts ([#422](https://github.com/ui5-community/wdi5/issues/422)) ([f9bf300](https://github.com/ui5-community/wdi5/commit/f9bf3009a0760fdf1a025f23182d4ab7d03c11d2)), closes [#421](https://github.com/ui5-community/wdi5/issues/421)
+
+## 1.1.0 (2023-01-30)
+
+
+### Features
+
+* make FE Test Library recognize Timeout Setting ([#411](https://github.com/ui5-community/wdi5/issues/411)) ([9d84414](https://github.com/ui5-community/wdi5/commit/9d8441400f735bfd4ad162943488e6a836624510))
+
+### 1.0.5 (2023-01-13)
+
+
+### Bug Fixes
+
+* cucumber. again. ([#398](https://github.com/ui5-community/wdi5/issues/398)) ([a6123eb](https://github.com/ui5-community/wdi5/commit/a6123eba733ca9ccd5ad3e558060a02161d0c242)), closes [#348](https://github.com/ui5-community/wdi5/issues/348)
+
+### 1.0.4 (2022-12-13)
+
+
+### Bug Fixes
+
+* resolve cucumber namespace conflict  ([#382](https://github.com/ui5-community/wdi5/issues/382)) ([acc4086](https://github.com/ui5-community/wdi5/commit/acc4086950b8ddfdcaaf918b00d52be400f42571)), closes [#348](https://github.com/ui5-community/wdi5/issues/348)
+
+### 1.0.3 (2022-12-12)
+
+
+### Bug Fixes
+
+* **injectTools:** narrow down the UMD loader to window ([#387](https://github.com/ui5-community/wdi5/issues/387)) ([4f7994b](https://github.com/ui5-community/wdi5/commit/4f7994bbeedf65d50d27b86ce607f6034ad6d432)), closes [#386](https://github.com/ui5-community/wdi5/issues/386)
+
+### 1.0.2 (2022-11-30)
+
+
+### Bug Fixes
+
+* wait for ui5 ([02d7f58](https://github.com/ui5-community/wdi5/commit/02d7f583ca7796af4b22879fd2286d8a44fef4f5))
+
 ### 1.0.1 (2022-11-24)
 
 

@@ -11,7 +11,7 @@ async function clientSide_getObject(uuid) {
                 if (!object) {
                     const errorMessage = `[browser wdi5] ERR: no object with uuid: ${uuid} found`
                     window.wdi5.Log.error(errorMessage)
-                    done({ status: 1, messsage: errorMessage })
+                    done({ status: 1, message: errorMessage })
                 }
 
                 let className = ""

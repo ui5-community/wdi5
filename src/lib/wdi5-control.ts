@@ -1,5 +1,5 @@
 import * as util from "util"
-
+import { ELEMENT_KEY } from "webdriverio/build/constants"
 import { clientSide_getControl } from "../../client-side-js/getControl"
 import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl"
 import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod"
@@ -10,7 +10,6 @@ import { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../ty
 import { Logger as _Logger } from "./Logger"
 import { wdioApi } from "./wdioApi"
 import { WDI5Object } from "./wdi5-object"
-
 const Logger = _Logger.getInstance()
 
 /**
@@ -687,6 +686,23 @@ export class WDI5Control {
         }
 
         const _result = (await clientSide_getControl(controlSelector, this._browserInstance)) as clientSide_ui5Response
+
+        // When the WebDriver protocol is not used, the domElement is not set accordingly (via devtool protocol)
+        // Therefore we get element reference by calling browser execute function manually
+        if (_result.status === 0 && !_result.domElement[ELEMENT_KEY]) {
+            const elementReference = (await this._browserInstance.execute((id) => {
+                const webElement: Node = document.evaluate(
+                    `//*[@id='${id}']`,
+                    document,
+                    null,
+                    XPathResult.FIRST_ORDERED_NODE_TYPE,
+                    null
+                ).singleNodeValue
+                return webElement
+            }, _result.id)) as unknown as WebdriverIO.Element
+            _result.domElement = elementReference
+        }
+
         const { status, domElement, id, aProtoFunctions, className } = _result
 
         if (status === 0 && id) {

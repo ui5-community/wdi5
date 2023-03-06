@@ -11,6 +11,15 @@ describe("ui5 aggregation retrieval", () => {
         browser.screenshot("aggregation")
     })
 
+    it("check the getBinding of a table", async () => {
+        const mytable = await Other.getList()
+        const firstrow = await mytable.getItems(0)
+        const rowcontext = await firstrow.getBindingContext()
+        const myobject = await rowcontext.getObject()
+
+        expect(myobject.FirstName).toEqual("Nancy")
+    })
+
     it("select controls of a sap.m.Page's content aggregation", async () => {
         // goal: assert that .getContent() and .getAggregation("items") work the same
         // including access via the fluent async api
