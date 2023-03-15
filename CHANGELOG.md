@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.3.2 (2023-03-15)
+
+
+### Bug Fixes
+
+* **fe-lib:** transform milliseconds to seconds correctly for TestLibrary ([#443](https://github.com/ui5-community/wdi5/issues/443)) ([a7f840f](https://github.com/ui5-community/wdi5/commit/a7f840f2fb9ea1f57feebb37f77b9f432df240d2))
+
 ### 1.3.1 (2023-02-27)
 
 ## 1.3.0 (2023-02-24)
