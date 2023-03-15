@@ -14,7 +14,7 @@ describe("MultiInput", async () => {
         // @ts-ignore
         await (browser.asControl(multiInputSelector) as unknown as MultiInput).enterText("123")
 
-        const multiInput = (await browser.asControl(multiInputSelector)) as unknown as MultiInput
+        const multiInput = await browser.asControl<MultiInput>(multiInputSelector)
         const text = await multiInput.getValue()
         expect(text).toEqual("123")
     })
