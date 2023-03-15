@@ -10,9 +10,9 @@ describe("Basic", async () => {
             }
         }
         // @ts-ignore
-        const allButtonsTwo = (await browser.two.allControls(allButtonsSelector)) as unknown as Array<Button>
+        const allButtonsTwo = await browser.two.allControls<Button>(allButtonsSelector)
         // @ts-ignore
-        const allButtonsOne = (await browser.one.allControls(allButtonsSelector)) as unknown as Array<Button>
+        const allButtonsOne = await browser.one.allControls<Button>(allButtonsSelector)
         expect(allButtonsTwo.length).toEqual(1)
         expect(allButtonsOne.length).toEqual(1)
     })

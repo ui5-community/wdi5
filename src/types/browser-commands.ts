@@ -14,10 +14,10 @@ declare global {
     // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace WebdriverIO {
         export interface Browser {
-            asControl: (arg: wdi5Selector) => Promise<WDI5Control & Control> // Intersection Types
-            allControls: (arg: wdi5Selector) => Promise<WDI5Control & Control> // Intersection Types
-            screenshot: (arg: string) => Promise<any>
-            goTo: (arg: string | object) => Promise<any>
+            asControl: <T extends Control = Control>(arg: wdi5Selector) => Promise<WDI5Control & T>
+            allControls: <T extends Control = Control>(arg: wdi5Selector) => Promise<(WDI5Control & T)[]>
+            screenshot: (arg: string) => Promise<void>
+            goTo: (arg: string | object) => Promise<void>
             /**
              * adding the wdi5 control cache to the global browser object
              */
