@@ -9,10 +9,10 @@ const Logger = _Logger.getInstance()
 
 export default class Service implements Services.ServiceInstance {
     constructor(
-        private _options: wdi5Config,
-        private _capabilities: Capabilities.RemoteCapability,
-        private _config: wdi5Config // an enhanced version of the regular wdio config
-    ) {}
+        private _options?: wdi5Config, // TODO: this is the successor to _config in wdio^8
+        private _capabilities?: Capabilities.RemoteCapability,
+        private _config?: wdi5Config // an enhanced version of the regular wdio config
+    ) {} // the Service is instantiated by wdio with the capabilites and config passed on to
 
     async before(/*capabilities* , specs*/) {
         // if no wdi5 config is available we add it manually

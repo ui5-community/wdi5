@@ -2,6 +2,43 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.3.1 (2023-02-27)
+
+## 1.3.0 (2023-02-24)
+
+
+### Features
+
+* devtools protocol enablement ([#430](https://github.com/ui5-community/wdi5/issues/430)) ([5eb8254](https://github.com/ui5-community/wdi5/commit/5eb8254a1f8f5ffc772f05eee958dab2f1ff0eac))
+
+### 1.2.1 (2023-02-23)
+
+
+### Bug Fixes
+
+* make saveObject() work in unsecure contexts ([#419](https://github.com/ui5-community/wdi5/issues/419)) ([c293f0f](https://github.com/ui5-community/wdi5/commit/c293f0f23d7e8e8d3959a8be3d933f41a2e70ff0)), closes [#416](https://github.com/ui5-community/wdi5/issues/416)
+
+## 1.2.0 (2023-02-08)
+
+
+### Features
+
+* allow for async client-side controller functions ([#423](https://github.com/ui5-community/wdi5/issues/423)) ([bde49d1](https://github.com/ui5-community/wdi5/commit/bde49d11cad0da58897326978c9fc65b6fd565ea)), closes [#417](https://github.com/ui5-community/wdi5/issues/417)
+
+### 1.1.1 (2023-02-08)
+
+
+### Bug Fixes
+
+* rm obsolete design time artifacts ([#422](https://github.com/ui5-community/wdi5/issues/422)) ([f9bf300](https://github.com/ui5-community/wdi5/commit/f9bf3009a0760fdf1a025f23182d4ab7d03c11d2)), closes [#421](https://github.com/ui5-community/wdi5/issues/421)
+
+## 1.1.0 (2023-01-30)
+
+
+### Features
+
+* make FE Test Library recognize Timeout Setting ([#411](https://github.com/ui5-community/wdi5/issues/411)) ([9d84414](https://github.com/ui5-community/wdi5/commit/9d8441400f735bfd4ad162943488e6a836624510))
+
 ### 1.0.5 (2023-01-13)
 
 
