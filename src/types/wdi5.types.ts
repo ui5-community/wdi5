@@ -72,6 +72,16 @@ export type BTPAuthenticator = {
     usernameSelector?: string
     passwordSelector?: string
     submitSelector?: string
+    /**
+     * set this, when IAS is in use as custom IdP
+     * IAS provides this biometric login option which wdi5 as of now does not support for authentication
+     */
+    disableBiometricAuthentication?: boolean
+    /**
+     * set this when `disableBiometricAuthentication` is set to `true`
+     * the domain of the custom IdP, e.g. "your-IAS-tenant.accounts.ondemand.com"
+     */
+    idpDomain?: string
 }
 
 export type BasicAuthAuthenticator = {

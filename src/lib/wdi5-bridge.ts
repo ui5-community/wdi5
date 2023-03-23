@@ -19,6 +19,7 @@ import { clientSide_allControls } from "../../client-side-js/allControls"
 import { Logger as _Logger } from "./Logger"
 import { WDI5Object } from "./wdi5-object"
 import BTPAuthenticator from "./authentication/BTPAuthenticator"
+import { BTPAuthenticator as BTPAuthenticatorType } from "../types/wdi5.types"
 import BasicAuthenticator from "./authentication/BasicAuthenticator"
 import CustomAuthenticator from "./authentication/CustomAuthenticator"
 import Office365Authenticator from "./authentication/Office365Authenticator"
@@ -148,7 +149,11 @@ export async function checkForUI5Page(browserInstance) {
 export async function authenticate(options, browserInstanceName?) {
     switch (options.provider) {
         case "BTP":
-            await new BTPAuthenticator(options, browserInstanceName).login()
+            const btp = new BTPAuthenticator(options, browserInstanceName)
+            if ((options as BTPAuthenticatorType).disableBiometricAuthentication) {
+                await btp.disableBiometricAuthentication()
+            }
+            await btp.login()
             break
         case "BasicAuth":
             await new BasicAuthenticator(browserInstanceName).login()
