@@ -117,6 +117,9 @@ export async function injectUI5(config: wdi5Config, browserInstance) {
     const waitForUI5Timeout = config.wdi5.waitForUI5Timeout || 15000
     let result = true
 
+    // unify timeouts across Node.js- and browser-scope
+    await (browserInstance as WebdriverIO.Browser).setTimeout({ script: waitForUI5Timeout })
+
     const version = await (browserInstance as WebdriverIO.Browser).getUI5Version()
     await checkUI5Version(version)
     await clientSide_injectTools(browserInstance) // helpers for wdi5 browser scope
