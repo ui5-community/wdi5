@@ -48,6 +48,11 @@ export interface wdi5Config extends WebdriverIO.Config {
          * maximum waiting time while checking for UI5 (control) availability
          */
         waitForUI5Timeout?: number
+        /**
+         * indicated whether wdi5 operates on an app
+         * in a BTP Workzone Standard Edtition (fka Launchpad) environment
+         */
+        btpWorkZoneEnablement?: boolean
     }
     capabilities: wdi5Capabilites[] | wdi5MultiRemoteCapability
 }

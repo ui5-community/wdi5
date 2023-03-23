@@ -34,6 +34,9 @@ export default class Service implements Services.ServiceInstance {
                 } else {
                     Logger.warn("skipped wdi5 injection!")
                 }
+                if (this._config.wdi5.btpWorkZoneEnablement) {
+                    await this.enableBTPWorkZoneStdEdition(browser[name])
+                }
             }
         } else {
             if (this._capabilities["wdi5:authentication"]) {
@@ -44,7 +47,26 @@ export default class Service implements Services.ServiceInstance {
             } else {
                 Logger.warn("skipped wdi5 injection!")
             }
+            if (this._config.wdi5.btpWorkZoneEnablement) {
+                await this.enableBTPWorkZoneStdEdition(browser)
+            }
         }
+    }
+
+    /**
+     * waits until btp's wz std ed iframe containing the target app is available,
+     * switches the browser context into the iframe
+     * and eventually injects the wdi5 into the target app
+     */
+    async enableBTPWorkZoneStdEdition(browser) {
+        await $("iframe").waitForExist() //> wz only has a single iframe (who's id is also not updated upon subsequent app navigation)
+        await browser.switchToFrame(0)
+        if (this._config.wdi5.skipInjectUI5OnStart) {
+            Logger.warn("also skipped wdi5 injection in iframe!")
+        } else {
+            await this.injectUI5()
+        }
+        Logger.debug("switched to the WorkZone std ed's iframe containing the target app!")
     }
 
     /**
