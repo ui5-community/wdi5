@@ -1,8 +1,11 @@
 {
   "compilerOptions": {
+    "rootDir": "src",
     "esModuleInterop": true,
-    "outDir": "dist/cjs",
-    "module": "CommonJS",
+    "target": "ESNext",
+    "outDir": "dist/mjs",
+    "module": "ESNext",
+    "moduleResolution": "node",
     "sourceMap": true,
     "skipLibCheck": true,
     "declaration": true,
