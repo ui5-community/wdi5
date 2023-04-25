@@ -11,7 +11,7 @@ describe("ui5 eval on control", () => {
         expect(title).toEqual("Sample UI5 Application")
     })
 
-    it("execute function browserside on button to get its text", async () => {
+    it("execute function browserside on button to get its text, basic return type", async () => {
         const button = await browser.asControl({
             selector: {
                 id: "openDialogButton",
@@ -24,7 +24,7 @@ describe("ui5 eval on control", () => {
         expect(buttonText).toEqual("open Dialog")
     })
 
-    it("nav to other view and check if successful", async () => {
+    it("nav to other view and get people list names, array return type", async () => {
         // click webcomponent button to trigger navigation
         const navButton = await browser.asControl({
             selector: {
@@ -46,6 +46,27 @@ describe("ui5 eval on control", () => {
         })
         Other.allNames.forEach(name => {
             expect(peopleListNames).toContain(name)
-        });
+        })
+    })
+
+    it("nav to other view and get people list names, object return type", async () => {
+        const listSelector = {
+            selector: {
+                id: "PeopleList",
+                viewName: "test.Sample.view.Other",
+                interaction: "root"
+            }
+        }
+        const peopleListData = await browser.asControl(listSelector).evalOnControl(function () {
+            return {
+                tableTitle: this.getHeaderText(),
+                peopleListNames: this.getItems().map(item => item.getTitle())
+            }
+        })
+
+        expect(peopleListData.tableTitle).toEqual("...bites the dust!")
+        Other.allNames.forEach(name => {
+            expect(peopleListData.peopleListNames).toContain(name)
+        })
     })
 })
