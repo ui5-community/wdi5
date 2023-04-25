@@ -80,6 +80,13 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                 done(true)
             })
 
+            // make evalOnControl function available on all ui5 controls, so more complex evaluations can be done on browser side for better performance
+            sap.ui.require(["sap/ui/core/Control"], (Control) => {
+                Control.prototype.evalOnControl = function (funcToEval) {
+                    return new Function('return ' + funcToEval)().apply(this)
+                }
+            })
+
             // make sure the resources are required
             // TODO: "sap/ui/test/matchers/Sibling",
             sap.ui.require(
