@@ -49,7 +49,7 @@ describe("ui5 eval on control", () => {
         })
     })
 
-    it("nav to other view and get people list names, object return type", async () => {
+    it("get people list title and people names, object return type", async () => {
         const listSelector = {
             selector: {
                 id: "PeopleList",
