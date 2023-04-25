@@ -62,10 +62,11 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                     const startWaiting = function () {
                         window.wdi5.bWaitStarted = true;
                         _autoWaiterAsync.waitAsync(function (sError) {
-                            window.wdi5.bWaitStarted = false;
                             const nextWaitAsync = window.wdi5.asyncControlRetrievalQueue.shift();
                             if (nextWaitAsync) {
                                 setTimeout(nextWaitAsync); //use setTimeout to postpone execution to the next event cycle, so that bWaitStarted in the UI5 _autoWaiterAsync is also set to false first
+                            } else {
+                                window.wdi5.bWaitStarted = false;
                             }
                             if (sError) {
                                 errorCallback(new Error(sError))
