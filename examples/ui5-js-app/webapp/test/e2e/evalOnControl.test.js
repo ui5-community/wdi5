@@ -1,5 +1,7 @@
 const Main = require("./pageObjects/Main")
 const Other = require("./pageObjects/Other")
+const marky = require("marky")
+const { wdi5 } = require("wdio-ui5-service")
 
 describe("ui5 eval on control", () => {
     before(async () => {
@@ -22,6 +24,9 @@ describe("ui5 eval on control", () => {
             return this.getText()
         })
         expect(buttonText).toEqual("open Dialog")
+
+        const regularBtnText = await button.getText()
+        expect(buttonText).toEqual(regularBtnText)
     })
 
     it("nav to other view and get people list names, array return type", async () => {
@@ -41,10 +46,45 @@ describe("ui5 eval on control", () => {
                 interaction: "root"
             }
         }
-        const peopleListNames = await browser.asControl(listSelector).evalOnControl(function () {
-            return this.getItems().map(item => item.getTitle());
+        const list = await browser.asControl(listSelector)
+
+        /**
+         * need to set
+         * wdi5: {logLevel: "verbose"}
+         * in config.js
+         */
+
+        // *********
+        // new approach -> takes ~4.3sec
+        marky.mark("evalOnControlForListItemTitles")
+        const peopleListNames = await list.evalOnControl(function () {
+            return this.getItems().map((item) => item.getTitle())
         })
-        Other.allNames.forEach(name => {
+        wdi5.getLogger().info(marky.stop("evalOnControlForListItemTitles"))
+        // *********
+
+        Other.allNames.forEach((name) => {
+            expect(peopleListNames).toContain(name)
+        })
+
+        // *********
+        // UI5 API straight forward approach -> takes ~8.1sec
+        marky.mark("regularGetAllItemTitles")
+        const regularPeopleListNames = await Promise.all(
+            // prettier-ignore
+            (await list.getItems()).map(async (e) => {
+                return await e.getTitle()
+            })
+        )
+        wdi5.getLogger().info(marky.stop("regularGetAllItemTitles"))
+        // *********
+
+        Other.allNames.forEach((name) => {
+            expect(regularPeopleListNames).toContain(name)
+        })
+
+        // compare results
+        regularPeopleListNames.forEach((name) => {
             expect(peopleListNames).toContain(name)
         })
     })
@@ -60,12 +100,12 @@ describe("ui5 eval on control", () => {
         const peopleListData = await browser.asControl(listSelector).evalOnControl(function () {
             return {
                 tableTitle: this.getHeaderText(),
-                peopleListNames: this.getItems().map(item => item.getTitle())
+                peopleListNames: this.getItems().map((item) => item.getTitle())
             }
         })
 
         expect(peopleListData.tableTitle).toEqual("...bites the dust!")
-        Other.allNames.forEach(name => {
+        Other.allNames.forEach((name) => {
             expect(peopleListData.peopleListNames).toContain(name)
         })
     })
