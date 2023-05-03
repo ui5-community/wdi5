@@ -656,19 +656,17 @@ const buttonTwo = buttonFromAllInstances[1]
 Some example tests are located at `/examples/ui5-js-app/webapp/test/e2e/multiremote.test.js`.
 
 
-## Using BAS with WDI5
+## Using BAS with wdi5
 
-The `WDI5 Testing Framework` extension enables you to use the WDI5 capabilities when working in SAP Business Application Studio.
+The `Headless Testing Framework` extension enables you to use the wdi5 capabilities when working in SAP Business Application Studio.
 To enable the extension:
 
-1. Add the `WDI5 Testing Framework` extension to your dev space. This will install a Firefox driver in the dev space.
-
-![wdi5 testing framework](./wdi5-testing-framework.png)
+1. Add the `Headless Testing Framework` extension to your dev space. This will install a Firefox driver in the dev space.
 
 
 2. Verify that the Firefox driver has been installed correctly using the following commands on the Terminal:
 
-```zsh
+```shell
 # terminal 1: the Firefox version
 $> firefox --version
 Mozilla Firefox 102.8.0esr
@@ -679,7 +677,7 @@ $> which firefox
 
 ```
 
-3. Adapt your configuration file (`wdio.conf.js`) to run your tests headless.
+3. Adapt your configuration file (`wdio.conf.(j|t)s`) to run your tests headless.
 - Replace `capabilities` with the following code. The `firefox version` and `path/to/firefox` values appear in the results from the command you ran in the previous step.
 ```js
 // ...
@@ -902,4 +900,4 @@ exports.config = {
 ```
 See the [documentation](https://webdriver.io/docs/configuration/) for more information on the webdriver configuration.
 
-4. Run the tests using the `wdio run wdio.conf.js` command.
+4. Make sure that UI5 app is running and Run the tests using the `wdio run wdio.conf.js` command.
