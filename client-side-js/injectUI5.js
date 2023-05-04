@@ -26,7 +26,9 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                 },
                 objectMap: {
                     // GUID: {}
-                }
+                },
+                bWaitStarted: false,
+                asyncControlRetrievalQueue: []
             }
 
             /**
@@ -57,13 +59,27 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                     oOptions = oOptions || {}
                     _autoWaiterAsync.extendConfig(oOptions)
 
-                    _autoWaiterAsync.waitAsync(function (sError) {
-                        if (sError) {
-                            errorCallback(new Error(sError))
-                        } else {
-                            callback()
-                        }
-                    })
+                    const startWaiting = function () {
+                        window.wdi5.bWaitStarted = true;
+                        _autoWaiterAsync.waitAsync(function (sError) {
+                            const nextWaitAsync = window.wdi5.asyncControlRetrievalQueue.shift();
+                            if (nextWaitAsync) {
+                                setTimeout(nextWaitAsync); //use setTimeout to postpone execution to the next event cycle, so that bWaitStarted in the UI5 _autoWaiterAsync is also set to false first
+                            } else {
+                                window.wdi5.bWaitStarted = false;
+                            }
+                            if (sError) {
+                                errorCallback(new Error(sError))
+                            } else {
+                                callback()
+                            }
+                        })
+                    }
+                    if (!window.wdi5.bWaitStarted) {
+                        startWaiting();
+                    } else {
+                        window.wdi5.asyncControlRetrievalQueue.push(startWaiting);
+                    }
                 }
                 window.wdi5.Log.info("[browser wdi5] window._autoWaiterAsync used in waitForUI5 function")
             })
