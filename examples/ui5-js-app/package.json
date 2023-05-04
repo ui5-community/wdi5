@@ -20,7 +20,7 @@
     "test-selenium": "wdio run e2e-test-config/wdio-selenium-service.conf.js"
   },
   "devDependencies": {
-    "@ui5/cli": "^3.1.1",
+    "@ui5/cli": "^2.14.10",
     "@wdio/cli": "^7",
     "@wdio/local-runner": "^7",
     "@wdio/mocha-framework": "^7",
@@ -35,9 +35,5 @@
     "dependencies": [
       "ui5-middleware-simpleproxy"
     ]
-  },
-  "dependencies": {
-    "@sap/approuter": "14.1.1",
-    "mbt": "0.2.8"
   }
 }
