@@ -500,8 +500,8 @@ export class WDI5Control {
         }
         // returns the array of [0: "status", 1: result]
 
-        //special case for evalOnControl, passed function needs to be converted to string to be passed to the browser
-        if (methodName === "evalOnControl") {
+        //special case for exec, passed function needs to be converted to string to be passed to the browser
+        if (methodName === "exec") {
             if (args[0] && typeof args[0] === "function") {
                 args[0] = args[0].toString()
             } else if (this._logging) {

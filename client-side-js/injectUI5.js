@@ -39,7 +39,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                 // until it is only available in secure contexts.
                 // See https://github.com/WICG/uuid/issues/23
                 const uuid = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-                    ( c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16) )
+                    (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16))
                 window.wdi5.objectMap[uuid] = object
                 return uuid
             }
@@ -80,9 +80,9 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                 done(true)
             })
 
-            // make evalOnControl function available on all ui5 controls, so more complex evaluations can be done on browser side for better performance
+            // make exec function available on all ui5 controls, so more complex evaluations can be done on browser side for better performance
             sap.ui.require(["sap/ui/core/Control"], (Control) => {
-                Control.prototype.evalOnControl = function (funcToEval) {
+                Control.prototype.exec = function (funcToEval) {
                     return new Function('return ' + funcToEval)().apply(this)
                 }
             })

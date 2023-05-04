@@ -20,7 +20,7 @@ describe("ui5 eval on control", () => {
                 viewName: "test.Sample.view.Main"
             }
         })
-        const buttonText = await button.evalOnControl(function () {
+        const buttonText = await button.exec(function () {
             return this.getText()
         })
         expect(buttonText).toEqual("open Dialog")
@@ -56,11 +56,11 @@ describe("ui5 eval on control", () => {
 
         // *********
         // new approach -> takes ~4.3sec
-        marky.mark("evalOnControlForListItemTitles")
-        const peopleListNames = await list.evalOnControl(function () {
+        marky.mark("execForListItemTitles")
+        const peopleListNames = await list.exec(function () {
             return this.getItems().map((item) => item.getTitle())
         })
-        wdi5.getLogger().info(marky.stop("evalOnControlForListItemTitles"))
+        wdi5.getLogger().info(marky.stop("execForListItemTitles"))
         // *********
 
         Other.allNames.forEach((name) => {
@@ -97,7 +97,7 @@ describe("ui5 eval on control", () => {
                 interaction: "root"
             }
         }
-        const peopleListData = await browser.asControl(listSelector).evalOnControl(function () {
+        const peopleListData = await browser.asControl(listSelector).exec(function () {
             return {
                 tableTitle: this.getHeaderText(),
                 peopleListNames: this.getItems().map((item) => item.getTitle())
