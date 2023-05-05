@@ -215,20 +215,20 @@ These are the supported selectors from [sap.ui.test.RecordReplay.ControlSelector
 
 <!-- prettier-ignore-start -->
 
-|      selector | supported in `wdi5` |
-| ------------: | ------------------- |
-|   `ancestor` | &check;             |
-| `bindingPath` | &check;             |
-| `controlType` | &check;             |
-|  `descendant` | &check;             |
-|    `I18NText` | &check;             |
-|          `id` | &check;             |
-|`interactable` | &check;             |
-|    `labelFor` | &check;             |
-|  `properties` | &check;             |
-|     `RegEx`   | &check;             |
-|     `sibling` | &check;             |
-|    `viewName` | &check;             |
+|       selector | supported in `wdi5` |
+| -------------: | ------------------- |
+|     `ancestor` | &check;             |
+|  `bindingPath` | &check;             |
+|  `controlType` | &check;             |
+|   `descendant` | &check;             |
+|     `I18NText` | &check;             |
+|           `id` | &check;             |
+| `interactable` | &check;             |
+|     `labelFor` | &check;             |
+|   `properties` | &check;             |
+|        `RegEx` | &check;             |
+|      `sibling` | &check;             |
+|     `viewName` | &check;             |
 
 <!-- prettier-ignore-end -->
 
@@ -398,6 +398,35 @@ await button.press()
 ```
 
 Under the hoode, this first retrieves the UI5 control, then feeds it to [WebdriverIO's `click()` method](https://webdriver.io/docs/api/element/click).
+
+### `exec`
+You can execute a given function, optionally with arguments, on any UI5 control and return an arbitrary result of a basic type, or even an object or array. This is for example helpful to boost performance when verifying many entries in a single table, since there is only one round trip to the browser to return the data.  
+
+The `this` keyword will refer to the UI5 control you execute the `exec` function on.  
+
+Regular functions are accepted as well as arrow functions.
+```javascript
+const button = await browser.asControl(buttonSelector)
+let buttonText = await button.exec(function () { //regular function
+  return this.getText()
+})
+buttonText = await button.exec(() => this.getText()) //inline arrow function
+buttonText = await button.exec(() => { return this.getText() }) //arrow function
+
+//passing arguments is possible, example for using it to verify on browser side and returning only a boolean value
+const textIsEqualToArguments = await button.exec((textHardcodedArg, textVariableArg) => {
+  return this.getText() === textHardcodedArg && this.getText() === textVariableArg
+}, "open Dialog", expectedText)
+
+//example what could be done with a list
+const listData = await browser.asControl(listSelector).exec(function () {
+    return {
+        listTitle: this.getHeaderText(),
+        listEntries: this.getItems().map((item) => item.getTitle())
+    }
+})
+
+```
 
 ### fluent async api
 

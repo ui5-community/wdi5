@@ -62,6 +62,18 @@ describe("ui5 eval on control", () => {
         expect(buttonTextArrow2).toEqual(regularBtnText)
     })
 
+    it("execute function browserside on button to get its text with fluent sync api, basic return type", async () => {
+        const buttonText = await browser.asControl({
+            selector: {
+                id: "openDialogButton",
+                viewName: "test.Sample.view.Main"
+            }
+        }).exec(function () {
+            return this.getText()
+        })
+        expect(buttonText).toEqual("open Dialog")
+    })
+
     it("execute function browserside on button and compare text there, boolean return type", async () => {
         const button = await browser.asControl({
             selector: {
@@ -73,14 +85,16 @@ describe("ui5 eval on control", () => {
         const regularBtnText = await button.getText()
         //regular function
         const textIsEqual = await button.exec(function (dialogTextHardcoded, dialogTextFromUI) {
-            return this.getText() === dialogTextHardcoded && this.getText() == dialogTextFromUI
+            return this.getText() === dialogTextHardcoded && this.getText() === dialogTextFromUI
         }, "open Dialog", regularBtnText)
         expect(textIsEqual).toEqual(true)
 
         //arrow functions
-        const textIsEqualArrow1 = await button.exec((dialogTextHardcoded, dialogTextFromUI) => this.getText() === dialogTextHardcoded && this.getText() == dialogTextFromUI, "open Dialog", regularBtnText)
+        const textIsEqualArrow1 = await button.exec((dialogTextHardcoded, dialogTextFromUI) => this.getText() === dialogTextHardcoded && this.getText() === dialogTextFromUI, "open Dialog", regularBtnText)
         expect(textIsEqualArrow1).toEqual(true)
-        const textIsEqualArrow2 = await button.exec((dialogTextHardcoded, dialogTextFromUI) => { return this.getText() === dialogTextHardcoded && this.getText() == dialogTextFromUI }, "open Dialog", regularBtnText)
+        const textIsEqualArrow2 = await button.exec((dialogTextHardcoded, dialogTextFromUI) => {
+            return this.getText() === dialogTextHardcoded && this.getText() === dialogTextFromUI
+        }, "open Dialog", regularBtnText)
         expect(textIsEqualArrow2).toEqual(true)
     })
 
