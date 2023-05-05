@@ -13,8 +13,9 @@ async function initOPA(pageObjectConfig, browserInstance) {
 
                 sap.ui.test.Opa5.createPageObjects(pageConfig)
                 // use the same timouts and intervals that wdi5 uses
+                debugger
                 sap.ui.test.Opa.extendConfig({
-                    timeout: new Date(window.wdi5.waitForUI5Options.timeout).getSeconds(), // convert milliseconds to seconds
+                    timeout: Math.floor(window.wdi5.waitForUI5Options.timeout / 1000), // convert milliseconds to seconds
                     pollingInterval: window.wdi5.waitForUI5Options.interval
                 })
 

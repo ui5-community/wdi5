@@ -33,6 +33,7 @@ jobs:
             examples/ui5-ts-app/mta_archives/ui5-approuter_1.0.0.mtar
 
   publish-sample-ts-app-to-btp:
+    needs: build-sample-ts-app
     runs-on: ubuntu-latest
     container: ppiper/cf-cli
     steps:
