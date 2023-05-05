@@ -716,7 +716,7 @@ $> which firefox
         "browserVersion": "<firefox version>",
         "moz:firefoxOptions": {
           "binary": '<path/to/firefox>',
-          "args": ['-headless', '-profile', '/tmp/profile'],
+          "args": ['-headless'],
           "log": {"level": "trace"},
         },
     }]
@@ -809,7 +809,7 @@ exports.config = {
         "platformName": "linux",
         "moz:firefoxOptions": {
           "binary": '/extbin/bin/firefox',
-          "args": ['-headless', '-profile', '/tmp/profile'],
+          "args": ['-headless'],
           "log": {"level": "trace"},
         }
     }],
