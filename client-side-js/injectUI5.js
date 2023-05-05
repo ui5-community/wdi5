@@ -99,7 +99,11 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
             // make exec function available on all ui5 controls, so more complex evaluations can be done on browser side for better performance
             sap.ui.require(["sap/ui/core/Control"], (Control) => {
                 Control.prototype.exec = function (funcToEval, ...args) {
-                    return new Function('return ' + funcToEval).apply(this).apply(this, args)
+                    try {
+                        return new Function('return ' + funcToEval).apply(this).apply(this, args)
+                    } catch (error) {
+                        return { status: 1, message: error.toString() }
+                    }
                 }
             })
 
