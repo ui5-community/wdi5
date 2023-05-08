@@ -22,7 +22,7 @@ if (process.env.BROWSERSTACK) {
     _config.capabilities = [
         {
             "wdi5:authentication": {
-                provider: "BasicAuth"
+                provider: "BTP"
             },
             browserName: "chrome",
             "goog:chromeOptions": {
