@@ -80,6 +80,7 @@
     "@wdio/local-runner": "^7",
     "@wdio/mocha-framework": "^7",
     "@wdio/spec-reporter": "^7",
+    "@wdio/types": "^7",
     "chromedriver": "latest",
     "cross-env": "^7.0.3",
     "deepmerge": "^4.2.2",
