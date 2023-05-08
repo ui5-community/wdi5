@@ -24,6 +24,10 @@ env:
   wdi5_password: ${{secrets.BTP_PASSWORD}}
   wdi5_one_password: ${{secrets.BTP_PASSWORD}}
   wdi5_two_password: ${{secrets.BTP_PASSWORD}}
+  BROWSERSTACK_USERNAME: ${{secrets.BROWSERSTACK_USERNAME}}
+  BROWSERSTACK_ACCESS_KEY: ${{secrets.BROWSERSTACK_ACCESS_KEY}}
+  SAUCE_USERNAME: ${{secrets.SAUCE_USERNAME}}
+  SAUCE_ACCESS_KEY: ${{secrets.SAUCE_ACCESS_KEY}}
 
 jobs:
   tests:
