@@ -35,7 +35,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16, 18, 19, 20]
+        node-version: [16]
 
     steps:
       - name: check out repo
