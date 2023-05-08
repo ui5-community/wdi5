@@ -17,7 +17,7 @@ describe("Basic", async () => {
             }
         }
 
-        const allButtons = (await browser.allControls(allButtonsSelector)) as unknown as Array<Button>
+        const allButtons = await browser.allControls<Button>(allButtonsSelector)
         expect(allButtons.length).toEqual(1)
     })
 
@@ -28,7 +28,7 @@ describe("Basic", async () => {
                 viewName: "test.Sample.tsapp.view.Main"
             }
         }
-        const view: unknown = await (browser.asControl(selector) as unknown as Page).getParent()
+        const view = await (browser.asControl(selector) as unknown as Page).getParent()
         const controller: Controller = await (view as View).getController()
 
         // @ts-ignore this async fn lives in an not properly typed controller

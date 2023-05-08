@@ -5,14 +5,13 @@ import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
 describe("Navigation", async () => {
     it("nav to other view and check if successful", async () => {
         // click webcomponent button to trigger navigation
-        await (
-            browser.asControl({
-                selector: {
-                    id: "NavFwdButton",
-                    viewName: "test.Sample.tsapp.view.Main"
-                }
-            }) as unknown as Button
-        ).fireClick()
+        const navButton = await browser.asControl<Button>({
+            selector: {
+                id: "NavFwdButton",
+                viewName: "test.Sample.tsapp.view.Main"
+            }
+        })
+        await navButton.press()
 
         const listSelector: wdi5Selector = {
             selector: {
