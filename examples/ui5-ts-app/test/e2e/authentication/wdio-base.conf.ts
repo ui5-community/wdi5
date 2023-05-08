@@ -1,7 +1,7 @@
 import { join } from "path"
 import merge from "ts-deepmerge"
 import { wdi5Config } from "wdio-ui5-service/dist/types/wdi5.types"
-import { config as bstackConfig } from "../cloud-services/browserstack.conf.local"
+import { config as bstackConfig, browser } from "../cloud-services/browserstack.conf.local"
 
 type _wdi5Config = Omit<wdi5Config, "capabilities">
 const _config: _wdi5Config = {
@@ -36,20 +36,19 @@ let exportedConfig
 if (process.env.BROWSERSTACK) {
     // we only want a subset of browsers and OSs for testing auth
     // no need for the full scope
-    const thinCapabilities = bstackConfig.capabilities.filter((capability) => {
+    const thinCapabilities = browser.filter((browser) => {
         return (
-            (capability.browserName === "Chrome" &&
-                capability["bstack:options"].os === "Windows" &&
-                capability["bstack:options"].osVersion === "11") ||
-            (capability.browserName === "Safari" && capability["bstack:options"].os === "OS X") ||
-            (capability.browserName === "Edge" &&
-                capability["bstack:options"].os === "Windows" &&
-                capability["bstack:options"].osVersion === "10")
+            (browser.browserName === "Chrome" &&
+                browser["bstack:options"].os === "Windows" &&
+                browser["bstack:options"].osVersion === "11") ||
+            // (browser.browserName === "Safari" && browser["bstack:options"].os === "OS X") || //> REVISIT: our trick 17 doesn't work with Safari, ugh
+            (browser.browserName === "Edge" &&
+                browser["bstack:options"].os === "Windows" &&
+                browser["bstack:options"].osVersion === "10")
         )
     })
 
     bstackConfig.capabilities = thinCapabilities
-    bstackConfig.specs = ["./test/e2e/Basic.test.ts", "./test/e2e/Authentication.test.ts"]
     exportedConfig = merge(_config, bstackConfig)
 } else {
     exportedConfig = _config
