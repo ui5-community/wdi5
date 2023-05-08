@@ -11,7 +11,8 @@ const _config: _wdi5Config = {
     },
     baseUrl: "https://wdi5-sample-app.cfapps.eu20.hana.ondemand.com/basic-auth/",
 
-    services: process.env.BROWSERSTACK ? ["ui5"] : ["chromedriver", "ui5"],
+    // browserstack service gets injected later during merge of configs
+    services: process.env.BROWSERSTACK ? [] : ["chromedriver", "ui5"],
 
     specs: ["./test/e2e/Basic.test.ts", "./test/e2e/Authentication.test.ts"],
 
@@ -51,6 +52,7 @@ if (process.env.BROWSERSTACK) {
 
     bstackConfig.capabilities = thinCapabilities
     exportedConfig = merge(_config, bstackConfig)
+    exportedConfig.services = ["browserstack", "ui5"] // no need for "browserstackLocal" as we work against a deployed app
 } else {
     exportedConfig = _config
 }
