@@ -1,15 +1,17 @@
 import { join } from "path"
+import merge from "ts-deepmerge"
 import { wdi5Config } from "wdio-ui5-service/dist/types/wdi5.types"
+import { config as bstackConfig } from "../cloud-services/browserstack.conf.local"
 
 type _wdi5Config = Omit<wdi5Config, "capabilities">
-export const config: _wdi5Config = {
+const _config: _wdi5Config = {
     wdi5: {
         screenshotPath: join("test", "__screenshots__"),
         waitForUI5Timeout: 30000
     },
     baseUrl: "https://wdi5-sample-app.cfapps.eu20.hana.ondemand.com/basic-auth/",
 
-    services: ["chromedriver", "ui5"],
+    services: process.env.BROWSERSTACK ? ["ui5"] : ["chromedriver", "ui5"],
 
     specs: ["./test/e2e/Basic.test.ts", "./test/e2e/Authentication.test.ts"],
 
@@ -29,3 +31,28 @@ export const config: _wdi5Config = {
         timeout: process.argv.indexOf("--debug") > -1 ? 600000 : 60000
     }
 }
+
+let exportedConfig
+if (process.env.BROWSERSTACK) {
+    // we only want a subset of browsers and OSs for testing auth
+    // no need for the full scope
+    const thinCapabilities = bstackConfig.capabilities.filter((capability) => {
+        return (
+            (capability.browserName === "Chrome" &&
+                capability["bstack:options"].os === "Windows" &&
+                capability["bstack:options"].osVersion === "11") ||
+            (capability.browserName === "Safari" && capability["bstack:options"].os === "OS X") ||
+            (capability.browserName === "Edge" &&
+                capability["bstack:options"].os === "Windows" &&
+                capability["bstack:options"].osVersion === "10")
+        )
+    })
+
+    bstackConfig.capabilities = thinCapabilities
+    bstackConfig.specs = ["./test/e2e/Basic.test.ts", "./test/e2e/Authentication.test.ts"]
+    exportedConfig = merge(_config, bstackConfig)
+} else {
+    exportedConfig = _config
+}
+
+export const config = exportedConfig

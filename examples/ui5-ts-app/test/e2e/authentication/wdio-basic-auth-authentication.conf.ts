@@ -1,25 +1,41 @@
-import { config as baseConf } from "./wdio-base.conf"
-import { wdi5Capabilites } from "wdio-ui5-service/dist/types/wdi5.types"
 import merge from "ts-deepmerge"
+import { config as baseConf } from "./wdio-base.conf"
 
-const capability: wdi5Capabilites = {
-    "wdi5:authentication": {
-        provider: "BasicAuth"
-    },
-    maxInstances: 5,
-    browserName: "chrome",
-    "goog:chromeOptions": {
-        args:
-            process.argv.indexOf("--headless") > -1
-                ? ["headless", "disable-gpu"]
-                : process.argv.indexOf("--debug") > -1
-                ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
-                : ["window-size=1440,800"]
-    },
-    acceptInsecureCerts: true
-}
 const _config = {
     baseUrl: "https://wdi5-sample-app.cfapps.eu20.hana.ondemand.com/basic-auth/",
-    capabilities: [capability]
+    capabilities: baseConf.capabilities ? [...baseConf.capabilities] : []
 }
+
+delete baseConf.capabilities
+
+if (process.env.BROWSERSTACK) {
+    _config.capabilities = _config.capabilities.map((capability) => {
+        const enhancedCapability = {
+            ...capability,
+            "wdi5:authentication": {
+                provider: "BasicAuth"
+            }
+        }
+        return enhancedCapability
+    })
+} else {
+    _config.capabilities = [
+        {
+            "wdi5:authentication": {
+                provider: "BasicAuth"
+            },
+            browserName: "chrome",
+            "goog:chromeOptions": {
+                args:
+                    process.argv.indexOf("--headless") > -1
+                        ? ["headless", "disable-gpu"]
+                        : process.argv.indexOf("--debug") > -1
+                        ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
+                        : ["window-size=1440,800"]
+            },
+            acceptInsecureCerts: true
+        }
+    ]
+}
+
 export const config = merge(baseConf, _config)
