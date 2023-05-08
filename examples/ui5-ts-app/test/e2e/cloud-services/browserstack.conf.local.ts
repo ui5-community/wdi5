@@ -21,27 +21,36 @@ const _config = {
     user: process.env.BROWSERSTACK_USERNAME,
 
     maxInstances: 5,
-    maxInstancesPerCapability: 1,
+    maxInstancesPerCapability: 5,
     capabilities: [
         // Windows
-        // {
-        //     browserName: "Edge",
-        //     browserVersion: "latest",
-        //     "bstack:options": {
-        //         os: "Windows",
-        //         osVersion: "11",
-        //         ...defaults
-        //     }
-        // },
-        // {
-        //     browserName: "Chrome",
-        //     browserVersion: "latest",
-        //     "bstack:options": {
-        //         os: "Windows",
-        //         osVersion: "11",
-        //         ...defaults
-        //     }
-        // },
+        {
+            browserName: "Edge",
+            browserVersion: "latest",
+            "bstack:options": {
+                os: "Windows",
+                osVersion: "11",
+                ...defaults
+            }
+        },
+        {
+            browserName: "Edge",
+            browserVersion: "latest",
+            "bstack:options": {
+                os: "Windows",
+                osVersion: "10",
+                ...defaults
+            }
+        },
+        {
+            browserName: "Chrome",
+            browserVersion: "latest",
+            "bstack:options": {
+                os: "Windows",
+                osVersion: "11",
+                ...defaults
+            }
+        },
         {
             browserName: "Firefox",
             browserVersion: "latest",
@@ -60,35 +69,34 @@ const _config = {
                 osVersion: "Ventura",
                 ...defaults
             }
+        },
+        {
+            browserName: "Edge",
+            browserVersion: "latest",
+            "bstack:options": {
+                os: "OS X",
+                osVersion: "Ventura",
+                ...defaults
+            }
+        },
+        {
+            browserName: "Chrome",
+            browserVersion: "latest",
+            "bstack:options": {
+                os: "OS X",
+                osVersion: "Ventura",
+                ...defaults
+            }
+        },
+        {
+            browserName: "Firefox",
+            browserVersion: "latest",
+            "bstack:options": {
+                os: "OS X",
+                osVersion: "Ventura",
+                ...defaults
+            }
         }
-        // ,
-        // {
-        //     browserName: "Edge",
-        //     browserVersion: "latest",
-        //     "bstack:options": {
-        //         os: "OS X",
-        //         osVersion: "Ventura",
-        //         ...defaults
-        //     }
-        // },
-        // {
-        //     browserName: "Chrome",
-        //     browserVersion: "latest",
-        //     "bstack:options": {
-        //         os: "OS X",
-        //         osVersion: "Ventura",
-        //         ...defaults
-        //     }
-        // },
-        // {
-        //     browserName: "Firefox",
-        //     browserVersion: "latest",
-        //     "bstack:options": {
-        //         os: "OS X",
-        //         osVersion: "Ventura",
-        //         ...defaults
-        //     }
-        // }
     ]
 }
 
