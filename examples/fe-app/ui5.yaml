@@ -1,6 +1,7 @@
 specVersion: "2.6"
 metadata:
   name: incidents
+  allowSapInternal: true
 type: application
 framework:
   name: "SAPUI5"
