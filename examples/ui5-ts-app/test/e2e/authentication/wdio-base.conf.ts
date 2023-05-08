@@ -42,6 +42,7 @@ if (process.env.BROWSERSTACK) {
                 browser["bstack:options"].os === "Windows" &&
                 browser["bstack:options"].osVersion === "11") ||
             // (browser.browserName === "Safari" && browser["bstack:options"].os === "OS X") || //> REVISIT: our trick 17 doesn't work with Safari, ugh
+            (browser.browserName === "Chrome" && browser["bstack:options"].os === "OS X") ||
             (browser.browserName === "Edge" &&
                 browser["bstack:options"].os === "Windows" &&
                 browser["bstack:options"].osVersion === "10")
