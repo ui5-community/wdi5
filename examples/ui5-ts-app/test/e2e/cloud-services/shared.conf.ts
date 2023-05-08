@@ -6,15 +6,15 @@ export const config = {
 
     // services: [bs|sauce|...],
 
-    specs: ["./test/e2e/**/*.test.ts"],
-    // these are for authentication tests only
-    exclude: [
-        "./test/e2e/Custom.test.ts",
-        "./test/e2e/multiremote.test.ts",
-        "./test/e2e/BasicMultiRemoteAuthentication.test.ts",
-        "./test/e2e/Authentication.test.ts",
-        "./test/e2e/ui5-late.test.ts"
-    ],
+    // specs: ["./test/e2e/**/*.test.ts"],
+    // // these are for authentication tests only
+    // exclude: [
+    //     "./test/e2e/Custom.test.ts",
+    //     "./test/e2e/multiremote.test.ts",
+    //     "./test/e2e/BasicMultiRemoteAuthentication.test.ts",
+    //     "./test/e2e/Authentication.test.ts",
+    //     "./test/e2e/ui5-late.test.ts"
+    // ],
 
     logLevel: "error",
     bail: 0,
