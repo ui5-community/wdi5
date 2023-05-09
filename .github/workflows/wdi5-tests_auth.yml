@@ -1,7 +1,7 @@
 name: auth
 on:
   workflow_run:
-    workflows: ["core"]
+    workflows: [core]
     types:
       - completed
 
