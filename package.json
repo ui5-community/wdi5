@@ -50,7 +50,8 @@
     "test:js-app": "run-p -r _startApp:js _startApp:js-tooling _test:js-app",
     "_test:fe-app": "wait-on tcp:8088 && npm run test:wdi5 --workspace=examples/fe-app",
     "test:fe-app": "run-p -r _startApp:fe _test:fe-app",
-    "test:auth": "npm run test-h:authentication -w examples/ui5-ts-app",
+    "//test:auth": "this runs either locally or on browserstack depending on the env variable BROWSERSTACK",
+    "test:auth": "npm run test:authentication:bstack -w examples/ui5-ts-app",
     "//test:protocol": "runs the same test with webdriver and devtools protocol",
     "test:protocol": "npm run test:protocol -w examples/ui5-ts-app",
     "test": "cross-env TS_NODE_PROJECT=\"test/tsconfig.json\" mocha",
@@ -79,6 +80,7 @@
     "@wdio/local-runner": "^7",
     "@wdio/mocha-framework": "^7",
     "@wdio/spec-reporter": "^7",
+    "@wdio/types": "^7",
     "chromedriver": "latest",
     "cross-env": "^7.0.3",
     "deepmerge": "^4.2.2",
@@ -103,7 +105,7 @@
     "wdio-chromedriver-service": "^7"
   },
   "engines": {
-    "node": ">=14",
+    "node": ">=16",
     "npm": ">=7"
   }
 }

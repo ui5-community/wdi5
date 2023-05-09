@@ -23,26 +23,18 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14, 16, 18, 19]
+        node-version: [16, 18, 19, 20]
 
     steps:
       - name: check out repo
         uses: actions/checkout@v3
 
       - name: use node ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
-
-      # we need this for workspace mgmt
-      - name: check npm version >= 7
-        run: npm --version
-      - name: update npm
-        run: |
-          npm i -g npm@8
-          npm --version
 
       # install both module + sample app(s) deps
       - name: install packages (wdi5 + sample app(s))

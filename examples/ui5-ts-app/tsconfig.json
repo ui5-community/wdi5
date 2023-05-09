@@ -7,7 +7,7 @@
       "@wdio/mocha-framework",
       "expect-webdriverio",
       "wdio-ui5-service/dist",
-      "@openui5/ts-types-esm"
+      "@openui5/types"
     ],
     "target": "es2015"
   }
