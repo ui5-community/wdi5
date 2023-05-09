@@ -14,7 +14,7 @@ framework:
     - name: sap.ui.dt
     - name: sap.ui.rta
     - name: sap.fe.test
-    - name: sap.suite.ui.generic.template
+    # - name: sap.suite.ui.generic.template
     - name: sap.gantt
     - name: themelib_sap_fiori_3
 server:
