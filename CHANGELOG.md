@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.5.0 (2023-05-09)
+
+
+### Features
+
+* outsource auth tests, drop node 14, make node 16 dev default, align script timeout ([#465](https://github.com/ui5-community/wdi5/issues/465)) ([b2cb381](https://github.com/ui5-community/wdi5/commit/b2cb381f4f8319023a7a37e3946489c94af6ed11))
+
 ## 1.4.0 (2023-05-09)
 
 
