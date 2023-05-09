@@ -40,8 +40,9 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                 // This is a manual replacement for crypto.randomUUID()
                 // until it is only available in secure contexts.
                 // See https://github.com/WICG/uuid/issues/23
-                const uuid = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-                    (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16))
+                const uuid = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+                    (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)
+                )
                 window.wdi5.objectMap[uuid] = object
                 return uuid
             }
@@ -60,13 +61,13 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                     _autoWaiterAsync.extendConfig(oOptions)
 
                     const startWaiting = function () {
-                        window.wdi5.bWaitStarted = true;
+                        window.wdi5.bWaitStarted = true
                         _autoWaiterAsync.waitAsync(function (sError) {
-                            const nextWaitAsync = window.wdi5.asyncControlRetrievalQueue.shift();
+                            const nextWaitAsync = window.wdi5.asyncControlRetrievalQueue.shift()
                             if (nextWaitAsync) {
-                                setTimeout(nextWaitAsync); //use setTimeout to postpone execution to the next event cycle, so that bWaitStarted in the UI5 _autoWaiterAsync is also set to false first
+                                setTimeout(nextWaitAsync) //use setTimeout to postpone execution to the next event cycle, so that bWaitStarted in the UI5 _autoWaiterAsync is also set to false first
                             } else {
-                                window.wdi5.bWaitStarted = false;
+                                window.wdi5.bWaitStarted = false
                             }
                             if (sError) {
                                 errorCallback(new Error(sError))
@@ -76,9 +77,9 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                         })
                     }
                     if (!window.wdi5.bWaitStarted) {
-                        startWaiting();
+                        startWaiting()
                     } else {
-                        window.wdi5.asyncControlRetrievalQueue.push(startWaiting);
+                        window.wdi5.asyncControlRetrievalQueue.push(startWaiting)
                     }
                 }
                 window.wdi5.Log.info("[browser wdi5] window._autoWaiterAsync used in waitForUI5 function")
@@ -100,7 +101,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
             sap.ui.require(["sap/ui/core/Control"], (Control) => {
                 Control.prototype.exec = function (funcToEval, ...args) {
                     try {
-                        return new Function('return ' + funcToEval).apply(this).apply(this, args)
+                        return new Function("return " + funcToEval).apply(this).apply(this, args)
                     } catch (error) {
                         return { status: 1, message: error.toString() }
                     }

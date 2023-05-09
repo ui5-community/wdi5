@@ -42,7 +42,9 @@ describe("ui5 eval on control", () => {
         //arrow functions
         const resultArrowFunction1 = await button.exec(() => this.getTex())
         expect(resultArrowFunction1).toBeNull()
-        const resultArrowFunction2 = await button.exec(() => { return this.getTex() })
+        const resultArrowFunction2 = await button.exec(() => {
+            return this.getTex()
+        })
         expect(resultArrowFunction2).toBeNull()
 
         const expectedExecErrorLog = "call of exec failed because of: TypeError: this.getTex is not a function"
@@ -73,7 +75,9 @@ describe("ui5 eval on control", () => {
         const buttonTextArrow1 = await button.exec(() => this.getText())
         expect(buttonTextArrow1).toEqual("open Dialog")
         expect(buttonTextArrow1).toEqual(regularBtnText)
-        const buttonTextArrow2 = await button.exec(() => { return this.getText() })
+        const buttonTextArrow2 = await button.exec(() => {
+            return this.getText()
+        })
         expect(buttonTextArrow2).toEqual("open Dialog")
         expect(buttonTextArrow2).toEqual(regularBtnText)
     })
@@ -100,17 +104,30 @@ describe("ui5 eval on control", () => {
 
         const regularBtnText = await button.getText()
         //regular function
-        const textIsEqual = await button.exec(function (dialogTextHardcoded, dialogTextFromUI) {
-            return this.getText() === dialogTextHardcoded && this.getText() === dialogTextFromUI
-        }, "open Dialog", regularBtnText)
+        const textIsEqual = await button.exec(
+            function (dialogTextHardcoded, dialogTextFromUI) {
+                return this.getText() === dialogTextHardcoded && this.getText() === dialogTextFromUI
+            },
+            "open Dialog",
+            regularBtnText
+        )
         expect(textIsEqual).toEqual(true)
 
         //arrow functions
-        const textIsEqualArrow1 = await button.exec((dialogTextHardcoded, dialogTextFromUI) => this.getText() === dialogTextHardcoded && this.getText() === dialogTextFromUI, "open Dialog", regularBtnText)
+        const textIsEqualArrow1 = await button.exec(
+            (dialogTextHardcoded, dialogTextFromUI) =>
+                this.getText() === dialogTextHardcoded && this.getText() === dialogTextFromUI,
+            "open Dialog",
+            regularBtnText
+        )
         expect(textIsEqualArrow1).toEqual(true)
-        const textIsEqualArrow2 = await button.exec((dialogTextHardcoded, dialogTextFromUI) => {
-            return this.getText() === dialogTextHardcoded && this.getText() === dialogTextFromUI
-        }, "open Dialog", regularBtnText)
+        const textIsEqualArrow2 = await button.exec(
+            (dialogTextHardcoded, dialogTextFromUI) => {
+                return this.getText() === dialogTextHardcoded && this.getText() === dialogTextFromUI
+            },
+            "open Dialog",
+            regularBtnText
+        )
         expect(textIsEqualArrow2).toEqual(true)
     })
 

@@ -24,11 +24,11 @@
     "chromedriver": "latest",
     "wdio-chromedriver-service": "^7",
     "wdio-ui5-service": "*",
-    "@sap/ux-ui5-fe-mockserver-middleware": "latest"
+    "@sap-ux/ui5-middleware-fe-mockserver": "latest"
   },
   "ui5": {
     "dependencies": [
-      "@sap/ux-ui5-fe-mockserver-middleware"
+      "@sap-ux/ui5-middleware-fe-mockserver"
     ]
   }
 }
