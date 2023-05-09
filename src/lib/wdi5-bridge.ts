@@ -58,11 +58,12 @@ export async function setup(config: wdi5Config) {
 
 export async function start(config: wdi5Config) {
     if (config.wdi5.url) {
-        // still support the old logic that we don't have breaking changes
+        // still support the old logic so that we don't have breaking changes
         Logger.warn(`'url' property in config file deprecated: please use 'baseUrl' only!`)
         Logger.info(`open url: ${config.wdi5.url}`)
         await browser.url(config.wdi5.url)
     } else {
+        // this is the way
         Logger.info(`open url: ${browser.config.baseUrl}`)
         await browser.url(browser.config.baseUrl)
     }
