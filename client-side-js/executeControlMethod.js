@@ -35,6 +35,11 @@ async function clientSide_executeControlMethod(webElement, methodName, browserIn
                                 result: `called focus() on wdi5 representation of a ${metadata.getElementName()}`,
                                 returnType: "element"
                             })
+                        } else if (methodName === "exec" && result && result.status > 0) {
+                            done({
+                                status: result.status,
+                                message: result.message
+                            })
                         } else if (result === undefined || result === null) {
                             done({
                                 status: 1,
