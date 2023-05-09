@@ -30,7 +30,7 @@ exports.config = {
     ],
     //// test config
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: "error",
+    logLevel: "debug",
     bail: 0,
     baseUrl: "http://localhost:8088/index.html#fe-lrop-v4",
 
