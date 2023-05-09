@@ -1,22 +1,23 @@
 specVersion: "2.6"
 metadata:
   name: incidents
-  allowSapInternal: true
+  # allowSapInternal: true # //> only for sap.fe.templates below
 type: application
-framework:
-  name: "SAPUI5"
-  version: "1.97.2"
-  libraries:
-    - name: sap.ui.core
-    - name: sap.m
-    - name: sap.ushell
-    - name: sap.fe.templates
-    - name: sap.ui.dt
-    - name: sap.ui.rta
-    - name: sap.fe.test
-    # - name: sap.suite.ui.generic.template
-    - name: sap.gantt
-    - name: themelib_sap_fiori_3
+### we bootstrap from cdn again to get prebuilt libs (preloads)
+# framework:
+#   name: "SAPUI5"
+#   version: "1.97.2"
+#   libraries:
+#     - name: sap.ui.core
+#     - name: sap.m
+#     - name: sap.ushell
+#     - name: sap.fe.templates
+#     - name: sap.ui.dt
+#     - name: sap.ui.rta
+#     - name: sap.fe.test
+#     # - name: sap.suite.ui.generic.template
+#     - name: sap.gantt
+#     - name: themelib_sap_fiori_3
 server:
   customMiddleware:
     - name: sap-fe-mockserver
