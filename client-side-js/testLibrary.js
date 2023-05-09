@@ -49,7 +49,7 @@ async function emptyQueue(browserInstance) {
             })
             .catch((err) => {
                 window.wdi5.Log.error(err)
-                done(["error", err.errorMessage])
+                done(["error", err.errorMessage || err])
             })
     })
 }
