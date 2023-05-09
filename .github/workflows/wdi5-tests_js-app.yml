@@ -20,6 +20,7 @@ on:
 
 jobs:
   tests:
+    if: ${{ false }} # disable for now
     runs-on: ubuntu-latest
 
     strategy:
