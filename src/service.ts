@@ -49,7 +49,7 @@ export default class Service implements Services.ServiceInstance {
 
     /**
      * this is a helper function to late-inject ui5 at test-time
-     * it relays the the wdio configuration (set in the .before() hook to the browser.config parameter by wdio)
+     * it relays the the wdio configuration (set in the .before() hook to the browser.options parameter by wdio)
      * to the injectUI5 function of the actual wdi5-bridge
      */
     async injectUI5(browserInstance = browser) {
