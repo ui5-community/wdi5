@@ -1,21 +1,9 @@
 name: auth
 on:
-  pull_request:
-    branches:
-      - main
-    paths:
-      # relevant
-      - "client-side-js/**"
-      - "examples/**"
-      - "scripts/**"
-      - "src/**"
-      # don't run on changes to these
-      - "!.husky/**"
-      - "!.vscode/**"
-      - "!docs/**"
-      - "!.*"
-      - "!*.md"
-      - "!*.cjs"
+  workflow_run:
+    workflows: [core]
+    types:
+      - completed
 
 env:
   wdi5_username: ${{secrets.BTP_LOGIN}}
