@@ -333,8 +333,9 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
 
         if (sHash && sHash.length > 0) {
             // we need to still support the old url property
-            if ((browserInstance.config as wdi5Config).wdi5.url) {
-                const url = (browserInstance.config as wdi5Config).wdi5["url"] || (await browserInstance.getUrl())
+            // TODO: use type wdi5Config not any
+            if ((browserInstance.options as any).wdi5.url) {
+                const url = (browserInstance.options as any).wdi5["url"] || (await browserInstance.getUrl())
 
                 // navigate via hash if defined
                 if (url && url.length > 0 && url !== "#") {
