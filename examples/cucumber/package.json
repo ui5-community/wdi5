@@ -1,12 +1,12 @@
 {
   "devDependencies": {
-    "@wdio/cli": "^7",
-    "@wdio/cucumber-framework": "^7",
-    "@wdio/local-runner": "^7",
-    "@wdio/mocha-framework": "^7",
-    "@wdio/spec-reporter": "^7",
+    "@wdio/cli": "^8",
+    "@wdio/cucumber-framework": "^8",
+    "@wdio/local-runner": "^8",
+    "@wdio/mocha-framework": "^8",
+    "@wdio/spec-reporter": "^8",
     "chromedriver": "latest",
-    "wdio-chromedriver-service": "^7",
+    "wdio-chromedriver-service": "^8",
     "wdio-ui5-service": "*"
   },
   "scripts": {
