@@ -2,6 +2,10 @@
 
 ?> Please note that as a prerequisite, some webserver-capable tooling (such as the [ui5-tooling](https://sap.github.io/ui5-tooling/)) is needed to run both the UI5 app and the `wdi5/wdio` tests.
 
+With `wdi5` being an extension ("service") to WebdriverIO (`wdio`), first and foremost [all configuration options of `wdio`](https://v7.webdriver.io/docs/options) can also be used in `wdi5`! They all go into the same configuration file, per default `wdio.conf.js` (for JavaScript) and `wdio.conf.ts` (for TypeScript).
+
+Of course the configuration file name can be changed arbitrarily. But then it needs to be specified explicitly when [running `wdi5`/`wdio`](running), e.g. `$> wdio run myconfig.js`.
+
 ## `wdi5`
 
 All options go into a top-level `wdi5` object in `wdio.conf.(j|t)s`,

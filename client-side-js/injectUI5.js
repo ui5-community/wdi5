@@ -26,7 +26,9 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                 },
                 objectMap: {
                     // GUID: {}
-                }
+                },
+                bWaitStarted: false,
+                asyncControlRetrievalQueue: []
             }
 
             /**
@@ -38,8 +40,9 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                 // This is a manual replacement for crypto.randomUUID()
                 // until it is only available in secure contexts.
                 // See https://github.com/WICG/uuid/issues/23
-                const uuid = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-                    ( c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16) )
+                const uuid = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+                    (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)
+                )
                 window.wdi5.objectMap[uuid] = object
                 return uuid
             }
@@ -57,13 +60,27 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                     oOptions = oOptions || {}
                     _autoWaiterAsync.extendConfig(oOptions)
 
-                    _autoWaiterAsync.waitAsync(function (sError) {
-                        if (sError) {
-                            errorCallback(new Error(sError))
-                        } else {
-                            callback()
-                        }
-                    })
+                    const startWaiting = function () {
+                        window.wdi5.bWaitStarted = true
+                        _autoWaiterAsync.waitAsync(function (sError) {
+                            const nextWaitAsync = window.wdi5.asyncControlRetrievalQueue.shift()
+                            if (nextWaitAsync) {
+                                setTimeout(nextWaitAsync) //use setTimeout to postpone execution to the next event cycle, so that bWaitStarted in the UI5 _autoWaiterAsync is also set to false first
+                            } else {
+                                window.wdi5.bWaitStarted = false
+                            }
+                            if (sError) {
+                                errorCallback(new Error(sError))
+                            } else {
+                                callback()
+                            }
+                        })
+                    }
+                    if (!window.wdi5.bWaitStarted) {
+                        startWaiting()
+                    } else {
+                        window.wdi5.asyncControlRetrievalQueue.push(startWaiting)
+                    }
                 }
                 window.wdi5.Log.info("[browser wdi5] window._autoWaiterAsync used in waitForUI5 function")
             })
@@ -78,6 +95,17 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                 // here setup is successful
                 // known side effect this call triggers the back to node scope, the other sap.ui.require continue to run in background in browser scope
                 done(true)
+            })
+
+            // make exec function available on all ui5 controls, so more complex evaluations can be done on browser side for better performance
+            sap.ui.require(["sap/ui/core/Control"], (Control) => {
+                Control.prototype.exec = function (funcToEval, ...args) {
+                    try {
+                        return new Function("return " + funcToEval).apply(this).apply(this, args)
+                    } catch (error) {
+                        return { status: 1, message: error.toString() }
+                    }
+                }
             })
 
             // make sure the resources are required
