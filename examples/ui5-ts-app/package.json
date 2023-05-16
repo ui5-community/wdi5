@@ -23,6 +23,7 @@
     "test:protocol": "run-p \"protocol:* -- --headless\"",
     "protocol:devtools": "wdio run test/e2e/protocol/wdio-ui5-devtools.conf.ts",
     "protocol:webdriver": "wdio run test/e2e/protocol/wdio-ui5-webdriver.conf.ts",
+    "test:wz": "wdio run test/e2e/workzone/wdio-ui5-workzone.conf.ts",
     "build:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files",
     "build:ui5": "ui5 build --clean-dest",
     "build:mtar": "mv dist approuter/webapp && mbt build",
