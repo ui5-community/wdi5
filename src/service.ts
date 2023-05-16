@@ -24,6 +24,15 @@ export default class Service implements Services.ServiceInstance {
         Logger.info("started")
         await setup(this._config)
         Logger.info("setup complete")
+
+        // align browser script timeout with wdi5 setting (+ leverage)
+        // this mostly affects browser.executeAsync()
+        const timeout = (this._config["wdi5"]["waitForUI5Timeout"] || 15000) + 1000
+        await browser.setTimeout({ script: timeout })
+
+        Logger.debug(`browser script timeout set to ${timeout}`)
+        Logger.debug(`browser timeouts are ${JSON.stringify(await browser.getTimeouts(), null, 2)}`)
+
         if (browser instanceof MultiRemoteDriver) {
             for (const name of (browser as MultiRemoteDriver).instances) {
                 if (this._capabilities[name].capabilities["wdi5:authentication"]) {

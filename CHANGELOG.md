@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.5.0 (2023-05-09)
+
+
+### Features
+
+* outsource auth tests, drop node 14, make node 16 dev default, align script timeout ([#465](https://github.com/ui5-community/wdi5/issues/465)) ([b2cb381](https://github.com/ui5-community/wdi5/commit/b2cb381f4f8319023a7a37e3946489c94af6ed11))
+
+## 1.4.0 (2023-05-09)
+
+
+### Features
+
+* add exec to ui5 controls to boost performance for data retrieval from many ui5 child controls ([#456](https://github.com/ui5-community/wdi5/issues/456)) ([93116d4](https://github.com/ui5-community/wdi5/commit/93116d4efe01d7ef71c26dc1b63743bb6563e67e))
+
 ### 1.3.3 (2023-04-27)
 
 

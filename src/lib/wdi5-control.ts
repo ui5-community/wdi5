@@ -500,6 +500,15 @@ export class WDI5Control {
         }
         // returns the array of [0: "status", 1: result]
 
+        //special case for exec, passed function needs to be converted to string to be passed to the browser
+        if (methodName === "exec") {
+            if (args[0] && typeof args[0] === "function") {
+                args[0] = args[0].toString()
+            } else if (this._logging) {
+                Logger.error(`cannot execute ${methodName}(), because an argument of type function should be present`)
+            }
+        }
+
         // regular browser-time execution of UI5 control method
         const result = (await clientSide_executeControlMethod(
             webElement,
