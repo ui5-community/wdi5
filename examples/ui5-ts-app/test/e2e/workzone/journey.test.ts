@@ -42,10 +42,15 @@ describe("drive in Work Zone", () => {
 
             When.onTheDetailPage.onTable({ property: "to_Booking" }).iPressRow({ BookingID: "1" })
             Then.onTheItemPage.iSeeThisPage()
+
+            // When.onTheShell.iNavigateBack() // beh, b/c wrong iframe
         })
 
-        await FioriElementsFacade.onTheShell.iNavigateBack()
-        await FioriElementsFacade.onTheShell.iNavigateBack()
+        // await FioriElementsFacade.onTheShell.iNavigateBack()
+        // await FioriElementsFacade.onTheShell.iNavigateBack()
+
+        // we want:
+        await wdi5.wz.iNavigateBack()
 
         await FioriElementsFacade.execute((Given, When, Then) => {
             Then.onTheMainPage.iSeeThisPage()
