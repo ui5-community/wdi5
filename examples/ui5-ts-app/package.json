@@ -13,6 +13,7 @@
     "wdi5": "wdio run wdio-ui5.conf.ts",
     "wdi5:browserstack": "wdio run wdio.conf-browserstack.ts",
     "test": "wdio run wdio-ui5.conf.ts",
+    "test:browserstack": "wdio run test/e2e/cloud-services/browserstack.conf.ts",
     "test:authentication": "run-s authentication:*",
     "test-h:authentication": "run-s \"authentication:* -- --headless\"",
     "test:lateInject": "wdio run wdio-ui5-late.conf.ts",
