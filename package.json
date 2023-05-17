@@ -88,7 +88,7 @@
   },
   "dependencies": {
     "@sap/approuter": "14.1.1",
-    "@wdio/sauce-service": "7.16.13",
+    "@wdio/sauce-service": "8.10.2",
     "dotenv": "^16.0.3",
     "mbt": "0.2.8",
     "semver": "^7.3.8"

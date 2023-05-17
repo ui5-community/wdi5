@@ -39,7 +39,7 @@
     "@sap/approuter": "^14.1.1",
     "@types/jquery": "3.5.14",
     "@wdio/browserstack-service": "^7.30.0",
-    "@wdio/sauce-service": "^7.16.13",
+    "@wdio/sauce-service": "^8.10.2",
     "babel-preset-transform-ui5": "^7.0.5",
     "mbt": "^0.2.8",
     "ts-deepmerge": "^5.0.0",
