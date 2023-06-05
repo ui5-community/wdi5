@@ -6,6 +6,7 @@
   "license": "UNLICENSED",
   "author": "j&s-soft GmbH",
   "main": "webapp/index.html",
+  "type": "module",
   "scripts": {
     "serve": "ui5 serve",
     "test": "run-s test:*",
@@ -14,6 +15,7 @@
     "test:lateInject": "wdio run e2e-test-config/wdio-ui5-late.conf.js",
     "test:ui5tooling": "wdio run e2e-test-config/wdio-ui5tooling.conf.js",
     "test:webserver": "wdio run e2e-test-config/wdio-webserver.conf.js",
+    "test:webserverV8": "wdio run e2e-test-config/wdio-webserver-v8.conf.js",
     "test:multiremote": "wdio run e2e-test-config/wdio-multiremote.conf.js",
     "test:multiversion": "node e2e-test-config/wdi5-multiversion.js",
     "test:urlDeprecation": "wdio run e2e-test-config/wdi5-urlDeprecation.conf.js",

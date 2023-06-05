@@ -9,27 +9,16 @@
     "sapui5"
   ],
   "type": "module",
-  "publishConfig": {
-    "exports": {
-      ".": {
-        "import": {
-          "types": "./dist/mjs/index.d.ts",
-          "default": "./dist/mjs/index.js"
-        },
-        "require": {
-          "types": "./dist/cjs/index.d.ts",
-          "default": "./dist/cjs/index.js"
-        }
-      }
-    }
-  },
-  "main": "dist/cjs/index.js",
-  "module": "dist/mjs/index.js",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/mjs/index.js",
   "exports": {
-    ".": {
-      "import": "./dist/mjs/index.js",
-      "require": "./dist/cjs/index.js"
-    }
+    ".": [
+      {
+        "import": "./dist/mjs/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "./dist/cjs/index.js"
+    ]
   },
   "homepage": "https://github.com/ui5-community/wdi5#readme",
   "repository": {
@@ -56,7 +45,8 @@
     "compile": "tsc --p tsconfig.json",
     "compile:esm": "tsc --p tsconfig-esm.json",
     "build": "run-s -c clean compile compile:esm",
-    "build:watch": "tsc -w",
+    "build:watch": "tsc -w --p tsconfig.json",
+    "build:watch:esm": "tsc -w --p tsconfig-esm.json",
     "// test time": "refers to testing wdio-ui5-service",
     "_startApp:js": "soerver -d ./examples/ui5-js-app/webapp -p 8888 -x ./examples/ui5-js-app/webapp/proxyrc.json",
     "_startApp:js-tooling": "npm run serve --workspace=examples/ui5-js-app",
