@@ -1,4 +1,4 @@
-import wdi5 from "wdio-ui5-service"
+import { wdi5 } from "wdio-ui5-service"
 
 describe("ui5 basic", () => {
     before(async () => {

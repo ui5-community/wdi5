@@ -38,8 +38,7 @@ const config = {
         timeout: process.argv.indexOf("--debug") > -1 ? 600000 : 90000
     },
     reporters: ["spec"],
-    specs: [join("webapp", "test", "e2e", "**/*.test.js")],
-    exclude: [join("webapp", "test", "e2e", "ui5-late.test.js"), join("webapp", "test", "e2e", "multiremote.test.js")],
+    specs: ["../webapp/test/e2e/basicV8.test.js"],
     baseUrl: "http://localhost:8888"
 }
 

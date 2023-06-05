@@ -9,16 +9,9 @@
     "sapui5"
   ],
   "type": "module",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/mjs/index.js",
   "exports": {
-    ".": [
-      {
-        "import": "./dist/mjs/index.js",
-        "require": "./dist/cjs/index.js"
-      },
-      "./dist/cjs/index.js"
-    ]
+    "import": "./dist/mjs/index.js",
+    "require": "./dist/cjs/index.js"
   },
   "homepage": "https://github.com/ui5-community/wdi5#readme",
   "repository": {
@@ -78,9 +71,9 @@
   },
   "dependencies": {
     "@sap/approuter": "14.1.1",
-    "@wdio/sauce-service": "8.10.2",
+    "@wdio/sauce-service": "^7.16.13",
     "dotenv": "^16.0.3",
-    "mbt": "0.2.8",
+    "mbt": "^0.2.12",
     "semver": "^7.3.8"
   },
   "devDependencies": {

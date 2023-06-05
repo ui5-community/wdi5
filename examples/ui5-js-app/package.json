@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@sap/approuter": "14.1.1",
-    "@wdio/sauce-service": "8.10.2",
-    "mbt": "0.2.8"
+    "@wdio/sauce-service": "^7.16.13",
+    "mbt": "^0.2.12"
   }
 }

@@ -1,10 +1,10 @@
 import { Capabilities, Services } from "@wdio/types"
-import { MultiRemoteDriver } from "webdriverio/build/multiremote"
+// import { MultiRemoteDriver } from "webdriverio/build/multiremote"
 
-import { start, injectUI5, setup, checkForUI5Page, authenticate } from "./lib/wdi5-bridge"
+import { start, injectUI5, setup, checkForUI5Page, authenticate } from "./lib/wdi5-bridge.js"
 import { wdi5Config } from "./types/wdi5.types"
 
-import { Logger as _Logger } from "./lib/Logger"
+import { Logger as _Logger } from "./lib/Logger.js"
 const Logger = _Logger.getInstance()
 
 export default class Service implements Services.ServiceInstance {
@@ -33,27 +33,27 @@ export default class Service implements Services.ServiceInstance {
         Logger.debug(`browser script timeout set to ${timeout}`)
         Logger.debug(`browser timeouts are ${JSON.stringify(await browser.getTimeouts(), null, 2)}`)
 
-        if (browser instanceof MultiRemoteDriver) {
-            for (const name of (browser as MultiRemoteDriver).instances) {
-                if (this._capabilities[name].capabilities["wdi5:authentication"]) {
-                    await authenticate(this._capabilities[name].capabilities["wdi5:authentication"], name)
-                }
-                if (!this._config.wdi5.skipInjectUI5OnStart) {
-                    await this.injectUI5(browser[name])
-                } else {
-                    Logger.warn("skipped wdi5 injection!")
-                }
-            }
-        } else {
-            if (this._capabilities["wdi5:authentication"]) {
-                await authenticate(this._capabilities["wdi5:authentication"])
-            }
-            if (!this._config.wdi5.skipInjectUI5OnStart) {
-                await this.injectUI5(browser)
-            } else {
-                Logger.warn("skipped wdi5 injection!")
-            }
+        // if (browser instanceof MultiRemoteDriver) {
+        //     for (const name of (browser as MultiRemoteDriver).instances) {
+        //         if (this._capabilities[name].capabilities["wdi5:authentication"]) {
+        //             await authenticate(this._capabilities[name].capabilities["wdi5:authentication"], name)
+        //         }
+        //         if (!this._config.wdi5.skipInjectUI5OnStart) {
+        //             await this.injectUI5(browser[name])
+        //         } else {
+        //             Logger.warn("skipped wdi5 injection!")
+        //         }
+        //     }
+        // } else {
+        if (this._capabilities["wdi5:authentication"]) {
+            await authenticate(this._capabilities["wdi5:authentication"])
         }
+        if (!this._config.wdi5.skipInjectUI5OnStart) {
+            await this.injectUI5(browser)
+        } else {
+            Logger.warn("skipped wdi5 injection!")
+        }
+        // }
     }
 
     /**

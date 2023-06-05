@@ -1,14 +1,14 @@
 import * as util from "util"
-import { ELEMENT_KEY } from "webdriverio/build/constants"
-import { clientSide_getControl } from "../../client-side-js/getControl"
-import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl"
-import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod"
-import { clientSide_getAggregation } from "../../client-side-js/_getAggregation"
-import { clientSide_fireEvent } from "../../client-side-js/fireEvent"
+// import { ELEMENT_KEY } from "webdriverio/build/constants"
+import { clientSide_getControl } from "../../client-side-js/getControl.cjs"
+import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl.cjs"
+import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod.cjs"
+import { clientSide_getAggregation } from "../../client-side-js/_getAggregation.cjs"
+import { clientSide_fireEvent } from "../../client-side-js/fireEvent.cjs"
 import { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types"
-import { Logger as _Logger } from "./Logger"
-import { wdioApi } from "./wdioApi"
-import { WDI5Object } from "./wdi5-object"
+import { Logger as _Logger } from "./Logger.js"
+import { wdioApi } from "./wdioApi.js"
+import { WDI5Object } from "./wdi5-object.js"
 const Logger = _Logger.getInstance()
 
 /**
@@ -670,7 +670,8 @@ export class WDI5Control {
 
         // When the WebDriver protocol is not used, the domElement is not set accordingly (via devtool protocol)
         // Therefore we get element reference by calling browser execute function manually
-        if (_result.status === 0 && !_result.domElement[ELEMENT_KEY]) {
+        if (_result.status === 0) {
+            // && !_result.domElement[ELEMENT_KEY]
             const elementReference = (await this._browserInstance.execute((id) => {
                 const webElement: Node = document.evaluate(
                     `//*[@id='${id}']`,
