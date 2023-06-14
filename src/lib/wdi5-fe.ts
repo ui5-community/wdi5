@@ -2,7 +2,7 @@ import { initOPA, addToQueue, emptyQueue, loadFELibraries } from "../../client-s
 import { Logger as _Logger } from "./Logger"
 const Logger = _Logger.getInstance()
 
-const commonFunctions = ["and", "then", "when"]
+const commonFunctions = ["and", "when", "then"]
 function createProxy(myObj: any, type: string, methodCalls: any[], pageKeys: string[]) {
     const thisProxy = new Proxy(myObj, {
         get: function (obj, prop: string) {
@@ -34,26 +34,20 @@ export class WDI5FE {
         const methodCalls = []
         const reservedPages = Object.keys(this.appConfig).concat()
         const Given = createProxy({}, "Given", methodCalls, reservedPages)
-        const Then = createProxy({}, "Then", methodCalls, reservedPages)
         const When = createProxy({}, "When", methodCalls, reservedPages)
-        fnFunction(Given, Then, When) // PrepareQueue
-        for (const methodCall of methodCalls) {
-            const [type, content] = await addToQueue(
-                methodCall.type,
-                methodCall.target,
-                methodCall.methods,
-                this.browserInstance
-            )
-            if (type !== "success") {
-                throw content
-            }
+        const Then = createProxy({}, "Then", methodCalls, reservedPages)
+        fnFunction(Given, When, Then) // PrepareQueue
+
+        const addToQueueResponse = await addToQueue(methodCalls, this.browserInstance)
+        if (addToQueueResponse.type !== "success") {
+            throw addToQueueResponse.message
         }
         // ExecuteTest
-        const [type, content, feLogs] = await emptyQueue(this.browserInstance)
-        if (type !== "success") {
-            throw content
+        const emptyQueueResponse = await emptyQueue(this.browserInstance)
+        if (emptyQueueResponse.type !== "success") {
+            throw emptyQueueResponse.message
         }
-        for (const log of feLogs) {
+        for (const log of emptyQueueResponse.feLogs) {
             Logger.success(`[test library] ${log}`)
         }
     }
