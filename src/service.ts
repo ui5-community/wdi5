@@ -31,7 +31,9 @@ export default class Service implements Services.ServiceInstance {
         await browser.setTimeout({ script: timeout })
 
         Logger.debug(`browser script timeout set to ${timeout}`)
-        Logger.debug(`browser timeouts are ${JSON.stringify(await browser.getTimeouts(), null, 2)}`)
+        if (typeof browser.getTimeouts === "function") {
+            Logger.debug(`browser timeouts are ${JSON.stringify(await browser.getTimeouts(), null, 2)}`)
+        }
 
         // if (browser instanceof MultiRemoteDriver) {
         //     for (const name of (browser as MultiRemoteDriver).instances) {

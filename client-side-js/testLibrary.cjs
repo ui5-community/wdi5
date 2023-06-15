@@ -13,7 +13,6 @@ async function initOPA(pageObjectConfig, browserInstance) {
 
                 sap.ui.test.Opa5.createPageObjects(pageConfig)
                 // use the same timouts and intervals that wdi5 uses
-                debugger
                 sap.ui.test.Opa.extendConfig({
                     timeout: Math.floor(window.wdi5.waitForUI5Options.timeout / 1000), // convert milliseconds to seconds
                     pollingInterval: window.wdi5.waitForUI5Options.interval
@@ -44,55 +43,58 @@ async function emptyQueue(browserInstance) {
                 return sap.ui.test.Opa.emptyQueue()
             })
             .then(() => {
-                done(["success", true, window.fe_bridge.Log])
+                done({ type: "success", feLogs: window.fe_bridge.Log })
                 window.fe_bridge.Log = []
             })
             .catch((err) => {
                 window.wdi5.Log.error(err)
-                done(["error", err.errorMessage])
+                done({
+                    type: "error",
+                    message: `The execution of the test library probably took to long. Try to increase the UI5 Timeout or reduce the individual steps. ${err.message}`
+                })
             })
     })
 }
 
-async function addToQueue(type, target, aMethods, browserInstance) {
-    return await browserInstance.executeAsync(
-        (type, target, aMethods, done) => {
-            window.bridge
-                .waitForUI5(window.wdi5.waitForUI5Options)
-                .then(() => {
+async function addToQueue(methodCalls, browserInstance) {
+    return await browserInstance.executeAsync((methodCalls, done) => {
+        window.bridge
+            .waitForUI5(window.wdi5.waitForUI5Options)
+            .then(() => {
+                for (const methodCall of methodCalls) {
                     let scope
-                    switch (type) {
+                    switch (methodCall.type) {
                         case "Given":
                             scope = sap.ui.test.Opa.config.arrangements
                             break
-                        case "Then":
+                        case "When":
                             scope = sap.ui.test.Opa.config.actions
                             break
-                        case "When":
+                        case "Then":
                             scope = sap.ui.test.Opa.config.assertions
                             break
                     }
-                    scope = scope[target]
+                    scope = scope[methodCall.target]
                     // execute all passed in methods
-                    aMethods.reduce((obj, methodInfo) => {
+                    methodCall.methods.reduce((obj, methodInfo) => {
                         if (methodInfo.accessor) {
                             return obj[methodInfo.name]
                         }
                         return obj[methodInfo.name].apply(obj, methodInfo.args)
                     }, scope)
+                }
+            })
+            .then(() => {
+                done({ type: "success" })
+            })
+            .catch((err) => {
+                window.wdi5.Log.error(err)
+                done({
+                    type: "error",
+                    message: `The test library was called with unknown functions! ${err.toString()}`
                 })
-                .then(() => {
-                    done(["success", true])
-                })
-                .catch((err) => {
-                    window.wdi5.Log.error(err)
-                    done(["error", err.toString()])
-                })
-        },
-        type,
-        target,
-        aMethods
-    )
+            })
+    }, methodCalls)
 }
 
 async function loadFELibraries(browserInstance = browser) {

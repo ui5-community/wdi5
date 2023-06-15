@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.5.1 (2023-06-14)
+
+
+### Bug Fixes
+
+* safeguard browser.getTimeouts logging ([#483](https://github.com/ui5-community/wdi5/issues/483)) ([7ddd2ba](https://github.com/ui5-community/wdi5/commit/7ddd2ba1bd2368eb1a29fcf45e071ca4afa62d53)), closes [#473](https://github.com/ui5-community/wdi5/issues/473)
+
 ## 1.5.0 (2023-05-09)
 
 
