@@ -1,5 +1,5 @@
 import Button from "sap/m/Button"
-import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
+import { wdi5Selector } from "wdio-ui5-service/dist/esm/types/wdi5.types"
 
 describe("Basic", async () => {
     it("browser.allControls: check number of buttons", async () => {
