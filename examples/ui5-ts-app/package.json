@@ -1,6 +1,7 @@
 {
   "name": "ui5-ts-app",
   "version": "0.8.15-notimportant",
+  "type": "module",
   "private": true,
   "description": "UI5 Application: tsapp",
   "author": "nosotros-todos@ui5-community.org",
@@ -41,7 +42,7 @@
     "@wdio/sauce-service": "^8",
     "babel-preset-transform-ui5": "latest",
     "mbt": "latest",
-    "ts-deepmerge": "^5.0.0",
+    "ts-deepmerge": "latest",
     "ui5-middleware-simpleproxy": "latest",
     "wdio-ui5-service": "*"
   },
