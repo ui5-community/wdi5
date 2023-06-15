@@ -3,7 +3,7 @@
     "rootDir": "src",
     "esModuleInterop": true,
     "target": "ESNext",
-    "outDir": "dist/mjs",
+    "outDir": "dist/esm",
     "module": "ESNext",
     "moduleResolution": "node",
     "sourceMap": true,
