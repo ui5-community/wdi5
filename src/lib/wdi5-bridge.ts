@@ -5,9 +5,9 @@ import * as semver from "semver"
 import { mark as marky_mark, stop as marky_stop } from "marky"
 
 import { clientSide_ui5Object, clientSide_ui5Response, wdi5Config, wdi5Selector } from "../types/wdi5.types"
-// import { MultiRemoteDriver } from "webdriverio/build/multiremote"
+import * as MultiRemote from "webdriverio/build/multiremote.js"
 import { WDI5Control } from "./wdi5-control.js"
-// import { WDI5FE } from "./wdi5-fe.js"
+import { WDI5FE } from "./wdi5-fe.js"
 import { clientSide_injectTools } from "../../client-side-js/injectTools.cjs"
 import { clientSide_injectUI5 } from "../../client-side-js/injectUI5.cjs"
 import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement.cjs"
@@ -44,14 +44,14 @@ export async function setup(config: wdi5Config) {
     // jump-start the desired log level
     Logger.setLogLevel(config.wdi5.logLevel || "error")
 
-    // if (browser instanceof MultiRemoteDriver) {
-    //     ;(browser as MultiRemoteDriver).instances.forEach((name) => {
-    //         initBrowser(browser[name])
-    //     })
-    //     initMultiRemoteBrowser()
-    // } else {
-    initBrowser(browser)
-    // }
+    if (browser instanceof MultiRemote.MultiRemoteDriver) {
+        ;(browser as MultiRemote.MultiRemoteDriver).instances.forEach((name) => {
+            initBrowser(browser[name])
+        })
+        initMultiRemoteBrowser()
+    } else {
+        initBrowser(browser)
+    }
 
     _setupComplete = true
 }
@@ -72,7 +72,7 @@ function initMultiRemoteBrowser() {
     ;["asControl", "goTo", "screenshot", "waitForUI5", "getUI5Version", "getSelectorForElement", "allControls"].forEach(
         (command) => {
             browser.addCommand(command, async (...args) => {
-                const multiRemoteInstance = browser as unknown as MultiRemoteDriver
+                const multiRemoteInstance = browser as unknown as MultiRemote.MultiRemoteDriver
                 const result = []
                 multiRemoteInstance.instances.forEach((name) => {
                     result.push(multiRemoteInstance[name][command].apply(this, args))
@@ -92,9 +92,9 @@ function initBrowser(browserInstance: WebdriverIO.Browser) {
 
     _addWdi5Commands(browserInstance)
 
-    // if (!(browserInstance as any).fe) {
-    //     ;(browserInstance as any).fe = WDI5FE
-    // }
+    if (!(browserInstance as any).fe) {
+        ;(browserInstance as any).fe = WDI5FE
+    }
 
     _setupComplete = true
 }
