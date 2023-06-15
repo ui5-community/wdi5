@@ -8,11 +8,7 @@
     "declarationMap": true,
     "downlevelIteration": true,
     "moduleResolution": "node",
-    "types": ["node", "@wdio/globals/types", "@wdio/mocha-framework", "openui5"],
-    "baseUrl": ".",
-    "paths": {
-      "client-side-js": ["client-side-js"]
-    }
+    "types": ["node", "@wdio/globals/types", "@wdio/mocha-framework", "openui5"]
   },
   "include": ["src"]
 }

@@ -23,8 +23,7 @@
   "author": "the UI5 community <do_not_use@openui5.org> (https://github.com/ui5-community)",
   "types": "dist/esm/index.d.ts",
   "files": [
-    "dist",
-    "client-side-js"
+    "dist"
   ],
   "workspaces": [
     ".",
@@ -37,11 +36,12 @@
     "// build time": "refers to developing wdi5/wdio-ui5-service itself",
     "clean": "rimraf dist/*",
     "compile": "tsc --p tsconfig-cjs.json",
-    "compile:esm": "tsc --p tsconfig-esm.json",
-    "build": "run-s -c clean compile compile:esm",
-    "build:watch": "run-p -r _build:watch:cjs _build:watch:esm",
+    "_cp_client-side-js": "cp -r client-side-js dist/",
+    "compile:esm": "tsc --p tsconfig.json",
+    "build": "run-s -c clean _cp_client-side-js compile compile:esm",
+    "build:watch": "npm-run-all _cp_client-side-js --parallel _build:watch:cjs _build:watch:esm",
     "_build:watch:cjs": "tsc -w --p tsconfig-cjs.json",
-    "_build:watch:esm": "tsc -w --p tsconfig-esm.json",
+    "_build:watch:esm": "tsc -w --p tsconfig.json",
     "// test time": "refers to testing wdio-ui5-service",
     "_startApp:js": "soerver -d ./examples/ui5-js-app/webapp -p 8888 -x ./examples/ui5-js-app/webapp/proxyrc.json",
     "_startApp:js-tooling": "npm run serve --workspace=examples/ui5-js-app",
