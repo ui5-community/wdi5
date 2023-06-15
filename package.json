@@ -3,6 +3,7 @@
   "version": "1.5.1",
   "description": "WebdriverIO plugin for testing UI5 browser-based apps",
   "keywords": [
+    "wdi5",
     "wdio-service",
     "ui5",
     "openui5",
