@@ -6,7 +6,6 @@
   "license": "UNLICENSED",
   "author": "j&s-soft GmbH",
   "main": "webapp/index.html",
-  "type": "module",
   "scripts": {
     "serve": "ui5 serve",
     "test": "run-s test:*",
