@@ -8,7 +8,7 @@
     "declaration": true,
     "declarationMap": true,
     "downlevelIteration": true,
-    "types": ["node", "webdriverio/async", "@wdio/mocha-framework", "openui5"]
+    "types": ["node", "@wdio/globals/types", "@wdio/mocha-framework", "openui5"]
   },
   "include": ["src"]
 }
