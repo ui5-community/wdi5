@@ -70,15 +70,13 @@
     "*.ts": "eslint --cache --fix"
   },
   "dependencies": {
-    "@sap/approuter": "14.1.1",
-    "@wdio/sauce-service": "^7.16.13",
     "dotenv": "^16.0.3",
-    "mbt": "^0.2.12",
     "semver": "^7.3.8"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
+    "@sap/approuter": "14.1.1",
     "@sap/ux-ui5-fe-mockserver-middleware": "^1.6.5",
     "@types/openui5": "^1.108.0",
     "@types/sinon": "^10.0.13",
@@ -88,6 +86,7 @@
     "@wdio/cli": "^8",
     "@wdio/local-runner": "^8",
     "@wdio/mocha-framework": "^8",
+    "@wdio/sauce-service": "^8",
     "@wdio/spec-reporter": "^8",
     "@wdio/types": "^8",
     "chromedriver": "latest",
@@ -100,6 +99,7 @@
     "husky": "^8.0.2",
     "lint-staged": "^13.0.3",
     "marky": "^1.2.5",
+    "mbt": "^1.2.23",
     "mocha": "^10.1.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
