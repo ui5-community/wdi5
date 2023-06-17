@@ -113,7 +113,7 @@ function checkUI5Version(ui5Version: string) {
  * attach the sap/ui/test/RecordReplay object to the application context window object as 'bridge'
  */
 export async function injectUI5(config: wdi5Config, browserInstance) {
-    const waitForUI5Timeout = config.wdi5.waitForUI5Timeout || 15000
+    const waitForUI5Timeout = config.wdi5?.waitForUI5Timeout || 15000
     let result = true
 
     const version = await (browserInstance as WebdriverIO.Browser).getUI5Version()
