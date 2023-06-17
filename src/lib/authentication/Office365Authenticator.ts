@@ -1,5 +1,5 @@
 import { Office365Authenticator as Office365AuthenticatorType } from "../../types/wdi5.types"
-import Authenticator from "./Authenticator"
+import Authenticator from "./Authenticator.js"
 
 class Office365Authenticator extends Authenticator {
     staySignedIn: boolean
