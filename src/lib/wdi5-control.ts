@@ -393,7 +393,7 @@ export class WDI5Control {
                     }
                 }
 
-                // get WDI5 control
+                // get wdi5 control
                 aResultOfPromises.push(this._browserInstance.asControl(selector))
             })
 
@@ -425,7 +425,7 @@ export class WDI5Control {
                 }
             }
 
-            // get WDI5 control
+            // get wdi5 control
             eResult = await this._browserInstance.asControl(selector)
         } else {
             if (this._logging) {
