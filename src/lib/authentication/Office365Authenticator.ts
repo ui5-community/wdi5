@@ -27,7 +27,7 @@ class Office365Authenticator extends Authenticator {
                 await browser.waitUntil(async () => await (await $("#KmsiDescription")).isClickable(), {
                     timeout: 5000,
                     timeoutMsg:
-                        "StaySignedIn step is not visible. If this step doesnt exist, set in wdi5 configuration 'staySignedIn' option to false."
+                        "StaySignedIn step is not visible. If this step doesn't exist, set in wdi5 configuration 'staySignedIn' option to false."
                 })
                 await $(this.submitSelector).click()
             }
