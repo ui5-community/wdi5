@@ -1,5 +1,3 @@
-// import { MultiRemoteDriver } from "webdriverio/build/multiremote"
-
 export default class Authenticator {
     usernameSelector: string
     passwordSelector: string
@@ -17,18 +15,18 @@ export default class Authenticator {
     }
 
     getUsername(): string {
-        const envName = "wdi5_username"
-        // if (browser instanceof MultiRemoteDriver) {
-        //     envName = `wdi5_${this.browserInstanceName}_username`
-        // }
+        let envName = "wdi5_username"
+        if (browser.isMultiremote) {
+            envName = `wdi5_${this.browserInstanceName}_username`
+        }
         return process.env[envName]
     }
 
     getPassword(): string {
-        const envName = "wdi5_password"
-        // if (browser instanceof MultiRemoteDriver) {
-        //     envName = `wdi5_${this.browserInstanceName}_password`
-        // }
+        let envName = "wdi5_password"
+        if (browser.isMultiremote) {
+            envName = `wdi5_${this.browserInstanceName}_password`
+        }
         return process.env[envName]
     }
 
