@@ -1,5 +1,7 @@
 import * as util from "util"
-// import { ELEMENT_KEY } from "webdriverio/build/constants"
+const ELEMENT_KEY = "element-6066-11e4-a52e-4f735466cecf"
+// TODO: import { ELEMENT_KEY } from "webdriverio/build/constants.js"
+// patch in webdriverio repo?
 import { clientSide_getControl } from "../../client-side-js/getControl.cjs"
 import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl.cjs"
 import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod.cjs"
@@ -545,7 +547,7 @@ export class WDI5Control {
                 } else if (String(args[0]) && typeof args[0] === "number") {
                     // here we're retrieving the UI5 control at index args[0] from the aggregation
                     if (args[0] <= result.result.length) {
-                        // retieve only one
+                        // retrieve only one
                         // need some code of separate feature branch here
                         const wdioElement = result.result[args[0]]
                         return await this._retrieveElement(wdioElement)
@@ -670,8 +672,7 @@ export class WDI5Control {
 
         // When the WebDriver protocol is not used, the domElement is not set accordingly (via devtool protocol)
         // Therefore we get element reference by calling browser execute function manually
-        if (_result.status === 0) {
-            // && !_result.domElement[ELEMENT_KEY]
+        if (_result.status === 0 && !_result.domElement[ELEMENT_KEY]) {
             const elementReference = (await this._browserInstance.execute((id) => {
                 const webElement: Node = document.evaluate(
                     `//*[@id='${id}']`,
