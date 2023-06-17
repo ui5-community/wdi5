@@ -7,7 +7,7 @@ import { mark as marky_mark, stop as marky_stop } from "marky"
 import { clientSide_ui5Object, clientSide_ui5Response, wdi5Config, wdi5Selector } from "../types/wdi5.types"
 import { MultiRemoteBrowser } from "webdriverio"
 import { WDI5Control } from "./wdi5-control.js"
-// import { WDI5FE } from "./wdi5-fe.js"
+import { WDI5FE } from "./wdi5-fe.js"
 import { clientSide_injectTools } from "../../client-side-js/injectTools.cjs"
 import { clientSide_injectUI5 } from "../../client-side-js/injectUI5.cjs"
 import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement.cjs"
@@ -18,10 +18,10 @@ import { clientSide__navTo } from "../../client-side-js/_navTo.cjs"
 import { clientSide_allControls } from "../../client-side-js/allControls.cjs"
 import { Logger as _Logger } from "./Logger.js"
 import { WDI5Object } from "./wdi5-object.js"
-// import BTPAuthenticator from "./authentication/BTPAuthenticator.js"
-// import BasicAuthenticator from "./authentication/BasicAuthenticator.js"
-// import CustomAuthenticator from "./authentication/CustomAuthenticator.js"
-// import Office365Authenticator from "./authentication/Office365Authenticator.js"
+import BTPAuthenticator from "./authentication/BTPAuthenticator.js"
+import BasicAuthenticator from "./authentication/BasicAuthenticator.js"
+import CustomAuthenticator from "./authentication/CustomAuthenticator.js"
+import Office365Authenticator from "./authentication/Office365Authenticator.js"
 
 const Logger = _Logger.getInstance()
 
@@ -92,9 +92,9 @@ function initBrowser(browserInstance: WebdriverIO.Browser) {
 
     _addWdi5Commands(browserInstance)
 
-    // if (!(browserInstance as any).fe) {
-    //     ;(browserInstance as any).fe = WDI5FE
-    // }
+    if (!(browserInstance as any).fe) {
+        ;(browserInstance as any).fe = WDI5FE
+    }
 
     _setupComplete = true
 }
@@ -148,16 +148,16 @@ export async function checkForUI5Page(browserInstance) {
 export async function authenticate(options, browserInstanceName?) {
     switch (options.provider) {
         case "BTP":
-            // await new BTPAuthenticator(options, browserInstanceName).login()
+            await new BTPAuthenticator(options, browserInstanceName).login()
             break
         case "BasicAuth":
-            // await new BasicAuthenticator(browserInstanceName).login()
+            await new BasicAuthenticator(browserInstanceName).login()
             break
         case "Office365":
-            // await new Office365Authenticator(options, browserInstanceName).login()
+            await new Office365Authenticator(options, browserInstanceName).login()
             break
         case "custom":
-        // await new CustomAuthenticator(options, browserInstanceName).login()
+            await new CustomAuthenticator(options, browserInstanceName).login()
         default:
             break
     }
@@ -247,7 +247,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
         const _result = (await clientSide_getObject(_uuid)) as clientSide_ui5Object
         const { uuid, status, aProtoFunctions, className, object } = _result
         if (status === 0) {
-            // create new WDI5-Object
+            // create new wdi5-Object
             const wdiOjject = new WDI5Object(uuid, aProtoFunctions, object)
             return wdiOjject
         }
@@ -384,10 +384,10 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
     // await browser.asControl(selector).methodOfUI5control().anotherMethodOfUI5control()
     // the way this works is twofold:
     // 1. (almost) all UI5 $control's API methods are reinjected from the browser-scope
-    //    into the Node.js scope via async WDI5._executeControlMethod(), which in term actually calls
+    //    into the Node.js scope via async wdi5._executeControlMethod(), which in term actually calls
     //    the reinjected API method within the browser scope
-    // 2. the execution of each UI5 $control's API method (via async WDI5._executeControlMethod() => Promise) is then chained
-    //    via the below "then"-ing of the (async WDI5._executeControlMethod() => Promise)-Promises with the help of
+    // 2. the execution of each UI5 $control's API method (via async wdi5._executeControlMethod() => Promise) is then chained
+    //    via the below "then"-ing of the (async wdi5._executeControlMethod() => Promise)-Promises with the help of
     //    the a Proxy and a recursive `handler` function
     if (!browserInstance.asControl) {
         browserInstance.asControl = function (ui5ControlSelector) {
@@ -496,7 +496,7 @@ async function _allControls(controlSelector = this._controlSelector, browserInst
 
         return resultWDi5Elements
     } else {
-        return "[WDI5] Error: fetch multiple elements failed: " + response.message
+        return "[wdi5] Error: fetch multiple elements failed: " + response.message
     }
 }
 
