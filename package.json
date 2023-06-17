@@ -37,10 +37,11 @@
   "scripts": {
     "// build time": "refers to developing wdi5/wdio-ui5-service itself",
     "clean": "rimraf dist/*",
-    "build": "run-s -c clean _build:cjs _build:esm",
+    "build": "run-s -c clean _build:cjs _build:cjs:pkgJson _build:esm",
+    "_build:cjs:pkgJson": "node .retrofit-pkg-json.js",
     "_build:cjs": "tsc --p tsconfig-cjs.json",
     "_build:esm": "tsc --p tsconfig.json",
-    "build:watch": "npm-run-all clean --parallel _build:watch:cjs _build:watch:esm",
+    "build:watch": "npm-run-all clean --parallel _build:watch:cjs _build:cjs:pkgJson _build:watch:esm",
     "_build:watch:cjs": "tsc -w --p tsconfig-cjs.json",
     "_build:watch:esm": "tsc -w --p tsconfig.json",
     "// test time": "refers to testing wdio-ui5-service",
