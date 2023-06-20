@@ -11,8 +11,8 @@
   "scripts": {
     "deploy": "npx -p @sap/ux-ui5-tooling fiori add deploy-config cf",
     "test": "run-s test:*",
-    "test:wdi5": "wdio run wdio.conf.js --headless",
-    "test:multiremote": "wdio run wdio-multiremote.conf.js --headless",
+    "test:multiremote": "wdio run wdio-multiremote.conf.js",
+    "test:wdi5": "wdio run wdio.conf.js ",
     "serve": "ui5 serve --port 8088"
   },
   "devDependencies": {
