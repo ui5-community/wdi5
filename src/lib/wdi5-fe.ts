@@ -1,5 +1,6 @@
 import { initOPA, addToQueue, emptyQueue, loadFELibraries } from "../../client-side-js/testLibrary"
 import { Logger as _Logger } from "./Logger"
+import { MultiRemoteDriver } from "webdriverio/build/multiremote"
 const Logger = _Logger.getInstance()
 
 const commonFunctions = ["and", "when", "then"]
@@ -24,10 +25,19 @@ function createProxy(myObj: any, type: string, methodCalls: any[], pageKeys: str
 }
 export class WDI5FE {
     constructor(private appConfig: any, private browserInstance: any) {}
-    static async initialize(appConfig, browserInstance = browser) {
-        await loadFELibraries(browserInstance)
-        await initOPA(appConfig, browserInstance)
-        return new WDI5FE(appConfig, browserInstance)
+    static async initialize(appConfig) {
+        if (browser instanceof MultiRemoteDriver) {
+            // create for every instance a new facade and load all relevant libraries
+            return (browser["instances"] as []).reduce(async (facade, browserName) => {
+                await loadFELibraries(browser[browserName])
+                await initOPA(appConfig, browser[browserName])
+                return Object.assign(await facade, { [browserName]: new WDI5FE(appConfig, browser[browserName]) })
+            }, {})
+        } else {
+            await loadFELibraries(browser)
+            await initOPA(appConfig, browser)
+            return new WDI5FE(appConfig, browser)
+        }
     }
 
     async execute(fnFunction) {

@@ -92,8 +92,8 @@ function initBrowser(browserInstance: WebdriverIO.Browser) {
 
     _addWdi5Commands(browserInstance)
 
-    if (!(browserInstance as any).fe) {
-        ;(browserInstance as any).fe = WDI5FE
+    if (!(browser as any).fe) {
+        ;(browser as any).fe = WDI5FE
     }
 
     _setupComplete = true
