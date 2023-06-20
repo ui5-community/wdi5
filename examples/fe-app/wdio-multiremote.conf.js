@@ -7,7 +7,7 @@ exports.config = {
         waitForUI5Timeout: 30000
     },
     //// wdio runner config
-    specs: [join("webapp", "wdi5-test", "**/multiremote.test.js")],
+    specs: [join("webapp", "wdi5-test", "**/Multiremote.test.js")],
     // Patterns to exclude.
     exclude: [],
     //// capabilities ("browser") config
