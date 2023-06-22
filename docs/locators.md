@@ -33,6 +33,8 @@ Here are couple of samples to get you comfortable with `wdi5`'s/OPA5's locators/
 
 Get a "child" control from a "parent" (ancestor).
 
+!> the declarative matcher for the `ancestor` is available as of UI5 version `1.72`
+
 ?> the optional parameter `direct` as described [in the API](https://sapui5.hana.ondemand.com/#/api/sap.ui.test.matchers.Ancestor) is currently not possible. So the locator searches all parents/descendents in the hierarchy and not only the next one in the DOM Tree
 
 ```javascript
