@@ -84,6 +84,7 @@
     "chromedriver": "latest",
     "cross-env": "^7.0.3",
     "deepmerge": "^4.2.2",
+    "docsify-cli": "4.4.4",
     "eslint": "^8.27.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
