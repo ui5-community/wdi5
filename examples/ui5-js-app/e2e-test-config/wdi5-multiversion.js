@@ -1,7 +1,7 @@
 const fsExtra = require("fs-extra")
 const path = require("path")
 const replace = require("replace-in-file")
-const Launcher = require("@wdio/cli").default
+const { Launcher, run } = require("@wdio/cli")
 
 // lts versions (> 1.60)
 // empty string will get the newest Version which can be a "SNAPSHOT" version
