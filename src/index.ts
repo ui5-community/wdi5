@@ -8,3 +8,4 @@ export default Service
 export const launcher = Launcher
 export const wdi5 = _wdi5
 export * from "./types/browser-commands.js"
+export * from "./types/wdi5.types.js"
