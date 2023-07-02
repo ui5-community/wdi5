@@ -1,5 +1,5 @@
 import merge from "ts-deepmerge"
-import { wdi5MultiRemoteCapability } from "wdio-ui5-service/esm/types/wdi5.types"
+import { wdi5MultiRemoteCapability } from "wdio-ui5-service"
 import { config as baseConf } from "./wdio-base.conf.js"
 import { browser } from "../cloud-services/browserstack.conf.local.js"
 
