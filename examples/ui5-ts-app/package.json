@@ -45,10 +45,5 @@
     "ts-deepmerge": "latest",
     "ui5-middleware-simpleproxy": "latest",
     "wdio-ui5-service": "*"
-  },
-  "ui5": {
-    "dependencies": [
-      "ui5-middleware-simpleproxy"
-    ]
   }
 }
