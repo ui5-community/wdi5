@@ -24,3 +24,11 @@ server:
       afterMiddleware: compression
     - name: ui5-middleware-livereload
       afterMiddleware: compression
+builder:
+  customTasks:
+    - name: ui5-tooling-transpile-task
+      afterTask: replaceVersion
+      configuration:
+        debug: true
+        transformAsyncToPromise: true
+        removeConsoleStatements: true
