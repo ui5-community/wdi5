@@ -43,7 +43,9 @@
     "babel-preset-transform-ui5": "latest",
     "mbt": "latest",
     "ts-deepmerge": "latest",
+    "ui5-middleware-livereload": "latest",
     "ui5-middleware-simpleproxy": "latest",
+    "ui5-tooling-transpile": "latest",
     "wdio-ui5-service": "*"
   }
 }

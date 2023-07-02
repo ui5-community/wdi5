@@ -20,3 +20,7 @@ server:
         baseUri: "https://services.odata.org/V2"
         strictSSL: false
         debug: true
+    - name: ui5-tooling-transpile-middleware
+      afterMiddleware: compression
+    - name: ui5-middleware-livereload
+      afterMiddleware: compression
