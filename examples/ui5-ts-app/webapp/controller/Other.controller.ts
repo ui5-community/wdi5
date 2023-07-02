@@ -1,7 +1,7 @@
 import Text from "sap/m/Text"
 import List from "sap/ui/webc/main/List"
 import StandardListItem from "sap/ui/webc/main/StandardListItem"
-import BaseController from "./BaseController.js"
+import BaseController from "./BaseController"
 
 /**
  * @namespace test.Sample.tsapp.controller

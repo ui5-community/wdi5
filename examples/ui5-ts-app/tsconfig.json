@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "module": "ESNext",
-    "moduleResolution": "NodeNext",
     "types": ["node", "@wdio/globals/types", "@wdio/mocha-framework", "wdio-ui5-service/esm", "@openui5/types"]
   }
 }

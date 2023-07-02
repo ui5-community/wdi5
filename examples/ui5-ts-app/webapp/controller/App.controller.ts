@@ -1,4 +1,4 @@
-import BaseController from "./BaseController.js"
+import BaseController from "./BaseController"
 
 /**
  * @namespace test.Sample.tsapp.controller

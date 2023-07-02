@@ -1,4 +1,4 @@
-import BaseController from "./BaseController.js"
+import BaseController from "./BaseController"
 import oDataModel from "sap/ui/model/odata/v2/ODataModel"
 
 /**
