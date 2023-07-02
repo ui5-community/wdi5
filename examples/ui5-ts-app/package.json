@@ -38,6 +38,7 @@
     "@openui5/types": "latest",
     "@sap/approuter": "latest",
     "@types/jquery": "3.5.14",
+    "@ui5/cli": "^3",
     "@wdio/browserstack-service": "^8",
     "@wdio/sauce-service": "^8",
     "babel-preset-transform-ui5": "latest",
