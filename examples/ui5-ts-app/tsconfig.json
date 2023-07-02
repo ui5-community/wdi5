@@ -11,7 +11,7 @@
     "paths": {
       "test/Sample/tsapp/*": ["./webapp/*"]
     },
-    "types": ["node", "@wdio/globals/types", "@wdio/mocha-framework", "wdio-ui5-service/esm", "@openui5/types"]
+    "types": ["node", "@openui5/types"]
   },
   "include": ["./webapp/**/*"]
 }
