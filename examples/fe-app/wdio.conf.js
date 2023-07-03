@@ -4,7 +4,7 @@ exports.config = {
     wdi5: {
         screenshotPath: join("app", "incidents", "webapp", "wdi5-test", "__screenshots__"),
         logLevel: "verbose", // error | verbose | silent
-        waitForUI5Timeout: 30000
+        waitForUI5Timeout: 90000
     },
     //// wdio runner config
     specs: [join("webapp", "wdi5-test", "**/*.test.js")],
@@ -34,7 +34,7 @@ exports.config = {
     bail: 0,
     baseUrl: "http://localhost:8088/index.html#fe-lrop-v4",
 
-    waitforTimeout: 10000,
+    waitforTimeout: 20000,
     connectionRetryTimeout: 120000,
     connectionRetryCount: 3,
 

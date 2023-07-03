@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - main-v2
     paths:
       # relevant
       - "client-side-js/**"

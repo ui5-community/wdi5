@@ -1,5 +1,5 @@
 import Input from "sap/m/Input"
-import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
+import { wdi5Selector } from "wdio-ui5-service"
 
 describe("Input", async () => {
     it("should read name from username field", async () => {

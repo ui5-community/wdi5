@@ -1,4 +1,4 @@
-import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
+import { wdi5Selector } from "wdio-ui5-service"
 import Button from "sap/ui/webc/main/Button"
 
 describe("Protocol", async () => {

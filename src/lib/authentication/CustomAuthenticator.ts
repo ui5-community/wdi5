@@ -1,6 +1,6 @@
 import { CustomAuthenticator as CustomAuthenticatorType } from "../../types/wdi5.types"
-import { Logger } from "../Logger"
-import Authenticator from "./Authenticator"
+import { Logger } from "../Logger.js"
+import Authenticator from "./Authenticator.js"
 
 class CustomAuthenticator extends Authenticator {
     constructor(

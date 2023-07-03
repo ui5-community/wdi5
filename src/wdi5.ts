@@ -1,5 +1,5 @@
-import Authenticator from "./lib/authentication/Authenticator"
-import { Logger } from "./lib/Logger"
+import Authenticator from "./lib/authentication/Authenticator.js"
+import { Logger } from "./lib/Logger.js"
 
 const authenticatorInstances = {}
 

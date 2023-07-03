@@ -62,7 +62,7 @@ describe("ui5 aggregation retrieval", () => {
 
     it("get list aggregation and validate items", async () => {
         // action:
-        // get the aggreagation -> returns array of WDI5 controls
+        // get the aggreagation -> returns array of wdi5 controls
         const items = await Other.getListItems()
 
         // assertions:
