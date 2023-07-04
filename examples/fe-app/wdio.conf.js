@@ -9,7 +9,7 @@ exports.config = {
     //// wdio runner config
     specs: [join("webapp", "wdi5-test", "**/*.test.js")],
     // Patterns to exclude.
-    exclude: [],
+    exclude: [join("webapp", "wdi5-test", "**/Multiremote.test.js")],
     //// capabilities ("browser") config
     maxInstances: 10,
     capabilities: [
