@@ -24,10 +24,9 @@
     "protocol:devtools": "wdio run test/e2e/protocol/wdio-ui5-devtools.conf.ts",
     "protocol:webdriver": "wdio run test/e2e/protocol/wdio-ui5-webdriver.conf.ts",
     "build:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files",
-    "build:ui5": "ui5 build --clean-dest",
-    "build:mtar": "mv dist approuter/webapp && mbt build",
+    "build:ui5": "ui5 build --clean-dest --include-task=generateManifestBundle",
     "clean": "rimraf dist webapp approuter/webapp",
-    "build:cf": "npm-run-all --sequential clean build:ts build:ui5 build:mtar"
+    "build:cf": "mbt build"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.10",
@@ -43,11 +42,13 @@
     "mbt": "^1.2.18",
     "ts-deepmerge": "^5.0.0",
     "ui5-middleware-simpleproxy": "^0.9.0",
+    "ui5-task-zipper": "^0.6.1",
     "wdio-ui5-service": "*"
   },
   "ui5": {
     "dependencies": [
-      "ui5-middleware-simpleproxy"
+      "ui5-middleware-simpleproxy",
+      "ui5-task-zipper"
     ]
   }
 }

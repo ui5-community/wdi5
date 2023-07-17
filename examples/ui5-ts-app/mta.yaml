@@ -1,33 +1,107 @@
-ID: ui5-approuter
+ID: wdi5-sample-app
 _schema-version: 3.2.0
 version: 1.0.0
 parameters:
   enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm run clean
+        - npm run build:ts
+        - npm run build:ui5
+        - cp -r dist approuter/webapp
 
 modules:
-  - name: approuter
+  - name: wdi5-sample-app
     type: approuter.nodejs
     path: ./approuter
     parameters:
       disk-quota: 256M
       memory: 256M
-      routes:
-        - route: wdi5-sample-app.cfapps.eu20.hana.ondemand.com
     requires:
-      - name: html5-destination
-      - name: html5-uaa
+      - name: wdi5-sample-app-destination
+      - name: wdi5-sample-app-uaa
+      - name: wdi5-sample-app-repo-runtime
+
+  - name: test.Sample.tsapp
+    type: html5
+    path: ./
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - echo "no additional step required"
+      supported-platforms: []
+
+  - name: wdi5-sample-app-deployer
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: wdi5-sample-app-repo-host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - artifacts:
+            - test.Sample.tsapp.zip
+          name: test.Sample.tsapp
+          target-path: resources/
+
+  - name: wdi5-sample-app-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: wdi5-sample-app-uaa
+        parameters:
+          service-key:
+            name: wdi5-sample-app-uaa-key
+      - name: wdi5-sample-app-repo-host
+        parameters:
+          service-key:
+            name: wdi5-sample-app-repo-host-key
+      - name: wdi5-sample-app-destination
+        parameters:
+          content-target: true
+    parameters:
+      content:
+        subaccount:
+          destinations:
+            - Name: wdi5-sample-app-repo-host
+              ServiceInstanceName: wdi5-sample-app-repo-host
+              ServiceKeyName: wdi5-sample-app-repo-host-key
+              sap.cloud.service: wdi5.samples
+            - Authentication: OAuth2UserTokenExchange
+              Name: wdi5-sample-app-uaa
+              ServiceInstanceName: wdi5-sample-app-uaa
+              ServiceKeyName: wdi5-sample-app-uaa-key
+              sap.cloud.service: wdi5.samples
+          existing_destinations_policy: update
+    build-parameters:
+      no-source: true
+
 resources:
-  - name: html5-destination
+  - name: wdi5-sample-app-destination
     type: org.cloudfoundry.managed-service
     parameters:
       service-plan: lite
       service: destination
       path: ./destinations.json
-  - name: html5-uaa
+  - name: wdi5-sample-app-uaa
     type: org.cloudfoundry.managed-service
     parameters:
       service: xsuaa
       service-plan: application
       config:
-        xsappname: "ui5-approuter-uaa"
+        xsappname: "wdi5-sample-app"
         tenant-mode: dedicated
+  - name: wdi5-sample-app-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+  - name: wdi5-sample-app-repo-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: app-runtime
+      service: html5-apps-repo

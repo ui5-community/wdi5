@@ -22,22 +22,16 @@
       "destination": "ui5"
     },
     {
-      "source": "^/no-auth/(.*)$",
-      "target": "$1",
-      "authenticationType": "none",
-      "localDir": "webapp/"
-    },
-    {
-      "source": "^/xsuaa/(.*)$",
-      "target": "$1",
+      "source": "^index.html$",
+      "service": "html5-apps-repo-rt",
       "authenticationType": "xsuaa",
-      "localDir": "webapp/"
+      "cacheControl": "no-cache, no-store, must-revalidate"
     },
     {
-      "source": "^/basic-auth/(.*)$",
+      "source": "^(.*)$",
       "target": "$1",
-      "authenticationType": "basic",
-      "localDir": "webapp/"
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa"
     }
   ]
 }
