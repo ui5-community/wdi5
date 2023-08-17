@@ -121,6 +121,11 @@ export async function injectUI5(config: wdi5Config, browserInstance) {
     await clientSide_injectTools(browserInstance) // helpers for wdi5 browser scope
     result = result && (await clientSide_injectUI5(config, waitForUI5Timeout, browserInstance))
 
+    if (browserInstance._controls.length > 0) {
+        Logger.info("invalidating control map!")
+        browserInstance._controls = []
+    }
+
     if (result) {
         // set when call returns
         _isInitialized = true
