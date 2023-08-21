@@ -1,9 +1,10 @@
 ---
 name: Bug report
-about: help us squat that :bug:!
-title: ""
-labels: ""
-assignees: ""
+about: "help us squat that \U0001FAB3!"
+title: ''
+labels: ''
+assignees: ''
+
 ---
 
 **Describe the bug**
