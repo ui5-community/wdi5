@@ -50,7 +50,10 @@ async function emptyQueue(browserInstance) {
                 window.wdi5.Log.error(err)
                 done({
                     type: "error",
-                    message: `The execution of the test library probably took to long. Try to increase the UI5 Timeout or reduce the individual steps. ${err.message}`
+                    message:
+                        err instanceof Error
+                            ? `The execution of the test library probably took to long. Try to increase the UI5 Timeout or reduce the individual steps. ${err.message}`
+                            : err.errorMessage
                 })
             })
     })

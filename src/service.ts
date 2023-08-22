@@ -27,7 +27,7 @@ export default class Service implements Services.ServiceInstance {
 
         // align browser script timeout with wdi5 setting (+ leverage)
         // this mostly affects browser.executeAsync()
-        const timeout = (this._config["wdi5"]["waitForUI5Timeout"] || 15000) + 1000
+        const timeout = (this._config["wdi5"]["waitForUI5Timeout"] || 15000) + 5000
         await browser.setTimeout({ script: timeout })
 
         Logger.debug(`browser script timeout set to ${timeout}`)
