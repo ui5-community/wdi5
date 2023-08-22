@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.5.3 (2023-08-22)
+
+
+### Bug Fixes
+
+* display different error message depending on the type ([#506](https://github.com/ui5-community/wdi5/issues/506)) ([0f8e356](https://github.com/ui5-community/wdi5/commit/0f8e356596429c5c34539ac00cfa20016aff00ce))
+
 ### 1.5.2 (2023-08-17)
 
 
