@@ -121,7 +121,9 @@ export async function injectUI5(config: wdi5Config, browserInstance) {
     await clientSide_injectTools(browserInstance) // helpers for wdi5 browser scope
     result = result && (await clientSide_injectUI5(config, waitForUI5Timeout, browserInstance))
 
-    if (browserInstance._controls.length > 0) {
+    // we are not using _controls as an array, we are using it as an object. That's why the length property
+    // is not updated right away: https://stackoverflow.com/a/4424026
+    if (Object.keys(browserInstance._controls).length > 0) {
         Logger.info("invalidating control map!")
         browserInstance._controls = []
     }
