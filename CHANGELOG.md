@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.5.2 (2023-08-17)
+
+
+### Bug Fixes
+
+* invalidate control map when we injectUi5 ([#513](https://github.com/ui5-community/wdi5/issues/513)) ([b6b7210](https://github.com/ui5-community/wdi5/commit/b6b7210c2f760e97b4acc7bdb9e6ea84c4b16e73))
+
 ### 1.5.1 (2023-06-14)
 
 
