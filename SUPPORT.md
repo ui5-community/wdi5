@@ -1,7 +1,7 @@
 # Commercial Support
 
-The recommended way of obtaining commercial support for `wdi5` is via [GitHub Sponsors](https://docs.github.com/en/sponsors), providing process- and financial-flows without bureaucratic hassles.   
-These are the companies and individuals offering commercial support for `wdi5`:  
+The recommended way of obtaining commercial support for `wdi5` is via [GitHub Sponsors](https://docs.github.com/en/sponsors), providing process- and financial-flows without bureaucratic hassles.  
+These are the companies and individuals offering commercial support for `wdi5`:
 
 - [j&s-soft](https://github.com/sponsors/js-soft)
 

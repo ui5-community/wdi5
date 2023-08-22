@@ -1,10 +1,9 @@
 ---
 name: Bug report
 about: "help us squat that \U0001FAB3!"
-title: ''
-labels: ''
-assignees: ''
-
+title: ""
+labels: ""
+assignees: ""
 ---
 
 **Describe the bug**
