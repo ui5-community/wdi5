@@ -1,6 +1,7 @@
 <mvc:View controllerName="test.Sample.controller.Other"
 	xmlns:mvc="sap.ui.core.mvc"
 	displayBlock="true"
+	xmlns:dnd="sap.ui.core.dnd"
 	xmlns="sap.m"
 	xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
 
@@ -11,8 +12,15 @@
 		<content>
 			<List id="PeopleList"
 				headerText="{i18n>otherPage.listHeader}"
-				items="{/Employees}"
+				items="{path: '/Employees', sorter: {path: 'EmployeeID', descending: true} }"
 				itemPress="onItemPress">
+				<dragDropConfig>
+					<dnd:DragDropInfo
+						sourceAggregation="items"
+						targetAggregation="items"
+						dropPosition="Between"
+						drop="onDragDrop"/>
+				</dragDropConfig>
 				<StandardListItem title="{FirstName} {LastName}"
 					type="Navigation"
 					data:key="{FirstName} {LastName}" />

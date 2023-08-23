@@ -5,6 +5,7 @@ import { clientSide_interactWithControl } from "../../client-side-js/interactWit
 import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod"
 import { clientSide_getAggregation } from "../../client-side-js/_getAggregation"
 import { clientSide_fireEvent } from "../../client-side-js/fireEvent"
+import { clientSide_dragAndDrop } from "../../client-side-js/dragAndDrop"
 import { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types"
 import { Logger as _Logger } from "./Logger"
 import { wdioApi } from "./wdioApi"
@@ -267,6 +268,33 @@ export class WDI5Control {
     }
 
     /**
+     *
+     * @param dropTarget: WDI5 object representation of the drop target UI5 control.
+     * @returns
+     */
+    async dragAndDrop(dropTarget) {
+        let sourceWebelement, destWebelement
+
+        if (util.types.isProxy(this.getWebElement)) {
+            sourceWebelement = await Promise.resolve(this.getWebElement())
+        } else {
+            sourceWebelement = (await this.getWebElement()) as unknown as WebdriverIO.Element
+        }
+
+        if (util.types.isProxy(dropTarget)) {
+            destWebelement = await Promise.resolve(dropTarget.getWebElement())
+        } else {
+            destWebelement = (await dropTarget.getWebElement()) as unknown as WebdriverIO.Element
+        }
+
+        await clientSide_dragAndDrop(sourceWebelement, destWebelement)
+        return this
+    }
+
+    /**
+     * used to update the wdio control reference
+     * this can be used to manually trigger an control reference update after a ui5 control rerendering
+     * this method is also used wdi5-internally to implement the extended forceSelect option
      * fire a named event on a UI5 control
      * @param {String} eventName
      * @param {any} oOptions

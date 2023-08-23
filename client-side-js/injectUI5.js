@@ -382,6 +382,14 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                         }
                     }
 
+                    window.wdi5.simulateDragDrop = (oSourceControl, oDestinationControl, sAggregationName = "items") => {
+                        const oDrag = new Drag()
+                        oDrag.executeOn(oSourceControl)
+                        const oDrop = new Drop({
+                            aggregationName: sAggregationName
+                        })
+                        oDrop.executeOn(oDestinationControl)
+                    }
                     window.wdi5.errorHandling = (done, error) => {
                         window.wdi5.Log.error("[browser wdi5] ERR: ", error)
                         done({ status: 1, message: error.toString() })
