@@ -18,6 +18,7 @@ export default class Service implements Services.ServiceInstance {
         // if no wdi5 config is available we add it manually
         if (!this._config.wdi5) {
             this._config["wdi5"] = {}
+            Logger.log("just a test from a fork")
         }
 
         await start(this._config)
