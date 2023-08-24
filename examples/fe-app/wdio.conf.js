@@ -38,7 +38,7 @@ exports.config = {
     connectionRetryTimeout: 120000,
     connectionRetryCount: 3,
 
-    services: ["chromedriver", "ui5"],
+    services: ["ui5"],
 
     framework: "mocha",
     mochaOpts: {

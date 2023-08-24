@@ -3,7 +3,7 @@ import { resolve } from "path"
 
 export const config: wdi5Config = {
     baseUrl: "https://wdi5-sample-app.cfapps.eu20.hana.ondemand.com/no-auth/",
-    services: ["chromedriver", "ui5"],
+    services: ["ui5"],
     specs: [resolve("test/e2e/Protocol.test.ts")],
     capabilities: [
         {

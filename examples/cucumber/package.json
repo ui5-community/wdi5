@@ -5,8 +5,6 @@
     "@wdio/local-runner": "^8",
     "@wdio/mocha-framework": "^8",
     "@wdio/spec-reporter": "^8",
-    "chromedriver": "latest",
-    "wdio-chromedriver-service": "^8",
     "wdio-ui5-service": "*"
   },
   "scripts": {
