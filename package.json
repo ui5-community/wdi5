@@ -78,12 +78,12 @@
     "semver": "^7.5.4"
   },
   "peerDependencies": {
-    "@wdio/cli": "^8",
+    "@wdio/cli": ">=8.14.0",
     "@wdio/local-runner": "^8",
     "@wdio/mocha-framework": "^8",
     "@wdio/spec-reporter": "^8",
     "@wdio/types": "^8",
-    "webdriverio": "^8"
+    "webdriverio": ">=8.14.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
@@ -96,7 +96,6 @@
     "@typescript-eslint/parser": "^6.4.1",
     "@ui5/cli": "^3",
     "@wdio/sauce-service": "^8",
-    "chromedriver": "latest",
     "cross-env": "^7.0.3",
     "deepmerge": "^4.3.1",
     "docsify-cli": "4.4.4",
@@ -118,8 +117,7 @@
     "standard-version": "^9.5.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6",
-    "wait-on": "^7.0.1",
-    "wdio-chromedriver-service": "^8"
+    "wait-on": "^7.0.1"
   },
   "engines": {
     "node": ">=16",
