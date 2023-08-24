@@ -14,3 +14,21 @@ const config = {
   baseUrl: "https://github.com/ui5-community/wdi5/"
 }
 ```
+
+## usage of devtools automation protocol
+
+Now requires using the `devtools` package (which is now a dependency of `wdi5`) and explicit configuration in the `*.conf.(j|t)s`-file:
+
+```diff
+ export const config: wdi5Config = {
+     baseUrl: "https://your-app",
+     services: ["ui5"],
+     specs: [resolve("test/e2e/Protocol.test.ts")],
++    automationProtocol: "devtools",
+     capabilities: [
+      {
+        //...
+      }
+     ]
+ }
+```

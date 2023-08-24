@@ -7,7 +7,7 @@ export const config: wdi5Config = {
     },
     baseUrl: "http://localhost:8080/index.html",
 
-    services: ["chromedriver", "ui5"],
+    services: ["ui5"],
 
     specs: ["./test/e2e/**/*.test.ts"],
     // these are for authentication tests only
