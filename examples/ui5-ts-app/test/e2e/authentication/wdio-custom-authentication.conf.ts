@@ -1,5 +1,5 @@
 import merge from "ts-deepmerge"
-import { config as baseConf } from "./wdio-base.conf"
+import { config as baseConf } from "./wdio-base.conf.js"
 
 // hack-y in these public (!) credentials
 process.env.wdi5_username = "tomsmith"
