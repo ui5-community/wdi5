@@ -11,7 +11,7 @@ const _config: _wdi5Config = {
     baseUrl: "https://wdi5-sample-app.cfapps.eu20.hana.ondemand.com/basic-auth/",
 
     // browserstack service gets injected later during merge of configs
-    services: process.env.BROWSERSTACK ? [] : ["chromedriver", "ui5"],
+    services: process.env.BROWSERSTACK ? [] : ["ui5"],
 
     specs: ["./test/e2e/Basic.test.ts", "./test/e2e/Authentication.test.ts"],
 
