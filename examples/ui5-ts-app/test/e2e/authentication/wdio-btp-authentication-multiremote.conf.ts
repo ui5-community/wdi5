@@ -2,6 +2,7 @@ import merge from "ts-deepmerge"
 import { wdi5MultiRemoteCapability } from "wdio-ui5-service"
 import { config as baseConf } from "./wdio-base.conf.js"
 import { browser } from "../cloud-services/browserstack.conf.local.js"
+import { resolve } from "path"
 
 let multiRemoteCapability: wdi5MultiRemoteCapability
 
@@ -69,5 +70,5 @@ const _config = {
 }
 
 const config = merge(baseConf, _config)
-config.specs = ["../multiremote.test.ts", "../BasicMultiRemoteAuthentication.test.ts"]
+config.specs = [resolve("../multiremote.test.ts"), resolve("../BasicMultiRemoteAuthentication.test.ts")]
 export { config }

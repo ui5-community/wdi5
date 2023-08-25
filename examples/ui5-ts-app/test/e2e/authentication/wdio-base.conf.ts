@@ -1,4 +1,4 @@
-import { join } from "path"
+import { join, resolve } from "path"
 import merge from "ts-deepmerge"
 import { wdi5Config } from "wdio-ui5-service"
 import { config as bstackConfig, browser } from "../cloud-services/browserstack.conf.local.js"
@@ -13,7 +13,7 @@ const _config: _wdi5Config = {
     // browserstack service gets injected later during merge of configs
     services: process.env.BROWSERSTACK ? [] : ["ui5"],
 
-    specs: ["./test/e2e/Basic.test.ts", "./test/e2e/Authentication.test.ts"],
+    specs: [resolve("../Basic.test.ts"), resolve("../Authentication.test.ts")],
 
     maxInstances: 10,
     logLevel: "error",
