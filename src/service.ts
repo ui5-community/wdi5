@@ -15,10 +15,11 @@ export default class Service implements Services.ServiceInstance {
     ) {} // the Service is instantiated by wdio with the capabilites and config passed on to
 
     async before(/*capabilities* , specs*/) {
+        Logger.error("just a test from a fork again and again and again and again")
+
         // if no wdi5 config is available we add it manually
         if (!this._config.wdi5) {
             this._config["wdi5"] = {}
-            Logger.error("just a test from a fork again and again and again and again")
         }
 
         await start(this._config)
