@@ -50,5 +50,5 @@ if (process.env.BROWSERSTACK) {
 }
 
 const config = merge(baseConf, _config)
-config.specs = [resolve("../Custom.test.ts")]
+config.specs = [resolve("./test/e2e/Custom.test.ts")]
 export { config }

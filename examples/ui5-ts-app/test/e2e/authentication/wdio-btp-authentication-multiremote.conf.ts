@@ -70,5 +70,5 @@ const _config = {
 }
 
 const config = merge(baseConf, _config)
-config.specs = [resolve("../multiremote.test.ts"), resolve("../BasicMultiRemoteAuthentication.test.ts")]
+config.specs = [resolve("./test/e2e/multiremote.test.ts"), resolve("./test/e2e/BasicMultiRemoteAuthentication.test.ts")]
 export { config }

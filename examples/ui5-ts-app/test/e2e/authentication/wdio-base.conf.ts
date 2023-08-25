@@ -13,7 +13,7 @@ const _config: _wdi5Config = {
     // browserstack service gets injected later during merge of configs
     services: process.env.BROWSERSTACK ? [] : ["ui5"],
 
-    specs: [resolve("../Basic.test.ts"), resolve("../Authentication.test.ts")],
+    specs: [resolve("./test/e2e/Basic.test.ts"), resolve("./test/e2e/Authentication.test.ts")],
 
     maxInstances: 10,
     logLevel: "error",
