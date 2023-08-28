@@ -1,5 +1,5 @@
 import UIComponent from "sap/ui/core/UIComponent"
-import { support } from "sap/ui/Device"
+import support from "sap/ui/Device"
 
 /**
  * @namespace test.Sample.tsapp

@@ -1,10 +1,10 @@
 import { Capabilities, Services } from "@wdio/types"
-import { MultiRemoteDriver } from "webdriverio/build/multiremote"
+import { MultiRemoteBrowser } from "webdriverio"
 
-import { start, injectUI5, setup, checkForUI5Page, authenticate } from "./lib/wdi5-bridge"
+import { start, injectUI5, setup, checkForUI5Page, authenticate } from "./lib/wdi5-bridge.js"
 import { wdi5Config } from "./types/wdi5.types"
 
-import { Logger as _Logger } from "./lib/Logger"
+import { Logger as _Logger } from "./lib/Logger.js"
 const Logger = _Logger.getInstance()
 
 export default class Service implements Services.ServiceInstance {
@@ -35,8 +35,8 @@ export default class Service implements Services.ServiceInstance {
             Logger.debug(`browser timeouts are ${JSON.stringify(await browser.getTimeouts(), null, 2)}`)
         }
 
-        if (browser instanceof MultiRemoteDriver) {
-            for (const name of (browser as MultiRemoteDriver).instances) {
+        if (browser.isMultiremote) {
+            for (const name of (browser as unknown as MultiRemoteBrowser).instances) {
                 if (this._capabilities[name].capabilities["wdi5:authentication"]) {
                     await authenticate(this._capabilities[name].capabilities["wdi5:authentication"], name)
                 }
@@ -60,13 +60,13 @@ export default class Service implements Services.ServiceInstance {
 
     /**
      * this is a helper function to late-inject ui5 at test-time
-     * it relays the the wdio configuration (set in the .before() hook to the browser.config parameter by wdio)
+     * it relays the the wdio configuration (set in the .before() hook to the browser.options parameter by wdio)
      * to the injectUI5 function of the actual wdi5-bridge
      */
     async injectUI5(browserInstance = browser) {
         if (await checkForUI5Page(browserInstance)) {
             // depending on the scenario (lateInject, multiRemote) we have to access the config differently
-            const config = this._config ? this._config : browserInstance.config
+            const config = this._config ? this._config : browserInstance.options
             await injectUI5(config as wdi5Config, browserInstance)
         } else {
             throw new Error("wdi5: no UI5 page/app present to work on :(")

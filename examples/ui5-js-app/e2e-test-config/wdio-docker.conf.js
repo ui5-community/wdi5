@@ -47,7 +47,7 @@ const firefox = {
 }
 
 const _config = {
-    specs: ["test/e2e/basic.test.js"],
+    specs: ["../test/e2e/basic.test.js"],
     hostname: "selenium-hub", // tests running inside the container should connect to the same network
     port: 4444,
     runner: "local",

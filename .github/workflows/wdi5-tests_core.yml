@@ -3,6 +3,7 @@ on:
   pull_request:
     branches:
       - main
+      - main-v2
     paths:
       # relevant
       - "client-side-js/**"
@@ -23,7 +24,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16, 18, 19, 20]
+        node-version: [18, 20]
 
     steps:
       - name: check out repo

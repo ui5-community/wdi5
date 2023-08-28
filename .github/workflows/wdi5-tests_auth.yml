@@ -1,9 +1,19 @@
 name: auth
 on:
-  workflow_run:
-    workflows: [core]
-    types:
-      - completed
+  pull_request_target:
+    paths:
+      # relevant
+      - "client-side-js/**"
+      - "examples/**"
+      - "scripts/**"
+      - "src/**"
+      # don't run on changes to these
+      - "!.husky/**"
+      - "!.vscode/**"
+      - "!docs/**"
+      - "!.*"
+      - "!*.md"
+      - "!*.cjs"
 
 env:
   wdi5_username: ${{secrets.BTP_LOGIN}}
@@ -18,16 +28,25 @@ env:
   SAUCE_ACCESS_KEY: ${{secrets.SAUCE_ACCESS_KEY}}
 
 jobs:
+  authorize:
+    environment: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository && 'external' || 'internal' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: true
+
   tests:
+    needs: authorize
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [16]
+        node-version: [18]
 
     steps:
       - name: check out repo
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.ref }}
 
       - name: use node ${{ matrix.node-version }}
         uses: actions/setup-node@v3

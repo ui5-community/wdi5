@@ -2,8 +2,7 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "noEmit": false,
-    "outDir": "esm",
-    "module": "ESNext",
-    "target": "ESNext"
+    "outDir": "cjs",
+    "module": "CommonJS"
   }
 }

@@ -1,5 +1,6 @@
 import merge from "ts-deepmerge"
-import { config as baseConf } from "./wdio-base.conf"
+import { config as baseConf } from "./wdio-base.conf.js"
+import { resolve } from "path"
 
 // hack-y in these public (!) credentials
 process.env.wdi5_username = "tomsmith"
@@ -49,5 +50,5 @@ if (process.env.BROWSERSTACK) {
 }
 
 const config = merge(baseConf, _config)
-config.specs = ["./test/e2e/Custom.test.ts"]
+config.specs = [resolve("./test/e2e/Custom.test.ts")]
 export { config }

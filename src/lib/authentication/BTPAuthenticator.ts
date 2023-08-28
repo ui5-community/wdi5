@@ -1,5 +1,5 @@
 import { BTPAuthenticator as BTPAuthenticatorType } from "../../types/wdi5.types"
-import Authenticator from "./Authenticator"
+import Authenticator from "./Authenticator.js"
 
 class BTPAuthenticator extends Authenticator {
     constructor(options: BTPAuthenticatorType, browserInstanceName) {

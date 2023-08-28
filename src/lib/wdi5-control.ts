@@ -1,14 +1,16 @@
 import * as util from "util"
-import { ELEMENT_KEY } from "webdriverio/build/constants"
-import { clientSide_getControl } from "../../client-side-js/getControl"
-import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl"
-import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod"
-import { clientSide_getAggregation } from "../../client-side-js/_getAggregation"
-import { clientSide_fireEvent } from "../../client-side-js/fireEvent"
+const ELEMENT_KEY = "element-6066-11e4-a52e-4f735466cecf"
+// TODO: import { ELEMENT_KEY } from "webdriverio/build/constants.js"
+// patch in webdriverio repo?
+import { clientSide_getControl } from "../../client-side-js/getControl.cjs"
+import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl.cjs"
+import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod.cjs"
+import { clientSide_getAggregation } from "../../client-side-js/_getAggregation.cjs"
+import { clientSide_fireEvent } from "../../client-side-js/fireEvent.cjs"
 import { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types"
-import { Logger as _Logger } from "./Logger"
-import { wdioApi } from "./wdioApi"
-import { WDI5Object } from "./wdi5-object"
+import { Logger as _Logger } from "./Logger.js"
+import { wdioApi } from "./wdioApi.js"
+import { WDI5Object } from "./wdi5-object.js"
 const Logger = _Logger.getInstance()
 
 /**
@@ -393,7 +395,7 @@ export class WDI5Control {
                     }
                 }
 
-                // get WDI5 control
+                // get wdi5 control
                 aResultOfPromises.push(this._browserInstance.asControl(selector))
             })
 
@@ -425,7 +427,7 @@ export class WDI5Control {
                 }
             }
 
-            // get WDI5 control
+            // get wdi5 control
             eResult = await this._browserInstance.asControl(selector)
         } else {
             if (this._logging) {
@@ -545,7 +547,7 @@ export class WDI5Control {
                 } else if (String(args[0]) && typeof args[0] === "number") {
                     // here we're retrieving the UI5 control at index args[0] from the aggregation
                     if (args[0] <= result.result.length) {
-                        // retieve only one
+                        // retrieve only one
                         // need some code of separate feature branch here
                         const wdioElement = result.result[args[0]]
                         return await this._retrieveElement(wdioElement)
