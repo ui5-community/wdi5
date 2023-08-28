@@ -11,17 +11,18 @@ export class wdi5 {
         return Logger.getInstance(sPrefix)
     }
 
-    static wz = new Proxy(this, {
-        get(target, prop, receiver) {
-            browser.switchToParentFrame()
+    //// not yet
+    // static wz = new Proxy(this, {
+    //     get(target, prop, receiver) {
+    //         browser.switchToParentFrame()
 
-            // eslint-disable-next-line prefer-rest-params
-            console.log("GET", ...arguments)
-            Reflect.get(odatav4Lib, prop, receiver)
+    //         // eslint-disable-next-line prefer-rest-params
+    //         console.log("GET", ...arguments)
+    //         Reflect.get(odatav4Lib, prop, receiver)
 
-            browser.switchToFrame(0)
-        }
-    })
+    //         browser.switchToFrame(0)
+    //     }
+    // })
 
     /**
      * expose the current authentication status
