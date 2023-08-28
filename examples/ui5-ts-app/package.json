@@ -15,6 +15,7 @@
     "//test-h:authentication": "run-s \"authentication:* -- --headless\"",
     "test:authentication:bstack": "BROWSERSTACK=true run-s authentication:*",
     "test:lateInject": "wdio run wdio-ui5-late.conf.ts",
+    "test:wz": "wdio run test/e2e/workzone/wdio-ui5-workzone.conf.ts",
     "authentication:btp": "wdio run test/e2e/authentication/wdio-btp-authentication.conf.ts",
     "authentication:basic-auth": "wdio run test/e2e/authentication/wdio-basic-auth-authentication.conf.ts",
     "authentication:custom": "wdio run test/e2e/authentication/wdio-custom-authentication.conf.ts",

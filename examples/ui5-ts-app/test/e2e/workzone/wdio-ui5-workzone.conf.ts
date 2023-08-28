@@ -1,4 +1,5 @@
 import { wdi5Config } from "wdio-ui5-service"
+import { resolve } from "path"
 
 process.env.wdi5_username = process.env.wdi5_wz_username
 process.env.wdi5_password = process.env.wdi5_wz_password
@@ -10,10 +11,10 @@ export const config: wdi5Config = {
     },
     baseUrl: "https://cswdev.launchpad.cfapps.eu10.hana.ondemand.com/site/csw#travel-process",
 
-    services: ["chromedriver", "ui5"],
+    services: ["ui5"],
 
-    specs: ["./test/e2e/workzone/*.test.ts"],
-    exclude: ["./test/e2e/*.test.ts"],
+    specs: [resolve("./test/e2e/workzone/*.test.ts")],
+    exclude: [resolve("./test/e2e/*.test.ts")],
 
     maxInstances: 10,
     capabilities: [

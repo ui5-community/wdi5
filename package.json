@@ -65,7 +65,7 @@
     "//test:protocol": "runs the same test with webdriver and devtools protocol",
     "test:protocol": "npm run test:protocol -w examples/ui5-ts-app",
     "//test:wz": "specific tests for SAP Build Workzone, standard edition",
-    "test:wz": "wdio run test/e2e/workzone/wdio-ui5-workzone.conf.ts",
+    "test:wz": "npm run test:wz --workspace=examples/ui5-ts-app -- --headless",
     "test": "cross-env TS_NODE_PROJECT=\"test/tsconfig.json\" mocha",
     "prepare": "husky install",
     "release": "standard-version",
