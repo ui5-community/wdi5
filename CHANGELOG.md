@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.0](https://github.com/ui5-community/wdi5/compare/v1.5.3...v2.0.0-beta.0) (2023-08-28)
+
+
+### Features
+
+* wdi5 2.0 progression ([#518](https://github.com/ui5-community/wdi5/issues/518)) ([d51cdde](https://github.com/ui5-community/wdi5/commit/d51cdde93e407e9efa604d776bf63196092555bb))
+
 ## [2.0.0-alpha.1](https://github.com/ui5-community/wdi5/compare/v2.0.0-alpha.0...v2.0.0-alpha.1) (2023-07-06)
 
 ## [2.0.0-alpha.0](https://github.com/ui5-community/wdi5/compare/v1.5.1...v2.0.0-alpha.0) (2023-07-03)
