@@ -23,14 +23,52 @@ function createProxy(myObj: any, type: string, methodCalls: any[], pageKeys: str
     return thisProxy
 }
 export class WDI5FE {
+    onTheShell: any
+
     constructor(
         private appConfig: any,
-        private browserInstance: any
-    ) {}
+        private browserInstance: any,
+        private shell?: any
+    ) {
+        this.onTheShell = {
+            iNavigateBack: async () => {
+                await this.toShell()
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                await this.shell.execute((Given, When, Then) => {
+                    When.onTheShell.iNavigateBack()
+                })
+                await this.toApp()
+            }
+        }
+    }
+
+    async toShell() {
+        await browser.switchToParentFrame()
+    }
+
+    async toApp() {
+        await browser.switchToFrame(0)
+    }
+
     static async initialize(appConfig, browserInstance = browser) {
+        // first magic wand wave -> app context
         await loadFELibraries(browserInstance)
         await initOPA(appConfig, browserInstance)
-        return new WDI5FE(appConfig, browserInstance)
+
+        // second magic wand wave -> shell context
+        await browser.switchToParentFrame()
+        const shellConfig = {
+            onTheShell: {
+                Shell: {}
+            }
+        }
+        const shell = new WDI5FE(shellConfig, browserInstance)
+        await loadFELibraries(browserInstance)
+        await initOPA(shellConfig, browserInstance)
+
+        // back to app
+        await browser.switchToFrame(0)
+        return new WDI5FE(appConfig, browserInstance, shell)
     }
 
     async execute(fnFunction) {

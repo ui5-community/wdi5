@@ -19,6 +19,7 @@ import { clientSide_allControls } from "../../client-side-js/allControls.cjs"
 import { Logger as _Logger } from "./Logger.js"
 import { WDI5Object } from "./wdi5-object.js"
 import BTPAuthenticator from "./authentication/BTPAuthenticator.js"
+import { BTPAuthenticator as BTPAuthenticatorType } from "../types/wdi5.types"
 import BasicAuthenticator from "./authentication/BasicAuthenticator.js"
 import CustomAuthenticator from "./authentication/CustomAuthenticator.js"
 import Office365Authenticator from "./authentication/Office365Authenticator.js"
@@ -116,6 +117,9 @@ export async function injectUI5(config: wdi5Config, browserInstance) {
     const waitForUI5Timeout = config.wdi5?.waitForUI5Timeout || 15000
     let result = true
 
+    // unify timeouts across Node.js- and browser-scope
+    await (browserInstance as WebdriverIO.Browser).setTimeout({ script: waitForUI5Timeout })
+
     const version = await (browserInstance as WebdriverIO.Browser).getUI5Version()
     await checkUI5Version(version)
     await clientSide_injectTools(browserInstance) // helpers for wdi5 browser scope
@@ -155,7 +159,11 @@ export async function checkForUI5Page(browserInstance) {
 export async function authenticate(options, browserInstanceName?) {
     switch (options.provider) {
         case "BTP":
-            await new BTPAuthenticator(options, browserInstanceName).login()
+            const btp = new BTPAuthenticator(options, browserInstanceName)
+            if ((options as BTPAuthenticatorType).disableBiometricAuthentication) {
+                await btp.disableBiometricAuthentication()
+            }
+            await btp.login()
             break
         case "BasicAuth":
             await new BasicAuthenticator(browserInstanceName).login()
