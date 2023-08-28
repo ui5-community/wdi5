@@ -21,7 +21,6 @@ on:
 
 jobs:
   tests:
-    if: false
     runs-on: ubuntu-latest
 
     strategy:
@@ -29,6 +28,9 @@ jobs:
         node-version: [18, 20]
 
     steps:
+      ### no mas since wdio^8 allows for auto-download of matching chromedriver for the env
+      ### -> we save CI time!
+      ### yet leaving this as ref
       # - name: update chrome
       # run: |
       #   wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
