@@ -16,7 +16,8 @@ export const config: wdi5Config = {
         "./test/e2e/multiremote.test.ts",
         "./test/e2e/BasicMultiRemoteAuthentication.test.ts",
         "./test/e2e/Authentication.test.ts",
-        "./test/e2e/ui5-late.test.ts"
+        "./test/e2e/ui5-late.test.ts",
+        "./test/e2e/workzone/**/*.test.ts"
     ],
 
     maxInstances: 10,
