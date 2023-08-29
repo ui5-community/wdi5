@@ -31,14 +31,18 @@ export class WDI5FE {
         private browserInstance: any,
         private shell?: any
     ) {
-        this.onTheShell = {
-            iNavigateBack: async () => {
-                await this.toShell()
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                await this.shell.execute((Given, When, Then) => {
-                    When.onTheShell.iNavigateBack()
-                })
-                await this.toApp()
+        // only in the workzone context
+        // do we need to hotwire a back navigation on the fiori shell
+        if (shell) {
+            this.onTheShell = {
+                iNavigateBack: async () => {
+                    await this.toShell()
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    await this.shell.execute((Given, When, Then) => {
+                        When.onTheShell.iNavigateBack()
+                    })
+                    await this.toApp()
+                }
             }
         }
     }
