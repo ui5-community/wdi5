@@ -1,4 +1,4 @@
-describe("drive in Work Zone", () => {
+describe("drive in Work Zone with testlib support", () => {
     let FioriElementsFacade
     before(async () => {
         FioriElementsFacade = await browser.fe.initialize({
