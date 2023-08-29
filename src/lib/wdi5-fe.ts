@@ -1,3 +1,4 @@
+import { Element } from "webdriverio"
 import { initOPA, addToQueue, emptyQueue, loadFELibraries } from "../../client-side-js/testLibrary.cjs"
 import { Logger as _Logger } from "./Logger.js"
 const Logger = _Logger.getInstance()
@@ -56,18 +57,28 @@ export class WDI5FE {
         await initOPA(appConfig, browserInstance)
 
         // second magic wand wave -> shell context
-        await browser.switchToParentFrame()
-        const shellConfig = {
-            onTheShell: {
-                Shell: {}
+        // yet only wave the wand when there's an iframe somewhere,
+        // indicating BTP WorkZone territory
+        await browserInstance.switchToParentFrame()
+        // @ts-ignore
+        const iframe: Element = await browserInstance.findElement("css selector", "iframe")
+        let shell
+        if (!iframe.error) {
+            const shellConfig = {
+                onTheShell: {
+                    Shell: {}
+                }
             }
-        }
-        const shell = new WDI5FE(shellConfig, browserInstance)
-        await loadFELibraries(browserInstance)
-        await initOPA(shellConfig, browserInstance)
+            shell = new WDI5FE(shellConfig, browserInstance)
+            await loadFELibraries(browserInstance)
+            await initOPA(shellConfig, browserInstance)
 
-        // back to app
-        await browser.switchToFrame(0)
+            // back to app
+            await browserInstance.switchToFrame(0)
+        } else {
+            // revert back to app context
+            await browserInstance.switchToFrame(null)
+        }
         return new WDI5FE(appConfig, browserInstance, shell)
     }
 
