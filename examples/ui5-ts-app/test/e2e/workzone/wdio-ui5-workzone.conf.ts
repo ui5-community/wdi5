@@ -1,28 +1,29 @@
-import { join } from "path"
 import { wdi5Config } from "wdio-ui5-service"
+import { resolve } from "path"
+
+process.env.wdi5_username = process.env.wdi5_wz_username
+process.env.wdi5_password = process.env.wdi5_wz_password
 
 export const config: wdi5Config = {
     wdi5: {
-        screenshotPath: join("test", "__screenshots__")
+        btpWorkZoneEnablement: true,
+        logLevel: "verbose"
     },
-    baseUrl: "http://localhost:8080/index.html",
+    baseUrl: "https://cswdev.launchpad.cfapps.eu10.hana.ondemand.com/site/csw#travel-process",
 
     services: ["ui5"],
 
-    specs: ["./test/e2e/**/*.test.ts"],
-    // these are for authentication tests only
-    exclude: [
-        "./test/e2e/Custom.test.ts",
-        "./test/e2e/multiremote.test.ts",
-        "./test/e2e/BasicMultiRemoteAuthentication.test.ts",
-        "./test/e2e/Authentication.test.ts",
-        "./test/e2e/ui5-late.test.ts",
-        "./test/e2e/workzone/**/*.test.ts"
-    ],
+    specs: [resolve("./test/e2e/workzone/*.test.ts")],
+    exclude: [resolve("./test/e2e/*.test.ts")],
 
     maxInstances: 10,
     capabilities: [
         {
+            "wdi5:authentication": {
+                provider: "BTP",
+                disableBiometricAuthentication: true,
+                idpDomain: "aqywyhweh.accounts.ondemand.com"
+            },
             maxInstances: 2,
             browserName: "chrome",
             "goog:chromeOptions": {

@@ -48,6 +48,11 @@ export interface wdi5Config extends WebdriverIO.Config {
          * maximum waiting time while checking for UI5 (control) availability
          */
         waitForUI5Timeout?: number
+        /**
+         * indicated whether wdi5 operates on an app
+         * in a SAP Build Workzone Standard Edition (fka Launchpad) environment
+         */
+        btpWorkZoneEnablement?: boolean
     }
     capabilities: wdi5Capabilites[] | wdi5MultiRemoteCapability
 }
@@ -67,6 +72,16 @@ export type BTPAuthenticator = {
     usernameSelector?: string
     passwordSelector?: string
     submitSelector?: string
+    /**
+     * set this, when IAS is in use as custom IdP
+     * IAS provides this biometric login option which wdi5 as of now does not support for authentication
+     */
+    disableBiometricAuthentication?: boolean
+    /**
+     * set this when `disableBiometricAuthentication` is set to `true`
+     * the domain of the custom IdP, e.g. "your-IAS-tenant.accounts.ondemand.com"
+     */
+    idpDomain?: string
 }
 
 export type BasicAuthAuthenticator = {
