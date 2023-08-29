@@ -11,7 +11,7 @@ export class wdi5 {
         return Logger.getInstance(sPrefix)
     }
 
-    //// not yet
+    //// REVISIT: not yet/if still needed :)
     // static wz = new Proxy(this, {
     //     get(target, prop, receiver) {
     //         browser.switchToParentFrame()
