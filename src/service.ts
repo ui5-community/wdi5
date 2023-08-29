@@ -40,21 +40,19 @@ export default class Service implements Services.ServiceInstance {
                 if (this._capabilities[name].capabilities["wdi5:authentication"]) {
                     await authenticate(this._capabilities[name].capabilities["wdi5:authentication"], name)
                 }
-                if (!this._config.wdi5.skipInjectUI5OnStart) {
-                    await this.injectUI5(browser[name])
-                } else {
+
+                if (this._config.wdi5.skipInjectUI5OnStart) {
                     Logger.warn("skipped wdi5 injection!")
-                }
-                if (this._config.wdi5.btpWorkZoneEnablement) {
+                } else if (this._config.wdi5.btpWorkZoneEnablement) {
+                    Logger.info("delegating wdi5 injection to Work Zone enablement...")
                     await this.enableBTPWorkZoneStdEdition(browser[name])
+                } else {
+                    await this.injectUI5(browser[name])
                 }
             }
         } else {
             if (this._capabilities["wdi5:authentication"]) {
                 await authenticate(this._capabilities["wdi5:authentication"])
-            }
-            if (!this._config.wdi5.skipInjectUI5OnStart && !this._config.wdi5.btpWorkZoneEnablement) {
-                await this.injectUI5(browser)
             }
 
             if (this._config.wdi5.skipInjectUI5OnStart) {
