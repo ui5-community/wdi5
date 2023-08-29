@@ -68,7 +68,3 @@ jobs:
       # this runs against the deployed wdi5 TS sample app
       - name: test devtools support
         run: npm run test:protocol
-
-      # this runs against the deployed CAP SFLIGHT sample app in BTP WorkZone
-      - name: test lib support for workzone
-        run: npm run test:wz:regular

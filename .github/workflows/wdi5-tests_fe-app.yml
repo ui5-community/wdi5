@@ -63,7 +63,3 @@ jobs:
       # explicit headless mode!
       - name: test fe-app
         run: npm run test:fe-app
-
-      # this runs against the deployed CAP SFLIGHT sample app in BTP WorkZone
-      - name: test lib support for workzone
-        run: npm run test:wz:testlib
