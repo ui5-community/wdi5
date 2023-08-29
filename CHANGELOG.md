@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.1](https://github.com/ui5-community/wdi5/compare/v2.0.0-beta.0...v2.0.0-beta.1) (2023-08-29)
+
+
+### Features
+
+* sap build workzone std ed enablement, ias authentication capability ([#520](https://github.com/ui5-community/wdi5/issues/520)) ([8f6c217](https://github.com/ui5-community/wdi5/commit/8f6c217ff72b047ab8b8738ddaa7820217bf267a)), closes [#378](https://github.com/ui5-community/wdi5/issues/378)
+
 ## [2.0.0-beta.0](https://github.com/ui5-community/wdi5/compare/v1.5.3...v2.0.0-beta.0) (2023-08-28)
 
 
