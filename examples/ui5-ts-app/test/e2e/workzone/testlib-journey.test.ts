@@ -49,8 +49,8 @@ describe("drive in Work Zone with testlib support", () => {
         await FioriElementsFacade.onTheShell.iNavigateBack()
         await FioriElementsFacade.onTheShell.iNavigateBack()
 
-        // we want:
-        // await wdi5.wz.iNavigateBack()
+        // REVISIT: we want the testlib to expose its back navigation capability
+        // ~ could look like: await wdi5.wz.iNavigateBack()
 
         await FioriElementsFacade.execute((Given, When, Then) => {
             Then.onTheMainPage.iSeeThisPage()
