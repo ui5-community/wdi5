@@ -109,7 +109,7 @@ function checkUI5Version(ui5Version: string) {
 }
 
 /**
- * function library to setup the webdriver to UI5 bridge, it runs alle the initial setup
+ * function library to setup the webdriver to UI5 bridge, it runs all the initial setup
  * make sap/ui/test/RecordReplay accessible via wdio
  * attach the sap/ui/test/RecordReplay object to the application context window object as 'bridge'
  */
@@ -118,7 +118,15 @@ export async function injectUI5(config: wdi5Config, browserInstance) {
     let result = true
 
     // unify timeouts across Node.js- and browser-scope
-    await (browserInstance as WebdriverIO.Browser).setTimeout({ script: waitForUI5Timeout })
+    // align browser script timeout with wdi5 setting (+ leverage)
+    // this mostly affects browser.executeAsync()
+    const timeout = waitForUI5Timeout + 1000
+    await (browserInstance as WebdriverIO.Browser).setTimeout({ script: timeout })
+
+    Logger.debug(`browser script timeout set to ${timeout}`)
+    if (typeof browserInstance.getTimeouts === "function") {
+        Logger.debug(`browser timeouts are ${JSON.stringify(await browserInstance.getTimeouts(), null, 2)}`)
+    }
 
     const version = await (browserInstance as WebdriverIO.Browser).getUI5Version()
     await checkUI5Version(version)
