@@ -1,5 +1,5 @@
 import { join } from "path"
-import { wdi5Config } from "wdio-ui5-service/dist/types/wdi5.types"
+import { wdi5Config } from "wdio-ui5-service"
 
 export const config: wdi5Config = {
     wdi5: {
@@ -7,7 +7,7 @@ export const config: wdi5Config = {
     },
     baseUrl: "http://localhost:8080/index.html",
 
-    services: ["chromedriver", "ui5"],
+    services: ["ui5"],
 
     specs: ["./test/e2e/**/*.test.ts"],
     // these are for authentication tests only

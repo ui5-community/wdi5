@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "declarationMap": true,
+    "downlevelIteration": true,
+    "moduleResolution": "node",
+    "types": ["node", "@wdio/globals/types", "@wdio/mocha-framework", "openui5"]
+  },
+  "include": ["src"]
+}

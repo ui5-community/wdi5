@@ -1,8 +1,8 @@
-import { config } from "./wdio-ui5.conf"
+import { config as baseConfig } from "./wdio-ui5.conf.js"
 
-config.wdi5 = { skipInjectUI5OnStart: true }
-config.specs = ["./test/e2e/ui5-late.test.ts"]
-delete config.exclude
-config.baseUrl = "https://github.com/ui5-community/wdi5/"
+baseConfig.wdi5 = { skipInjectUI5OnStart: true }
+baseConfig.specs = ["./test/e2e/ui5-late.test.ts"]
+delete baseConfig.exclude
+baseConfig.baseUrl = "https://github.com/ui5-community/wdi5/"
 
-exports.config = config
+export const config = { ...baseConfig }

@@ -1,4 +1,4 @@
-import Authenticator from "./Authenticator"
+import Authenticator from "./Authenticator.js"
 import { BasicAuthAuthenticator as BasicAuthenticatorType } from "../../types/wdi5.types"
 
 class BasicAuthenticator extends Authenticator {

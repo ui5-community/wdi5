@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-beta.0](https://github.com/ui5-community/wdi5/compare/v1.5.3...v2.0.0-beta.0) (2023-08-28)
+
+
+### Features
+
+* wdi5 2.0 progression ([#518](https://github.com/ui5-community/wdi5/issues/518)) ([d51cdde](https://github.com/ui5-community/wdi5/commit/d51cdde93e407e9efa604d776bf63196092555bb))
+
+## [2.0.0-alpha.1](https://github.com/ui5-community/wdi5/compare/v2.0.0-alpha.0...v2.0.0-alpha.1) (2023-07-06)
+
+## [2.0.0-alpha.0](https://github.com/ui5-community/wdi5/compare/v1.5.1...v2.0.0-alpha.0) (2023-07-03)
+
+
+### Features
+
+* wdio v8 enablement  ([#498](https://github.com/ui5-community/wdi5/issues/498)) ([ee5e2c4](https://github.com/ui5-community/wdi5/commit/ee5e2c4cca23af6dfb9f5552c6a91d34d51accdc)), closes [#384](https://github.com/ui5-community/wdi5/issues/384)
+
+### 1.5.3 (2023-08-22)
+
+
+### Bug Fixes
+
+* display different error message depending on the type ([#506](https://github.com/ui5-community/wdi5/issues/506)) ([0f8e356](https://github.com/ui5-community/wdi5/commit/0f8e356596429c5c34539ac00cfa20016aff00ce))
+
+### 1.5.2 (2023-08-17)
+
+
+### Bug Fixes
+
+* invalidate control map when we injectUi5 ([#513](https://github.com/ui5-community/wdi5/issues/513)) ([b6b7210](https://github.com/ui5-community/wdi5/commit/b6b7210c2f760e97b4acc7bdb9e6ea84c4b16e73))
+
 ### 1.5.1 (2023-06-14)
 
 

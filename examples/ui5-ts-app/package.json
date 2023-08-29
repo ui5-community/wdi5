@@ -1,14 +1,13 @@
 {
   "name": "ui5-ts-app",
   "version": "0.8.15-notimportant",
+  "type": "module",
   "private": true,
   "description": "UI5 Application: tsapp",
   "author": "nosotros-todos@ui5-community.org",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "npm-run-all --parallel watch:ts start:ui5",
-    "watch:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files --watch",
-    "start:ui5": "ui5 serve --port 8080 --accept-remote-connections",
+    "start": "ui5 serve --port 8080 --accept-remote-connections",
     "//test": "run-s test:*",
     "test": "wdio run wdio-ui5.conf.ts",
     "test:browserstack": "wdio run test/e2e/cloud-services/browserstack.conf.ts",
@@ -23,31 +22,23 @@
     "test:protocol": "run-p \"protocol:* -- --headless\"",
     "protocol:devtools": "wdio run test/e2e/protocol/wdio-ui5-devtools.conf.ts",
     "protocol:webdriver": "wdio run test/e2e/protocol/wdio-ui5-webdriver.conf.ts",
-    "build:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files",
     "build:ui5": "ui5 build --clean-dest",
     "build:mtar": "mv dist approuter/webapp && mbt build",
-    "clean": "rimraf dist webapp approuter/webapp",
-    "build:cf": "npm-run-all --sequential clean build:ts build:ui5 build:mtar"
+    "clean": "rimraf dist approuter/webapp",
+    "build:cf": "npm-run-all --sequential clean build:ui5 build:mtar"
   },
   "devDependencies": {
-    "@babel/cli": "^7.18.10",
-    "@babel/core": "^7.18.10",
-    "@babel/preset-env": "^7.18.10",
-    "@babel/preset-typescript": "^7.18.6",
     "@openui5/types": "latest",
-    "@sap/approuter": "^11.6.1",
+    "@sap/approuter": "latest",
     "@types/jquery": "3.5.14",
-    "@wdio/browserstack-service": "^7.30.0",
-    "@wdio/sauce-service": "^7.30.0",
-    "babel-preset-transform-ui5": "^7.0.5",
-    "mbt": "^1.2.18",
-    "ts-deepmerge": "^5.0.0",
-    "ui5-middleware-simpleproxy": "^0.9.0",
+    "@ui5/cli": "^3",
+    "@wdio/browserstack-service": "^8",
+    "@wdio/sauce-service": "^8",
+    "mbt": "latest",
+    "ts-deepmerge": "latest",
+    "ui5-middleware-livereload": "latest",
+    "ui5-middleware-simpleproxy": "latest",
+    "ui5-tooling-transpile": "latest",
     "wdio-ui5-service": "*"
-  },
-  "ui5": {
-    "dependencies": [
-      "ui5-middleware-simpleproxy"
-    ]
   }
 }
