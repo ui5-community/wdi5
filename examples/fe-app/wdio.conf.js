@@ -4,7 +4,7 @@ exports.config = {
     wdi5: {
         screenshotPath: join("app", "incidents", "webapp", "wdi5-test", "__screenshots__"),
         logLevel: "verbose", // error | verbose | silent
-        waitForUI5Timeout: 90000
+        waitForUI5Timeout: 30000
     },
     //// wdio runner config
     specs: [join("webapp", "wdi5-test", "**/*.test.js")],
