@@ -3,13 +3,14 @@
 `wdi5` currently support these authentication mechanisms and/or providers:
 
 - [SAP Cloud IdP (default BTP Identity Provider)](#sap-cloud-idp-default-btp-identity-provider)
+- [SAP Cloud Identity Services - Identity Authentication (IAS)](#sap-cloud-identity-services-identity-authentication)
 - [Office 365](#office-365)
 - [custom IdP](#custom-idp)
 - [Basic Authentication](#basic-authentication)
 
 Generally speaking, the authentication behavior mimicks that of a regular user session: first, the `baseUrl` (from the `wdio.conf.(j|t)s`-file) is opened in the configured browser. Then, the redirect to the Authentication provider is awaited and [the credentials](#credentials) are supplied.
 
-BTP-, Office365- and custom IdP all supply credentials as a user would, meaning they're literally typed into the respective input fields on each login screen.  
+BTP-, IAS-, Office365- and custom IdP all supply credentials as a user would, meaning they're literally typed into the respective input fields on each login screen.  
 Basic Authentication prepends username and password in encoded form to the URL, resulting in an `HTTP` `GET` in the form of `https://username:encoded-pwd@your-deployed-UI5.app`.
 
 !> Multi-Factor Authentication is not supported as it's nearly impossible to manage any media break (e.g. browser &harr; mobile) in authentication flows out of the box
@@ -121,6 +122,73 @@ capabilities: {
 <!-- tabs:end -->
 
 The `BTP` authenticator will automatically detect whether the login process is a two-step- (first username needs to be supplied, the password) or a single-step (both username and password are supplied on one screen) sequence.
+
+### SAP Cloud Identity Services - Identity Authentication
+
+?> only available in `wdi5` >= 2
+
+Using the 'Identity Authentication Service (IAS) Authenticator' in `wdi5` is a subset of the [above BTP Authentication](#sap-cloud-idp-default-btp-identity-provider).  
+It takes the same configuration options, plus `disableBiometricAuth` (default: `true`, which you want in almost all cases) and `idpDomain`. The latter is necessary to satisfy cookie conditions in the remote-controlled browser.  
+Set `idpDomain` to the _domain-only_ part of your IAS tenant URL, e.g. `weiruhg.accounts.ondemand.com`, _omitting_ the protocol prefix (`https://`).
+
+!> If `disableBiometricAuth` is set to `true`, `idpDomain` must be set as well!
+
+<!-- tabs:start -->
+
+#### **single browser**
+
+```js
+baseUrl: "https://your-deployed-ui5-on-btp.app",
+capabilities: {
+    // browserName: "..."
+    "wdi5:authentication": {
+        provider: "BTP", //> mandatory
+        usernameSelector: "#j_username", //> optional; default: "#j_username"
+        passwordSelector: "#j_password", //> optional; default: "#j_password"
+        submitSelector: "#logOnFormSubmit", //> optional; default: "#logOnFormSubmit"
+        disableBiometricAuth: true, //> optional; default: true
+        idpDomain: "weiruhg.accounts.ondemand.com", //> mandatory if disableBiometricAuth = true, otherwise optional; no default
+    }
+}
+```
+
+#### **multiremote**
+
+```js
+baseUrl: "https://your-deployed-ui5-on-btp.app",
+capabilities: {
+    // "one" is the literal reference to a browser instance
+    one: {
+        capabilities: {
+            // browserName: "..."
+            "wdi5:authentication": {
+                provider: "BTP", //> mandatory
+                usernameSelector: "#j_username", //> optional; default: "#j_username"
+                passwordSelector: "#j_password", //> optional; default: "#j_password"
+                submitSelector: "#logOnFormSubmit", //> optional; default: "#logOnFormSubmit"
+                disableBiometricAuth: true, //> optional; default: true
+                idpDomain: "weiruhg.accounts.ondemand.com", //> mandatory if disableBiometricAuth = true, otherwise optional; no default
+            }
+        }
+    },
+    // "two" is the literal reference to a browser instance
+    two: {
+        capabilities: {
+            // browserName: "..."
+            "wdi5:authentication": {
+                provider: "BTP", //> mandatory
+                usernameSelector: "#j_username", //> optional; default: "#j_username"
+                passwordSelector: "#j_password", //> optional; default: "#j_password"
+                submitSelector: "#logOnFormSubmit", //> optional; default: "#logOnFormSubmit"
+                disableBiometricAuth: true, //> optional; default: true
+                idpDomain: "weiruhg.accounts.ondemand.com", //> mandatory if disableBiometricAuth = true, otherwise optional; no default
+            }
+        }
+    }
+}
+```
+
+<!-- tabs:end -->
 
 ### Office 365
 
