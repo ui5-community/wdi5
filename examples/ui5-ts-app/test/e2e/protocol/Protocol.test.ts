@@ -27,7 +27,7 @@ describe("Protocol", async () => {
 
     async function getButtonOnPage1() {
         const wdi5Button: wdi5Selector = {
-            // forceSelect: true,
+            forceSelect: true,
             selector: {
                 id: "__component0---Main--NavFwdButton"
             }
