@@ -76,8 +76,6 @@ examples:
 
 ## b) guided install via `wdio` cli
 
-!> `wdi5` is not compatible with `wdio 8` at this time. If you have an existing `wdio` project you will have to downgrade your existing `wdio` packages to version `7.x.x` manually. If you are starting a new `wdio` project with this guide, you will have to change the package versions to be compatible with version `7.x.x` for all wdio related pacakges.
-
 ?> This step assumes that you have neither installed WebdriverIO nor `wdi5` previously for that UI5 app. If so, see [manual install](#manual-installation) below.
 
 On the console, change into the folder with the UI5 app you want to test.
