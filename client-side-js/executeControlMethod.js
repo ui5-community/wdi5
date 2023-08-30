@@ -1,4 +1,4 @@
-async function clientSide_executeControlMethod(webElement, methodName, browserInstance, args) {
+async function executeControlMethod(webElement, methodName, browserInstance, args) {
     return await browserInstance.executeAsync(
         (webElement, methodName, args, done) => {
             window.wdi5.waitForUI5(
@@ -18,7 +18,6 @@ async function clientSide_executeControlMethod(webElement, methodName, browserIn
                             // expect the method call delivers non-primitive results (like getId())
                             // but delivers a complex/structured type
                             // -> currenlty, only getAggregation(...) is supported
-
                             // read classname eg. sap.m.ComboBox
                             controlType = oControl.getMetadata()._sClassName
 
@@ -60,7 +59,6 @@ async function clientSide_executeControlMethod(webElement, methodName, browserIn
                                 const uuid = window.wdi5.saveObject(result)
 
                                 // FIXME: extract, collapse and remove cylic in 1 step
-
                                 // extract the methods first
                                 const aProtoFunctions = window.wdi5.retrieveControlMethods(result, true)
 
@@ -114,6 +112,26 @@ async function clientSide_executeControlMethod(webElement, methodName, browserIn
         methodName,
         args
     )
+}
+/**
+ *
+ * @param {*} webElement
+ * @param {*} methodName
+ * @param {*} browserInstance
+ * @param {*} args
+ * @param {WDI5Control} wdi5Control
+ */
+async function clientSide_executeControlMethod(webElement, methodName, browserInstance, args, wdi5Control) {
+    let result
+    try {
+        result = await executeControlMethod(webElement, methodName, browserInstance, args)
+    } catch (err) {
+        if (err.message.includes("is stale")) {
+            let renewedWebElement = await wdi5Control.renewWebElementReference()
+            result = await executeControlMethod(renewedWebElement, methodName, browserInstance, args)
+        }
+    }
+    return result
 }
 
 module.exports = {
