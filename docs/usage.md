@@ -528,7 +528,7 @@ Example: `5-5-17-46-47-screenshot--some-id.png`
 For convenient console output, use `wdi5.getLogger('tag')`. It supports the `syslog`-like levels `log`, `info`, `warn` and `error`:
 
 ```javascript
-const wdi5 = require("wdi5")
+const { wdi5 } = require("wdio-ui5-service")
 wdi5.getLogger().log("any", "number", "of", "log", "parts")
 ```
 
