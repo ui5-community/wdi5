@@ -1,4 +1,4 @@
-const { Logger } = require("../dist/lib/Logger.js")
+const { Logger } = require("../cjs/lib/Logger.js")
 const logger = Logger.getInstance()
 /**
  * Execute method on the ui5 control through the browser. Here the real magic happens :)

@@ -8,7 +8,7 @@ export const config: wdi5Config = {
         logLevel: "verbose"
     },
     services: ["ui5"],
-    specs: [resolve("test/e2e/Protocol.test.ts")],
+    specs: [resolve("test/e2e/protocol/*.test.ts")],
     automationProtocol: "devtools",
     capabilities: [
         {
