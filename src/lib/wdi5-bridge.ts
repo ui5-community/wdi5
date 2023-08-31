@@ -270,7 +270,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
         }
 
         const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
-
+        // REVISIT all elements receive the same! internal key
         if (!browserInstance._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
             wdi5Selector.wdio_ui5_key = internalKey
             Logger.info(`creating internal controls with id ${internalKey}`)

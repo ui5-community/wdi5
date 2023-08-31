@@ -621,10 +621,14 @@ export class WDI5Control {
      * used to update the wdio control reference
      * this can be used to manually trigger an control reference update after a ui5 control rerendering
      * this method is also used wdi5-internally to implement the extended forceSelect option
+     * @param {Boolean} isRefresh devtools protocol only: whether to treat the incoming call as a refresh attempt on a stale web element
      */
-    private async _renewWebElementReference() {
+
+    private async _renewWebElementReference(isRefresh = false) {
         if (this._domId) {
-            const newWebElement = (await this._getControl(this._controlSelector)).domElement // added to have a more stable retrieval experience
+            const newWebElement = (
+                await this._getControl(isRefresh ? this._controlSelector : { selector: { id: this._domId } })
+            ).domElement // added to have a more stable retrieval experience
             if (!this.isInitialized()) {
                 this._webElement = undefined
             }
@@ -634,8 +638,13 @@ export class WDI5Control {
             throw Error("control could not be found")
         }
     }
-    async renewWebElementReference() {
-        return await this._renewWebElementReference()
+
+    /**
+     * expose internal API to refresh a stale web element reference
+     * @param {Boolean} asRefresh devtools protocol only: whether to treat the incoming call as a refresh attempt on a stale web element
+     */
+    async renewWebElementReference(asRefresh = true) {
+        return await this._renewWebElementReference(asRefresh)
     }
 
     /**
