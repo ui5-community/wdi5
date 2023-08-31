@@ -40,6 +40,8 @@ See below for many more examples on both using `wdi5`- and `wdio`-APIs, denoting
 The files containing tests should reside in `$ui5-app/webapp/test/` and be named `*.test.(j|t)s`.
 Yet both test file directory and naming pattern can be specified [via WebdriverIO's `specs`](https://webdriver.io/docs/options#specs) in [`wdio.conf.(j|t)s`](/configuration#wdi5).
 
+?> `wdi5` can be used both in a [CJS-](https://nodejs.org/docs/latest/api/modules.html) and an [ESM-](https://nodejs.org/docs/latest/api/esm.html)environment. The code examples sometimes use either or, but in no favor of one over the other.
+
 ### Test suites
 
 WebdriverIO and `wdi5` can be used with [Mocha](http://mochajs.org/), [Jasmine](http://jasmine.github.io/), and [Cucumber](https://cucumber.io/), with Mocha being used in [all examples](https://github.com/ui5-community/wdi5/tree/main/examples) in `wdi5`.
@@ -74,7 +76,7 @@ describe("test suite description", () => {
 #### **JavaScript (ESM)**
 
 ```js
-const { wdi5 } = require("wdio-ui5-service")
+import { wdi5 } from "wdio-ui5-service"
 
 describe("test suite description", () => {
   before(async () => {
@@ -404,7 +406,7 @@ If `getAggregation` is called via a shorthand such as `sap.m.ListBase.getItems()
 
 ### `enterText`
 
-`enterText(sText)`: input `sText` into a (input-capable) control via [EnterText](https://ui5.sap.com/#/api/sap.ui.test.actions.EnterText)
+`enterText(text)`: input `text` (`string`) into a (input-capable) control via [EnterText](https://ui5.sap.com/#/api/sap.ui.test.actions.EnterText)
 
 ```javascript
 const control = await browser.asControl(inputSelector)
