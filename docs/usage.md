@@ -48,7 +48,30 @@ Mocha tests [are structured with `describe`-blocks ("suite"), containing `it`s (
 
 <!-- tabs:start -->
 
-#### **JavaScript**
+#### **JavaScript (CJS)**
+
+```js
+const { wdi5 } = require("wdio-ui5-service")
+
+describe("test suite description", () => {
+  before(async () => {
+    await wdi5.goTo("#/Page")
+  })
+
+  it("should do this", async () => {
+    const selector = {
+      /* ... */
+    }
+    const prop = await browser.asControl(selector).getProperty("...")
+    expect(prop).toEqual("...")
+  })
+  it("should do that", async () => {
+    //...
+  })
+})
+```
+
+#### **JavaScript (ESM)**
 
 ```js
 const { wdi5 } = require("wdio-ui5-service")
