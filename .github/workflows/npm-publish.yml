@@ -23,9 +23,11 @@ on:
 
 jobs:
   build-and-publish:
+    # tmp disable for wdi5 2.0 prereleases
+    if: false
     # only run on non-ci commits and
     # on filter docs-, deps-, deps-dev + ci-labeled commits
-    if: "!contains(github.event.head_commit.author.name, 'wdi5 bot') && !startsWith(github.event.head_commit.message, 'chore(deps') && !startsWith(github.event.head_commit.message, 'docs') && !startsWith(github.event.head_commit.message, 'ci')"
+    ### if: "!contains(github.event.head_commit.author.name, 'wdi5 bot') && !startsWith(github.event.head_commit.message, 'chore(deps') && !startsWith(github.event.head_commit.message, 'docs') && !startsWith(github.event.head_commit.message, 'ci')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

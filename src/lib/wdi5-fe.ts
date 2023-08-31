@@ -1,5 +1,6 @@
-import { initOPA, addToQueue, emptyQueue, loadFELibraries } from "../../client-side-js/testLibrary"
-import { Logger as _Logger } from "./Logger"
+import { Element } from "webdriverio"
+import { initOPA, addToQueue, emptyQueue, loadFELibraries } from "../../client-side-js/testLibrary.cjs"
+import { Logger as _Logger } from "./Logger.js"
 const Logger = _Logger.getInstance()
 
 const commonFunctions = ["and", "when", "then"]
@@ -23,11 +24,67 @@ function createProxy(myObj: any, type: string, methodCalls: any[], pageKeys: str
     return thisProxy
 }
 export class WDI5FE {
-    constructor(private appConfig: any, private browserInstance: any) {}
+    onTheShell: any
+
+    constructor(
+        private appConfig: any,
+        private browserInstance: any,
+        private shell?: any
+    ) {
+        // only in the workzone context
+        // do we need to hotwire a back navigation on the fiori shell
+        if (shell) {
+            this.onTheShell = {
+                iNavigateBack: async () => {
+                    await this.toShell()
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    await this.shell.execute((Given, When, Then) => {
+                        When.onTheShell.iNavigateBack()
+                    })
+                    await this.toApp()
+                }
+            }
+        }
+    }
+
+    async toShell() {
+        await browser.switchToParentFrame()
+    }
+
+    async toApp() {
+        await browser.switchToFrame(0)
+    }
+
     static async initialize(appConfig, browserInstance = browser) {
+        // first magic wand wave -> app context
         await loadFELibraries(browserInstance)
         await initOPA(appConfig, browserInstance)
-        return new WDI5FE(appConfig, browserInstance)
+
+        // second magic wand wave -> shell context
+        // yet only wave the wand when there's an iframe somewhere,
+        // indicating BTP WorkZone territory
+        await browserInstance.switchToParentFrame()
+
+        // @ts-expect-error element is not to generic
+        const iframe: Element = await browserInstance.findElement("css selector", "iframe")
+        let shell
+        if (!iframe.error) {
+            const shellConfig = {
+                onTheShell: {
+                    Shell: {}
+                }
+            }
+            shell = new WDI5FE(shellConfig, browserInstance)
+            await loadFELibraries(browserInstance)
+            await initOPA(shellConfig, browserInstance)
+
+            // back to app
+            await browserInstance.switchToFrame(0)
+        } else {
+            // revert back to app context
+            await browserInstance.switchToFrame(null)
+        }
+        return new WDI5FE(appConfig, browserInstance, shell)
     }
 
     async execute(fnFunction) {

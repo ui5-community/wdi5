@@ -2,7 +2,7 @@ import Button from "sap/m/Button"
 import Page from "sap/m/Page"
 import Controller from "sap/ui/core/mvc/Controller"
 import View from "sap/ui/core/mvc/View"
-import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
+import { wdi5Selector } from "wdio-ui5-service"
 import { wdi5 } from "wdio-ui5-service"
 import * as sinon from "sinon"
 
@@ -31,7 +31,7 @@ describe("Basic", async () => {
         const view = await (browser.asControl(selector) as unknown as Page).getParent()
         const controller: Controller = await (view as View).getController()
 
-        // @ts-ignore this async fn lives in an not properly typed controller
+        // @ts-expect-error this async fn lives in an not properly typed controller
         const number = await controller.asyncFn()
         expect(number).toEqual(10)
     })
@@ -49,7 +49,7 @@ describe("Basic", async () => {
         const view: unknown = await (browser.asControl(selector) as unknown as Page).getParent()
         const controller: Controller = await (view as View).getController()
 
-        // @ts-ignore this async fn lives in an not properly typed controller
+        // @ts-expect-error this async fn lives in an not properly typed controller
         await controller.asyncRejectFn()
         expect(
             (Logger.error as sinon.SinonSpy).calledWith('call of asyncRejectFn failed because of: "meh"')

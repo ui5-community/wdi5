@@ -38,7 +38,7 @@ describe("custom auth", () => {
             }
         ]
         for (const config of configs) {
-            // @ts-ignore
+            // @ts-expect-error type casting issue
             throws(() => new CustomAuthenticator(config, { dummy: true }), {
                 name: /Error/,
                 message: /all options must be provided/

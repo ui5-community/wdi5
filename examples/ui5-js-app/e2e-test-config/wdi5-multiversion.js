@@ -1,7 +1,7 @@
 const fsExtra = require("fs-extra")
 const path = require("path")
 const replace = require("replace-in-file")
-const Launcher = require("@wdio/cli").default
+const { Launcher } = require("@wdio/cli")
 
 // lts versions (> 1.60)
 // empty string will get the newest Version which can be a "SNAPSHOT" version
@@ -37,6 +37,9 @@ const versions = ["", "1.71", "1.84", "1.96"]
 
         // run it
         const wdio = new Launcher(targetWdioConf)
+        //> REVISIT: this is only necessary to wait for the async constructor to resolve
+        //> seehttps://github.com/webdriverio/webdriverio/pull/10607
+        await new Promise((resolve) => setTimeout(resolve, 1000))
         await wdio.run().then((code) => {
             if (code === 1) {
                 process.exit(1)

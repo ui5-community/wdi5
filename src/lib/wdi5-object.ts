@@ -1,6 +1,6 @@
-import { clientSide_executeObjectMethod } from "../../client-side-js/executeObjectMethod"
+import { clientSide_executeObjectMethod } from "../../client-side-js/executeObjectMethod.cjs"
 import { clientSide_ui5Response } from "../types/wdi5.types"
-import { Logger as _Logger } from "./Logger"
+import { Logger as _Logger } from "./Logger.js"
 
 const Logger = _Logger.getInstance()
 /**

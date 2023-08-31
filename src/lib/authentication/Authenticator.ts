@@ -1,5 +1,3 @@
-import { MultiRemoteDriver } from "webdriverio/build/multiremote"
-
 export default class Authenticator {
     usernameSelector: string
     passwordSelector: string
@@ -18,7 +16,7 @@ export default class Authenticator {
 
     getUsername(): string {
         let envName = "wdi5_username"
-        if (browser instanceof MultiRemoteDriver) {
+        if (browser.isMultiremote) {
             envName = `wdi5_${this.browserInstanceName}_username`
         }
         return process.env[envName]
@@ -26,7 +24,7 @@ export default class Authenticator {
 
     getPassword(): string {
         let envName = "wdi5_password"
-        if (browser instanceof MultiRemoteDriver) {
+        if (browser.isMultiremote) {
             envName = `wdi5_${this.browserInstanceName}_password`
         }
         return process.env[envName]

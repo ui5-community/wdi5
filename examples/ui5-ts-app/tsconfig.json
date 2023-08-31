@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
-    "types": [
-      "node",
-      "webdriverio/async",
-      "@wdio/mocha-framework",
-      "expect-webdriverio",
-      "wdio-ui5-service/dist",
-      "@openui5/types"
-    ],
-    "target": "es2015"
-  }
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "allowJs": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "rootDir": "./webapp",
+    "paths": {
+      "test/Sample/tsapp/*": ["./webapp/*"]
+    },
+    "types": ["node", "@openui5/types"]
+  },
+  "include": ["./webapp/**/*"]
 }

@@ -1,5 +1,5 @@
-import Authenticator from "./lib/authentication/Authenticator"
-import { Logger } from "./lib/Logger"
+import Authenticator from "./lib/authentication/Authenticator.js"
+import { Logger } from "./lib/Logger.js"
 
 const authenticatorInstances = {}
 
@@ -10,6 +10,19 @@ export class wdi5 {
     static getLogger(sPrefix = "wdi5") {
         return Logger.getInstance(sPrefix)
     }
+
+    //// REVISIT: not yet/if still needed :)
+    // static wz = new Proxy(this, {
+    //     get(target, prop, receiver) {
+    //         browser.switchToParentFrame()
+
+    //         // eslint-disable-next-line prefer-rest-params
+    //         console.log("GET", ...arguments)
+    //         Reflect.get(odatav4Lib, prop, receiver)
+
+    //         browser.switchToFrame(0)
+    //     }
+    // })
 
     /**
      * expose the current authentication status

@@ -58,9 +58,9 @@ describe("wdio bridge", () => {
         // new fluent version of webelement access
         const wdioBridgeLocationFluent = await browser.asControl(iaSyncSelector).$().getLocation()
 
-        wdi5.getLogger().log(`[WDI5]: wdioLocation: ${wdioLocation.x}, ${wdioLocation.y}`)
+        wdi5.getLogger().log(`[wdi5]: wdioLocation: ${wdioLocation.x}, ${wdioLocation.y}`)
         wdi5.getLogger().log(
-            `[WDI5]: wdioBridgeLocationFluent: ${wdioBridgeLocationFluent.x}, ${wdioBridgeLocationFluent.y}`
+            `[wdi5]: wdioBridgeLocationFluent: ${wdioBridgeLocationFluent.x}, ${wdioBridgeLocationFluent.y}`
         )
 
         expect(wdioLocation).toEqual(wdioBridgeLocationFluent)

@@ -251,7 +251,6 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                         } while ((currentObj = Object.getPrototypeOf(currentObj)))
 
                         // filter for:
-                        // @ts-ignore
                         let controlMethodsToProxy = [...properties.keys()].filter((item) => {
                             if (typeof control[item] === "function") {
                                 // function

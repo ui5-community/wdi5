@@ -61,6 +61,8 @@ typings/
 .idea
 
 # don't include build artifacts
+cjs/**/*
+esm/**/*
 dist/**/*
 
 # Gitkeep generally

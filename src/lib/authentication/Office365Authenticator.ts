@@ -1,5 +1,5 @@
 import { Office365Authenticator as Office365AuthenticatorType } from "../../types/wdi5.types"
-import Authenticator from "./Authenticator"
+import Authenticator from "./Authenticator.js"
 
 class Office365Authenticator extends Authenticator {
     staySignedIn: boolean
@@ -27,7 +27,7 @@ class Office365Authenticator extends Authenticator {
                 await browser.waitUntil(async () => await (await $("#KmsiDescription")).isClickable(), {
                     timeout: 5000,
                     timeoutMsg:
-                        "StaySignedIn step is not visible. If this step doesnt exist, set in wdi5 configuration 'staySignedIn' option to false."
+                        "StaySignedIn step is not visible. If this step doesn't exist, set in wdi5 configuration 'staySignedIn' option to false."
                 })
                 await $(this.submitSelector).click()
             }

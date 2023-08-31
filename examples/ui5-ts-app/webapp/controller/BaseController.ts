@@ -1,6 +1,6 @@
 import Controller from "sap/ui/core/mvc/Controller"
 import UIComponent from "sap/ui/core/UIComponent"
-import AppComponent from "../Component"
+import AppComponent from "../Component.js"
 import Model from "sap/ui/model/Model"
 import ResourceModel from "sap/ui/model/resource/ResourceModel"
 import ResourceBundle from "sap/base/i18n/ResourceBundle"

@@ -26,7 +26,7 @@ const _config = {
             }
         }
     ],
-    specs: ["webapp/test/e2e/*.test.js"]
+    specs: ["../webapp/test/e2e/*.test.js"]
 }
 
 exports.config = merge(baseConfig, _config)

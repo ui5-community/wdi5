@@ -1,8 +1,7 @@
-import { join } from "path"
+import { join, resolve } from "path"
 import merge from "ts-deepmerge"
-import { wdi5Config } from "wdio-ui5-service/dist/types/wdi5.types"
-import { config as bstackConfig, browser } from "../cloud-services/browserstack.conf.local"
-
+import { wdi5Config } from "wdio-ui5-service"
+import { config as bstackConfig, browser } from "../cloud-services/browserstack.conf.local.js"
 type _wdi5Config = Omit<wdi5Config, "capabilities">
 const _config: _wdi5Config = {
     wdi5: {
@@ -12,9 +11,9 @@ const _config: _wdi5Config = {
     baseUrl: "https://wdi5-sample-app.cfapps.eu20.hana.ondemand.com/basic-auth/",
 
     // browserstack service gets injected later during merge of configs
-    services: process.env.BROWSERSTACK ? [] : ["chromedriver", "ui5"],
+    services: process.env.BROWSERSTACK ? [] : ["ui5"],
 
-    specs: ["./test/e2e/Basic.test.ts", "./test/e2e/Authentication.test.ts"],
+    specs: [resolve("./test/e2e/Basic.test.ts"), resolve("./test/e2e/Authentication.test.ts")],
 
     maxInstances: 10,
     logLevel: "error",
