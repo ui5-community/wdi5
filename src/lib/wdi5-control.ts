@@ -624,7 +624,7 @@ export class WDI5Control {
      */
     private async _renewWebElementReference() {
         if (this._domId) {
-            const newWebElement = (await this._getControl({ selector: { id: this._domId } })).domElement // added to have a more stable retrieval experience
+            const newWebElement = (await this._getControl(this._controlSelector)).domElement // added to have a more stable retrieval experience
             this._webElement = newWebElement
             return newWebElement
         } else {
