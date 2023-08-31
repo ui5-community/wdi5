@@ -2,6 +2,8 @@
 
 With `wdi5` [being a service to WebdriverIO](https://webdriver.io/docs/wdio-ui5-service), installation of both is required.
 
+`wdi5` can be used both in a [CJS-](https://nodejs.org/docs/latest/api/modules.html) and an [ESM-](https://nodejs.org/docs/latest/api/esm.html)environment.
+
 ## Prerequisites
 
 - UI5 app running in the browser, accessible via `http(s)://host.ext:port`.
