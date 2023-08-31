@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.5](https://github.com/ui5-community/wdi5/compare/v1.5.4...v1.5.5) (2023-08-31)
+
+
+### Bug Fixes
+
+* **devtools:** handle renewing webElements gracefully ([#527](https://github.com/ui5-community/wdi5/issues/527)) ([0190ce9](https://github.com/ui5-community/wdi5/commit/0190ce9d786bd42033f071128a969056b7661d88))
+
 ### [1.5.4](https://github.com/ui5-community/wdi5/compare/v1.5.3...v1.5.4) (2023-08-31)
 
 
