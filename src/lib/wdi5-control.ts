@@ -514,7 +514,9 @@ export class WDI5Control {
             webElement,
             methodName,
             this._browserInstance,
-            args
+            args,
+            // to safeguard "stale" elements in the devtools protocol we pass the whole wdi5 object
+            this
         )) as clientSide_ui5Response
 
         // create logging
@@ -628,6 +630,9 @@ export class WDI5Control {
         } else {
             throw Error("control could not be found")
         }
+    }
+    async renewWebElementReference() {
+        return await this._renewWebElementReference()
     }
 
     /**
