@@ -132,6 +132,9 @@ async function executeControlMethod(webElement, methodName, browserInstance, arg
  * @param {WDI5Control} wdi5Control wdi5 representation of the ui5 control
  */
 async function clientSide_executeControlMethod(webElement, methodName, browserInstance, args, wdi5Control) {
+    /**
+     * @type {import("../src/types/wdi5.types.js").clientSide_ui5Response}
+     * **/
     let result
     try {
         result = await executeControlMethod(webElement, methodName, browserInstance, args)
@@ -139,8 +142,18 @@ async function clientSide_executeControlMethod(webElement, methodName, browserIn
         if (err.message?.includes("is stale")) {
             logger.debug(`webElement ${JSON.stringify(webElement)} stale, trying to renew reference...`)
             let renewedWebElement = await wdi5Control.renewWebElementReference()
-            result = await executeControlMethod(renewedWebElement, methodName, browserInstance, args)
-            logger.debug(`successfully renewed reference: ${JSON.stringify(renewedWebElement)}`)
+            if (renewedWebElement) {
+                result = await executeControlMethod(renewedWebElement, methodName, browserInstance, args)
+                logger.debug(`successfully renewed reference: ${JSON.stringify(renewedWebElement)}`)
+            } else {
+                logger.error(`failed renewing reference for webElement: ${JSON.stringify(webElement)}`)
+                result = {
+                    status: 1,
+                    message: `${methodName} could not be executed on control with selector: ${JSON.stringify(
+                        wdi5Control._controlSelector
+                    )}`
+                }
+            }
         } else {
             throw err
         }

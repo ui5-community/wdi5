@@ -2,11 +2,10 @@ import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
 import Button from "sap/ui/webc/main/Button"
 
 describe("Devtools: ", async () => {
-    it.only("safeguard 'stale' element handling", async () => {
+    it("safeguard 'stale' element handling", async () => {
         const buttonWDI5 = await getButtonOnPage1()
 
         // mock a stale element
-        // @ts-expect-error stub getVisible
         buttonWDI5.getVisible = async function () {
             return await this._executeControlMethod("getVisible", {
                 "element-6066-11e4-a52e-4f735466cecf": "stale"
@@ -14,11 +13,23 @@ describe("Devtools: ", async () => {
         }
 
         expect(await buttonWDI5.getVisible()).toBe(true)
+    })
 
+    it("safeguard 'stale' invisible element", async () => {
+        const buttonWDI5 = await getButtonOnPage1()
+
+        // mock a stale element
+        buttonWDI5.getVisible = async function () {
+            return await this._executeControlMethod("getVisible", {
+                "element-6066-11e4-a52e-4f735466cecf": "stale"
+            })
+        }
+        // set stale element invisible
         await buttonWDI5.setVisible(false)
 
         const invisibleButton = await getButtonOnPage1()
-        expect(await invisibleButton.getVisible()).toBe(false)
+        // we should receive nothing => null
+        expect(await invisibleButton.getVisible()).toBe(null)
     })
 
     it("safeguard 'stale' element handling with full selector", async () => {

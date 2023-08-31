@@ -18,7 +18,7 @@ const Logger = _Logger.getInstance()
 export class WDI5Control {
     _controlSelector: wdi5Selector = null
     // return value of Webdriver interface: JSON web token
-    _webElement: WebdriverIO.Element | string = null // TODO: type "org.openqa.selenium.WebElement"
+    _webElement: WebdriverIO.Element | string | undefined = null // TODO: type "org.openqa.selenium.WebElement"
     // wdio elment retrieved separately via $()
     _webdriverRepresentation: WebdriverIO.Element = null
     _metadata: wdi5ControlMetadata = {}
@@ -31,7 +31,7 @@ export class WDI5Control {
     _logging: boolean
     _wdioBridge = <WebdriverIO.Element>{}
     _generatedWdioMethods: Array<string>
-    _domId: string
+    _domId: string | undefined
 
     // these controls receive the specific "interaction": "press" operator
     // instead of a regular "click" event
@@ -625,6 +625,9 @@ export class WDI5Control {
     private async _renewWebElementReference() {
         if (this._domId) {
             const newWebElement = (await this._getControl(this._controlSelector)).domElement // added to have a more stable retrieval experience
+            if (!this.isInitialized()) {
+                this._webElement = undefined
+            }
             this._webElement = newWebElement
             return newWebElement
         } else {
@@ -701,6 +704,9 @@ export class WDI5Control {
 
             // set the succesful init param
             this._initialisation = true
+        } else {
+            this._initialisation = false
+            this._domId = undefined
         }
         if (this._logging) {
             this._writeObjectResultLog(_result, "_getControl()")
