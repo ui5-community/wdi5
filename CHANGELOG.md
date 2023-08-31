@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.4](https://github.com/ui5-community/wdi5/compare/v1.5.3...v1.5.4) (2023-08-31)
+
+
+### Bug Fixes
+
+* safeguard devtools protocol stale web element ref ([#524](https://github.com/ui5-community/wdi5/issues/524)) ([ece986f](https://github.com/ui5-community/wdi5/commit/ece986f16f10426370fad4eb6d79b5f983262ab6))
+
 ### 1.5.3 (2023-08-22)
 
 
