@@ -1,0 +1,28 @@
+{
+  "name": "ui5-app-esm",
+  "version": "0.8.15-notimportant",
+  "private": true,
+  "description": "sample ESM ui5 app for testing wdi5",
+  "license": "UNLICENSED",
+  "author": "j&s-soft GmbH",
+  "main": "webapp/index.html",
+  "type": "module",
+  "scripts": {
+    "start": "ui5 serve",
+    "wdi5": "wdio ./webapp/test/e2e/wdio.conf.js"
+  },
+  "devDependencies": {
+    "@ui5/cli": "^3",
+    "@types/sinon": "^10.0.16",
+    "sinon": "^15.2.0",
+    "@wdio/cli": "^8",
+    "@wdio/local-runner": "^8",
+    "@wdio/mocha-framework": "^8",
+    "@wdio/spec-reporter": "^8",
+    "ui5-middleware-simpleproxy": "latest",
+    "wdio-ui5-service": "*"
+  },
+  "dependencies": {
+    "@wdio/sauce-service": "^8"
+  }
+}
