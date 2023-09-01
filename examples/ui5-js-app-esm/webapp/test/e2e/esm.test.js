@@ -22,7 +22,7 @@ describe("ui5 basic", () => {
                 viewName: "test.Sample.view.Main"
             }
         }
-        const text = /** @type {import("wdio-ui5-service/esm/lib/wdi5-control.js").WDI5Control} */ (
+        const text = await /** @type {import("wdio-ui5-service/esm/lib/wdi5-control.js").WDI5Control} */ (
             await browser.asControl(selector)
         ).getText()
         expect(text).toEqual("UI5 demo")
