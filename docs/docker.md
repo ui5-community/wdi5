@@ -49,7 +49,7 @@ Note that as of now, only `Google Chrome` is inlcuded as a web browser for runni
 
 ### composed scenario
 
-(soon)
+(not yet)
 
 ## docker image(s) setup
 
@@ -66,4 +66,4 @@ Note that as of now, only `Google Chrome` is inlcuded as a web browser for runni
 
 ### swarm
 
-(soon)
+(not yet)
