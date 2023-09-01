@@ -61,6 +61,10 @@ jobs:
       - name: build
         run: npm run build
 
-      # run wdi5 tests within app(s)
+      # run wdi5 tests within CJS app/env
       - name: test js-app
         run: npm run test-h:js-app
+
+      # run wdi5 tests within ESM app/env
+      - name: test js-app
+        run: npm run test-h:js-app:esm

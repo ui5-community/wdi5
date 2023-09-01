@@ -2,7 +2,7 @@ export const config = {
     wdi5: {
         logLevel: "verbose"
     },
-    baseUrl: "http://localhost:8080/index.html",
+    baseUrl: "http://localhost:8082/index.html",
 
     services: ["ui5"],
     specs: ["./**/*.test.js"],
@@ -10,7 +10,13 @@ export const config = {
     capabilities: [
         {
             maxInstances: 1,
-            browserName: "chrome"
+            browserName: "chrome",
+            "goog:chromeOptions": {
+                args:
+                    process.argv.indexOf("--headless") > -1
+                        ? ["window-size=1440,800", "--headless"]
+                        : ["window-size=1440,800"]
+            }
         }
     ],
     logLevel: "error",
