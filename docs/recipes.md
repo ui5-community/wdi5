@@ -214,37 +214,80 @@ Another example: trigger a `sap.m.List`'s aggregation function...
 
 ![screenshot of code completion at coding-time by using the proper JSDoc type cast](./img/jsdoc-type-cast-codecompletion.png)
 
-## navigate an FLP tile
+## navigate in SAP Build WorkZone
 
-Feasible if your project launches as a mocked Fiori Launchpad (FLP).
+### via standard `wdi5` mechanisms
 
-Given the FLP is also a UI5 app, `wdi5`‘s standard mechanism of retrieving controls could be used in the tests.
+**First**, adjust the config to enable Build Workzone support in `wdi5`[via `btpWorkZoneEnablement`](configuration#btpworkzoneenablement). This will inject `wdi5` both in the shell and in the "app area" of Workzone.
 
-Via the text property matcher, the tile‘s label is located (a `sap.m.Text`).
-
-```javascript
-const tile = await browser.asControl({
-  selector: {
-    properties: {
-      text: "SAP Community Profile Picture Editor"
-    },
-    controlType: "sap.m.Text"
+```typescript
+export const config: wdi5Config = {
+  wdi5: {
+    btpWorkZoneEnablement: true,
+    logLevel: "verbose"
   }
+  //...
+}
+```
+
+If `wdi5` logLevel is set to `verbose`, the console will reflect this:
+
+```console
+[0-0] [wdi5] delegating wdi5 injection to WorkZone enablement...
+# ...
+[0-0] [wdi5] injected wdi5 into the WorkZone std ed's shell!
+# ...
+[0-0] [wdi5] injected wdi5 into the WorkZone std ed's iframe containing the target app!
+# ...
+```
+
+**Second**, point `baseUrl` in the config to the _app under test_ in Workzone, not only to the Workzone URL!
+
+```typescript
+export const config: wdi5Config = {
+  wdi5: {
+    btpWorkZoneEnablement: true,
+    logLevel: "verbose"
+  },
+  // note the "hash"ed URL part at the end pointing to the app!
+  baseUrl: "https://your.launchpad.cfapps.eu10.hana.ondemand.com/site/you#travel-process"
+  //...
+}
+```
+
+**Third**, in the actual test(s), switch between Workzone shell and Workzone's app area via `wdi5`'s convenience methods `toWorkZoneShell()` and `toWorkZoneApp()`.
+
+```typescript
+import { wdi5 } from "wdio-ui5-service"
+describe("drive in Work Zone with standard wdi5/wdio APIs", () => {
+  it("shell", async () => {
+    await wdi5.toWorkZoneShell() // <--
+    await browser
+      .asControl<sap.m.Avatar>({
+        selector: {
+          id: "userActionsMenuHeaderButton"
+        }
+      })
+      .press()
+    // ...
+  })
+
+  it("should find the table in the travel app", async () => {
+    await wdi5.toWorkZoneApp() // <--
+    const table = await browser.asControl<sap.ui.mdc.Table>({
+      selector: {
+        id: "sap.fe.cap.travel::TravelList--fe::table::Travel::LineItem"
+      }
+    })
+    // ...
+  })
+  //...
 })
 ```
 
-Then we navigate up the control tree with the help of [`wdi5`'s fluent async api](usage#fluent-async-api) until we reach the tile itself via `.getParent().getParent()`.
-A click on it brings us to the linked app itself.
+### in test library
 
-```javascript
-// get wdio element reference
-const $tile = await tile.getWebElement()
-// use wdio api
-await $tile.click()
-```
-
-Why not locating that tile itself directly?
-Because in most cases it doesn't have a stable ID, and thus its‘ ID might change in the next UI5 rendering cycle - using a locator id such as `__tile0` might break the test eventually then.
+There's an integration for `wdi5` explained in the [respective documentation chapter](fe-testlib#using-the-test-library-with-sap-build-workzone-standard-edition).
 
 ## send keyboard events to a Control/element
 
