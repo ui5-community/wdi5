@@ -98,3 +98,22 @@ Now requires using the `devtools` package (which is now a dependency of `wdi5`) 
      ]
  }
 ```
+
+### use `wdi5` as ESM module
+
+With `wdi5` v2, it is possible to write tests in an ESM module environment (see [/examples/ui5-js-app-esm](https://github.com/ui5-community/wdi5/blob/main/examples/ui5-js-app-esm)). The `describe` and `it` syntax remains the same as in an CJS environment. The major difference is in the way `wdi5` and third party modules are imported in ESM-style JavaScript files.
+
+Sample excerpt:
+
+```js
+// file: basic.test.js
+import { wdi5 } from "wdio-ui5-service" // <--
+
+describe("...", () => {
+    it("...", () => {
+        await browser.asControl(selector).someMethod()
+        wdi5.getLogger("esm!").log("Hello ESM World!")
+    })
+})
+
+```
