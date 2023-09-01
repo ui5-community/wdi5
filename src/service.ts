@@ -34,7 +34,7 @@ export default class Service implements Services.ServiceInstance {
                 if (this._config.wdi5.skipInjectUI5OnStart) {
                     Logger.warn("skipped wdi5 injection!")
                 } else if (this._config.wdi5.btpWorkZoneEnablement) {
-                    Logger.info("delegating wdi5 injection to Work Zone enablement...")
+                    Logger.info("delegating wdi5 injection to WorkZone enablement...")
                     await this.enableBTPWorkZoneStdEdition(browser[name])
                 } else {
                     await this.injectUI5(browser[name])
@@ -48,7 +48,7 @@ export default class Service implements Services.ServiceInstance {
             if (this._config.wdi5.skipInjectUI5OnStart) {
                 Logger.warn("skipped wdi5 injection!")
             } else if (this._config.wdi5.btpWorkZoneEnablement) {
-                Logger.info("delegating wdi5 injection to Work Zone enablement...")
+                Logger.info("delegating wdi5 injection to WorkZone enablement...")
                 await this.enableBTPWorkZoneStdEdition(browser)
             } else {
                 await this.injectUI5(browser)
