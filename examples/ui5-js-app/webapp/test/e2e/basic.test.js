@@ -1,6 +1,7 @@
 const Main = require("./pageObjects/Main")
 const marky = require("marky")
 const { wdi5 } = require("wdio-ui5-service")
+const { WDI5Control } = require("wdio-ui5-service/cjs/lib/wdi5-control.js")
 
 const titleSelector = { selector: { id: "container-Sample---Main--Title::NoAction.h1" } }
 
@@ -34,8 +35,7 @@ describe("ui5 basic", () => {
             }
         }
 
-        // ui5
-        const titleWUi5 = await browser.asControl(selector).getText()
+        const titleWUi5 = /** @type {WDI5Control} */ (await browser.asControl(selector)).getText()
         expect(titleWUi5).toEqual("UI5 demo")
     })
 
