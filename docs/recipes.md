@@ -12,7 +12,7 @@ The config is set so that
 - a static download dir exists
 
 ```javascript
-// in wdio.conf.cjs
+// in wdio.conf.js
 "goog:chromeOptions": {
     prefs: {
         directory_upgrade: true,
@@ -140,15 +140,47 @@ await browser
 
 In VS Code, use a `jsconfig.json` at the root of your JavaScript-project, at the very least containing
 
+<!-- tabs:start -->
+
+#### **JavaScript (CJS)**
+
 ```json
 {
   "compilerOptions": {
-    "types": ["node", "webdriverio/async", "wdio-ui5-service/dist"]
+    "types": [
+      "node",
+      "@openui5/types",
+      "@wdio/globals/types",
+      "@wdio/mocha-framework",
+      "wdio-ui5-service/cjs",
+      "expect-webdriverio"
+    ]
   }
 }
 ```
 
-See an example at `/examples/ui5-js-app/jsconfig.json` in the wdi5 repository.
+See an example at [`/examples/ui5-js-app/jsconfig.json` in the wdi5 repository](https://github.com/ui5-community/wdi5/blob/main/examples/ui5-js-app/jsconfig.json).
+
+#### **JavaScript (ESM)**
+
+```json
+{
+  "compilerOptions": {
+    "types": [
+      "node",
+      "@openui5/types",
+      "@wdio/globals/types",
+      "@wdio/mocha-framework",
+      "wdio-ui5-service/esm",
+      "expect-webdriverio"
+    ]
+  }
+}
+```
+
+See an example at [`/examples/ui5-js-app-esm/jsconfig.json` in the wdi5 repository](https://github.com/ui5-community/wdi5/blob/main/examples/ui5-js-app-esm/jsconfig.json).
+
+<!-- tabs:end -->
 
 ## DevX: (JS) cast to proper type for code completion
 
