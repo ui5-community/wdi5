@@ -15,20 +15,13 @@
     "serve": "ui5 serve --port 8088"
   },
   "devDependencies": {
-    "@wdio/cli": "^7",
+    "@ui5/cli": "^3",
+    "@wdio/cli": "^8",
     "detect-libc": "^2.0.1",
-    "@wdio/local-runner": "^7",
-    "@wdio/mocha-framework": "^7",
-    "@wdio/selenium-standalone-service": "^7",
-    "@wdio/spec-reporter": "^7",
-    "chromedriver": "latest",
-    "wdio-chromedriver-service": "^7",
+    "@wdio/local-runner": "^8",
+    "@wdio/mocha-framework": "^8",
+    "@wdio/spec-reporter": "^8",
     "wdio-ui5-service": "*",
     "@sap-ux/ui5-middleware-fe-mockserver": "latest"
-  },
-  "ui5": {
-    "dependencies": [
-      "@sap-ux/ui5-middleware-fe-mockserver"
-    ]
   }
 }

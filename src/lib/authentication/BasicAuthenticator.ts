@@ -1,4 +1,4 @@
-import Authenticator from "./Authenticator"
+import Authenticator from "./Authenticator.js"
 class BasicAuthenticator extends Authenticator {
     constructor(browserInstanceName) {
         super(browserInstanceName)

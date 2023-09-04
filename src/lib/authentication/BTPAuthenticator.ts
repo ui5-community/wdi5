@@ -1,12 +1,32 @@
 import { BTPAuthenticator as BTPAuthenticatorType } from "../../types/wdi5.types"
-import Authenticator from "./Authenticator"
+import Authenticator from "./Authenticator.js"
 
 class BTPAuthenticator extends Authenticator {
+    private disableBiometricAuth: boolean
+    private idpDomain: string
+
     constructor(options: BTPAuthenticatorType, browserInstanceName) {
         super(browserInstanceName)
         this.usernameSelector = options.usernameSelector ?? "#j_username"
         this.passwordSelector = options.passwordSelector ?? "#j_password"
         this.submitSelector = options.submitSelector ?? "#logOnFormSubmit"
+        this.disableBiometricAuth = options.disableBiometricAuthentication ?? false
+        if (this.disableBiometricAuth) {
+            if (!options.idpDomain) {
+                throw new Error(
+                    "idpDomain is required when disableBiometricAuthentication is set to `true` your wdi5.conf.(j|t)s"
+                )
+            }
+            this.idpDomain = options.idpDomain
+        }
+    }
+
+    async disableBiometricAuthentication() {
+        await this.browserInstance.setCookies({
+            name: "skipPasswordlessAuthnDeviceConfig",
+            value: "true",
+            domain: this.idpDomain
+        })
     }
 
     async login() {

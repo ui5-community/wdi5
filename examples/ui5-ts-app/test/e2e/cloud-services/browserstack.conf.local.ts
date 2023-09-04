@@ -1,7 +1,7 @@
 import * as dotenv from "dotenv"
 dotenv.config()
 
-import { config as shared } from "./shared.conf"
+import { config as shared } from "./shared.conf.js"
 
 const _ts = new Date()
 const ts = `${_ts.getFullYear()}-${_ts.getMonth() + 1}-${

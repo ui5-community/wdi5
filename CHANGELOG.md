@@ -2,12 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [1.5.4](https://github.com/ui5-community/wdi5/compare/v1.5.3...v1.5.4) (2023-08-31)
-
-
 ### Bug Fixes
 
 * safeguard devtools protocol stale web element ref ([#524](https://github.com/ui5-community/wdi5/issues/524)) ([ece986f](https://github.com/ui5-community/wdi5/commit/ece986f16f10426370fad4eb6d79b5f983262ab6))
+## [2.0.0-beta.1](https://github.com/ui5-community/wdi5/compare/v2.0.0-beta.0...v2.0.0-beta.1) (2023-08-29)
+
+
+### Features
+
+* sap build workzone std ed enablement, ias authentication capability ([#520](https://github.com/ui5-community/wdi5/issues/520)) ([8f6c217](https://github.com/ui5-community/wdi5/commit/8f6c217ff72b047ab8b8738ddaa7820217bf267a)), closes [#378](https://github.com/ui5-community/wdi5/issues/378)
+
+## [2.0.0-beta.0](https://github.com/ui5-community/wdi5/compare/v1.5.3...v2.0.0-beta.0) (2023-08-28)
+
+
+### Features
+
+* wdi5 2.0 progression ([#518](https://github.com/ui5-community/wdi5/issues/518)) ([d51cdde](https://github.com/ui5-community/wdi5/commit/d51cdde93e407e9efa604d776bf63196092555bb))
+
+## [2.0.0-alpha.1](https://github.com/ui5-community/wdi5/compare/v2.0.0-alpha.0...v2.0.0-alpha.1) (2023-07-06)
+
+## [2.0.0-alpha.0](https://github.com/ui5-community/wdi5/compare/v1.5.1...v2.0.0-alpha.0) (2023-07-03)
+
+
+### Features
+
+* wdio v8 enablement  ([#498](https://github.com/ui5-community/wdi5/issues/498)) ([ee5e2c4](https://github.com/ui5-community/wdi5/commit/ee5e2c4cca23af6dfb9f5552c6a91d34d51accdc)), closes [#384](https://github.com/ui5-community/wdi5/issues/384)
+
+
+### [1.5.4](https://github.com/ui5-community/wdi5/compare/v1.5.3...v1.5.4) (2023-08-31)
 
 ### 1.5.3 (2023-08-22)
 

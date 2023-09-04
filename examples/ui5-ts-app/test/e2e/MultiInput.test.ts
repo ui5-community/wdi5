@@ -1,5 +1,5 @@
 import MultiInput from "sap/m/MultiInput"
-import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
+import { wdi5Selector } from "wdio-ui5-service"
 
 describe("MultiInput", async () => {
     it("should put text into the multi input control", async () => {
