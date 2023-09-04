@@ -7,6 +7,7 @@ import { wdi5 } from "wdio-ui5-service"
 import * as sinon from "sinon"
 
 const Logger = wdi5.getLogger()
+/* just a test */
 
 describe("Basic", async () => {
     it("browser.allControls: check number of buttons", async () => {
