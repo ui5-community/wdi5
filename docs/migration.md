@@ -17,7 +17,7 @@ WebdriverIO now automates downloading and starting the appropriate driver corres
  }]
 ```
 
-Setting `broswerName: "chrome"` is enough to tell `wdi5`/`wdio` to run the tests with the stable version of Chrome - no more `"chromedriver"` needed in the `services`!  
+Setting `browserName: "chrome"` is enough to tell `wdi5`/`wdio` to run the tests with the stable version of Chrome - no more `"chromedriver"` needed in the `services`!  
 To switch to Safari on macOS, following the above example is as easy as changing the `browserName`:
 
 ```js
