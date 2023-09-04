@@ -17,7 +17,7 @@ async function clientSide_fireEvent(webElement, eventName, oOptions, browserInst
                             }
                             oControl.fireEvent(eventName, oOptions)
                             // convert to boolean
-                            done({ status: 0, resuklt: true })
+                            done({ status: 0, result: true })
                         } catch (e) {
                             window.wdi5.errorHandling.bind(this, done)
                         }
