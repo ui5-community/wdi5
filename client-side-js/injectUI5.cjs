@@ -233,6 +233,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                      * extract the multi use function to get a UI5 Control from a JSON Webobejct
                      */
                     window.wdi5.getUI5CtlForWebObj = (ui5Control) => {
+                        //> REVISIT: refactor to https://ui5.sap.com/#/api/sap.ui.core.Element%23methods/sap.ui.core.Element.closestTo for UI5 >= 1.106
                         return jQuery(ui5Control).control(0)
                     }
 
