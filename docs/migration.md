@@ -2,11 +2,11 @@
 
 ## from `^1` to `^2`
 
-Version >= 2 of `wdi5` is WebdriverIO v8 compatible. This entails a move to ESM as primary module, with CJS compatibility ensured.
+Version >= 2 of `wdi5` is WebdriverIO v8 compatible. This means that the primary module has moved to ESM, but CJS compatibility is still ensured.
 
 ### no more explicit browser driver needed!
 
-WebdriverIO now automates downloading and starting the appropriate driver corresponding to the `browser` specified in the `capabilites` section of the config file (see also https://webdriver.io/blog/2023/07/31/driver-management):
+WebdriverIO now automates downloading and starting the appropriate driver corresponding to the `browser` specified in the `capabilites` section of the config file (see also [Take a seat, WebdriverIO is driving for you!](https://webdriver.io/blog/2023/07/31/driver-management) ):
 
 ```diff
 - services: ["chromedriver", "ui5"],
@@ -31,7 +31,7 @@ To switch to Safari on macOS, following the above example is as easy as changing
 
 ?> this is an _optional_ change - `wdi5` will continue to work also with explicitly denoting the browser driver in `services`!
 
-### check file system location reference of spec files in wdio.config.(j|t)s
+### check file system location reference of spec files in `wdio.config.(j|t)s`
 
 directory references start from the directory the config file is in now, not from `cwd` or project root:
 
