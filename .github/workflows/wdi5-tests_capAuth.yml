@@ -1,6 +1,9 @@
-name: auth
+name: CAP-auth
 on:
-  pull_request_target:
+  pull_request:
+    branches:
+      - main
+      - main-v2
     paths:
       # relevant
       - "client-side-js/**"
