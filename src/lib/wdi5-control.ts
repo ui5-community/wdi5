@@ -623,7 +623,7 @@ export class WDI5Control {
      * used to update the wdio control reference
      * this can be used to manually trigger an control reference update after a ui5 control rerendering
      * this method is also used wdi5-internally to implement the extended forceSelect option
-     * @param {Boolean} isRefresh devtools protocol only: whether to treat the incoming call as a refresh attempt on a stale web element
+     * @param {Boolean} isRefresh whether to treat the incoming call as a refresh attempt on a stale web element
      */
 
     private async _renewWebElementReference(isRefresh = false) {
@@ -643,7 +643,7 @@ export class WDI5Control {
 
     /**
      * expose internal API to refresh a stale web element reference
-     * @param {Boolean} asRefresh devtools protocol only: whether to treat the incoming call as a refresh attempt on a stale web element
+     * @param {Boolean} asRefresh whether to treat the incoming call as a refresh attempt on a stale web element
      */
     async renewWebElementReference(asRefresh = true) {
         return await this._renewWebElementReference(asRefresh)
