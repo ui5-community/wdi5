@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### Bug Fixes
+
+* safeguard devtools protocol stale web element ref ([#524](https://github.com/ui5-community/wdi5/issues/524)) ([ece986f](https://github.com/ui5-community/wdi5/commit/ece986f16f10426370fad4eb6d79b5f983262ab6))
 ## [2.0.0-beta.1](https://github.com/ui5-community/wdi5/compare/v2.0.0-beta.0...v2.0.0-beta.1) (2023-08-29)
 
 
@@ -24,6 +27,9 @@ All notable changes to this project will be documented in this file. See [standa
 ### Features
 
 * wdio v8 enablement  ([#498](https://github.com/ui5-community/wdi5/issues/498)) ([ee5e2c4](https://github.com/ui5-community/wdi5/commit/ee5e2c4cca23af6dfb9f5552c6a91d34d51accdc)), closes [#384](https://github.com/ui5-community/wdi5/issues/384)
+
+
+### [1.5.4](https://github.com/ui5-community/wdi5/compare/v1.5.3...v1.5.4) (2023-08-31)
 
 ### 1.5.3 (2023-08-22)
 
