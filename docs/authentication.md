@@ -310,8 +310,8 @@ baseUrl: "https://caution_your-deployed-ui5-with-basic-auth.app",
 capabilities: {
     // browserName: "..."
     "wdi5:authentication": {
-        provider: "BasicAuth" //> mandatory
-        basicAuthUrls: ['URL1' (, 'URL2')]
+        provider: "BasicAuth", //> mandatory
+        basicAuthUrls: ["https://your-custom-basic-auth-endpoint"] //> optional: default is the configured `baseUrl`
     }
 }
 ```
@@ -326,7 +326,8 @@ capabilities: {
         capabilities: {
             // browserName: "..."
             "wdi5:authentication": {
-                provider: "BasicAuth" //> mandatory
+                provider: "BasicAuth", //> mandatory
+                basicAuthUrls: ["https://your-custom-basic-auth-endpoint"] //> optional: default is the configured `baseUrl`
             }
         }
     },
@@ -335,7 +336,8 @@ capabilities: {
         capabilities: {
             // browserName: "..."
             "wdi5:authentication": {
-                provider: "BasicAuth" //> mandatory
+                provider: "BasicAuth", //> mandatory
+                basicAuthUrls: ["https://your-custom-basic-auth-endpoint"] //> optional: default is the configured `baseUrl`
             }
         }
     }
@@ -343,6 +345,7 @@ capabilities: {
 ```
 
 <!-- tabs:end -->
+
 
 ## Credentials
 
