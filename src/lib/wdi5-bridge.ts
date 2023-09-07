@@ -174,7 +174,7 @@ export async function authenticate(options, browserInstanceName?) {
             await btp.login()
             break
         case "BasicAuth":
-            await new BasicAuthenticator(options, browserInstanceName).login()
+            await new BasicAuthenticator(options, browserInstanceName, _config.baseUrl).login()
             break
         case "Office365":
             await new Office365Authenticator(options, browserInstanceName).login()

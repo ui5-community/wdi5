@@ -3,16 +3,17 @@ import { BasicAuthAuthenticator as BasicAuthenticatorType } from "../../types/wd
 
 class BasicAuthenticator extends Authenticator {
     private options
+    private baseUrl
 
-    constructor(options: BasicAuthenticatorType, browserInstanceName) {
+    constructor(options: BasicAuthenticatorType, browserInstanceName, baseUrl: string) {
         super(browserInstanceName)
         this.options = options
+        this.baseUrl = baseUrl
     }
     async login() {
-        const baseUrl = await this.browserInstance.config?.baseUrl
         if (!this.options.basicAuthUrl || this.options.basicAuthUrl.length === 0) {
             // Authentication with baseUrl
-            const matches = await baseUrl.match(/(\w*:?\/\/)(.+)/)
+            const matches = await this.baseUrl.match(/(\w*:?\/\/)(.+)/)
             const basicAuthUrl = matches[1] + this.getUsername() + ":" + this.getPassword() + "@" + matches[2]
             await this.browserInstance.url(basicAuthUrl)
         } else {
@@ -25,7 +26,7 @@ class BasicAuthenticator extends Authenticator {
         }
         // trick 17
         this.setIsLoggedIn(true)
-        await this.browserInstance.url(baseUrl)
+        await this.browserInstance.url(this.baseUrl)
     }
 }
 
