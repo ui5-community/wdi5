@@ -1,4 +1,16 @@
-async function clientSide_executeControlMethod(webElement, methodName, browserInstance, args) {
+const { Logger } = require("../cjs/lib/Logger.js")
+const logger = Logger.getInstance()
+if (global.browser) {
+    logger.setLogLevel(browser.options?.wdi5?.logLevel || "error")
+}
+/**
+ * Execute method on the ui5 control through the browser. Here the real magic happens :)
+ * @param {Object} webElement representation of a webElement in node depending on the protocol
+ * @param {String} methodName function name to be called on the ui5 control
+ * @param {WebdriverIO.Browser} browserInstance
+ * @param {Object} args proxied arguments to UI5 control method at runtime
+ */
+async function executeControlMethod(webElement, methodName, browserInstance, args) {
     return await browserInstance.executeAsync(
         (webElement, methodName, args, done) => {
             window.wdi5.waitForUI5(
@@ -18,7 +30,6 @@ async function clientSide_executeControlMethod(webElement, methodName, browserIn
                             // expect the method call delivers non-primitive results (like getId())
                             // but delivers a complex/structured type
                             // -> currenlty, only getAggregation(...) is supported
-
                             // read classname eg. sap.m.ComboBox
                             controlType = oControl.getMetadata()._sClassName
 
@@ -60,7 +71,6 @@ async function clientSide_executeControlMethod(webElement, methodName, browserIn
                                 const uuid = window.wdi5.saveObject(result)
 
                                 // FIXME: extract, collapse and remove cylic in 1 step
-
                                 // extract the methods first
                                 const aProtoFunctions = window.wdi5.retrieveControlMethods(result, true)
 
@@ -114,6 +124,45 @@ async function clientSide_executeControlMethod(webElement, methodName, browserIn
         methodName,
         args
     )
+}
+/**
+ * Execute method on the ui5 control through the browser. If element "is stale" we first retrieve it
+ * from the browser again
+ * @param {Object} webElement representation of a webElement in node depending on the protocol
+ * @param {String} methodName function name to be called on the ui5 control
+ * @param {WebdriverIO.Browser} browserInstance
+ * @param {Object} args proxied arguments to UI5 control method at runtime
+ * @param {WDI5Control} wdi5Control wdi5 representation of the ui5 control
+ */
+async function clientSide_executeControlMethod(webElement, methodName, browserInstance, args, wdi5Control) {
+    /**
+     * @type {import("../src/types/wdi5.types.js").clientSide_ui5Response}
+     * **/
+    let result
+    try {
+        result = await executeControlMethod(webElement, methodName, browserInstance, args)
+    } catch (err) {
+        // devtools and webdriver protocol don't share the same error message
+        if (err.message?.includes("is stale") || err.message?.includes("stale element reference")) {
+            logger.debug(`webElement ${JSON.stringify(webElement)} stale, trying to renew reference...`)
+            let renewedWebElement = await wdi5Control.renewWebElementReference()
+            if (renewedWebElement) {
+                result = await executeControlMethod(renewedWebElement, methodName, browserInstance, args)
+                logger.debug(`successfully renewed reference: ${JSON.stringify(renewedWebElement)}`)
+            } else {
+                logger.error(`failed renewing reference for webElement: ${JSON.stringify(webElement)}`)
+                result = {
+                    status: 1,
+                    message: `${methodName} could not be executed on control with selector: ${JSON.stringify(
+                        wdi5Control._controlSelector
+                    )}`
+                }
+            }
+        } else {
+            throw err
+        }
+    }
+    return result
 }
 
 module.exports = {

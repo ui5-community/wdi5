@@ -1,5 +1,5 @@
 import * as util from "util"
-const ELEMENT_KEY = "element-6066-11e4-a52e-4f735466cecf"
+export const ELEMENT_KEY = "element-6066-11e4-a52e-4f735466cecf"
 // TODO: import { ELEMENT_KEY } from "webdriverio/build/constants.js"
 // patch in webdriverio repo?
 import { clientSide_getControl } from "../../client-side-js/getControl.cjs"
@@ -20,7 +20,7 @@ const Logger = _Logger.getInstance()
 export class WDI5Control {
     _controlSelector: wdi5Selector = null
     // return value of Webdriver interface: JSON web token
-    _webElement: WebdriverIO.Element | string = null // TODO: type "org.openqa.selenium.WebElement"
+    _webElement: WebdriverIO.Element | string | undefined = null // TODO: type "org.openqa.selenium.WebElement"
     // wdio elment retrieved separately via $()
     _webdriverRepresentation: WebdriverIO.Element = null
     _metadata: wdi5ControlMetadata = {}
@@ -33,7 +33,7 @@ export class WDI5Control {
     _logging: boolean
     _wdioBridge = <WebdriverIO.Element>{}
     _generatedWdioMethods: Array<string>
-    _domId: string
+    _domId: string | undefined
 
     // these controls receive the specific "interaction": "press" operator
     // instead of a regular "click" event
@@ -516,7 +516,9 @@ export class WDI5Control {
             webElement,
             methodName,
             this._browserInstance,
-            args
+            args,
+            // to safeguard "stale" elements in the devtools protocol we pass the whole wdi5 object
+            this
         )) as clientSide_ui5Response
 
         // create logging
@@ -621,15 +623,30 @@ export class WDI5Control {
      * used to update the wdio control reference
      * this can be used to manually trigger an control reference update after a ui5 control rerendering
      * this method is also used wdi5-internally to implement the extended forceSelect option
+     * @param {Boolean} isRefresh whether to treat the incoming call as a refresh attempt on a stale web element
      */
-    private async _renewWebElementReference() {
+
+    private async _renewWebElementReference(isRefresh = false) {
         if (this._domId) {
-            const newWebElement = (await this._getControl({ selector: { id: this._domId } })).domElement // added to have a more stable retrieval experience
+            const newWebElement = (
+                await this._getControl(isRefresh ? this._controlSelector : { selector: { id: this._domId } })
+            ).domElement // added to have a more stable retrieval experience
+            if (!this.isInitialized()) {
+                this._webElement = undefined
+            }
             this._webElement = newWebElement
             return newWebElement
         } else {
             throw Error("control could not be found")
         }
+    }
+
+    /**
+     * expose internal API to refresh a stale web element reference
+     * @param {Boolean} asRefresh whether to treat the incoming call as a refresh attempt on a stale web element
+     */
+    async renewWebElementReference(asRefresh = true) {
+        return await this._renewWebElementReference(asRefresh)
     }
 
     /**
@@ -698,6 +715,9 @@ export class WDI5Control {
 
             // set the succesful init param
             this._initialisation = true
+        } else {
+            this._initialisation = false
+            this._domId = undefined
         }
         if (this._logging) {
             this._writeObjectResultLog(_result, "_getControl()")
