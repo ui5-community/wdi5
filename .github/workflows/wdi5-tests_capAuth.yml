@@ -1,0 +1,62 @@
+name: auth
+on:
+  pull_request_target:
+    paths:
+      # relevant
+      - "client-side-js/**"
+      - "examples/**"
+      - "scripts/**"
+      - "src/**"
+      # don't run on changes to these
+      - "!.husky/**"
+      - "!.vscode/**"
+      - "!docs/**"
+      - "!.*"
+      - "!*.md"
+      - "!*.cjs"
+
+env:
+  wdi5_username: "admin" # dummy user for cap app
+
+jobs:
+  authorize:
+    environment: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository && 'external' || 'internal' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: true
+
+  tests:
+    needs: authorize
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18]
+
+    steps:
+      - name: check out repo
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.ref }}
+
+      - name: use node ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
+
+      # install both module + sample app(s) deps + cap submodule
+      - name: install packages (wdi5 + sample app(s))
+        run: |
+          npm pkg delete scripts.prepare
+          npm submodule init
+          npm submodule update
+          npm ci
+
+      # build things
+      - name: build
+        run: npm run build
+
+      - name: cap authentication
+        run: npm run test:capAuth

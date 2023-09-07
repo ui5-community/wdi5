@@ -13,8 +13,7 @@ if (process.env.BROWSERSTACK) {
         const enhancedCapability = {
             ...capability,
             "wdi5:authentication": {
-                provider: "BasicAuth",
-                basicAuthUrl: "https://wdi5-sample-app.cfapps.eu20.hana.ondemand.com/basic-auth/"
+                provider: "BasicAuth"
             }
         }
         return enhancedCapability
@@ -23,8 +22,7 @@ if (process.env.BROWSERSTACK) {
     _config.capabilities = [
         {
             "wdi5:authentication": {
-                provider: "BasicAuth",
-                basicAuthUrl: "https://wdi5-sample-app.cfapps.eu20.hana.ondemand.com/basic-auth"
+                provider: "BasicAuth"
             },
             browserName: "chrome",
             "goog:chromeOptions": {
