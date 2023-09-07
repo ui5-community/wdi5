@@ -11,17 +11,17 @@ class BasicAuthenticator extends Authenticator {
         this.baseUrl = baseUrl
     }
     async login() {
-        if (!this.options.basicAuthUrl || this.options.basicAuthUrl.length === 0) {
+        if (!this.options.basicAuthUrls || this.options.basicAuthUrls.length === 0) {
             // Authentication with baseUrl
             const matches = await this.baseUrl.match(/(\w*:?\/\/)(.+)/)
-            const basicAuthUrl = matches[1] + this.getUsername() + ":" + this.getPassword() + "@" + matches[2]
-            await this.browserInstance.url(basicAuthUrl)
+            const basicAuthUrls = matches[1] + this.getUsername() + ":" + this.getPassword() + "@" + matches[2]
+            await this.browserInstance.url(basicAuthUrls)
         } else {
-            // Authentication with basicAuthUrl from BasicAuth
-            for (const basicAuthUrlConfig of this.options.basicAuthUrl) {
-                const matches = basicAuthUrlConfig.match(/(\w*:?\/\/)(.+)/)
-                const basicAuthUrl = matches[1] + this.getUsername() + ":" + this.getPassword() + "@" + matches[2]
-                await this.browserInstance.url(basicAuthUrl)
+            // Authentication with basicAuthUrls from BasicAuth
+            for (const basicAuthUrlsConfig of this.options.basicAuthUrls) {
+                const matches = basicAuthUrlsConfig.match(/(\w*:?\/\/)(.+)/)
+                const basicAuthUrls = matches[1] + this.getUsername() + ":" + this.getPassword() + "@" + matches[2]
+                await this.browserInstance.url(basicAuthUrls)
             }
         }
         // trick 17
