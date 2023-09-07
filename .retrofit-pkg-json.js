@@ -5,5 +5,6 @@ import pkgJson from "./package.json" assert { type: "json" }
     delete pkgJson[section]
 })
 ;(async () => {
+    await fs.mkdir("./cjs", { recursive: true })
     await fs.writeFile("./cjs/package.json", JSON.stringify(pkgJson, null, 2))
 })()

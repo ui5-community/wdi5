@@ -25,36 +25,59 @@ export default class Service implements Services.ServiceInstance {
         await setup(this._config)
         Logger.info("setup complete")
 
-        // align browser script timeout with wdi5 setting (+ leverage)
-        // this mostly affects browser.executeAsync()
-        const timeout = (this._config["wdi5"]["waitForUI5Timeout"] || 15000) + 5000
-        await browser.setTimeout({ script: timeout })
-
-        Logger.debug(`browser script timeout set to ${timeout}`)
-        if (typeof browser.getTimeouts === "function") {
-            Logger.debug(`browser timeouts are ${JSON.stringify(await browser.getTimeouts(), null, 2)}`)
-        }
-
         if (browser.isMultiremote) {
             for (const name of (browser as unknown as MultiRemoteBrowser).instances) {
                 if (this._capabilities[name].capabilities["wdi5:authentication"]) {
                     await authenticate(this._capabilities[name].capabilities["wdi5:authentication"], name)
                 }
-                if (!this._config.wdi5.skipInjectUI5OnStart) {
-                    await this.injectUI5(browser[name])
-                } else {
+
+                if (this._config.wdi5.skipInjectUI5OnStart) {
                     Logger.warn("skipped wdi5 injection!")
+                } else if (this._config.wdi5.btpWorkZoneEnablement) {
+                    Logger.info("delegating wdi5 injection to Work Zone enablement...")
+                    await this.enableBTPWorkZoneStdEdition(browser[name])
+                } else {
+                    await this.injectUI5(browser[name])
                 }
             }
         } else {
             if (this._capabilities["wdi5:authentication"]) {
                 await authenticate(this._capabilities["wdi5:authentication"])
             }
-            if (!this._config.wdi5.skipInjectUI5OnStart) {
-                await this.injectUI5(browser)
-            } else {
+
+            if (this._config.wdi5.skipInjectUI5OnStart) {
                 Logger.warn("skipped wdi5 injection!")
+            } else if (this._config.wdi5.btpWorkZoneEnablement) {
+                Logger.info("delegating wdi5 injection to Work Zone enablement...")
+                await this.enableBTPWorkZoneStdEdition(browser)
+            } else {
+                await this.injectUI5(browser)
             }
+        }
+    }
+
+    /**
+     * waits until btp's wz std ed iframe containing the target app is available,
+     * switches the browser context into the iframe
+     * and eventually injects the wdi5 into the target app
+     */
+    async enableBTPWorkZoneStdEdition(browser) {
+        await $("iframe").waitForExist() //> wz only has a single iframe (who's id is also not updated upon subsequent app navigation)
+
+        await browser.switchToFrame(null)
+        if (this._config.wdi5.skipInjectUI5OnStart) {
+            Logger.warn("also skipped wdi5 injection in WorkZone std ed's shell!")
+        } else {
+            await this.injectUI5(browser)
+            Logger.debug("injected wdi5 into the WorkZone std ed's shell!")
+        }
+
+        await browser.switchToFrame(0)
+        if (this._config.wdi5.skipInjectUI5OnStart) {
+            Logger.warn("also skipped wdi5 injection in application iframe!")
+        } else {
+            await this.injectUI5(browser)
+            Logger.debug("injected wdi5 into the WorkZone std ed's iframe containing the target app!")
         }
     }
 

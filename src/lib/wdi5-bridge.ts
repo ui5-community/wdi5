@@ -19,6 +19,7 @@ import { clientSide_allControls } from "../../client-side-js/allControls.cjs"
 import { Logger as _Logger } from "./Logger.js"
 import { WDI5Object } from "./wdi5-object.js"
 import BTPAuthenticator from "./authentication/BTPAuthenticator.js"
+import { BTPAuthenticator as BTPAuthenticatorType } from "../types/wdi5.types"
 import BasicAuthenticator from "./authentication/BasicAuthenticator.js"
 import CustomAuthenticator from "./authentication/CustomAuthenticator.js"
 import Office365Authenticator from "./authentication/Office365Authenticator.js"
@@ -108,13 +109,24 @@ function checkUI5Version(ui5Version: string) {
 }
 
 /**
- * function library to setup the webdriver to UI5 bridge, it runs alle the initial setup
+ * function library to setup the webdriver to UI5 bridge, it runs all the initial setup
  * make sap/ui/test/RecordReplay accessible via wdio
  * attach the sap/ui/test/RecordReplay object to the application context window object as 'bridge'
  */
 export async function injectUI5(config: wdi5Config, browserInstance) {
     const waitForUI5Timeout = config.wdi5?.waitForUI5Timeout || 15000
     let result = true
+
+    // unify timeouts across Node.js- and browser-scope
+    // align browser script timeout with wdi5 setting (+ leverage)
+    // this mostly affects browser.executeAsync()
+    const timeout = waitForUI5Timeout + 1000
+    await (browserInstance as WebdriverIO.Browser).setTimeout({ script: timeout })
+
+    Logger.debug(`browser script timeout set to ${timeout}`)
+    if (typeof browserInstance.getTimeouts === "function") {
+        Logger.debug(`browser timeouts are ${JSON.stringify(await browserInstance.getTimeouts(), null, 2)}`)
+    }
 
     const version = await (browserInstance as WebdriverIO.Browser).getUI5Version()
     await checkUI5Version(version)
@@ -155,7 +167,11 @@ export async function checkForUI5Page(browserInstance) {
 export async function authenticate(options, browserInstanceName?) {
     switch (options.provider) {
         case "BTP":
-            await new BTPAuthenticator(options, browserInstanceName).login()
+            const btp = new BTPAuthenticator(options, browserInstanceName)
+            if ((options as BTPAuthenticatorType).disableBiometricAuthentication) {
+                await btp.disableBiometricAuthentication()
+            }
+            await btp.login()
             break
         case "BasicAuth":
             await new BasicAuthenticator(options, browserInstanceName).login()
