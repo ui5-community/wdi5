@@ -8,7 +8,7 @@
   "main": "webapp/index.html",
   "type": "module",
   "scripts": {
-    "start": "ui5 serve",
+    "start": "ui5 serve -p 8082",
     "wdi5": "wdio ./webapp/test/e2e/wdio.conf.js"
   },
   "devDependencies": {
