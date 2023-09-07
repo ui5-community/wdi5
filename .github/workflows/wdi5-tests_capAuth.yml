@@ -34,7 +34,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18]
+        node-version: [18, 20]
 
     steps:
       - name: check out repo
@@ -53,8 +53,8 @@ jobs:
       - name: install packages (wdi5 + sample app(s))
         run: |
           npm pkg delete scripts.prepare
-          npm submodule init
-          npm submodule update
+          git submodule init
+          git submodule update
           npm ci
 
       # build things
