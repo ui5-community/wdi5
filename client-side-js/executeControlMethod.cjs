@@ -1,5 +1,8 @@
 const { Logger } = require("../cjs/lib/Logger.js")
 const logger = Logger.getInstance()
+if (global.browser) {
+    logger.setLogLevel(browser.options?.wdi5?.logLevel || "error")
+}
 /**
  * Execute method on the ui5 control through the browser. Here the real magic happens :)
  * @param {Object} webElement representation of a webElement in node depending on the protocol
@@ -139,7 +142,8 @@ async function clientSide_executeControlMethod(webElement, methodName, browserIn
     try {
         result = await executeControlMethod(webElement, methodName, browserInstance, args)
     } catch (err) {
-        if (err.message?.includes("is stale")) {
+        // devtools and webdriver protocol don't share the same error message
+        if (err.message?.includes("is stale") || err.message?.includes("stale element reference")) {
             logger.debug(`webElement ${JSON.stringify(webElement)} stale, trying to renew reference...`)
             let renewedWebElement = await wdi5Control.renewWebElementReference()
             if (renewedWebElement) {
