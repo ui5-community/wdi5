@@ -11,7 +11,7 @@ describe("Devtools: ", async () => {
         // clear cached wdi5Controls, so we can mock in each test seperately
         browser._controls = []
     })
-    it.only("safeguard 'stale' element handling", async () => {
+    it("safeguard 'stale' element handling", async () => {
         const buttonWDI5 = await getButtonOnPage1()
 
         // mock a stale element
