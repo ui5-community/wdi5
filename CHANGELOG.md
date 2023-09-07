@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.6](https://github.com/ui5-community/wdi5/compare/v1.5.5...v1.5.6) (2023-09-07)
+
+
+### Bug Fixes
+
+* **webdriver:** backport safeguarding of stale element handling from wdi5^2 ([f523410](https://github.com/ui5-community/wdi5/commit/f523410f51fe760c0ecc7b59d01f38ce8aad03d5))
+
 ### [1.5.5](https://github.com/ui5-community/wdi5/compare/v1.5.4...v1.5.5) (2023-08-31)
 
 
