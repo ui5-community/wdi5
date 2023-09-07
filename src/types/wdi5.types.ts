@@ -71,7 +71,7 @@ export type BTPAuthenticator = {
 
 export type BasicAuthAuthenticator = {
     provider: "BasicAuth"
-    basicAuthUrl?: string
+    basicAuthUrl?: Array<string>
 }
 
 export type CustomAuthenticator = {

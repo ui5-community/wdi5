@@ -1,5 +1,5 @@
 import Control from "sap/ui/core/Control"
-import { wdi5Selector } from "./wdi5.types"
+import { wdi5Config, wdi5Selector } from "./wdi5.types"
 import { WDI5Control } from "../lib/wdi5-control"
 
 /**
@@ -14,6 +14,7 @@ declare global {
     // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace WebdriverIO {
         export interface Browser {
+            config: wdi5Config
             asControl: <T extends Control = Control>(arg: wdi5Selector) => Promise<WDI5Control & T>
             allControls: <T extends Control = Control>(arg: wdi5Selector) => Promise<(WDI5Control & T)[]>
             screenshot: (arg: string) => Promise<void>

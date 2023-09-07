@@ -243,6 +243,7 @@ capabilities: {
     // browserName: "..."
     "wdi5:authentication": {
         provider: "BasicAuth" //> mandatory
+        basicAuthUrl: ['URL1' (, 'URL2')]
     }
 }
 ```
