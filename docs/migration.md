@@ -6,7 +6,7 @@ Version >= 2 of `wdi5` is WebdriverIO v8 compatible. This means that the primary
 
 ### no more explicit browser driver needed!
 
-WebdriverIO now automates downloading and starting the appropriate driver corresponding to the `browser` specified in the `capabilites` section of the config file (see also https://webdriver.io/blog/2023/07/31/driver-management):
+WebdriverIO now automates downloading and starting the appropriate driver corresponding to the `browser` specified in the `capabilites` section of the config file (see also [Take a seat, WebdriverIO is driving for you!](https://webdriver.io/blog/2023/07/31/driver-management) ):
 
 ```diff
 - services: ["chromedriver", "ui5"],
