@@ -31,7 +31,7 @@ To switch to Safari on macOS, following the above example is as easy as changing
 
 ?> this is an _optional_ change - `wdi5` will continue to work also with explicitly denoting the browser driver in `services`!
 
-### check file system location reference of spec files in wdio.config.(j|t)s
+### check file system location reference of spec files in `wdio.config.(j|t)s`
 
 directory references start from the directory the config file is in now, not from `cwd` or project root:
 
