@@ -5,7 +5,7 @@ sap.ui.define(
         "test/Sample/model/models",
         "sap/ui/core/ComponentSupport" // make sure to include the ComponentSupport in the bundle
     ],
-    function (UIComponent, Device, models) {
+    function (UIComponent, models) {
         "use strict"
 
         return UIComponent.extend("test.Sample.Component", {
