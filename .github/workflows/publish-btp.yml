@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
           registry-url: https://registry.npmjs.org/
@@ -29,18 +29,21 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: mtar
-          path: |
-            examples/ui5-ts-app/mta_archives/ui5-approuter_1.0.0.mtar
+          path: examples/ui5-ts-app/mta_archives/ui5-approuter_1.0.0.mtar
 
   publish-sample-ts-app-to-btp:
     needs: build-sample-ts-app
     runs-on: ubuntu-latest
-    container: ppiper/cf-cli
     steps:
       - name: get mtar
         uses: actions/download-artifact@v3
         with:
           name: mtar
-      - run: |
-          cf login -a https://api.cf.eu20.hana.ondemand.com -u ${{secrets.BTP_LOGIN}} -p ${{secrets.BTP_PASSWORD}} -o "${{secrets.BTP_ORG}}" -s ${{secrets.BTP_SPACE}}
-          cf deploy examples/ui5-ts-app/mta_archives/ui5-approuter_1.0.0.mtar -f
+      - uses: elliottpope/cloudfoundry-cli-action
+        with:
+          CF_API: https://api.cf.eu20.hana.ondemand.com
+          USERNAME: ${{ secrets.BTP_LOGIN }}
+          PASSWORD: ${{ secrets.BTP_PASSWORD }}
+          ORG: ${{secrets.BTP_ORG}}
+          SPACE: ${{secrets.BTP_SPACE}}
+          COMMAND: deploy examples/ui5-ts-app/mta_archives/ui5-approuter_1.0.0.mtar -f

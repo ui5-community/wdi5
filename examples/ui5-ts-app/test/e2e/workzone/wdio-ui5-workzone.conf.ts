@@ -7,7 +7,8 @@ process.env.wdi5_password = process.env.wdi5_wz_password
 export const config: wdi5Config = {
     wdi5: {
         btpWorkZoneEnablement: true,
-        logLevel: "verbose"
+        logLevel: "verbose",
+        waitForUI5Timeout: 25000
     },
     baseUrl: "https://cswdev.launchpad.cfapps.eu10.hana.ondemand.com/site/csw#travel-process",
 
