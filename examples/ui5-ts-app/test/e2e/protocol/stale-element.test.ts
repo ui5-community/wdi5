@@ -1,7 +1,12 @@
 import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
-import Button from "sap/ui/webc/main/Button"
+import { ELEMENT_KEY } from "webdriverio/build/constants"
 
 describe("Devtools: ", async () => {
+    const staleElementId = {
+        // devtools does not care about the format of the value but webdriver does
+        [ELEMENT_KEY]: "C9B723AF0A50B0F6AE3AC61EB707675E_element_00"
+    }
+
     beforeEach(() => {
         // clear cached wdi5Controls, so we can mock in each test seperately
         browser._controls = []
@@ -11,9 +16,7 @@ describe("Devtools: ", async () => {
 
         // mock a stale element
         buttonWDI5.getVisible = async function () {
-            return await this._executeControlMethod("getVisible", {
-                "element-6066-11e4-a52e-4f735466cecf": "stale"
-            })
+            return await this._executeControlMethod("getVisible", staleElementId)
         }
 
         expect(await buttonWDI5.getVisible()).toBe(true)
@@ -38,9 +41,7 @@ describe("Devtools: ", async () => {
 
         // mock a stale element
         multiInput.getTokens = async function () {
-            return await this._executeControlMethod("getTokens", {
-                "element-6066-11e4-a52e-4f735466cecf": "stale"
-            })
+            return await this._executeControlMethod("getTokens", staleElementId)
         }
         await multiInput.enterText("foo")
         expect((await multiInput.getTokens()).length).toBe(1)

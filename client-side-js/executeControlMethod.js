@@ -139,7 +139,7 @@ async function clientSide_executeControlMethod(webElement, methodName, browserIn
     try {
         result = await executeControlMethod(webElement, methodName, browserInstance, args)
     } catch (err) {
-        if (err.message?.includes("is stale")) {
+        if (err.message?.includes("is stale") || err.message?.includes("stale element reference")) {
             logger.debug(`webElement ${JSON.stringify(webElement)} stale, trying to renew reference...`)
             let renewedWebElement = await wdi5Control.renewWebElementReference()
             if (renewedWebElement) {
