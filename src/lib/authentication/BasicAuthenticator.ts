@@ -9,7 +9,7 @@ class BasicAuthenticator extends Authenticator {
         this.options = options
     }
     async login() {
-        const baseUrl = await this.browserInstance.config.baseUrl
+        const baseUrl = await this.browserInstance.config?.baseUrl
         if (!this.options.basicAuthUrl || this.options.basicAuthUrl.length === 0) {
             // Authentication with baseUrl
             const matches = await baseUrl.match(/(\w*:?\/\/)(.+)/)
@@ -24,6 +24,7 @@ class BasicAuthenticator extends Authenticator {
             }
         }
         // trick 17
+        this.setIsLoggedIn(true)
         await this.browserInstance.url(baseUrl)
     }
 }
