@@ -1,5 +1,5 @@
 import * as util from "util"
-const ELEMENT_KEY = "element-6066-11e4-a52e-4f735466cecf"
+export const ELEMENT_KEY = "element-6066-11e4-a52e-4f735466cecf"
 // TODO: import { ELEMENT_KEY } from "webdriverio/build/constants.js"
 // patch in webdriverio repo?
 import { clientSide_getControl } from "../../client-side-js/getControl.cjs"
