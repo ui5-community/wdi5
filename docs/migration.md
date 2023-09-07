@@ -2,7 +2,7 @@
 
 ## from `^1` to `^2`
 
-Version >= 2 of `wdi5` is WebdriverIO v8 compatible. This entails a move to ESM as primary module, with CJS compatibility ensured.
+Version >= 2 of `wdi5` is WebdriverIO v8 compatible. This means that the primary module has moved to ESM, but CJS compatibility is still ensured.
 
 ### no more explicit browser driver needed!
 
