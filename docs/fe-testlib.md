@@ -166,11 +166,11 @@ The SAP Build Workzone, standard edition, runs the Fiori shell and the Fiori Ele
 ```js
 // typescript syntax sample
 export const config: wdi5Config = {
-    wdi5: {
-        btpWorkZoneEnablement: true,
-        logLevel: "verbose"
-    },
-    // ... additional config
+  wdi5: {
+    btpWorkZoneEnablement: true,
+    logLevel: "verbose"
+  }
+  // ... additional config
 }
 ```
 
@@ -180,12 +180,12 @@ Then, point the `baseUrl` in your `wdio.conf.(j|t)s` against _the app URL_ in Wo
 
 ```js
 export const config: wdi5Config = {
-    wdi5: {
-        btpWorkZoneEnablement: true,
-        logLevel: "verbose"
-    },
-    baseUrl: "https://your.launchpad.cfapps.eu10.hana.ondemand.com/site/ymmv#travel-process",
-     // ... additional config
+  wdi5: {
+    btpWorkZoneEnablement: true,
+    logLevel: "verbose"
+  },
+  baseUrl: "https://your.launchpad.cfapps.eu10.hana.ondemand.com/site/ymmv#travel-process"
+  // ... additional config
 }
 ```
 
