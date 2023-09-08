@@ -78,5 +78,6 @@ jobs:
       - name: regular support for workzone
         run: npm run test:wz:regular
 
+      # this against the submodule cloned from https://github.com/SAP-samples/cap-bookshop-wdi5
       - name: local CAP authentication
         run: npm run test:capAuth
