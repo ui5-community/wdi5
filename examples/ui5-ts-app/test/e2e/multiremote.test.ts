@@ -9,9 +9,9 @@ describe("Basic", async () => {
                 viewName: "test.Sample.tsapp.view.Main"
             }
         }
-        // @ts-ignore
+        // @ts-expect-error browser ref ("two") is not properly typed
         const allButtonsTwo = await browser.two.allControls<Button>(allButtonsSelector)
-        // @ts-ignore
+        // @ts-expect-error browser ref ("one") is not properly typed
         const allButtonsOne = await browser.one.allControls<Button>(allButtonsSelector)
         expect(allButtonsTwo.length).toEqual(1)
         expect(allButtonsOne.length).toEqual(1)
