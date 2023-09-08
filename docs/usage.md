@@ -40,6 +40,8 @@ See below for many more examples on both using `wdi5`- and `wdio`-APIs, denoting
 The files containing tests should reside in `$ui5-app/webapp/test/` and be named `*.test.(j|t)s`.
 Yet both test file directory and naming pattern can be specified [via WebdriverIO's `specs`](https://webdriver.io/docs/options#specs) in [`wdio.conf.(j|t)s`](/configuration#wdi5).
 
+?> `wdi5` can be used both in a [CJS-](https://nodejs.org/docs/latest/api/modules.html) and an [ESM-](https://nodejs.org/docs/latest/api/esm.html)environment. The code examples sometimes use either or, but in no favor of one over the other.
+
 ### Test suites
 
 WebdriverIO and `wdi5` can be used with [Mocha](http://mochajs.org/), [Jasmine](http://jasmine.github.io/), and [Cucumber](https://cucumber.io/), with Mocha being used in [all examples](https://github.com/ui5-community/wdi5/tree/main/examples) in `wdi5`.
@@ -48,10 +50,33 @@ Mocha tests [are structured with `describe`-blocks ("suite"), containing `it`s (
 
 <!-- tabs:start -->
 
-#### **JavaScript**
+#### **JavaScript (CJS)**
 
 ```js
 const { wdi5 } = require("wdio-ui5-service")
+
+describe("test suite description", () => {
+  before(async () => {
+    await wdi5.goTo("#/Page")
+  })
+
+  it("should do this", async () => {
+    const selector = {
+      /* ... */
+    }
+    const prop = await browser.asControl(selector).getProperty("...")
+    expect(prop).toEqual("...")
+  })
+  it("should do that", async () => {
+    //...
+  })
+})
+```
+
+#### **JavaScript (ESM)**
+
+```js
+import { wdi5 } from "wdio-ui5-service"
 
 describe("test suite description", () => {
   before(async () => {
@@ -381,7 +406,7 @@ If `getAggregation` is called via a shorthand such as `sap.m.ListBase.getItems()
 
 ### `enterText`
 
-`enterText(sText)`: input `sText` into a (input-capable) control via [EnterText](https://ui5.sap.com/#/api/sap.ui.test.actions.EnterText)
+`enterText(text)`: input `text` (`string`) into a (input-capable) control via [EnterText](https://ui5.sap.com/#/api/sap.ui.test.actions.EnterText)
 
 ```javascript
 const control = await browser.asControl(inputSelector)
@@ -528,7 +553,7 @@ Example: `5-5-17-46-47-screenshot--some-id.png`
 For convenient console output, use `wdi5.getLogger('tag')`. It supports the `syslog`-like levels `log`, `info`, `warn` and `error`:
 
 ```javascript
-const wdi5 = require("wdi5")
+const { wdi5 } = require("wdio-ui5-service")
 wdi5.getLogger().log("any", "number", "of", "log", "parts")
 ```
 

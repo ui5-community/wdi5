@@ -6,6 +6,8 @@ With `wdi5` being an extension ("service") to WebdriverIO (`wdio`), first and fo
 
 Of course the configuration file name can be changed arbitrarily. But then it needs to be specified explicitly when [running `wdi5`/`wdio`](running), e.g. `$> wdio run myconfig.js`.
 
+?> `wdi5` can be used both in a [CJS-](https://nodejs.org/docs/latest/api/modules.html) and an [ESM-](https://nodejs.org/docs/latest/api/esm.html)environment. The code examples sometimes use either or, but in no favor of one over the other.
+
 ## `wdi5`
 
 All options go into a top-level `wdi5` object in `wdio.conf.(j|t)s`,
