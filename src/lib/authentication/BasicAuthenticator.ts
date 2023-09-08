@@ -2,8 +2,8 @@ import Authenticator from "./Authenticator.js"
 import { BasicAuthAuthenticator as BasicAuthenticatorType } from "../../types/wdi5.types"
 
 class BasicAuthenticator extends Authenticator {
-    private options
-    private baseUrl
+    private options: BasicAuthenticatorType
+    private baseUrl: string
 
     constructor(options: BasicAuthenticatorType, browserInstanceName, baseUrl: string) {
         super(browserInstanceName)
@@ -24,8 +24,10 @@ class BasicAuthenticator extends Authenticator {
                 await this.browserInstance.url(basicAuthUrls)
             }
         }
-        // trick 17
         this.setIsLoggedIn(true)
+        // trick 17 ;)
+        // the preload flag of the OData models tries to load the $metadata to early for our authenticators.
+        // We have to reload the application to "force" the application to reload the requests after we are authenticated.
         await this.browserInstance.url(this.baseUrl)
     }
 }

@@ -49,6 +49,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha || github.ref }}
+          submodules: recursive
 
       - name: use node ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -76,3 +77,6 @@ jobs:
 
       - name: regular support for workzone
         run: npm run test:wz:regular
+
+      - name: local CAP authentication
+        run: npm run test:capAuth
