@@ -24,6 +24,9 @@ class BasicAuthenticator extends Authenticator {
         for (const basicAuthUrlsConfig of basicAuthUrls) {
             const matches = basicAuthUrlsConfig.match(/(\w*:?\/\/)(.+)/)
             const basicAuthUrls = matches[1] + this.getUsername() + ":" + this.getPassword() + "@" + matches[2]
+            if (!matches[1] || !matches[2]) {
+                throw new Error(`Invalid basicAuthUrls config: ${basicAuthUrlsConfig}`)
+            }
             await this.browserInstance.url(basicAuthUrls)
         }
     }
