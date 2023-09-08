@@ -9,11 +9,6 @@
     "openui5",
     "sapui5"
   ],
-  "type": "module",
-  "exports": {
-    "import": "./esm/index.js",
-    "require": "./cjs/index.js"
-  },
   "homepage": "https://github.com/ui5-community/wdi5#readme",
   "repository": {
     "type": "git",
@@ -21,6 +16,11 @@
   },
   "license": "(Apache-2.0 or DERIVED BEER-WARE)",
   "author": "the UI5 community <do_not_use@openui5.org> (https://github.com/ui5-community)",
+  "type": "module",
+  "exports": {
+    "import": "./esm/index.js",
+    "require": "./cjs/index.js"
+  },
   "types": "esm/index.d.ts",
   "files": [
     "esm",
@@ -80,18 +80,14 @@
     "release": "standard-version",
     "startDoc": "docsify serve ./docs"
   },
+  "lint-staged": {
+    "*": "prettier --ignore-unknown --write",
+    "*.ts": "eslint --cache --fix"
+  },
   "dependencies": {
     "devtools": "^8.16.3",
     "dotenv": "^16.3.1",
     "semver": "^7.5.4"
-  },
-  "peerDependencies": {
-    "@wdio/cli": ">=8.14.0",
-    "@wdio/local-runner": "^8",
-    "@wdio/mocha-framework": "^8",
-    "@wdio/spec-reporter": "^8",
-    "@wdio/types": "^8",
-    "webdriverio": ">=8.14.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
@@ -127,8 +123,16 @@
     "typescript": "^5.2.2",
     "wait-on": "^7.0.1"
   },
+  "peerDependencies": {
+    "@wdio/cli": ">=8.14.0",
+    "@wdio/local-runner": "^8",
+    "@wdio/mocha-framework": "^8",
+    "@wdio/spec-reporter": "^8",
+    "@wdio/types": "^8",
+    "webdriverio": ">=8.14.0"
+  },
   "engines": {
-    "node": ">=16",
+    "node": ">=18",
     "npm": ">=7"
   }
 }
