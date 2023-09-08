@@ -34,8 +34,9 @@ describe("ui5 basic", () => {
             }
         }
 
-        // ui5
-        const titleWUi5 = await browser.asControl(selector).getText()
+        const titleWUi5 = await /** @type {import("wdio-ui5-service/cjs/lib/wdi5-control.js").WDI5Control} */ (
+            await browser.asControl(selector)
+        ).getText()
         expect(titleWUi5).toEqual("UI5 demo")
     })
 

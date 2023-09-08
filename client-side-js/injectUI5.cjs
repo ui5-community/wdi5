@@ -251,7 +251,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                         } while ((currentObj = Object.getPrototypeOf(currentObj)))
 
                         // filter for:
-                        // @ts-ignore
+                        // @ts-expect-error - TS doesn't know that the keys are strings
                         let controlMethodsToProxy = [...properties.keys()].filter((item) => {
                             if (typeof control[item] === "function") {
                                 // function

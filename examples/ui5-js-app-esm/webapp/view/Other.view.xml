@@ -1,0 +1,44 @@
+<mvc:View controllerName="test.Sample.controller.Other"
+	xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+
+	<Page id="OtherPage"
+		title="{i18n>otherPage.title}"
+		showNavButton="true"
+		navButtonPress="onNavBack">
+		<content>
+			<List id="PeopleList"
+				headerText="{i18n>otherPage.listHeader}"
+				items="{/Employees}"
+				itemPress="onItemPress">
+				<StandardListItem title="{FirstName} {LastName}"
+					type="Navigation"
+					data:key="{FirstName} {LastName}" />
+			</List>
+
+			<VBox id="VBoxx"
+				class="sapUiMediumMargin">
+				<Label text="Pressed List Item Selection" />
+				<Text id="idTextFieldClickResult"
+					text="some text to be replaced by the selection" />
+				<Button id="idAddLineItemButton"
+					text="add Line Item"
+					press=".onAddLineItem" />
+			</VBox>
+
+			<List id="PeopleListSelect"
+				headerText="People List with CheckBox"
+				items="{/Employees}">
+				<CustomListItem>
+					<HBox>
+						<CheckBox
+							text="{FirstName} {LastName}"
+							select="onSelect" />
+					</HBox>
+				</CustomListItem>
+			</List>
+		</content>
+	</Page>
+</mvc:View>
