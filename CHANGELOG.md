@@ -2,9 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-rc.0](https://github.com/ui5-community/wdi5/compare/v2.0.0-beta.1...v2.0.0-rc.0) (2023-09-08)
+
+
+### Features
+
+* support cap basic auth  ([fd7b99e](https://github.com/ui5-community/wdi5/commit/fd7b99e8945742ea3cf106f948e3f83e5d97064d)), closes [#502](https://github.com/ui5-community/wdi5/issues/502)
+* wdi5^2 treats ([#535](https://github.com/ui5-community/wdi5/issues/535)) ([a186d14](https://github.com/ui5-community/wdi5/commit/a186d143201568d57d6ab57a3379196de84cdf08))
+
+
 ### Bug Fixes
 
-* safeguard devtools protocol stale web element ref ([#524](https://github.com/ui5-community/wdi5/issues/524)) ([ece986f](https://github.com/ui5-community/wdi5/commit/ece986f16f10426370fad4eb6d79b5f983262ab6))
+* remove it.only from stale element tests ([7bb89f1](https://github.com/ui5-community/wdi5/commit/7bb89f12f83ecc96acfee2f4fe55773cf72856c5))
+
 ## [2.0.0-beta.1](https://github.com/ui5-community/wdi5/compare/v2.0.0-beta.0...v2.0.0-beta.1) (2023-08-29)
 
 

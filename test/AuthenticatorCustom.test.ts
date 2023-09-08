@@ -38,7 +38,7 @@ describe("custom auth", () => {
             }
         ]
         for (const config of configs) {
-            // @ts-ignore
+            // @ts-expect-error we're deliberately testing for invalid configs
             throws(() => new CustomAuthenticator(config, { dummy: true }), {
                 name: /Error/,
                 message: /all options must be provided/

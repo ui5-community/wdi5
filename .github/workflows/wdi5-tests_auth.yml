@@ -49,6 +49,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha || github.ref }}
+          submodules: recursive
 
       - name: use node ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -67,6 +68,11 @@ jobs:
       - name: build
         run: npm run build
 
+      # this against the submodule cloned from https://github.com/SAP-samples/cap-bookshop-wdi5
+      - name: local CAP authentication
+        run: npm run test:capAuth
+
+      # this against deployed TS sample app on BTP
       - name: (browserstack) btp/sap cloud id, basic auth, office 365, custom auth
         run: BROWSERSTACK=true npm run test:auth
 

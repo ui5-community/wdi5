@@ -5,7 +5,8 @@ export const config: wdi5Config = {
     baseUrl: "https://wdi5-sample-app.cfapps.eu20.hana.ondemand.com/no-auth/",
     services: ["ui5"],
     wdi5: {
-        logLevel: "verbose"
+        logLevel: "verbose",
+        waitForUI5Timeout: 25000
     },
     specs: [resolve("test/e2e/protocol/*.test.ts")],
     capabilities: [
