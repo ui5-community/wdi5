@@ -68,6 +68,11 @@ jobs:
       - name: build
         run: npm run build
 
+      # this against the submodule cloned from https://github.com/SAP-samples/cap-bookshop-wdi5
+      - name: local CAP authentication
+        run: npm run test:capAuth
+
+      # this against deployed TS sample app on BTP
       - name: (browserstack) btp/sap cloud id, basic auth, office 365, custom auth
         run: BROWSERSTACK=true npm run test:auth
 
@@ -77,7 +82,3 @@ jobs:
 
       - name: regular support for workzone
         run: npm run test:wz:regular
-
-      # this against the submodule cloned from https://github.com/SAP-samples/cap-bookshop-wdi5
-      - name: local CAP authentication
-        run: npm run test:capAuth
