@@ -11,7 +11,7 @@ describe("MultiInput", async () => {
                 interaction: "root"
             }
         }
-        // @ts-ignore
+        // @ts-expect-error we'd need to properly type the multi input control
         await (browser.asControl(multiInputSelector) as unknown as MultiInput).enterText("123")
 
         const multiInput = await browser.asControl<MultiInput>(multiInputSelector)

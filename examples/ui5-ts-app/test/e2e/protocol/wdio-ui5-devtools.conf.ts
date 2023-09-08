@@ -7,7 +7,8 @@ export const config: wdi5Config = {
     services: ["ui5"],
     specs: [resolve("test/e2e/protocol/*.test.ts")],
     wdi5: {
-        logLevel: "verbose"
+        logLevel: "verbose",
+        waitForUI5Timeout: 25000
     },
     automationProtocol: "devtools",
     capabilities: [

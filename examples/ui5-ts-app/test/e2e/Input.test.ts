@@ -25,7 +25,7 @@ describe("Input", async () => {
     it("should retrieve the webcomponent's bound path via a managed object", async () => {
         const control = await browser.asControl(inputSelector)
         const bindingInfo = await control.getBindingInfo("value")
-        // @ts-ignore
+        // @ts-expect-error "parts" is not part of the type definition
         const parts = await bindingInfo.parts
         expect(parts[0].path).toEqual("/Customers('TRAIH')/ContactName")
     })
