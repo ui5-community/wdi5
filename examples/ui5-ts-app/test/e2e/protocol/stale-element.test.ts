@@ -1,5 +1,4 @@
-import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
-import { ELEMENT_KEY } from "wdio-ui5-service"
+import { wdi5Selector, ELEMENT_KEY } from "wdio-ui5-service"
 
 describe("Devtools: ", async () => {
     const staleElementId = {
@@ -22,18 +21,35 @@ describe("Devtools: ", async () => {
         expect(await buttonWDI5.getVisible()).toBe(true)
     })
 
-    it("safeguard 'stale' invisible element", async () => {
+    it("safeguard 'stale' invisible element for a cached wdi5 control", async () => {
         const buttonWDI5 = await getButtonOnPage1()
         expect(await buttonWDI5.isInitialized()).toBe(true)
 
         // make the element stale by manipulation DOM
         await buttonWDI5.setVisible(false)
 
+        expect(await buttonWDI5.getVisible()).toBe(null)
+
         const invisibleButton = await getButtonOnPage1()
         // we should receive nothing => null
         expect(await invisibleButton.getVisible()).toBe(null)
         // wdi5 control should be there but ui5 control is not initialized
         expect(await invisibleButton.isInitialized()).toBe(false)
+    })
+
+    it("safeguard 'stale' invisible element for a 'forceSelect' wdi5 control", async () => {
+        const input = await getTitleOnPage1()
+        expect(await input.isInitialized()).toBe(true)
+
+        // make the element stale by manipulation DOM
+        await input.setVisible(false)
+
+        expect(await input.getVisible()).toBe(null)
+
+        const invisibleInput = await getTitleOnPage1()
+        // on a non-existent UI5 control, only the "do I exist" check
+        // aka .isInitialized() can be called, but no API methods of the UI5 control
+        expect(await invisibleInput.isInitialized()).toBe(false)
     })
 
     it("safeguard 'stale' element handling with full selector", async () => {
@@ -47,14 +63,29 @@ describe("Devtools: ", async () => {
         expect((await multiInput.getTokens()).length).toBe(1)
     })
 
-    async function getButtonOnPage1() {
-        const wdi5Button: wdi5Selector = {
-            // forceSelect: true,
+    async function getButtonOnPage1(forceSelect = false) {
+        const button: wdi5Selector = {
+            forceSelect,
             selector: {
                 id: "__component0---Main--NavFwdButton"
             }
         }
-        return await browser.asControl(wdi5Button)
+        return await browser.asControl(button)
+    }
+
+    async function getTitleOnPage1() {
+        const input: wdi5Selector = {
+            forceSelect: true,
+            selector: {
+                controlType: "sap.m.Title",
+                viewName: "test.Sample.tsapp.view.Main",
+                i18NText: {
+                    propertyName: "text",
+                    key: "startPage.title.text"
+                }
+            }
+        }
+        return await browser.asControl(input)
     }
 
     async function getMultiInputOnPage1() {
