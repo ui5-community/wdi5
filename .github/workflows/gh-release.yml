@@ -8,8 +8,6 @@ on:
       - "v*.*.*"
 jobs:
   gh-release:
-    # tmp disable for wdi5 2.0 prereleases
-    if: false
     # if: "contains(github.event.head_commit.author.name, 'wdi5 bot')"
     runs-on: ubuntu-latest
     permissions:

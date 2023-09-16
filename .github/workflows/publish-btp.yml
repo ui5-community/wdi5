@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - "examples/ui5-ts-app/**"
-      - "!examples/ui5-js-app/**"
 
 jobs:
   build-sample-ts-app:
