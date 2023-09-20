@@ -1,6 +1,6 @@
 {
   "name": "wdio-ui5-service",
-  "version": "2.0.0-rc.0",
+  "version": "2.0.0",
   "description": "WebdriverIO plugin for testing UI5 browser-based apps",
   "keywords": [
     "wdi5",
@@ -85,25 +85,25 @@
     "*.ts": "eslint --cache --fix"
   },
   "dependencies": {
-    "devtools": "^8.16.3",
+    "devtools": "^8.16.7",
     "dotenv": "^16.3.1",
     "semver": "^7.5.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
-    "@sap/approuter": "14.3.1",
+    "@sap/approuter": "14.3.2",
     "@sap/ux-ui5-fe-mockserver-middleware": "^1.6.5",
-    "@types/openui5": "^1.117.0",
+    "@types/openui5": "^1.118.0",
     "@types/sinon": "^10.0.16",
-    "@typescript-eslint/eslint-plugin": "^6.6.0",
-    "@typescript-eslint/parser": "^6.6.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
     "@ui5/cli": "^3",
     "@wdio/sauce-service": "^8",
     "cross-env": "^7.0.3",
     "deepmerge": "^4.3.1",
     "docsify-cli": "4.4.4",
-    "eslint": "^8.48.0",
+    "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "fs-extra": "^11.1.1",
@@ -116,7 +116,7 @@
     "prettier": "^3.0.3",
     "replace-in-file": "^7.0.1",
     "rimraf": "^5.0.1",
-    "sinon": "^15.2.0",
+    "sinon": "^16.0.0",
     "soerver": "^0.0.3",
     "standard-version": "^9.5.0",
     "ts-node": "^10.9.1",

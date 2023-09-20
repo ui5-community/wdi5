@@ -628,16 +628,20 @@ export class WDI5Control {
 
     private async _renewWebElementReference(isRefresh = false) {
         if (this._domId) {
+            //> REVISIT: browser.allControls uses this._domId for selection
             const newWebElement = (
                 await this._getControl(isRefresh ? this._controlSelector : { selector: { id: this._domId } })
             ).domElement // added to have a more stable retrieval experience
             if (!this.isInitialized()) {
                 this._webElement = undefined
+            } else {
+                this._webElement = newWebElement
             }
-            this._webElement = newWebElement
             return newWebElement
-        } else {
-            throw Error("control could not be found")
+        } else if (this._wdio_ui5_key && !this._forceSelect) {
+            const fromCache = await this._getControl(this._controlSelector)
+            this._webElement = fromCache.domElement
+            return fromCache.domElement
         }
     }
 
