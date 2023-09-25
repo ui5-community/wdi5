@@ -261,3 +261,5 @@ export interface wdi5Bridge extends Window {
         }
     }
 }
+
+export type { WDI5Control as wdi5Control } from "../lib/wdi5-control"
