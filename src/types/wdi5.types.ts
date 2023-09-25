@@ -54,17 +54,17 @@ export interface wdi5Config extends WebdriverIO.Config {
          */
         btpWorkZoneEnablement?: boolean
     }
-    capabilities: wdi5Capabilites[] | wdi5MultiRemoteCapability
+    capabilities: wdi5Capabilities[] | wdi5MultiRemoteCapability
 }
 
 /**
  * the "wdi5" prefix is to comply with W3C standards
  */
-export interface wdi5Capabilites extends WebDriver.DesiredCapabilities {
+export interface wdi5Capabilities extends WebDriver.DesiredCapabilities {
     "wdi5:authentication"?: BTPAuthenticator | BasicAuthAuthenticator | CustomAuthenticator | Office365Authenticator
 }
 export interface wdi5MultiRemoteCapability {
-    [key: string]: { capabilities: wdi5Capabilites }
+    [key: string]: { capabilities: wdi5Capabilities }
 }
 
 export type BTPAuthenticator = {
