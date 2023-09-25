@@ -38,7 +38,8 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: mtar
-      - uses: elliottpope/cloudfoundry-cli-action
+      - name: deploy to BTP
+        uses: elliottpope/cloudfoundry-cli-action@v6
         with:
           CF_API: https://api.cf.eu20.hana.ondemand.com
           USERNAME: ${{ secrets.BTP_LOGIN }}
