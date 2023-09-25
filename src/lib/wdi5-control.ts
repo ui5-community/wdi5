@@ -21,7 +21,7 @@ export class WDI5Control {
     _controlSelector: wdi5Selector = null
     // return value of Webdriver interface: JSON web token
     _webElement: WebdriverIO.Element | string | undefined = null // TODO: type "org.openqa.selenium.WebElement"
-    // wdio elment retrieved separately via $()
+    // wdio element retrieved separately via $()
     _webdriverRepresentation: WebdriverIO.Element = null
     _metadata: wdi5ControlMetadata = {}
 
@@ -116,7 +116,7 @@ export class WDI5Control {
 
     /**
      * after retrieving the ui5 control and connection this can be false eg. in cases when no DOM element was found by RecordReplay API
-     * @return {Boolean} whether this control was sucessfully initialised
+     * @return {Boolean} whether this control was successfully initialized
      */
     isInitialized(): boolean {
         return this._initialisation
@@ -158,7 +158,7 @@ export class WDI5Control {
     }
 
     /**
-     * add conveniance to the getWebElement Function
+     * add convenience to the getWebElement Function
      * @returns {WebdriverIO.Element} the webdriver Element
      */
     $() {
@@ -374,7 +374,7 @@ export class WDI5Control {
     }
 
     /**
-     * retrieve UI5 control represenation of a UI5 control's aggregation
+     * retrieve UI5 control representation of a UI5 control's aggregation
      *
      * @param aControls strings of IDs of aggregation items
      * @returns instances of wdi5 class per control in the aggregation
@@ -408,7 +408,7 @@ export class WDI5Control {
     }
 
     /**
-     * retrieve UI5 control represenation of a UI5 control's aggregation
+     * retrieve UI5 control representation of a UI5 control's aggregation
      *
      * @param eControl ID
      * @returns instances of wdi5 class per control in the aggregation
@@ -717,7 +717,7 @@ export class WDI5Control {
             this._metadata.className = className
             this._domId = id
 
-            // set the succesful init param
+            // set the successful init param
             this._initialisation = true
         } else {
             this._initialisation = false
