@@ -78,7 +78,9 @@ export class WDI5FE {
             await initOPA(shellConfig, browserInstance)
 
             // back to app
-            await browserInstance.switchToFrame(0)
+            try {
+                await browserInstance.switchToFrame(0)
+            } catch (err) {}
         } else {
             // revert back to app context
             await browserInstance.switchToFrame(null)
