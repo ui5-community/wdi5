@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 2.0.2 (2023-10-05)
+
+
+### Bug Fixes
+
+* handle switchToFrame error ([#550](https://github.com/ui5-community/wdi5/issues/550)) ([6c183e3](https://github.com/ui5-community/wdi5/commit/6c183e36562e26e3a9e1f504458157504975a6b4)), closes [#548](https://github.com/ui5-community/wdi5/issues/548)
+
 ### 2.0.1 (2023-09-25)
 
 ## [2.0.0](https://github.com/ui5-community/wdi5/compare/v2.0.0-rc.0...v2.0.0) (2023-09-16)
