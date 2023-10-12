@@ -1,5 +1,5 @@
 import MultiInput from "sap/m/MultiInput"
-import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
+import { wdi5Selector } from "wdio-ui5-service"
 
 describe("MultiInput", async () => {
     it("should put text into the multi input control", async () => {
@@ -11,10 +11,10 @@ describe("MultiInput", async () => {
                 interaction: "root"
             }
         }
-        // @ts-ignore
+        // @ts-expect-error we'd need to properly type the multi input control
         await (browser.asControl(multiInputSelector) as unknown as MultiInput).enterText("123")
 
-        const multiInput = (await browser.asControl(multiInputSelector)) as unknown as MultiInput
+        const multiInput = await browser.asControl<MultiInput>(multiInputSelector)
         const text = await multiInput.getValue()
         expect(text).toEqual("123")
     })

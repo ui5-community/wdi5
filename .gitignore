@@ -61,6 +61,8 @@ typings/
 .idea
 
 # don't include build artifacts
+cjs/**/*
+esm/**/*
 dist/**/*
 
 # Gitkeep generally
@@ -87,3 +89,6 @@ mta_archives
 *.mtar
 *.zip
 *.mta
+
+# cloud testing
+*.err

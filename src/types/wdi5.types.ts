@@ -48,18 +48,23 @@ export interface wdi5Config extends WebdriverIO.Config {
          * maximum waiting time while checking for UI5 (control) availability
          */
         waitForUI5Timeout?: number
+        /**
+         * indicated whether wdi5 operates on an app
+         * in a SAP Build Workzone Standard Edition (fka Launchpad) environment
+         */
+        btpWorkZoneEnablement?: boolean
     }
-    capabilities: wdi5Capabilites[] | wdi5MultiRemoteCapability
+    capabilities: wdi5Capabilities[] | wdi5MultiRemoteCapability
 }
 
 /**
  * the "wdi5" prefix is to comply with W3C standards
  */
-export interface wdi5Capabilites extends WebDriver.DesiredCapabilities {
+export interface wdi5Capabilities extends WebDriver.DesiredCapabilities {
     "wdi5:authentication"?: BTPAuthenticator | BasicAuthAuthenticator | CustomAuthenticator | Office365Authenticator
 }
 export interface wdi5MultiRemoteCapability {
-    [key: string]: { capabilities: wdi5Capabilites }
+    [key: string]: { capabilities: wdi5Capabilities }
 }
 
 export type BTPAuthenticator = {
@@ -67,10 +72,21 @@ export type BTPAuthenticator = {
     usernameSelector?: string
     passwordSelector?: string
     submitSelector?: string
+    /**
+     * set this, when IAS is in use as custom IdP
+     * IAS provides this biometric login option which wdi5 as of now does not support for authentication
+     */
+    disableBiometricAuthentication?: boolean
+    /**
+     * set this when `disableBiometricAuthentication` is set to `true`
+     * the domain of the custom IdP, e.g. "your-IAS-tenant.accounts.ondemand.com"
+     */
+    idpDomain?: string
 }
 
 export type BasicAuthAuthenticator = {
     provider: "BasicAuth"
+    basicAuthUrls?: Array<string>
 }
 
 export type CustomAuthenticator = {
@@ -126,6 +142,10 @@ interface wdi5ControlSelector {
      */
     properties?: Record<string, unknown>
     /**
+     * Property strict equals matcher, {@link sap.ui.test.matchers.PropertyStrictEquals}
+     */
+    propertyStrictEquals?: { name: string; value: any }
+    /**
      * Ancestor matcher, {@link sap.ui.test.matchers.Ancestor}
      */
     ancestor?: Record<string, unknown>
@@ -138,14 +158,29 @@ interface wdi5ControlSelector {
      */
     interactable?: Record<string, unknown>
     /**
+     * Aggregation length equals matcher, {@link sap.ui.test.matchers.AggregationLengthEquals}
+     */
+    aggregationLengthEquals?: { name: string; length: number }
+    /**
+     * Aggregation filled matcher, {@link sap.ui.test.matchers.AggregationFilled}
+     */
+    aggregationFilled?: { name: string }
+    /**
+     * Aggregation empty matcher, {@link sap.ui.test.matchers.AggregationEmpty}
+     */
+    aggregationEmpty?: { name: string }
+    /**
+     * Aggregation contains property equal matcher, {@link sap.ui.test.matchers.AggregationContainsPropertyEqual}
+     */
+    aggregationContainsPropertyEqual?: { aggregationName: string; propertyName: string; propertyValue: string }
+    /**
      * search in dialogs
      */
     searchOpenDialogs?: boolean
-
     /**
      * interaction adapter
      */
-    interaction?: "root" | "focus" | "press" | "auto"
+    interaction?: "root" | "focus" | "press" | "auto" | { idSuffix: string }
 }
 
 export interface wdi5Selector {
@@ -185,7 +220,7 @@ export interface clientSide_ui5Response {
     className?: string // getControl
     returnType?: string // executeControlMethod
     nonCircularResultObject?: any
-    uuid?: string // uniquie sap.ui.base.Object id
+    uuid?: string // unique sap.ui.base.Object id
     object: WDI5Object
 }
 
@@ -226,3 +261,5 @@ export interface wdi5Bridge extends Window {
         }
     }
 }
+
+export type { WDI5Control as wdi5Control } from "../lib/wdi5-control"

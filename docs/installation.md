@@ -2,12 +2,14 @@
 
 With `wdi5` [being a service to WebdriverIO](https://webdriver.io/docs/wdio-ui5-service), installation of both is required.
 
+`wdi5` can be used both in a [CJS-](https://nodejs.org/docs/latest/api/modules.html) and an [ESM-](https://nodejs.org/docs/latest/api/esm.html)environment.
+
 ## Prerequisites
 
 - UI5 app running in the browser, accessible via `http(s)://host.ext:port`.
   Recommended tooling for this is either the official [UI5 tooling](https://github.com/SAP/ui5-tooling) (`ui5 serve`) or some standalone http server like [`soerver`](https://github.com/vobu/soerver) or [`http-server`](https://www.npmjs.com/package/http-server).
 - UI5 app using UI5 >= `1.60` (because the [`RecordReplay` API](https://ui5.sap.com/sdk/#/api/sap.ui.test.RecordReplay) is used extensively which is only available from UI5 `1.60`+)
-- Node.js version >= `14` (`lts/fermium`)
+- Node.js version >= `18` (`lts/hydrogen`)
 
 The installation of `wdi5` and WebdriverIO can either be done by using (a) `npm init wdi5`, (b) the [Webdriver.IO `cli`](https://webdriver.io/docs/gettingstarted.html) or (c) manually.
 
@@ -101,7 +103,8 @@ $> npx wdio
 ```
 
 ![start of the wdi5/wdio installation process](./img/01_installation.png)
-![choosing mocha as the syntax for writing tests](./img/03_installation.png)
+
+Answer each step of the guided install subsequently.
 
 !> Don't forget to check `ui5` at the stage "Do you want to add a service to your test setup?"
 
@@ -124,7 +127,7 @@ At the end of the guided installation, you'll be greated with a message similar 
 
 ## c) manual installation
 
-In case you already have a `wdio.conf.(j|t)s` file, getting `wdi5` is a straightforward process.
+In case you already have a `wdio.conf.(j|t)s` file and WebdriverIO 8 installed, getting `wdi5` is a straightforward process.
 
 In a terminal, change to the directory holding your `wdio` conf file.
 
@@ -143,7 +146,6 @@ Add that service to the respective section in `wdio.conf.(j|t)s`:
 ```javascript
 //...
 services: [
-  // other services like 'chromedriver'
   // ...
   "ui5"
 ]

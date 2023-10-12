@@ -1,5 +1,5 @@
 import Button from "sap/m/Button"
-import { wdi5Selector } from "wdio-ui5-service/dist/types/wdi5.types"
+import { wdi5Selector } from "wdio-ui5-service"
 
 describe("Basic", async () => {
     it("browser.allControls: check number of buttons", async () => {
@@ -9,10 +9,10 @@ describe("Basic", async () => {
                 viewName: "test.Sample.tsapp.view.Main"
             }
         }
-        // @ts-ignore
-        const allButtonsTwo = (await browser.two.allControls(allButtonsSelector)) as unknown as Array<Button>
-        // @ts-ignore
-        const allButtonsOne = (await browser.one.allControls(allButtonsSelector)) as unknown as Array<Button>
+        // @ts-expect-error browser ref ("two") is not properly typed
+        const allButtonsTwo = await browser.two.allControls<Button>(allButtonsSelector)
+        // @ts-expect-error browser ref ("one") is not properly typed
+        const allButtonsOne = await browser.one.allControls<Button>(allButtonsSelector)
         expect(allButtonsTwo.length).toEqual(1)
         expect(allButtonsOne.length).toEqual(1)
     })

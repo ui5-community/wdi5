@@ -157,6 +157,85 @@ it("I enter custom data", async () => {
 })
 ```
 
+## Using the test library with SAP Build Workzone, standard edition
+
+?> only available in `wdi5` >= 2
+
+The SAP Build Workzone, standard edition, runs the Fiori shell and the Fiori Elements app in separate `iframe`s. For operating on both shell and app, `wdi5` injects itself in both as well. This can be triggered by configuring `wdi5` with `btpWorkZoneEnablement` set to `true`:
+
+```js
+// typescript syntax sample
+export const config: wdi5Config = {
+  wdi5: {
+    btpWorkZoneEnablement: true,
+    logLevel: "verbose"
+  }
+  // ... additional config
+}
+```
+
+Most likely, a [`wdi5` authentication configuration for IAS](authentication?id=sap-cloud-identity-services-identity-authentication) is also needed to authenticate against the IAS tenant the SAP Build Workzone, standard edition, is running with.
+
+Then, point the `baseUrl` in your `wdio.conf.(j|t)s` against _the app URL_ in Workzone, e.g. `https://your.launchpad.cfapps.eu10.hana.ondemand.com/site/ymmv#travel-process`:
+
+```js
+export const config: wdi5Config = {
+  wdi5: {
+    btpWorkZoneEnablement: true,
+    logLevel: "verbose"
+  },
+  baseUrl: "https://your.launchpad.cfapps.eu10.hana.ondemand.com/site/ymmv#travel-process"
+  // ... additional config
+}
+```
+
+?> It is important to use the URL pointing to the app under test, as this is assumed by `wdi5` to be the start of its injection process
+
+After making `wdi5` aware of the Workzone setting, now inject the testlibrary as usual in the `before` hook of the test suite:
+
+```js
+// sample page obects from the CAP SFLIGHT app
+describe("drive in Work Zone with testlib support", () => {
+    let FioriElementsFacade
+    before(async () => {
+        FioriElementsFacade = await browser.fe.initialize({
+            onTheMainPage: {
+                ListReport: {
+                    appId: "sap.fe.cap.travel",
+                    componentId: "TravelList",
+                    entitySet: "Travel"
+                }
+            },
+            onTheDetailPage: {
+                ObjectPage: {
+                    appId: "sap.fe.cap.travel",
+                    componentId: "TravelObjectPage",
+                    entitySet: "Travel"
+                }
+            },
+            onTheItemPage: {
+                ObjectPage: {
+                    appId: "sap.fe.cap.travel",
+                    componentId: "BookingObjectPage",
+                    entitySet: "Booking"
+                }
+            },
+            onTheShell: {
+                Shell: {}
+            }
+        })
+    })
+
+    it("...", async () => {
+      await FioriElementsFacade.execute((Given, When, Then) => {
+            Then.onTheMainPage.iSeeThisPage()
+        })
+    })
+    // further its
+```
+
+See the files in [`wdi5`'s git repo at `/examples/ui5-ts-app/test/e2e/workzone/**/*`](https://github.com/ui5-community/wdi5/tree/main/examples/ui5-ts-app/test/e2e/workzone) for a sample config and test!
+
 ## Troubleshooting
 
 ### Enable verbose mode for test library output

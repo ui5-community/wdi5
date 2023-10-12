@@ -1,5 +1,6 @@
 - [Home](/)
 - [Installation](installation.md)
+- [Migration](migration.md)
 - [Configuration](configuration.md)
 - [Running](running.md)
 - [Debugging](debugging.md)

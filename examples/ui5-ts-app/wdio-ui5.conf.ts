@@ -1,5 +1,5 @@
 import { join } from "path"
-import { wdi5Config } from "wdio-ui5-service/dist/types/wdi5.types"
+import { wdi5Config } from "wdio-ui5-service"
 
 export const config: wdi5Config = {
     wdi5: {
@@ -7,7 +7,7 @@ export const config: wdi5Config = {
     },
     baseUrl: "http://localhost:8080/index.html",
 
-    services: ["chromedriver", "ui5"],
+    services: ["ui5"],
 
     specs: ["./test/e2e/**/*.test.ts"],
     // these are for authentication tests only
@@ -15,13 +15,16 @@ export const config: wdi5Config = {
         "./test/e2e/Custom.test.ts",
         "./test/e2e/multiremote.test.ts",
         "./test/e2e/BasicMultiRemoteAuthentication.test.ts",
-        "./test/e2e/Authentication.test.ts"
+        "./test/e2e/Authentication.test.ts",
+        "./test/e2e/ui5-late.test.ts",
+        "./test/e2e/protocol/**/*.test.ts",
+        "./test/e2e/workzone/**/*.test.ts"
     ],
 
     maxInstances: 10,
     capabilities: [
         {
-            maxInstances: 5,
+            maxInstances: 2,
             browserName: "chrome",
             "goog:chromeOptions": {
                 args:

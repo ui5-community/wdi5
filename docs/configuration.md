@@ -2,10 +2,18 @@
 
 ?> Please note that as a prerequisite, some webserver-capable tooling (such as the [ui5-tooling](https://sap.github.io/ui5-tooling/)) is needed to run both the UI5 app and the `wdi5/wdio` tests.
 
+With `wdi5` being an extension ("service") to WebdriverIO (`wdio`), first and foremost [all configuration options of `wdio`](https://v7.webdriver.io/docs/options) can also be used in `wdi5`! They all go into the same configuration file, per default `wdio.conf.js` (for JavaScript) and `wdio.conf.ts` (for TypeScript).
+
+Of course the configuration file name can be changed arbitrarily. But then it needs to be specified explicitly when [running `wdi5`/`wdio`](running), e.g. `$> wdio run myconfig.js`.
+
+?> `wdi5` can be used both in a [CJS-](https://nodejs.org/docs/latest/api/modules.html) and an [ESM-](https://nodejs.org/docs/latest/api/esm.html)environment. The code examples sometimes use either or, but in no favor of one over the other.
+
 ## `wdi5`
 
-All options go into a top-level `wdi5` object in `wdio.conf.(j|t)s`,  
-with the exception of the `baseUrl` pointing to your UI5 app.
+All options go into a top-level `wdi5` object in `wdio.conf.(j|t)s`,
+with the exception of the `baseUrl` pointing to the `index.html` of your UI5 app.
+
+?> Do not account for redirects etc. (think application router), `wdi5` wants to be pointed directly to where UI5 is being bootstrapped.
 
 ```javascript
 exports.config = {
@@ -17,7 +25,8 @@ exports.config = {
     screenshotsDisabled: false, // [optional] {boolean}, default: false; if set to true, screenshots won't be taken and not written to file system
     logLevel: "verbose", // [optional] error | verbose | silent, default: "error"
     skipInjectUI5OnStart: false, // [optional] {boolean}, default: false; true when UI5 is not on the start page, you need to later call <wdioUI5service>.injectUI5() manually
-    waitForUI5Timeout: 15000 // [optional] {number}, default: 15000; maximum waiting time in milliseconds while checking for UI5 availability
+    waitForUI5Timeout: 15000, // [optional] {number}, default: 15000; maximum waiting time in milliseconds while checking for UI5 availability
+    btpWorkZoneEnablement: false // [optional] {boolean}, default: false; whether to instruct wdi5 to inject itself in both the SAP Build Workzone, standard edition, shell and app
   }
   // ...
 }
@@ -27,7 +36,7 @@ exports.config = {
 
 ### `screenshotPath`
 
-A string pointing to a directory, relative to the location of the `wdio.conf.(j|t)s` configuration file.  
+A string pointing to a directory, relative to the location of the `wdio.conf.(j|t)s` configuration file.
 In case your UI5 app lives in `/app` with a files system structure similar to ...
 
 ```shell
@@ -52,8 +61,8 @@ Boolean (default: `false`) to turn screenshotting on or off, e.g. in a local dev
 
 ### `logLevel`
 
-Any of `"verbose"`, `"error"` or `"silent"`. Default: `verbose`.  
-`wdi5` comes with its own minimal console-logger. It helps in monitoring what the "ui5" service is currently executing in the WebdriverIO context.  
+Any of `"verbose"`, `"error"` or `"silent"`. Default: `verbose`.
+`wdi5` comes with its own minimal console-logger. It helps in monitoring what the "ui5" service is currently executing in the WebdriverIO context.
 Additionally, it can be used in tests via a static `getter` on the `wdi5`-object provided by `wdio-ui5-service`:
 
 ```javascript
@@ -116,6 +125,13 @@ See <https://github.com/ui5-community/wdi5/tree/main/examples/ui5-js-app/webapp/
 ### `waitForUI5Timeout`
 
 Number in milliseconds (default: `15000`) to wait for UI5-related operations within a UI5 app. This is the equivalent to OPA5's [`waitFor()` option `timeout`](https://ui5.sap.com/sdk/#/api/sap.ui.test.Opa5/methods/waitFor).
+
+?> Setting this timeout to 30 seconds or higher requires the [session script timeout](https://webdriver.io/docs/timeouts/#session-script-timeout) to be increased as well.
+
+### `btpWorkZoneEnablement`
+
+Boolean setting to trigger injecting `wdi5` into both the shell and the app when used with the SAP Build Workzone, standard edition.  
+Recommended complement is to also [configure IAS Authentication](authentication?id=sap-cloud-identity-services-identity-authentication): as SAP Build requires its own Identity Provider (most likely provided by using an IAS tenant), you'll have to configure authentication against that as well in `wdi5`.
 
 ## `package.json`
 

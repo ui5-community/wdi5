@@ -1,45 +1,45 @@
 {
   "name": "ui5-ts-app",
   "version": "0.8.15-notimportant",
+  "type": "module",
   "private": true,
   "description": "UI5 Application: tsapp",
   "author": "nosotros-todos@ui5-community.org",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "npm-run-all --parallel watch:ts start:ui5",
-    "watch:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files --watch",
-    "start:ui5": "ui5 serve --port 8080",
+    "start": "ui5 serve --port 8080 --accept-remote-connections",
     "//test": "run-s test:*",
     "test": "wdio run wdio-ui5.conf.ts",
+    "test:browserstack": "wdio run test/e2e/cloud-services/browserstack.conf.ts",
     "test:authentication": "run-s authentication:*",
-    "test-h:authentication": "run-s \"authentication:* -- --headless\"",
+    "//test-h:authentication": "run-s \"authentication:* -- --headless\"",
+    "test:authentication:bstack": "BROWSERSTACK=true run-s authentication:*",
+    "test:lateInject": "wdio run wdio-ui5-late.conf.ts",
+    "test:wz": "wdio run test/e2e/workzone/wdio-ui5-workzone.conf.ts",
     "authentication:btp": "wdio run test/e2e/authentication/wdio-btp-authentication.conf.ts",
     "authentication:basic-auth": "wdio run test/e2e/authentication/wdio-basic-auth-authentication.conf.ts",
     "authentication:custom": "wdio run test/e2e/authentication/wdio-custom-authentication.conf.ts",
     "authentication:multiRemote": "wdio run test/e2e/authentication/wdio-btp-authentication-multiremote.conf.ts",
-    "build:ts": "babel src --out-dir webapp --source-maps true --extensions \".ts,.js\" --copy-files",
+    "test:protocol": "run-p \"protocol:* -- --headless\"",
+    "protocol:devtools": "wdio run test/e2e/protocol/wdio-ui5-devtools.conf.ts",
+    "protocol:webdriver": "wdio run test/e2e/protocol/wdio-ui5-webdriver.conf.ts",
     "build:ui5": "ui5 build --clean-dest",
     "build:mtar": "mv dist approuter/webapp && mbt build",
-    "clean": "rimraf dist webapp approuter/webapp",
-    "build:cf": "npm-run-all --sequential clean build:ts build:ui5 build:mtar"
+    "clean": "rimraf dist approuter/webapp",
+    "build:cf": "npm-run-all --sequential clean build:ui5 build:mtar"
   },
   "devDependencies": {
-    "@babel/cli": "^7.18.10",
-    "@babel/core": "^7.18.10",
-    "@babel/preset-env": "^7.18.10",
-    "@babel/preset-typescript": "^7.18.6",
-    "@openui5/ts-types-esm": "latest",
-    "@sap/approuter": "^11.6.1",
+    "@openui5/types": "latest",
+    "@sap/approuter": "latest",
     "@types/jquery": "3.5.14",
-    "babel-preset-transform-ui5": "^7.0.5",
-    "mbt": "^1.2.18",
-    "ts-deepmerge": "^5.0.0",
-    "ui5-middleware-simpleproxy": "^0.9.0",
+    "@ui5/cli": "^3",
+    "@wdio/browserstack-service": "^8",
+    "@wdio/sauce-service": "^8",
+    "mbt": "latest",
+    "ts-deepmerge": "latest",
+    "ui5-middleware-livereload": "latest",
+    "ui5-middleware-simpleproxy": "latest",
+    "ui5-tooling-transpile": "latest",
     "wdio-ui5-service": "*"
-  },
-  "ui5": {
-    "dependencies": [
-      "ui5-middleware-simpleproxy"
-    ]
   }
 }

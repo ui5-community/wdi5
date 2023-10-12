@@ -1,14 +1,9 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "esModuleInterop": true,
-    "outDir": "dist",
-    "module": "CommonJS",
-    "sourceMap": true,
-    "skipLibCheck": true,
-    "declaration": true,
-    "declarationMap": true,
-    "downlevelIteration": true,
-    "types": ["node", "webdriverio/async", "@wdio/mocha-framework", "openui5"]
-  },
-  "include": ["src"]
+    "noEmit": false,
+    "outDir": "esm",
+    "module": "ESNext",
+    "target": "ESNext"
+  }
 }

@@ -2,6 +2,149 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 2.0.2 (2023-10-05)
+
+
+### Bug Fixes
+
+* handle switchToFrame error ([#550](https://github.com/ui5-community/wdi5/issues/550)) ([6c183e3](https://github.com/ui5-community/wdi5/commit/6c183e36562e26e3a9e1f504458157504975a6b4)), closes [#548](https://github.com/ui5-community/wdi5/issues/548)
+
+### 2.0.1 (2023-09-25)
+
+## [2.0.0](https://github.com/ui5-community/wdi5/compare/v2.0.0-rc.0...v2.0.0) (2023-09-16)
+
+## [2.0.0-rc.0](https://github.com/ui5-community/wdi5/compare/v2.0.0-beta.1...v2.0.0-rc.0) (2023-09-08)
+
+
+### Features
+
+* support cap basic auth  ([fd7b99e](https://github.com/ui5-community/wdi5/commit/fd7b99e8945742ea3cf106f948e3f83e5d97064d)), closes [#502](https://github.com/ui5-community/wdi5/issues/502)
+* wdi5^2 treats ([#535](https://github.com/ui5-community/wdi5/issues/535)) ([a186d14](https://github.com/ui5-community/wdi5/commit/a186d143201568d57d6ab57a3379196de84cdf08))
+
+
+### Bug Fixes
+
+* remove it.only from stale element tests ([7bb89f1](https://github.com/ui5-community/wdi5/commit/7bb89f12f83ecc96acfee2f4fe55773cf72856c5))
+
+## [2.0.0-beta.1](https://github.com/ui5-community/wdi5/compare/v2.0.0-beta.0...v2.0.0-beta.1) (2023-08-29)
+
+
+### Features
+
+* sap build workzone std ed enablement, ias authentication capability ([#520](https://github.com/ui5-community/wdi5/issues/520)) ([8f6c217](https://github.com/ui5-community/wdi5/commit/8f6c217ff72b047ab8b8738ddaa7820217bf267a)), closes [#378](https://github.com/ui5-community/wdi5/issues/378)
+
+## [2.0.0-beta.0](https://github.com/ui5-community/wdi5/compare/v1.5.3...v2.0.0-beta.0) (2023-08-28)
+
+
+### Features
+
+* wdi5 2.0 progression ([#518](https://github.com/ui5-community/wdi5/issues/518)) ([d51cdde](https://github.com/ui5-community/wdi5/commit/d51cdde93e407e9efa604d776bf63196092555bb))
+
+## [2.0.0-alpha.1](https://github.com/ui5-community/wdi5/compare/v2.0.0-alpha.0...v2.0.0-alpha.1) (2023-07-06)
+
+## [2.0.0-alpha.0](https://github.com/ui5-community/wdi5/compare/v1.5.1...v2.0.0-alpha.0) (2023-07-03)
+
+
+### Features
+
+* wdio v8 enablement  ([#498](https://github.com/ui5-community/wdi5/issues/498)) ([ee5e2c4](https://github.com/ui5-community/wdi5/commit/ee5e2c4cca23af6dfb9f5552c6a91d34d51accdc)), closes [#384](https://github.com/ui5-community/wdi5/issues/384)
+
+
+### [1.5.4](https://github.com/ui5-community/wdi5/compare/v1.5.3...v1.5.4) (2023-08-31)
+
+### 1.5.3 (2023-08-22)
+
+
+### Bug Fixes
+
+* display different error message depending on the type ([#506](https://github.com/ui5-community/wdi5/issues/506)) ([0f8e356](https://github.com/ui5-community/wdi5/commit/0f8e356596429c5c34539ac00cfa20016aff00ce))
+
+### 1.5.2 (2023-08-17)
+
+
+### Bug Fixes
+
+* invalidate control map when we injectUi5 ([#513](https://github.com/ui5-community/wdi5/issues/513)) ([b6b7210](https://github.com/ui5-community/wdi5/commit/b6b7210c2f760e97b4acc7bdb9e6ea84c4b16e73))
+
+### 1.5.1 (2023-06-14)
+
+
+### Bug Fixes
+
+* safeguard browser.getTimeouts logging ([#483](https://github.com/ui5-community/wdi5/issues/483)) ([7ddd2ba](https://github.com/ui5-community/wdi5/commit/7ddd2ba1bd2368eb1a29fcf45e071ca4afa62d53)), closes [#473](https://github.com/ui5-community/wdi5/issues/473)
+
+## 1.5.0 (2023-05-09)
+
+
+### Features
+
+* outsource auth tests, drop node 14, make node 16 dev default, align script timeout ([#465](https://github.com/ui5-community/wdi5/issues/465)) ([b2cb381](https://github.com/ui5-community/wdi5/commit/b2cb381f4f8319023a7a37e3946489c94af6ed11))
+
+## 1.4.0 (2023-05-09)
+
+
+### Features
+
+* add exec to ui5 controls to boost performance for data retrieval from many ui5 child controls ([#456](https://github.com/ui5-community/wdi5/issues/456)) ([93116d4](https://github.com/ui5-community/wdi5/commit/93116d4efe01d7ef71c26dc1b63743bb6563e67e))
+
+### 1.3.3 (2023-04-27)
+
+
+### Bug Fixes
+
+* queue on the node event loop to mitigate "waitAsync is already running bug" ([#455](https://github.com/ui5-community/wdi5/issues/455)) ([bed997e](https://github.com/ui5-community/wdi5/commit/bed997ec9816de75529df98505be4f2d31cb20f5)), closes [#452](https://github.com/ui5-community/wdi5/issues/452)
+
+### 1.3.2 (2023-03-15)
+
+
+### Bug Fixes
+
+* **fe-lib:** transform milliseconds to seconds correctly for TestLibrary ([#443](https://github.com/ui5-community/wdi5/issues/443)) ([a7f840f](https://github.com/ui5-community/wdi5/commit/a7f840f2fb9ea1f57feebb37f77b9f432df240d2))
+
+### 1.3.1 (2023-02-27)
+
+## 1.3.0 (2023-02-24)
+
+
+### Features
+
+* devtools protocol enablement ([#430](https://github.com/ui5-community/wdi5/issues/430)) ([5eb8254](https://github.com/ui5-community/wdi5/commit/5eb8254a1f8f5ffc772f05eee958dab2f1ff0eac))
+
+### 1.2.1 (2023-02-23)
+
+
+### Bug Fixes
+
+* make saveObject() work in unsecure contexts ([#419](https://github.com/ui5-community/wdi5/issues/419)) ([c293f0f](https://github.com/ui5-community/wdi5/commit/c293f0f23d7e8e8d3959a8be3d933f41a2e70ff0)), closes [#416](https://github.com/ui5-community/wdi5/issues/416)
+
+## 1.2.0 (2023-02-08)
+
+
+### Features
+
+* allow for async client-side controller functions ([#423](https://github.com/ui5-community/wdi5/issues/423)) ([bde49d1](https://github.com/ui5-community/wdi5/commit/bde49d11cad0da58897326978c9fc65b6fd565ea)), closes [#417](https://github.com/ui5-community/wdi5/issues/417)
+
+### 1.1.1 (2023-02-08)
+
+
+### Bug Fixes
+
+* rm obsolete design time artifacts ([#422](https://github.com/ui5-community/wdi5/issues/422)) ([f9bf300](https://github.com/ui5-community/wdi5/commit/f9bf3009a0760fdf1a025f23182d4ab7d03c11d2)), closes [#421](https://github.com/ui5-community/wdi5/issues/421)
+
+## 1.1.0 (2023-01-30)
+
+
+### Features
+
+* make FE Test Library recognize Timeout Setting ([#411](https://github.com/ui5-community/wdi5/issues/411)) ([9d84414](https://github.com/ui5-community/wdi5/commit/9d8441400f735bfd4ad162943488e6a836624510))
+
+### 1.0.5 (2023-01-13)
+
+
+### Bug Fixes
+
+* cucumber. again. ([#398](https://github.com/ui5-community/wdi5/issues/398)) ([a6123eb](https://github.com/ui5-community/wdi5/commit/a6123eba733ca9ccd5ad3e558060a02161d0c242)), closes [#348](https://github.com/ui5-community/wdi5/issues/348)
+
 ### 1.0.4 (2022-12-13)
 
 

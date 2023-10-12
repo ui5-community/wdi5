@@ -1,33 +1,50 @@
-const { afterEach } = require("mocha")
 const sinon = require("sinon")
+const { wdi5 } = require("wdio-ui5-service")
+const Logger = wdi5.getLogger()
 
-const expectDefaultErrorMessages = (wdi5Control) => {
-    expect(console.red.called).toBeTruthy()
+const expectDefaultErrorMessages = (wdi5Control, spy) => {
+    expect(spy.called).toBeTruthy()
     expect(
-        console.red
+        spy
             .getCall(0)
             .calledWith(
-                "[wdi5]",
+                sinon.match.string,
+                sinon.match.string,
                 `call of _getControl() failed because of: Error: No DOM element found using the control selector ${JSON.stringify(
                     wdi5Control._controlSelector.selector
                 )}`
             )
-    ).toBeTruthy() // dirty but otherwise we have no access to the selector
+    ).toBeTruthy()
     expect(
-        console.red.getCall(1).calledWith("[wdi5]", `error retrieving control: ${wdi5Control._wdio_ui5_key}`)
-    ).toBeTruthy() // dirty but otherwise we have no acces to the key
+        spy
+            .getCall(1)
+            .calledWith(
+                sinon.match.string,
+                sinon.match.string,
+                `error retrieving control: ${wdi5Control._wdio_ui5_key}`
+            )
+    ).toBeTruthy()
 }
 
 /**
  * test the error logs of the wdi5 logger when controls cannot be found
  * for every test we are using a slightly different selector so we don't have
- * to use "foceSelect: true" all the time
+ * to use "forceSelect: true" all the time
  */
 describe("Error logging", () => {
     const sandbox = sinon.createSandbox()
+    let spy
 
     beforeEach(() => {
-        sandbox.spy(console, "red")
+        // instead of spying on the spy method,
+        // we need to double down on console.log
+        // b/c of some node process design no one understands
+        // that generates multiple instance of the Logger
+        // esm - cjs - ts-node - man...
+        // this is what you'd expect:
+        // spy = sandbox.spy(Logger, "error")
+        // instead we need to do:
+        spy = sandbox.spy(console, "log")
     })
 
     afterEach(() => {
@@ -42,8 +59,8 @@ describe("Error logging", () => {
         }
         const wdi5ControlWithWrongId = await browser.asControl(selectorWithWrongId)
 
-        expectDefaultErrorMessages(wdi5ControlWithWrongId)
-        expect(console.red.callCount).toEqual(2)
+        expectDefaultErrorMessages(wdi5ControlWithWrongId, spy)
+        expect(spy.callCount).toEqual(2)
     })
 
     it("should log the correct error messages when 'press' is executed on an not found control; WITHOUT fluent async api", async () => {
@@ -55,10 +72,16 @@ describe("Error logging", () => {
         const wdi5ControlWithWrongId = await browser.asControl(selectorWithWrongId)
         await wdi5ControlWithWrongId.press()
 
-        expectDefaultErrorMessages(wdi5ControlWithWrongId)
-        expect(console.red.callCount).toEqual(3)
+        expectDefaultErrorMessages(wdi5ControlWithWrongId, spy)
+        expect(spy.callCount).toEqual(3)
         expect(
-            console.red.getCall(2).calledWith("[wdi5]", `cannot call press(), because control could not be found`)
+            spy
+                .getCall(2)
+                .calledWith(
+                    sinon.match.string,
+                    sinon.match.string,
+                    "cannot call press(), because control could not be found"
+                )
         ).toBeTruthy()
     })
 
@@ -71,10 +94,16 @@ describe("Error logging", () => {
 
         const wdi5ControlWithWrongId = await browser.asControl(selectorWithWrongId).press()
 
-        expectDefaultErrorMessages(wdi5ControlWithWrongId)
-        expect(console.red.callCount).toEqual(3)
+        expectDefaultErrorMessages(wdi5ControlWithWrongId, spy)
+        expect(spy.callCount).toEqual(3)
         expect(
-            console.red.getCall(2).calledWith("[wdi5]", `cannot call press(), because control could not be found`)
+            spy
+                .getCall(2)
+                .calledWith(
+                    sinon.match.string,
+                    sinon.match.string,
+                    "cannot call press(), because control could not be found"
+                )
         ).toBeTruthy()
     })
 
@@ -88,13 +117,17 @@ describe("Error logging", () => {
         const wdi5ControlWithWrongId = await browser.asControl(selectorWithWrongId)
         await wdi5ControlWithWrongId.getAggregation("items")
 
-        expectDefaultErrorMessages(wdi5ControlWithWrongId)
+        expectDefaultErrorMessages(wdi5ControlWithWrongId, spy)
 
-        expect(console.red.callCount).toEqual(3)
+        expect(spy.callCount).toEqual(3)
         expect(
-            console.red
+            spy
                 .getCall(2)
-                .calledWith("[wdi5]", `cannot get aggregation "items", because control could not be found`)
+                .calledWith(
+                    sinon.match.string,
+                    sinon.match.string,
+                    `cannot get aggregation "items", because control could not be found`
+                )
         ).toBeTruthy()
     })
     it("should log the correct error messages when 'getAggregation' is executed on an not found control; WITH fluent async api", async () => {
@@ -108,12 +141,16 @@ describe("Error logging", () => {
         // there should be no additional error messages
         const wdi5ControlWithWrongId = await browser.asControl(selectorWithWrongId)
 
-        expectDefaultErrorMessages(wdi5ControlWithWrongId)
-        expect(console.red.callCount).toEqual(3)
+        expectDefaultErrorMessages(wdi5ControlWithWrongId, spy)
+        expect(spy.callCount).toEqual(3)
         expect(
-            console.red
+            spy
                 .getCall(2)
-                .calledWith("[wdi5]", `cannot get aggregation "items", because control could not be found`)
+                .calledWith(
+                    sinon.match.string,
+                    sinon.match.string,
+                    `cannot get aggregation "items", because control could not be found`
+                )
         ).toBeTruthy()
     })
 
@@ -126,11 +163,15 @@ describe("Error logging", () => {
 
         await browser.asControl(selectorWithWrongId).getAggregation("tooltip")
 
-        expect(console.red.callCount).toEqual(1)
+        expect(spy.callCount).toEqual(1)
         expect(
-            console.red
+            spy
                 .getCall(0)
-                .calledWith("[wdi5]", `call of _getAggregation() failed because of: Error: Aggregation was not found!`)
+                .calledWith(
+                    sinon.match.string,
+                    sinon.match.string,
+                    "call of _getAggregation() failed because of: Error: Aggregation was not found!"
+                )
         ).toBeTruthy()
     })
 
@@ -144,11 +185,17 @@ describe("Error logging", () => {
         const wdi5ControlWithWrongId = await browser.asControl(selectorWithWrongId)
         await wdi5ControlWithWrongId.enterText("test")
 
-        expectDefaultErrorMessages(wdi5ControlWithWrongId)
+        expectDefaultErrorMessages(wdi5ControlWithWrongId, spy)
 
-        expect(console.red.callCount).toEqual(3)
+        expect(spy.callCount).toEqual(3)
         expect(
-            console.red.getCall(2).calledWith("[wdi5]", `cannot call enterText(), because control could not be found`)
+            spy
+                .getCall(2)
+                .calledWith(
+                    sinon.match.string,
+                    sinon.match.string,
+                    "cannot call enterText(), because control could not be found"
+                )
         ).toBeTruthy()
     })
     it("should log the correct error messages when 'enterText' is executed on an not found control WITH fluent async api", async () => {
@@ -160,11 +207,17 @@ describe("Error logging", () => {
 
         const wdi5ControlWithWrongId = await browser.asControl(selectorWithWrongId).enterText()
 
-        expectDefaultErrorMessages(wdi5ControlWithWrongId)
+        expectDefaultErrorMessages(wdi5ControlWithWrongId, spy)
 
-        expect(console.red.callCount).toEqual(3)
+        expect(spy.callCount).toEqual(3)
         expect(
-            console.red.getCall(2).calledWith("[wdi5]", `cannot call enterText(), because control could not be found`)
+            spy
+                .getCall(2)
+                .calledWith(
+                    sinon.match.string,
+                    sinon.match.string,
+                    "cannot call enterText(), because control could not be found"
+                )
         ).toBeTruthy()
     })
 
@@ -177,19 +230,24 @@ describe("Error logging", () => {
 
         await browser.asControl(selectorWithWrongId).getWrongFunction().getSecondWrongFunction()
 
-        expect(console.red.callCount).toEqual(2)
+        expect(spy.callCount).toEqual(2)
         expect(
-            console.red
+            spy
                 .getCall(0)
                 .calledWith(
-                    "[wdi5]",
+                    sinon.match.string,
+                    sinon.match.string,
                     `One of the calls in the queue "getWrongFunction().getSecondWrongFunction()" previously failed!`
                 )
         ).toBeTruthy()
         expect(
-            console.red
+            spy
                 .getCall(1)
-                .calledWith("[wdi5]", `Cannot read property 'getSecondWrongFunction' in the execution queue!`)
+                .calledWith(
+                    sinon.match.string,
+                    sinon.match.string,
+                    `Cannot read property 'getSecondWrongFunction' in the execution queue!`
+                )
         ).toBeTruthy()
     })
 })
@@ -201,9 +259,18 @@ describe("Error logging", () => {
  */
 describe("No error logging", () => {
     const sandbox = sinon.createSandbox()
+    let spy
 
     beforeEach(() => {
-        sandbox.spy(console, "red")
+        // instead of spying on the spy method,
+        // we need to double down on console.log
+        // b/c of some node process design no one understands
+        // that generates multiple instance of the Logger
+        // esm - cjs - ts-node - man...
+        // this is what you'd expect:
+        // spy = sandbox.spy(Logger, "error")
+        // instead we need to do:
+        spy = sandbox.spy(console, "log")
     })
 
     afterEach(() => {
@@ -217,7 +284,7 @@ describe("No error logging", () => {
             }
         }
         await browser.asControl(selectorWithWrongId)
-        expect(console.red.callCount).toEqual(0)
+        expect(spy.callCount).toEqual(0)
     })
 
     it("should log when control was not found with 'logging' explicitly set to 'true'", async () => {
@@ -229,8 +296,8 @@ describe("No error logging", () => {
         }
         const wdi5ControlWithWrongId = await browser.asControl(selectorWithWrongId)
 
-        expectDefaultErrorMessages(wdi5ControlWithWrongId)
-        expect(console.red.callCount).toEqual(2)
+        expectDefaultErrorMessages(wdi5ControlWithWrongId, spy)
+        expect(spy.callCount).toEqual(2)
     })
 
     it("should log nothing when 'press' is executed on an not found control; WITHOUT fluent async api", async () => {
@@ -242,7 +309,7 @@ describe("No error logging", () => {
         }
         wdi5ControlWithWrongIdNoLog = await browser.asControl(selectorWithWrongId)
         await wdi5ControlWithWrongIdNoLog.press()
-        expect(console.red.callCount).toEqual(0)
+        expect(spy.callCount).toEqual(0)
     })
 
     it("should log nothing when 'press' is executed on an not found control; WITH fluent async api", async () => {
@@ -254,7 +321,7 @@ describe("No error logging", () => {
         }
         wdi5ControlWithWrongIdNoLog = await browser.asControl(selectorWithWrongId).press()
 
-        expect(console.red.callCount).toEqual(0)
+        expect(spy.callCount).toEqual(0)
     })
 
     it("should log nothing when 'enterText' is executed on an not found control; WITHOUT fluent async api", async () => {
@@ -268,7 +335,7 @@ describe("No error logging", () => {
         const wdi5ControlWithWrongId = await browser.asControl(selectorWithWrongId)
         await wdi5ControlWithWrongId.enterText("test")
 
-        expect(console.red.callCount).toEqual(0)
+        expect(spy.callCount).toEqual(0)
     })
     it("should log nothing when 'enterText' is executed on an not found control; WITH fluent async api", async () => {
         const selectorWithWrongId = {
@@ -280,7 +347,7 @@ describe("No error logging", () => {
 
         await browser.asControl(selectorWithWrongId).enterText()
 
-        expect(console.red.callCount).toEqual(0)
+        expect(spy.callCount).toEqual(0)
     })
 
     it("should log nothing when multiple functions are executed on an control where an error in the queue occurrs; WITH fluent async api", async () => {
@@ -294,7 +361,7 @@ describe("No error logging", () => {
 
         await browser.asControl(selectorWithWrongId).getWrongFunction().getSecondWrongFunction()
 
-        expect(console.red.callCount).toEqual(0)
+        expect(spy.callCount).toEqual(0)
     })
 
     it("should log the first selector but not the second", async () => {
@@ -312,7 +379,7 @@ describe("No error logging", () => {
         const wdi5ControlWithLogOutput = await browser.asControl(firstSelectorWithLog)
         await browser.asControl(secondSelectorNoLog)
 
-        expectDefaultErrorMessages(wdi5ControlWithLogOutput)
-        expect(console.red.callCount).toEqual(2)
+        expectDefaultErrorMessages(wdi5ControlWithLogOutput, spy)
+        expect(spy.callCount).toEqual(2)
     })
 })

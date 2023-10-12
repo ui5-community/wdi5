@@ -1,15 +1,16 @@
 import * as util from "util"
-
-import { clientSide_getControl } from "../../client-side-js/getControl"
-import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl"
-import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod"
-import { clientSide_getAggregation } from "../../client-side-js/_getAggregation"
-import { clientSide_fireEvent } from "../../client-side-js/fireEvent"
+export const ELEMENT_KEY = "element-6066-11e4-a52e-4f735466cecf"
+// TODO: import { ELEMENT_KEY } from "webdriverio/build/constants.js"
+// patch in webdriverio repo?
+import { clientSide_getControl } from "../../client-side-js/getControl.cjs"
+import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl.cjs"
+import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod.cjs"
+import { clientSide_getAggregation } from "../../client-side-js/_getAggregation.cjs"
+import { clientSide_fireEvent } from "../../client-side-js/fireEvent.cjs"
 import { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types"
-import { Logger as _Logger } from "./Logger"
-import { wdioApi } from "./wdioApi"
-import { WDI5Object } from "./wdi5-object"
-
+import { Logger as _Logger } from "./Logger.js"
+import { wdioApi } from "./wdioApi.js"
+import { WDI5Object } from "./wdi5-object.js"
 const Logger = _Logger.getInstance()
 
 /**
@@ -19,8 +20,8 @@ const Logger = _Logger.getInstance()
 export class WDI5Control {
     _controlSelector: wdi5Selector = null
     // return value of Webdriver interface: JSON web token
-    _webElement: WebdriverIO.Element | string = null // TODO: type "org.openqa.selenium.WebElement"
-    // wdio elment retrieved separately via $()
+    _webElement: WebdriverIO.Element | string | undefined = null // TODO: type "org.openqa.selenium.WebElement"
+    // wdio element retrieved separately via $()
     _webdriverRepresentation: WebdriverIO.Element = null
     _metadata: wdi5ControlMetadata = {}
 
@@ -32,7 +33,7 @@ export class WDI5Control {
     _logging: boolean
     _wdioBridge = <WebdriverIO.Element>{}
     _generatedWdioMethods: Array<string>
-    _domId: string
+    _domId: string | undefined
 
     // these controls receive the specific "interaction": "press" operator
     // instead of a regular "click" event
@@ -115,7 +116,7 @@ export class WDI5Control {
 
     /**
      * after retrieving the ui5 control and connection this can be false eg. in cases when no DOM element was found by RecordReplay API
-     * @return {Boolean} whether this control was sucessfully initialised
+     * @return {Boolean} whether this control was successfully initialized
      */
     isInitialized(): boolean {
         return this._initialisation
@@ -157,7 +158,7 @@ export class WDI5Control {
     }
 
     /**
-     * add conveniance to the getWebElement Function
+     * add convenience to the getWebElement Function
      * @returns {WebdriverIO.Element} the webdriver Element
      */
     $() {
@@ -373,7 +374,7 @@ export class WDI5Control {
     }
 
     /**
-     * retrieve UI5 control represenation of a UI5 control's aggregation
+     * retrieve UI5 control representation of a UI5 control's aggregation
      *
      * @param aControls strings of IDs of aggregation items
      * @returns instances of wdi5 class per control in the aggregation
@@ -394,7 +395,7 @@ export class WDI5Control {
                     }
                 }
 
-                // get WDI5 control
+                // get wdi5 control
                 aResultOfPromises.push(this._browserInstance.asControl(selector))
             })
 
@@ -407,7 +408,7 @@ export class WDI5Control {
     }
 
     /**
-     * retrieve UI5 control represenation of a UI5 control's aggregation
+     * retrieve UI5 control representation of a UI5 control's aggregation
      *
      * @param eControl ID
      * @returns instances of wdi5 class per control in the aggregation
@@ -426,7 +427,7 @@ export class WDI5Control {
                 }
             }
 
-            // get WDI5 control
+            // get wdi5 control
             eResult = await this._browserInstance.asControl(selector)
         } else {
             if (this._logging) {
@@ -501,12 +502,23 @@ export class WDI5Control {
         }
         // returns the array of [0: "status", 1: result]
 
+        //special case for exec, passed function needs to be converted to string to be passed to the browser
+        if (methodName === "exec") {
+            if (args[0] && typeof args[0] === "function") {
+                args[0] = args[0].toString()
+            } else if (this._logging) {
+                Logger.error(`cannot execute ${methodName}(), because an argument of type function should be present`)
+            }
+        }
+
         // regular browser-time execution of UI5 control method
         const result = (await clientSide_executeControlMethod(
             webElement,
             methodName,
             this._browserInstance,
-            args
+            args,
+            // to safeguard "stale" elements in the devtools protocol we pass the whole wdi5 object
+            this
         )) as clientSide_ui5Response
 
         // create logging
@@ -537,7 +549,7 @@ export class WDI5Control {
                 } else if (String(args[0]) && typeof args[0] === "number") {
                     // here we're retrieving the UI5 control at index args[0] from the aggregation
                     if (args[0] <= result.result.length) {
-                        // retieve only one
+                        // retrieve only one
                         // need some code of separate feature branch here
                         const wdioElement = result.result[args[0]]
                         return await this._retrieveElement(wdioElement)
@@ -611,15 +623,34 @@ export class WDI5Control {
      * used to update the wdio control reference
      * this can be used to manually trigger an control reference update after a ui5 control rerendering
      * this method is also used wdi5-internally to implement the extended forceSelect option
+     * @param {Boolean} isRefresh whether to treat the incoming call as a refresh attempt on a stale web element
      */
-    private async _renewWebElementReference() {
+
+    private async _renewWebElementReference(isRefresh = false) {
         if (this._domId) {
-            const newWebElement = (await this._getControl({ selector: { id: this._domId } })).domElement // added to have a more stable retrieval experience
-            this._webElement = newWebElement
+            //> REVISIT: browser.allControls uses this._domId for selection
+            const newWebElement = (
+                await this._getControl(isRefresh ? this._controlSelector : { selector: { id: this._domId } })
+            ).domElement // added to have a more stable retrieval experience
+            if (!this.isInitialized()) {
+                this._webElement = undefined
+            } else {
+                this._webElement = newWebElement
+            }
             return newWebElement
-        } else {
-            throw Error("control could not be found")
+        } else if (this._wdio_ui5_key && !this._forceSelect) {
+            const fromCache = await this._getControl(this._controlSelector)
+            this._webElement = fromCache.domElement
+            return fromCache.domElement
         }
+    }
+
+    /**
+     * expose internal API to refresh a stale web element reference
+     * @param {Boolean} asRefresh whether to treat the incoming call as a refresh attempt on a stale web element
+     */
+    async renewWebElementReference(asRefresh = true) {
+        return await this._renewWebElementReference(asRefresh)
     }
 
     /**
@@ -659,6 +690,23 @@ export class WDI5Control {
         }
 
         const _result = (await clientSide_getControl(controlSelector, this._browserInstance)) as clientSide_ui5Response
+
+        // When the WebDriver protocol is not used, the domElement is not set accordingly (via devtool protocol)
+        // Therefore we get element reference by calling browser execute function manually
+        if (_result.status === 0 && !_result.domElement[ELEMENT_KEY]) {
+            const elementReference = (await this._browserInstance.execute((id) => {
+                const webElement: Node = document.evaluate(
+                    `//*[@id='${id}']`,
+                    document,
+                    null,
+                    XPathResult.FIRST_ORDERED_NODE_TYPE,
+                    null
+                ).singleNodeValue
+                return webElement
+            }, _result.id)) as unknown as WebdriverIO.Element
+            _result.domElement = elementReference
+        }
+
         const { status, domElement, id, aProtoFunctions, className } = _result
 
         if (status === 0 && id) {
@@ -669,8 +717,11 @@ export class WDI5Control {
             this._metadata.className = className
             this._domId = id
 
-            // set the succesful init param
+            // set the successful init param
             this._initialisation = true
+        } else {
+            this._initialisation = false
+            this._domId = undefined
         }
         if (this._logging) {
             this._writeObjectResultLog(_result, "_getControl()")

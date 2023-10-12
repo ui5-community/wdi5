@@ -34,11 +34,11 @@ exports.config = {
     bail: 0,
     baseUrl: "http://localhost:8088/index.html#fe-lrop-v4",
 
-    waitforTimeout: 10000,
+    waitforTimeout: 20000,
     connectionRetryTimeout: 120000,
     connectionRetryCount: 3,
 
-    services: ["chromedriver", "ui5"],
+    services: ["ui5"],
 
     framework: "mocha",
     mochaOpts: {

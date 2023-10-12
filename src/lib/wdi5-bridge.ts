@@ -5,23 +5,24 @@ import * as semver from "semver"
 import { mark as marky_mark, stop as marky_stop } from "marky"
 
 import { clientSide_ui5Object, clientSide_ui5Response, wdi5Config, wdi5Selector } from "../types/wdi5.types"
-import { MultiRemoteDriver } from "webdriverio/build/multiremote"
-import { WDI5Control } from "./wdi5-control"
-import { WDI5FE } from "./wdi5-fe"
-import { clientSide_injectTools } from "../../client-side-js/injectTools"
-import { clientSide_injectUI5 } from "../../client-side-js/injectUI5"
-import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement"
-import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready"
-import { clientSide_getObject } from "../../client-side-js/getObject"
-import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version"
-import { clientSide__navTo } from "../../client-side-js/_navTo"
-import { clientSide_allControls } from "../../client-side-js/allControls"
-import { Logger as _Logger } from "./Logger"
-import { WDI5Object } from "./wdi5-object"
-import BTPAuthenticator from "./authentication/BTPAuthenticator"
-import BasicAuthenticator from "./authentication/BasicAuthenticator"
-import CustomAuthenticator from "./authentication/CustomAuthenticator"
-import Office365Authenticator from "./authentication/Office365Authenticator"
+import { MultiRemoteBrowser } from "webdriverio"
+import { WDI5Control } from "./wdi5-control.js"
+import { WDI5FE } from "./wdi5-fe.js"
+import { clientSide_injectTools } from "../../client-side-js/injectTools.cjs"
+import { clientSide_injectUI5 } from "../../client-side-js/injectUI5.cjs"
+import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement.cjs"
+import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready.cjs"
+import { clientSide_getObject } from "../../client-side-js/getObject.cjs"
+import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version.cjs"
+import { clientSide__navTo } from "../../client-side-js/_navTo.cjs"
+import { clientSide_allControls } from "../../client-side-js/allControls.cjs"
+import { Logger as _Logger } from "./Logger.js"
+import { WDI5Object } from "./wdi5-object.js"
+import BTPAuthenticator from "./authentication/BTPAuthenticator.js"
+import { BTPAuthenticator as BTPAuthenticatorType } from "../types/wdi5.types"
+import BasicAuthenticator from "./authentication/BasicAuthenticator.js"
+import CustomAuthenticator from "./authentication/CustomAuthenticator.js"
+import Office365Authenticator from "./authentication/Office365Authenticator.js"
 
 const Logger = _Logger.getInstance()
 
@@ -44,8 +45,8 @@ export async function setup(config: wdi5Config) {
     // jump-start the desired log level
     Logger.setLogLevel(config.wdi5.logLevel || "error")
 
-    if (browser instanceof MultiRemoteDriver) {
-        ;(browser as MultiRemoteDriver).instances.forEach((name) => {
+    if (browser.isMultiremote) {
+        ;(browser as any as MultiRemoteBrowser).instances.forEach((name) => {
             initBrowser(browser[name])
         })
         initMultiRemoteBrowser()
@@ -63,8 +64,8 @@ export async function start(config: wdi5Config) {
         Logger.info(`open url: ${config.wdi5.url}`)
         await browser.url(config.wdi5.url)
     } else {
-        Logger.info(`open url: ${browser.config.baseUrl}`)
-        await browser.url(browser.config.baseUrl)
+        Logger.info(`open url: ${config.baseUrl}`)
+        await browser.url(config.baseUrl)
     }
 }
 
@@ -72,7 +73,7 @@ function initMultiRemoteBrowser() {
     ;["asControl", "goTo", "screenshot", "waitForUI5", "getUI5Version", "getSelectorForElement", "allControls"].forEach(
         (command) => {
             browser.addCommand(command, async (...args) => {
-                const multiRemoteInstance = browser as unknown as MultiRemoteDriver
+                const multiRemoteInstance = browser as any as MultiRemoteBrowser
                 const result = []
                 multiRemoteInstance.instances.forEach((name) => {
                     result.push(multiRemoteInstance[name][command].apply(this, args))
@@ -108,7 +109,7 @@ function checkUI5Version(ui5Version: string) {
 }
 
 /**
- * function library to setup the webdriver to UI5 bridge, it runs alle the initial setup
+ * function library to setup the webdriver to UI5 bridge, it runs all the initial setup
  * make sap/ui/test/RecordReplay accessible via wdio
  * attach the sap/ui/test/RecordReplay object to the application context window object as 'bridge'
  */
@@ -120,10 +121,28 @@ export async function injectUI5(config: wdi5Config, browserInstance) {
     const waitForUI5Timeout = config.wdi5.waitForUI5Timeout || 15000
     let result = true
 
+    // unify timeouts across Node.js- and browser-scope
+    // align browser script timeout with wdi5 setting (+ leverage)
+    // this mostly affects browser.executeAsync()
+    const timeout = waitForUI5Timeout + 1000
+    await (browserInstance as WebdriverIO.Browser).setTimeout({ script: timeout })
+
+    Logger.debug(`browser script timeout set to ${timeout}`)
+    if (typeof browserInstance.getTimeouts === "function") {
+        Logger.debug(`browser timeouts are ${JSON.stringify(await browserInstance.getTimeouts(), null, 2)}`)
+    }
+
     const version = await (browserInstance as WebdriverIO.Browser).getUI5Version()
     await checkUI5Version(version)
     await clientSide_injectTools(browserInstance) // helpers for wdi5 browser scope
     result = result && (await clientSide_injectUI5(config, waitForUI5Timeout, browserInstance))
+
+    // we are not using _controls as an array, we are using it as an object. That's why the length property
+    // is not updated right away: https://stackoverflow.com/a/4424026
+    if (Object.keys(browserInstance._controls).length > 0) {
+        Logger.info("invalidating control map!")
+        browserInstance._controls = []
+    }
 
     if (result) {
         // set when call returns
@@ -152,10 +171,14 @@ export async function checkForUI5Page(browserInstance) {
 export async function authenticate(options, browserInstanceName?) {
     switch (options.provider) {
         case "BTP":
-            await new BTPAuthenticator(options, browserInstanceName).login()
+            const btp = new BTPAuthenticator(options, browserInstanceName)
+            if ((options as BTPAuthenticatorType).disableBiometricAuthentication) {
+                await btp.disableBiometricAuthentication()
+            }
+            await btp.login()
             break
         case "BasicAuth":
-            await new BasicAuthenticator(browserInstanceName).login()
+            await new BasicAuthenticator(options, browserInstanceName, _config.baseUrl).login()
             break
         case "Office365":
             await new Office365Authenticator(options, browserInstanceName).login()
@@ -251,9 +274,9 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
         const _result = (await clientSide_getObject(_uuid)) as clientSide_ui5Object
         const { uuid, status, aProtoFunctions, className, object } = _result
         if (status === 0) {
-            // create new WDI5-Object
-            const wdiOjject = new WDI5Object(uuid, aProtoFunctions, object)
-            return wdiOjject
+            // create new wdi5-Object
+            const wdiObject = new WDI5Object(uuid, aProtoFunctions, object)
+            return wdiObject
         }
         _writeObjectResultLog(_result, "asObject()")
 
@@ -267,7 +290,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
         }
 
         const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
-
+        // REVISIT all elements receive the same! internal key
         if (!browserInstance._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
             wdi5Selector.wdio_ui5_key = internalKey
             Logger.info(`creating internal controls with id ${internalKey}`)
@@ -337,8 +360,9 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
 
         if (sHash && sHash.length > 0) {
             // we need to still support the old url property
-            if ((browserInstance.config as wdi5Config).wdi5.url) {
-                const url = (browserInstance.config as wdi5Config).wdi5["url"] || (await browserInstance.getUrl())
+            // TODO: use type wdi5Config not any
+            if ((browserInstance.options as any).wdi5?.url) {
+                const url = (browserInstance.options as any).wdi5["url"] || (await browserInstance.getUrl())
 
                 // navigate via hash if defined
                 if (url && url.length > 0 && url !== "#") {
@@ -387,10 +411,10 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
     // await browser.asControl(selector).methodOfUI5control().anotherMethodOfUI5control()
     // the way this works is twofold:
     // 1. (almost) all UI5 $control's API methods are reinjected from the browser-scope
-    //    into the Node.js scope via async WDI5._executeControlMethod(), which in term actually calls
+    //    into the Node.js scope via async wdi5._executeControlMethod(), which in term actually calls
     //    the reinjected API method within the browser scope
-    // 2. the execution of each UI5 $control's API method (via async WDI5._executeControlMethod() => Promise) is then chained
-    //    via the below "then"-ing of the (async WDI5._executeControlMethod() => Promise)-Promises with the help of
+    // 2. the execution of each UI5 $control's API method (via async wdi5._executeControlMethod() => Promise) is then chained
+    //    via the below "then"-ing of the (async wdi5._executeControlMethod() => Promise)-Promises with the help of
     //    the a Proxy and a recursive `handler` function
     if (!browserInstance.asControl) {
         browserInstance.asControl = function (ui5ControlSelector) {
@@ -499,7 +523,7 @@ async function _allControls(controlSelector = this._controlSelector, browserInst
 
         return resultWDi5Elements
     } else {
-        return "[WDI5] Error: fetch multiple elements failed: " + response.message
+        return "[wdi5] Error: fetch multiple elements failed: " + response.message
     }
 }
 
