@@ -15,6 +15,8 @@ export default class Service implements Services.ServiceInstance {
     ) {}
 
     async before(/*capabilities* , specs*/) {
+        // cache config to global for later use
+        global.__wdi5Config = this._config
         // if no wdi5 config is available we add it manually
         if (!this._config.wdi5) {
             this._config["wdi5"] = {}
