@@ -12,6 +12,15 @@ describe("ui5 basic", () => {
         await ui5Service.injectUI5()
     })
 
+    it("should verify the caching of the wdi5 config", async () => {
+        // open local app
+        await browser.url("http://localhost:8888")
+        // do the late injection
+        await ui5Service.injectUI5()
+        // check if config have been cached
+        expect(__wdi5Config.wdi5.waitForUI5Timeout).toBe(123456)
+    })
+
     // after late injection, use wdi5 as usual
     it("should get a button text via model binding", async () => {
         const buttonText = await browser
