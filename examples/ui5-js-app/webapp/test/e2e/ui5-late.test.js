@@ -18,7 +18,7 @@ describe("ui5 basic", () => {
         // do the late injection
         await ui5Service.injectUI5()
         // check if config have been cached
-        expect(__wdi5Config.wdi5.waitForUI5Timeout).toBe(123456)
+        expect(__wdi5Config.wdi5.waitForUI5Timeout).toBe(654321)
     })
 
     // after late injection, use wdi5 as usual
