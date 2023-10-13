@@ -19,7 +19,7 @@ describe("late inject wdi5", () => {
         // do the late injection
         await wdi5.injectUI5()
         // check if config have been cached
-        expect(global.__wdi5Config.wdi5.waitForUI5Timeout).toBe(654321)
+        expect(__wdi5Config.wdi5.waitForUI5Timeout).toBe(654321)
     })
 
     it("wdi5 should subsequently work with UI5 enablement", async () => {
