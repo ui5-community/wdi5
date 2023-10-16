@@ -719,13 +719,27 @@ Some example tests are located at `/examples/ui5-js-app/webapp/test/e2e/multirem
 
 ## Using BAS with wdi5
 
-### wdi5 version 1:
-The `Headless Testing Framework` extension installs the Firefox browser which allows you to use the wdi5 capabilities when working in SAP Business Application Studio. 
+The `Headless Testing Framework` extension installs the Firefox browser which allows you to use the wdi5 capabilities when working in SAP Business Application Studio.
+
+**Important:**
+Make sure you are using a Mozilla Firefox browser. Google Chrome is not supported.
+
 To enable the extension:
 
 1. Add the `Headless Testing Framework` extension to your dev space. This will install a Firefox driver in the dev space.
 
-2. Verify that the Firefox driver has been installed correctly using the following commands on the Terminal:
+2. Make sure that the wdio libraries in the `Dependencies` are updated to at least version 8:
+
+```json
+"devDependencies": {
+    "@wdio/cli": "^8",
+    "@wdio/local-runner": "^8",
+    "@wdio/mocha-framework": "^8",
+    "@wdio/spec-reporter": "^8",
+  },
+```
+
+3. Verify that the Firefox driver has been installed correctly using the following commands on the Terminal:
 
 ```shell
 # terminal 1: the Firefox version
@@ -738,7 +752,7 @@ $> which firefox
 
 ```
 
-3. Adapt your configuration file (`wdio.conf.(j|t)s`) to run your tests headless.
+4. Adapt your configuration file (`wdio.conf.(j|t)s`) to run your tests headless.
 
 - Replace `capabilities` with the following code. The `firefox version` and `path/to/firefox` values appear in the results from the command you ran in the previous step.
 
@@ -759,59 +773,23 @@ capabilities: [
 // ...
 ```
 
-- Replace `sevices` with the following code:
+- Replace `services` with the following code depending on your wdio version:
+**for `wdio` version < 2:**
 
 ```js
 // ...
-services: [
-  [
-    "geckodriver",
-    // service options
-    {
-      // OPTIONAL: Arguments passed to geckdriver executable.
-      // Check geckodriver --help for all options. Example:
-      // ['--log=debug', '--binary=/var/ff50/firefox']
-      // Default: empty array
-      args: ["--log=trace"],
-
-      // The path where the output of the Geckodriver server should
-      // be stored (uses the config.outputDir by default when not set).
-      outputDir: "./logs"
-    }
-  ],
-  "ui5"
-]
+services: ["geckodriver", "ui5"],
 // ...
 ```
-### wdi5 version 2 or above:
 
-In the new wdi5 version, a browser is automatically installed, so there is no need for the `Headless Testing Framework` extension.
+**for `wdio` version 2 or above:**
 
-Make sure that the wdio libraries in the `Dependencies` are updated to at least version 8:
-
-```json
-"devDependencies": {
-    "@wdio/cli": "^8",
-    "@wdio/local-runner": "^8",
-    "@wdio/mocha-framework": "^8",
-    "@wdio/spec-reporter": "^8",
-  },
-```
-
-Set `Firefox` as the browser (`broswerName: "firefox"`) and remove the `"geckodriver"` from the `services` section:
-
-```diff
-- services: ["geckodriver", "ui5"],
-+ services: ["ui5"],
- //...
- capabilities: [{
-    browserName: "firefox",
-    "moz:firefoxOptions": {
-          "args": ['-headless'],
-        }
- }]
+```js
+// ...
+services: ["ui5"],
+// ...
 ```
 
 See the [documentation](https://webdriver.io/docs/configuration/) for more information on the webdriver configuration.
 
-Make sure that the UI5 app is running and run the tests using the `wdio run wdio.conf.js` command.
+5. Make sure that the UI5 app is running and run the tests using the `wdio run wdio.conf.js` command.
