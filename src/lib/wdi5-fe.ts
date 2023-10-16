@@ -78,7 +78,13 @@ export class WDI5FE {
             await initOPA(shellConfig, browserInstance)
 
             // back to app
-            await browserInstance.switchToFrame(0)
+            try {
+                await browserInstance.switchToFrame(0)
+            } catch (err) {
+                // This try-catch block is a fail-safe code to make sure the execution continues if browser fails to switch to app's frame.
+                // It has been observed that for Launchpad apps, the switchToFrame(0) is not required.
+                Logger.info("Failed to switch to app's frame - you're probably in a Launchpad env. Continuing...")
+            }
         } else {
             // revert back to app context
             await browserInstance.switchToFrame(null)

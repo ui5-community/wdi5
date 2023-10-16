@@ -271,8 +271,8 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
         const { uuid, status, aProtoFunctions, className, object } = _result
         if (status === 0) {
             // create new wdi5-Object
-            const wdiOjject = new WDI5Object(uuid, aProtoFunctions, object)
-            return wdiOjject
+            const wdiObject = new WDI5Object(uuid, aProtoFunctions, object)
+            return wdiObject
         }
         _writeObjectResultLog(_result, "asObject()")
 

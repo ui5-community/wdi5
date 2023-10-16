@@ -1,6 +1,6 @@
 {
   "name": "wdio-ui5-service",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "WebdriverIO plugin for testing UI5 browser-based apps",
   "keywords": [
     "wdi5",
