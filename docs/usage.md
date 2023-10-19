@@ -722,13 +722,13 @@ Some example tests are located at `/examples/ui5-js-app/webapp/test/e2e/multirem
 The `Headless Testing Framework` extension installs the Firefox browser which allows you to use the wdi5 capabilities when working in SAP Business Application Studio.
 
 **Important:**
-Make sure you are using a Mozilla Firefox browser. Google Chrome is not supported.
+Make sure you are configuring Mozilla Firefox as the target browser. Google Chrome is not supported.
 
 To enable the extension:
 
 1. Add the `Headless Testing Framework` extension to your dev space. This will install a Firefox driver in the dev space.
 
-2. Make sure that the wdio libraries in the `Dependencies` are updated to at least version 8:
+2. Make sure that the wdio libraries in the `devDependencies` are updated to at least version 8:
 
 ```json
 "devDependencies": {
@@ -774,15 +774,6 @@ capabilities: [
 ```
 
 - Replace `services` with the following code depending on your wdio version:
-**for `wdio` version < 2:**
-
-```js
-// ...
-services: ["geckodriver", "ui5"],
-// ...
-```
-
-**for `wdio` version 2 or above:**
 
 ```js
 // ...
