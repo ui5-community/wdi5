@@ -92,7 +92,7 @@ export default class Service implements Services.ServiceInstance {
         if (await checkForUI5Page(browserInstance)) {
             // depending on the scenario (lateInject, multiRemote) we have to access the config differently
             const config = this._config ? this._config : browserInstance.options
-            if (config["wdi5"] === undefined) {
+            if (!config?.wdi5) {
                 //Fetching config from global variable
                 config["wdi5"] = global.__wdi5Config.wdi5
             }

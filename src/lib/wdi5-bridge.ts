@@ -114,7 +114,7 @@ function checkUI5Version(ui5Version: string) {
  * attach the sap/ui/test/RecordReplay object to the application context window object as 'bridge'
  */
 export async function injectUI5(config: wdi5Config, browserInstance) {
-    if (config?.wdi5 === undefined) {
+    if (!config?.wdi5) {
         //Fetching config from global variable
         config.wdi5 = global.__wdi5Config.wdi5
     }
