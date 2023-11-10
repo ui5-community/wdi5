@@ -719,12 +719,27 @@ Some example tests are located at `/examples/ui5-js-app/webapp/test/e2e/multirem
 
 ## Using BAS with wdi5
 
-The `Headless Testing Framework` extension enables you to use the wdi5 capabilities when working in SAP Business Application Studio.
+The `Headless Testing Framework` extension installs the Firefox browser which allows you to use the wdi5 capabilities when working in SAP Business Application Studio.
+
+**Important:**
+Make sure you are configuring Mozilla Firefox as the target browser. Google Chrome is not supported.
+
 To enable the extension:
 
 1. Add the `Headless Testing Framework` extension to your dev space. This will install a Firefox driver in the dev space.
 
-2. Verify that the Firefox driver has been installed correctly using the following commands on the Terminal:
+2. Make sure that the wdio libraries in the `devDependencies` are updated to at least version 8:
+
+```json
+"devDependencies": {
+    "@wdio/cli": "^8",
+    "@wdio/local-runner": "^8",
+    "@wdio/mocha-framework": "^8",
+    "@wdio/spec-reporter": "^8",
+  },
+```
+
+3. Verify that the Firefox driver has been installed correctly using the following commands on the Terminal:
 
 ```shell
 # terminal 1: the Firefox version
@@ -737,7 +752,7 @@ $> which firefox
 
 ```
 
-3. Adapt your configuration file (`wdio.conf.(j|t)s`) to run your tests headless.
+4. Adapt your configuration file (`wdio.conf.(j|t)s`) to run your tests headless.
 
 - Replace `capabilities` with the following code. The `firefox version` and `path/to/firefox` values appear in the results from the command you ran in the previous step.
 
@@ -758,216 +773,14 @@ capabilities: [
 // ...
 ```
 
-- Replace `sevices` with the following code:
+- Replace `services` with the following code depending on your wdio version:
 
 ```js
 // ...
-services: [
-  [
-    "geckodriver",
-    // service options
-    {
-      // OPTIONAL: Arguments passed to geckdriver executable.
-      // Check geckodriver --help for all options. Example:
-      // ['--log=debug', '--binary=/var/ff50/firefox']
-      // Default: empty array
-      args: ["--log=trace"],
-
-      // The path where the output of the Geckodriver server should
-      // be stored (uses the config.outputDir by default when not set).
-      outputDir: "./logs"
-    }
-  ],
-  "ui5"
-]
-// ...
-```
-
-For example:
-
-```js
-// ...
-const path = require("path")
-
-exports.config = {
-  runner: "local",
-  //
-  // ====================
-  // Runner Configuration
-  // ====================
-  //
-  //
-  // ==================
-  // Specify Test Files
-  // ==================
-  // Define which test specs should run. The pattern is relative to the directory
-  // from which `wdio` was called.
-  //
-  // The specs are defined as an array of spec files (optionally using wildcards
-  // that will be expanded). The test for each spec file will be run in a separate
-  // worker process. In order to have a group of spec files run in the same worker
-  // process simply enclose them in an array within the specs array.
-  //
-  // If you are calling `wdio` from an NPM script (see https://docs.npmjs.com/cli/run-script),
-  // then the current working directory is where your `package.json` resides, so `wdio`
-  // will be called from there.
-  //
-  specs: ["./webapp/test/**/*.test.js"],
-  // Patterns to exclude.
-  exclude: [
-    // 'path/to/excluded/files'
-  ],
-  //
-  // ============
-  // Capabilities
-  // ============
-  // Define your capabilities here. WebdriverIO can run multiple capabilities at the same
-  // time. Depending on the number of capabilities, WebdriverIO launches several test
-  // sessions. Within your capabilities you can overwrite the spec and exclude options in
-  // order to group specific specs to a specific capability.
-  //
-  // First, you can define how many instances should be started at the same time. Let's
-  // say you have 3 different capabilities (Chrome, Firefox, and Safari) and you have
-  // set maxInstances to 1; wdio will spawn 3 processes. Therefore, if you have 10 spec
-  // files and you set maxInstances to 10, all spec files will get tested at the same time
-  // and 30 processes will get spawned. The property handles how many capabilities
-  // from the same test should run tests.
-  //
-  maxInstances: 1,
-  //
-  // If you have trouble getting all important capabilities together, check out the
-  // Sauce Labs platform configurator - a great tool to configure your capabilities:
-  // https://saucelabs.com/platform/platform-configurator
-  //
-  capabilities: [
-    {
-      acceptInsecureCerts: true,
-      browserName: "firefox",
-      browserVersion: "102",
-      platformName: "linux",
-      "moz:firefoxOptions": {
-        binary: "/extbin/bin/firefox",
-        args: ["-headless"],
-        log: { level: "trace" }
-      }
-    }
-  ],
-
-  // If outputDir is provided WebdriverIO can capture driver session logs
-  // it is possible to configure which logTypes to include/exclude.
-  // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
-  // excludeDriverLogs: ['bugreport', 'server'],
-
-  wdi5: {
-    screenshotPath: path.join("wdio-ui5-service", "test", "report", "screenshots"),
-    logLevel: "verbose",
-    platform: "browser",
-    url: "index.html",
-    deviceType: "web"
-  },
-
-  //
-  // ===================
-  // Test Configurations
-  // ===================
-  // Define all options that are relevant for the WebdriverIO instance here
-  //
-  // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: "trace",
-  //
-  // Set specific log levels per logger
-  // loggers:
-  // - webdriver, webdriverio
-  // - @wdio/browserstack-service, @wdio/devtools-service, @wdio/sauce-service
-  // - @wdio/mocha-framework, @wdio/jasmine-framework
-  // - @wdio/local-runner
-  // - @wdio/sumologic-reporter
-  // - @wdio/cli, @wdio/config, @wdio/utils
-  // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevels: {
-    webdriver: "trace"
-  },
-  //
-  // If you only want to run your tests until a specific amount of tests have failed use
-  // bail (default is 0 - don't bail, run all tests).
-  bail: 0,
-  //
-  // Set a base URL in order to shorten url command calls. If your `url` parameter starts
-  // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
-  // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
-  // gets prepended directly.
-  baseUrl: "http://localhost:8080/index.html",
-  //
-  // Default timeout for all waitFor* commands.
-  waitforTimeout: 10000,
-  //
-  // Default timeout in milliseconds for request
-  // if browser driver or grid doesn't send response
-  connectionRetryTimeout: 120000,
-  //
-  // Default request retries count
-  connectionRetryCount: 3,
-  //
-  // Test runner services
-  // Services take over a specific job you don't want to take care of. They enhance
-  // your test setup with almost no effort. Unlike plugins, they don't add new
-  // commands. Instead, they hook themselves up into the test process.
-  //services: ['chromedriver', 'ui5'],
-  services: [
-    [
-      "geckodriver",
-      // service options
-      {
-        // OPTIONAL: Arguments passed to geckdriver executable.
-        // Check geckodriver --help for all options. Example:
-        // ['--log=debug', '--binary=/var/ff50/firefox']
-        // Default: empty array
-        args: ["--log=trace"],
-
-        // The path where the output of the Geckodriver server should
-        // be stored (uses the config.outputDir by default when not set).
-        outputDir: "./logs"
-      }
-    ],
-    "ui5"
-  ],
-  before: function (capabilities, specs) {
-    browser.setWindowSize(1600, 1200)
-  },
-
-  // Framework you want to run your specs with.
-  // The following are supported: Mocha, Jasmine, and Cucumber
-  // see also: https://webdriver.io/docs/frameworks
-  //
-  // Make sure you have the wdio adapter package for the specific framework installed
-  // before running any tests.
-  framework: "mocha",
-  //
-  // The number of times to retry the entire specfile when it fails as a whole
-  // specFileRetries: 1,
-  //
-  // Delay in seconds between the spec file retry attempts
-  // specFileRetriesDelay: 0,
-  //
-  // Whether or not retried specfiles should be retried immediately or deferred to the end of the queue
-  // specFileRetriesDeferred: false,
-  //
-  // Test reporter for stdout.
-  // The only one supported by default is 'dot'
-  // see also: https://webdriver.io/docs/dot-reporter
-  reporters: ["spec"],
-
-  //
-  // Options to be passed to Mocha.
-  // See the full list at http://mochajs.org/
-  mochaOpts: {
-    ui: "bdd",
-    timeout: 60000
-  }
-}
+services: ["ui5"],
 // ...
 ```
 
 See the [documentation](https://webdriver.io/docs/configuration/) for more information on the webdriver configuration.
 
-4. Make sure that UI5 app is running and Run the tests using the `wdio run wdio.conf.js` command.
+5. Make sure that the UI5 app is running and run the tests using the `wdio run wdio.conf.js` command.
