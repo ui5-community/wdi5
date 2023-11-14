@@ -60,7 +60,7 @@ export interface wdi5Config extends WebdriverIO.Config {
 /**
  * the "wdi5" prefix is to comply with W3C standards
  */
-export interface wdi5Capabilities extends WebDriver.DesiredCapabilities {
+export interface wdi5Capabilities extends WebdriverIO.Capabilities {
     "wdi5:authentication"?: BTPAuthenticator | BasicAuthAuthenticator | CustomAuthenticator | Office365Authenticator
 }
 export interface wdi5MultiRemoteCapability {
