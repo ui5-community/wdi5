@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 2.0.3 (2023-11-15)
+
+
+### Bug Fixes
+
+* timeout from config during late inject ([#552](https://github.com/ui5-community/wdi5/issues/552)) ([2dc1e08](https://github.com/ui5-community/wdi5/commit/2dc1e0841ed293d1a730b1419f8be17677474cf4))
+
 ### 2.0.2 (2023-10-05)
 
 
