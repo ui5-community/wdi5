@@ -15,6 +15,8 @@ export default class Service implements Services.ServiceInstance {
     ) {} // the Service is instantiated by wdio with the capabilities and config passed on to
 
     async before(/*capabilities* , specs*/) {
+        // cache config to global for later use
+        global.__wdi5Config = this._config
         // if no wdi5 config is available we add it manually
         if (!this._config.wdi5) {
             this._config["wdi5"] = {}
@@ -90,6 +92,10 @@ export default class Service implements Services.ServiceInstance {
         if (await checkForUI5Page(browserInstance)) {
             // depending on the scenario (lateInject, multiRemote) we have to access the config differently
             const config = this._config ? this._config : browserInstance.options
+            if (!config["wdi5"]) {
+                //Fetching config from global variable
+                config["wdi5"] = global.__wdi5Config.wdi5
+            }
             await injectUI5(config as wdi5Config, browserInstance)
         } else {
             throw new Error("wdi5: no UI5 page/app present to work on :(")

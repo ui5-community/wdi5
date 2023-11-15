@@ -13,6 +13,15 @@ describe("late inject wdi5", () => {
         await wdi5.injectUI5()
     })
 
+    it("should verify the caching of the wdi5 config", async () => {
+        // open local app
+        await browser.url("http://localhost:8080/index.html")
+        // do the late injection
+        await wdi5.injectUI5()
+        // check if config have been cached properly
+        expect(__wdi5Config.wdi5.waitForUI5Timeout).toBe(654321)
+    })
+
     it("wdi5 should subsequently work with UI5 enablement", async () => {
         const webcomponentValue = await (
             browser.asControl({
