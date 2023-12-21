@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 2.0.4 (2023-12-21)
+
+
+### Bug Fixes
+
+* remove empty array elements to reduce to reduce scope transfer size ([#570](https://github.com/ui5-community/wdi5/issues/570)) ([f2843c1](https://github.com/ui5-community/wdi5/commit/f2843c10a130ec5c05837125ba94cfec32d532c0))
+
 ### 2.0.3 (2023-11-15)
 
 
