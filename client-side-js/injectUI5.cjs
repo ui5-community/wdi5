@@ -320,6 +320,36 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                     }
 
                     /**
+                     * removes all empty collection members from an object,
+                     * e.g. empty, null, or undefined array elements
+                     *
+                     * @param {object} obj
+                     * @returns {object} obj without empty collection members
+                     */
+                    window.wdi5.removeEmptyElements = (obj, i = 0) => {
+                        for (let key in obj) {
+                            if (obj[key] === null || key.startsWith("_")) {
+                                delete obj[key]
+                            } else if (Array.isArray(obj[key])) {
+                                obj[key] = obj[key].filter(
+                                    (element) =>
+                                        element !== null &&
+                                        element !== undefined &&
+                                        element !== "" &&
+                                        Object.keys(element).length > 0
+                                )
+                                if (obj[key].length > 0) {
+                                    i++
+                                    window.wdi5.removeEmptyElements(obj[key], i)
+                                }
+                            } else if (typeof obj[key] === "object") {
+                                i++
+                                window.wdi5.removeEmptyElements(obj[key], i)
+                            }
+                        }
+                        return obj
+                    }
+                    /**
                      * if parameter is JS primitive type
                      * returns {boolean}
                      * @param {*} test
