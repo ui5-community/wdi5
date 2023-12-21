@@ -80,13 +80,16 @@ async function executeControlMethod(webElement, methodName, browserInstance, arg
                                 const collapsedAndNonCyclic = JSON.parse(
                                     JSON.stringify(collapsed, window.wdi5.getCircularReplacer())
                                 )
+                                // remove all empty Array elements, inlcuding private keys (starting with "_")
+                                const semanticCleanedElements = window.wdi5.removeEmptyElements(collapsedAndNonCyclic)
+
                                 done({
                                     status: 0,
-                                    object: collapsedAndNonCyclic,
+                                    object: semanticCleanedElements,
                                     returnType: "object",
                                     aProtoFunctions: aProtoFunctions,
                                     uuid: uuid,
-                                    nonCircularResultObject: collapsedAndNonCyclic
+                                    nonCircularResultObject: semanticCleanedElements
                                 })
                             } else if (
                                 typeof result === "object" &&

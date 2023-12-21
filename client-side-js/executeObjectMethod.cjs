@@ -44,10 +44,12 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
                         const collapsedAndNonCyclic = JSON.parse(
                             JSON.stringify(result, window.wdi5.getCircularReplacer())
                         )
+                        // remove all empty Array elements, inlcuding private keys (starting with "_")
+                        const semanticCleanedElements = window.wdi5.removeEmptyElements(collapsedAndNonCyclic)
 
                         done({
                             status: 0,
-                            object: collapsedAndNonCyclic,
+                            object: semanticCleanedElements,
                             uuid: uuid,
                             returnType: "object",
                             aProtoFunctions: aProtoFunctions

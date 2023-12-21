@@ -28,12 +28,15 @@ async function clientSide_getObject(uuid) {
 
                 const collapsedAndNonCyclic = JSON.parse(JSON.stringify(object, window.wdi5.getCircularReplacer()))
 
+                // remove all empty Array elements, inlcuding private keys (starting with "_")
+                const semanticCleanedElements = window.wdi5.removeEmptyElements(collapsedAndNonCyclic)
+
                 done({
                     status: 0,
                     uuid: uuid,
                     aProtoFunctions: aProtoFunctions,
                     className: className,
-                    object: collapsedAndNonCyclic
+                    object: semanticCleanedElements
                 })
             },
             window.wdi5.errorHandling.bind(this, done)
