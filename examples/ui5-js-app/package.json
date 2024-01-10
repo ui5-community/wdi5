@@ -26,7 +26,8 @@
     "@wdio/mocha-framework": "^8",
     "@wdio/spec-reporter": "^8",
     "ui5-middleware-simpleproxy": "latest",
-    "wdio-ui5-service": "*"
+    "wdio-ui5-service": "*",
+    "@sap-ux/ui5-middleware-fe-mockserver": "latest"
   },
   "dependencies": {
     "@wdio/sauce-service": "^8"

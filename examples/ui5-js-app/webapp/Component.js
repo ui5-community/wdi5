@@ -27,6 +27,20 @@ sap.ui.define(
 
                 // set the device model
                 this.setModel(models.createDeviceModel(), "device")
+
+                const url = new URL(location.href)
+                if (url.searchParams.get("isui5toolingTest")?.toLocaleLowerCase() === "true") {
+                    const startXHR = () => {
+                        this.getModel().read("/Categories", {
+                            success: startXHR
+                        })
+                    }
+                    startXHR()
+                    const startFetch = () => {
+                        fetch("/V2/Northwind/Northwind.svc/Categories").then(startFetch)
+                    }
+                    startFetch()
+                }
             }
         })
     }
