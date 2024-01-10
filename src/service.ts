@@ -2,7 +2,7 @@ import { Capabilities, Services } from "@wdio/types"
 import { MultiRemoteBrowser } from "webdriverio"
 
 import { start, injectUI5, setup, checkForUI5Page, authenticate } from "./lib/wdi5-bridge.js"
-import { wdi5Config } from "./types/wdi5.types"
+import { wdi5Config } from "./types/wdi5.types.js"
 
 import { Logger as _Logger } from "./lib/Logger.js"
 const Logger = _Logger.getInstance()
