@@ -1,4 +1,4 @@
-import { BTPAuthenticator as BTPAuthenticatorType } from "../../types/wdi5.types"
+import { BTPAuthenticator as BTPAuthenticatorType } from "../../types/wdi5.types.js"
 import Authenticator from "./Authenticator.js"
 
 class BTPAuthenticator extends Authenticator {

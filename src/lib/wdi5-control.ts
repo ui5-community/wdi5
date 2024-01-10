@@ -7,7 +7,7 @@ import { clientSide_interactWithControl } from "../../client-side-js/interactWit
 import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod.cjs"
 import { clientSide_getAggregation } from "../../client-side-js/_getAggregation.cjs"
 import { clientSide_fireEvent } from "../../client-side-js/fireEvent.cjs"
-import { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types"
+import { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types.js"
 import { Logger as _Logger } from "./Logger.js"
 import { wdioApi } from "./wdioApi.js"
 import { WDI5Object } from "./wdi5-object.js"

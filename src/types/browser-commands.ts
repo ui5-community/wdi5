@@ -1,6 +1,6 @@
 import Control from "sap/ui/core/Control"
-import { wdi5Config, wdi5Selector } from "./wdi5.types"
-import { WDI5Control } from "../lib/wdi5-control"
+import { wdi5Config, wdi5Selector } from "./wdi5.types.js"
+import { WDI5Control } from "../lib/wdi5-control.js"
 
 /**
  * wdi5 control cache aka

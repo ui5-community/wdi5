@@ -1,7 +1,7 @@
 import Log from "sap/base/Log"
 import RecordReplay from "sap/ui/test/RecordReplay"
 import { ControlSelector } from "sap/ui/test/RecordReplay"
-import { WDI5Object } from "../lib/wdi5-object"
+import { WDI5Object } from "../lib/wdi5-object.js"
 
 // // copypasta from
 // // https://stackoverflow.com/questions/41285211/overriding-interface-property-type-defined-in-typescript-d-ts-file/65561287#65561287
@@ -262,4 +262,4 @@ export interface wdi5Bridge extends Window {
     }
 }
 
-export type { WDI5Control as wdi5Control } from "../lib/wdi5-control"
+export type { WDI5Control as wdi5Control } from "../lib/wdi5-control.js"
