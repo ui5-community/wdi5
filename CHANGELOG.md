@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 2.0.5 (2024-01-10)
+
+
+### Bug Fixes
+
+* TypeScript Module Configuration (especially for ESM) ([#574](https://github.com/ui5-community/wdi5/issues/574)) ([56552d5](https://github.com/ui5-community/wdi5/commit/56552d581bf8489d6d834b720f1fea58d56d1de9)), closes [#573](https://github.com/ui5-community/wdi5/issues/573)
+
 ### 2.0.4 (2023-12-21)
 
 
