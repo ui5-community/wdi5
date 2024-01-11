@@ -26,7 +26,8 @@ exports.config = {
     logLevel: "verbose", // [optional] error | verbose | silent, default: "error"
     skipInjectUI5OnStart: false, // [optional] {boolean}, default: false; true when UI5 is not on the start page, you need to later call <wdioUI5service>.injectUI5() manually
     waitForUI5Timeout: 15000, // [optional] {number}, default: 15000; maximum waiting time in milliseconds while checking for UI5 availability
-    btpWorkZoneEnablement: false // [optional] {boolean}, default: false; whether to instruct wdi5 to inject itself in both the SAP Build Workzone, standard edition, shell and app
+    btpWorkZoneEnablement: false, // [optional] {boolean}, default: false; whether to instruct wdi5 to inject itself in both the SAP Build Workzone, standard edition, shell and app
+    autoWaitUrlIgnoreRegex: [] // [optional] {string[]}, default: []; Array of regex to ignore certain XHR/Fetch calls wile autowaiting
   }
   // ...
 }
@@ -132,6 +133,12 @@ Number in milliseconds (default: `15000`) to wait for UI5-related operations wit
 
 Boolean setting to trigger injecting `wdi5` into both the shell and the app when used with the SAP Build Workzone, standard edition.  
 Recommended complement is to also [configure IAS Authentication](authentication?id=sap-cloud-identity-services-identity-authentication): as SAP Build requires its own Identity Provider (most likely provided by using an IAS tenant), you'll have to configure authentication against that as well in `wdi5`.
+
+### `autoWaitUrlIgnoreRegex`
+
+Ignore list in form of regex. Those will be used to ignore certain XHR/Fetch call from beeing waited for by the OPA5 Waiters. This can be used in combination with longpolling requests to continusly update your app.
+
+!> Be carefull adding to many requests or to general regex here as this might make the tests more instable by advancing in the test before you expect it.
 
 ## `package.json`
 
