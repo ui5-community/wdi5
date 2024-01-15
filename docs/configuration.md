@@ -26,7 +26,8 @@ exports.config = {
     logLevel: "verbose", // [optional] error | verbose | silent, default: "error"
     skipInjectUI5OnStart: false, // [optional] {boolean}, default: false; true when UI5 is not on the start page, you need to later call <wdioUI5service>.injectUI5() manually
     waitForUI5Timeout: 15000, // [optional] {number}, default: 15000; maximum waiting time in milliseconds while checking for UI5 availability
-    btpWorkZoneEnablement: false // [optional] {boolean}, default: false; whether to instruct wdi5 to inject itself in both the SAP Build Workzone, standard edition, shell and app
+    btpWorkZoneEnablement: false, // [optional] {boolean}, default: false; whether to instruct wdi5 to inject itself in both the SAP Build Workzone, standard edition, shell and app
+    ignoreAutoWaitUrls: [] // [optional] {string[]}, default: []; Array of regex to ignore certain XHR/Fetch calls wile autowaiting
   }
   // ...
 }
@@ -132,6 +133,14 @@ Number in milliseconds (default: `15000`) to wait for UI5-related operations wit
 
 Boolean setting to trigger injecting `wdi5` into both the shell and the app when used with the SAP Build Workzone, standard edition.  
 Recommended complement is to also [configure IAS Authentication](authentication?id=sap-cloud-identity-services-identity-authentication): as SAP Build requires its own Identity Provider (most likely provided by using an IAS tenant), you'll have to configure authentication against that as well in `wdi5`.
+
+### `ignoreAutoWaitUrls`
+
+Array of URLs (as strings), either relative or absolute. `RegEx` are supported.  
+Querying the URLs will be excluded from the UI5 lifecycle sync. Meaning: no Test code will wait until querying the URLs resolve.
+Typical use case is "longpolling" requests that continuously update your app.
+
+!> Be careful not to add too many URLs here as this might make the tests unreliable
 
 ## `package.json`
 

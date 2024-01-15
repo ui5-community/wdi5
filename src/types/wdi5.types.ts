@@ -53,6 +53,11 @@ export interface wdi5Config extends WebdriverIO.Config {
          * in a SAP Build Workzone Standard Edition (fka Launchpad) environment
          */
         btpWorkZoneEnablement?: boolean
+        /**
+         * Regex for XHR/Fetch requests to be ignored by the auto waiter
+         * Ideal for long polling as this would result in the waiter waiting forever
+         */
+        ignoreAutoWaitUrls?: string[]
     }
     capabilities: wdi5Capabilities[] | wdi5MultiRemoteCapability
 }
