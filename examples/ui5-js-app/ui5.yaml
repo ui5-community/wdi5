@@ -10,3 +10,19 @@ server:
       configuration:
         baseUri: "https://services.odata.org/V2"
         strictSSL: false
+    - name: delayed-mockserver
+      beforeMiddleware: ui5-middleware-simpleproxy
+      configuration:
+        service:
+          urlBasePath: "/V2/Northwind/Northwind.svc"
+          name: ""
+          metadataXmlPath: "./webapp/localService/metadata.xml"
+          generateMockData: true
+---
+specVersion: "1.0"
+metadata:
+  name: delayed-mockserver
+kind: extension
+type: server-middleware
+middleware:
+  path: scripts/delayedMockServer.js
