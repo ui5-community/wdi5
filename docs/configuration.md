@@ -136,7 +136,9 @@ Recommended complement is to also [configure IAS Authentication](authentication?
 
 ### `ignoreAutoWaitUrls`
 
-Ignore list in form of regex. Those will be used to ignore certain XHR/Fetch call from beeing waited for by the OPA5 Waiters. This can be used in combination with longpolling requests to continusly update your app.
+Array of URLs (as strings), either relative or absolute. `RegEx` are supported.   
+Querying the URLs will be excluded from the UI5 lifecycle sync. Meaning: no Test code will wait until querying the URLs resolve. 
+Typical use case is "longpolling" requests that continuously update your app.
 
 !> Be careful not to add too many URLs here as this might make the tests unreliable
 
