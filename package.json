@@ -18,6 +18,7 @@
   "author": "the UI5 community <do_not_use@openui5.org> (https://github.com/ui5-community)",
   "type": "module",
   "exports": {
+    "types": "./esm/index.d.ts",
     "import": "./esm/index.js",
     "require": "./cjs/index.js"
   },
