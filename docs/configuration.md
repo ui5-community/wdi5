@@ -138,7 +138,7 @@ Recommended complement is to also [configure IAS Authentication](authentication?
 
 Ignore list in form of regex. Those will be used to ignore certain XHR/Fetch call from beeing waited for by the OPA5 Waiters. This can be used in combination with longpolling requests to continusly update your app.
 
-!> Be carefull adding to many requests or to general regex here as this might make the tests more instable by advancing in the test before you expect it.
+!> Be careful not to add too many URLs here as this might make the tests unreliable
 
 ## `package.json`
 
