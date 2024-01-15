@@ -134,7 +134,7 @@ export async function injectUI5(config: wdi5Config, browserInstance) {
     }
 
     const version = await (browserInstance as WebdriverIO.Browser).getUI5Version()
-    await checkUI5Version(version)
+    checkUI5Version(version)
     await clientSide_injectTools(browserInstance) // helpers for wdi5 browser scope
     await clientSide_injectXHRPatch(config, browserInstance)
     result = result && (await clientSide_injectUI5(config, waitForUI5Timeout, browserInstance))
