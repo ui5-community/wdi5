@@ -2,9 +2,9 @@ async function clientSide_injectXHRPatch(config, browserInstance) {
     return await browserInstance.executeAsync((config, done) => {
         const originalFetch = window.fetch
 
-        const autoWaitUrlIgnoreRegex = config.wdi5.autoWaitUrlIgnoreRegex
+        const ignoreAutoWaitUrls = config.wdi5.ignoreAutoWaitUrls
         function checkURL(url) {
-            return autoWaitUrlIgnoreRegex?.map((regex) => new RegExp(regex))?.some((regex) => url.match(regex)) || false
+            return ignoreAutoWaitUrls?.map((regex) => new RegExp(regex))?.some((regex) => url.match(regex)) || false
         }
         const imports = ["sap/ui/thirdparty/sinon", "sap/ui/test/autowaiter/_XHRWaiter"]
         if (window.compareVersions.compare(sap.ui.version, "1.114.0", ">")) {
