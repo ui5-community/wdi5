@@ -66,6 +66,12 @@ export interface wdi5Config extends WebdriverIO.Config {
  * the "wdi5" prefix is to comply with W3C standards
  */
 export interface wdi5Capabilities extends WebdriverIO.Capabilities {
+    /**
+     * workaround for typing the max instances per capability until
+     * that WebdriverIO issue is resolved allowing for extending the typed per-browser capability:
+     * https://github.com/webdriverio/webdriverio/pull/11992
+     */
+    maxInstances?: number
     "wdi5:authentication"?: BTPAuthenticator | BasicAuthAuthenticator | CustomAuthenticator | Office365Authenticator
 }
 export interface wdi5MultiRemoteCapability {
