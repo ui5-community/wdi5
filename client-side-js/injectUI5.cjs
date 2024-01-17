@@ -51,7 +51,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
             sap.ui.require(["sap/base/Log"], (Log) => {
                 // Logger is loaded -> can be use internally
                 // attach logger to wdi5 to be able to use it globally
-                window.wdi5.Log = console
+                window.wdi5.Log = Log
                 window.wdi5.Log.info("[browser wdi5] injected!")
             })
 
@@ -261,11 +261,12 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
 
                             for (let j = 0; j < propertyNames.length; j++) {
                                 const propertyName = propertyNames[j]
-                                const value = prop[propertyName]
 
                                 if (propertyName.startsWith("_")) {
                                     continue
                                 }
+                                const value = prop[propertyName]
+
                                 if (typeof value === "object") {
                                     objectNames.add(propertyName)
                                     continue

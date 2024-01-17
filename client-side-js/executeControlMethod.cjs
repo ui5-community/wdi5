@@ -13,7 +13,6 @@ if (global.browser) {
 async function executeControlMethod(webElement, methodName, browserInstance, args) {
     return await browserInstance.executeAsync(
         (webElement, methodName, args, done) => {
-            //client-side-js/executeControlMethod.cjs
             window.wdi5.waitForUI5(
                 window.wdi5.waitForUI5Options,
                 () => {

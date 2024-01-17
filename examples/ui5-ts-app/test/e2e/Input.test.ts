@@ -17,8 +17,9 @@ describe("Input", async () => {
 
     it("should check if the field is writeable", async () => {
         const newValue = "Smith Smithersson"
-        await browser.asControl<Input>(inputSelector).setValue(newValue)
-        const input = await browser.asControl<Input>(inputSelector).getValue()
+        const inputControll = await browser.asControl<Input>(inputSelector)
+        await inputControll.setValue(newValue)
+        const input = await inputControll.getValue()
         expect(input).toEqual(newValue)
     })
 
@@ -27,6 +28,8 @@ describe("Input", async () => {
         const bindingInfo = await control.getBindingInfo("value")
         // @ts-expect-error "parts" is not part of the type definition
         const parts = await bindingInfo.parts
-        expect(parts[0].path).toEqual("/Customers('TRAIH')/ContactName")
+        const partzero = await parts[0]
+        const path = await partzero.path
+        expect(path).toEqual("/Customers('TRAIH')/ContactName")
     })
 })

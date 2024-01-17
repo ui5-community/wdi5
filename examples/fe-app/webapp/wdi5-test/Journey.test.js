@@ -78,6 +78,7 @@ describe("FE basics", () => {
 
     it("should trigger search on ListReport page", async () => {
         await FioriElementsFacade.execute((Given, When, Then) => {
+            When.onTheShell.iNavigateBack()
             Given.onTheMainPage.onFilterBar().iExecuteSearch()
             Then.onTheMainPage.onTable().iCheckRows(12)
             Then.onTheMainPage.onTable().iCheckRows({ identifier: "inc_0002", title: "Password Reset" })

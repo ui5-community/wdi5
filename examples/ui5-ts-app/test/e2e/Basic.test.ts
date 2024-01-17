@@ -2,9 +2,8 @@ import Button from "sap/m/Button"
 import Page from "sap/m/Page"
 import Controller from "sap/ui/core/mvc/Controller"
 import View from "sap/ui/core/mvc/View"
-import { wdi5Selector } from "wdio-ui5-service"
-import { wdi5 } from "wdio-ui5-service"
 import * as sinon from "sinon"
+import { wdi5, wdi5Selector } from "wdio-ui5-service"
 
 const Logger = wdi5.getLogger()
 
@@ -51,9 +50,7 @@ describe("Basic", async () => {
 
         // @ts-expect-error this async fn lives in an not properly typed controller
         await controller.asyncRejectFn()
-        expect(
-            (Logger.error as sinon.SinonSpy).calledWith('call of asyncRejectFn failed because of: "meh"')
-        ).toBeTruthy()
+        expect((Logger.error as sinon.SinonSpy).calledWith("call of asyncRejectFn failed because of: meh")).toBeTruthy()
 
         sandbox.restore()
     })

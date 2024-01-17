@@ -31,8 +31,8 @@ export const config: wdi5Config = {
                     process.argv.indexOf("--headless") > -1
                         ? ["--headless"]
                         : process.argv.indexOf("--debug") > -1
-                        ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
-                        : ["window-size=1440,800"]
+                          ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
+                          : ["window-size=1440,800"]
             },
             acceptInsecureCerts: true
         }
