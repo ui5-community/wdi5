@@ -1,6 +1,7 @@
 import Control from "sap/ui/core/Control"
-import { wdi5Config, wdi5Selector } from "./wdi5.types.js"
 import { WDI5Control } from "../lib/wdi5-control.js"
+import { WDI5Object } from "../lib/wdi5-object.js"
+import { wdi5Config, wdi5Selector } from "./wdi5.types.js"
 
 /**
  * wdi5 control cache aka
@@ -16,6 +17,7 @@ declare global {
         export interface Browser {
             config: wdi5Config
             asControl: <T extends Control = Control>(arg: wdi5Selector) => Promise<WDI5Control & T>
+            asObject: <T extends object>(arg: wdi5Selector) => Promise<WDI5Object & T>
             allControls: <T extends Control = Control>(arg: wdi5Selector) => Promise<(WDI5Control & T)[]>
             screenshot: (arg: string) => Promise<void>
             goTo: (arg: string | object) => Promise<void>

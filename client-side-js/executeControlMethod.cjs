@@ -13,6 +13,7 @@ if (global.browser) {
 async function executeControlMethod(webElement, methodName, browserInstance, args) {
     return await browserInstance.executeAsync(
         (webElement, methodName, args, done) => {
+            //client-side-js/executeControlMethod.cjs
             window.wdi5.waitForUI5(
                 window.wdi5.waitForUI5Options,
                 () => {
@@ -67,21 +68,8 @@ async function executeControlMethod(webElement, methodName, browserInstance, arg
                                 !(result instanceof sap.ui.core.Control) &&
                                 !(result instanceof sap.ui.core.Item)
                             ) {
-                                // save before manipulate
-                                const uuid = window.wdi5.saveObject(result)
-
-                                // FIXME: extract, collapse and remove cylic in 1 step
-                                // extract the methods first
-                                const aProtoFunctions = window.wdi5.retrieveControlMethods(result, true)
-
-                                // flatten the prototype so we have all funcs available
-                                const collapsed = window.wdi5.collapseObject(result)
-                                // exclude cyclic references
-                                const collapsedAndNonCyclic = JSON.parse(
-                                    JSON.stringify(collapsed, window.wdi5.getCircularReplacer())
-                                )
-                                // remove all empty Array elements, inlcuding private keys (starting with "_")
-                                const semanticCleanedElements = window.wdi5.removeEmptyElements(collapsedAndNonCyclic)
+                                const { semanticCleanedElements, uuid, aProtoFunctions, objectNames } =
+                                    window.wdi5.prepareObjectForSerialization(result)
 
                                 done({
                                     status: 0,
@@ -89,7 +77,8 @@ async function executeControlMethod(webElement, methodName, browserInstance, arg
                                     returnType: "object",
                                     aProtoFunctions: aProtoFunctions,
                                     uuid: uuid,
-                                    nonCircularResultObject: semanticCleanedElements
+                                    nonCircularResultObject: semanticCleanedElements,
+                                    objectNames
                                 })
                             } else if (
                                 typeof result === "object" &&

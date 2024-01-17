@@ -1,29 +1,34 @@
-import { resolve } from "path"
 import { writeFile } from "fs/promises"
-import { tmpdir } from "os"
-import * as semver from "semver"
 import { mark as marky_mark, stop as marky_stop } from "marky"
+import { tmpdir } from "os"
+import { resolve } from "path"
+import * as semver from "semver"
 
-import { clientSide_ui5Object, clientSide_ui5Response, wdi5Config, wdi5Selector } from "../types/wdi5.types.js"
 import { MultiRemoteBrowser } from "webdriverio"
-import { WDI5Control } from "./wdi5-control.js"
-import { WDI5FE } from "./wdi5-fe.js"
+import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready.cjs"
+import { clientSide__navTo } from "../../client-side-js/_navTo.cjs"
+import { clientSide_allControls } from "../../client-side-js/allControls.cjs"
+import { clientSide_getObject } from "../../client-side-js/getObject.cjs"
+import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement.cjs"
+import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version.cjs"
 import { clientSide_injectTools } from "../../client-side-js/injectTools.cjs"
 import { clientSide_injectUI5 } from "../../client-side-js/injectUI5.cjs"
 import { clientSide_injectXHRPatch } from "../../client-side-js/injectXHRPatch.cjs"
-import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement.cjs"
-import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready.cjs"
-import { clientSide_getObject } from "../../client-side-js/getObject.cjs"
-import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version.cjs"
-import { clientSide__navTo } from "../../client-side-js/_navTo.cjs"
-import { clientSide_allControls } from "../../client-side-js/allControls.cjs"
+import {
+    BTPAuthenticator as BTPAuthenticatorType,
+    clientSide_ui5Object,
+    clientSide_ui5Response,
+    wdi5Config,
+    wdi5Selector
+} from "../types/wdi5.types.js"
 import { Logger as _Logger } from "./Logger.js"
-import { WDI5Object } from "./wdi5-object.js"
 import BTPAuthenticator from "./authentication/BTPAuthenticator.js"
-import { BTPAuthenticator as BTPAuthenticatorType } from "../types/wdi5.types.js"
 import BasicAuthenticator from "./authentication/BasicAuthenticator.js"
 import CustomAuthenticator from "./authentication/CustomAuthenticator.js"
 import Office365Authenticator from "./authentication/Office365Authenticator.js"
+import { WDI5Control } from "./wdi5-control.js"
+import { WDI5FE } from "./wdi5-fe.js"
+import { WDI5Object } from "./wdi5-object.js"
 
 const Logger = _Logger.getInstance()
 
@@ -272,12 +277,12 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
         return browserInstance._controls[internalKey]
     })
 
-    browser.addCommand("asObject", async (_uuid: string) => {
+    browser.addCommand("_asObject", async (_uuid: string) => {
         const _result = (await clientSide_getObject(_uuid)) as clientSide_ui5Object
-        const { uuid, status, aProtoFunctions, className, object } = _result
+        const { uuid, status, aProtoFunctions, className, object, objectNames } = _result
         if (status === 0) {
             // create new wdi5-Object
-            const wdiObject = new WDI5Object(uuid, aProtoFunctions, object)
+            const wdiObject = new WDI5Object(uuid, aProtoFunctions, object, objectNames)
             return wdiObject
         }
         _writeObjectResultLog(_result, "asObject()")
@@ -474,6 +479,63 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
             return makeFluent(browserInstance._asControl(ui5ControlSelector))
         }
     }
+
+    if (!browserInstance.asObject) {
+        browserInstance.asObject = function (uuid) {
+            const asyncMethods = ["then", "catch", "finally"]
+            const functionQueue = []
+            // we need to do the same operation as in the 'init' of 'wdi5-control.ts'
+            const logging = true
+            function makeFluent(target) {
+                const promise = Promise.resolve(target)
+                const handler = {
+                    get(_, prop) {
+                        functionQueue.push(prop)
+                        return asyncMethods.includes(prop)
+                            ? (...boundArgs) => makeFluent(promise[prop](...boundArgs))
+                            : makeFluent(
+                                  promise.then((object) => {
+                                      // when object is undefined the previous function call failed
+                                      try {
+                                          return object[prop]
+                                      } catch (error) {
+                                          // different node versions return a different `error.message` so we use our own message
+                                          if (logging) {
+                                              Logger.error(`Cannot read property '${prop}' in the execution queue!`)
+                                          }
+                                      }
+                                  })
+                              )
+                    },
+                    apply(_, thisArg, boundArgs) {
+                        return makeFluent(
+                            // When "targetFunction" is empty we can assume that there are errors in the execution queue
+                            promise.then((targetFunction) => {
+                                if (targetFunction) {
+                                    return Reflect.apply(targetFunction, thisArg, boundArgs)
+                                } else {
+                                    // a functionQueue without a 'then' can be ignored
+                                    // as the original error was already logged
+                                    if (functionQueue.includes("then") && logging) {
+                                        functionQueue.splice(functionQueue.indexOf("then"))
+                                        Logger.error(
+                                            `One of the calls in the queue "${functionQueue.join(
+                                                "()."
+                                            )}()" previously failed!`
+                                        )
+                                    }
+                                }
+                            })
+                        )
+                    }
+                }
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                return new Proxy(function () {}, handler)
+            }
+            // @ts-ignore
+            return makeFluent(browserInstance._asObject(uuid))
+        }
+    }
 }
 
 /**
@@ -628,7 +690,9 @@ function _writeObjectResultLog(response: clientSide_ui5Response, functionName: s
         Logger.error(`call of ${functionName} failed because of: ${response.message}`)
     } else if (response.status === 0) {
         Logger.success(
-            `call of function ${functionName} returned: ${JSON.stringify(response.id ? response.id : response.result)}`
+            `call of function ${functionName} returned: ${JSON.stringify(
+                response.id ? response.id : response.result ? response.result : "an object"
+            )}`
         )
     } else {
         Logger.warn(`Unknown status: ${functionName} returned: ${JSON.stringify(response.message)}`)

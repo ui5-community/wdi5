@@ -22,6 +22,60 @@ describe("FE basics", () => {
         })
     })
 
+    it("should work with method execution and property selection", async () => {
+        await FioriElementsFacade.execute((Given, When) => {
+            Given.onTheMainPage.onFilterBar().iExecuteSearch()
+            When.onTheMainPage.onTable().iPressRow({ identifier: "inc_0002" })
+        })
+        const textcontroll = await browser.asControl({
+            selector: {
+                controlType: "sap.m.Text",
+                viewName: "sap.fe.templates.ObjectPage.ObjectPage",
+                viewId: "sap.fe.demo.incidents::IncidentsObjectPage",
+                bindingPath: {
+                    path: "/Incidents(ID=919f1a94-0281-4226-ad3a-9148af4cb5d2,IsActiveEntity=true)",
+                    propertyPath: "identifier"
+                }
+            }
+        })
+        const text1 = await browser
+            .asControl({
+                selector: {
+                    controlType: "sap.m.Text",
+                    viewName: "sap.fe.templates.ObjectPage.ObjectPage",
+                    viewId: "sap.fe.demo.incidents::IncidentsObjectPage",
+                    bindingPath: {
+                        path: "/Incidents(ID=919f1a94-0281-4226-ad3a-9148af4cb5d2,IsActiveEntity=true)",
+                        propertyPath: "identifier"
+                    }
+                }
+            })
+            .getBindingContext()
+            .getObject().incidentStatus.name
+        expect(text1).toBe("New")
+        const bindingContext = await textcontroll.getBindingContext()
+
+        const text2 = (await (await bindingContext.getObject()).incidentStatus).name
+        expect(text2).toBe("New")
+
+        const bindingContext2 = await browser.asObject(bindingContext.getUUID())
+        const text3 = (await (await bindingContext2.getObject()).incidentStatus).name
+        expect(text3).toBe("New")
+
+        const text4 = await bindingContext2.getProperty("incidentStatus/name")
+        expect(text4).toBe("New")
+
+        const model = await bindingContext.getModel()
+        const bindings = await model.aAllBindings
+        const zero = await bindings[0]
+        const updateGroup1 = await zero.sUpdateGroupId
+
+        expect(updateGroup1).toBe("$auto")
+
+        const updateGroup2 = await browser.asObject(bindingContext.getUUID()).getModel().aAllBindings[0].sUpdateGroupId
+        expect(updateGroup2).toBe("$auto")
+    })
+
     it("should trigger search on ListReport page", async () => {
         await FioriElementsFacade.execute((Given, When, Then) => {
             Given.onTheMainPage.onFilterBar().iExecuteSearch()
