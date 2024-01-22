@@ -27,9 +27,7 @@ describe("Input", async () => {
         const control = await browser.asControl(inputSelector)
         const bindingInfo = await control.getBindingInfo("value")
         // @ts-expect-error "parts" is not part of the type definition
-        const parts = await bindingInfo.parts
-        const partzero = await parts[0]
-        const path = await partzero.path
+        const path = await browser.asObject(bindingInfo.getUUID()).parts[0].path
         expect(path).toEqual("/Customers('TRAIH')/ContactName")
     })
 })

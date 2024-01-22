@@ -425,56 +425,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
     //    the a Proxy and a recursive `handler` function
     if (!browserInstance.asControl) {
         browserInstance.asControl = function (ui5ControlSelector) {
-            const asyncMethods = ["then", "catch", "finally"]
-            const functionQueue = []
-            // we need to do the same operation as in the 'init' of 'wdi5-control.ts'
-            const logging = ui5ControlSelector?.logging ?? true
-            function makeFluent(target) {
-                const promise = Promise.resolve(target)
-                const handler = {
-                    get(_, prop) {
-                        functionQueue.push(prop)
-                        return asyncMethods.includes(prop)
-                            ? (...boundArgs) => makeFluent(promise[prop](...boundArgs))
-                            : makeFluent(
-                                  promise.then((object) => {
-                                      // when object is undefined the previous function call failed
-                                      try {
-                                          return object[prop]
-                                      } catch (error) {
-                                          // different node versions return a different `error.message` so we use our own message
-                                          if (logging) {
-                                              Logger.error(`Cannot read property '${prop}' in the execution queue!`)
-                                          }
-                                      }
-                                  })
-                              )
-                    },
-                    apply(_, thisArg, boundArgs) {
-                        return makeFluent(
-                            // When "targetFunction" is empty we can assume that there are errors in the execution queue
-                            promise.then((targetFunction) => {
-                                if (targetFunction) {
-                                    return Reflect.apply(targetFunction, thisArg, boundArgs)
-                                } else {
-                                    // a functionQueue without a 'then' can be ignored
-                                    // as the original error was already logged
-                                    if (functionQueue.includes("then") && logging) {
-                                        functionQueue.splice(functionQueue.indexOf("then"))
-                                        Logger.error(
-                                            `One of the calls in the queue "${functionQueue.join(
-                                                "()."
-                                            )}()" previously failed!`
-                                        )
-                                    }
-                                }
-                            })
-                        )
-                    }
-                }
-                // eslint-disable-next-line @typescript-eslint/no-empty-function
-                return new Proxy(function () {}, handler)
-            }
+            const makeFluent = createMakeFluent(ui5ControlSelector?.logging)
             // @ts-ignore
             return makeFluent(browserInstance._asControl(ui5ControlSelector))
         }
@@ -482,59 +433,61 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
 
     if (!browserInstance.asObject) {
         browserInstance.asObject = function (uuid) {
-            const asyncMethods = ["then", "catch", "finally"]
-            const functionQueue = []
-            // we need to do the same operation as in the 'init' of 'wdi5-control.ts'
-            const logging = true
-            function makeFluent(target) {
-                const promise = Promise.resolve(target)
-                const handler = {
-                    get(_, prop) {
-                        functionQueue.push(prop)
-                        return asyncMethods.includes(prop)
-                            ? (...boundArgs) => makeFluent(promise[prop](...boundArgs))
-                            : makeFluent(
-                                  promise.then((object) => {
-                                      // when object is undefined the previous function call failed
-                                      try {
-                                          return object[prop]
-                                      } catch (error) {
-                                          // different node versions return a different `error.message` so we use our own message
-                                          if (logging) {
-                                              Logger.error(`Cannot read property '${prop}' in the execution queue!`)
-                                          }
-                                      }
-                                  })
-                              )
-                    },
-                    apply(_, thisArg, boundArgs) {
-                        return makeFluent(
-                            // When "targetFunction" is empty we can assume that there are errors in the execution queue
-                            promise.then((targetFunction) => {
-                                if (targetFunction) {
-                                    return Reflect.apply(targetFunction, thisArg, boundArgs)
-                                } else {
-                                    // a functionQueue without a 'then' can be ignored
-                                    // as the original error was already logged
-                                    if (functionQueue.includes("then") && logging) {
-                                        functionQueue.splice(functionQueue.indexOf("then"))
-                                        Logger.error(
-                                            `One of the calls in the queue "${functionQueue.join(
-                                                "()."
-                                            )}()" previously failed!`
-                                        )
-                                    }
-                                }
-                            })
-                        )
-                    }
-                }
-                // eslint-disable-next-line @typescript-eslint/no-empty-function
-                return new Proxy(function () {}, handler)
-            }
+            const makeFluent = createMakeFluent()
             // @ts-ignore
             return makeFluent(browserInstance._asObject(uuid))
         }
+    }
+}
+
+export function createMakeFluent(loggin = true) {
+    const asyncMethods = ["then", "catch", "finally"]
+    const functionQueue = []
+    // we need to do the same operation as in the 'init' of 'wdi5-control.ts'
+    const logging = loggin
+    return function makeFluent(target) {
+        const promise = Promise.resolve(target)
+        const handler = {
+            get(_, prop) {
+                functionQueue.push(prop)
+                return asyncMethods.includes(prop)
+                    ? (...boundArgs) => makeFluent(promise[prop](...boundArgs))
+                    : makeFluent(
+                          promise.then((object) => {
+                              // when object is undefined the previous function call failed
+                              try {
+                                  return object[prop]
+                              } catch (error) {
+                                  // different node versions return a different `error.message` so we use our own message
+                                  if (logging) {
+                                      Logger.error(`Cannot read property '${prop}' in the execution queue!`)
+                                  }
+                              }
+                          })
+                      )
+            },
+            apply(_, thisArg, boundArgs) {
+                return makeFluent(
+                    // When "targetFunction" is empty we can assume that there are errors in the execution queue
+                    promise.then((targetFunction) => {
+                        if (targetFunction) {
+                            return Reflect.apply(targetFunction, thisArg, boundArgs)
+                        } else {
+                            // a functionQueue without a 'then' can be ignored
+                            // as the original error was already logged
+                            if (functionQueue.includes("then") && logging) {
+                                functionQueue.splice(functionQueue.indexOf("then"))
+                                Logger.error(
+                                    `One of the calls in the queue "${functionQueue.join("().")}()" previously failed!`
+                                )
+                            }
+                        }
+                    })
+                )
+            }
+        }
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        return new Proxy(function () {}, handler)
     }
 }
 
