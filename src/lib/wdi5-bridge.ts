@@ -421,7 +421,62 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
 
     if (!browserInstance.asControl) {
         browserInstance.asControl = function (ui5ControlSelector) {
-            return getChain.call(ui5ControlSelector, ui5ControlSelector)
+            if (ui5ControlSelector.newAsControl) {
+                return getChain.call(ui5ControlSelector, ui5ControlSelector)
+            } else {
+                const asyncMethods = ["then", "catch", "finally"]
+                const functionQueue = []
+                // we need to do the same operation as in the 'init' of 'wdi5-control.ts'
+                const logging = ui5ControlSelector?.logging ?? true
+                function makeFluent(target) {
+                    const promise = Promise.resolve(target)
+                    const handler = {
+                        get(_, prop) {
+                            functionQueue.push(prop)
+                            return asyncMethods.includes(prop)
+                                ? (...boundArgs) => makeFluent(promise[prop](...boundArgs))
+                                : makeFluent(
+                                      promise.then((object) => {
+                                          // when object is undefined the previous function call failed
+                                          try {
+                                              return object[prop]
+                                          } catch (error) {
+                                              // different node versions return a different `error.message` so we use our own message
+                                              if (logging) {
+                                                  Logger.error(`Cannot read property '${prop}' in the execution queue!`)
+                                              }
+                                          }
+                                      })
+                                  )
+                        },
+                        apply(_, thisArg, boundArgs) {
+                            return makeFluent(
+                                // When "targetFunction" is empty we can assume that there are errors in the execution queue
+                                promise.then((targetFunction) => {
+                                    if (targetFunction) {
+                                        return Reflect.apply(targetFunction, thisArg, boundArgs)
+                                    } else {
+                                        // a functionQueue without a 'then' can be ignored
+                                        // as the original error was already logged
+                                        if (functionQueue.includes("then") && logging) {
+                                            functionQueue.splice(functionQueue.indexOf("then"))
+                                            Logger.error(
+                                                `One of the calls in the queue "${functionQueue.join(
+                                                    "()."
+                                                )}()" previously failed!`
+                                            )
+                                        }
+                                    }
+                                })
+                            )
+                        }
+                    }
+                    // eslint-disable-next-line @typescript-eslint/no-empty-function
+                    return new Proxy(function () {}, handler)
+                }
+                // @ts-ignore
+                return makeFluent(browserInstance._asControl(ui5ControlSelector))
+            }
         }
     }
 }
@@ -444,11 +499,17 @@ async function theEnd(callChain: any[], control) {
 }
 
 function getChain(control) {
+    // don't log these methods as part of the call chain
+    // also, use the "then" in property access as the indicator for the end of the async call chain
     const asyncMethods = ["then", "catch", "finally"]
-    // target: [prop | fn, name, [args]]
+
+    // this is the call chain we're trapping from design time
+    // [prop | fn, name, [args]]
     const _chain = []
+
+    // proxy
     const handlers = {
-        get: function (target, name) {
+        get: function (_, name) {
             // const prop = target[name]
             // if (prop != null) {
             //     return prop
@@ -456,6 +517,8 @@ function getChain(control) {
 
             let isProp = true
             let fnArgs = []
+
+            // utilizing Node's event loop to diff between property access and function call
             Promise.resolve().then(() => {
                 if (isProp) {
                     console.log(`${name} -> prop`)
@@ -467,12 +530,13 @@ function getChain(control) {
                     _chain.push(["fn", name, fnArgs])
                 }
             })
+
             if (!asyncMethods.includes(name)) {
                 return new Proxy(() => {}, {
                     get: handlers.get,
                     apply: function (target, name, argList) {
-                        isProp = false
-                        fnArgs = argList
+                        isProp = false //> with the help of the event loop, we can now diff between property access and function call
+                        fnArgs = argList //> relaying the fn(args) in case of a trapped function call
                         return new Proxy(() => {}, handlers)
                     }
                 })

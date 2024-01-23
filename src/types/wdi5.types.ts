@@ -213,6 +213,10 @@ export interface wdi5Selector {
      * disables the logging for the selector
      */
     logging?: boolean
+    /**
+     * feature flag to use new asControl implementation
+     */
+    newAsControl?: boolean
 }
 
 /**
