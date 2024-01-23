@@ -25,6 +25,8 @@ import BasicAuthenticator from "./authentication/BasicAuthenticator.js"
 import CustomAuthenticator from "./authentication/CustomAuthenticator.js"
 import Office365Authenticator from "./authentication/Office365Authenticator.js"
 
+import { clientSide_getControl2 } from "../../client-side-js/getControl2.cjs"
+
 const Logger = _Logger.getInstance()
 
 /** store the status of initialization */
@@ -422,12 +424,13 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
     if (!browserInstance.asControl) {
         browserInstance.asControl = function (ui5ControlSelector) {
             if (ui5ControlSelector.newAsControl) {
-                return getChain.call(ui5ControlSelector, ui5ControlSelector)
+                return getChain.call(ui5ControlSelector, ui5ControlSelector, browserInstance)
             } else {
                 const asyncMethods = ["then", "catch", "finally"]
                 const functionQueue = []
                 // we need to do the same operation as in the 'init' of 'wdi5-control.ts'
                 const logging = ui5ControlSelector?.logging ?? true
+                // @ts-ignore
                 function makeFluent(target) {
                     const promise = Promise.resolve(target)
                     const handler = {
@@ -481,24 +484,38 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
     }
 }
 
-async function theEnd(callChain: any[], control) {
+async function theEnd(callChain: any[], control, browserInstance) {
     console.log("callchain", callChain)
     console.log("on", control)
 
     const chainString = callChain.reduce((acc, entry) => {
         if (entry[0] === "fn") {
-            return `${acc}.${entry[1]}(${entry[2]})`
+            const params = entry[2].map((param) => {
+                if (typeof param === "string") {
+                    return `"${param}"`
+                } else {
+                    return param
+                }
+            })
+            return `${acc}.${entry[1]}(${params.join(",")})`
         } else if (entry[0] === "prop") {
-            return `${acc}.${entry[1]}`
+            if (Number.isInteger(parseInt(entry[1]))) {
+                return `${acc}[${parseInt(entry[1])}]`
+            } else {
+                return `${acc}.${entry[1]}`
+            }
         } else {
             return acc
         }
     }, "")
 
-    console.log("-->", "browser._asControl(", control, `)${chainString}`)
+    console.log("----->", "browser._asControl(", control, `)${chainString}`)
+
+    const result = await clientSide_getControl2(control, chainString, browserInstance)
+    return result
 }
 
-function getChain(control) {
+function getChain(control, browserInstance) {
     // don't log these methods as part of the call chain
     // also, use the "then" in property access as the indicator for the end of the async call chain
     const asyncMethods = ["then", "catch", "finally"]
@@ -541,7 +558,7 @@ function getChain(control) {
                     }
                 })
             } else {
-                return Promise.resolve().then(() => theEnd(_chain, control))
+                return Promise.resolve().then(() => theEnd(_chain, control, browserInstance))
             }
         }
     }
