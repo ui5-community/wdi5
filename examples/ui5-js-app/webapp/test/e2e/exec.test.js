@@ -13,37 +13,14 @@ describe("ui5 eval on control", () => {
         expect(title).toEqual("Sample UI5 Application")
     })
 
-    it.only("should be able to propagate a browserside error", async () => {
+    it("should be able to propagate a browserside error", async () => {
         //Log Output during this test should be 3 times: [wdi5] call of exec failed because of: TypeError: this.getTex is not a function
         //Can't be reasonably verified programatically, only that returned result should be null
-        // const button = await browser
-        //     .asControl({
-        //         selector: {
-        //             id: "openDialogButton",
-        //             viewName: "test.Sample.view.Main"
-        //         }
-        //     })
-        //     .getBindingContext()
-        //     .getObject("test")
-        //     .getPath()
-
-        const button1 = await browser
-            .asControl({
-                selector: {
-                    id: "egal"
-                }
-            })
-            .sPath.getIt()
-            .again("test")
-
-        // const zeroPartValue = await button.getBindingContext().getObject().getPath()
-
-        expect(true).toEqual(false)
-        return
-        // Node.js
-        const fn = ".getBinindingContext().getPath().parts[0]"
-        button.exec(function () {
-            return window.eval(fn)
+        const button = await browser.asControl({
+            selector: {
+                id: "openDialogButton",
+                viewName: "test.Sample.view.Main"
+            }
         })
 
         //regular function
