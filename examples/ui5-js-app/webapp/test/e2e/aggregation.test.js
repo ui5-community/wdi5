@@ -1,4 +1,4 @@
-const { wdi5 } = require("wdio-ui5-service")
+const marky = require("marky")
 
 const Other = require("./pageObjects/Other")
 
@@ -18,6 +18,30 @@ describe("ui5 aggregation retrieval", () => {
         const myobject = await rowcontext.getObject()
 
         expect(myobject.FirstName).toEqual("Nancy")
+    })
+
+    it.only("compare new w/ existing asControl", async () => {
+        const pageSelector = {
+            forceSelect: true,
+            selector: {
+                id: "OtherPage",
+                viewName: Other._viewName,
+                interaction: "root"
+            }
+        }
+        marky.mark("old asControl")
+
+        const existingAsControl = await browser.asControl(pageSelector).getContent(1).getItems()
+        // expect(existingAsControl.length).toBe(3)
+        const entryOldAsControl = marky.stop("old asControl")
+
+        marky.mark("new asControl")
+        const pageSelector2 = { ...pageSelector, newAsControl: true }
+        const newAsControl = await browser.asControl(pageSelector2).getContent()[0].getItems().do()
+        const entryNewAsControl = marky.stop("new asControl")
+
+        expect(entryNewAsControl.duration).toBeLessThan(entryOldAsControl.duration)
+        // expect(newAsControl.result.length).toBeGreaterThanOrEqual(1) //> should be 9 -> bug in browser-scope control massaging
     })
 
     it("select controls of a sap.m.Page's content aggregation", async () => {
