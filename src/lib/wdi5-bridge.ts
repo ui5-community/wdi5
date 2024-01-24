@@ -511,9 +511,6 @@ function theEnd(callChain: any[], control) {
 
     console.log("----->", "browser._asControl(", control, `)${chainString}`)
     return chainString
-
-    // const result = await clientSide_getControl2(control, chainString, browserInstance)
-    // return result
 }
 
 function getChain(control, browserInstance) {
@@ -543,20 +540,20 @@ function getChain(control, browserInstance) {
                 }
             }
             // // why doesn't this work?
-            // else if (Number.isInteger(parseInt(key))) {
-            //     // return receiver
-            //     return (...args2) => {
-            //         promise = promise.then(() => {
-            //             _chain.push(["prop", key, args2])
-            //         })
+            else if (Number.isInteger(parseInt(key))) {
+                // return receiver
+                // return (...args2) => {
+                // return promise.then(() => {
+                promise = promise.then(() => {
+                    console.log("adding property", key)
+                    _chain.push(["prop", key])
+                    return receiver
+                })
 
-            //         console.log("adding property", key)
-
-            //         // return the proxy so that chaining can continue
-            //         return receiver
-            //     }
-            // }
-            else {
+                // return the proxy so that chaining can continue
+                return receiver
+                // }
+            } else {
                 // otherwise chain w/ "promise"
                 return (...args2) => {
                     promise = promise.then(() => {

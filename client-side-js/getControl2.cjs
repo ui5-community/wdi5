@@ -20,8 +20,6 @@ async function clientSide_getControl2(controlSelector, callChainString, browserI
                             return ui5Control
                         })
                         .then((ui5Control) => {
-                            // unpack the chain array
-                            debugger
                             const _result = eval("ui5Control" + callChainString)
                             const collapsed = window.wdi5.collapseObject(_result)
                             // exclude cyclic references
@@ -30,7 +28,7 @@ async function clientSide_getControl2(controlSelector, callChainString, browserI
                                 JSON.stringify(collapsed, window.wdi5.getCircularReplacer())
                             )
                             // remove all empty Array elements, inlcuding private keys (starting with "_")
-                            const semanticCleanedElements = window.wdi5.removeEmptyElements(collapsed)
+                            const semanticCleanedElements = window.wdi5.removeEmptyElements(collapsedAndNonCyclic)
 
                             done({
                                 status: 0,
