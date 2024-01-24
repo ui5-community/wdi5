@@ -424,7 +424,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
     if (!browserInstance.asControl) {
         browserInstance.asControl = function (ui5ControlSelector) {
             if (ui5ControlSelector.newAsControl) {
-                return getChain.call(ui5ControlSelector, ui5ControlSelector, browserInstance)
+                return getChain(ui5ControlSelector, browserInstance)
             } else {
                 const asyncMethods = ["then", "catch", "finally"]
                 const functionQueue = []
@@ -484,7 +484,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
     }
 }
 
-async function theEnd(callChain: any[], control, browserInstance) {
+function theEnd(callChain: any[], control) {
     console.log("callchain", callChain)
     console.log("on", control)
 
@@ -510,58 +510,67 @@ async function theEnd(callChain: any[], control, browserInstance) {
     }, "")
 
     console.log("----->", "browser._asControl(", control, `)${chainString}`)
+    return chainString
 
-    const result = await clientSide_getControl2(control, chainString, browserInstance)
-    return result
+    // const result = await clientSide_getControl2(control, chainString, browserInstance)
+    // return result
 }
 
 function getChain(control, browserInstance) {
-    // don't log these methods as part of the call chain
-    // also, use the "then" in property access as the indicator for the end of the async call chain
-    const asyncMethods = ["then", "catch", "finally"]
-
     // this is the call chain we're trapping from design time
     // [prop | fn, name, [args]]
     const _chain = []
 
-    // proxy
+    // let promise = Promise.resolve()
+
     const handlers = {
-        get: function (_, name) {
-            // const prop = target[name]
-            // if (prop != null) {
-            //     return prop
-            // }
-
-            let isProp = true
-            let fnArgs = []
-
-            // utilizing Node's event loop to diff between property access and function call
-            Promise.resolve().then(() => {
-                if (isProp) {
-                    console.log(`${name} -> prop`)
-                    if (!asyncMethods.includes(name)) {
-                        _chain.push(["prop", name])
-                    }
-                } else {
-                    console.log(`${name} -> fn`)
-                    _chain.push(["fn", name, fnArgs])
+        get(target, key, receiver) {
+            let promise = Promise.resolve(target)
+            //  intercept each get on the object
+            if (key === "then" || key === "catch") {
+                // if then/catch is requested, return the chained promise
+                return (...args2) => {
+                    console.log("then/catch", key, args2)
+                    return promise[key](...args2)
                 }
-            })
+            } else if (key === "do") {
+                return () => {
+                    return promise.then(() => {
+                        console.log("that's it folks")
+                        const chainString = theEnd(_chain, control)
+                        return clientSide_getControl2(control, chainString, browserInstance)
+                    })
+                }
+            }
+            // // why doesn't this work?
+            // else if (Number.isInteger(parseInt(key))) {
+            //     // return receiver
+            //     return (...args2) => {
+            //         promise = promise.then(() => {
+            //             _chain.push(["prop", key, args2])
+            //         })
 
-            if (!asyncMethods.includes(name)) {
-                return new Proxy(() => {}, {
-                    get: handlers.get,
-                    apply: function (target, name, argList) {
-                        isProp = false //> with the help of the event loop, we can now diff between property access and function call
-                        fnArgs = argList //> relaying the fn(args) in case of a trapped function call
-                        return new Proxy(() => {}, handlers)
-                    }
-                })
-            } else {
-                return Promise.resolve().then(() => theEnd(_chain, control, browserInstance))
+            //         console.log("adding property", key)
+
+            //         // return the proxy so that chaining can continue
+            //         return receiver
+            //     }
+            // }
+            else {
+                // otherwise chain w/ "promise"
+                return (...args2) => {
+                    promise = promise.then(() => {
+                        console.log("adding ", key, " with args ", args2)
+                        _chain.push(["fn", key, args2])
+                    })
+
+                    // return the proxy so that chaining can continue
+                    return receiver
+                }
             }
         }
     }
+    // }
 
     return new Proxy(() => {}, handlers)
 }

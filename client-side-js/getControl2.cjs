@@ -22,11 +22,19 @@ async function clientSide_getControl2(controlSelector, callChainString, browserI
                         .then((ui5Control) => {
                             // unpack the chain array
                             debugger
-                            const result = eval("ui5Control" + callChainString)
+                            const _result = eval("ui5Control" + callChainString)
+                            const collapsed = window.wdi5.collapseObject(_result)
+                            // exclude cyclic references
+                            // FIXME: this cuts off WAY too much elements
+                            const collapsedAndNonCyclic = JSON.parse(
+                                JSON.stringify(collapsed, window.wdi5.getCircularReplacer())
+                            )
+                            // remove all empty Array elements, inlcuding private keys (starting with "_")
+                            const semanticCleanedElements = window.wdi5.removeEmptyElements(collapsed)
 
                             done({
                                 status: 0,
-                                result
+                                result: semanticCleanedElements
                             })
                         })
                         .catch((error) => {
