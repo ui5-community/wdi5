@@ -423,6 +423,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
 
     if (!browserInstance.asControl) {
         browserInstance.asControl = function (ui5ControlSelector) {
+            // allow plugging in new api idea(s)
             if (ui5ControlSelector.newAsControl) {
                 return getChain(ui5ControlSelector, browserInstance)
             } else {
@@ -484,6 +485,14 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
     }
 }
 
+/**
+ * after all proxy traps have been called,
+ * this rebuilds the design-time call chain at runtime
+ *
+ * @param callChain e.g. [["fn", "setValue", ["test"]], ["fn", "press", []]]
+ * @param control UI5 control
+ * @returns a string representing looking identical to the call chain at design-time
+ */
 function theEnd(callChain: any[], control) {
     console.log("callchain", callChain)
     console.log("on", control)
@@ -513,24 +522,30 @@ function theEnd(callChain: any[], control) {
     return chainString
 }
 
+/**
+ * traps all function-, property- and array-access in an async promise chain
+ * and records these calls in order to relay them to runtime execution in the browser
+ *
+ * @param control UI5 control
+ * @param browserInstance WebdriverIO.Browser
+ * @returns async Proxy trap
+ */
 function getChain(control, browserInstance) {
     // this is the call chain we're trapping from design time
     // [prop | fn, name, [args]]
     const _chain = []
 
-    // let promise = Promise.resolve()
-
     const handlers = {
         get(target, key, receiver) {
             let promise = Promise.resolve(target)
-            //  intercept each get on the object
             if (key === "then" || key === "catch") {
                 // if then/catch is requested, return the chained promise
                 return (...args2) => {
                     console.log("then/catch", key, args2)
                     return promise[key](...args2)
                 }
-            } else if (key === "do") {
+            } else if (key === "do" || key === "_") {
+                // end of the proxy chain -> do the actual work in borwser-scope
                 return () => {
                     return promise.then(() => {
                         console.log("that's it folks")
@@ -538,23 +553,22 @@ function getChain(control, browserInstance) {
                         return clientSide_getControl2(control, chainString, browserInstance)
                     })
                 }
-            }
-            // // why doesn't this work?
-            else if (Number.isInteger(parseInt(key))) {
-                // return receiver
-                // return (...args2) => {
-                // return promise.then(() => {
+            } else if (Number.isInteger(parseInt(key))) {
+                // this enables array-index access in the fluent async api,
+                // e.g. browser.asControl(selector).getItems()[0]
+                //                                             ^
+                //                                             |
                 promise = promise.then(() => {
                     console.log("adding property", key)
                     _chain.push(["prop", key])
-                    return receiver
+                    return true //> keep the promise chain alive
                 })
 
                 // return the proxy so that chaining can continue
                 return receiver
                 // }
             } else {
-                // otherwise chain w/ "promise"
+                // record next function call in the chain
                 return (...args2) => {
                     promise = promise.then(() => {
                         console.log("adding ", key, " with args ", args2)
@@ -567,7 +581,6 @@ function getChain(control, browserInstance) {
             }
         }
     }
-    // }
 
     return new Proxy(() => {}, handlers)
 }
