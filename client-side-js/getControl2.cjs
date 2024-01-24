@@ -13,6 +13,8 @@ async function clientSide_getControl2(controlSelector, callChainString, browserI
                     window.bridge
                         .findDOMElementByControlSelector(controlSelector)
                         .then((domElement) => {
+                            debugger
+
                             const ui5Control = window.wdi5.getUI5CtlForWebObj(domElement)
                             const id = ui5Control.getId()
                             const className = ui5Control.getMetadata()._sClassName
@@ -20,6 +22,8 @@ async function clientSide_getControl2(controlSelector, callChainString, browserI
                             return ui5Control
                         })
                         .then((ui5Control) => {
+                            debugger
+
                             const _result = eval("ui5Control" + callChainString)
                             const collapsed = window.wdi5.collapseObject(_result)
                             // exclude cyclic references
