@@ -29,18 +29,36 @@ describe("ui5 aggregation retrieval", () => {
                 interaction: "root"
             }
         }
-        marky.mark("old asControl")
+        // warm up
+        await browser.asControl(pageSelector)
 
+        // fluent async api measurement
+        marky.mark("old asControl")
         const existingAsControl = await browser.asControl(pageSelector).getContent(1).getItems()
         // expect(existingAsControl.length).toBe(3)
-        const entryOldAsControl = marky.stop("old asControl")
+        const oldFluentAsyncApi = marky.stop("old asControl")
 
         marky.mark("new asControl")
         const pageSelector2 = { ...pageSelector, newAsControl: true }
-        const newAsControl = await browser.asControl(pageSelector2).getContent()[0].getItems().do()
-        const entryNewAsControl = marky.stop("new asControl")
+        const newAsControl = await browser.asControl(pageSelector2).getContent()[0].getItems()._()
+        const newFluentAsyncApi = marky.stop("new asControl")
 
-        expect(entryNewAsControl.duration).toBeLessThan(entryOldAsControl.duration)
+        expect(newFluentAsyncApi.duration).toBeLessThan(oldFluentAsyncApi.duration)
+
+        // plain .asControl() measurement
+        marky.mark("old only asControl")
+        const existingAsControl2 = await browser.asControl(pageSelector)
+        const oldAsControlOnly = marky.stop("old only asControl")
+
+        marky.mark("new only asControl")
+        const pageSelector3 = { ...pageSelector, newAsControl: true }
+        const newAsControl2 = await browser.asControl(pageSelector3).do()
+        const newAsControlOnly = marky.stop("new only asControl")
+
+        expect(newAsControlOnly.duration).toBeLessThan(oldAsControlOnly.duration)
+
+        // expect(true).toEqual(false)
+
         // expect(newAsControl.result.length).toBeGreaterThanOrEqual(1) //> should be 9 -> bug in browser-scope control massaging
     })
 
