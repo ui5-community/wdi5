@@ -57,7 +57,10 @@ describe("ui5 aggregation retrieval", () => {
 
         expect(newAsControlOnly.duration).toBeLessThan(oldAsControlOnly.duration)
 
-        // expect(true).toEqual(false)
+        // this will not work with the new asControl
+        // as there is no way to determine at runtime _in the proxy trap_
+        // whether the access to "sId" is a property access or a method call!
+        // await browser.asControl(pageSelector4).getContent()[0].getItems().sId._()
 
         // expect(newAsControl.result.length).toBeGreaterThanOrEqual(1) //> should be 9 -> bug in browser-scope control massaging
     })
