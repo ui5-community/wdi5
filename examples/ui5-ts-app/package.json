@@ -33,7 +33,7 @@
     "@sap/approuter": "latest",
     "@types/jquery": "3.5.14",
     "@ui5/cli": "^3",
-    "@wdio/browserstack-service": "^8",
+    "@wdio/browserstack-service": "^8.24.6",
     "@wdio/sauce-service": "^8",
     "mbt": "latest",
     "ts-deepmerge": "latest",
