@@ -72,7 +72,15 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                             if (sError) {
                                 errorCallback(new Error(sError))
                             } else {
-                                callback()
+                                if (callback.constructor.name === "AsyncFunction") {
+                                    callback().catch(errorCallback)
+                                } else {
+                                    try {
+                                        callback()
+                                    } catch (e) {
+                                        errorCallback(e)
+                                    }
+                                }
                             }
                         })
                     }
@@ -235,6 +243,76 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                     window.wdi5.getUI5CtlForWebObj = (ui5Control) => {
                         //> REVISIT: refactor to https://ui5.sap.com/#/api/sap.ui.core.Element%23methods/sap.ui.core.Element.closestTo for UI5 >= 1.106
                         return jQuery(ui5Control).control(0)
+                    }
+
+                    window.wdi5.retrieveControlMethodsAndFlatenObject = (contol) => {
+                        let protoChain = []
+                        let proto = contol
+                        while (proto !== null) {
+                            protoChain.unshift(proto)
+                            proto = Object.getPrototypeOf(proto)
+                        }
+                        let collapsedObj = {}
+                        const functionNames = new Set()
+                        const objectNames = new Set()
+                        for (let i = 0; i < protoChain.length; i++) {
+                            const prop = protoChain[i]
+                            const propertyNames = Object.getOwnPropertyNames(prop)
+
+                            for (let j = 0; j < propertyNames.length; j++) {
+                                const propertyName = propertyNames[j]
+
+                                if (propertyName.startsWith("_")) {
+                                    continue
+                                }
+                                const value = prop[propertyName]
+
+                                if (typeof value === "object") {
+                                    objectNames.add(propertyName)
+                                    continue
+                                }
+
+                                collapsedObj[propertyName] = value
+
+                                // filter not working methods
+                                // and those with a specific api from wdi5/wdio-ui5-service
+                                // prevent overwriting wdi5-control's own init method
+                                const aFilterFunctions = ["$", "getAggregation", "constructor", "fireEvent", "init"]
+                                if (
+                                    typeof value === "function" &&
+                                    !propertyName.indexOf("Render") !== -1 &&
+                                    !aFilterFunctions.includes(propertyName)
+                                ) {
+                                    functionNames.add(propertyName)
+                                }
+                            }
+                        }
+                        return {
+                            collapsedObj,
+                            functionNames: Array.from(functionNames),
+                            objectNames: Array.from(objectNames)
+                        }
+                    }
+
+                    window.wdi5.prepareObjectForSerialization = (object, skipSave) => {
+                        let uuid
+                        if (!skipSave) {
+                            // save before manipulate
+                            uuid = window.wdi5.saveObject(object)
+                        }
+
+                        let {
+                            collapsedObj,
+                            functionNames: aProtoFunctions,
+                            objectNames
+                        } = window.wdi5.retrieveControlMethodsAndFlatenObject(object)
+
+                        return {
+                            semanticCleanedElements: collapsedObj,
+                            uuid,
+                            aProtoFunctions,
+                            objectNames
+                        }
                     }
 
                     /**
