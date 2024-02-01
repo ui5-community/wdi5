@@ -8,13 +8,12 @@ async function clientSide_getControl2(controlSelector, callChainString, browserI
             window.wdi5.waitForUI5(
                 waitForUI5Options,
                 () => {
-                    debugger
                     window.wdi5.Log.info("[browser wdi5] locating " + JSON.stringify(controlSelector))
                     controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector)
                     window.bridge
                         .findDOMElementByControlSelector(controlSelector)
                         .then((domElement) => {
-                            debugger
+                            // debugger
 
                             const ui5Control = window.wdi5.getUI5CtlForWebObj(domElement)
                             const id = ui5Control.getId()
@@ -26,14 +25,19 @@ async function clientSide_getControl2(controlSelector, callChainString, browserI
                             debugger
 
                             const _result = eval("ui5Control" + callChainString)
-                            const collapsed = window.wdi5.collapseObject(_result)
-                            // exclude cyclic references
-                            // FIXME: this cuts off WAY too much elements
-                            const collapsedAndNonCyclic = JSON.parse(
-                                JSON.stringify(collapsed, window.wdi5.getCircularReplacer())
-                            )
-                            // remove all empty Array elements, inlcuding private keys (starting with "_")
-                            const semanticCleanedElements = window.wdi5.removeEmptyElements(collapsedAndNonCyclic)
+
+                            const { semanticCleanedElements, uuid, aProtoFunctions, objectNames } =
+                                window.wdi5.collapseObject(_result)
+
+                            // // OLD: delivers bad result
+                            // const collapsed = window.wdi5.collapseObject(_result)
+                            // // exclude cyclic references
+                            // // FIXME: this cuts off WAY too much elements
+                            // const collapsedAndNonCyclic = JSON.parse(
+                            //     JSON.stringify(collapsed, window.wdi5.getCircularReplacer())
+                            // )
+                            // // remove all empty Array elements, inlcuding private keys (starting with "_")
+                            // const semanticCleanedElements = window.wdi5.removeEmptyElements(collapsedAndNonCyclic)
 
                             done({
                                 status: 0,
