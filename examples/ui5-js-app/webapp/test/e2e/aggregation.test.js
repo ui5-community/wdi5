@@ -35,12 +35,13 @@ describe("ui5 aggregation retrieval", () => {
         // fluent async api measurement
         marky.mark("old asControl")
         const existingAsControl = await browser.asControl(pageSelector).getContent(1).getItems()
-        // expect(existingAsControl.length).toBe(3)
+        expect(existingAsControl.length).toBe(3)
         const oldFluentAsyncApi = marky.stop("old asControl")
 
         marky.mark("new asControl")
-        const pageSelector2 = { ...pageSelector, newAsControl: true }
-        const newAsControl = await browser.asControl(pageSelector2).getContent()[0].getItems()._()
+        const pageSelector2 = { ...pageSelector, newAsControl: true, fluent: true }
+        const newAsControl = await browser.asControl(pageSelector2).getContent()[1].getItems()
+        expect(newAsControl.length).toBe(3) // <-- fails currently as relaying browser-scope result is not working properly
         const newFluentAsyncApi = marky.stop("new asControl")
 
         expect(newFluentAsyncApi.duration).toBeLessThan(oldFluentAsyncApi.duration)
@@ -48,21 +49,23 @@ describe("ui5 aggregation retrieval", () => {
         // plain .asControl() measurement
         marky.mark("old only asControl")
         const existingAsControl2 = await browser.asControl(pageSelector)
+        expect(existingAsControl2.isInitialized()).toBeTruthy()
         const oldAsControlOnly = marky.stop("old only asControl")
 
         marky.mark("new only asControl")
         const pageSelector3 = { ...pageSelector, newAsControl: true }
-        const newAsControl2 = await browser.asControl(pageSelector3).do()
+        const newAsControl2 = await browser.asControl(pageSelector3)
+        expect(newAsControl2.isInitialized()).toBeTruthy() // <-- fails currently as newAsControl2 == proxy
         const newAsControlOnly = marky.stop("new only asControl")
 
         expect(newAsControlOnly.duration).toBeLessThan(oldAsControlOnly.duration)
 
-        // this will not work with the new asControl
-        // as there is no way to determine at runtime _in the proxy trap_
-        // whether the access to "sId" is a property access or a method call!
-        // await browser.asControl(pageSelector4).getContent()[0].getItems().sId._()
+        // // to test: property access
+        // const pageSelector4 = { ...pageSelector, newAsControl: true, fluent: true }
+        // await browser.asControl(pageSelector4).getContent()[0].getItems().sId
 
-        // expect(newAsControl.result.length).toBeGreaterThanOrEqual(1) //> should be 9 -> bug in browser-scope control massaging
+        // const bla = await browser.asControl(pageSelector3)
+        // const result = bla.getContent()[0].getItems().sId
     })
 
     it("select controls of a sap.m.Page's content aggregation", async () => {
