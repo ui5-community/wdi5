@@ -217,6 +217,7 @@ export interface wdi5Selector {
      * feature flag to use new asControl implementation
      */
     newAsControl?: boolean
+    fluent?: boolean
 }
 
 /**

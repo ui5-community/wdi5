@@ -425,7 +425,11 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
         browserInstance.asControl = function (ui5ControlSelector) {
             // allow plugging in new api idea(s)
             if (ui5ControlSelector.newAsControl) {
-                return getChain(ui5ControlSelector, browserInstance)
+                if (ui5ControlSelector.fluent) {
+                    return _sync_asControl(ui5ControlSelector, browserInstance)
+                } else {
+                    return _async_asControl(ui5ControlSelector, browserInstance)
+                }
             } else {
                 const asyncMethods = ["then", "catch", "finally"]
                 const functionQueue = []
@@ -485,6 +489,13 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
     }
 }
 
+function _sync_asControl(control, browserInstance) {
+    return getChain(control, browserInstance)
+}
+async function _async_asControl(control, browserInstance) {
+    return getChain(control, browserInstance)
+}
+
 /**
  * after all proxy traps have been called,
  * this rebuilds the design-time call chain at runtime
@@ -498,7 +509,7 @@ function theEnd(callChain: any[], control) {
     console.log("on", control)
 
     const chainString = callChain.reduce((acc, entry) => {
-        if (entry[0] === "fn") {
+        if (entry[0] === "function") {
             const params = entry[2].map((param) => {
                 if (typeof param === "string") {
                     return `"${param}"`
@@ -507,7 +518,7 @@ function theEnd(callChain: any[], control) {
                 }
             })
             return `${acc}.${entry[1]}(${params.join(",")})`
-        } else if (entry[0] === "prop") {
+        } else if (entry[0] === "property") {
             if (Number.isInteger(parseInt(entry[1]))) {
                 return `${acc}[${parseInt(entry[1])}]`
             } else {
@@ -533,51 +544,72 @@ function theEnd(callChain: any[], control) {
 function getChain(control, browserInstance) {
     // this is the call chain we're trapping from design time
     // [prop | fn, name, [args]]
-    const _chain = []
+    const chain = []
+    let chainCounter = 0
 
     const handlers = {
-        get(target, key, receiver) {
-            let promise = Promise.resolve(target)
-            if (key === "then" || key === "catch") {
-                // if then/catch is requested, return the chained promise
-                return (...args2) => {
-                    console.log("then/catch", key, args2)
-                    return promise[key](...args2)
-                }
-            } else if (key === "do" || key === "_") {
-                // end of the proxy chain -> do the actual work in borwser-scope
-                return () => {
-                    return promise.then(() => {
-                        console.log("that's it folks")
-                        const chainString = theEnd(_chain, control)
-                        return clientSide_getControl2(control, chainString, browserInstance)
-                    })
-                }
-            } else if (Number.isInteger(parseInt(key))) {
-                // this enables array-index access in the fluent async api,
-                // e.g. browser.asControl(selector).getItems()[0]
-                //                                             ^
-                //                                             |
-                promise = promise.then(() => {
-                    console.log("adding property", key)
-                    _chain.push(["prop", key])
-                    return true //> keep the promise chain alive
-                })
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        get: (target, name, receiver) => {
+            console.log(`get - start w/ ${name}`)
+            let isProp = true
+            let args = []
+            if (name === "then" && chainCounter === 0) {
+                console.log("BEGIN: chainCounter:", chainCounter)
+                return Promise.resolve()
+            }
+            let resolver
 
-                // return the proxy so that chaining can continue
-                return receiver
-                // }
+            Promise.resolve().then(() => {
+                if (name === "then" && chainCounter > 0) {
+                    console.log("//> end of chain")
+                    // return
+                    // --> browser-scope
+                    console.log("call chain", chain)
+                    const chainString = theEnd(chain, control)
+
+                    chain.length = 0 //> in case of re-use of original proxy
+                    chainCounter = 0
+
+                    //Mock some fance async stuff here
+                    new Promise((res) => setTimeout(res, 0))
+                        .then(() => {
+                            return clientSide_getControl2(control, chainString, browserInstance)
+                        })
+                        .then((value) => {
+                            return resolver(value)
+                        })
+                        .catch((error) => {
+                            console.error(error)
+                        })
+                    // return new Promise((res) => res(returnValue + " " + Date.now()))
+                } else if (isProp && name !== "then") {
+                    console.log(`resolving prop ${name}`)
+                    chain.push(["property", name])
+                } else {
+                    console.log(`resolving fn ${name} with args ${args}`)
+                    chain.push(["function", name, args])
+                }
+            })
+
+            console.log("chainCounter:", chainCounter)
+            chainCounter++
+            if (name === "then") {
+                const finalReturnValue = new Promise((resolve) => (resolver = resolve))
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                return (_resolve, _) => {
+                    _resolve(finalReturnValue)
+                }
             } else {
-                // record next function call in the chain
-                return (...args2) => {
-                    promise = promise.then(() => {
-                        console.log("adding ", key, " with args ", args2)
-                        _chain.push(["fn", key, args2])
-                    })
-
-                    // return the proxy so that chaining can continue
-                    return receiver
-                }
+                return new Proxy(() => {}, {
+                    get: function (target, name, receiver) {
+                        return handlers.get(target, name, receiver)
+                    },
+                    apply: function (target, thisArg, argList) {
+                        isProp = false
+                        args = argList
+                        return new Proxy(() => {}, handlers)
+                    }
+                })
             }
         }
     }

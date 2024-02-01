@@ -8,6 +8,7 @@ async function clientSide_getControl2(controlSelector, callChainString, browserI
             window.wdi5.waitForUI5(
                 waitForUI5Options,
                 () => {
+                    debugger
                     window.wdi5.Log.info("[browser wdi5] locating " + JSON.stringify(controlSelector))
                     controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector)
                     window.bridge
