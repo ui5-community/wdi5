@@ -344,7 +344,10 @@ capabilities: {
 }
 ```
 
+<!-- tabs:end -->
+
 #### CAP Authentication (only during development!)
+
 During development it is common to use basic authentication to mock users. In contrast to deployed applications we have to authenticate ourself directly to the exposed OData enpoints and not to the application itself. For that reason you have to configure the `basicAuthUrls` which should point to the OData `$metadata`.
 
 ```js
@@ -356,10 +359,8 @@ capabilities: {
     }
 }
 ```
+
 If you have multiple OData endpoints you have to declare every single OData endpoint in the `basicAuthUrls` array.
-
-<!-- tabs:end -->
-
 
 ## Credentials
 
