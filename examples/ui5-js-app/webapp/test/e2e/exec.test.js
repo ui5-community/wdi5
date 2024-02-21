@@ -190,10 +190,10 @@ describe("ui5 eval on control", () => {
                 peopleListNames: this.getItems().map((item) => item.getTitle())
             }
         })
-
         expect(peopleListData.tableTitle).toEqual("...bites the dust!")
+        peopleListNames = await peopleListData.peopleListNames
         Other.allNames.forEach((name) => {
-            expect(peopleListData.peopleListNames).toContain(name)
+            expect(peopleListNames).toContain(name)
         })
     })
 })

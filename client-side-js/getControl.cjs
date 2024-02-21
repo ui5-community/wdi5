@@ -17,7 +17,8 @@ async function clientSide_getControl(controlSelector, browserInstance) {
                         const id = ui5Control.getId()
                         const className = ui5Control.getMetadata()._sClassName
                         window.wdi5.Log.info(`[browser wdi5] control with id: ${id} located!`)
-                        const aProtoFunctions = window.wdi5.retrieveControlMethods(ui5Control)
+                        const { functionNames: aProtoFunctions } =
+                            window.wdi5.retrieveControlMethodsAndFlatenObject(ui5Control)
                         done({
                             status: 0,
                             domElement: domElement,

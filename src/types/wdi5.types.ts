@@ -1,6 +1,5 @@
 import Log from "sap/base/Log"
-import RecordReplay from "sap/ui/test/RecordReplay"
-import { ControlSelector } from "sap/ui/test/RecordReplay"
+import RecordReplay, { ControlSelector } from "sap/ui/test/RecordReplay"
 import { WDI5Object } from "../lib/wdi5-object.js"
 
 // // copypasta from
@@ -233,6 +232,7 @@ export interface clientSide_ui5Response {
     nonCircularResultObject?: any
     uuid?: string // unique sap.ui.base.Object id
     object: WDI5Object
+    objectNames?: []
 }
 
 export interface clientSide_ui5Object {
@@ -241,6 +241,7 @@ export interface clientSide_ui5Object {
     aProtoFunctions?: []
     className?: string
     object: WDI5Object
+    objectNames?: []
 }
 
 /**

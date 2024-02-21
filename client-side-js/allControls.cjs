@@ -1,6 +1,7 @@
 async function clientSide_allControls(controlSelector, browserInstance) {
     controlSelector = await Promise.resolve(controlSelector) // to plug into fluent async api
     return await browserInstance.executeAsync((controlSelector, done) => {
+        //client-side-js/allControls.cjs
         const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options)
         if (controlSelector.timeout) {
             waitForUI5Options.timeout = controlSelector.timeout
@@ -21,7 +22,8 @@ async function clientSide_allControls(controlSelector, browserInstance) {
                             const ui5Control = window.wdi5.getUI5CtlForWebObj(domElement)
                             const id = ui5Control.getId()
                             window.wdi5.Log.info(`[browser wdi5] control with id: ${id} located!`)
-                            const aProtoFunctions = window.wdi5.retrieveControlMethods(ui5Control)
+                            const { functionNames: aProtoFunctions } =
+                                window.wdi5.retrieveControlMethodsAndFlatenObject(ui5Control)
                             // @type [String, String?, String, "Array of Strings"]
                             returnElements.push({ domElement: domElement, id: id, aProtoFunctions: aProtoFunctions })
                         })

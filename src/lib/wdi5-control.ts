@@ -2,15 +2,15 @@ import * as util from "util"
 export const ELEMENT_KEY = "element-6066-11e4-a52e-4f735466cecf"
 // TODO: import { ELEMENT_KEY } from "webdriverio/build/constants.js"
 // patch in webdriverio repo?
+import { clientSide_getAggregation } from "../../client-side-js/_getAggregation.cjs"
+import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod.cjs"
+import { clientSide_fireEvent } from "../../client-side-js/fireEvent.cjs"
 import { clientSide_getControl } from "../../client-side-js/getControl.cjs"
 import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl.cjs"
-import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod.cjs"
-import { clientSide_getAggregation } from "../../client-side-js/_getAggregation.cjs"
-import { clientSide_fireEvent } from "../../client-side-js/fireEvent.cjs"
 import { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types.js"
 import { Logger as _Logger } from "./Logger.js"
-import { wdioApi } from "./wdioApi.js"
 import { WDI5Object } from "./wdi5-object.js"
+import { wdioApi } from "./wdioApi.js"
 const Logger = _Logger.getInstance()
 
 /**
@@ -535,7 +535,7 @@ export class WDI5Control {
                 return result.nonCircularResultObject ? result.nonCircularResultObject : result.result
             case "object":
                 // enhance with uuid
-                return new WDI5Object(result.uuid, result.aProtoFunctions, result.object)
+                return new WDI5Object(result.uuid, result.aProtoFunctions, result.object, result.objectNames)
             case "empty":
                 if (this._logging) {
                     Logger.warn("No data found in property or aggregation")
@@ -736,7 +736,7 @@ export class WDI5Control {
         } else if (response.status === 0) {
             Logger.success(
                 `call of function ${functionName} returned: ${JSON.stringify(
-                    response.id ? response.id : response.result
+                    response.id ? response.id : response.result ? response.result : "an object"
                 )}`
             )
         } else {
