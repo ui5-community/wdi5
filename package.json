@@ -130,7 +130,7 @@
     "@wdio/mocha-framework": "^8",
     "@wdio/spec-reporter": "^8",
     "@wdio/types": "^8",
-    "webdriverio": ">=8.14.0"
+    "webdriverio": ">8.32.2"
   },
   "engines": {
     "node": ">=18",
