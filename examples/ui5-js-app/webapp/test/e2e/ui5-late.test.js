@@ -5,7 +5,7 @@ const ui5Service = new _ui5Service()
 describe("ui5 basic", () => {
     it('should show a non UI5 page, then advance to a UI5 page and late init "wdi5"', async () => {
         // native wdio functionality - navigates to the wdi5 github page
-        await browser.$("#user-content-wdi5-").waitForDisplayed()
+        await browser.$("#user-content-wdi5-").waitForExist()
         // open local app
         await browser.url("http://localhost:8888")
         // do the late injection
