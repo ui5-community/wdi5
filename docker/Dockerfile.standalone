@@ -11,6 +11,9 @@ RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable 
 RUN wget -O- https://dl.google.com/linux/linux_signing_key.pub |gpg --dearmor > /etc/apt/trusted.gpg.d/google.gpg
 RUN apt update
 RUN apt install -y google-chrome-stable --no-install-recommends
+# install git
+# see #599 https://github.com/ui5-community/wdi5/issues/599
+RUN apt install -y git
 
 WORKDIR /app
 
