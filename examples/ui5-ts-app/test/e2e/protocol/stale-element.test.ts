@@ -1,5 +1,8 @@
 import { wdi5Selector, ELEMENT_KEY } from "wdio-ui5-service"
 
+// work around the REVISIT issue explained below
+const _it = process.env.PROT === "devtools" ? it : it.skip
+
 describe("Devtools: ", async () => {
     const staleElementId = {
         // devtools does not care about the format of the value but webdriver does
@@ -10,7 +13,10 @@ describe("Devtools: ", async () => {
         // clear cached wdi5Controls, so we can mock in each test seperately
         browser._controls = []
     })
-    it("safeguard 'stale' element handling", async () => {
+    //> REVISIT: wdio v8 latest now recognizes stale elements ahead of browser.executeAsync calls
+    //> but only with the webdriver protocol, not with the devtools protocol
+    //> -> we skip this test for the webdriver protocol as of now
+    _it("safeguard 'stale' element handling", async () => {
         const buttonWDI5 = await getButtonOnPage1()
 
         // mock a stale element
@@ -52,7 +58,8 @@ describe("Devtools: ", async () => {
         expect(await invisibleInput.isInitialized()).toBe(false)
     })
 
-    it("safeguard 'stale' element handling with full selector", async () => {
+    //> REVISIT: see first test in the suite for reasons - same thing here
+    _it("safeguard 'stale' element handling with full selector", async () => {
         const multiInput = await getMultiInputOnPage1()
 
         // mock a stale element

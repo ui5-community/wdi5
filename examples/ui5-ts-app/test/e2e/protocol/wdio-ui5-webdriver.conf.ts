@@ -1,4 +1,5 @@
 import { wdi5Config } from "wdio-ui5-service"
+import { setDefaultResultOrder } from "node:dns"
 import { resolve } from "path"
 
 export const config: wdi5Config = {
@@ -24,5 +25,8 @@ export const config: wdi5Config = {
     framework: "mocha",
     mochaOpts: {
         timeout: 29000
+    },
+    beforeSession: () => {
+        setDefaultResultOrder("ipv4first")
     }
 }
