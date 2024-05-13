@@ -210,6 +210,7 @@ export class WDI5Control {
             logging = await Promise.resolve(this._logging)
         } else {
             className = this.getControlInfo().className
+
             controlSelector = this._controlSelector
             logging = this._logging
         }
