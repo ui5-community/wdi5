@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 2.0.8 (2024-05-13)
+
+
+### Bug Fixes
+
+* pass interaction matcher in press function ([0080ce1](https://github.com/ui5-community/wdi5/commit/0080ce126d1cc038e7cafd6093de6b4bede9994e))
+
 ### 2.0.7 (2024-04-28)
 
 ### 2.0.6 (2024-01-15)
