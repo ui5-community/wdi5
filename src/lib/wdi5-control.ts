@@ -35,23 +35,6 @@ export class WDI5Control {
     _generatedWdioMethods: Array<string>
     _domId: string | undefined
 
-    // these controls receive the specific "interaction": "press" operator
-    // instead of a regular "click" event
-    // see https://openui5.hana.ondemand.com/api/sap.ui.test.actions.Press#properties
-    _specificInteractionControls = [
-        "sap.m.ComboBox",
-        "sap.m.SearchField",
-        "sap.m.Input",
-        "sap.m.List",
-        "sap.m.Table",
-        "sap.m.ObjectIdentifier",
-        "sap.m.ObjectAttribute",
-        "sap.m.Page",
-        "sap.m.semantic.FullscreenPage",
-        "sap.m.semantic.DetailPage",
-        "sap.ui.comp.smartfilterbar.SmartFilterBar"
-    ]
-
     _browserInstance: WebdriverIO.Browser
     constructor(oOptions) {
         const {
@@ -219,27 +202,20 @@ export class WDI5Control {
         // support fluent async api
         let className
         let controlSelector
-        let specificInteractionControls
         let logging
         if (util.types.isProxy(this._domId)) {
-            specificInteractionControls = await Promise.resolve(this._specificInteractionControls)
             const _controlInfo = await Promise.resolve(this._metadata)
             className = _controlInfo.className
             controlSelector = await Promise.resolve(this._controlSelector)
             logging = await Promise.resolve(this._logging)
         } else {
-            specificInteractionControls = this._specificInteractionControls
             className = this.getControlInfo().className
             controlSelector = this._controlSelector
             logging = this._logging
         }
 
-        // route operations on a sap.m.SearchField
-        // via the RecordReplay api instead of via WebdriverIO
-        if (
-            specificInteractionControls.includes(className as string) &&
-            controlSelector.selector.interaction.match(/press/i)
-        ) {
+        // when the interaction locator is existing we want to use the RecordReplay press (interactWithControl)
+        if (controlSelector.selector.interaction) {
             if (logging) {
                 Logger.info(`using OPA5 Press action to interact with this ${className}...`)
             }

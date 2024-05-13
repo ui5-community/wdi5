@@ -31,7 +31,7 @@
 						</content>
 					</Panel>
 					<Label labelFor="idDateTime" text="labelFor DateTimePicker" />
-					<DateTimePicker id="idDateTime" placeholder="Enter Date ..." />
+					<DateTimePicker id="idDateTime" placeholder="Enter Date ..." valueFormat="yyyy-MM-dd-HH-mm-ss" />
 					<Button text="{testModel>/buttonText}" press="onTest" class="myTestClass" />
 					<Input value="{testModel>/inputValue}" />
 					<CheckBox id="idCheckbox" selected="{testModel>/checkbox}" text="test checkbox" select="onSelect" />

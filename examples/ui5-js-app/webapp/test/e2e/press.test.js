@@ -45,4 +45,49 @@ describe("custom wdi5 press event", async () => {
         const popup = await browser.asControl(dialogSelector)
         await expect(await popup.getVisible()).toBeTruthy()
     })
+
+    it("press() with 'idSuffix'", async () => {
+        const dateTime = browser.asControl({
+            selector: {
+                id: "idDateTime",
+                viewName: "test.Sample.view.Main"
+            }
+        })
+
+        await dateTime.setValue("2024-05-01-12-00-00")
+        await browser
+            .asControl({
+                selector: {
+                    id: "container-Sample---Main--idDateTime-icon"
+                }
+            })
+            .press()
+
+        await browser
+            .asControl({
+                selector: {
+                    id: "container-Sample---Main--idDateTime-cal--Month0",
+                    searchOpenDialogs: true,
+                    interaction: {
+                        idSuffix: "20240511"
+                    }
+                }
+            })
+            .press()
+
+        await browser
+            .asControl({
+                selector: {
+                    id: "container-Sample---Main--idDateTime-OK",
+                    searchOpenDialogs: true,
+                    interaction: {
+                        idSuffix: "BDI-content"
+                    }
+                }
+            })
+            .press()
+
+        const value = await dateTime.getValue()
+        expect(value).toEqual("2024-05-11-12-00-00")
+    })
 })
