@@ -2,6 +2,37 @@
 
 Here's a collection of "How-To"s for typical use cases in tests and how to do that with `wdi5`.
 
+## Testing scope and guidelines
+
+For UI5 application development, _several_ testing options are available. The cost and effort associated to each option is well summarized by the following pyramid of test. At the base, unit tests are _cheap_ to develop and _fast_ to execute. The large base indicates that these tests should cover _most parts_ of the application. On the contrary, at the top of the pyramid, manual tests are not only _expensive_ to setup and develop but also _slow_ to execute. This layer is thinner because only a subset of the application features can (or should) be tested at this level.
+
+![Pyramid of tests adapted to UI5](test-pyramid.png)
+
+`wdi5` main scope is End-to-End Tests, meaning the application is tested in an environment that is _close_ to the productive one (nothing is mocked). Yet, one should not forget that unit and component testing _must_ represent a _major_ part of test automation.
+
+This being said, it restricts the scope of what to test with `wdi5` :
+
+- ⛔ Basic UI behaviors and features (specific controls, browse dialogs, auto-completion, tooltips...) should be considered working because tested in the lower layers. Trying to test these features in an End-to-End context can be very _expensive_ and does not enable quick feedback loop.
+
+- ⛔ All possible user interactions with the application should _not_ be part of End-to-End testing.
+
+- ✅ End-to-End testing usually focus on scenarios that are :
+  - happy path, meaning the user can achieve an expected outcome
+  - error cases, meaning invalid actions are prevented
+
+> 🛈 It is not necessary to validate all the different ways to achieve these scenarios.
+>
+> The goal is to assess the behavior of the user interface being connected to a real backend. If the user can get the same outcome using distinct sequences (for instance setting different parameters in different order), the simplest way should always be preferred.
+>
+> All other ways should be tested at a lower level (component or unit testing) where the goal is to assess that all sequences work in a cheaper environment (the backend being mocked).
+
+- ✅ User interface manipulations should be limited to the _simplest_ way to reach the testing goal. There are two main reasons for that :
+
+  1. Performance : the End-to-End tests are slower by nature, every shortcut that makes the test faster _should_ be preferred.
+  2. Maintainability : the application will evolve over time. Changing the user interface will necessarily have an impact on the existing tests. Hence, one should carefully automate the safest path to limit the impact of breaking changes.
+
+> From a product standard point of view, UI5 provides many accessibility features. If the application can only be _exclusively_ manipulated with the keyboard or the mouse, you might have to rethink its design. This would give you more options when automating and this would be tested in the lowest levels.
+
 ## asserting a file download
 
 This example uses the Chrome to run the test and `chromedriver` offers some custom settings that help preparing things.
