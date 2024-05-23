@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 2.0.9 (2024-05-23)
+
+
+### Bug Fixes
+
+* basic authentication ([#615](https://github.com/ui5-community/wdi5/issues/615)) ([#616](https://github.com/ui5-community/wdi5/issues/616)) ([1685a4e](https://github.com/ui5-community/wdi5/commit/1685a4eb5e698f72c81a8f5bffc13a9562df1d89))
+
 ### 2.0.8 (2024-05-13)
 
 
