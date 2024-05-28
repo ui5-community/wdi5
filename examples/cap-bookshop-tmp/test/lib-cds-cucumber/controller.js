@@ -250,7 +250,16 @@ class Controller {
     }
 
     async extractTableRows() {
-        return await this.call("extractTableRows")
+        //> wdi5
+        const selector = {
+            selector: {
+                // id: "bookshop::BooksList--fe::table::Books::LineItem-innerTable"
+                controlType: "sap.m.Table",
+                interaction: "root"
+            }
+        }
+        const rows = await browser.asControl(selector).getItems()
+        return rows
     }
 
     async performBasicSearch(text) {
