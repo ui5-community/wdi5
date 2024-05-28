@@ -209,6 +209,7 @@ class Controller {
     }
 
     async pressTile(name) {
+        //> wdi5
         const selector = {
             selector: {
                 controlType: "sap.m.GenericTile",
