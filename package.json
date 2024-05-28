@@ -36,7 +36,8 @@
     "examples/ui5-ts-app",
     "examples/cucumber",
     "examples/cap-bookshop-wdi5",
-    "examples/cap-bookshop-tmp"
+    "examples/cap-bookshop-tmp",
+    "examples/cds-cucumber"
   ],
   "scripts": {
     "// build time": "refers to developing wdi5/wdio-ui5-service itself",
