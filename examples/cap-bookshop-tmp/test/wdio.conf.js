@@ -1,3 +1,6 @@
+process.env.wdi5_username = "alice"
+process.env.wdi5_password = ""
+
 exports.config = {
     // ====================
     // wdi5 Configuration
@@ -74,7 +77,12 @@ exports.config = {
                           ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
                           : ["window-size=1440,800"]
             },
-            acceptInsecureCerts: true
+            acceptInsecureCerts: true,
+            "wdi5:authentication": {
+                provider: "BasicAuth",
+                basicAuthUrls: ["http://localhost:4004/odata/v4/admin/Books"]
+            }
+
             // If outputDir is provided WebdriverIO can capture driver session logs
             // it is possible to configure which logTypes to include/exclude.
             // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
