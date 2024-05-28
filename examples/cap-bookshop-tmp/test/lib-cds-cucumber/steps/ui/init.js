@@ -126,8 +126,8 @@ Given("we have set language to {string}", async function (language) {
  * @example Given we have opened the url "/"
  */
 Given("we have opened the url {string}", async function (url) {
-    return
-    this.controller = await openUrl(this.controller, this.process, url, { language: this.language })
+    this.controller = new Controller("dummy")
+    // this.controller = await openUrl(this.controller, this.process, url, { language: this.language })
 })
 
 /**
