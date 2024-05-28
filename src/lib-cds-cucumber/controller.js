@@ -10,7 +10,8 @@ class Controller {
     }
 
     getWorkingDirectory() {
-        return this.process.params.workingDirectory
+        // return this.process.params.workingDirectory
+        return process.cwd()
     }
 
     usingFirefox() {
@@ -45,7 +46,7 @@ class Controller {
             this.remoteDebuggingPort = env.BROWSER_DEBUGGING_PORT
             options.addArguments(`--remote-debugging-port=${this.remoteDebuggingPort}`)
         }
-        if (env.SHOW_BROWSER !== "1") options = options.addArguments("--headless")
+        // if (env.SHOW_BROWSER !== "1") options = options.addArguments("--headless")
         if (env.ENABLE_CORS === "1") options.addArguments("--disable-web-security")
         if (env.ACCEPT_LANG) options.addArguments("--accept-lang=" + env.ACCEPT_LANG)
         process.env.TMPDIR = this.getWorkingDirectory()
@@ -208,7 +209,16 @@ class Controller {
     }
 
     async pressTile(name) {
-        return await this.call("pressTile", name)
+        //> wdi5
+        const selector = {
+            selector: {
+                controlType: "sap.m.GenericTile",
+                properties: {
+                    header: name
+                }
+            }
+        }
+        return await browser.asControl(selector).press()
     }
 
     async _getPageCount() {
@@ -240,7 +250,15 @@ class Controller {
     }
 
     async extractTableRows() {
-        return await this.call("extractTableRows")
+        //> wdi5
+        const selector = {
+            selector: {
+                controlType: "sap.m.Table",
+                interaction: "root"
+            }
+        }
+        const rows = await browser.asControl(selector).getItems()
+        return rows
     }
 
     async performBasicSearch(text) {
@@ -248,7 +266,16 @@ class Controller {
     }
 
     async editSearchField(text) {
-        return await this.call("editSearchField", text)
+        //> wdi5
+        const selector = {
+            selector: {
+                controlType: "sap.m.SearchField",
+                interaction: {
+                    idSuffix: "I"
+                }
+            }
+        }
+        return await browser.asControl(selector).enterText(text)
     }
 
     async editField(field, text) {

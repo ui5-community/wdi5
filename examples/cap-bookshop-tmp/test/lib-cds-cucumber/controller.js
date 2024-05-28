@@ -253,7 +253,6 @@ class Controller {
         //> wdi5
         const selector = {
             selector: {
-                // id: "bookshop::BooksList--fe::table::Books::LineItem-innerTable"
                 controlType: "sap.m.Table",
                 interaction: "root"
             }

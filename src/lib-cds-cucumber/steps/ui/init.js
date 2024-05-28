@@ -23,10 +23,10 @@ function infoProcess(process) {
  * @example Given we have started the application
  */
 Given("we have started the application", async function () {
-    const startProcess = require("../../startProcess")
-    this.process = await startProcess()
-    this.allProcesses.push(this.process)
-    infoProcess(this.process)
+    // const startProcess = require("../../startProcess")
+    // this.process = await startProcess()
+    // this.allProcesses.push(this.process)
+    // infoProcess(this.process)
     await loadModel()
 })
 
@@ -126,7 +126,8 @@ Given("we have set language to {string}", async function (language) {
  * @example Given we have opened the url "/"
  */
 Given("we have opened the url {string}", async function (url) {
-    this.controller = await openUrl(this.controller, this.process, url, { language: this.language })
+    this.controller = new Controller("dummy")
+    // this.controller = await openUrl(this.controller, this.process, url, { language: this.language })
 })
 
 /**
@@ -137,7 +138,10 @@ Given("we have opened the url {string}", async function (url) {
  * @example Given we have opened the url "/" with user "alice"
  */
 Given("we have opened the url {string} with user {string}", async function (url, username) {
-    this.controller = await openUrl(this.controller, this.process, url, { username, language: this.language })
+    process.env.wdi5_username = username
+    process.env.wdi5_password = ""
+    this.controller = new Controller("dummy")
+    // this.controller = await openUrl(this.controller, this.process, url, { username, language: this.language })
 })
 
 /**

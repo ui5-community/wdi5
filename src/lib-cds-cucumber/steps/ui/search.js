@@ -14,9 +14,9 @@ const { When } = require("@cucumber/cucumber")
 When("we search for {string}", async function (text) {
     //await this.controller.performBasicSearch(text);
     await this.controller.editSearchField(text)
-    await this.controller.waitEvents()
-    await this.controller.applySearchFilter()
-    await this.controller.waitToLoad()
+    // await this.controller.waitEvents()
+    // await this.controller.applySearchFilter()
+    // await this.controller.waitToLoad()
 })
 
 /**
