@@ -212,7 +212,6 @@ class Controller {
         const selector = {
             selector: {
                 controlType: "sap.m.GenericTile",
-                viewName: "module:sap/ushell/components/homepage/DashboardContent.view",
                 properties: {
                     header: name
                 }
