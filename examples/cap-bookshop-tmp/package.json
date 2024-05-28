@@ -7,10 +7,12 @@
   "private": true,
   "dependencies": {
     "@sap/cds": "^7",
+    "cds-cucumber": "*",
     "chai-shallow-deep-equal": "^1.4.6",
     "chai-sorted": "^0.2.0",
     "express": "^4",
-    "selenium-webdriver": "^4.21.0"
+    "selenium-webdriver": "^4.21.0",
+    "wdio-ui5-service": "*"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1",

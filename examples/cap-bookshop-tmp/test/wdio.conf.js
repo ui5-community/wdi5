@@ -1,3 +1,16 @@
+const fs = require("fs")
+const path = require("path")
+const _files = fs
+    .readdirSync(require.resolve("cds-cucumber").replace("index.js", "steps"), {
+        recursive: true
+    })
+    .map((file) => {
+        if (file.endsWith(".js") && !file.endsWith("index.js")) {
+            return path.resolve(process.cwd(), "..", "cds-cucumber", "lib", "steps", file)
+        }
+    })
+    .filter(Boolean)
+
 exports.config = {
     // ====================
     // wdi5 Configuration
@@ -147,7 +160,7 @@ exports.config = {
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
         // <string[]> (file/dir) require files before executing features
-        require: ["./test/lib-cds-cucumber/steps/**/*.js"],
+        require: _files,
         // <boolean> show full backtrace for errors
         backtrace: false,
         // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
