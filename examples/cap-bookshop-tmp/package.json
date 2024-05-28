@@ -15,6 +15,7 @@
     "eslint": "^9"
   },
   "scripts": {
-    "start": "cds-serve"
+    "start": "cds-serve",
+    "wdi5": "wdio run ./test/wdio.conf.js"
   }
 }
