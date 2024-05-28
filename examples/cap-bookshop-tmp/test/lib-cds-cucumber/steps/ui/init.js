@@ -138,7 +138,10 @@ Given("we have opened the url {string}", async function (url) {
  * @example Given we have opened the url "/" with user "alice"
  */
 Given("we have opened the url {string} with user {string}", async function (url, username) {
-    this.controller = await openUrl(this.controller, this.process, url, { username, language: this.language })
+    process.env.wdi5_username = username
+    process.env.wdi5_password = ""
+    this.controller = new Controller("dummy")
+    // this.controller = await openUrl(this.controller, this.process, url, { username, language: this.language })
 })
 
 /**
