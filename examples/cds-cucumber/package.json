@@ -1,0 +1,32 @@
+{
+  "name": "cds-cucumber",
+  "version": "0.8.15",
+  "description": "A library to write behaviour-driven tests for CAP applications",
+  "homepage": "https://cap-js-community.github.io/cds-cucumber/",
+  "keywords": [
+    "Cucumber",
+    "CAP",
+    "CDS"
+  ],
+  "author": "SAP SE (https://www.sap.com)",
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": "cap-js-community/cds-cucumber",
+  "main": "./lib/index.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@sap-cloud-sdk/http-client": "^3",
+    "@sap-cloud-sdk/resilience": "^3",
+    "@sap/cds": "^7",
+    "chai": "^4",
+    "chai-shallow-deep-equal": "^1",
+    "chai-sorted": "^0.2",
+    "chromedriver": "latest",
+    "selenium-webdriver": "^4",
+    "sqlite3": "^5"
+  },
+  "peerDependencies": {
+    "@cucumber/cucumber": "^10"
+  }
+}
