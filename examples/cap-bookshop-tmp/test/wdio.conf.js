@@ -1,6 +1,3 @@
-process.env.wdi5_username = "alice"
-process.env.wdi5_password = ""
-
 exports.config = {
     // ====================
     // wdi5 Configuration
