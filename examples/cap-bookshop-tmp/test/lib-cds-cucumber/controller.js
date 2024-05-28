@@ -258,7 +258,16 @@ class Controller {
     }
 
     async editSearchField(text) {
-        return await this.call("editSearchField", text)
+        //> wdi5
+        const selector = {
+            selector: {
+                controlType: "sap.m.SearchField",
+                interaction: {
+                    idSuffix: "I"
+                }
+            }
+        }
+        return await browser.asControl(selector).enterText(text)
     }
 
     async editField(field, text) {
