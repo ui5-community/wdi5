@@ -18,14 +18,14 @@ export class WDI5Object {
             this._aProtoFunctions = aProtoFunctions
             this._attachObjectMethods(this._aProtoFunctions)
         } else {
-            Logger.warn(`[WANING] creating object: ${uuid} without functions`)
+            Logger.warn(`creating object: ${uuid} without functions`)
         }
 
         if (object) {
             this._baseObject = object
             this._attachObjectProperties(this._baseObject)
         } else {
-            Logger.warn(`[WANING] creating object: ${uuid} without properties`)
+            Logger.warn(`creating object: ${uuid} without properties`)
         }
     }
 
