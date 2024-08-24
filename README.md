@@ -14,7 +14,7 @@ It is used for end-to-end tests of a UI5 web-application.
 
 `wdi5` is governed by a fine group of people deciding on strategy and next steps for the tool (in alphabetical order of last name):
 
-- Arnaud Buchholz [@ArnaudBuchholz](https://github.com/ArnaudBuchholz)
+- Simon Coen [@Siolto](https://github.com/Siolto)
 - Dominik Feininger [@dominikfeininger](https://github.com/dominikfeininger)
 - Constantin Lebrecht [@monavari-lebrecht](https://github.com/monavari-lebrecht)
 - Hristo Manchev [@hmanchev](https://github.com/hmanchev)
@@ -26,6 +26,7 @@ It is used for end-to-end tests of a UI5 web-application.
 
 Thank you for having accompanied our journey! 🏅
 
+- Arnaud Buchholz [@ArnaudBuchholz](https://github.com/ArnaudBuchholz) - July 2022..August2024
 - Peder Hveem Alsvik [@ph-alsvik](https://github.com/ph-alsvik) - July 2022..October 2022
 - Nicholas O'Malley [@aiopa](https://github.com/aiopa) - October 2022..October 2023
 

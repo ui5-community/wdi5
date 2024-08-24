@@ -104,8 +104,8 @@ function initBrowser(browserInstance: WebdriverIO.Browser) {
 function checkUI5Version(ui5Version: string) {
     if (semver.lt(ui5Version, "1.60.0")) {
         // the record replay api is only available since 1.60
-        Logger.error("The ui5 version of your application is to low. Minimum required UI5 version is 1.60")
-        throw new Error("The ui5 version of your application is to low. Minimum required UI5 version is 1.60")
+        Logger.error("The UI5 version of your application is too low. Minimum required is 1.60!")
+        throw new Error("The UI5 version of your application is too low. Minimum required is 1.60!")
     }
 }
 
@@ -258,11 +258,11 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
             Logger.info(`creating internal control with id ${internalKey}`)
             wdi5Selector.wdio_ui5_key = internalKey
 
-            marky_mark("retrieveSingleControl")
+            marky_mark("retrieveSingleControl") //> TODO: bind to debug log level
 
             const wdi5Control = await new WDI5Control({ browserInstance }).init(wdi5Selector, wdi5Selector.forceSelect)
 
-            const e = marky_stop("retrieveSingleControl")
+            const e = marky_stop("retrieveSingleControl") //> TODO: bind to debug log level
             Logger.info(`_asControl() needed ${e.duration} for ${internalKey}`)
 
             browserInstance._controls[internalKey] = wdi5Control
