@@ -72,7 +72,15 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                             if (sError) {
                                 errorCallback(new Error(sError))
                             } else {
-                                callback()
+                                if (callback.constructor.name === "AsyncFunction") {
+                                    callback().catch(errorCallback)
+                                } else {
+                                    try {
+                                        callback()
+                                    } catch (e) {
+                                        errorCallback(e)
+                                    }
+                                }
                             }
                         })
                     }
@@ -237,118 +245,76 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                         return jQuery(ui5Control).control(0)
                     }
 
-                    /**
-                     * gets a UI5 controls' methods to proxy from browser- to Node.js-runtime
-                     *
-                     * @param {sap.<lib>.<Control>} control UI5 control
-                     * @returns {String[]} UI5 control's method names
-                     */
-                    window.wdi5.retrieveControlMethods = (control) => {
-                        // create keys of all parent prototypes
-                        let properties = new Set()
-                        let currentObj = control
-                        do {
-                            Object.getOwnPropertyNames(currentObj).map((item) => properties.add(item))
-                        } while ((currentObj = Object.getPrototypeOf(currentObj)))
-
-                        // filter for:
-                        // @ts-expect-error - TS doesn't know that the keys are strings
-                        let controlMethodsToProxy = [...properties.keys()].filter((item) => {
-                            if (typeof control[item] === "function") {
-                                // function
-
-                                // filter private methods
-                                if (item.startsWith("_")) {
-                                    return false
-                                }
-
-                                if (item.indexOf("Render") !== -1) {
-                                    return false
-                                }
-
-                                // filter not working methods
-                                // and those with a specific api from wdi5/wdio-ui5-service
-                                // prevent overwriting wdi5-control's own init method
-                                const aFilterFunctions = ["$", "getAggregation", "constructor", "fireEvent", "init"]
-
-                                if (aFilterFunctions.includes(item)) {
-                                    return false
-                                }
-
-                                // if not already discarded -> should be in the result
-                                return true
-                            }
-                            return false
-                        })
-
-                        return controlMethodsToProxy
-                    }
-
-                    /**
-                     * flatten all functions and properties on the Prototype directly into the returned object
-                     * @param {object} obj
-                     * @returns {object} all functions and properties of the inheritance chain in a flat structure
-                     */
-                    window.wdi5.collapseObject = (obj) => {
+                    window.wdi5.retrieveControlMethodsAndFlatenObject = (contol) => {
                         let protoChain = []
-                        let proto = obj
+                        let proto = contol
                         while (proto !== null) {
                             protoChain.unshift(proto)
                             proto = Object.getPrototypeOf(proto)
                         }
                         let collapsedObj = {}
-                        protoChain.forEach((prop) => Object.assign(collapsedObj, prop))
-                        return collapsedObj
-                    }
+                        const functionNames = new Set()
+                        const objectNames = new Set()
+                        for (let i = 0; i < protoChain.length; i++) {
+                            const prop = protoChain[i]
+                            const propertyNames = Object.getOwnPropertyNames(prop)
 
-                    /**
-                     * used as a replacer function in JSON.stringify
-                     * removes circular references in an object
-                     * all credit to https://bobbyhadz.com/blog/javascript-typeerror-converting-circular-structure-to-json
-                     */
-                    window.wdi5.getCircularReplacer = () => {
-                        const seen = new WeakSet()
-                        return (key, value) => {
-                            if (typeof value === "object" && value !== null) {
-                                if (seen.has(value)) {
-                                    return
+                            for (let j = 0; j < propertyNames.length; j++) {
+                                const propertyName = propertyNames[j]
+
+                                if (propertyName.startsWith("_")) {
+                                    continue
                                 }
-                                seen.add(value)
+                                const value = prop[propertyName]
+
+                                if (typeof value === "object") {
+                                    objectNames.add(propertyName)
+                                    continue
+                                }
+
+                                collapsedObj[propertyName] = value
+
+                                // filter not working methods
+                                // and those with a specific api from wdi5/wdio-ui5-service
+                                // prevent overwriting wdi5-control's own init method
+                                const aFilterFunctions = ["$", "getAggregation", "constructor", "fireEvent", "init"]
+                                if (
+                                    typeof value === "function" &&
+                                    !propertyName.indexOf("Render") !== -1 &&
+                                    !aFilterFunctions.includes(propertyName)
+                                ) {
+                                    functionNames.add(propertyName)
+                                }
                             }
-                            return value
+                        }
+                        return {
+                            collapsedObj,
+                            functionNames: Array.from(functionNames),
+                            objectNames: Array.from(objectNames)
                         }
                     }
 
-                    /**
-                     * removes all empty collection members from an object,
-                     * e.g. empty, null, or undefined array elements
-                     *
-                     * @param {object} obj
-                     * @returns {object} obj without empty collection members
-                     */
-                    window.wdi5.removeEmptyElements = (obj, i = 0) => {
-                        for (let key in obj) {
-                            if (obj[key] === null || key.startsWith("_")) {
-                                delete obj[key]
-                            } else if (Array.isArray(obj[key])) {
-                                obj[key] = obj[key].filter(
-                                    (element) =>
-                                        element !== null &&
-                                        element !== undefined &&
-                                        element !== "" &&
-                                        Object.keys(element).length > 0
-                                )
-                                if (obj[key].length > 0) {
-                                    i++
-                                    window.wdi5.removeEmptyElements(obj[key], i)
-                                }
-                            } else if (typeof obj[key] === "object") {
-                                i++
-                                window.wdi5.removeEmptyElements(obj[key], i)
-                            }
+                    window.wdi5.prepareObjectForSerialization = (object, skipSave) => {
+                        let uuid
+                        if (!skipSave) {
+                            // save before manipulate
+                            uuid = window.wdi5.saveObject(object)
                         }
-                        return obj
+
+                        let {
+                            collapsedObj,
+                            functionNames: aProtoFunctions,
+                            objectNames
+                        } = window.wdi5.retrieveControlMethodsAndFlatenObject(object)
+
+                        return {
+                            semanticCleanedElements: collapsedObj,
+                            uuid,
+                            aProtoFunctions,
+                            objectNames
+                        }
                     }
+
                     /**
                      * if parameter is JS primitive type
                      * returns {boolean}

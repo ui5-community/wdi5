@@ -1,4 +1,5 @@
 import { clientSide_executeObjectMethod } from "../../client-side-js/executeObjectMethod.cjs"
+import { clientSide_getProperty } from "../../client-side-js/getProperty.cjs"
 import { clientSide_ui5Response } from "../types/wdi5.types.js"
 import { Logger as _Logger } from "./Logger.js"
 
@@ -9,9 +10,10 @@ const Logger = _Logger.getInstance()
 export class WDI5Object {
     private _uuid: any
     private _aProtoFunctions: []
+    private _propertyNames: []
     private _baseObject: null
 
-    constructor(uuid, aProtoFunctions, object) {
+    constructor(uuid, aProtoFunctions, object, propertyNames) {
         this._uuid = uuid
 
         if (aProtoFunctions) {
@@ -27,6 +29,10 @@ export class WDI5Object {
         } else {
             Logger.warn(`creating object: ${uuid} without properties`)
         }
+        if (propertyNames) {
+            this._propertyNames = propertyNames
+            this._attachGetterForObjects(this._propertyNames)
+        }
     }
 
     public getUUID() {
@@ -39,6 +45,33 @@ export class WDI5Object {
         }
     }
 
+    private _attachGetterForObjects(propertyNames: any) {
+        propertyNames.forEach(async (propertyName) => {
+            // eslint-disable-next-line @typescript-eslint/no-this-alias
+            const that = this
+            Object.defineProperty(this, propertyName, {
+                async get() {
+                    return await that._getProperty.call(that, propertyName, this._uuid)
+                }
+            })
+        })
+    }
+
+    private async _getProperty(propertyName: string, uuid: string) {
+        // call browser scope
+        // regular browser-time execution of UI5 object method
+        const result = (await clientSide_getProperty(uuid, propertyName)) as clientSide_ui5Response
+
+        // create logging
+        this._writeObjectResultLog(result, propertyName)
+
+        if (result.returnType === "object") {
+            return new WDI5Object(result.uuid, result.aProtoFunctions, result.object, result.objectNames)
+        } else {
+            return result.result
+        }
+    }
+
     private async _excuteObjectMethod(methodName: string, uuid: string, ...args) {
         // call browser scope
         // regular browser-time execution of UI5 object method
@@ -48,7 +81,7 @@ export class WDI5Object {
         this._writeObjectResultLog(result, methodName)
 
         if (result.returnType === "object") {
-            return new WDI5Object(result.uuid, result.aProtoFunctions, result.object)
+            return new WDI5Object(result.uuid, result.aProtoFunctions, result.object, result.objectNames)
         } else {
             return result.result
         }
@@ -72,7 +105,7 @@ export class WDI5Object {
         } else if (response.status === 0) {
             Logger.success(
                 `call of function ${functionName} returned: ${JSON.stringify(
-                    response.id ? response.id : response.result
+                    response.id ? response.id : response.result ? response.result : "an object"
                 )}`
             )
         } else {

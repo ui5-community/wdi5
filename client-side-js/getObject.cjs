@@ -19,24 +19,16 @@ async function clientSide_getObject(uuid) {
                     className = object.getMetadata()._sClassName
                 }
                 window.wdi5.Log.info(`[browser wdi5] object with uuid: ${uuid} located!`)
-
-                // FIXME: extract, collapse and remove cylic in 1 step
-
-                const aProtoFunctions = window.wdi5.retrieveControlMethods(object, true)
-
-                object = window.wdi5.collapseObject(object)
-
-                const collapsedAndNonCyclic = JSON.parse(JSON.stringify(object, window.wdi5.getCircularReplacer()))
-
-                // remove all empty Array elements, inlcuding private keys (starting with "_")
-                const semanticCleanedElements = window.wdi5.removeEmptyElements(collapsedAndNonCyclic)
+                const { semanticCleanedElements, aProtoFunctions, objectNames } =
+                    window.wdi5.prepareObjectForSerialization(object, true)
 
                 done({
                     status: 0,
                     uuid: uuid,
                     aProtoFunctions: aProtoFunctions,
                     className: className,
-                    object: semanticCleanedElements
+                    object: semanticCleanedElements,
+                    objectNames
                 })
             },
             window.wdi5.errorHandling.bind(this, done)
