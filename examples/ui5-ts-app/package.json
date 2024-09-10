@@ -31,15 +31,16 @@
   "devDependencies": {
     "@openui5/types": "latest",
     "@sap/approuter": "latest",
-    "@types/jquery": "3.5.29",
-    "@ui5/cli": "^3",
-    "@wdio/browserstack-service": "^8.36.0",
-    "@wdio/sauce-service": "^8",
+    "@types/jquery": "3.5.30",
+    "@ui5/cli": "^4",
+    "@wdio/browserstack-service": "^9.0.9",
+    "@wdio/sauce-service": "^9",
     "mbt": "latest",
     "ts-deepmerge": "latest",
     "ui5-middleware-livereload": "latest",
     "ui5-middleware-simpleproxy": "latest",
     "ui5-tooling-transpile": "latest",
+    "@wdio/cli": "^9",
     "wdio-ui5-service": "*"
   }
 }
