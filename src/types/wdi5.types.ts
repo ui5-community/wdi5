@@ -2,6 +2,7 @@ import Log from "sap/base/Log"
 import RecordReplay from "sap/ui/test/RecordReplay"
 import { ControlSelector } from "sap/ui/test/RecordReplay"
 import { WDI5Object } from "../lib/wdi5-object.js"
+import { Capabilities } from "@wdio/types"
 
 // // copypasta from
 // // https://stackoverflow.com/questions/41285211/overriding-interface-property-type-defined-in-typescript-d-ts-file/65561287#65561287
@@ -59,13 +60,14 @@ export interface wdi5Config extends WebdriverIO.Config {
          */
         ignoreAutoWaitUrls?: string[]
     }
-    capabilities: wdi5Capabilities[] | wdi5MultiRemoteCapability
+    // TODO: correct types
+    // capabilities: wdi5Capabilities[] | wdi5MultiRemoteCapability
 }
 
 /**
  * the "wdi5" prefix is to comply with W3C standards
  */
-export interface wdi5Capabilities extends WebdriverIO.Capabilities {
+export type wdi5Capabilities = Capabilities.WithRequestedTestrunnerCapabilities & {
     /**
      * workaround for typing the max instances per capability until
      * that WebdriverIO issue is resolved allowing for extending the typed per-browser capability:
@@ -74,8 +76,8 @@ export interface wdi5Capabilities extends WebdriverIO.Capabilities {
     maxInstances?: number
     "wdi5:authentication"?: BTPAuthenticator | BasicAuthAuthenticator | CustomAuthenticator | Office365Authenticator
 }
-export interface wdi5MultiRemoteCapability {
-    [key: string]: { capabilities: wdi5Capabilities }
+export type wdi5MultiRemoteCapability = Capabilities.WithRequestedTestrunnerCapabilities & {
+    [instanceName: string]: wdi5Capabilities
 }
 
 export type BTPAuthenticator = {

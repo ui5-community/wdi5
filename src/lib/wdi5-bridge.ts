@@ -10,7 +10,7 @@ import { WDI5Control } from "./wdi5-control.js"
 import { WDI5FE } from "./wdi5-fe.js"
 import { clientSide_injectTools } from "../../client-side-js/injectTools.cjs"
 import { clientSide_injectUI5 } from "../../client-side-js/injectUI5.cjs"
-import { clientSide_injectXHRPatch } from "../../client-side-js/injectXHRPatch.cjs"
+// import { clientSide_injectXHRPatch } from "../../client-side-js/injectXHRPatch.cjs"
 import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement.cjs"
 import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready.cjs"
 import { clientSide_getObject } from "../../client-side-js/getObject.cjs"
@@ -124,7 +124,7 @@ export async function injectUI5(config: wdi5Config, browserInstance) {
 
     // unify timeouts across Node.js- and browser-scope
     // align browser script timeout with wdi5 setting (+ leverage)
-    // this mostly affects browser.executeAsync()
+    // this mostly affects browser.execute()
     const timeout = waitForUI5Timeout + 1000
     await (browserInstance as WebdriverIO.Browser).setTimeout({ script: timeout })
 
@@ -136,7 +136,8 @@ export async function injectUI5(config: wdi5Config, browserInstance) {
     const version = await (browserInstance as WebdriverIO.Browser).getUI5Version()
     checkUI5Version(version)
     await clientSide_injectTools(browserInstance) // helpers for wdi5 browser scope
-    await clientSide_injectXHRPatch(config, browserInstance)
+    // TODO: is failing for some weird reasons
+    // await clientSide_injectXHRPatch(config, browserInstance)
     result = result && (await clientSide_injectUI5(config, waitForUI5Timeout, browserInstance))
 
     // we are not using _controls as an array, we are using it as an object. That's why the length property
@@ -159,14 +160,14 @@ export async function injectUI5(config: wdi5Config, browserInstance) {
 export async function checkForUI5Page(browserInstance) {
     // wait till the loading finished and the state is "completed"
     await browserInstance.waitUntil(async () => {
-        const checkState = await browserInstance.executeAsync((done) => {
-            done({ state: document.readyState, sapReady: !!window.sap })
+        const checkState = await browserInstance.execute(() => {
+            return { state: document.readyState, sapReady: !!window.sap }
         })
         return checkState.state === "complete" && checkState.sapReady
     })
     // sap in global window namespace denotes (most likely :) ) that ui5 is present
-    return await browserInstance.executeAsync((done) => {
-        done(!!window.sap)
+    return await browserInstance.execute(() => {
+        return !!window.sap
     })
 }
 

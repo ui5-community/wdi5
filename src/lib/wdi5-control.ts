@@ -342,7 +342,8 @@ export class WDI5Control {
      */
     private async _renewWebElement(id: string = this._domId) {
         if (this._domId) {
-            this._webdriverRepresentation = await this._browserInstance.$(`//*[@id="${id}"]`)
+            // TODO: fix type issue
+            this._webdriverRepresentation = (await this._browserInstance.$(`//*[@id="${id}"]`)) as any
             return this._webdriverRepresentation
         } else {
             throw Error("control could not be found")

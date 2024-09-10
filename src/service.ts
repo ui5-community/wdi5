@@ -1,8 +1,8 @@
-import { Capabilities, Services } from "@wdio/types"
+import { Services } from "@wdio/types"
 import { MultiRemoteBrowser } from "webdriverio"
 
 import { start, injectUI5, setup, checkForUI5Page, authenticate } from "./lib/wdi5-bridge.js"
-import { wdi5Config } from "./types/wdi5.types.js"
+import { wdi5Capabilities, wdi5Config, wdi5MultiRemoteCapability } from "./types/wdi5.types.js"
 
 import { Logger as _Logger } from "./lib/Logger.js"
 const Logger = _Logger.getInstance()
@@ -10,7 +10,7 @@ const Logger = _Logger.getInstance()
 export default class Service implements Services.ServiceInstance {
     constructor(
         private _options?: wdi5Config, // TODO: this is the successor to _config in wdio^8
-        private _capabilities?: Capabilities.RemoteCapability,
+        private _capabilities?: wdi5Capabilities[] | wdi5MultiRemoteCapability,
         private _config?: wdi5Config // an enhanced version of the regular wdio config
     ) {} // the Service is instantiated by wdio with the capabilities and config passed on to
 
