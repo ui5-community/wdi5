@@ -1,4 +1,4 @@
-import merge from "ts-deepmerge"
+import { merge } from "ts-deepmerge"
 import { wdi5MultiRemoteCapability } from "wdio-ui5-service"
 import { config as baseConf } from "./wdio-base.conf.js"
 import { browser } from "../cloud-services/browserstack.conf.local.js"
@@ -38,8 +38,8 @@ if (process.env.BROWSERSTACK) {
                         process.argv.indexOf("--headless") > -1
                             ? ["headless", "disable-gpu"]
                             : process.argv.indexOf("--debug") > -1
-                            ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
-                            : ["window-size=1440,800"]
+                              ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
+                              : ["window-size=1440,800"]
                 },
                 acceptInsecureCerts: true
             }
@@ -55,8 +55,8 @@ if (process.env.BROWSERSTACK) {
                         process.argv.indexOf("--headless") > -1
                             ? ["--headless"]
                             : process.argv.indexOf("--debug") > -1
-                            ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
-                            : ["window-size=1440,800"]
+                              ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
+                              : ["window-size=1440,800"]
                 },
                 acceptInsecureCerts: true
             }

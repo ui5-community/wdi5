@@ -1,5 +1,5 @@
 import { join, resolve } from "path"
-import merge from "ts-deepmerge"
+import { merge } from "ts-deepmerge"
 import { wdi5Config } from "wdio-ui5-service"
 import { config as bstackConfig, browser } from "../cloud-services/browserstack.conf.local.js"
 type _wdi5Config = Omit<wdi5Config, "capabilities">
