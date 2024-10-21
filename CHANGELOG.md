@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 2.0.10 (2024-08-24)
+
+
+### Bug Fixes
+
+* pin to wdio^8 for now ([0ae7e8d](https://github.com/ui5-community/wdi5/commit/0ae7e8d263f86cbabd862d4b8fae93bebe134054))
+
 ### 2.0.9 (2024-05-23)
 
 
