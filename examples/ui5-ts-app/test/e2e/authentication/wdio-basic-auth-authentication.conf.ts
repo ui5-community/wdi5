@@ -1,4 +1,4 @@
-import merge from "ts-deepmerge"
+import { merge } from "ts-deepmerge"
 import { config as baseConf } from "./wdio-base.conf.js"
 
 const _config = {
@@ -30,8 +30,8 @@ if (process.env.BROWSERSTACK) {
                     process.argv.indexOf("--headless") > -1
                         ? ["headless", "disable-gpu"]
                         : process.argv.indexOf("--debug") > -1
-                        ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
-                        : ["window-size=1440,800"]
+                          ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
+                          : ["window-size=1440,800"]
             },
             acceptInsecureCerts: true
         }
