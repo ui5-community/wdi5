@@ -56,33 +56,72 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
             })
 
             sap.ui.require(["sap/ui/test/autowaiter/_autoWaiterAsync"], (_autoWaiterAsync) => {
-                window.wdi5.waitForUI5 = function (oOptions, callback, errorCallback) {
-                    oOptions = oOptions || {}
+                window.wdi5.waitForUI5 = async (oOptions = {}, callback, errorCallback) => {
                     _autoWaiterAsync.extendConfig(oOptions)
 
-                    const startWaiting = function () {
-                        window.wdi5.bWaitStarted = true
-                        _autoWaiterAsync.waitAsync(function (sError) {
-                            const nextWaitAsync = window.wdi5.asyncControlRetrievalQueue.shift()
-                            if (nextWaitAsync) {
-                                setTimeout(nextWaitAsync) //use setTimeout to postpone execution to the next event cycle, so that bWaitStarted in the UI5 _autoWaiterAsync is also set to false first
-                            } else {
-                                window.wdi5.bWaitStarted = false
-                            }
-                            if (sError) {
-                                errorCallback(new Error(sError))
-                            } else {
-                                callback()
-                            }
-                        })
-                    }
-                    if (!window.wdi5.bWaitStarted) {
-                        startWaiting()
-                    } else {
-                        window.wdi5.asyncControlRetrievalQueue.push(startWaiting)
-                    }
+                    return new Promise((resolve, reject) => {
+                        const startWaiting = function () {
+                            window.wdi5.bWaitStarted = true
+                            _autoWaiterAsync.waitAsync(function (sError) {
+                                const nextWaitAsync = window.wdi5.asyncControlRetrievalQueue.shift()
+                                if (nextWaitAsync) {
+                                    setTimeout(nextWaitAsync) //use setTimeout to postpone execution to the next event cycle, so that bWaitStarted in the UI5 _autoWaiterAsync is also set to false first
+                                } else {
+                                    window.wdi5.bWaitStarted = false
+                                }
+                                if (sError) {
+                                    if (errorCallback) {
+                                        reject(errorCallback(new Error(sError)))
+                                    } else {
+                                        reject(new Error(sError))
+                                    }
+                                } else {
+                                    if (callback) {
+                                        resolve(callback())
+                                    } else {
+                                        resolve()
+                                    }
+                                }
+                            })
+                        }
+                        if (!window.wdi5.bWaitStarted) {
+                            startWaiting()
+                        } else {
+                            window.wdi5.asyncControlRetrievalQueue.push(startWaiting)
+                        }
+                    })
                 }
-                window.wdi5.Log.info("[browser wdi5] window._autoWaiterAsync used in waitForUI5 function")
+
+                // window.wdi5.waitForUI5 = function (oOptions, callback, errorCallback) {
+                //     debugger
+                //     oOptions = oOptions || {}
+                //     _autoWaiterAsync.extendConfig(oOptions)
+
+                //     const startWaiting = function () {
+                //         debugger
+                //         window.wdi5.bWaitStarted = true
+                //         _autoWaiterAsync.waitAsync(function (sError) {
+                //             const nextWaitAsync = window.wdi5.asyncControlRetrievalQueue.shift()
+                //             if (nextWaitAsync) {
+                //                 setTimeout(nextWaitAsync) //use setTimeout to postpone execution to the next event cycle, so that bWaitStarted in the UI5 _autoWaiterAsync is also set to false first
+                //             } else {
+                //                 window.wdi5.bWaitStarted = false
+                //             }
+                //             if (sError) {
+                //                 errorCallback(new Error(sError))
+                //             } else {
+                //                 callback()
+                //             }
+                //         })
+                //     }
+                //     if (!window.wdi5.bWaitStarted) {
+                //         startWaiting()
+                //     } else {
+                //         window.wdi5.asyncControlRetrievalQueue.push(startWaiting)
+                //     }
+                // }
+
+                // window.wdi5.Log.info("[browser wdi5] window._autoWaiterAsync used in waitForUI5 function")
             })
 
             // attach new bridge
@@ -415,7 +454,12 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
 
                     window.wdi5.errorHandling = (reject, error) => {
                         window.wdi5.Log.error("[browser wdi5] ERR: ", error)
-                        reject({ status: 1, message: error.toString() })
+                        // obsolete when fully migrated to the v9 support
+                        if (reject) {
+                            reject({ status: 1, message: error.toString() })
+                        } else {
+                            return { status: 1, message: error.toString() }
+                        }
                     }
                 }
             )
