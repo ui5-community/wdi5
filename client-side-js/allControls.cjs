@@ -5,37 +5,31 @@ async function clientSide_allControls(controlSelector, browserInstance) {
         if (controlSelector.timeout) {
             waitForUI5Options.timeout = controlSelector.timeout
         }
-        return await new Promise((resolve, reject) => {
-            window.wdi5.waitForUI5(
-                waitForUI5Options,
-                () => {
-                    window.wdi5.Log.info("[browser wdi5] locating " + JSON.stringify(controlSelector))
-                    controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector)
-                    window.bridge
-                        .findAllDOMElementsByControlSelector(controlSelector)
-                        .then((domElements) => {
-                            // ui5 control
-                            let returnElements = []
-                            domElements.forEach((domElement) => {
-                                const ui5Control = window.wdi5.getUI5CtlForWebObj(domElement)
-                                const id = ui5Control.getId()
-                                window.wdi5.Log.info(`[browser wdi5] control with id: ${id} located!`)
-                                const aProtoFunctions = window.wdi5.retrieveControlMethods(ui5Control)
-                                // @type [String, String?, String, "Array of Strings"]
-                                returnElements.push({
-                                    domElement: domElement,
-                                    id: id,
-                                    aProtoFunctions: aProtoFunctions
-                                })
-                            })
 
-                            resolve({ status: 0, result: returnElements })
-                        })
-                        .catch(window.wdi5.errorHandling.bind(this, reject))
-                },
-                window.wdi5.errorHandling.bind(this, reject)
-            )
+        await window.wdi5.waitForUI5(waitForUI5Options).catch(window.wdi5.errorHandling.bind(this))
+
+        window.wdi5.Log.info("[browser wdi5] locating " + JSON.stringify(controlSelector))
+        controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector)
+        const domElements = await window.bridge
+            .findAllDOMElementsByControlSelector(controlSelector)
+            .catch(window.wdi5.errorHandling.bind(this))
+
+        // ui5 control
+        let returnElements = []
+        domElements.forEach((domElement) => {
+            const ui5Control = window.wdi5.getUI5CtlForWebObj(domElement)
+            const id = ui5Control.getId()
+            window.wdi5.Log.info(`[browser wdi5] control with id: ${id} located!`)
+            const aProtoFunctions = window.wdi5.retrieveControlMethods(ui5Control)
+            // @type [String, String?, String, "Array of Strings"]
+            returnElements.push({
+                domElement: domElement,
+                id: id,
+                aProtoFunctions: aProtoFunctions
+            })
         })
+
+        return { status: 0, result: returnElements }
     }, controlSelector)
 }
 
