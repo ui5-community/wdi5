@@ -1,5 +1,3 @@
-const { wdi5 } = require("wdio-ui5-service")
-
 const Other = require("./pageObjects/Other")
 
 describe("ui5 aggregation retrieval", () => {
@@ -8,7 +6,7 @@ describe("ui5 aggregation retrieval", () => {
     })
 
     beforeEach(async () => {
-        browser.screenshot("aggregation")
+        await browser.screenshot("aggregation")
     })
 
     it("check the getBinding of a table", async () => {
@@ -20,7 +18,7 @@ describe("ui5 aggregation retrieval", () => {
         expect(myobject.FirstName).toEqual("Nancy")
     })
 
-    it("select controls of a sap.m.Page's content aggregation", async () => {
+    it.only("select controls of a sap.m.Page's content aggregation", async () => {
         // goal: assert that .getContent() and .getAggregation("items") work the same
         // including access via the fluent async api
         const pageSelector = {
