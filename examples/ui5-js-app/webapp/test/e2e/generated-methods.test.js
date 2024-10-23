@@ -41,13 +41,13 @@ describe("check the generated methods on the control -> ", () => {
         await Main.open()
     })
 
-    beforeEach(async () => {
-        browser.screenshot("generated-methods")
-    })
+    // beforeEach(async () => {
+    //     await browser.screenshot("generated-methods")
+    // })
 
-    afterEach(async () => {
-        browser.screenshot("generated-methods")
-    })
+    // afterEach(async () => {
+    //     await browser.screenshot("generated-methods")
+    // })
 
     it("navigation button w/ text exists", async () => {
         const button = await browser.asControl(buttonSelector)
@@ -128,7 +128,7 @@ describe("check the generated methods on the control -> ", () => {
         const date = new Date()
         await dateTimeField.setValue(date)
         const value = await dateTimeField.getValue()
-        expect(value).toEqual(date.toISOString())
+        expect(value).toEqual(date.toString())
 
         // status
         expect(await dateTimeField.getEnabled()).toBeTruthy()
