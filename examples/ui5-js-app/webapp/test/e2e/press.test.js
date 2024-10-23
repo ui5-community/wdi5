@@ -21,14 +21,13 @@ describe("custom wdi5 press event", async () => {
     before(async () => {
         await Main.open()
     })
-
     afterEach(async () => {
         await browser.keys("Escape")
     })
 
     it("wdi5 press() in step-by-step", async () => {
         const button = await browser.asControl(openButtonSelector)
-        await button.press()
+        await button.fireEvent("press")
         const popup = await browser.asControl(dialogSelector)
         await expect(await popup.getVisible()).toBeTruthy()
     })
@@ -55,13 +54,14 @@ describe("custom wdi5 press event", async () => {
         })
 
         await dateTime.setValue("2024-05-01-12-00-00")
-        await browser
-            .asControl({
-                selector: {
-                    id: "container-Sample---Main--idDateTime-icon"
-                }
-            })
-            .press()
+
+        // legacy only - don't use .fireEvent(...) in actual tests!
+        const element = await browser.asControl({
+            selector: {
+                id: "container-Sample---Main--idDateTime-icon"
+            }
+        })
+        await element.fireEvent("press")
 
         await browser
             .asControl({
