@@ -13,7 +13,7 @@ if (global.browser) {
 async function executeControlMethod(webElement, methodName, browserInstance, args) {
     return await browserInstance.execute(
         async (webElement, methodName, args) => {
-            return await new Promise(async (resolve, reject) => {
+            return new Promise(async (resolve, reject) => {
                 await window.wdi5.waitForUI5(
                     window.wdi5.waitForUI5Options,
                     () => {
@@ -122,7 +122,7 @@ async function executeControlMethod(webElement, methodName, browserInstance, arg
                             }
                         }
                     },
-                    window.wdi5.errorHandling.bind(this, reject)
+                    window.wdi5.errorHandling.bind(this, null, reject)
                 )
             })
         },
