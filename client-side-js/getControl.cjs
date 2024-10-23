@@ -10,9 +10,12 @@ async function clientSide_getControl(controlSelector, browserInstance) {
 
         window.wdi5.Log.info("[browser wdi5] locating " + JSON.stringify(controlSelector))
         controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector)
-        const domElement = await window.bridge
-            .findDOMElementByControlSelector(controlSelector)
-            .catch(window.wdi5.errorHandling.bind(this))
+        let domElement
+        try {
+            domElement = await window.bridge.findDOMElementByControlSelector(controlSelector)
+        } catch (error) {
+            return window.wdi5.errorHandling(error)
+        }
 
         const ui5Control = window.wdi5.getUI5CtlForWebObj(domElement)
         const id = ui5Control.getId()
