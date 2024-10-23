@@ -452,7 +452,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                         }
                     }
 
-                    window.wdi5.errorHandling = (reject, error) => {
+                    window.wdi5.errorHandling = (error, reject) => {
                         window.wdi5.Log.error("[browser wdi5] ERR: ", error)
                         // obsolete when fully migrated to the v9 support
                         if (reject) {
