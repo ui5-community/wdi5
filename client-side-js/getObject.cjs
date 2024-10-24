@@ -2,7 +2,11 @@ async function clientSide_getObject(uuid) {
     return await browser.execute(async (uuid) => {
         const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options)
 
-        await window.wdi5.waitForUI5(waitForUI5Options).catch(window.wdi5.errorHandling.bind(this))
+        try {
+            await window.wdi5.waitForUI5(waitForUI5Options)
+        } catch (error) {
+            return window.wdi5.errorHandling(error)
+        }
 
         window.wdi5.Log.info("[browser wdi5] locating object " + uuid)
 

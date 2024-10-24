@@ -6,11 +6,16 @@ async function clientSide_getControl(controlSelector, browserInstance) {
             waitForUI5Options.timeout = controlSelector.timeout
         }
 
-        await window.wdi5.waitForUI5(waitForUI5Options).catch(window.wdi5.errorHandling.bind(this))
+        try {
+            await window.wdi5.waitForUI5(waitForUI5Options)
+        } catch (error) {
+            return window.wdi5.errorHandling(error)
+        }
 
         window.wdi5.Log.info("[browser wdi5] locating " + JSON.stringify(controlSelector))
         controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector)
         let domElement
+
         try {
             domElement = await window.bridge.findDOMElementByControlSelector(controlSelector)
         } catch (error) {

@@ -6,13 +6,21 @@ async function clientSide_allControls(controlSelector, browserInstance) {
             waitForUI5Options.timeout = controlSelector.timeout
         }
 
-        await window.wdi5.waitForUI5(waitForUI5Options).catch(window.wdi5.errorHandling.bind(this))
+        try {
+            await window.wdi5.waitForUI5(waitForUI5Options)
+        } catch (error) {
+            return window.wdi5.errorHandling(error)
+        }
 
         window.wdi5.Log.info("[browser wdi5] locating " + JSON.stringify(controlSelector))
         controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector)
-        const domElements = await window.bridge
-            .findAllDOMElementsByControlSelector(controlSelector)
-            .catch(window.wdi5.errorHandling.bind(this))
+        let domElements;
+
+        try {
+            domElements = await window.bridge.findAllDOMElementsByControlSelector(controlSelector)
+        } catch (error) {
+            return window.wdi5.errorHandling(error)
+        }
 
         // ui5 control
         let returnElements = []

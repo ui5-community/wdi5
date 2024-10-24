@@ -3,7 +3,11 @@
 async function clientSide_fireEvent(webElement, eventName, oOptions, browserInstance) {
     return await browserInstance.execute(
         async (webElement, eventName, oOptions) => {
-            await window.wdi5.waitForUI5(window.wdi5.waitForUI5Options).catch(window.wdi5.errorHandling.bind(this))
+            try {
+                await window.wdi5.waitForUI5(window.wdi5.waitForUI5Options)
+            } catch (error) {
+                return window.wdi5.errorHandling(error)
+            }
 
             window.wdi5.Log.info("[browser wdi5] working " + eventName + " for " + webElement)
             // DOM to ui5
@@ -20,7 +24,7 @@ async function clientSide_fireEvent(webElement, eventName, oOptions, browserInst
                     // convert to boolean
                     return { status: 0, result: true }
                 } catch (error) {
-                    window.wdi5.errorHandling.bind(this, error)
+                    return window.wdi5.errorHandling(error)
                 }
             } else {
                 return window.wdi5.errorHandling("no control and/or no event listener found for " + eventName)

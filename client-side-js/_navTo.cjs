@@ -1,7 +1,13 @@
 async function clientSide__navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace, browserInstance) {
     return await browserInstance.execute(
         async (sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) => {
-            await window.bridge.waitForUI5(window.wdi5.waitForUI5Options).catch(window.wdi5.errorHandling.bind(this))
+
+            try {
+                await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
+            } catch (error) {
+                return window.wdi5.errorHandling(error)
+            }
+
             window.wdi5.Log.info(`[browser wdi5] navigation to ${sName} triggered`)
 
             // TODO: get rid of deprectaed function
