@@ -31,7 +31,6 @@ async function clientSide_injectUI5(waitForUI5Timeout, browserInstance) {
                 asyncControlRetrievalQueue: []
             }
 
-
             /**
              *
              * @param {sap.ui.base.Object} object
@@ -92,37 +91,6 @@ async function clientSide_injectUI5(waitForUI5Timeout, browserInstance) {
                         }
                     })
                 }
-
-                // window.wdi5.waitForUI5 = function (oOptions, callback, errorCallback) {
-                //     debugger
-                //     oOptions = oOptions || {}
-                //     _autoWaiterAsync.extendConfig(oOptions)
-
-                //     const startWaiting = function () {
-                //         debugger
-                //         window.wdi5.bWaitStarted = true
-                //         _autoWaiterAsync.waitAsync(function (sError) {
-                //             const nextWaitAsync = window.wdi5.asyncControlRetrievalQueue.shift()
-                //             if (nextWaitAsync) {
-                //                 setTimeout(nextWaitAsync) //use setTimeout to postpone execution to the next event cycle, so that bWaitStarted in the UI5 _autoWaiterAsync is also set to false first
-                //             } else {
-                //                 window.wdi5.bWaitStarted = false
-                //             }
-                //             if (sError) {
-                //                 errorCallback(new Error(sError))
-                //             } else {
-                //                 callback()
-                //             }
-                //         })
-                //     }
-                //     if (!window.wdi5.bWaitStarted) {
-                //         startWaiting()
-                //     } else {
-                //         window.wdi5.asyncControlRetrievalQueue.push(startWaiting)
-                //     }
-                // }
-
-                // window.wdi5.Log.info("[browser wdi5] window._autoWaiterAsync used in waitForUI5 function")
             })
 
             // attach new bridge
