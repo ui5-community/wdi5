@@ -93,6 +93,8 @@
   "devDependencies": {
     "@commitlint/cli": "^19.4.1",
     "@commitlint/config-conventional": "^19.4.1",
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.13.0",
     "@sap/approuter": "16.7.3",
     "@sap/ux-ui5-fe-mockserver-middleware": "^1.6.5",
     "@types/openui5": "^1.127.0",
