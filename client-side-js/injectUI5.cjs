@@ -1,8 +1,8 @@
-async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) {
-    return await browserInstance.executeAsync((waitForUI5Timeout, done) => {
+async function clientSide_injectUI5(waitForUI5Timeout, browserInstance) {
+    return await browserInstance.execute(async (waitForUI5Timeout) => {
         if (window.bridge) {
             // setup sap testing already done
-            done(true)
+            return true
         }
 
         if (!window.sap || !window.sap.ui) {
@@ -10,7 +10,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
             console.error("[browser wdi5] ERR: no ui5 present on page")
 
             // only condition where to cancel the setup process
-            done(false)
+            return false
         }
 
         // attach the function to be able to use the extracted method later
@@ -56,45 +56,55 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
             })
 
             sap.ui.require(["sap/ui/test/autowaiter/_autoWaiterAsync"], (_autoWaiterAsync) => {
-                window.wdi5.waitForUI5 = function (oOptions, callback, errorCallback) {
-                    oOptions = oOptions || {}
+                window.wdi5.waitForUI5 = async (oOptions = {}, callback, errorCallback) => {
                     _autoWaiterAsync.extendConfig(oOptions)
 
-                    const startWaiting = function () {
-                        window.wdi5.bWaitStarted = true
-                        _autoWaiterAsync.waitAsync(function (sError) {
-                            const nextWaitAsync = window.wdi5.asyncControlRetrievalQueue.shift()
-                            if (nextWaitAsync) {
-                                setTimeout(nextWaitAsync) //use setTimeout to postpone execution to the next event cycle, so that bWaitStarted in the UI5 _autoWaiterAsync is also set to false first
-                            } else {
-                                window.wdi5.bWaitStarted = false
-                            }
-                            if (sError) {
-                                errorCallback(new Error(sError))
-                            } else {
-                                callback()
-                            }
-                        })
-                    }
-                    if (!window.wdi5.bWaitStarted) {
-                        startWaiting()
-                    } else {
-                        window.wdi5.asyncControlRetrievalQueue.push(startWaiting)
-                    }
+                    return new Promise((resolve, reject) => {
+                        const startWaiting = function () {
+                            window.wdi5.bWaitStarted = true
+                            _autoWaiterAsync.waitAsync(function (sError) {
+                                const nextWaitAsync = window.wdi5.asyncControlRetrievalQueue.shift()
+                                if (nextWaitAsync) {
+                                    setTimeout(nextWaitAsync) //use setTimeout to postpone execution to the next event cycle, so that bWaitStarted in the UI5 _autoWaiterAsync is also set to false first
+                                } else {
+                                    window.wdi5.bWaitStarted = false
+                                }
+                                if (sError) {
+                                    if (errorCallback) {
+                                        reject(errorCallback(new Error(sError)))
+                                    } else {
+                                        reject(new Error(sError))
+                                    }
+                                } else {
+                                    if (callback) {
+                                        resolve(callback())
+                                    } else {
+                                        resolve()
+                                    }
+                                }
+                            })
+                        }
+                        if (!window.wdi5.bWaitStarted) {
+                            startWaiting()
+                        } else {
+                            window.wdi5.asyncControlRetrievalQueue.push(startWaiting)
+                        }
+                    })
                 }
-                window.wdi5.Log.info("[browser wdi5] window._autoWaiterAsync used in waitForUI5 function")
             })
 
             // attach new bridge
-            sap.ui.require(["sap/ui/test/RecordReplay"], (RecordReplay) => {
-                window.bridge = RecordReplay
-                window.fe_bridge = {} // empty init for fiori elements test api
-                window.wdi5.Log.info("[browser wdi5] APIs injected!")
-                window.wdi5.isInitialized = true
+            const setupPromise = new Promise((resolve, reject) => {
+                sap.ui.require(["sap/ui/test/RecordReplay"], (RecordReplay) => {
+                    window.bridge = RecordReplay
+                    window.fe_bridge = {} // empty init for fiori elements test api
+                    window.wdi5.Log.info("[browser wdi5] APIs injected!")
+                    window.wdi5.isInitialized = true
 
-                // here setup is successful
-                // known side effect this call triggers the back to node scope, the other sap.ui.require continue to run in background in browser scope
-                done(true)
+                    // here setup is successful
+                    // known side effect this call triggers the back to node scope, the other sap.ui.require continue to run in background in browser scope
+                    resolve(true)
+                })
             })
 
             // make exec function available on all ui5 controls, so more complex evaluations can be done on browser side for better performance
@@ -413,12 +423,18 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                         }
                     }
 
-                    window.wdi5.errorHandling = (done, error) => {
+                    window.wdi5.errorHandling = (error, reject) => {
                         window.wdi5.Log.error("[browser wdi5] ERR: ", error)
-                        done({ status: 1, message: error.toString() })
+                        // obsolete when fully migrated to the v9 support
+                        if (reject) {
+                            reject({ status: 1, message: error.toString() })
+                        } else {
+                            return { status: 1, message: error.toString() }
+                        }
                     }
                 }
             )
+            return await setupPromise
         }
     }, waitForUI5Timeout)
 }

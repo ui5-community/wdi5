@@ -124,7 +124,7 @@ export async function injectUI5(config: wdi5Config, browserInstance) {
 
     // unify timeouts across Node.js- and browser-scope
     // align browser script timeout with wdi5 setting (+ leverage)
-    // this mostly affects browser.executeAsync()
+    // this mostly affects browser.execute()
     const timeout = waitForUI5Timeout + 1000
     await (browserInstance as WebdriverIO.Browser).setTimeout({ script: timeout })
 
@@ -136,8 +136,9 @@ export async function injectUI5(config: wdi5Config, browserInstance) {
     const version = await (browserInstance as WebdriverIO.Browser).getUI5Version()
     checkUI5Version(version)
     await clientSide_injectTools(browserInstance) // helpers for wdi5 browser scope
-    await clientSide_injectXHRPatch(config, browserInstance)
-    result = result && (await clientSide_injectUI5(config, waitForUI5Timeout, browserInstance))
+    // BIDI does not allow to pass functions inside of the browser scope
+    await clientSide_injectXHRPatch(config.wdi5, browserInstance)
+    result = result && (await clientSide_injectUI5(waitForUI5Timeout, browserInstance))
 
     // we are not using _controls as an array, we are using it as an object. That's why the length property
     // is not updated right away: https://stackoverflow.com/a/4424026
@@ -159,14 +160,14 @@ export async function injectUI5(config: wdi5Config, browserInstance) {
 export async function checkForUI5Page(browserInstance) {
     // wait till the loading finished and the state is "completed"
     await browserInstance.waitUntil(async () => {
-        const checkState = await browserInstance.executeAsync((done) => {
-            done({ state: document.readyState, sapReady: !!window.sap })
+        const checkState = await browserInstance.execute(() => {
+            return { state: document.readyState, sapReady: !!window.sap }
         })
         return checkState.state === "complete" && checkState.sapReady
     })
     // sap in global window namespace denotes (most likely :) ) that ui5 is present
-    return await browserInstance.executeAsync((done) => {
-        done(!!window.sap)
+    return await browserInstance.execute(() => {
+        return !!window.sap
     })
 }
 
@@ -436,6 +437,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
                                       // when object is undefined the previous function call failed
                                       try {
                                           return object[prop]
+                                          // eslint-disable-next-line @typescript-eslint/no-unused-vars
                                       } catch (error) {
                                           // different node versions return a different `error.message` so we use our own message
                                           if (logging) {
@@ -467,7 +469,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
                         )
                     }
                 }
-                // eslint-disable-next-line @typescript-eslint/no-empty-function
+
                 return new Proxy(function () {}, handler)
             }
             // @ts-ignore

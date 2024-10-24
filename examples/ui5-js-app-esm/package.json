@@ -12,17 +12,17 @@
     "wdi5": "wdio ./webapp/test/e2e/wdio.conf.js"
   },
   "devDependencies": {
-    "@ui5/cli": "^3",
+    "@ui5/cli": "^4",
     "@types/sinon": "^17.0.3",
-    "sinon": "^17.0.1",
-    "@wdio/cli": "^8",
-    "@wdio/local-runner": "^8",
-    "@wdio/mocha-framework": "^8",
-    "@wdio/spec-reporter": "^8",
+    "sinon": "^18.0.0",
+    "@wdio/cli": "^9",
+    "@wdio/local-runner": "^9",
+    "@wdio/mocha-framework": "^9",
+    "@wdio/spec-reporter": "^9",
     "ui5-middleware-simpleproxy": "latest",
     "wdio-ui5-service": "*"
   },
   "dependencies": {
-    "@wdio/sauce-service": "^8"
+    "@wdio/sauce-service": "^9"
   }
 }

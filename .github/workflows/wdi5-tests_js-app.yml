@@ -26,7 +26,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18, 20]
+        node-version: [20, 22]
 
     steps:
       ### no mas since wdio^8 allows for auto-download of matching chromedriver for the env

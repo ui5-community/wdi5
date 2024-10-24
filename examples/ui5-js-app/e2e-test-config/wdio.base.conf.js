@@ -12,13 +12,14 @@ exports.baseConfig = {
             maxInstances: 4,
             browserName: "chrome",
             acceptInsecureCerts: true,
+            // "wdio:enforceWebDriverClassic": true,
             "goog:chromeOptions": {
                 args:
                     process.argv.indexOf("--headless") > -1
                         ? ["window-size=1920,1280", "--headless"]
                         : process.argv.indexOf("--debug") > -1
-                        ? ["window-size=1920,1280", "--auto-open-devtools-for-tabs"]
-                        : ["window-size=1920,1280"]
+                          ? ["window-size=1920,1280", "--auto-open-devtools-for-tabs"]
+                          : ["window-size=1920,1280"]
             }
         }
     ],
