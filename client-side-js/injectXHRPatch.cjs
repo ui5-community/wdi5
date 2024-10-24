@@ -1,8 +1,8 @@
-async function clientSide_injectXHRPatch(config, browserInstance) {
-    return await browserInstance.execute(async (config) => {
+async function clientSide_injectXHRPatch(wdi5Config, browserInstance) {
+    return await browserInstance.execute(async (wdi5Config) => {
         const originalFetch = window.fetch
 
-        const ignoreAutoWaitUrls = config.wdi5.ignoreAutoWaitUrls
+        const ignoreAutoWaitUrls = wdi5Config.ignoreAutoWaitUrls
         function checkURL(url) {
             return ignoreAutoWaitUrls?.map((regex) => new RegExp(regex))?.some((regex) => url.match(regex)) || false
         }
@@ -49,7 +49,7 @@ async function clientSide_injectXHRPatch(config, browserInstance) {
                 resolve(true)
             })
         })
-    }, config)
+    }, wdi5Config)
 }
 
 module.exports = {

@@ -10,7 +10,7 @@ import { WDI5Control } from "./wdi5-control.js"
 import { WDI5FE } from "./wdi5-fe.js"
 import { clientSide_injectTools } from "../../client-side-js/injectTools.cjs"
 import { clientSide_injectUI5 } from "../../client-side-js/injectUI5.cjs"
-// import { clientSide_injectXHRPatch } from "../../client-side-js/injectXHRPatch.cjs"
+import { clientSide_injectXHRPatch } from "../../client-side-js/injectXHRPatch.cjs"
 import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement.cjs"
 import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready.cjs"
 import { clientSide_getObject } from "../../client-side-js/getObject.cjs"
@@ -136,9 +136,9 @@ export async function injectUI5(config: wdi5Config, browserInstance) {
     const version = await (browserInstance as WebdriverIO.Browser).getUI5Version()
     checkUI5Version(version)
     await clientSide_injectTools(browserInstance) // helpers for wdi5 browser scope
-    // TODO: is failing for some weird reasons
-    // await clientSide_injectXHRPatch(config, browserInstance)
-    result = result && (await clientSide_injectUI5(config, waitForUI5Timeout, browserInstance))
+    // BIDI does not allow to pass functions inside of the browser scope
+    await clientSide_injectXHRPatch(config.wdi5, browserInstance)
+    result = result && (await clientSide_injectUI5(waitForUI5Timeout, browserInstance))
 
     // we are not using _controls as an array, we are using it as an object. That's why the length property
     // is not updated right away: https://stackoverflow.com/a/4424026
