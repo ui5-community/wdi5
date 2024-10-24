@@ -1,8 +1,8 @@
 async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) {
-    return await browserInstance.executeAsync((waitForUI5Timeout, done) => {
+    return await browserInstance.execute(async (waitForUI5Timeout) => {
         if (window.bridge) {
             // setup sap testing already done
-            done(true)
+            return true
         }
 
         if (!window.sap || !window.sap.ui) {
@@ -10,7 +10,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
             console.error("[browser wdi5] ERR: no ui5 present on page")
 
             // only condition where to cancel the setup process
-            done(false)
+            return false
         }
 
         // attach the function to be able to use the extracted method later
@@ -30,6 +30,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                 bWaitStarted: false,
                 asyncControlRetrievalQueue: []
             }
+
 
             /**
              *
@@ -125,15 +126,17 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
             })
 
             // attach new bridge
-            sap.ui.require(["sap/ui/test/RecordReplay"], (RecordReplay) => {
-                window.bridge = RecordReplay
-                window.fe_bridge = {} // empty init for fiori elements test api
-                window.wdi5.Log.info("[browser wdi5] APIs injected!")
-                window.wdi5.isInitialized = true
+            const setupPromise = new Promise((resolve, reject) => {
+                sap.ui.require(["sap/ui/test/RecordReplay"], (RecordReplay) => {
+                    window.bridge = RecordReplay
+                    window.fe_bridge = {} // empty init for fiori elements test api
+                    window.wdi5.Log.info("[browser wdi5] APIs injected!")
+                    window.wdi5.isInitialized = true
 
-                // here setup is successful
-                // known side effect this call triggers the back to node scope, the other sap.ui.require continue to run in background in browser scope
-                done(true)
+                    // here setup is successful
+                    // known side effect this call triggers the back to node scope, the other sap.ui.require continue to run in background in browser scope
+                    resolve(true)
+                })
             })
 
             // make exec function available on all ui5 controls, so more complex evaluations can be done on browser side for better performance
@@ -463,6 +466,7 @@ async function clientSide_injectUI5(config, waitForUI5Timeout, browserInstance) 
                     }
                 }
             )
+            return await setupPromise
         }
     }, waitForUI5Timeout)
 }
