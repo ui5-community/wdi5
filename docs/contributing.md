@@ -97,7 +97,7 @@ There are two main parts to `wdi5`:
 
 `wdi5` as `wdio-ui5-service` is started via WebdriverIO's `before` hook, in `/src/service.ts`.  
 Then, the Node.js-browser bridge is injected client-side in `/client-side-js/injectUI5.cjs`.  
-Subsequently, the Node.js runtime launches client-side JS execution via WebdriverIO's `browser.executeAsync()` api.
+Subsequently, the Node.js runtime launches client-side JS execution via WebdriverIO's `browser.execute()` api.
 
 A UI5 control from the browser-scope is represented in `wdi5` in the Node.js-scope in `/src/lib/wdi5-control.ts`.  
 All browser-scope commands (such as `browser.asControl()`) are provided with `/src/lib/wdi5-bridge.ts`'s `addWdi5Commands()` method.
