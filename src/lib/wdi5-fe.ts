@@ -80,6 +80,7 @@ export class WDI5FE {
             // back to app
             try {
                 await browserInstance.switchToFrame(0)
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (err) {
                 // This try-catch block is a fail-safe code to make sure the execution continues if browser fails to switch to app's frame.
                 // It has been observed that for Launchpad apps, the switchToFrame(0) is not required.

@@ -31,5 +31,5 @@ jobs:
       - name: lint things
         run: |
           node_modules/.bin/prettier --debug-check client-side-js src docs
-          node_modules/.bin/eslint --ext .ts src
+          node_modules/.bin/eslint ./src/**/*.ts
         # TODO: linting rules for client-side-js

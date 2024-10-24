@@ -437,6 +437,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
                                       // when object is undefined the previous function call failed
                                       try {
                                           return object[prop]
+                                          // eslint-disable-next-line @typescript-eslint/no-unused-vars
                                       } catch (error) {
                                           // different node versions return a different `error.message` so we use our own message
                                           if (logging) {
@@ -468,7 +469,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
                         )
                     }
                 }
-                // eslint-disable-next-line @typescript-eslint/no-empty-function
+
                 return new Proxy(function () {}, handler)
             }
             // @ts-ignore
