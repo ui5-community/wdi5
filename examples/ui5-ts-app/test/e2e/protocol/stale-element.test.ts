@@ -16,6 +16,7 @@ describe("Devtools: ", async () => {
     //> REVISIT: wdio v8 latest now recognizes stale elements ahead of browser.executeAsync calls
     //> but only with the webdriver protocol, not with the devtools protocol
     //> -> we skip this test for the webdriver protocol as of now
+    //> still needs a REVISIT, now for wdio v9 :)
     _it("safeguard 'stale' element handling", async () => {
         const buttonWDI5 = await getButtonOnPage1()
 

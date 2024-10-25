@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
       - name: tmp install prettier + eslint
@@ -31,5 +31,5 @@ jobs:
       - name: lint things
         run: |
           node_modules/.bin/prettier --debug-check client-side-js src docs
-          node_modules/.bin/eslint --ext .ts src
+          node_modules/.bin/eslint ./src/**/*.ts
         # TODO: linting rules for client-side-js

@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-rc.0](https://github.com/ui5-community/wdi5/compare/v2.0.10...v3.0.0-rc.0) (2024-10-25)
+
+
+### Bug Fixes
+
+* do not pass functions to the browser scope ([821f94f](https://github.com/ui5-community/wdi5/commit/821f94ff990323c02dd4f142c6a062b6a4fc0a4b))
+* eslint v9 + linting errors ([14c55ff](https://github.com/ui5-community/wdi5/commit/14c55ff786057605a7cc1a6d1335c875ce59b8bd))
+* force webdriver protocol ([dfe2c19](https://github.com/ui5-community/wdi5/commit/dfe2c19e79755329492669c9cc40fb87f7325965))
+* param sequence ([18db6e0](https://github.com/ui5-community/wdi5/commit/18db6e02ee36111f2c55b7a71185ba31dda3ba22))
+* scoping of .catch ([466a367](https://github.com/ui5-community/wdi5/commit/466a367d09de31c6544101ea2dc9ac97b9bb6afd))
+* scoping of .catch in the client side scripts ([923ad2e](https://github.com/ui5-community/wdi5/commit/923ad2e40b9fe593ef044ef483ee5cde7d53ed4e))
+* test for date value ([891dc75](https://github.com/ui5-community/wdi5/commit/891dc7535cb56648aeef5f0aa36c50d42a2036a3))
+* type declaration ([d39baac](https://github.com/ui5-community/wdi5/commit/d39baac479d8c3070862637d0c3a147b573ae13c))
+* use correct cap-bookshop commit ([f0720ea](https://github.com/ui5-community/wdi5/commit/f0720ea8ccad7eb1ff155608376c3f65a61a9289))
+
 ### 2.0.10 (2024-08-24)
 
 
