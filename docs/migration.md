@@ -1,8 +1,17 @@
 # Migrate from a previous version
 
+## from `^2` to `^3`
+
+Version >= 3 of `wdi5` is WebdriverIO v9 compatible.
+
+Major changes:
+
+- `BiDi` as the go-to automation protocol
+- deprecation of `devtools` protocol
+
 ## from `^1` to `^2`
 
-Version >= 2 of `wdi5` is WebdriverIO v8 compatible. This means that the primary module has moved to ESM, but CJS compatibility is still ensured.
+Version >= 2 < 3 of `wdi5` is WebdriverIO v8 compatible. This means that the primary module has moved to ESM, but CJS compatibility is still ensured.
 
 ### no more explicit browser driver needed!
 
