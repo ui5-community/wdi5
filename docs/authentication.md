@@ -190,6 +190,70 @@ capabilities: {
 
 <!-- tabs:end -->
 
+### SAP BTP with Client Certificate Authentication
+
+?> only available in `wdi5` >= 2
+
+This authentication method will authenticate you with the certificate you get from [SAP Passport](https://support.sap.com/en/my-support/single-sign-on-passports.html).  
+This way avoids the need to use the login process of the application you are testing.  
+It is recommended to put the passphrase in an environment variable.  
+For pipelines, you can create the PFX file from the base64 encoded secret and put the passphrase in an environment variable.  
+See the [GitHub Actions workflow](https://github.com/ui5-community/wdi5/blob/main/.github/workflows/wdi5-tests_auth.yml#L76) as an example on how to use this authentication method in a pipeline.
+
+<!-- tabs:start -->
+
+#### **single browser**
+
+```js
+baseUrl: "https://your-deployed-ui5-on-btp.app",
+capabilities: {
+    // browserName: "..."
+    "wdi5:authentication": {
+        provider: "Certificate",
+        certificateOrigin: "https://accounts.sap.com", // this should always be accounts.sap.com
+        certificateUrl: "https://emea.cockpit.btp.cloud.sap/cockpit#/", // this is opened in the browser for authentication, if not specified the configured `baseUrl` is used
+        certificatePfxPath: "./sap.pfx",
+        certificatePfxPassword: process.env.SAPPFX_PASSPHRASE
+    }
+}
+```
+
+#### **multiremote**
+
+```js
+baseUrl: "https://your-deployed-ui5-on-btp.app",
+capabilities: {
+    // "one" is the literal reference to a browser instance
+    one: {
+        capabilities: {
+            // browserName: "..."
+            "wdi5:authentication": {
+                provider: "Certificate",
+                certificateOrigin: "https://accounts.sap.com", // this should always be accounts.sap.com
+                certificateUrl: "https://emea.cockpit.btp.cloud.sap/cockpit#/", // this is opened in the browser for authentication, if not specified the configured `baseUrl` is used
+                certificatePfxPath: "./sap.pfx",
+                certificatePfxPassword: process.env.SAPPFX_PASSPHRASE
+            }
+        }
+    },
+    // "two" is the literal reference to a browser instance
+    two: {
+        capabilities: {
+            // browserName: "..."
+            "wdi5:authentication": {
+                provider: "Certificate",
+                certificateOrigin: "https://accounts.sap.com", // this should always be accounts.sap.com
+                certificateUrl: "https://emea.cockpit.btp.cloud.sap/cockpit#/", // this is opened in the browser for authentication, if not specified the configured `baseUrl` is used
+                certificatePfxPath: "./sap.pfx",
+                certificatePfxPassword: process.env.SAPPFX_PASSPHRASE
+            }
+        }
+    }
+}
+```
+
+<!-- tabs:end -->
+
 ### Office 365
 
 <!-- tabs:start -->
