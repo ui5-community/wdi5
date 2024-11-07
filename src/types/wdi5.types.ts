@@ -95,6 +95,14 @@ export type BTPAuthenticator = {
     idpDomain?: string
 }
 
+export type CertAuthenticator = {
+    provider: "Certificate"
+    certificateOrigin: string
+    certificateUrl: string
+    certificatePfxPath: string
+    certificatePfxPassword: string
+}
+
 export type BasicAuthAuthenticator = {
     provider: "BasicAuth"
     basicAuthUrls?: Array<string>

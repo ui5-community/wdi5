@@ -24,6 +24,7 @@ import { BTPAuthenticator as BTPAuthenticatorType } from "../types/wdi5.types.js
 import BasicAuthenticator from "./authentication/BasicAuthenticator.js"
 import CustomAuthenticator from "./authentication/CustomAuthenticator.js"
 import Office365Authenticator from "./authentication/Office365Authenticator.js"
+import CertAuthenticator from "./authentication/CertAuthenticator.js"
 
 const Logger = _Logger.getInstance()
 
@@ -178,6 +179,9 @@ export async function authenticate(options, browserInstanceName?) {
                 await btp.disableBiometricAuthentication()
             }
             await btp.login()
+            break
+        case "Certificate":
+            await new CertAuthenticator(options, browserInstanceName).login()
             break
         case "BasicAuth":
             await new BasicAuthenticator(options, browserInstanceName, _config.baseUrl).login()
