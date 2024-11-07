@@ -8,10 +8,10 @@ class CertAuthenticator extends Authenticator {
     private pfxPath: string
     private pfxPassword: string
 
-    constructor(options: CertAuthenticatorType, browserInstanceName) {
+    constructor(options: CertAuthenticatorType, browserInstanceName, baseUrl: string) {
         super(browserInstanceName)
-        this.origin = options.certificateOrigin
-        this.url = options.certificateUrl
+        this.origin = options.certificateOrigin || "https://accounts.sap.com"
+        this.url = options.certificateUrl || baseUrl
         this.pfxPath = options.certificatePfxPath
         this.pfxPassword = options.certificatePfxPassword
     }

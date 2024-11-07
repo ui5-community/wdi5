@@ -181,7 +181,7 @@ export async function authenticate(options, browserInstanceName?) {
             await btp.login()
             break
         case "Certificate":
-            await new CertAuthenticator(options, browserInstanceName).login()
+            await new CertAuthenticator(options, browserInstanceName, _config.baseUrl).login()
             break
         case "BasicAuth":
             await new BasicAuthenticator(options, browserInstanceName, _config.baseUrl).login()
