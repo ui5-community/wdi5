@@ -28,6 +28,8 @@ env:
   BROWSERSTACK_ACCESS_KEY: ${{secrets.BROWSERSTACK_ACCESS_KEY}}
   SAUCE_USERNAME: ${{secrets.SAUCE_USERNAME}}
   SAUCE_ACCESS_KEY: ${{secrets.SAUCE_ACCESS_KEY}}
+  SAPPFX_BASE64: ${{secrets.SAPPFX_BASE64}}
+  SAPPFX_PASSPHRASE: ${{secrets.SAPPFX_PASSPHRASE}}
 
 jobs:
   authorize:
@@ -64,9 +66,18 @@ jobs:
           npm pkg delete scripts.prepare
           npm ci
 
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
       # build things
       - name: build
         run: npm run build
+
+      - name: Create PFX file from secret
+        env:
+          SAPPFX_BASE64: ${{ secrets.SAPPFX_BASE64 }}
+        run: |
+          echo "$SAPPFX_BASE64" | base64 -d > examples/ui5-ts-app/sap.pfx
 
       # this against the submodule cloned from https://github.com/SAP-samples/cap-bookshop-wdi5
       - name: local CAP authentication
