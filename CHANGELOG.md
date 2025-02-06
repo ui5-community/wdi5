@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 2.1.0 (2025-02-06)
+
+
+### Features
+
+* **auth:** btp auth with cert service ([#649](https://github.com/ui5-community/wdi5/issues/649)) ([eb6257e](https://github.com/ui5-community/wdi5/commit/eb6257e69d4b8bbbd85bb8aa0c7a70cfa9d8eddd))
+
 ### 2.0.10 (2024-08-24)
 
 
