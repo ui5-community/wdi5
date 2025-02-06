@@ -15,15 +15,13 @@ async function clientSide_allControls(controlSelector, browserInstance) {
                     .findAllDOMElementsByControlSelector(controlSelector)
                     .then((domElements) => {
                         // window.wdi5.Log.info('[browser wdi5] control located! - Message: ' + JSON.stringify(domElement));
-                        // ui5 control
                         let returnElements = []
                         domElements.forEach((domElement) => {
                             const ui5Control = window.wdi5.getUI5CtlForWebObj(domElement)
                             const id = ui5Control.getId()
                             window.wdi5.Log.info(`[browser wdi5] control with id: ${id} located!`)
                             const aProtoFunctions = window.wdi5.retrieveControlMethods(ui5Control)
-                            // @type [String, String?, String, "Array of Strings"]
-                            returnElements.push({ domElement: domElement, id: id, aProtoFunctions: aProtoFunctions })
+                            returnElements.push({ domElement, id, aProtoFunctions })
                         })
 
                         done({ status: 0, result: returnElements })
