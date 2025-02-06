@@ -16,3 +16,6 @@ node_modules/
 # do not add dependency lock files to this repo because it should remain independent from specific dependency managers
 package-lock.json
 yarn.lock
+
+# PFX file
+sap.pfx

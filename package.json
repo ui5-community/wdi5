@@ -70,6 +70,7 @@
     "test:fe-app": "run-p -r _startApp:fe _test:fe-app",
     "//test:auth": "this runs either locally or on browserstack depending on the env variable BROWSERSTACK",
     "test:auth": "npm run test:authentication:bstack -w examples/ui5-ts-app",
+    "test:auth:cert": "npm run test:authentication:cert -w examples/ui5-ts-app",
     "test:capAuth": "run-p -r _startApp:cap _test:cap-app",
     "//test:protocol": "runs the same test with webdriver and devtools protocol",
     "test:protocol": "npm run test:protocol -w examples/ui5-ts-app",
@@ -88,7 +89,8 @@
   "dependencies": {
     "devtools": "^8.40.2",
     "dotenv": "^16.4.5",
-    "semver": "^7.6.3"
+    "semver": "^7.6.3",
+    "playwright-client-certificate-login": "^0.0.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.4.0",

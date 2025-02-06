@@ -17,6 +17,7 @@
     "test:lateInject": "wdio run wdio-ui5-late.conf.ts",
     "test:wz": "wdio run test/e2e/workzone/wdio-ui5-workzone.conf.ts",
     "authentication:btp": "wdio run test/e2e/authentication/wdio-btp-authentication.conf.ts",
+    "authentication:cert": "wdio run test/e2e/authentication/wdio-cert-authentication.conf.ts",
     "authentication:basic-auth": "wdio run test/e2e/authentication/wdio-basic-auth-authentication.conf.ts",
     "authentication:custom": "wdio run test/e2e/authentication/wdio-custom-authentication.conf.ts",
     "authentication:multiRemote": "wdio run test/e2e/authentication/wdio-btp-authentication-multiremote.conf.ts",
@@ -40,6 +41,7 @@
     "ui5-middleware-livereload": "latest",
     "ui5-middleware-simpleproxy": "latest",
     "ui5-tooling-transpile": "latest",
-    "wdio-ui5-service": "*"
+    "wdio-ui5-service": "*",
+    "dotenv": "16.4.5"
   }
 }

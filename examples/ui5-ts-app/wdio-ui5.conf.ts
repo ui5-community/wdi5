@@ -16,6 +16,7 @@ export const config: wdi5Config = {
         "./test/e2e/multiremote.test.ts",
         "./test/e2e/BasicMultiRemoteAuthentication.test.ts",
         "./test/e2e/Authentication.test.ts",
+        "./test/e2e/AuthenticationCert.test.ts",
         "./test/e2e/ui5-late.test.ts",
         "./test/e2e/protocol/**/*.test.ts",
         "./test/e2e/workzone/**/*.test.ts"
@@ -31,8 +32,8 @@ export const config: wdi5Config = {
                     process.argv.indexOf("--headless") > -1
                         ? ["--headless"]
                         : process.argv.indexOf("--debug") > -1
-                        ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
-                        : ["window-size=1440,800"]
+                          ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
+                          : ["window-size=1440,800"]
             },
             acceptInsecureCerts: true
         }
