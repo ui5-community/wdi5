@@ -229,7 +229,7 @@ capabilities: {
             // browserName: "..."
             "wdi5:authentication": {
                 provider: "Certificate",
-                certificateOrigin: "https://accounts.sap.com", // this should always be accounts.sap.com
+                certificateOrigin: "https://accounts.sap.com", // default value for certificateOrigin is accounts.sap.com, should not be changed
                 certificateUrl: "https://emea.cockpit.btp.cloud.sap/cockpit#/", // this is opened in the browser for authentication, if not specified the configured `baseUrl` is used
                 certificatePfxPath: "./sap.pfx",
                 certificatePfxPassword: process.env.SAPPFX_PASSPHRASE
@@ -242,7 +242,7 @@ capabilities: {
             // browserName: "..."
             "wdi5:authentication": {
                 provider: "Certificate",
-                certificateOrigin: "https://accounts.sap.com", // this should always be accounts.sap.com
+                certificateOrigin: "https://accounts.sap.com", // default value for certificateOrigin is accounts.sap.com, should not be changed
                 certificateUrl: "https://emea.cockpit.btp.cloud.sap/cockpit#/", // this is opened in the browser for authentication, if not specified the configured `baseUrl` is used
                 certificatePfxPath: "./sap.pfx",
                 certificatePfxPassword: process.env.SAPPFX_PASSPHRASE
