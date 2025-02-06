@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 2.1.1 (2025-02-06)
+
+
+### Bug Fixes
+
+* **deps:** update, also for btp auth ([#656](https://github.com/ui5-community/wdi5/issues/656)) ([c2636a7](https://github.com/ui5-community/wdi5/commit/c2636a7056e9a556c5a7ab34c3b41a67a00496d0))
+
 ## 2.1.0 (2025-02-06)
 
 
