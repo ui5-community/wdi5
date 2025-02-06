@@ -90,7 +90,7 @@
     "devtools": "^8.40.2",
     "dotenv": "^16.4.5",
     "semver": "^7.6.3",
-    "playwright-client-certificate-login": "^0.0.2"
+    "playwright-client-certificate-login": "^0.0.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.4.0",
