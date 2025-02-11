@@ -2,7 +2,7 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
     return await browser.execute(
         async (uuid, methodName, args) => {
             return new Promise(async (resolve, reject) => {
-                await window.wdi5.waitForUI5(
+                await window.bridge.waitForUI5(
                     window.wdi5.waitForUI5Options,
                     // this callback is denoted "async" even though it is truely not
                     // but what other way to `await` a potentially async UI5 managed object fn in here?
