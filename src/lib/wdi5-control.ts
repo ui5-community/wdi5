@@ -373,11 +373,12 @@ export class WDI5Control {
                 }
 
                 // get wdi5 control
-                // TODO bidi is to fast for Promise.all so we await it right away
+                // TODO bidi is to fast for Promise.all so we await it right away => makes it slower
                 if (this._browserInstance.isBidi) {
                     aResultOfPromises.push(await this._browserInstance.asControl(selector))
+                } else {
+                    aResultOfPromises.push(this._browserInstance.asControl(selector))
                 }
-                aResultOfPromises.push(this._browserInstance.asControl(selector))
             }
             return await Promise.all(aResultOfPromises)
         } else {
