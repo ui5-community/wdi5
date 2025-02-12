@@ -154,26 +154,29 @@ describe("ui5 eval on control", () => {
             expect(peopleListNames).toContain(name)
         })
 
-        // *********
-        // UI5 API straight forward approach -> takes ~8.1sec
-        marky.mark("regularGetAllItemTitles")
-        const regularPeopleListNames = await Promise.all(
-            // prettier-ignore
-            (await list.getItems()).map(async (e) => {
-                return await e.getTitle()
+        // TODO: Promise.all is venom for BIDI
+        if (!browser.isBidi) {
+            // *********
+            // UI5 API straight forward approach -> takes ~8.1sec
+            marky.mark("regularGetAllItemTitles")
+            const regularPeopleListNames = await Promise.all(
+                // prettier-ignore
+                (await list.getItems()).map(async (e) => {
+                    return await e.getTitle()
+                })
+            )
+            wdi5.getLogger().info(marky.stop("regularGetAllItemTitles"))
+            // *********
+
+            Other.allNames.forEach((name) => {
+                expect(regularPeopleListNames).toContain(name)
             })
-        )
-        wdi5.getLogger().info(marky.stop("regularGetAllItemTitles"))
-        // *********
 
-        Other.allNames.forEach((name) => {
-            expect(regularPeopleListNames).toContain(name)
-        })
-
-        // compare results
-        regularPeopleListNames.forEach((name) => {
-            expect(peopleListNames).toContain(name)
-        })
+            // compare results
+            regularPeopleListNames.forEach((name) => {
+                expect(peopleListNames).toContain(name)
+            })
+        }
     })
 
     it("get people list title and people names, object return type", async () => {

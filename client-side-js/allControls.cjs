@@ -7,14 +7,14 @@ async function clientSide_allControls(controlSelector, browserInstance) {
         }
 
         try {
-            await window.wdi5.waitForUI5(waitForUI5Options)
+            await window.bridge.waitForUI5(waitForUI5Options)
         } catch (error) {
             return window.wdi5.errorHandling(error)
         }
 
         window.wdi5.Log.info("[browser wdi5] locating " + JSON.stringify(controlSelector))
         controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector)
-        let domElements;
+        let domElements
 
         try {
             domElements = await window.bridge.findAllDOMElementsByControlSelector(controlSelector)

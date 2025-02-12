@@ -7,7 +7,7 @@ async function clientSide_getControl(controlSelector, browserInstance) {
         }
 
         try {
-            await window.wdi5.waitForUI5(waitForUI5Options)
+            await window.bridge.waitForUI5(waitForUI5Options)
         } catch (error) {
             return window.wdi5.errorHandling(error)
         }

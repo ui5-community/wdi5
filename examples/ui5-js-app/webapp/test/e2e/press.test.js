@@ -46,7 +46,7 @@ describe("custom wdi5 press event", async () => {
     })
 
     it("press() with 'idSuffix'", async () => {
-        const dateTime = browser.asControl({
+        const dateTime = await browser.asControl({
             selector: {
                 id: "idDateTime",
                 viewName: "test.Sample.view.Main"

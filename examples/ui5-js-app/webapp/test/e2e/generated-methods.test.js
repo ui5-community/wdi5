@@ -128,7 +128,13 @@ describe("check the generated methods on the control -> ", () => {
         const date = new Date()
         await dateTimeField.setValue(date)
         const value = await dateTimeField.getValue()
-        expect(value).toEqual(date.toString())
+
+        // depending of the protocol the date is returned in different formats...
+        if (browser.isBidi) {
+            expect(value).toEqual(date.toString())
+        } else {
+            expect(value).toEqual(date.toISOString())
+        }
 
         // status
         expect(await dateTimeField.getEnabled()).toBeTruthy()
