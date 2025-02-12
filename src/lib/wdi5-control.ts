@@ -362,20 +362,23 @@ export class WDI5Control {
         // check the validity of param
         if (aControls) {
             // loop through items
-            aControls.forEach((item) => {
+            for (const control of aControls) {
                 // item id -> create selector
                 const selector = {
-                    wdio_ui5_key: item.id, // plugin-internal, not part of RecordReplay.ControlSelector
+                    wdio_ui5_key: control.id, // plugin-internal, not part of RecordReplay.ControlSelector
                     forceSelect: this._forceSelect,
                     selector: {
-                        id: item.id
+                        id: control.id
                     }
                 }
 
                 // get wdi5 control
+                // TODO bidi is to fast for Promise.all so we await it right away
+                if (this._browserInstance.isBidi) {
+                    aResultOfPromises.push(await this._browserInstance.asControl(selector))
+                }
                 aResultOfPromises.push(this._browserInstance.asControl(selector))
-            })
-
+            }
             return await Promise.all(aResultOfPromises)
         } else {
             if (this._logging) {
