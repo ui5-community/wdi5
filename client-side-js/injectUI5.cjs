@@ -55,6 +55,7 @@ async function clientSide_injectUI5(waitForUI5Timeout, browserInstance) {
                 window.wdi5.Log.info("[browser wdi5] injected!")
             })
 
+            // TODO: what should we do??
             sap.ui.require(["sap/ui/test/autowaiter/_autoWaiterAsync"], (_autoWaiterAsync) => {
                 window.wdi5.waitForUI5 = async (oOptions = {}, callback, errorCallback) => {
                     _autoWaiterAsync.extendConfig(oOptions)
