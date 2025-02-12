@@ -121,14 +121,20 @@ describe("check the generated methods on the control -> ", () => {
         expect(await checkbox.getEnabled()).toBeFalsy()
     })
 
-    it.only("sap.m.DateTimePicker APIs", async () => {
+    it("sap.m.DateTimePicker APIs", async () => {
         const dateTimeField = await browser.asControl(dateTimeSelector)
 
         // datetime input
         const date = new Date()
         await dateTimeField.setValue(date)
         const value = await dateTimeField.getValue()
-        expect(value).toEqual(date.toISOString())
+
+        // depending of the protocol the date is returned in different formats...
+        if (browser.isBidi) {
+            expect(value).toEqual(date.toString())
+        } else {
+            expect(value).toEqual(date.toISOString())
+        }
 
         // status
         expect(await dateTimeField.getEnabled()).toBeTruthy()
