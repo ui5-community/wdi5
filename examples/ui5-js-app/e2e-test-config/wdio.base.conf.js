@@ -12,7 +12,7 @@ exports.baseConfig = {
             maxInstances: 4,
             browserName: "chrome",
             acceptInsecureCerts: true,
-            "wdio:enforceWebDriverClassic": true,
+            // "wdio:enforceWebDriverClassic": true,
             "goog:chromeOptions": {
                 args:
                     process.argv.indexOf("--headless") > -1
