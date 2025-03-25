@@ -96,7 +96,7 @@
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",
     "@sap/approuter": "19.0.0",
-    "@sap/ux-ui5-fe-mockserver-middleware": "^1.6.5",
+    "@sap-ux/ui5-middleware-fe-mockserver": "^2.2.93",
     "@types/openui5": "^1.132.0",
     "@types/sinon": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^8.23.0",
