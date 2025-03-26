@@ -1,9 +1,21 @@
 const Main = require("./pageObjects/Main")
 const Other = require("./pageObjects/Other")
 const marky = require("marky")
+const sinon = require("sinon")
 const { wdi5 } = require("wdio-ui5-service")
+const Logger = wdi5.getLogger()
 
 describe("ui5 eval on control", () => {
+    const sandbox = sinon.createSandbox()
+
+    beforeEach(() => {
+        sandbox.spy(Logger, "error")
+    })
+
+    afterEach(() => {
+        sandbox.restore()
+    })
+
     before(async () => {
         await Main.open()
     })
@@ -14,8 +26,6 @@ describe("ui5 eval on control", () => {
     })
 
     it("should be able to propagate a browserside error", async () => {
-        //Log Output during this test should be 3 times: [wdi5] call of exec failed because of: TypeError: this.getTex is not a function
-        //Can't be reasonably verified programatically, only that returned result should be null
         const button = await browser.asControl({
             selector: {
                 id: "openDialogButton",
@@ -36,6 +46,13 @@ describe("ui5 eval on control", () => {
             return this.getTex()
         })
         expect(resultArrowFunction2).toBeNull()
+
+        const expectedExecErrorLog = "call of exec failed because of: TypeError: this.getTex is not a function"
+        expect(Logger.error.called).toBeTruthy()
+        expect(Logger.error.callCount).toEqual(3)
+        expect(Logger.error.getCall(0).calledWith(expectedExecErrorLog)).toBeTruthy()
+        expect(Logger.error.getCall(1).calledWith(expectedExecErrorLog)).toBeTruthy()
+        expect(Logger.error.getCall(2).calledWith(expectedExecErrorLog)).toBeTruthy()
     })
 
     it("execute function browserside on button to get its text, basic return type", async () => {
@@ -65,17 +82,15 @@ describe("ui5 eval on control", () => {
         expect(buttonTextArrow2).toEqual(regularBtnText)
     })
 
-    it("execute function browserside on button to get its text with fluent sync api, basic return type", async () => {
-        const buttonText = await browser
-            .asControl({
-                selector: {
-                    id: "openDialogButton",
-                    viewName: "test.Sample.view.Main"
-                }
-            })
-            .exec(function () {
-                return this.getText()
-            })
+    it("execute function browserside on button to get its text with fluent async api, basic return type", async () => {
+        const buttonText = await browser.asControl({
+            selector: {
+                id: "openDialogButton",
+                viewName: "test.Sample.view.Main"
+            }
+        }).exec(function () {
+            return this.getText()
+        })
         expect(buttonText).toEqual("open Dialog")
     })
 
