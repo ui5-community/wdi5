@@ -6,6 +6,7 @@ import { clientSide_getControl } from "../../client-side-js/getControl.cjs"
 import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl.cjs"
 import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod.cjs"
 import { clientSide_getAggregation } from "../../client-side-js/_getAggregation.cjs"
+import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready.cjs"
 import { clientSide_fireEvent } from "../../client-side-js/fireEvent.cjs"
 import { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types.js"
 import { Logger as _Logger } from "./Logger.js"
@@ -362,7 +363,7 @@ export class WDI5Control {
         // check the validity of param
         if (aControls) {
             // loop through items
-            for (const [i, control] of aControls.entries()) {
+            for (const control of aControls) {
                 // item id -> create selector
                 const selector = {
                     wdio_ui5_key: control.id, // plugin-internal, not part of RecordReplay.ControlSelector
@@ -370,13 +371,15 @@ export class WDI5Control {
                     selector: {
                         id: control.id
                     },
-                    // only wait for the first element, the rest is retrieved right away
-                    _skipWaitForUI5: i !== 0
+                    // skip the waitForUI5 check. We will do this manually once before the actual control retrieval
+                    _skipWaitForUI5: true
                 }
 
                 // get wdi5 control
                 aResultOfPromises.push(this._browserInstance.asControl(selector))
             }
+            // waitForUI5 check manually
+            await clientSide__checkForUI5Ready(this._browserInstance)
             return await Promise.all(aResultOfPromises)
         } else {
             if (this._logging) {
