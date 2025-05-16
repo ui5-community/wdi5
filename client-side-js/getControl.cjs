@@ -5,11 +5,13 @@ async function clientSide_getControl(controlSelector, browserInstance) {
         if (controlSelector.timeout) {
             waitForUI5Options.timeout = controlSelector.timeout
         }
-
-        try {
-            await window.bridge.waitForUI5(waitForUI5Options)
-        } catch (error) {
-            return window.wdi5.errorHandling(error)
+        // skip waitForUI5 (only used internally!)
+        if (!controlSelector._skipWaitForUI5) {
+            try {
+                await window.bridge.waitForUI5(waitForUI5Options)
+            } catch (error) {
+                return window.wdi5.errorHandling(error)
+            }
         }
 
         window.wdi5.Log.info("[browser wdi5] locating " + JSON.stringify(controlSelector))

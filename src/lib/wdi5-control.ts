@@ -6,6 +6,7 @@ import { clientSide_getControl } from "../../client-side-js/getControl.cjs"
 import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl.cjs"
 import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod.cjs"
 import { clientSide_getAggregation } from "../../client-side-js/_getAggregation.cjs"
+import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready.cjs"
 import { clientSide_fireEvent } from "../../client-side-js/fireEvent.cjs"
 import { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types.js"
 import { Logger as _Logger } from "./Logger.js"
@@ -369,17 +370,16 @@ export class WDI5Control {
                     forceSelect: this._forceSelect,
                     selector: {
                         id: control.id
-                    }
+                    },
+                    // skip the waitForUI5 check. We will do this manually once before the actual control retrieval
+                    _skipWaitForUI5: true
                 }
 
                 // get wdi5 control
-                // TODO bidi is to fast for Promise.all so we await it right away => makes it slower
-                if (this._browserInstance.isBidi) {
-                    aResultOfPromises.push(await this._browserInstance.asControl(selector))
-                } else {
-                    aResultOfPromises.push(this._browserInstance.asControl(selector))
-                }
+                aResultOfPromises.push(this._browserInstance.asControl(selector))
             }
+            // waitForUI5 check manually
+            await clientSide__checkForUI5Ready(this._browserInstance)
             return await Promise.all(aResultOfPromises)
         } else {
             if (this._logging) {
