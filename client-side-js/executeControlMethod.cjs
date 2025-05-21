@@ -10,8 +10,8 @@ if (global.browser) {
  * @param {WebdriverIO.Browser} browserInstance
  * @param {Object} args proxied arguments to UI5 control method at runtime
  */
-async function executeControlMethod(webElement, methodName, browserInstance, args) {
-    return await browserInstance.execute(
+function executeControlMethod(webElement, methodName, browserInstance, args) {
+    return browserInstance.execute(
         async (webElement, methodName, args) => {
             try {
                 await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
@@ -143,14 +143,14 @@ async function clientSide_executeControlMethod(webElement, methodName, browserIn
      * **/
     let result
     try {
-        result = await executeControlMethod(webElement, methodName, browserInstance, args)
+        result = executeControlMethod(webElement, methodName, browserInstance, args)
     } catch (err) {
         // devtools and webdriver protocol don't share the same error message
         if (err.message?.includes("is stale") || err.message?.includes("stale element reference")) {
             logger.debug(`webElement ${JSON.stringify(webElement)} stale, trying to renew reference...`)
             let renewedWebElement = await wdi5Control.renewWebElementReference()
             if (renewedWebElement) {
-                result = await executeControlMethod(renewedWebElement, methodName, browserInstance, args)
+                result = executeControlMethod(renewedWebElement, methodName, browserInstance, args)
                 logger.debug(`successfully renewed reference: ${JSON.stringify(renewedWebElement)}`)
             } else {
                 logger.error(`failed renewing reference for webElement: ${JSON.stringify(webElement)}`)
