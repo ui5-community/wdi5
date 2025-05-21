@@ -12,7 +12,7 @@ import { clientSide_injectTools } from "../../client-side-js/injectTools.cjs"
 import { clientSide_injectUI5 } from "../../client-side-js/injectUI5.cjs"
 import { clientSide_injectXHRPatch } from "../../client-side-js/injectXHRPatch.cjs"
 import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement.cjs"
-import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready.cjs"
+import { clientSide_checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready.cjs"
 import { clientSide_getObject } from "../../client-side-js/getObject.cjs"
 import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version.cjs"
 import { clientSide__navTo } from "../../client-side-js/_navTo.cjs"
@@ -555,7 +555,7 @@ async function _checkForUI5Ready(browserInstance) {
     const ready = false
     if (_isInitialized) {
         // can only be executed when RecordReplay is attached
-        return await clientSide__checkForUI5Ready(browserInstance)
+        return await clientSide_checkForUI5Ready(browserInstance)
     }
     return ready
 }
