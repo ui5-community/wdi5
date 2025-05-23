@@ -28,10 +28,10 @@ jobs:
 
     steps:
       - name: check out repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: use node ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
