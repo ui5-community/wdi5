@@ -99,10 +99,12 @@
     "@eslint/js": "^9.13.0",
     "@sap/approuter": "16.7.3",
     "@sap/ux-ui5-fe-mockserver-middleware": "^1.6.5",
-    "@types/openui5": "^1.127.0",
-    "@types/sinon": "^17.0.3",
+    "@types/node": "^22.15.21",
+    "@types/openui5": "^1.136.0",
+    "@types/sinon": "^17.0.4",
     "@ui5/cli": "^4",
     "@wdio/sauce-service": "^9",
+    "@wdio/types": "^9.14.0",
     "cross-env": "^7.0.3",
     "deepmerge": "^4.3.1",
     "docsify-cli": "4.4.4",
@@ -125,16 +127,16 @@
     "soerver": "^0.0.3",
     "standard-version": "^9.5.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.2",
+    "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.1",
     "wait-on": "^8.0.0"
   },
   "peerDependencies": {
     "@wdio/cli": "^9",
+    "@wdio/globals": "^9",
     "@wdio/local-runner": "^9",
     "@wdio/mocha-framework": "^9",
     "@wdio/spec-reporter": "^9",
-    "@wdio/types": "^9",
     "webdriverio": "^9"
   },
   "engines": {
