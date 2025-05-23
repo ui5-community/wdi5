@@ -1,30 +1,33 @@
-import tsParser from "@typescript-eslint/parser"
-import path from "node:path"
-import { fileURLToPath } from "node:url"
+import tseslint from "typescript-eslint"
 import js from "@eslint/js"
-import { FlatCompat } from "@eslint/eslintrc"
+import { configs as wdioConfigs } from "eslint-plugin-wdio"
+import mochaPlugin from "eslint-plugin-mocha"
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all
-})
-
-export default [
-    ...compat.extends("plugin:@typescript-eslint/recommended", "prettier", "plugin:prettier/recommended"),
+export default tseslint.config([
+    {
+        ignores: ["esm/", "cjs/", "dist/", "node_modules/", "docker/", "docs/", "examples/"]
+    },
     {
         languageOptions: {
-            parser: tsParser,
             ecmaVersion: "latest",
             sourceType: "module"
         },
-
+        extends: [tseslint.configs.recommended, js.configs.recommended],
         rules: {
             "@typescript-eslint/no-explicit-any": "off",
             "@typescript-eslint/explicit-module-boundary-types": "off",
             "@typescript-eslint/ban-ts-comment": "warn"
         }
+    },
+    {
+        files: ["test/**/*"],
+        extends: [wdioConfigs["flat/recommended"], mochaPlugin.configs.recommended]
+    },
+    {
+        files: ["client-side-js/**/*"],
+        languageOptions: {
+            ecmaVersion: "latest",
+            sourceType: "commonjs"
+        }
     }
-]
+])

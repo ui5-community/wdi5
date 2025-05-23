@@ -155,7 +155,7 @@ and eventually "reinstall" `wdi5` (`wdio-ui5-service`) in the respective `npm` w
 ## commiting changes
 
 We're using `prettier` and `eslint` for code-formatting and validation.  
-Staged files are linted and formatted according to the specs in `.prettierrc` and `/src/.eslintrc.cjs`.  
+Staged files are linted and formatted according to the specs in `.prettierrc` and `eslint.config.mjs`.  
 `git` commit messages are linted to comply with "conventional commits" <https://github.com/conventional-changelog/commitlint/tree/master/@commitlint/config-conventional#type-enum>.  
 In addition to the message subjects defined in "conventional commits", `wip` is allowed:
 
