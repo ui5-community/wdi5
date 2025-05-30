@@ -7,7 +7,8 @@
     "declaration": true,
     "declarationMap": true,
     "downlevelIteration": true,
-    "types": ["node", "@wdio/globals/types", "@wdio/mocha-framework", "openui5"]
+    "lib": ["DOM"],
+    "types": ["node", "@wdio/types", "@wdio/globals/types", "@wdio/mocha-framework", "openui5"]
   },
   "include": ["src"]
 }

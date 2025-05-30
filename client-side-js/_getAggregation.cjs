@@ -12,7 +12,7 @@ async function clientSide_getAggregation(webElement, aggregationName, browserIns
                     cAggregation = [cAggregation]
                 }
                 // read classname eg. sap.m.ComboBox
-                controlType = oControl.getMetadata()._sClassName
+                let controlType = oControl.getMetadata()._sClassName
                 let result = window.wdi5.createControlIdMap(cAggregation, controlType)
                 return { status: 0, result: result }
             } catch (error) {

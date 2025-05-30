@@ -1,4 +1,4 @@
-import { Office365Authenticator as Office365AuthenticatorType } from "../../types/wdi5.types.js"
+import type { Office365Authenticator as Office365AuthenticatorType } from "../../types/wdi5.types.js"
 import Authenticator from "./Authenticator.js"
 
 class Office365Authenticator extends Authenticator {

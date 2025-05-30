@@ -1,4 +1,4 @@
-import { wdi5LogLevel } from "../types/wdi5.types.js"
+import type { wdi5LogLevel } from "../types/wdi5.types.js"
 
 const translate = (color) => {
     switch (color) {

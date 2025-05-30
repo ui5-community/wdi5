@@ -1,8 +1,8 @@
+import type { Capabilities } from "@wdio/types"
 import Log from "sap/base/Log"
 import RecordReplay from "sap/ui/test/RecordReplay"
 import { ControlSelector } from "sap/ui/test/RecordReplay"
 import { WDI5Object } from "../lib/wdi5-object.js"
-import { Capabilities } from "@wdio/types"
 
 // // copypasta from
 // // https://stackoverflow.com/questions/41285211/overriding-interface-property-type-defined-in-typescript-d-ts-file/65561287#65561287

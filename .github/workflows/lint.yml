@@ -27,9 +27,9 @@ jobs:
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
       - name: tmp install prettier + eslint
-        run: npm i prettier eslint
+        run: npm i
       - name: lint things
         run: |
-          node_modules/.bin/prettier --debug-check client-side-js src docs
-          node_modules/.bin/eslint ./src/**/*.ts
+          npx prettier --debug-check client-side-js src docs
+          npx eslint ./src/**/*.ts
         # TODO: linting rules for client-side-js

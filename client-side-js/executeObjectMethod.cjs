@@ -1,3 +1,5 @@
+const { browser } = require("@wdio/globals")
+
 async function clientSide_executeObjectMethod(uuid, methodName, args) {
     return await browser.execute(
         async (uuid, methodName, args) => {

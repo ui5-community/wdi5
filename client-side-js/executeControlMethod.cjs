@@ -1,3 +1,4 @@
+const { browser } = require("@wdio/globals")
 const { Logger } = require("../cjs/lib/Logger.js")
 const logger = Logger.getInstance()
 if (global.browser) {
@@ -32,7 +33,7 @@ async function executeControlMethod(webElement, methodName, browserInstance, arg
                                 // but delivers a complex/structured type
                                 // -> currenlty, only getAggregation(...) is supported
                                 // read classname eg. sap.m.ComboBox
-                                controlType = oControl.getMetadata()._sClassName
+                                let controlType = oControl.getMetadata()._sClassName
 
                                 result = window.wdi5.createControlIdMap(result, controlType)
                                 resolve({ status: 0, result: result, returnType: "aggregation" })

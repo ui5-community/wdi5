@@ -1,4 +1,3 @@
-import { Element } from "webdriverio"
 import { initOPA, addToQueue, emptyQueue, loadFELibraries } from "../../client-side-js/testLibrary.cjs"
 import { Logger as _Logger } from "./Logger.js"
 const Logger = _Logger.getInstance()
@@ -64,8 +63,8 @@ export class WDI5FE {
         // yet only wave the wand when there's an iframe somewhere,
         // indicating BTP WorkZone territory
         await browserInstance.switchToParentFrame()
-        // @ts-ignore
-        const iframe: Element = await browserInstance.findElement("css selector", "iframe")
+        // @ts-expect-error TODO: fix types
+        const iframe: WebdriverIO.Element = await browserInstance.findElement("css selector", "iframe")
         let shell
         if (!iframe.error) {
             const shellConfig = {

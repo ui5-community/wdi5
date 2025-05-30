@@ -1,8 +1,8 @@
 import CustomAuthenticator from "../src/lib/authentication/CustomAuthenticator"
 import { ok, throws } from "assert"
 
-describe("custom auth", () => {
-    it("should successfully inject a custom authentiator", () => {
+describe("custom auth", function () {
+    it("should successfully inject a custom authentiator", function () {
         globalThis.browser = { dummy: true }
 
         const Auth = new CustomAuthenticator(
@@ -19,7 +19,7 @@ describe("custom auth", () => {
         ok(Auth instanceof CustomAuthenticator)
     })
 
-    it("should throw if not all custom auth options are provided", () => {
+    it("should throw if not all custom auth options are provided", function () {
         const configs = [
             {
                 provider: "custom",

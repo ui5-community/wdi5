@@ -1,4 +1,5 @@
-import * as util from "util"
+import type { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types.js"
+import util from "node:util"
 export const ELEMENT_KEY = "element-6066-11e4-a52e-4f735466cecf"
 // TODO: import { ELEMENT_KEY } from "webdriverio/build/constants.js"
 // patch in webdriverio repo?
@@ -7,7 +8,6 @@ import { clientSide_interactWithControl } from "../../client-side-js/interactWit
 import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod.cjs"
 import { clientSide_getAggregation } from "../../client-side-js/_getAggregation.cjs"
 import { clientSide_fireEvent } from "../../client-side-js/fireEvent.cjs"
-import { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types.js"
 import { Logger as _Logger } from "./Logger.js"
 import { wdioApi } from "./wdioApi.js"
 import { WDI5Object } from "./wdi5-object.js"
@@ -539,7 +539,7 @@ export class WDI5Control {
                     // return wdio elements
                     return result.result
                 }
-            case "unknown":
+            case "unknown": // eslint-disable-line no-fallthrough
                 Logger.warn(`${methodName} returned unknown status`)
                 return null
             case "none":

@@ -6,6 +6,7 @@ const authenticatorInstances = {}
 /**
  * a (static) helper class named after the tool
  */
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class wdi5 {
     /**
      * get an instance of wdi5's logger for some pretty looking console output

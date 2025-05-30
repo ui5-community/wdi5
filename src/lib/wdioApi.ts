@@ -199,4 +199,4 @@ const wdioApi = [
     "waitUntil"
 ]
 
-export { wdioApi as wdioApi }
+export { wdioApi }

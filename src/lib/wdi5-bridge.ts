@@ -1,11 +1,17 @@
-import { resolve } from "path"
-import { writeFile } from "fs/promises"
-import { tmpdir } from "os"
+import type {
+    clientSide_ui5Object,
+    clientSide_ui5Response,
+    wdi5Config,
+    wdi5Selector,
+    BTPAuthenticator as BTPAuthenticatorType
+} from "../types/wdi5.types.js"
+
+import { resolve } from "node:path"
+import { writeFile } from "node:fs/promises"
+import { tmpdir } from "node:os"
 import * as semver from "semver"
 import { mark as marky_mark, stop as marky_stop } from "marky"
 
-import { clientSide_ui5Object, clientSide_ui5Response, wdi5Config, wdi5Selector } from "../types/wdi5.types.js"
-import { MultiRemoteBrowser } from "webdriverio"
 import { WDI5Control } from "./wdi5-control.js"
 import { WDI5FE } from "./wdi5-fe.js"
 import { clientSide_injectTools } from "../../client-side-js/injectTools.cjs"
@@ -20,7 +26,6 @@ import { clientSide_allControls } from "../../client-side-js/allControls.cjs"
 import { Logger as _Logger } from "./Logger.js"
 import { WDI5Object } from "./wdi5-object.js"
 import BTPAuthenticator from "./authentication/BTPAuthenticator.js"
-import { BTPAuthenticator as BTPAuthenticatorType } from "../types/wdi5.types.js"
 import BasicAuthenticator from "./authentication/BasicAuthenticator.js"
 import CustomAuthenticator from "./authentication/CustomAuthenticator.js"
 import Office365Authenticator from "./authentication/Office365Authenticator.js"
@@ -47,7 +52,7 @@ export async function setup(config: wdi5Config) {
     Logger.setLogLevel(config.wdi5.logLevel || "error")
 
     if (browser.isMultiremote) {
-        ;(browser as any as MultiRemoteBrowser).instances.forEach((name) => {
+        ;(browser as any as WebdriverIO.MultiRemoteBrowser).instances.forEach((name) => {
             initBrowser(browser[name])
         })
         initMultiRemoteBrowser()
@@ -74,7 +79,7 @@ function initMultiRemoteBrowser() {
     ;["asControl", "goTo", "screenshot", "waitForUI5", "getUI5Version", "getSelectorForElement", "allControls"].forEach(
         (command) => {
             browser.addCommand(command, async (...args) => {
-                const multiRemoteInstance = browser as any as MultiRemoteBrowser
+                const multiRemoteInstance = browser as any as WebdriverIO.MultiRemoteBrowser
                 const result = []
                 multiRemoteInstance.instances.forEach((name) => {
                     result.push(multiRemoteInstance[name][command].apply(this, args))
@@ -173,13 +178,14 @@ export async function checkForUI5Page(browserInstance) {
 
 export async function authenticate(options, browserInstanceName?) {
     switch (options.provider) {
-        case "BTP":
+        case "BTP": {
             const btp = new BTPAuthenticator(options, browserInstanceName)
             if ((options as BTPAuthenticatorType).disableBiometricAuthentication) {
                 await btp.disableBiometricAuthentication()
             }
             await btp.login()
             break
+        }
         case "BasicAuth":
             await new BasicAuthenticator(options, browserInstanceName, _config.baseUrl).login()
             break
@@ -188,6 +194,7 @@ export async function authenticate(options, browserInstanceName?) {
             break
         case "custom":
             await new CustomAuthenticator(options, browserInstanceName).login()
+            break
         default:
             break
     }
@@ -472,7 +479,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
 
                 return new Proxy(function () {}, handler)
             }
-            // @ts-ignore
+            // @ts-expect-error TODO: fix types
             return makeFluent(browserInstance._asControl(ui5ControlSelector))
         }
     }

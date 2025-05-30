@@ -1,3 +1,5 @@
+const { browser } = require("@wdio/globals")
+
 /**
  * @returns {string} UI5 version number in string form
  */

@@ -94,7 +94,7 @@ async function clientSide_injectUI5(waitForUI5Timeout, browserInstance) {
             })
 
             // attach new bridge
-            const setupPromise = new Promise((resolve, reject) => {
+            const setupPromise = new Promise((resolve) => {
                 sap.ui.require(["sap/ui/test/RecordReplay"], (RecordReplay) => {
                     window.bridge = RecordReplay
                     window.fe_bridge = {} // empty init for fiori elements test api
@@ -244,6 +244,7 @@ async function clientSide_injectUI5(waitForUI5Timeout, browserInstance) {
                      */
                     window.wdi5.getUI5CtlForWebObj = (ui5Control) => {
                         //> REVISIT: refactor to https://ui5.sap.com/#/api/sap.ui.core.Element%23methods/sap.ui.core.Element.closestTo for UI5 >= 1.106
+                        // TODO: get rid of jquery
                         return jQuery(ui5Control).control(0)
                     }
 
