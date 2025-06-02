@@ -51,7 +51,7 @@ export class WDI5FE {
     }
 
     async toApp() {
-        await browser.switchToFrame(0) // TODO: deprecated switchToFrame
+        await browser.switchFrame(null)
     }
 
     static async initialize(appConfig, browserInstance = browser) {
@@ -78,16 +78,16 @@ export class WDI5FE {
 
             // back to app
             try {
-                await browserInstance.switchToFrame(0) // TODO: deprecated switchToFrame
+                await browserInstance.switchFrame(null)
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (err) {
                 // This try-catch block is a fail-safe code to make sure the execution continues if browser fails to switch to app's frame.
-                // It has been observed that for Launchpad apps, the switchToFrame(0) is not required.
+                // It has been observed that for Launchpad apps, the switchFrame(null) is not required.
                 Logger.info("Failed to switch to app's frame - you're probably in a Launchpad env. Continuing...")
             }
         } else {
             // revert back to app context
-            await browserInstance.switchToFrame(null) // TODO: deprecated switchToFrame
+            await browserInstance.switchFrame(null)
         }
         return new WDI5FE(appConfig, browserInstance, shell)
     }

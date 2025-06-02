@@ -65,7 +65,7 @@ export default class Service implements Services.ServiceInstance {
     async enableBTPWorkZoneStdEdition(browser: WebdriverIO.Browser) {
         await $("iframe").waitForExist() //> wz only has a single iframe (who's id is also not updated upon subsequent app navigation)
 
-        await browser.switchToFrame(null) // TODO: deprecated switchToFrame
+        await browser.switchFrame(null)
         if (this?._config?.wdi5?.skipInjectUI5OnStart) {
             Logger.warn("also skipped wdi5 injection in WorkZone std ed's shell!")
         } else {
@@ -73,7 +73,7 @@ export default class Service implements Services.ServiceInstance {
             Logger.debug("injected wdi5 into the WorkZone std ed's shell!")
         }
 
-        await browser.switchToFrame(0) // TODO: deprecated switchToFrame
+        await browser.switchFrame(null)
         if (this?._config?.wdi5?.skipInjectUI5OnStart) {
             Logger.warn("also skipped wdi5 injection in application iframe!")
         } else {

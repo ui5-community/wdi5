@@ -33,7 +33,7 @@ export class wdi5 {
      * so that all methods of the browser object will be executed in the context of the WorkZone app
      */
     static async toWorkZoneApp() {
-        await browser.switchToFrame(0) // TODO: deprecated switchToFrame
+        await browser.switchFrame(null)
         await browser.pause(100) // let the browsing context settle
     }
 
@@ -46,7 +46,7 @@ export class wdi5 {
     //         console.log("GET", ...arguments)
     //         Reflect.get(odatav4Lib, prop, receiver)
 
-    //         browser.switchToFrame(0)
+    //         browser.switchFrame(null)
     //     }
     // })
 

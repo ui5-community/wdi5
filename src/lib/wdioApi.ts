@@ -176,7 +176,7 @@ const wdioApi = [
     "startCastTabMirroring",
     "status",
     "stopCasting",
-    "switchToFrame",
+    "switchFrame",
     "switchToParentFrame",
     "switchToWindow",
     "switchWindow",
