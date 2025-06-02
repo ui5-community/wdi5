@@ -58,10 +58,10 @@ export class WDI5Control {
         this._domId = domId
 
         if (this._generatedUI5Methods && this._generatedUI5Methods.length > 0) {
-            this._attachControlBridge(this._generatedUI5Methods as Array<string>)
+            this._attachControlBridge(this._generatedUI5Methods)
         }
         if (this._generatedWdioMethods && this._generatedWdioMethods.length > 0) {
-            this._attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
+            this._attachWdioControlBridge(this._generatedWdioMethods)
         }
 
         this.setControlInfo()
@@ -88,8 +88,8 @@ export class WDI5Control {
 
             // dynamic function bridge
             this._generatedUI5Methods = controlResult.aProtoFunctions
-            this._attachControlBridge(this._generatedUI5Methods as Array<string>)
-            this._attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
+            this._attachControlBridge(this._generatedUI5Methods)
+            this._attachWdioControlBridge(this._generatedWdioMethods)
 
             this.setControlInfo()
         }
@@ -343,7 +343,10 @@ export class WDI5Control {
     private async _renewWebElement(id: string = this._domId) {
         if (this._domId) {
             // TODO: fix type issue
-            this._webdriverRepresentation = (await this._browserInstance.$(`//*[@id="${id}"]`)) as any
+            const idAttribute = `//*[@id="${id}"]`
+            this._webdriverRepresentation = (await this._browserInstance.$(
+                idAttribute
+            )) as unknown as WebdriverIO.Element
             return this._webdriverRepresentation
         } else {
             throw Error("control could not be found")

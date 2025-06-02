@@ -33,7 +33,7 @@ export class wdi5 {
      * so that all methods of the browser object will be executed in the context of the WorkZone app
      */
     static async toWorkZoneApp() {
-        await browser.switchToFrame(0)
+        await browser.switchToFrame(0) // TODO: deprecated switchToFrame
         await browser.pause(100) // let the browsing context settle
     }
 
@@ -56,7 +56,7 @@ export class wdi5 {
      * @param browserInstanceName
      * @returns the current authentication status
      */
-    static async isLoggedIn(browserInstanceName?): Promise<boolean> {
+    static async isLoggedIn(browserInstanceName?: string): Promise<boolean> {
         let authenticatorInstance
         if (!browserInstanceName) {
             return new Authenticator().getIsLoggedIn()

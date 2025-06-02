@@ -1,6 +1,6 @@
 import type { wdi5LogLevel } from "../types/wdi5.types.js"
 
-const translate = (color) => {
+const translate = (color: string) => {
     switch (color) {
         case "red":
             return "31"

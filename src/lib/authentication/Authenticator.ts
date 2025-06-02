@@ -2,13 +2,13 @@ export default class Authenticator {
     usernameSelector: string
     passwordSelector: string
     submitSelector: string
-    browserInstanceName: string
+    browserInstanceName: undefined | string
     browserInstance: WebdriverIO.Browser
 
-    constructor(browserInstanceName?) {
+    constructor(browserInstanceName?: string) {
         this.browserInstanceName = browserInstanceName
         if (browserInstanceName) {
-            this.browserInstance = browser[browserInstanceName]
+            this.browserInstance = browser[browserInstanceName as keyof typeof browser]
         } else {
             this.browserInstance = browser
         }

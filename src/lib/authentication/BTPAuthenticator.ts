@@ -3,16 +3,16 @@ import Authenticator from "./Authenticator.js"
 
 class BTPAuthenticator extends Authenticator {
     private disableBiometricAuth: boolean
-    private idpDomain: string
+    private idpDomain?: string
 
-    constructor(options: BTPAuthenticatorType, browserInstanceName) {
+    constructor(options: BTPAuthenticatorType, browserInstanceName: string) {
         super(browserInstanceName)
         this.usernameSelector = options.usernameSelector ?? "#j_username"
         this.passwordSelector = options.passwordSelector ?? "#j_password"
         this.submitSelector = options.submitSelector ?? "#logOnFormSubmit"
         this.disableBiometricAuth = options.disableBiometricAuthentication ?? false
         if (this.disableBiometricAuth) {
-            if (!options.idpDomain) {
+            if (!options?.idpDomain) {
                 throw new Error(
                     "idpDomain is required when disableBiometricAuthentication is set to `true` your wdi5.conf.(j|t)s"
                 )

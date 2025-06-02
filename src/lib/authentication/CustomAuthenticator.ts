@@ -5,7 +5,8 @@ import Authenticator from "./Authenticator.js"
 class CustomAuthenticator extends Authenticator {
     constructor(
         options: CustomAuthenticatorType,
-        browserInstance: WebdriverIO.Browser | WebdriverIO.MultiRemoteBrowser
+        browserInstanceName: string
+        // browserInstance: WebdriverIO.Browser | WebdriverIO.MultiRemoteBrowser // TODO: is that instance or name?
     ) {
         if (!options.usernameSelector || !options.passwordSelector || !options.submitSelector) {
             const msg =
@@ -13,7 +14,7 @@ class CustomAuthenticator extends Authenticator {
             Logger.getInstance().error(msg)
             throw new Error(msg)
         }
-        super(browserInstance)
+        super(browserInstanceName)
         this.usernameSelector = options.usernameSelector
         this.passwordSelector = options.passwordSelector
         this.submitSelector = options.submitSelector

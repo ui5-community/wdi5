@@ -1,8 +1,8 @@
 import type { Capabilities } from "@wdio/types"
-import Log from "sap/base/Log"
-import RecordReplay from "sap/ui/test/RecordReplay"
-import { ControlSelector } from "sap/ui/test/RecordReplay"
-import { WDI5Object } from "../lib/wdi5-object.js"
+import type Log from "sap/base/Log"
+import type RecordReplay from "sap/ui/test/RecordReplay"
+import type { ControlSelector } from "sap/ui/test/RecordReplay"
+import type { WDI5Object } from "../lib/wdi5-object.js"
 
 // // copypasta from
 // // https://stackoverflow.com/questions/41285211/overriding-interface-property-type-defined-in-typescript-d-ts-file/65561287#65561287
@@ -73,18 +73,22 @@ export type wdi5Capabilities = Capabilities.WithRequestedTestrunnerCapabilities 
      * that WebdriverIO issue is resolved allowing for extending the typed per-browser capability:
      * https://github.com/webdriverio/webdriverio/pull/11992
      */
-    maxInstances?: number
+    maxInstances?: number // TODO: still required?
     "wdi5:authentication"?: BTPAuthenticator | BasicAuthAuthenticator | CustomAuthenticator | Office365Authenticator
 }
 export type wdi5MultiRemoteCapability = Capabilities.WithRequestedTestrunnerCapabilities & {
     [instanceName: string]: wdi5Capabilities
 }
 
-export type BTPAuthenticator = {
-    provider: "BTP"
+export type BaseAuthenticator = {
+    provider: string
     usernameSelector?: string
     passwordSelector?: string
     submitSelector?: string
+}
+
+export type BTPAuthenticator = BaseAuthenticator & {
+    provider: "BTP"
     /**
      * set this, when IAS is in use as custom IdP
      * IAS provides this biometric login option which wdi5 as of now does not support for authentication
@@ -97,23 +101,17 @@ export type BTPAuthenticator = {
     idpDomain?: string
 }
 
-export type BasicAuthAuthenticator = {
+export type BasicAuthAuthenticator = BaseAuthenticator & {
     provider: "BasicAuth"
     basicAuthUrls?: Array<string>
 }
 
-export type CustomAuthenticator = {
+export type CustomAuthenticator = BaseAuthenticator & {
     provider: "custom"
-    usernameSelector: string
-    passwordSelector: string
-    submitSelector: string
 }
 
-export type Office365Authenticator = {
+export type Office365Authenticator = BaseAuthenticator & {
     provider: "Office365"
-    usernameSelector?: string
-    passwordSelector?: string
-    submitSelector?: string
     staySignedIn?: boolean
 }
 

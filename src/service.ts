@@ -14,10 +14,11 @@ export default class Service implements Services.ServiceInstance {
 
     async before(/*capabilities* , specs*/) {
         // cache config to global for later use
+        // TODO:  TS2339 Property '__wdi5Config' does not exist on type 'typeof globalThis'
         global.__wdi5Config = this._config
         // if no wdi5 config is available we add it manually
-        if (!this._config.wdi5) {
-            this._config["wdi5"] = {}
+        if (!this._config?.wdi5) {
+            this._config.wdi5 = {}
         }
 
         await start(this._config)
@@ -31,13 +32,13 @@ export default class Service implements Services.ServiceInstance {
                     await authenticate(this._capabilities[name].capabilities["wdi5:authentication"], name)
                 }
 
-                if (this._config.wdi5.skipInjectUI5OnStart) {
+                if (this._config?.wdi5?.skipInjectUI5OnStart) {
                     Logger.warn("skipped wdi5 injection!")
-                } else if (this._config.wdi5.btpWorkZoneEnablement) {
+                } else if (this._config?.wdi5?.btpWorkZoneEnablement) {
                     Logger.info("delegating wdi5 injection to WorkZone enablement...")
-                    await this.enableBTPWorkZoneStdEdition(browser[name])
+                    await this.enableBTPWorkZoneStdEdition(browser[name as keyof typeof browser])
                 } else {
-                    await this.injectUI5(browser[name])
+                    await this.injectUI5(browser[name as keyof typeof browser])
                 }
             }
         } else {
@@ -45,9 +46,9 @@ export default class Service implements Services.ServiceInstance {
                 await authenticate(this._capabilities["wdi5:authentication"])
             }
 
-            if (this._config.wdi5.skipInjectUI5OnStart) {
+            if (this._config?.wdi5?.skipInjectUI5OnStart) {
                 Logger.warn("skipped wdi5 injection!")
-            } else if (this._config.wdi5.btpWorkZoneEnablement) {
+            } else if (this._config?.wdi5?.btpWorkZoneEnablement) {
                 Logger.info("delegating wdi5 injection to WorkZone enablement...")
                 await this.enableBTPWorkZoneStdEdition(browser)
             } else {
@@ -61,19 +62,19 @@ export default class Service implements Services.ServiceInstance {
      * switches the browser context into the iframe
      * and eventually injects the wdi5 into the target app
      */
-    async enableBTPWorkZoneStdEdition(browser) {
+    async enableBTPWorkZoneStdEdition(browser: WebdriverIO.Browser) {
         await $("iframe").waitForExist() //> wz only has a single iframe (who's id is also not updated upon subsequent app navigation)
 
-        await browser.switchToFrame(null)
-        if (this._config.wdi5.skipInjectUI5OnStart) {
+        await browser.switchToFrame(null) // TODO: deprecated switchToFrame
+        if (this?._config?.wdi5?.skipInjectUI5OnStart) {
             Logger.warn("also skipped wdi5 injection in WorkZone std ed's shell!")
         } else {
             await this.injectUI5(browser)
             Logger.debug("injected wdi5 into the WorkZone std ed's shell!")
         }
 
-        await browser.switchToFrame(0)
-        if (this._config.wdi5.skipInjectUI5OnStart) {
+        await browser.switchToFrame(0) // TODO: deprecated switchToFrame
+        if (this?._config?.wdi5?.skipInjectUI5OnStart) {
             Logger.warn("also skipped wdi5 injection in application iframe!")
         } else {
             await this.injectUI5(browser)
@@ -92,6 +93,7 @@ export default class Service implements Services.ServiceInstance {
             const config = this._config ? this._config : browserInstance.options
             if (!config["wdi5"]) {
                 //Fetching config from global variable
+                // TODO:  TS2339 Property '__wdi5Config' does not exist on type 'typeof globalThis'
                 config["wdi5"] = global.__wdi5Config.wdi5
             }
             await injectUI5(config as wdi5Config, browserInstance)

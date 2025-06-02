@@ -51,7 +51,7 @@ export class WDI5FE {
     }
 
     async toApp() {
-        await browser.switchToFrame(0)
+        await browser.switchToFrame(0) // TODO: deprecated switchToFrame
     }
 
     static async initialize(appConfig, browserInstance = browser) {
@@ -78,7 +78,7 @@ export class WDI5FE {
 
             // back to app
             try {
-                await browserInstance.switchToFrame(0)
+                await browserInstance.switchToFrame(0) // TODO: deprecated switchToFrame
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (err) {
                 // This try-catch block is a fail-safe code to make sure the execution continues if browser fails to switch to app's frame.
@@ -87,7 +87,7 @@ export class WDI5FE {
             }
         } else {
             // revert back to app context
-            await browserInstance.switchToFrame(null)
+            await browserInstance.switchToFrame(null) // TODO: deprecated switchToFrame
         }
         return new WDI5FE(appConfig, browserInstance, shell)
     }

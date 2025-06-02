@@ -5,7 +5,7 @@ class BasicAuthenticator extends Authenticator {
     private options: BasicAuthenticatorType
     private baseUrl: string
 
-    constructor(options: BasicAuthenticatorType, browserInstanceName, baseUrl: string) {
+    constructor(options: BasicAuthenticatorType, browserInstanceName: string, baseUrl: string) {
         super(browserInstanceName)
         this.options = options
         this.baseUrl = baseUrl
@@ -25,10 +25,10 @@ class BasicAuthenticator extends Authenticator {
             const matches = basicAuthUrlsConfig.match(/(\w*:?\/\/)(.+)/)
             const username = encodeURIComponent(this.getUsername())
             const password = encodeURIComponent(this.getPassword())
-            const basicAuthUrls = matches[1] + username + ":" + password + "@" + matches[2]
-            if (!matches[1] || !matches[2]) {
+            if (!matches || !matches[1] || !matches[2]) {
                 throw new Error(`Invalid basicAuthUrls config: ${basicAuthUrlsConfig}`)
             }
+            const basicAuthUrls = matches[1] + username + ":" + password + "@" + matches[2]
             await this.browserInstance.url(basicAuthUrls)
         }
     }
