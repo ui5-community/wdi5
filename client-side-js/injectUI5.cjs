@@ -55,44 +55,6 @@ async function clientSide_injectUI5(waitForUI5Timeout, browserInstance) {
                 window.wdi5.Log.info("[browser wdi5] injected!")
             })
 
-            sap.ui.require(["sap/ui/test/autowaiter/_autoWaiterAsync"], (_autoWaiterAsync) => {
-                window.wdi5.waitForUI5 = async (oOptions = {}, callback, errorCallback) => {
-                    _autoWaiterAsync.extendConfig(oOptions)
-
-                    return new Promise((resolve, reject) => {
-                        const startWaiting = function () {
-                            window.wdi5.bWaitStarted = true
-                            _autoWaiterAsync.waitAsync(function (sError) {
-                                const nextWaitAsync = window.wdi5.asyncControlRetrievalQueue.shift()
-                                if (nextWaitAsync) {
-                                    setTimeout(nextWaitAsync) //use setTimeout to postpone execution to the next event cycle, so that bWaitStarted in the UI5 _autoWaiterAsync is also set to false first
-                                } else {
-                                    window.wdi5.bWaitStarted = false
-                                }
-                                if (sError) {
-                                    if (errorCallback) {
-                                        reject(errorCallback(new Error(sError)))
-                                    } else {
-                                        reject(new Error(sError))
-                                    }
-                                } else {
-                                    if (callback) {
-                                        resolve(callback())
-                                    } else {
-                                        resolve()
-                                    }
-                                }
-                            })
-                        }
-                        if (!window.wdi5.bWaitStarted) {
-                            startWaiting()
-                        } else {
-                            window.wdi5.asyncControlRetrievalQueue.push(startWaiting)
-                        }
-                    })
-                }
-            })
-
             // attach new bridge
             const setupPromise = new Promise((resolve, reject) => {
                 sap.ui.require(["sap/ui/test/RecordReplay"], (RecordReplay) => {

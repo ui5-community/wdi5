@@ -3,7 +3,7 @@ async function clientSide_getObject(uuid) {
         const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options)
 
         try {
-            await window.wdi5.waitForUI5(waitForUI5Options)
+            await window.bridge.waitForUI5(waitForUI5Options)
         } catch (error) {
             return window.wdi5.errorHandling(error)
         }

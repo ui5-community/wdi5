@@ -1,7 +1,7 @@
-async function clientSide__checkForUI5Ready(browserInstance) {
+async function clientSide_checkForUI5Ready(browserInstance) {
     return await browserInstance.execute(async () => {
         try {
-            await window.wdi5.waitForUI5(window.wdi5.waitForUI5Options)
+            await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
         } catch (error) {
             return window.wdi5.errorHandling(error)
         }
@@ -11,5 +11,5 @@ async function clientSide__checkForUI5Ready(browserInstance) {
 }
 
 module.exports = {
-    clientSide__checkForUI5Ready
+    clientSide_checkForUI5Ready
 }

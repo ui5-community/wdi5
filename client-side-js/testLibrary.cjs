@@ -1,7 +1,7 @@
 async function initOPA(pageObjectConfig, browserInstance) {
     return await browserInstance.execute(async (pageObjectConfig) => {
         try {
-            await window.wdi5.waitForUI5(window.wdi5.waitForUI5Options)
+            await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
 
             const pageConfig = {}
             Object.keys(pageObjectConfig).map((pageKey) => {
@@ -31,21 +31,17 @@ async function initOPA(pageObjectConfig, browserInstance) {
             // different error handling for the test library
             return ["error", error.toString()]
         }
-
-
-
-
     }, pageObjectConfig)
 }
 async function emptyQueue(browserInstance) {
     return await browserInstance.execute(async () => {
         try {
             debugger
-            await window.wdi5.waitForUI5(window.wdi5.waitForUI5Options)
+            await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
             await sap.ui.test.Opa.emptyQueue()
             const feLogs = window.fe_bridge.Log
             window.fe_bridge.Log = []
-            return ({ type: "success", feLogs: feLogs })
+            return { type: "success", feLogs: feLogs }
         } catch (error) {
             return {
                 type: "error",
@@ -61,7 +57,7 @@ async function emptyQueue(browserInstance) {
 async function addToQueue(methodCalls, browserInstance) {
     return await browserInstance.execute(async (methodCalls) => {
         try {
-            await window.wdi5.waitForUI5(window.wdi5.waitForUI5Options)
+            await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
 
             for (const methodCall of methodCalls) {
                 let scope

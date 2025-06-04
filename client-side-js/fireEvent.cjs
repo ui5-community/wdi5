@@ -4,7 +4,7 @@ async function clientSide_fireEvent(webElement, eventName, oOptions, browserInst
     return await browserInstance.execute(
         async (webElement, eventName, oOptions) => {
             try {
-                await window.wdi5.waitForUI5(window.wdi5.waitForUI5Options)
+                await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
             } catch (error) {
                 return window.wdi5.errorHandling(error)
             }

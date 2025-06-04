@@ -142,7 +142,7 @@ describe("ui5 eval on control", () => {
          */
 
         // *********
-        // new approach -> takes ~4.3sec
+        // new approach -> run code in browser scope via wdi5/node-wormhole
         marky.mark("execForListItemTitles")
         const peopleListNames = await list.exec(function () {
             return this.getItems().map((item) => item.getTitle())
@@ -154,17 +154,15 @@ describe("ui5 eval on control", () => {
             expect(peopleListNames).toContain(name)
         })
 
-        // *********
-        // UI5 API straight forward approach -> takes ~8.1sec
         marky.mark("regularGetAllItemTitles")
-        const regularPeopleListNames = await Promise.all(
-            // prettier-ignore
-            (await list.getItems()).map(async (e) => {
-                return await e.getTitle()
-            })
-        )
+
+        // UI5 API straight forward approach -> takes ~8.1sec
+        const listItems = await list.getItems()
+        const regularPeopleListNames = []
+        for (const item of listItems) {
+            regularPeopleListNames.push(await item.getTitle())
+        }
         wdi5.getLogger().info(marky.stop("regularGetAllItemTitles"))
-        // *********
 
         Other.allNames.forEach((name) => {
             expect(regularPeopleListNames).toContain(name)
