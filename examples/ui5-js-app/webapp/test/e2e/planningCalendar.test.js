@@ -7,8 +7,8 @@ describe("Planning Calendar test spec", () => {
 
     it("should show aggreates of planning calendar", async () => {
         // I wait for a button to be clickable (which means that my app has loaded
-        const showBtn = await CL.getShowButton()
-        await browser.waitUntil(() => showBtn.$().isClickable())
+        // const showBtn = await CL.getShowButton()
+        // await browser.waitUntil(() => showBtn.$().isClickable())
         // I get the planning calendar
         const pc = await CL.getPlanningCalendar()
         // I get aggregated rows
@@ -16,10 +16,12 @@ describe("Planning Calendar test spec", () => {
         // each people has a row
 
         const cells0 = await rows[0].getCells()
+
         // The first two rows have two cell which are the the reminders and the appointments, third row does not have reminders!
         // This will log a lot of expected errors. It tries to load all calendar entries.
         // All entries which are not visible are not in dom -> throws error when tried to retrieve
         const appointments0 = await cells0[1].getAppointments()
+
         expect(appointments0.length).toBeGreaterThan(4) // four appointments visible on the selected date, but 22 in total
 
         // every first appointment is a meeting

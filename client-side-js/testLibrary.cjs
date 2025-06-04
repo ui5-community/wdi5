@@ -3,7 +3,7 @@ const { browser } = require("@wdio/globals")
 async function initOPA(pageObjectConfig, browserInstance) {
     return await browserInstance.execute(async (pageObjectConfig) => {
         try {
-            await window.wdi5.waitForUI5(window.wdi5.waitForUI5Options)
+            await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
 
             const pageConfig = {}
             Object.keys(pageObjectConfig).map((pageKey) => {
@@ -38,7 +38,7 @@ async function initOPA(pageObjectConfig, browserInstance) {
 async function emptyQueue(browserInstance) {
     return await browserInstance.execute(async () => {
         try {
-            await window.wdi5.waitForUI5(window.wdi5.waitForUI5Options)
+            await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
             await sap.ui.test.Opa.emptyQueue()
             const feLogs = window.fe_bridge.Log
             window.fe_bridge.Log = []
@@ -58,7 +58,7 @@ async function emptyQueue(browserInstance) {
 async function addToQueue(methodCalls, browserInstance) {
     return await browserInstance.execute(async (methodCalls) => {
         try {
-            await window.wdi5.waitForUI5(window.wdi5.waitForUI5Options)
+            await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
 
             for (const methodCall of methodCalls) {
                 let scope
