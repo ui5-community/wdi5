@@ -13,6 +13,7 @@ async function clientSide_injectUI5(waitForUI5Timeout, browserInstance) {
             return false
         }
 
+        // TODO: load ui5 libs at once
         // attach the function to be able to use the extracted method later
         if (!window.bridge) {
             // create empty
