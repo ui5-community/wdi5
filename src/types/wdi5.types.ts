@@ -64,6 +64,8 @@ export interface wdi5Config extends WebdriverIO.Config {
     // capabilities: wdi5Capabilities[] | wdi5MultiRemoteCapability
 }
 
+export type wdi5Authenticator = BTPAuthenticator | BasicAuthAuthenticator | CustomAuthenticator | Office365Authenticator
+
 /**
  * the "wdi5" prefix is to comply with W3C standards
  */
@@ -74,7 +76,7 @@ export type wdi5Capabilities = Capabilities.WithRequestedTestrunnerCapabilities 
      * https://github.com/webdriverio/webdriverio/pull/11992
      */
     maxInstances?: number // TODO: still required?
-    "wdi5:authentication"?: BTPAuthenticator | BasicAuthAuthenticator | CustomAuthenticator | Office365Authenticator
+    "wdi5:authentication"?: wdi5Authenticator
 }
 export type wdi5MultiRemoteCapability = Capabilities.WithRequestedTestrunnerCapabilities & {
     [instanceName: string]: wdi5Capabilities

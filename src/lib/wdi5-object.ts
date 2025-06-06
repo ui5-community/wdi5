@@ -7,11 +7,11 @@ const Logger = _Logger.getInstance()
  * equivalent representation of a sap.ui.base.Object in Node.js-scope
  */
 export class WDI5Object {
-    private _uuid?: string
-    private _aProtoFunctions: []
-    private _baseObject: null
+    private _uuid: string
+    private _aProtoFunctions?: string[]
+    private _baseObject?: WDI5Object
 
-    constructor(uuid: string, aProtoFunctions, object) {
+    constructor(uuid: string, aProtoFunctions?: string[], object?: WDI5Object) {
         this._uuid = uuid
 
         if (aProtoFunctions) {
@@ -48,7 +48,7 @@ export class WDI5Object {
         this._writeObjectResultLog(result, methodName)
 
         if (result.returnType === "object") {
-            return new WDI5Object(result.uuid, result.aProtoFunctions, result.object)
+            return new WDI5Object(result.uuid ?? "", result.aProtoFunctions, result.object)
         } else {
             return result.result
         }

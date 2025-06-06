@@ -14,7 +14,6 @@ export default class Service implements Services.ServiceInstance {
 
     async before(/*capabilities* , specs*/) {
         // cache config to global for later use
-        // TODO:  TS2339 Property '__wdi5Config' does not exist on type 'typeof globalThis'
         global.__wdi5Config = this._config
         // if no wdi5 config is available we add it manually
         if (!this._config?.wdi5) {
@@ -43,7 +42,7 @@ export default class Service implements Services.ServiceInstance {
             }
         } else {
             if (this._capabilities["wdi5:authentication"]) {
-                await authenticate(this._capabilities["wdi5:authentication"])
+                await authenticate(this._capabilities["wdi5:authentication"], "")
             }
 
             if (this._config?.wdi5?.skipInjectUI5OnStart) {
@@ -90,13 +89,12 @@ export default class Service implements Services.ServiceInstance {
     async injectUI5(browserInstance = browser) {
         if (await checkForUI5Page(browserInstance)) {
             // depending on the scenario (lateInject, multiRemote) we have to access the config differently
-            const config = this._config ? this._config : browserInstance.options
-            if (!config["wdi5"]) {
+            const config = this._config ? this._config : (browserInstance.options as wdi5Config)
+            if (!config?.wdi5) {
                 //Fetching config from global variable
-                // TODO:  TS2339 Property '__wdi5Config' does not exist on type 'typeof globalThis'
-                config["wdi5"] = global.__wdi5Config.wdi5
+                config.wdi5 = global.__wdi5Config.wdi5
             }
-            await injectUI5(config as wdi5Config, browserInstance)
+            await injectUI5(config, browserInstance)
         } else {
             throw new Error("wdi5: no UI5 page/app present to work on :(")
         }

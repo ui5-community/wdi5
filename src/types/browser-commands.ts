@@ -36,3 +36,8 @@ declare global {
         // }
     }
 }
+
+declare global {
+    // eslint-disable-next-line no-var
+    var __wdi5Config: wdi5Config
+}

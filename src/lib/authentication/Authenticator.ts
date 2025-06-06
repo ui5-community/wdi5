@@ -1,8 +1,8 @@
 export default class Authenticator {
-    usernameSelector: string
-    passwordSelector: string
-    submitSelector: string
-    browserInstanceName: undefined | string
+    usernameSelector?: string
+    passwordSelector?: string
+    submitSelector?: string
+    browserInstanceName?: string
     browserInstance: WebdriverIO.Browser
 
     constructor(browserInstanceName?: string) {
@@ -19,7 +19,7 @@ export default class Authenticator {
         if (browser.isMultiremote) {
             envName = `wdi5_${this.browserInstanceName}_username`
         }
-        return process.env[envName]
+        return process.env[envName] || ""
     }
 
     getPassword(): string {
@@ -27,7 +27,7 @@ export default class Authenticator {
         if (browser.isMultiremote) {
             envName = `wdi5_${this.browserInstanceName}_password`
         }
-        return process.env[envName]
+        return process.env[envName] || ""
     }
 
     async getIsLoggedIn(): Promise<boolean> {

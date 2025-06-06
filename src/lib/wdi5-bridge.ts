@@ -3,7 +3,8 @@ import type {
     clientSide_ui5Response,
     wdi5Config,
     wdi5Selector,
-    BTPAuthenticator as BTPAuthenticatorType
+    BTPAuthenticator as BTPAuthenticatorType,
+    wdi5Authenticator
 } from "../types/wdi5.types.js"
 
 import { resolve } from "node:path"
@@ -123,7 +124,6 @@ function checkUI5Version(ui5Version: string) {
 export async function injectUI5(config: wdi5Config, browserInstance: WebdriverIO.Browser) {
     if (!config?.wdi5) {
         //Fetching config from global variable
-        // TODO:  TS2339 Property '__wdi5Config' does not exist on type 'typeof globalThis'
         config.wdi5 = global.__wdi5Config.wdi5
     }
     const waitForUI5Timeout = config?.wdi5?.waitForUI5Timeout || 15000
@@ -178,7 +178,7 @@ export async function checkForUI5Page(browserInstance: WebdriverIO.Browser) {
     })
 }
 
-export async function authenticate(options, browserInstanceName?: string) {
+export async function authenticate(options: wdi5Authenticator, browserInstanceName: string) {
     switch (options.provider) {
         case "BTP": {
             const btp = new BTPAuthenticator(options, browserInstanceName)
