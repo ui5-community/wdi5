@@ -230,6 +230,7 @@ function _createWdioUI5KeyFromSelector(selector: wdi5Selector): string {
  * @returns {boolean} if the given selector is a valid selector
  */
 function _verifySelector(wdi5Selector: wdi5Selector) {
+    /* eslint-disable no-prototype-builtins */
     if (wdi5Selector.hasOwnProperty("selector")) {
         if (
             wdi5Selector.selector.hasOwnProperty("id") ||
@@ -243,6 +244,7 @@ function _verifySelector(wdi5Selector: wdi5Selector) {
             wdi5Selector.selector.hasOwnProperty("properties") ||
             wdi5Selector.selector.hasOwnProperty("sibling") ||
             wdi5Selector.selector.hasOwnProperty("interactable")
+            /* eslint-enable no-prototype-builtins */
         ) {
             return true
         }
