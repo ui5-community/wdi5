@@ -5,7 +5,7 @@ const { Launcher } = require("@wdio/cli")
 
 // lts versions (> 1.60)
 // empty string will get the newest Version which can be a "SNAPSHOT" version
-const versions = ["", "1.71", "1.84", "1.96"]
+const versions = ["", "1.71", "1.84", "1.96", "1.108", "1.120", "1.136"]
 
 ;(async () => {
     for (const version of versions) {
