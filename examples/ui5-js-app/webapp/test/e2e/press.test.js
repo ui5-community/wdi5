@@ -88,7 +88,7 @@ describe("custom wdi5 press event", async () => {
                 }
             }
         })
-        // TODO: test value changing via element interaction
-        expect(okButton._generatedUI5Methods).toBeTruthy()
+        // TODO: test value changing via element interaction, it's testing the button presence now
+        expect(okButton.isInitialized()).toBeTruthy()
     })
 })
