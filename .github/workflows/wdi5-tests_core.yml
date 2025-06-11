@@ -3,7 +3,7 @@ on:
   pull_request:
     branches:
       - main
-      - main-v2
+      - v9-support
     paths:
       # relevant
       - "client-side-js/**"

@@ -8,11 +8,11 @@ on:
   push:
     branches:
       - main
-      - main-v2
+      - v9-support
   pull_request:
     branches:
       - main
-      - main-v2
+      - v9-support
 
 jobs:
   run-linters:
