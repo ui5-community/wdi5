@@ -1,4 +1,3 @@
-import { merge } from "ts-deepmerge"
 import { wdi5MultiRemoteCapability } from "wdio-ui5-service"
 import { config as baseConf } from "./wdio-base.conf.js"
 import { browser } from "../cloud-services/browserstack.conf.local.js"
@@ -69,6 +68,6 @@ const _config = {
     capabilities: multiRemoteCapability
 }
 
-const config = merge(baseConf, _config)
+const config = { ...baseConf, ..._config }
 config.specs = [resolve("./test/e2e/multiremote.test.ts"), resolve("./test/e2e/BasicMultiRemoteAuthentication.test.ts")]
 export { config }

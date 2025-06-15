@@ -1,6 +1,5 @@
 const { join } = require("path")
 const { baseConfig } = require("./wdio.base.conf")
-const merge = require("deepmerge")
 
 const _config = {
     specs: [join("..", "webapp", "test", "e2e", "**/*.test.js")],
@@ -11,4 +10,4 @@ const _config = {
     services: [["selenium-standalone", { drivers: { chrome: true, chromiumedge: "latest" } }]]
 }
 
-exports.config = merge(baseConfig, _config)
+exports.config = { ...baseConfig, ..._config }

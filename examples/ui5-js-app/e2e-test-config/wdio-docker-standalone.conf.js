@@ -1,6 +1,5 @@
 const { baseConfig } = require("./wdio.base.conf")
 const { join } = require("path")
-const merge = require("deepmerge")
 
 // avoid multiple chrome sessions
 delete baseConfig.capabilities
@@ -29,4 +28,4 @@ const _config = {
     specs: ["../webapp/test/e2e/*.test.js"]
 }
 
-exports.config = merge(baseConfig, _config)
+exports.config = { ...baseConfig, ..._config }

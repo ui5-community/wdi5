@@ -1,6 +1,5 @@
 const { join } = require("path")
 const { baseConfig } = require("./wdio.base.conf")
-const merge = require("deepmerge")
 
 const _config = {
     wdi5: {
@@ -11,4 +10,4 @@ const _config = {
     baseUrl: "https://github.com/ui5-community/wdi5/"
 }
 
-exports.config = merge(baseConfig, _config)
+exports.config = { ...baseConfig, ..._config }
