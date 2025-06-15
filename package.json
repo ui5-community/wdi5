@@ -103,6 +103,7 @@
     "@types/openui5": "^1.136.0",
     "@types/sinon": "^17.0.4",
     "@ui5/cli": "^4",
+    "@wdio/browserstack-service": "^9",
     "@wdio/sauce-service": "^9",
     "@wdio/types": "^9.14.0",
     "cross-env": "^7.0.3",

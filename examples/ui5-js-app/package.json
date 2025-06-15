@@ -20,16 +20,16 @@
     "test-selenium": "wdio run e2e-test-config/wdio-selenium-service.conf.js"
   },
   "devDependencies": {
+    "@sap-ux/ui5-middleware-fe-mockserver": "latest",
+    "ui5-middleware-simpleproxy": "latest",
+    "wdio-ui5-service": "*"
+  },
+  "peerDependencies": {
     "@ui5/cli": "^4",
     "@wdio/cli": "^9",
     "@wdio/local-runner": "^9",
     "@wdio/mocha-framework": "^9",
-    "@wdio/spec-reporter": "^9",
-    "ui5-middleware-simpleproxy": "latest",
-    "wdio-ui5-service": "*",
-    "@sap-ux/ui5-middleware-fe-mockserver": "latest"
-  },
-  "dependencies": {
-    "@wdio/sauce-service": "^9"
+    "@wdio/sauce-service": "^9",
+    "@wdio/spec-reporter": "^9"
   }
 }
