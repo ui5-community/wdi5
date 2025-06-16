@@ -1,13 +1,13 @@
+import { mock } from "node:test"
 import { wdi5 } from "wdio-ui5-service"
-import * as sinon from "sinon"
 
 describe("ui5 basic", () => {
     it("should use the ESM style logger", () => {
-        const logSpy = sinon.spy(console, "log")
+        const logSpy = mock.method(console, "log", () => {})
         const Logger = wdi5.getLogger("esm!")
         Logger.log("Hello ESM World!")
-        expect(logSpy.getCall(0).args[1]).toContain("esm!")
-        logSpy.restore()
+        expect(logSpy.mock.calls[0].arguments[1]).toContain("esm!")
+        logSpy.mock.restore()
     })
 
     it("window should have the right title", async () => {

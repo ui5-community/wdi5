@@ -12,8 +12,6 @@
     "wdi5": "wdio ./webapp/test/e2e/wdio.conf.js"
   },
   "devDependencies": {
-    "@types/sinon": "^17.0.3",
-    "sinon": "^18.0.0",
     "ui5-middleware-simpleproxy": "latest",
     "wdio-ui5-service": "*"
   },

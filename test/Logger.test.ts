@@ -1,23 +1,23 @@
-import * as sinon from "sinon"
-import { notStrictEqual, strictEqual } from "assert"
+import { mock } from "node:test"
+import { notStrictEqual, strictEqual } from "node:assert"
 import { wdi5 } from "../src/wdi5"
 
 describe("wdi5 logger", function () {
     it("empty scope results in default 'wdi5'", function () {
-        const logSpy = sinon.spy(console, "log")
+        const logSpy = mock.method(console, "log", () => {})
         const logger = wdi5.getLogger()
         logger.log("test")
-        strictEqual(logSpy.getCall(0).args[1].includes("wdi5"), true)
-        logSpy.restore()
+        strictEqual(logSpy.mock.calls[0].arguments[1].includes("wdi5"), true)
+        logSpy.mock.restore()
     })
 
     it("custom scope is included as log tag", function () {
         const tag = "my-scope"
-        const logSpy = sinon.spy(console, "log")
+        const logSpy = mock.method(console, "log", () => {})
         const logger = wdi5.getLogger(tag)
         logger.log("test")
-        strictEqual(logSpy.getCall(0).args[1].includes(tag), true)
-        logSpy.restore()
+        strictEqual(logSpy.mock.calls[0].arguments[1].includes(tag), true)
+        logSpy.mock.restore()
     })
 
     it("requesting different scopes delivers different logging instance", function () {
