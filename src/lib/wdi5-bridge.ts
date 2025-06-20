@@ -43,7 +43,7 @@ let _sapUI5Version: string
 /** relay runtime config options from Service */
 let _config: wdi5Config
 
-export async function setup(config: wdi5Config) {
+export async function setup(config: wdi5Config, browserInstance: WebdriverIO.Browser) {
     _config = config
     if (_setupComplete) {
         // already setup done
@@ -52,35 +52,35 @@ export async function setup(config: wdi5Config) {
     // jump-start the desired log level
     Logger.setLogLevel(config?.wdi5?.logLevel || "error")
 
-    if (browser.isMultiremote) {
-        ;(browser as unknown as WebdriverIO.MultiRemoteBrowser).instances.forEach((name) => {
-            initBrowser(browser[name as keyof typeof browser])
+    if (browserInstance.isMultiremote) {
+        ;(browserInstance as unknown as WebdriverIO.MultiRemoteBrowser).instances.forEach((name) => {
+            initBrowser(browserInstance[name as keyof typeof browserInstance])
         })
-        initMultiRemoteBrowser()
+        initMultiRemoteBrowser(browserInstance)
     } else {
-        initBrowser(browser)
+        initBrowser(browserInstance)
     }
 
     _setupComplete = true
 }
 
-export async function start(config: wdi5Config) {
+export async function start(config: wdi5Config, browserInstance: WebdriverIO.Browser) {
     // TODO: what if config.wdi5 and config.baseUrl are not set?
     if (config?.wdi5?.url) {
         // still support the old logic that we don't have breaking changes
         Logger.warn(`'url' property in config file deprecated: please use 'baseUrl' only!`)
         Logger.info(`open url: ${config.wdi5.url}`)
-        await browser.url(config.wdi5.url)
+        await browserInstance.url(config.wdi5.url)
     } else {
         Logger.info(`open url: ${config.baseUrl}`)
-        await browser.url(config.baseUrl)
+        await browserInstance.url(config.baseUrl)
     }
 }
 
-function initMultiRemoteBrowser() {
+function initMultiRemoteBrowser(browserInstance: WebdriverIO.Browser) {
     ;["asControl", "goTo", "screenshot", "waitForUI5", "getUI5Version", "getSelectorForElement", "allControls"].forEach(
         (command) => {
-            browser.addCommand(command, async (...args) => {
+            browserInstance.addCommand(command, async (...args) => {
                 const multiRemoteInstance = browser as unknown as WebdriverIO.MultiRemoteBrowser
                 const result = []
                 multiRemoteInstance.instances.forEach((name) => {
@@ -284,7 +284,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
         return browserInstance._controls[internalKey]
     })
 
-    browser.addCommand("asObject", async (_uuid: string) => {
+    browserInstance.addCommand("asObject", async (_uuid: string) => {
         const _result = (await clientSide_getObject(_uuid)) as clientSide_ui5Object
         const { uuid, status, aProtoFunctions, className, object } = _result
         if (status === 0) {
@@ -357,7 +357,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
      */
     browserInstance.addCommand("screenshot", async (fileAppendix) => {
         await _waitForUI5(browserInstance)
-        await _writeScreenshot(fileAppendix)
+        await _writeScreenshot(browserInstance, fileAppendix)
     })
 
     browserInstance.addCommand("goTo", async (oOptions) => {
@@ -574,15 +574,15 @@ async function _checkForUI5Ready(browserInstance: WebdriverIO.Browser) {
 /**
  * @param fileAppendix
  */
-async function _writeScreenshot(fileAppendix = "-screenshot") {
+async function _writeScreenshot(browserInstance: WebdriverIO.Browser, fileAppendix = "-screenshot") {
     // if config param screenshotsDisabled is set to true -> no screenshots will be taken
     if (!_config?.wdi5 || _config.wdi5["screenshotsDisabled"]) {
         Logger.warn("screenshot skipped due to config parameter")
         return
     }
 
-    // browser.screenshot returns the screenshot as a base64 string
-    const screenshot = await browser.takeScreenshot()
+    // browserInstance.screenshot returns the screenshot as a base64 string
+    const screenshot = await browserInstance.takeScreenshot()
     const seed = _getDateString()
 
     const _path = _config.wdi5.screenshotPath || tmpdir()

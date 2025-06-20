@@ -1,4 +1,4 @@
-import type { Services } from "@wdio/types"
+import type { Capabilities, Services } from "@wdio/types"
 import type { wdi5Capabilities, wdi5Config, wdi5MultiRemoteCapability } from "./types/wdi5.types.js"
 
 import { start, injectUI5, setup, checkForUI5Page, authenticate } from "./lib/wdi5-bridge.js"
@@ -12,7 +12,11 @@ export default class Service implements Services.ServiceInstance {
         private _config?: wdi5Config // an enhanced version of the regular wdio config
     ) {} // the Service is instantiated by wdio with the capabilities and config passed on to
 
-    async before(/*capabilities* , specs*/) {
+    async before(
+        capabilities: Capabilities.RequestedMultiremoteCapabilities,
+        specs: string[],
+        browserInstance: WebdriverIO.Browser
+    ) {
         // cache config to global for later use
         global.__wdi5Config = this._config
         // if no wdi5 config is available we add it manually
@@ -20,13 +24,13 @@ export default class Service implements Services.ServiceInstance {
             this._config.wdi5 = {}
         }
 
-        await start(this._config)
+        await start(this._config, browserInstance)
         Logger.info("started")
-        await setup(this._config)
+        await setup(this._config, browserInstance)
         Logger.info("setup complete")
 
-        if (browser.isMultiremote) {
-            for (const name of (browser as unknown as WebdriverIO.MultiRemoteBrowser).instances) {
+        if (browserInstance.isMultiremote) {
+            for (const name of (browserInstance as unknown as WebdriverIO.MultiRemoteBrowser).instances) {
                 if (this._capabilities[name].capabilities["wdi5:authentication"]) {
                     await authenticate(this._capabilities[name].capabilities["wdi5:authentication"], name)
                 }
@@ -35,9 +39,9 @@ export default class Service implements Services.ServiceInstance {
                     Logger.warn("skipped wdi5 injection!")
                 } else if (this._config?.wdi5?.btpWorkZoneEnablement) {
                     Logger.info("delegating wdi5 injection to WorkZone enablement...")
-                    await this.enableBTPWorkZoneStdEdition(browser[name as keyof typeof browser])
+                    await this.enableBTPWorkZoneStdEdition(browserInstance[name as keyof typeof browserInstance])
                 } else {
-                    await this.injectUI5(browser[name as keyof typeof browser])
+                    await this.injectUI5(browserInstance[name as keyof typeof browserInstance])
                 }
             }
         } else {
@@ -49,9 +53,9 @@ export default class Service implements Services.ServiceInstance {
                 Logger.warn("skipped wdi5 injection!")
             } else if (this._config?.wdi5?.btpWorkZoneEnablement) {
                 Logger.info("delegating wdi5 injection to WorkZone enablement...")
-                await this.enableBTPWorkZoneStdEdition(browser)
+                await this.enableBTPWorkZoneStdEdition(browserInstance)
             } else {
-                await this.injectUI5(browser)
+                await this.injectUI5(browserInstance)
             }
         }
     }
@@ -61,22 +65,22 @@ export default class Service implements Services.ServiceInstance {
      * switches the browser context into the iframe
      * and eventually injects the wdi5 into the target app
      */
-    async enableBTPWorkZoneStdEdition(browser: WebdriverIO.Browser) {
+    async enableBTPWorkZoneStdEdition(browserInstance: WebdriverIO.Browser) {
         await $("iframe").waitForExist() //> wz only has a single iframe (who's id is also not updated upon subsequent app navigation)
 
-        await browser.switchFrame(null)
+        await browserInstance.switchFrame(null)
         if (this?._config?.wdi5?.skipInjectUI5OnStart) {
             Logger.warn("also skipped wdi5 injection in WorkZone std ed's shell!")
         } else {
-            await this.injectUI5(browser)
+            await this.injectUI5(browserInstance)
             Logger.debug("injected wdi5 into the WorkZone std ed's shell!")
         }
 
-        await browser.switchFrame(null)
+        await browserInstance.switchFrame(null)
         if (this?._config?.wdi5?.skipInjectUI5OnStart) {
             Logger.warn("also skipped wdi5 injection in application iframe!")
         } else {
-            await this.injectUI5(browser)
+            await this.injectUI5(browserInstance)
             Logger.debug("injected wdi5 into the WorkZone std ed's iframe containing the target app!")
         }
     }
