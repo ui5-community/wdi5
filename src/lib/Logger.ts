@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import type { wdi5LogLevel } from "../types/wdi5.types.js"
 
 const translate = (color: string) => {

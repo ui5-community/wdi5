@@ -539,7 +539,7 @@ export class WDI5Control {
                         const wdioElement = result.result[args[0]]
                         return await this._retrieveElement(wdioElement)
                     } else {
-                        console.error(
+                        Logger.error(
                             `tried to get an control at index: ${args[0]} of an aggregation outside of aggregation length: ${result.result.length}`
                         )
                     }

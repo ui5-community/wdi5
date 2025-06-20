@@ -7,6 +7,7 @@ async function clientSide_injectUI5(waitForUI5Timeout, browserInstance) {
 
         if (!window.sap || !window.sap.ui) {
             // setup sap testing already cant be done due to sap namespace not present on the page
+            // eslint-disable-next-line no-console
             console.error("[browser wdi5] ERR: no ui5 present on page")
 
             // only condition where to cancel the setup process
@@ -377,6 +378,7 @@ async function clientSide_injectUI5(waitForUI5Timeout, browserInstance) {
                             }
                             return item
                         } else {
+                            // eslint-disable-next-line no-console
                             console.error("error creating new element by id of control: " + aControl)
                         }
                     }

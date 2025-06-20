@@ -328,10 +328,10 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
         const result = (await clientSide_getSelectorForElement(oOptions, browserInstance)) as clientSide_ui5Response
 
         if (result.status === 1) {
-            console.error("ERROR: getSelectorForElement() failed because of: " + result.message)
+            Logger.error("ERROR: getSelectorForElement() failed because of: " + result.message)
             return result.message
         } else if (result.status === 0) {
-            console.log(`SUCCESS: getSelectorForElement() returned:  ${JSON.stringify(result.result)}`)
+            Logger.log(`SUCCESS: getSelectorForElement() returned:  ${JSON.stringify(result.result)}`)
             return result.result
         }
     })
