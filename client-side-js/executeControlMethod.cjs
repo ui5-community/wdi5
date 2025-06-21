@@ -1,6 +1,7 @@
 const { browser } = require("@wdio/globals")
 const { Logger } = require("../cjs/lib/Logger.js")
 const logger = Logger.getInstance()
+// TODO: no access to global browser
 if (global.browser) {
     logger.setLogLevel(browser.options?.wdi5?.logLevel || "error")
 }

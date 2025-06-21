@@ -1,9 +1,7 @@
-const { browser } = require("@wdio/globals")
-
 /**
  * @returns {string} UI5 version number in string form
  */
-async function clientSide_getUI5Version(browserInstance = browser) {
+async function clientSide_getUI5Version(browserInstance) {
     return await browserInstance.execute(() => sap.ui.version)
 }
 

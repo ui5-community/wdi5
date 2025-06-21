@@ -1,6 +1,7 @@
 const { browser } = require("@wdio/globals")
 
 async function clientSide_executeObjectMethod(uuid, methodName, args) {
+    // TODO: no access to global browser
     return await browser.execute(
         async (uuid, methodName, args) => {
             try {

@@ -1,5 +1,3 @@
-const { browser } = require("@wdio/globals")
-
 async function initOPA(pageObjectConfig, browserInstance) {
     return await browserInstance.execute(async (pageObjectConfig) => {
         try {
@@ -94,7 +92,7 @@ async function addToQueue(methodCalls, browserInstance) {
     }, methodCalls)
 }
 
-async function loadFELibraries(browserInstance = browser) {
+async function loadFELibraries(browserInstance) {
     return await browserInstance.execute(async () => {
         return await new Promise((resolve) => {
             sap.ui.require(

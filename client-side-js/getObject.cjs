@@ -1,7 +1,5 @@
-const { browser } = require("@wdio/globals")
-
-async function clientSide_getObject(uuid) {
-    return await browser.execute(async (uuid) => {
+async function clientSide_getObject(uuid, browserInstance) {
+    return await browserInstance.execute(async (uuid) => {
         const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options)
 
         try {

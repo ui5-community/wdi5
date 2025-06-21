@@ -285,7 +285,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
     })
 
     browserInstance.addCommand("asObject", async (_uuid: string) => {
-        const _result = (await clientSide_getObject(_uuid)) as clientSide_ui5Object
+        const _result = (await clientSide_getObject(_uuid, browserInstance)) as clientSide_ui5Object
         const { uuid, status, aProtoFunctions, className, object } = _result
         if (status === 0) {
             // create new wdi5-Object
