@@ -88,6 +88,7 @@
     "*.ts": "eslint --cache --fix"
   },
   "dependencies": {
+    "compare-versions": "^6.1.1",
     "dotenv": "^16.4.5",
     "semver": "^7.6.3"
   },
