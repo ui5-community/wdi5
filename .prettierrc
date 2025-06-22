@@ -9,12 +9,7 @@
     "endOfLine": "lf",
     "overrides": [
         {
-            "files": [
-                "*.yaml",
-                "*.yml",
-                "*.json",
-                "*.md"
-            ],
+            "files": ["*.yaml", "*.yml", "*.json", "*.md"],
             "options": {
                 "tabWidth": 2
             }
