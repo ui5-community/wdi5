@@ -1,5 +1,5 @@
 import { wdi5Config } from "wdio-ui5-service"
-import { resolve } from "path"
+import { resolve } from "node:path"
 
 process.env.wdi5_username = process.env.wdi5_wz_username
 process.env.wdi5_password = process.env.wdi5_wz_password
@@ -27,13 +27,14 @@ export const config: wdi5Config = {
             },
             maxInstances: 2,
             browserName: "chrome",
+            browserVersion: "stable",
             "goog:chromeOptions": {
                 args:
                     process.argv.indexOf("--headless") > -1
                         ? ["--headless"]
                         : process.argv.indexOf("--debug") > -1
-                        ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
-                        : ["window-size=1440,800"]
+                          ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
+                          : ["window-size=1440,800"]
             },
             acceptInsecureCerts: true
         }

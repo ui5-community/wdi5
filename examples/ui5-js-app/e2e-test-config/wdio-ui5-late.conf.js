@@ -1,4 +1,3 @@
-const { join } = require("path")
 const { baseConfig } = require("./wdio.base.conf")
 
 const _config = {
@@ -6,7 +5,7 @@ const _config = {
         skipInjectUI5OnStart: true,
         waitForUI5Timeout: 654321
     },
-    specs: [join("..", "webapp", "test", "e2e", "ui5-late.test.js")],
+    specs: ["../webapp/test/e2e/ui5-late.test.js"],
     baseUrl: "https://github.com/ui5-community/wdi5/"
 }
 

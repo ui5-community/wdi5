@@ -35,6 +35,7 @@ if (process.env.BROWSERSTACK) {
         {
             "wdi5:authentication": authBlock,
             browserName: "chrome",
+            browserVersion: "stable",
             "goog:chromeOptions": {
                 args:
                     process.argv.indexOf("--headless") > -1

@@ -11,6 +11,7 @@ export const config = {
         {
             maxInstances: 1,
             browserName: "chrome",
+            browserVersion: "stable",
             "goog:chromeOptions": {
                 args:
                     process.argv.indexOf("--headless") > -1

@@ -1,5 +1,5 @@
 const { baseConfig } = require("./wdio.base.conf")
-const { join } = require("path")
+const { join } = require("node:path")
 
 // avoid multiple chrome sessions
 delete baseConfig.capabilities
@@ -13,6 +13,7 @@ const _config = {
         one: {
             capabilities: {
                 browserName: "chrome",
+                browserVersion: "stable",
                 acceptInsecureCerts: true,
                 "goog:chromeOptions": {
                     args:
@@ -27,6 +28,7 @@ const _config = {
         two: {
             capabilities: {
                 browserName: "chrome",
+                browserVersion: "stable",
                 acceptInsecureCerts: true,
                 "goog:chromeOptions": {
                     args:

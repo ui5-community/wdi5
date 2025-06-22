@@ -1,5 +1,5 @@
 const { baseConfig } = require("./wdio.base.conf")
-const { join } = require("path")
+const { join } = require("node:path")
 
 // avoid multiple chrome sessions
 delete baseConfig.capabilities
@@ -14,6 +14,7 @@ const _config = {
         {
             maxInstances: 1,
             browserName: "chrome",
+            browserVersion: "stable",
             "goog:chromeOptions": {
                 args: [
                     process.env.HEADFUL === undefined ? "--headless" : "--dummy",

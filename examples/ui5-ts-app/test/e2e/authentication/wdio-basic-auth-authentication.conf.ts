@@ -24,6 +24,7 @@ if (process.env.BROWSERSTACK) {
                 provider: "BasicAuth"
             },
             browserName: "chrome",
+            browserVersion: "stable",
             "goog:chromeOptions": {
                 args:
                     process.argv.indexOf("--headless") > -1

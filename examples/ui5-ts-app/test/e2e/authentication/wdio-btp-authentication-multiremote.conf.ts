@@ -32,6 +32,7 @@ if (process.env.BROWSERSTACK) {
                     provider: "BTP"
                 },
                 browserName: "chrome",
+                browserVersion: "stable",
                 "goog:chromeOptions": {
                     args:
                         process.argv.indexOf("--headless") > -1
@@ -49,6 +50,7 @@ if (process.env.BROWSERSTACK) {
                     provider: "BTP"
                 },
                 browserName: "chrome",
+                browserVersion: "stable",
                 "goog:chromeOptions": {
                     args:
                         process.argv.indexOf("--headless") > -1

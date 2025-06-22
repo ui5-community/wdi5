@@ -4,6 +4,7 @@ const { getBrowsers } = require("./scripts/getBrowsers")
 const chrome = {
     maxInstances: 1,
     browserName: "chrome",
+    browserVersion: "stable",
     acceptInsecureCerts: true,
     "goog:chromeOptions": {
         w3c: false,
@@ -27,6 +28,7 @@ const chrome = {
 const firefox = {
     maxInstances: 1,
     browserName: "firefox",
+    browserVersion: "stable",
     "moz:firefoxOptions": {
         // flag to activate Firefox headless mode (see https://github.com/mozilla/geckodriver/blob/master/README.md#firefox-capabilities for more details about moz:firefoxOptions)
         args: [

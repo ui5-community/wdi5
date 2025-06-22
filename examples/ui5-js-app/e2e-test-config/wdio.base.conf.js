@@ -11,6 +11,7 @@ exports.baseConfig = {
         {
             maxInstances: 4,
             browserName: "chrome",
+            browserVersion: "stable",
             acceptInsecureCerts: true,
             // "wdio:enforceWebDriverClassic": true,
             "goog:chromeOptions": {
