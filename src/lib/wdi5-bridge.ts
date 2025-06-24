@@ -65,15 +65,18 @@ export async function setup(config: wdi5Config, browserInstance: WebdriverIO.Bro
 }
 
 export async function start(config: wdi5Config, browserInstance: WebdriverIO.Browser) {
-    // TODO: what if config.wdi5 and config.baseUrl are not set?
     if (config?.wdi5?.url) {
         // still support the old logic that we don't have breaking changes
         Logger.warn(`'url' property in config file deprecated: please use 'baseUrl' only!`)
         Logger.info(`open url: ${config.wdi5.url}`)
         await browserInstance.url(config.wdi5.url)
-    } else {
+    } else if (config?.baseUrl) {
         Logger.info(`open url: ${config.baseUrl}`)
         await browserInstance.url(config.baseUrl)
+    } else {
+        const message = `wdi5 config is missing 'baseUrl' property! See https://ui5-community.github.io/wdi5/#/configuration?id=wdi5`
+        Logger.error(message)
+        throw new Error(message)
     }
 }
 
