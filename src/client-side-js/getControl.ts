@@ -30,8 +30,7 @@ async function clientSide_getControl(controlSelector: wdi5Selector, browserInsta
 
         const ui5Control = window.wdi5.getUI5CtlForWebObj(domElement)
         const id = ui5Control.getId()
-        // @ts-expect-error: Property '_sClassName' does not exist on type 'ElementMetadata'
-        const className = ui5Control.getMetadata()._sClassName
+        const className = ui5Control.getMetadata().getName()
         window.wdi5.Log.info(`[browser wdi5] control with id: ${id} located!`)
         const aProtoFunctions = window.wdi5.retrieveControlMethods(ui5Control)
         return {

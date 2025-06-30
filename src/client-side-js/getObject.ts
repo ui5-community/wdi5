@@ -21,7 +21,7 @@ async function clientSide_getObject(uuid: string, browserInstance: WebdriverIO.B
 
         let className = ""
         if (object && object.getMetadata) {
-            className = object.getMetadata()._sClassName
+            className = object.getMetadata().getName()
         }
         window.wdi5.Log.info(`[browser wdi5] object with uuid: ${uuid} located!`)
 

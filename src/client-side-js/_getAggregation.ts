@@ -19,8 +19,7 @@ async function clientSide_getAggregation(
                     cAggregation = [cAggregation]
                 }
                 // read classname eg. sap.m.ComboBox
-                // @ts-expect-error: Property '_sClassName' does not exist on type 'ElementMetadata'
-                const controlType = oControl.getMetadata()._sClassName
+                const controlType = oControl.getMetadata().getName()
                 const result = window.wdi5.createControlIdMap(cAggregation, controlType)
                 return { status: 0, result: result }
             } catch (error) {
