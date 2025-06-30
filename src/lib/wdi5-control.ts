@@ -3,12 +3,12 @@ import util from "node:util"
 export const ELEMENT_KEY = "element-6066-11e4-a52e-4f735466cecf"
 // TODO: import { ELEMENT_KEY } from "webdriverio/build/constants.js"
 // patch in webdriverio repo?
-import { clientSide_getControl } from "../../client-side-js/getControl.cjs"
-import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl.cjs"
-import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod.cjs"
-import { clientSide_getAggregation } from "../../client-side-js/_getAggregation.cjs"
-import { clientSide_checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready.cjs"
-import { clientSide_fireEvent } from "../../client-side-js/fireEvent.cjs"
+import { clientSide_getControl } from "../client-side-js/getControl.js"
+import { clientSide_interactWithControl } from "../client-side-js/interactWithControl.js"
+import { clientSide_executeControlMethod } from "../client-side-js/executeControlMethod.js"
+import { clientSide_getAggregation } from "../client-side-js/_getAggregation.js"
+import { clientSide_checkForUI5Ready } from "../client-side-js/_checkForUI5Ready.js"
+import { clientSide_fireEvent } from "../client-side-js/fireEvent.js"
 import { Logger as _Logger } from "./Logger.js"
 import { wdioApi } from "./wdioApi.js"
 import { WDI5Object } from "./wdi5-object.js"
@@ -21,7 +21,7 @@ const Logger = _Logger.getInstance()
 export class WDI5Control {
     _controlSelector?: wdi5Selector
     // return value of Webdriver interface: JSON web token
-    _webElement?: WebdriverIO.Element | string | undefined // TODO: type "org.openqa.selenium.WebElement"
+    _webElement?: WebdriverIO.Element
     // wdio element retrieved separately via $()
     _webdriverRepresentation?: WebdriverIO.Element
     _metadata: wdi5ControlMetadata = {}
@@ -463,11 +463,7 @@ export class WDI5Control {
      * @param webElement representation of selected UI5 control in wdio
      * @param args proxied arguments to UI5 control method at runtime
      */
-    private async _executeControlMethod(
-        methodName: string,
-        webElement: WebdriverIO.Element | string = this._webElement,
-        ...args
-    ) {
+    private async _executeControlMethod(methodName: string, webElement = this._webElement, ...args) {
         if (this._forceSelect) {
             try {
                 this._webElement = await this._renewWebElementReference()
@@ -565,10 +561,7 @@ export class WDI5Control {
      * @throws will throw an error when no webElement was found
      * @return {any}
      */
-    private async _getAggregation(
-        aggregationName: string,
-        webElement: WebdriverIO.Element | string = this._webElement
-    ) {
+    private async _getAggregation(aggregationName: string, webElement = this._webElement) {
         const _forceSelect: boolean = util.types.isProxy(this._forceSelect)
             ? await Promise.resolve(this._forceSelect)
             : this._forceSelect

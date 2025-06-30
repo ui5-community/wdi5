@@ -1,4 +1,6 @@
-async function clientSide_injectXHRPatch(wdi5Config, browserInstance) {
+import type { wdi5Config } from "../types/wdi5.types.js"
+
+async function clientSide_injectXHRPatch(wdi5Config: wdi5Config["wdi5"], browserInstance: WebdriverIO.Browser) {
     return await browserInstance.execute(async (wdi5Config) => {
         const originalFetch = window.fetch
 
@@ -38,6 +40,7 @@ async function clientSide_injectXHRPatch(wdi5Config, browserInstance) {
                     const sapFetch = window.fetch
 
                     window.fetch = function (resource) {
+                        // @ts-expect-error: Property 'url' does not exist on type 'Request | URL'. Property 'url' does not exist on type 'URL'
                         const url = typeof resource === "object" ? resource.url : resource
                         if (checkURL(url)) {
                             return originalFetch.apply(this, arguments)
@@ -52,6 +55,4 @@ async function clientSide_injectXHRPatch(wdi5Config, browserInstance) {
     }, wdi5Config)
 }
 
-module.exports = {
-    clientSide_injectXHRPatch
-}
+export { clientSide_injectXHRPatch }

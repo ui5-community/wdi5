@@ -1,4 +1,4 @@
-import { initOPA, addToQueue, emptyQueue, loadFELibraries } from "../../client-side-js/testLibrary.cjs"
+import { initOPA, addToQueue, emptyQueue, loadFELibraries } from "../client-side-js/testLibrary.js"
 import { Logger as _Logger } from "./Logger.js"
 const Logger = _Logger.getInstance()
 

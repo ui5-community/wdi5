@@ -1,13 +1,15 @@
-const { browser } = require("@wdio/globals")
+import { browser } from "@wdio/globals"
+import type RecordReplay from "sap/ui/test/RecordReplay"
 
 async function clientSide_executeObjectMethod(uuid, methodName, args) {
     // TODO: no access to global browser
     return await browser.execute(
         async (uuid, methodName, args) => {
             try {
-                await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
+                await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
 
                 // DOM to UI5
+                // @ts-expect-error: Type 'HTMLElement' cannot be used as an index type
                 const oObject = window.wdi5.objectMap[uuid]
 
                 // execute the function
@@ -38,7 +40,7 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
                 } else {
                     // create new object
                     const uuid = window.wdi5.saveObject(result)
-                    const aProtoFunctions = window.wdi5.retrieveControlMethods(result, true)
+                    const aProtoFunctions = window.wdi5.retrieveControlMethods(result)
 
                     result = window.wdi5.collapseObject(result)
 
@@ -64,6 +66,4 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
     )
 }
 
-module.exports = {
-    clientSide_executeObjectMethod
-}
+export { clientSide_executeObjectMethod }

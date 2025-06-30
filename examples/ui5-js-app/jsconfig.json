@@ -5,7 +5,7 @@
       "@openui5/types",
       "@wdio/globals/types",
       "@wdio/mocha-framework",
-      "wdio-ui5-service/cjs",
+      "wdio-ui5-service/dist/cjs",
       "expect-webdriverio"
     ]
   }

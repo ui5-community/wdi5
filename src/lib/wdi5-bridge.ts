@@ -4,7 +4,8 @@ import type {
     wdi5Config,
     wdi5Selector,
     BTPAuthenticator as BTPAuthenticatorType,
-    wdi5Authenticator
+    wdi5Authenticator,
+    ControlSelectorByDOMElementOptions
 } from "../types/wdi5.types.js"
 
 import { resolve } from "node:path"
@@ -15,15 +16,15 @@ import { mark as marky_mark, stop as marky_stop } from "marky"
 
 import { WDI5Control } from "./wdi5-control.js"
 import { WDI5FE } from "./wdi5-fe.js"
-import { clientSide_injectTools } from "../../client-side-js/injectTools.cjs"
-import { clientSide_injectUI5 } from "../../client-side-js/injectUI5.cjs"
-import { clientSide_injectXHRPatch } from "../../client-side-js/injectXHRPatch.cjs"
-import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement.cjs"
-import { clientSide_checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready.cjs"
-import { clientSide_getObject } from "../../client-side-js/getObject.cjs"
-import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version.cjs"
-import { clientSide__navTo } from "../../client-side-js/_navTo.cjs"
-import { clientSide_allControls } from "../../client-side-js/allControls.cjs"
+import { clientSide_injectTools } from "../client-side-js/injectTools.js"
+import { clientSide_injectUI5 } from "../client-side-js/injectUI5.js"
+import { clientSide_injectXHRPatch } from "../client-side-js/injectXHRPatch.js"
+import { clientSide_getSelectorForElement } from "../client-side-js/getSelectorForElement.js"
+import { clientSide_checkForUI5Ready } from "../client-side-js/_checkForUI5Ready.js"
+import { clientSide_getObject } from "../client-side-js/getObject.js"
+import { clientSide_getUI5Version } from "../client-side-js/getUI5Version.js"
+import { clientSide__navTo } from "../client-side-js/_navTo.js"
+import { clientSide_allControls } from "../client-side-js/allControls.js"
 import { Logger as _Logger } from "./Logger.js"
 import { WDI5Object } from "./wdi5-object.js"
 import BTPAuthenticator from "./authentication/BTPAuthenticator.js"
@@ -327,7 +328,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
      * @param {object} oOptions.settings - ui5 settings object
      * @param {boolean} oOptions.settings.preferViewId
      */
-    browserInstance.addCommand("getSelectorForElement", async (oOptions) => {
+    browserInstance.addCommand("getSelectorForElement", async (oOptions: ControlSelectorByDOMElementOptions) => {
         const result = (await clientSide_getSelectorForElement(oOptions, browserInstance)) as clientSide_ui5Response
 
         if (result.status === 1) {
@@ -515,7 +516,7 @@ async function _allControls(controlSelector = this._controlSelector, browserInst
     }
 
     // pre retrive control information
-    const response = await clientSide_allControls(controlSelector, browserInstance)
+    const response = (await clientSide_allControls(controlSelector, browserInstance)) as clientSide_ui5Response
     _writeObjectResultLog(response, "allControls()")
 
     if (response.status === 0) {

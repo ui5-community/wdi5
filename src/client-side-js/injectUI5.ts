@@ -1,4 +1,4 @@
-async function clientSide_injectUI5(waitForUI5Timeout, browserInstance) {
+async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: WebdriverIO.Browser) {
     return await browserInstance.execute(async (waitForUI5Timeout) => {
         if (window.bridge) {
             // setup sap testing already done
@@ -16,6 +16,7 @@ async function clientSide_injectUI5(waitForUI5Timeout, browserInstance) {
 
         // attach the function to be able to use the extracted method later
         if (!window.bridge) {
+            // @ts-expect-error: Starting wdi5 object in browser scope
             // create empty
             window.wdi5 = {
                 createMatcher: null,
@@ -51,7 +52,7 @@ async function clientSide_injectUI5(waitForUI5Timeout, browserInstance) {
             let PropertiesUi5LocalRef
             let AncestorUi5LocalRef
             let LabelForUi5LocalRef
-            await new Promise((resolve) => {
+            await new Promise<void>((resolve) => {
                 sap.ui.require(
                     [
                         "sap/base/Log",
@@ -105,7 +106,7 @@ async function clientSide_injectUI5(waitForUI5Timeout, browserInstance) {
                 const oldAPIVersion = "1.72.0"
                 // check whether we're looking for a control via regex
                 // hint: no IE support here :)
-                if (oSelector.id && oSelector.id.startsWith("/", 0)) {
+                if (oSelector.id && typeof oSelector.id === "string" && oSelector.id.startsWith("/", 0)) {
                     const [sTarget, sRegEx, sFlags] = oSelector.id.match(/\/(.*)\/(.*)/)
                     oSelector.id = new RegExp(sRegEx, sFlags)
                 }
@@ -132,9 +133,12 @@ async function clientSide_injectUI5(waitForUI5Timeout, browserInstance) {
                     // TODO: for the binding Path there is no object creation
                     // fix (?) for 'leading slash issue' in propertyPath w/ a named model
                     // openui5 issue in github is open
-                    const hasNamedModel = oSelector.bindingPath.modelName && oSelector.bindingPath.modelName.length > 0
+                    const hasNamedModel =
+                        typeof oSelector?.bindingPath?.modelName === "string" &&
+                        oSelector.bindingPath.modelName.length > 0
                     const isRootProperty =
-                        oSelector.bindingPath.propertyPath && oSelector.bindingPath.propertyPath.charAt(0) === "/"
+                        typeof oSelector?.bindingPath?.propertyPath === "string" &&
+                        oSelector.bindingPath.propertyPath.charAt(0) === "/"
                     if (
                         hasNamedModel &&
                         isRootProperty &&
@@ -223,8 +227,7 @@ async function clientSide_injectUI5(waitForUI5Timeout, browserInstance) {
                 } while ((currentObj = Object.getPrototypeOf(currentObj)))
 
                 // filter for:
-                // @ts-expect-error - TS doesn't know that the keys are strings
-                let controlMethodsToProxy = [...properties.keys()].filter((item) => {
+                let controlMethodsToProxy = [...properties.keys()].filter((item: string) => {
                     if (typeof control[item] === "function") {
                         // function
 
@@ -401,6 +404,4 @@ async function clientSide_injectUI5(waitForUI5Timeout, browserInstance) {
     }, waitForUI5Timeout)
 }
 
-module.exports = {
-    clientSide_injectUI5
-}
+export { clientSide_injectUI5 }

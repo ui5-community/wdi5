@@ -17,15 +17,14 @@
   "license": "(Apache-2.0 or DERIVED BEER-WARE)",
   "author": "the UI5 community <do_not_use@openui5.org> (https://github.com/ui5-community)",
   "type": "module",
+  "main": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
   "exports": {
-    "types": "./esm/index.d.ts",
-    "import": "./esm/index.js",
-    "require": "./cjs/index.js"
+    "import": "./dist/esm/index.js",
+    "require": "./dist/cjs/index.js"
   },
-  "types": "esm/index.d.ts",
   "files": [
-    "esm",
-    "cjs",
+    "dist",
     "client-side-js"
   ],
   "workspaces": [
@@ -39,14 +38,13 @@
   ],
   "scripts": {
     "// build time": "refers to developing wdi5/wdio-ui5-service itself",
-    "clean": "rimraf cjs esm",
-    "build": "run-s -c clean _build:cjs _build:cjs:pkgJson _build:esm",
-    "_build:cjs:pkgJson": "node .retrofit-pkg-json.js",
+    "clean": "rimraf cjs esm dist",
+    "build": "run-s -c clean _build:cjs _build:esm",
     "_build:cjs": "tsc --p tsconfig-cjs.json",
-    "_build:esm": "tsc --p tsconfig.json",
-    "build:watch": "npm-run-all clean --parallel _build:watch:cjs _build:cjs:pkgJson _build:watch:esm",
+    "_build:esm": "tsc --p tsconfig-esm.json",
+    "build:watch": "npm-run-all clean --parallel _build:watch:cjs _build:watch:esm",
     "_build:watch:cjs": "tsc -w --p tsconfig-cjs.json",
-    "_build:watch:esm": "tsc -w --p tsconfig.json",
+    "_build:watch:esm": "tsc -w --p tsconfig-esm.json",
     "// test time": "refers to testing wdio-ui5-service",
     "_startApp:js": "soerver -d ./examples/ui5-js-app/webapp -p 8888 -x ./examples/ui5-js-app/webapp/proxyrc.json",
     "_startApp:js-tooling": "npm run serve --workspace=examples/ui5-js-app",
@@ -89,6 +87,7 @@
   },
   "dependencies": {
     "compare-versions": "^6.1.1",
+    "cross-dirname": "^0.1.0",
     "dotenv": "^16.4.5",
     "semver": "^7.6.3"
   },
