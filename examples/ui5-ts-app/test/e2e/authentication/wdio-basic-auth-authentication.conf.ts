@@ -1,7 +1,7 @@
 import { config as baseConf } from "./wdio-base.conf.js"
 
 const _config = {
-    baseUrl: "https://wdi5-sample-app.cfapps.eu20.hana.ondemand.com/basic-auth/",
+    baseUrl: "https://wdi5-sample-app.cfapps.eu10-004.hana.ondemand.com/basic-auth/",
     capabilities: baseConf.capabilities ? [...baseConf.capabilities] : []
 }
 
