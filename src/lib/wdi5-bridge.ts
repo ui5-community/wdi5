@@ -53,11 +53,10 @@ export async function setup(config: wdi5Config, browserInstance: WebdriverIO.Bro
     // jump-start the desired log level
     Logger.setLogLevel(config?.wdi5?.logLevel || "error")
 
-    if (browserInstance.isMultiremote) {
-        ;(browserInstance as unknown as WebdriverIO.MultiRemoteBrowser).instances.forEach((name) => {
-            initBrowser(browserInstance[name as keyof typeof browserInstance])
-        })
-        initMultiRemoteBrowser(browserInstance)
+    if (browser.isMultiremote) {
+        for (const name of (browser as unknown as WebdriverIO.MultiRemoteBrowser).instances) {
+            initBrowser(browser[name as keyof typeof browser])
+        }
     } else {
         initBrowser(browserInstance)
     }
@@ -81,10 +80,10 @@ export async function start(config: wdi5Config, browserInstance: WebdriverIO.Bro
     }
 }
 
-function initMultiRemoteBrowser(browserInstance: WebdriverIO.Browser) {
+export function initMultiRemoteBrowser() {
     ;["asControl", "goTo", "screenshot", "waitForUI5", "getUI5Version", "getSelectorForElement", "allControls"].forEach(
         (command) => {
-            browserInstance.addCommand(command, async (...args) => {
+            browser.addCommand(command, async (...args) => {
                 const multiRemoteInstance = browser as unknown as WebdriverIO.MultiRemoteBrowser
                 const result = []
                 multiRemoteInstance.instances.forEach((name) => {
