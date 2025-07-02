@@ -32,7 +32,7 @@ export class WDI5Control {
     _initialisation = false
     _forceSelect = false
     _logging: boolean
-    _wdioBridge = <WebdriverIO.Element>{}
+    _wdioBridge: WebdriverIO.Element
     _generatedWdioMethods?: string[]
     _domId?: string
 

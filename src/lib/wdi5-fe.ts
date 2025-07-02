@@ -23,13 +23,14 @@ function createProxy(myObj: any, type: string, methodCalls: any[], pageKeys: str
     return thisProxy
 }
 export class WDI5FE {
+    private appConfig: any
+    private browserInstance: WebdriverIO.Browser
+    private shell?: any
     onTheShell: any
 
-    constructor(
-        private appConfig: any,
-        private browserInstance: any,
-        private shell?: any
-    ) {
+    constructor(appConfig: any, browserInstance: WebdriverIO.Browser, shell?: any) {
+        this.appConfig = appConfig
+        this.browserInstance = browserInstance
         // only in the workzone context
         // do we need to hotwire a back navigation on the fiori shell
         if (shell) {

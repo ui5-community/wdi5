@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "noEmit": true,
-    "module": "es2022",
+    "module": "nodenext",
     "target": "es2023",
     "lib": ["ES2023", "DOM"],
     "strict": false,
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "esModuleInterop": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
@@ -14,6 +14,7 @@
     "declaration": true,
     "declarationMap": true,
     "skipLibCheck": true,
+    "erasableSyntaxOnly": true,
     "types": ["node", "@wdio/types", "@wdio/globals/types", "@wdio/mocha-framework", "openui5"]
   },
   "include": ["src"]
