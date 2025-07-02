@@ -1,7 +1,7 @@
 import { browser } from "@wdio/globals"
 import type RecordReplay from "sap/ui/test/RecordReplay"
 
-async function clientSide_executeObjectMethod(uuid, methodName, args) {
+async function clientSide_executeObjectMethod(uuid: string, methodName: string, args: any[]) {
     // TODO: no access to global browser
     return await browser.execute(
         async (uuid, methodName, args) => {
@@ -9,7 +9,6 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
                 await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
 
                 // DOM to UI5
-                // @ts-expect-error: Type 'HTMLElement' cannot be used as an index type
                 const oObject = window.wdi5.objectMap[uuid]
 
                 // execute the function
@@ -19,6 +18,7 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
                 let threwMessage = ""
                 if (oObject[methodName].constructor.name === "AsyncFunction") {
                     try {
+                        // eslint-disable-next-line prefer-spread
                         result = await oObject[methodName].apply(oObject, args)
                     } catch (error) {
                         threw = true
@@ -26,6 +26,7 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
                         window.wdi5.Log.error(threwMessage)
                     }
                 } else {
+                    // eslint-disable-next-line prefer-spread
                     result = oObject[methodName].apply(oObject, args)
                 }
 

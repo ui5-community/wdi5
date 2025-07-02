@@ -9,12 +9,10 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
-    "allowJs": true,
     "outDir": "dist",
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    "downlevelIteration": true,
     "skipLibCheck": true,
     "types": ["node", "@wdio/types", "@wdio/globals/types", "@wdio/mocha-framework", "openui5"]
   },

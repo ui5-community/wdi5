@@ -85,6 +85,7 @@ async function addToQueue(methodCalls, browserInstance) {
                     if (methodInfo.accessor) {
                         return obj[methodInfo.name]
                     }
+                    // eslint-disable-next-line prefer-spread
                     return obj[methodInfo.name].apply(obj, methodInfo.args)
                 }, scope)
             }

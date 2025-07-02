@@ -107,6 +107,7 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                 // check whether we're looking for a control via regex
                 // hint: no IE support here :)
                 if (oSelector.id && typeof oSelector.id === "string" && oSelector.id.startsWith("/", 0)) {
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     const [sTarget, sRegEx, sFlags] = oSelector.id.match(/\/(.*)\/(.*)/)
                     oSelector.id = new RegExp(sRegEx, sFlags)
                 }
@@ -125,6 +126,7 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                 //     }
                 // }
                 if (typeof oSelector.properties?.text === "string" && oSelector.properties?.text.startsWith("/", 0)) {
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     const [_, sRegEx, sFlags] = oSelector.properties.text.match(/\/(.*)\/(.*)/)
                     oSelector.properties.text = new RegExp(sRegEx, sFlags)
                 }
@@ -220,14 +222,14 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
              */
             window.wdi5.retrieveControlMethods = (control) => {
                 // create keys of all parent prototypes
-                let properties = new Set()
+                const properties = new Set()
                 let currentObj = control
                 do {
                     Object.getOwnPropertyNames(currentObj).map((item) => properties.add(item))
                 } while ((currentObj = Object.getPrototypeOf(currentObj)))
 
                 // filter for:
-                let controlMethodsToProxy = [...properties.keys()].filter((item: string) => {
+                const controlMethodsToProxy = [...properties.keys()].filter((item: string) => {
                     if (typeof control[item] === "function") {
                         // function
 
@@ -264,13 +266,13 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
              * @returns {object} all functions and properties of the inheritance chain in a flat structure
              */
             window.wdi5.collapseObject = (obj) => {
-                let protoChain = []
+                const protoChain = []
                 let proto = obj
                 while (proto !== null) {
                     protoChain.unshift(proto)
                     proto = Object.getPrototypeOf(proto)
                 }
-                let collapsedObj = {}
+                const collapsedObj = {}
                 protoChain.forEach((prop) => Object.assign(collapsedObj, prop))
                 return collapsedObj
             }
@@ -301,7 +303,7 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
              * @returns {object} obj without empty collection members
              */
             window.wdi5.removeEmptyElements = (obj, i = 0) => {
-                for (let key in obj) {
+                for (const key in obj) {
                     if (obj[key] === null || key.startsWith("_")) {
                         // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
                         delete obj[key]
@@ -379,10 +381,9 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                     // sap.ui.base.ManagedObject or sap.ui.base.ManagedObject[] or null
 
                     // aControls = [aControls]
-                    let item = {
+                    return {
                         id: aControl.getId()
                     }
-                    return item
                 } else {
                     // eslint-disable-next-line no-console
                     console.error("error creating new element by id of control: " + aControl)

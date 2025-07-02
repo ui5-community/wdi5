@@ -39,7 +39,7 @@ export class WDI5Object {
         }
     }
 
-    private async _excuteObjectMethod(methodName: string, uuid: string, ...args) {
+    private async _excuteObjectMethod(methodName: string, uuid: string, ...args: any[]) {
         // call browser scope
         // regular browser-time execution of UI5 object method
         const result = (await clientSide_executeObjectMethod(uuid, methodName, args)) as clientSide_ui5Response

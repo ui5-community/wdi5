@@ -19,12 +19,14 @@ async function clientSide_injectXHRPatch(wdi5Config: wdi5Config["wdi5"], browser
                 // Hook into XHR open for sinon XHRs
                 const fnOriginalFakeOpen = sinon.FakeXMLHttpRequest.prototype.open
                 sinon.FakeXMLHttpRequest.prototype.open = function () {
+                    // eslint-disable-next-line prefer-rest-params
                     return fnOriginalFakeOpen.apply(this, hooktoXHROpen.apply(this, arguments))
                 }
 
                 // Hook into XHR open for regular XHRs
                 const fnOriginalOpen = XMLHttpRequest.prototype.open
                 XMLHttpRequest.prototype.open = function () {
+                    // eslint-disable-next-line prefer-rest-params
                     return fnOriginalOpen.apply(this, hooktoXHROpen.apply(this, arguments))
                 }
 
@@ -33,7 +35,7 @@ async function clientSide_injectXHRPatch(wdi5Config: wdi5Config["wdi5"], browser
                     //https://github.com/SAP/openui5/blob/45e49887f632d0a8a8ef195bd3edf10eb0be9015/src/sap.ui.core/src/sap/ui/test/autowaiter/_XHRWaiter.js
                     //This ist the XHR request instance so setting it here will only affect the specific request
                     this.ignored = checkURL(url)
-
+                    // eslint-disable-next-line prefer-rest-params
                     return arguments
                 }
                 if (_fetchWaiter !== undefined) {
@@ -43,8 +45,10 @@ async function clientSide_injectXHRPatch(wdi5Config: wdi5Config["wdi5"], browser
                         // @ts-expect-error: Property 'url' does not exist on type 'Request | URL'. Property 'url' does not exist on type 'URL'
                         const url = typeof resource === "object" ? resource.url : resource
                         if (checkURL(url)) {
+                            // eslint-disable-next-line prefer-rest-params
                             return originalFetch.apply(this, arguments)
                         } else {
+                            // eslint-disable-next-line prefer-rest-params
                             return sapFetch.apply(this, arguments)
                         }
                     }
