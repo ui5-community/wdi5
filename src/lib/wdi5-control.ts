@@ -49,6 +49,7 @@ export class WDI5Control {
             domId
         } = oOptions
 
+        this._wdioBridge = {} as WebdriverIO.Element
         this._controlSelector = controlSelector
         this._wdio_ui5_key = wdio_ui5_key
         this._forceSelect = forceSelect
