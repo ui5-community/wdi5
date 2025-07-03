@@ -32,7 +32,8 @@ env:
 jobs:
   authorize:
     environment: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository && 'external' || 'internal' }}
-    runs-on: ubuntu-latest
+    ### revisit: when chrome 138 does not make any more issues => go back to latest
+    runs-on: ubuntu-22.04
     steps:
       - run: true
 
