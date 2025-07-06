@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 2.2.0 (2025-07-06)
+
+
+### Features
+
+* supporting multiple identity providers ([#510](https://github.com/ui5-community/wdi5/issues/510)) ([#671](https://github.com/ui5-community/wdi5/issues/671)) ([aa16a95](https://github.com/ui5-community/wdi5/commit/aa16a951a68794aa5488c7a58474a5a14d2a1134))
+
 ### 2.1.1 (2025-02-06)
 
 
