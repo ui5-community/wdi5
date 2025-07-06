@@ -9,7 +9,6 @@ async function clientSide_executeObjectMethod(uuid: string, methodName: string, 
                 await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
 
                 // DOM to UI5
-                // @ts-expect-error: Type 'HTMLElement' cannot be used as an index type
                 const oObject = window.wdi5.objectMap[uuid]
 
                 // execute the function
