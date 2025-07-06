@@ -24,8 +24,7 @@
     "require": "./dist/cjs/index.js"
   },
   "files": [
-    "dist",
-    "client-side-js"
+    "dist"
   ],
   "workspaces": [
     ".",
