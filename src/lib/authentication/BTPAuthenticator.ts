@@ -4,6 +4,7 @@ import Authenticator from "./Authenticator.js"
 class BTPAuthenticator extends Authenticator {
     private disableBiometricAuth: boolean
     private idpDomain: string
+    private idpDomainOpt: string
 
     constructor(options: BTPAuthenticatorType, browserInstanceName) {
         super(browserInstanceName)
@@ -31,6 +32,12 @@ class BTPAuthenticator extends Authenticator {
 
     async login() {
         if (!(await this.getIsLoggedIn())) {
+            if (!!this.idpDomainOpt) {
+                const targetIdpEle = await this.browserInstance.$(`a[href*="idp=${this.idpDomainOpt}"]`)
+                if (!!targetIdpEle.elementId) {
+                    targetIdpEle.click()
+                }
+            }
             const usernameControl = await this.browserInstance.$(this.usernameSelector)
             const passwordControl = await this.browserInstance.$(this.passwordSelector)
             const submit = await this.browserInstance.$(this.submitSelector)
