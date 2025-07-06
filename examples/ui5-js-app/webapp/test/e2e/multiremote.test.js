@@ -28,7 +28,7 @@ describe("Multi Remote", () => {
 
         const text = await browser.two.asControl(dialogSelector).getText()
         expect(text).toEqual("Here we are!")
-        expect(await browser.one.asControl(dialogSelector).getInitStatus()).toBeFalsy()
+        expect(await browser.one.asControl(dialogSelector).isInitialized()).toBeFalsy()
     })
     it("should return an array of results of both browsers if called directly by browser", async () => {
         const button = await browser.asControl({

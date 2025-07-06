@@ -1,17 +1,24 @@
+import type RecordReplay from "sap/ui/test/RecordReplay"
+
 //> REVISIT: do we need this at all?
 // -> as .fireEvent on a UI5 control in Node.js-scope is discouraged
-async function clientSide_fireEvent(webElement, eventName, oOptions, browserInstance) {
+async function clientSide_fireEvent(
+    webElement: WebdriverIO.Element,
+    eventName: string,
+    oOptions: object,
+    browserInstance: WebdriverIO.Browser
+) {
     return await browserInstance.execute(
         async (webElement, eventName, oOptions) => {
             try {
-                await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
+                await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
             } catch (error) {
                 return window.wdi5.errorHandling(error)
             }
 
             window.wdi5.Log.info("[browser wdi5] working " + eventName + " for " + webElement)
             // DOM to ui5
-            let oControl = window.wdi5.getUI5CtlForWebObj(webElement)
+            const oControl = window.wdi5.getUI5CtlForWebObj(webElement)
             if (oControl && oControl.hasListeners(eventName)) {
                 window.wdi5.Log.info("[browser wdi5] firing " + eventName + " on " + webElement)
                 // element existent and has the target event
@@ -36,6 +43,4 @@ async function clientSide_fireEvent(webElement, eventName, oOptions, browserInst
     )
 }
 
-module.exports = {
-    clientSide_fireEvent
-}
+export { clientSide_fireEvent }

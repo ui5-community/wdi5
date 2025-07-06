@@ -1,9 +1,10 @@
-import { join } from "path"
+import { join } from "node:path"
 import { wdi5Config } from "wdio-ui5-service"
 
 export const config: wdi5Config = {
     wdi5: {
-        screenshotPath: join("test", "__screenshots__")
+        screenshotPath: join("test", "__screenshots__"),
+        waitForUI5Timeout: 30000
     },
     baseUrl: "http://localhost:8080/index.html",
 
@@ -26,13 +27,14 @@ export const config: wdi5Config = {
         {
             maxInstances: 2,
             browserName: "chrome",
+            browserVersion: "stable",
             "goog:chromeOptions": {
                 args:
                     process.argv.indexOf("--headless") > -1
                         ? ["--headless"]
                         : process.argv.indexOf("--debug") > -1
-                        ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
-                        : ["window-size=1440,800"]
+                          ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
+                          : ["window-size=1440,800"]
             },
             acceptInsecureCerts: true
         }

@@ -1,5 +1,4 @@
-import { Element } from "webdriverio"
-import { initOPA, addToQueue, emptyQueue, loadFELibraries } from "../../client-side-js/testLibrary.cjs"
+import { initOPA, addToQueue, emptyQueue, loadFELibraries } from "../client-side-js/testLibrary.js"
 import { Logger as _Logger } from "./Logger.js"
 const Logger = _Logger.getInstance()
 
@@ -24,13 +23,14 @@ function createProxy(myObj: any, type: string, methodCalls: any[], pageKeys: str
     return thisProxy
 }
 export class WDI5FE {
+    private appConfig: any
+    private browserInstance: WebdriverIO.Browser
+    private shell?: any
     onTheShell: any
 
-    constructor(
-        private appConfig: any,
-        private browserInstance: any,
-        private shell?: any
-    ) {
+    constructor(appConfig: any, browserInstance: WebdriverIO.Browser, shell?: any) {
+        this.appConfig = appConfig
+        this.browserInstance = browserInstance
         // only in the workzone context
         // do we need to hotwire a back navigation on the fiori shell
         if (shell) {
@@ -52,7 +52,7 @@ export class WDI5FE {
     }
 
     async toApp() {
-        await browser.switchToFrame(0)
+        await browser.switchFrame(null)
     }
 
     static async initialize(appConfig, browserInstance = browser) {
@@ -64,8 +64,8 @@ export class WDI5FE {
         // yet only wave the wand when there's an iframe somewhere,
         // indicating BTP WorkZone territory
         await browserInstance.switchToParentFrame()
-        // @ts-ignore
-        const iframe: Element = await browserInstance.findElement("css selector", "iframe")
+        // @ts-expect-error TODO: fix types
+        const iframe: WebdriverIO.Element = await browserInstance.findElement("css selector", "iframe")
         let shell
         if (!iframe.error) {
             const shellConfig = {
@@ -79,16 +79,16 @@ export class WDI5FE {
 
             // back to app
             try {
-                await browserInstance.switchToFrame(0)
+                await browserInstance.switchFrame(null)
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (err) {
                 // This try-catch block is a fail-safe code to make sure the execution continues if browser fails to switch to app's frame.
-                // It has been observed that for Launchpad apps, the switchToFrame(0) is not required.
+                // It has been observed that for Launchpad apps, the switchFrame(null) is not required.
                 Logger.info("Failed to switch to app's frame - you're probably in a Launchpad env. Continuing...")
             }
         } else {
             // revert back to app context
-            await browserInstance.switchToFrame(null)
+            await browserInstance.switchFrame(null)
         }
         return new WDI5FE(appConfig, browserInstance, shell)
     }

@@ -1,6 +1,5 @@
 const { baseConfig } = require("./wdio.base.conf")
-const { join } = require("path")
-const merge = require("deepmerge")
+const { join } = require("node:path")
 
 // avoid multiple chrome sessions
 delete baseConfig.capabilities
@@ -14,28 +13,30 @@ const _config = {
         one: {
             capabilities: {
                 browserName: "chrome",
+                browserVersion: "stable",
                 acceptInsecureCerts: true,
                 "goog:chromeOptions": {
                     args:
                         process.argv.indexOf("--headless") > -1
                             ? ["window-size=1440,800", "--headless"]
                             : process.argv.indexOf("--debug") > -1
-                            ? ["window-size=1920,1280", "--auto-open-devtools-for-tabs"]
-                            : ["window-size=1440,800"]
+                              ? ["window-size=1920,1280", "--auto-open-devtools-for-tabs"]
+                              : ["window-size=1440,800"]
                 }
             }
         },
         two: {
             capabilities: {
                 browserName: "chrome",
+                browserVersion: "stable",
                 acceptInsecureCerts: true,
                 "goog:chromeOptions": {
                     args:
                         process.argv.indexOf("--headless") > -1
                             ? ["window-size=1440,800", "--headless"]
                             : process.argv.indexOf("--debug") > -1
-                            ? ["window-size=1920,1280", "--auto-open-devtools-for-tabs"]
-                            : ["window-size=1440,800"]
+                              ? ["window-size=1920,1280", "--auto-open-devtools-for-tabs"]
+                              : ["window-size=1440,800"]
                 }
             }
         }
@@ -43,4 +44,4 @@ const _config = {
     specs: ["../webapp/test/e2e/multiremote.test.js"]
 }
 
-exports.config = merge(baseConfig, _config)
+exports.config = { ...baseConfig, ..._config }

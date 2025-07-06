@@ -1,5 +1,4 @@
 import { join, resolve } from "path"
-import { merge } from "ts-deepmerge"
 import { wdi5Config } from "wdio-ui5-service"
 import { config as bstackConfig, browser } from "../cloud-services/browserstack.conf.local.js"
 type _wdi5Config = Omit<wdi5Config, "capabilities">
@@ -50,7 +49,7 @@ if (process.env.BROWSERSTACK) {
     })
 
     bstackConfig.capabilities = thinCapabilities
-    exportedConfig = merge(_config, bstackConfig)
+    exportedConfig = { ..._config, ...bstackConfig }
     exportedConfig.services = ["browserstack", "ui5"] // no need for "browserstackLocal" as we work against a deployed app
 } else {
     exportedConfig = _config

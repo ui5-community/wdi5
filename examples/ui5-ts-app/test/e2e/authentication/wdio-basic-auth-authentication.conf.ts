@@ -1,4 +1,3 @@
-import { merge } from "ts-deepmerge"
 import { config as baseConf } from "./wdio-base.conf.js"
 
 const _config = {
@@ -25,6 +24,7 @@ if (process.env.BROWSERSTACK) {
                 provider: "BasicAuth"
             },
             browserName: "chrome",
+            browserVersion: "stable",
             "goog:chromeOptions": {
                 args:
                     process.argv.indexOf("--headless") > -1
@@ -38,4 +38,4 @@ if (process.env.BROWSERSTACK) {
     ]
 }
 
-export const config = merge(baseConf, _config)
+export const config = { ...baseConf, ..._config }

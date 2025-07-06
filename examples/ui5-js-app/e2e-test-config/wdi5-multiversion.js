@@ -1,18 +1,18 @@
-const fsExtra = require("fs-extra")
-const path = require("path")
+const fs = require("node:fs/promises")
+const path = require("node:path")
 const replace = require("replace-in-file")
 const { Launcher } = require("@wdio/cli")
 
 // lts versions (> 1.60)
 // empty string will get the newest Version which can be a "SNAPSHOT" version
-const versions = ["", "1.71", "1.84", "1.96"]
+const versions = ["", "1.71", "1.84", "1.96", "1.108", "1.120", "1.136"]
 
 ;(async () => {
     for (const version of versions) {
         // create an index.html for bootstrapping per version
         const targetIndex = path.resolve(__dirname, `../webapp/index-${version}.html`)
         const bootstrapSrc = `https://ui5.sap.com/${version}/resources/sap-ui-core.js`
-        fsExtra.copySync(path.resolve(__dirname, `../webapp/index.html`), targetIndex)
+        await fs.copyFile(path.resolve(__dirname, `../webapp/index.html`), targetIndex)
         const optionsIndex = {
             files: targetIndex,
             from: [/src=\".*\"/, /"sap_horizon"/],
@@ -23,7 +23,7 @@ const versions = ["", "1.71", "1.84", "1.96"]
 
         // create a wdio/wdi5 config per version
         const targetWdioConf = path.resolve(__dirname, `wdio-wdi5-ui5-${version}.conf.js`)
-        fsExtra.copySync(path.resolve(__dirname, "wdio-webserver.conf.js"), targetWdioConf)
+        await fs.copyFile(path.resolve(__dirname, "wdio-webserver.conf.js"), targetWdioConf)
         const optionsWdioConf = {
             files: targetWdioConf,
             from: [/8888"/, /specs: \[.*\]/],

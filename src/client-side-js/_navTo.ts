@@ -1,9 +1,17 @@
-async function clientSide__navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace, browserInstance) {
+import type RecordReplay from "sap/ui/test/RecordReplay"
+
+async function clientSide__navTo(
+    sComponentId: string,
+    sName: string,
+    oParameters: any,
+    oComponentTargetInfo: any,
+    bReplace: boolean,
+    browserInstance: WebdriverIO.Browser
+) {
     return await browserInstance.execute(
         async (sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) => {
-
             try {
-                await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
+                await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
             } catch (error) {
                 return window.wdi5.errorHandling(error)
             }
@@ -11,13 +19,15 @@ async function clientSide__navTo(sComponentId, sName, oParameters, oComponentTar
             window.wdi5.Log.info(`[browser wdi5] navigation to ${sName} triggered`)
 
             // TODO: get rid of deprectaed function
+            // @ts-expect-error: Property 'getRouter' does not exist on type 'Component'
             const router = sap.ui.getCore().getComponent(sComponentId).getRouter()
             const hashChanger = window.compareVersions.compare("1.75.0", sap.ui.version, ">")
-                ? sap.ui.core.routing.HashChanger.getInstance()
+                ? // @ts-expect-error: Property 'core' does not exist on type 'typeof ui'
+                  sap.ui.core.routing.HashChanger.getInstance()
                 : router.getHashChanger()
 
             // create hashChanged promise
-            const hashChangedPromise = new Promise((resolve) => {
+            const hashChangedPromise = new Promise<void>((resolve) => {
                 hashChanger.attachEventOnce("hashChanged", () => {
                     resolve()
                 })
@@ -42,6 +52,4 @@ async function clientSide__navTo(sComponentId, sName, oParameters, oComponentTar
         bReplace
     )
 }
-module.exports = {
-    clientSide__navTo
-}
+export { clientSide__navTo }

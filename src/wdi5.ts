@@ -6,6 +6,7 @@ const authenticatorInstances = {}
 /**
  * a (static) helper class named after the tool
  */
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class wdi5 {
     /**
      * get an instance of wdi5's logger for some pretty looking console output
@@ -32,7 +33,7 @@ export class wdi5 {
      * so that all methods of the browser object will be executed in the context of the WorkZone app
      */
     static async toWorkZoneApp() {
-        await browser.switchToFrame(0)
+        await browser.switchFrame(null)
         await browser.pause(100) // let the browsing context settle
     }
 
@@ -45,7 +46,7 @@ export class wdi5 {
     //         console.log("GET", ...arguments)
     //         Reflect.get(odatav4Lib, prop, receiver)
 
-    //         browser.switchToFrame(0)
+    //         browser.switchFrame(null)
     //     }
     // })
 
@@ -55,7 +56,7 @@ export class wdi5 {
      * @param browserInstanceName
      * @returns the current authentication status
      */
-    static async isLoggedIn(browserInstanceName?): Promise<boolean> {
+    static async isLoggedIn(browserInstanceName?: string): Promise<boolean> {
         let authenticatorInstance
         if (!browserInstanceName) {
             return new Authenticator().getIsLoggedIn()

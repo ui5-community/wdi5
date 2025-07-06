@@ -1,8 +1,12 @@
-async function clientSide_executeObjectMethod(uuid, methodName, args) {
+import { browser } from "@wdio/globals"
+import type RecordReplay from "sap/ui/test/RecordReplay"
+
+async function clientSide_executeObjectMethod(uuid: string, methodName: string, args: any[]) {
+    // TODO: no access to global browser
     return await browser.execute(
         async (uuid, methodName, args) => {
             try {
-                await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
+                await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
 
                 // DOM to UI5
                 const oObject = window.wdi5.objectMap[uuid]
@@ -14,6 +18,7 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
                 let threwMessage = ""
                 if (oObject[methodName].constructor.name === "AsyncFunction") {
                     try {
+                        // eslint-disable-next-line prefer-spread
                         result = await oObject[methodName].apply(oObject, args)
                     } catch (error) {
                         threw = true
@@ -21,6 +26,7 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
                         window.wdi5.Log.error(threwMessage)
                     }
                 } else {
+                    // eslint-disable-next-line prefer-spread
                     result = oObject[methodName].apply(oObject, args)
                 }
 
@@ -35,7 +41,7 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
                 } else {
                     // create new object
                     const uuid = window.wdi5.saveObject(result)
-                    const aProtoFunctions = window.wdi5.retrieveControlMethods(result, true)
+                    const aProtoFunctions = window.wdi5.retrieveControlMethods(result)
 
                     result = window.wdi5.collapseObject(result)
 
@@ -61,6 +67,4 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
     )
 }
 
-module.exports = {
-    clientSide_executeObjectMethod
-}
+export { clientSide_executeObjectMethod }

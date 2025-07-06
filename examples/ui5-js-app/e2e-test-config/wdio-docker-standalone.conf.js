@@ -1,6 +1,5 @@
 const { baseConfig } = require("./wdio.base.conf")
-const { join } = require("path")
-const merge = require("deepmerge")
+const { join } = require("node:path")
 
 // avoid multiple chrome sessions
 delete baseConfig.capabilities
@@ -15,6 +14,7 @@ const _config = {
         {
             maxInstances: 1,
             browserName: "chrome",
+            browserVersion: "stable",
             "goog:chromeOptions": {
                 args: [
                     process.env.HEADFUL === undefined ? "--headless" : "--dummy",
@@ -29,4 +29,4 @@ const _config = {
     specs: ["../webapp/test/e2e/*.test.js"]
 }
 
-exports.config = merge(baseConfig, _config)
+exports.config = { ...baseConfig, ..._config }

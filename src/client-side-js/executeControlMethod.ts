@@ -1,8 +1,9 @@
-const { Logger } = require("../cjs/lib/Logger.js")
+import type RecordReplay from "sap/ui/test/RecordReplay"
+import type { wdi5Control } from "../types/wdi5.types.js"
+import { Logger } from "../lib/Logger.js"
+
 const logger = Logger.getInstance()
-if (global.browser) {
-    logger.setLogLevel(browser.options?.wdi5?.logLevel || "error")
-}
+
 /**
  * Execute method on the ui5 control through the browser. Here the real magic happens :)
  * @param {Object} webElement representation of a webElement in node depending on the protocol
@@ -10,16 +11,22 @@ if (global.browser) {
  * @param {WebdriverIO.Browser} browserInstance
  * @param {Object} args proxied arguments to UI5 control method at runtime
  */
-function executeControlMethod(webElement, methodName, browserInstance, args) {
+function executeControlMethod(
+    webElement: WebdriverIO.Element,
+    methodName: string,
+    browserInstance: WebdriverIO.Browser,
+    args: unknown
+) {
     return browserInstance.execute(
         async (webElement, methodName, args) => {
             try {
-                await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
+                await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
 
                 // DOM to UI5
                 const oControl = window.wdi5.getUI5CtlForWebObj(webElement)
 
                 // execute the function
+                // eslint-disable-next-line prefer-spread
                 let result = oControl[methodName].apply(oControl, args)
                 const metadata = oControl.getMetadata()
 
@@ -31,7 +38,7 @@ function executeControlMethod(webElement, methodName, browserInstance, args) {
                         // but delivers a complex/structured type
                         // -> currenlty, only getAggregation(...) is supported
                         // read classname eg. sap.m.ComboBox
-                        controlType = oControl.getMetadata()._sClassName
+                        const controlType = oControl.getMetadata().getName()
 
                         result = window.wdi5.createControlIdMap(result, controlType)
                         return { status: 0, result: result, returnType: "aggregation" }
@@ -64,7 +71,9 @@ function executeControlMethod(webElement, methodName, browserInstance, args) {
                             // we have an object that is not a UI5 control
                             typeof result === "object" &&
                             result !== null &&
+                            // @ts-expect-error: Property 'core' does not exist on type 'typeof ui'
                             !(result instanceof sap.ui.core.Control) &&
+                            // @ts-expect-error: Property 'core' does not exist on type 'typeof ui'
                             !(result instanceof sap.ui.core.Item)
                         ) {
                             // save before manipulate
@@ -72,7 +81,7 @@ function executeControlMethod(webElement, methodName, browserInstance, args) {
 
                             // FIXME: extract, collapse and remove cylic in 1 step
                             // extract the methods first
-                            const aProtoFunctions = window.wdi5.retrieveControlMethods(result, true)
+                            const aProtoFunctions = window.wdi5.retrieveControlMethods(result)
 
                             // flatten the prototype so we have all funcs available
                             const collapsed = window.wdi5.collapseObject(result)
@@ -96,6 +105,7 @@ function executeControlMethod(webElement, methodName, browserInstance, args) {
                             result !== null &&
                             // wdi5 returns a wdi5 control if the UI5 api return its control
                             // allows method chaining
+                            // @ts-expect-error: Property 'base' does not exist on type 'typeof ui'
                             !(result instanceof sap.ui.base.Object)
                         ) {
                             return {
@@ -137,10 +147,13 @@ function executeControlMethod(webElement, methodName, browserInstance, args) {
  * @param {Object} args proxied arguments to UI5 control method at runtime
  * @param {WDI5Control} wdi5Control wdi5 representation of the ui5 control
  */
-async function clientSide_executeControlMethod(webElement, methodName, browserInstance, args, wdi5Control) {
-    /**
-     * @type {import("../src/types/wdi5.types.js").clientSide_ui5Response}
-     * **/
+async function clientSide_executeControlMethod(
+    webElement: WebdriverIO.Element,
+    methodName: string,
+    browserInstance: WebdriverIO.Browser,
+    args: unknown,
+    wdi5Control: wdi5Control
+) {
     let result
     try {
         result = executeControlMethod(webElement, methodName, browserInstance, args)
@@ -148,7 +161,7 @@ async function clientSide_executeControlMethod(webElement, methodName, browserIn
         // devtools and webdriver protocol don't share the same error message
         if (err.message?.includes("is stale") || err.message?.includes("stale element reference")) {
             logger.debug(`webElement ${JSON.stringify(webElement)} stale, trying to renew reference...`)
-            let renewedWebElement = await wdi5Control.renewWebElementReference()
+            const renewedWebElement = await wdi5Control.renewWebElementReference()
             if (renewedWebElement) {
                 result = executeControlMethod(renewedWebElement, methodName, browserInstance, args)
                 logger.debug(`successfully renewed reference: ${JSON.stringify(renewedWebElement)}`)
@@ -168,6 +181,4 @@ async function clientSide_executeControlMethod(webElement, methodName, browserIn
     return result
 }
 
-module.exports = {
-    clientSide_executeControlMethod
-}
+export { clientSide_executeControlMethod }

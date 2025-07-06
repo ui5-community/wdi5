@@ -1,4 +1,3 @@
-import { merge } from "ts-deepmerge"
 import { config as baseConf } from "./wdio-base.conf.js"
 import { resolve } from "path"
 
@@ -36,6 +35,7 @@ if (process.env.BROWSERSTACK) {
         {
             "wdi5:authentication": authBlock,
             browserName: "chrome",
+            browserVersion: "stable",
             "goog:chromeOptions": {
                 args:
                     process.argv.indexOf("--headless") > -1
@@ -49,6 +49,6 @@ if (process.env.BROWSERSTACK) {
     ]
 }
 
-const config = merge(baseConf, _config)
+const config = { ...baseConf, ..._config }
 config.specs = [resolve("./test/e2e/Custom.test.ts")]
 export { config }

@@ -1,9 +1,11 @@
-async function clientSide_getObject(uuid) {
-    return await browser.execute(async (uuid) => {
+import type RecordReplay from "sap/ui/test/RecordReplay"
+
+async function clientSide_getObject(uuid: string, browserInstance: WebdriverIO.Browser) {
+    return await browserInstance.execute(async (uuid) => {
         const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options)
 
         try {
-            await window.bridge.waitForUI5(waitForUI5Options)
+            await (window.bridge as unknown as typeof RecordReplay).waitForUI5(waitForUI5Options)
         } catch (error) {
             return window.wdi5.errorHandling(error)
         }
@@ -19,13 +21,13 @@ async function clientSide_getObject(uuid) {
 
         let className = ""
         if (object && object.getMetadata) {
-            className = object.getMetadata()._sClassName
+            className = object.getMetadata().getName()
         }
         window.wdi5.Log.info(`[browser wdi5] object with uuid: ${uuid} located!`)
 
         // FIXME: extract, collapse and remove cylic in 1 step
 
-        const aProtoFunctions = window.wdi5.retrieveControlMethods(object, true)
+        const aProtoFunctions = window.wdi5.retrieveControlMethods(object)
 
         object = window.wdi5.collapseObject(object)
 
@@ -44,6 +46,4 @@ async function clientSide_getObject(uuid) {
     }, uuid)
 }
 
-module.exports = {
-    clientSide_getObject
-}
+export { clientSide_getObject }

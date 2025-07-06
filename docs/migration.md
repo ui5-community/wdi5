@@ -6,7 +6,7 @@ Version >= 3 of `wdi5` is WebdriverIO v9 compatible.
 
 Major changes:
 
-- `BiDi` as the go-to automation protocol
+- `BiDi` as the go-to automation protocol  (if you want to use the old protocol use `'wdio:enforceWebDriverClassic': true` in your config file)
 - deprecation of `devtools` protocol
 
 ## from `^1` to `^2`

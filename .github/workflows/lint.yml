@@ -8,11 +8,11 @@ on:
   push:
     branches:
       - main
-      - main-v2
+      - v9-support
   pull_request:
     branches:
       - main
-      - main-v2
+      - v9-support
 
 jobs:
   run-linters:
@@ -20,16 +20,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "npm"
           cache-dependency-path: "**/package-lock.json"
       - name: tmp install prettier + eslint
-        run: npm i prettier eslint
+        run: npm i
       - name: lint things
         run: |
-          node_modules/.bin/prettier --debug-check client-side-js src docs
-          node_modules/.bin/eslint ./src/**/*.ts
+          npx prettier --debug-check client-side-js src docs
+          npx eslint ./src/**/*.ts
         # TODO: linting rules for client-side-js
