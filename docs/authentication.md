@@ -128,7 +128,7 @@ The `BTP` authenticator will automatically detect whether the login process is a
 ?> only available in `wdi5` >= 2
 
 Using the 'Identity Authentication Service (IAS) Authenticator' in `wdi5` is a subset of the [above BTP Authentication](#sap-cloud-idp-default-btp-identity-provider).
-It takes the same configuration options, plus `disableBiometricAuth` (default: `true`, which you want in almost all cases) and `idpDomain`. The latter is necessary to satisfy cookie conditions in the remote-controlled browser.
+It takes the same configuration options, plus `disableBiometricAuth` (default: `true`, which you want in almost all cases) and `idpDomain`. The latter is necessary to satisfy cookie conditions in the remote-controlled browser and is also used for selecting the appropriate Identity Provider (IdP) in scenarios with Multiple Identity Providers.
 Set `idpDomain` to the _domain-only_ part of your IAS tenant URL, e.g. `weiruhg.accounts.ondemand.com`, _omitting_ the protocol prefix (`https://`).
 
 !> If `disableBiometricAuth` is set to `true`, `idpDomain` must be set as well!
