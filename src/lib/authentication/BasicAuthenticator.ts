@@ -18,12 +18,14 @@ class BasicAuthenticator extends Authenticator {
 
     private async basicAuthLogin(basicAuthUrls: string[]) {
         for (const basicAuthUrlsConfig of basicAuthUrls) {
-            await this.browserInstance.url(basicAuthUrlsConfig, {
-                auth: {
-                    user: encodeURIComponent(this.getUsername() || ""),
-                    pass: encodeURIComponent(this.getPassword() || "")
-                }
-            })
+            const matches = basicAuthUrlsConfig.match(/(\w*:?\/\/)(.+)/)
+            const username = encodeURIComponent(this.getUsername() || "")
+            const password = encodeURIComponent(this.getPassword() || "")
+            if (!matches || !matches[1] || !matches[2]) {
+                throw new Error(`Invalid basicAuthUrls config: ${basicAuthUrlsConfig}`)
+            }
+            const basicAuthUrls = matches[1] + username + ":" + password + "@" + matches[2]
+            await this.browserInstance.url(basicAuthUrls)
         }
     }
 }

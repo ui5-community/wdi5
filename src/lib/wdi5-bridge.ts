@@ -486,7 +486,6 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
 
                 return new Proxy(function () {}, handler)
             }
-            // @ts-expect-error TODO: fix types
             return makeFluent(browserInstance._asControl(ui5ControlSelector))
         }
     }

@@ -3,7 +3,8 @@ import { wdi5Config } from "wdio-ui5-service"
 
 export const config: wdi5Config = {
     wdi5: {
-        screenshotPath: join("test", "__screenshots__")
+        screenshotPath: join("test", "__screenshots__"),
+        waitForUI5Timeout: 30000
     },
     baseUrl: "http://localhost:8080/index.html",
 

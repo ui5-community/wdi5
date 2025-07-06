@@ -1,7 +1,7 @@
 import { browser } from "@wdio/globals"
 import type RecordReplay from "sap/ui/test/RecordReplay"
 
-async function clientSide_executeObjectMethod(uuid, methodName, args) {
+async function clientSide_executeObjectMethod(uuid: string, methodName: string, args: any[]) {
     // TODO: no access to global browser
     return await browser.execute(
         async (uuid, methodName, args) => {
@@ -19,6 +19,7 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
                 let threwMessage = ""
                 if (oObject[methodName].constructor.name === "AsyncFunction") {
                     try {
+                        // eslint-disable-next-line prefer-spread
                         result = await oObject[methodName].apply(oObject, args)
                     } catch (error) {
                         threw = true
@@ -26,6 +27,7 @@ async function clientSide_executeObjectMethod(uuid, methodName, args) {
                         window.wdi5.Log.error(threwMessage)
                     }
                 } else {
+                    // eslint-disable-next-line prefer-spread
                     result = oObject[methodName].apply(oObject, args)
                 }
 

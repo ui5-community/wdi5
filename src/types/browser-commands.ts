@@ -15,6 +15,7 @@ declare global {
     namespace WebdriverIO {
         export interface Browser {
             config: wdi5Config
+            _asControl: <T extends Control = Control>(arg: wdi5Selector) => Promise<WDI5Control & T>
             asControl: <T extends Control = Control>(arg: wdi5Selector) => Promise<WDI5Control & T>
             allControls: <T extends Control = Control>(arg: wdi5Selector) => Promise<(WDI5Control & T)[]>
             screenshot: (arg: string) => Promise<void>
@@ -38,6 +39,5 @@ declare global {
 }
 
 declare global {
-    // eslint-disable-next-line no-var
     var __wdi5Config: wdi5Config
 }

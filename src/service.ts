@@ -6,11 +6,19 @@ import { Logger as _Logger } from "./lib/Logger.js"
 const Logger = _Logger.getInstance()
 
 export default class Service implements Services.ServiceInstance {
+    private _options?: wdi5Config // TODO: this is the successor to _config in wdio^8
+    private _capabilities?: wdi5Capabilities[] | wdi5MultiRemoteCapability
+    private _config?: wdi5Config // an enhanced version of the regular wdio config
+
     constructor(
-        private _options?: wdi5Config, // TODO: this is the successor to _config in wdio^8
-        private _capabilities?: wdi5Capabilities[] | wdi5MultiRemoteCapability,
-        private _config?: wdi5Config // an enhanced version of the regular wdio config
-    ) {} // the Service is instantiated by wdio with the capabilities and config passed on to
+        _options?: wdi5Config, // TODO: this is the successor to _config in wdio^8
+        _capabilities?: wdi5Capabilities[] | wdi5MultiRemoteCapability,
+        _config?: wdi5Config // an enhanced version of the regular wdio config
+    ) {
+        this._options = _options
+        this._capabilities = _capabilities
+        this._config = _config
+    } // the Service is instantiated by wdio with the capabilities and config passed on to
 
     async before(
         capabilities: Capabilities.RequestedMultiremoteCapabilities,

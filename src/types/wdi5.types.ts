@@ -1,6 +1,14 @@
 import type { Capabilities } from "@wdio/types"
 import type Log from "sap/base/Log"
 import type RecordReplay from "sap/ui/test/RecordReplay"
+import type { $I18NTextSettings } from "sap/ui/test/matchers/I18NText"
+import type { $BindingPathSettings } from "sap/ui/test/matchers/BindingPath"
+import type { $LabelForSettings } from "sap/ui/test/matchers/LabelFor"
+import type { $PropertyStrictEqualsSettings } from "sap/ui/test/matchers/PropertyStrictEquals"
+import type { $AggregationLengthEqualsSettings } from "sap/ui/test/matchers/AggregationLengthEquals"
+import type { $AggregationFilledSettings } from "sap/ui/test/matchers/AggregationFilled"
+import type { $AggregationEmptySettings } from "sap/ui/test/matchers/AggregationEmpty"
+import type { $AggregationContainsPropertyEqualSettings } from "sap/ui/test/matchers/AggregationContainsPropertyEqual"
 import type { ControlsBaseSelector } from "sap/ui/test/Opa5"
 import type { ControlSelector } from "sap/ui/test/RecordReplay"
 import type Control from "sap/ui/core/Control"
@@ -128,26 +136,14 @@ export interface wdi5ControlSelector extends ControlsBaseSelector {
      * ID of a control (global or within viewName, if viewName is defined)
      */
     id?: string | RegExp
-    /**
-     * Binding path matcher, {@link sap.ui.test.matchers.BindingPath}
-     */
-    bindingPath?: Record<string, unknown>
-    /**
-     * I18N Text matcher, {@link sap.ui.test.matchers.i18NText}
-     */
-    i18NText?: Record<string, unknown>
-    /**
-     * Label matcher, {@link sap.ui.test.matchers.LabelFor}
-     */
-    labelFor?: Record<string, unknown>
+    bindingPath?: $BindingPathSettings
+    i18NText?: $I18NTextSettings
+    labelFor?: $LabelForSettings
     /**
      * Properties matcher, {@link sap.ui.test.matchers.Properties}
      */
     properties?: Record<string, unknown>
-    /**
-     * Property strict equals matcher, {@link sap.ui.test.matchers.PropertyStrictEquals}
-     */
-    propertyStrictEquals?: { name: string; value: any }
+    propertyStrictEquals?: $PropertyStrictEqualsSettings
     /**
      * Ancestor matcher, {@link sap.ui.test.matchers.Ancestor}
      */
@@ -156,22 +152,10 @@ export interface wdi5ControlSelector extends ControlsBaseSelector {
      * Sibling matcher, {@link sap.ui.test.matchers.Sibling}
      */
     sibling?: Record<string, unknown>
-    /**
-     * Aggregation length equals matcher, {@link sap.ui.test.matchers.AggregationLengthEquals}
-     */
-    aggregationLengthEquals?: { name: string; length: number }
-    /**
-     * Aggregation filled matcher, {@link sap.ui.test.matchers.AggregationFilled}
-     */
-    aggregationFilled?: { name: string }
-    /**
-     * Aggregation empty matcher, {@link sap.ui.test.matchers.AggregationEmpty}
-     */
-    aggregationEmpty?: { name: string }
-    /**
-     * Aggregation contains property equal matcher, {@link sap.ui.test.matchers.AggregationContainsPropertyEqual}
-     */
-    aggregationContainsPropertyEqual?: { aggregationName: string; propertyName: string; propertyValue: string }
+    aggregationLengthEquals?: $AggregationLengthEqualsSettings
+    aggregationFilled?: $AggregationFilledSettings
+    aggregationEmpty?: $AggregationEmptySettings
+    aggregationContainsPropertyEqual?: $AggregationContainsPropertyEqualSettings
     /**
      * interaction adapter
      */
@@ -267,7 +251,7 @@ export interface wdi5Bridge {
             timeout: number
             interval: number
         }
-        objectMap: any
+        objectMap: Record<string, Control>
         bWaitStarted: false
         asyncControlRetrievalQueue: []
         saveObject: (object: any) => string

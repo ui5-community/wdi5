@@ -22,6 +22,7 @@ on:
 
 jobs:
   tests:
+    ### revisit: when chrome 138 does not make any more issues => go back to latest
     runs-on: ubuntu-22.04
 
     strategy:
