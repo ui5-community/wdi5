@@ -88,6 +88,7 @@
     "compare-versions": "^6.1.1",
     "cross-dirname": "^0.1.0",
     "dotenv": "^16.4.5",
+    "marky": "^1.2.5",
     "semver": "^7.6.3"
   },
   "devDependencies": {
@@ -110,7 +111,6 @@
     "eslint-plugin-wdio": "^9.9.1",
     "husky": "^9.1.5",
     "lint-staged": "^15.2.10",
-    "marky": "^1.2.5",
     "mbt": "^1.2.31",
     "mocha": "^10.7.3",
     "npm-run-all": "^4.1.5",
