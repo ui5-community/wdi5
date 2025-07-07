@@ -1,4 +1,4 @@
-import BTPAuthenticator from "../src/lib/authentication/BTPAuthenticator.js"
+import BTPAuthenticator from "../src/lib/authentication/BTPAuthenticator"
 import { ok, strictEqual } from "assert"
 
 describe("BTPAuthenticator", () => {
