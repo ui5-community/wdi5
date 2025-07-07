@@ -15,7 +15,7 @@ Major, potentially breaking, changes:
 Notable changes:
 
 - the [client-side JS](https://github.com/ui5-community/wdi5/tree/v9-support/src/client-side-js) is now typed and delivered as parts of both the `ESM` and `CJS` module
-- Support for basic auth remains as is in `wdi5` - but as of `wdio^9`, [there's now an additional way of reaching `basic auth`-protected apps](https://webdriver.io/blog/2024/08/15/webdriverio-v9-release/#overcome-basic-authentification) via `browser.url`(_note:_ with the WebDriver protocol only! (as of July 2025))
+- Support for basic auth remains as is in `wdi5` - but as of `wdio^9`, [there's now an additional way of reaching `basic auth`-protected apps](https://webdriver.io/blog/2024/08/15/webdriverio-v9-release/#overcome-basic-authentification) via `browser.url`(_note:_ with the BiDi protocol only! (as of July 2025))
 - support for Node 16 + 18 is officially dropped from `wdi5`
 
 ## from `^1` to `^2`
