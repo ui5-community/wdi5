@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-rc.2](https://github.com/ui5-community/wdi5/compare/v3.0.0-rc.1...v3.0.0-rc.2) (2025-07-07)
+
+
+### Bug Fixes
+
+* various thingies ([#673](https://github.com/ui5-community/wdi5/issues/673)) ([ded2aab](https://github.com/ui5-community/wdi5/commit/ded2aab372403718b4b5e7263e21265c99592941))
+
 ## [3.0.0-rc.1](https://github.com/ui5-community/wdi5/compare/v3.0.0-rc.0...v3.0.0-rc.1) (2025-07-06)
 
 
