@@ -4,7 +4,7 @@ import Authenticator from "./Authenticator.js"
 class BTPAuthenticator extends Authenticator {
     private disableBiometricAuth: boolean
     private idpDomain?: string
-    private idpDomainOpt: string
+    private idpDomainOpt?: string
 
     constructor(options: BTPAuthenticatorType, browserInstanceName: string) {
         super(browserInstanceName)
@@ -12,6 +12,7 @@ class BTPAuthenticator extends Authenticator {
         this.passwordSelector = options.passwordSelector ?? "#j_password"
         this.submitSelector = options.submitSelector ?? "#logOnFormSubmit"
         this.disableBiometricAuth = options.disableBiometricAuthentication ?? false
+        this.idpDomainOpt = options.idpDomain?.trim() ?? ""
         if (this.disableBiometricAuth) {
             if (!options?.idpDomain) {
                 throw new Error(

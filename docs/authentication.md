@@ -128,7 +128,8 @@ The `BTP` authenticator will automatically detect whether the login process is a
 ?> only available in `wdi5` >= 2
 
 Using the 'Identity Authentication Service (IAS) Authenticator' in `wdi5` is a subset of the [above BTP Authentication](#sap-cloud-idp-default-btp-identity-provider).
-It takes the same configuration options, plus `disableBiometricAuth` (default: `true`, which you want in almost all cases) and `idpDomain`. The latter is necessary to satisfy cookie conditions in the remote-controlled browser and is also used for selecting the appropriate Identity Provider (IdP) in scenarios with Multiple Identity Providers.
+It takes the same configuration options, plus `disableBiometricAuth` (default: `true`, which you want in almost all cases) and `idpDomain`. The latter is necessary to satisfy cookie conditions in the remote-controlled browser and is also used for selecting the appropriate Identity Provider (IdP) in scenarios with Multiple Identity Providers. If multiple IdPs are set for a subaccount, the one referenced in `idpDomain` will be chosen by automatically clicking on the respective link on the choices screen.
+
 Set `idpDomain` to the _domain-only_ part of your IAS tenant URL, e.g. `weiruhg.accounts.ondemand.com`, _omitting_ the protocol prefix (`https://`).
 
 !> If `disableBiometricAuth` is set to `true`, `idpDomain` must be set as well!
@@ -147,7 +148,7 @@ capabilities: {
         passwordSelector: "#j_password", //> optional; default: "#j_password"
         submitSelector: "#logOnFormSubmit", //> optional; default: "#logOnFormSubmit"
         disableBiometricAuth: true, //> optional; default: true
-        idpDomain: "weiruhg.accounts.ondemand.com", //> mandatory if disableBiometricAuth = true, otherwise optional; no default
+        idpDomain: "weiruhg.accounts.ondemand.com", //> mandatory if disableBiometricAuth = true, otherwise optional; no default; also selects that IdP in multiple IdP scenarios
     }
 }
 ```
@@ -167,7 +168,7 @@ capabilities: {
                 passwordSelector: "#j_password", //> optional; default: "#j_password"
                 submitSelector: "#logOnFormSubmit", //> optional; default: "#logOnFormSubmit"
                 disableBiometricAuth: true, //> optional; default: true
-                idpDomain: "weiruhg.accounts.ondemand.com", //> mandatory if disableBiometricAuth = true, otherwise optional; no default
+                idpDomain: "weiruhg.accounts.ondemand.com", //> mandatory if disableBiometricAuth = true, otherwise optional; no default; also selects that IdP in multiple IdP scenarios
             }
         }
     },
@@ -181,7 +182,7 @@ capabilities: {
                 passwordSelector: "#j_password", //> optional; default: "#j_password"
                 submitSelector: "#logOnFormSubmit", //> optional; default: "#logOnFormSubmit"
                 disableBiometricAuth: true, //> optional; default: true
-                idpDomain: "weiruhg.accounts.ondemand.com", //> mandatory if disableBiometricAuth = true, otherwise optional; no default
+                idpDomain: "weiruhg.accounts.ondemand.com", //> mandatory if disableBiometricAuth = true, otherwise optional; no default; also selects that IdP in multiple IdP scenarios
             }
         }
     }
