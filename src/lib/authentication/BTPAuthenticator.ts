@@ -11,7 +11,7 @@ class BTPAuthenticator extends Authenticator {
         this.usernameSelector = options.usernameSelector ?? "#j_username"
         this.passwordSelector = options.passwordSelector ?? "#j_password"
         this.submitSelector = options.submitSelector ?? "#logOnFormSubmit"
-        this.idpDomainOpt = this.idpDomain
+        this.idpDomainOpt = options.idpDomain
         this.disableBiometricAuth = options.disableBiometricAuthentication ?? false
         if (this.disableBiometricAuth) {
             if (!options.idpDomain) {
