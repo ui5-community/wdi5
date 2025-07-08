@@ -33,7 +33,7 @@ class BTPAuthenticator extends Authenticator {
 
     async login() {
         if (!(await this.getIsLoggedIn())) {
-            if (!!this.idpDomainOpt) {
+            if (this.idpDomainOpt) {
                 const targetIdpEle = await this.browserInstance.$(`a[href*="idp=${this.idpDomainOpt}"]`)
                 if (!!targetIdpEle.elementId) {
                     targetIdpEle.click()
