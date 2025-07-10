@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 2.2.1 (2025-07-10)
+
+
+### Bug Fixes
+
+* assign value to idpDomainOpt for [#671](https://github.com/ui5-community/wdi5/issues/671) ([#672](https://github.com/ui5-community/wdi5/issues/672)) ([18d8919](https://github.com/ui5-community/wdi5/commit/18d8919e0e12f8f00c322be8eb9fcfb6a2315e00)), closes [#510](https://github.com/ui5-community/wdi5/issues/510)
+
 ## 2.2.0 (2025-07-06)
 
 
