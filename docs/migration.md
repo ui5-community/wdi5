@@ -4,10 +4,19 @@
 
 Version >= 3 of `wdi5` is WebdriverIO v9 compatible.
 
-Major changes:
+Major, potentially breaking, changes:
 
-- `BiDi` as the go-to automation protocol  (if you want to use the old protocol use `'wdio:enforceWebDriverClassic': true` in your config file)
-- deprecation of `devtools` protocol
+- [`BiDi`](https://developer.chrome.com/blog/webdriver-bidi) is the default automation protocol now. If you want to continue using `Webdriver`, use `'wdio:enforceWebDriverClassic': true` in your `wdio`/`wdi5` config file.  
+  Find config examples in:
+  - `examples/ui5-ts-app/test/e2e/protocol/wdio-ui5-webdriver.conf.ts`
+  - `examples/ui5-js-app/e2e-test-config/wdio.base.conf.js`
+- deprecation of `devtools` protocol: it is no more included in Webdriver.IO and thus also not available in `wdi5`. Yet `BiDi` should be a drop-in replacement for it, without the need for changing config files or rewrite tests.
+
+Notable changes:
+
+- the [client-side JS](https://github.com/ui5-community/wdi5/tree/v9-support/src/client-side-js) is now typed and delivered as parts of both the `ESM` and `CJS` module
+- Support for basic auth remains as is in `wdi5` - but as of `wdio^9`, [there's now an additional way of reaching `basic auth`-protected apps](https://webdriver.io/blog/2024/08/15/webdriverio-v9-release/#overcome-basic-authentification) via `browser.url`(_note:_ with the BiDi protocol only! (as of July 2025))
+- support for Node 16 + 18 is officially dropped from `wdi5`, currently supporting versions >=20.
 
 ## from `^1` to `^2`
 
