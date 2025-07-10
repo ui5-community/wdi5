@@ -11,6 +11,7 @@ class BTPAuthenticator extends Authenticator {
         this.usernameSelector = options.usernameSelector ?? "#j_username"
         this.passwordSelector = options.passwordSelector ?? "#j_password"
         this.submitSelector = options.submitSelector ?? "#logOnFormSubmit"
+        this.idpDomainOpt = options.idpDomain?.trim() ?? ""
         this.disableBiometricAuth = options.disableBiometricAuthentication ?? false
         if (this.disableBiometricAuth) {
             if (!options.idpDomain) {
@@ -32,7 +33,7 @@ class BTPAuthenticator extends Authenticator {
 
     async login() {
         if (!(await this.getIsLoggedIn())) {
-            if (!!this.idpDomainOpt) {
+            if (this.idpDomainOpt) {
                 const targetIdpEle = await this.browserInstance.$(`a[href*="idp=${this.idpDomainOpt}"]`)
                 if (!!targetIdpEle.elementId) {
                     targetIdpEle.click()
