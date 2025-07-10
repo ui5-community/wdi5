@@ -30,6 +30,5 @@ jobs:
         run: npm i
       - name: lint things
         run: |
-          npx prettier --debug-check client-side-js src docs
+          npx prettier --debug-check src docs
           npx eslint ./src/**/*.ts
-        # TODO: linting rules for client-side-js
