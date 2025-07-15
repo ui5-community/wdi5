@@ -30,7 +30,8 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                     // GUID: {}
                 },
                 bWaitStarted: false,
-                asyncControlRetrievalQueue: []
+                asyncControlRetrievalQueue: [],
+                ui5Version: ""
             }
 
             /**
@@ -52,6 +53,7 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
             let PropertiesUi5LocalRef
             let AncestorUi5LocalRef
             let LabelForUi5LocalRef
+            let UI5ElementRef
             await new Promise<void>((resolve) => {
                 sap.ui.require(
                     [
@@ -62,9 +64,22 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                         "sap/ui/test/matchers/I18NText",
                         "sap/ui/test/matchers/Properties",
                         "sap/ui/test/matchers/Ancestor",
-                        "sap/ui/test/matchers/LabelFor"
+                        "sap/ui/test/matchers/LabelFor",
+                        "sap/ui/core/Element",
+                        "sap/ui/VersionInfo"
                     ],
-                    (Log, RecordReplay, Control, BindingPath, I18NText, Properties, Ancestor, LabelFor) => {
+                    async (
+                        Log,
+                        RecordReplay,
+                        Control,
+                        BindingPath,
+                        I18NText,
+                        Properties,
+                        Ancestor,
+                        LabelFor,
+                        UI5Element,
+                        VersionInfo
+                    ) => {
                         LogUi5LocalRef = Log
                         RecordReplayUi5LocalRef = RecordReplay
                         ControlUi5LocalRef = Control
@@ -73,6 +88,9 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                         PropertiesUi5LocalRef = Properties
                         AncestorUi5LocalRef = Ancestor
                         LabelForUi5LocalRef = LabelFor
+                        UI5ElementRef = UI5Element
+                        const versionInfo = await VersionInfo.load()
+                        window.wdi5.ui5Version = versionInfo.version
                         resolve()
                     }
                 )
@@ -144,14 +162,14 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                     if (
                         hasNamedModel &&
                         isRootProperty &&
-                        window.compareVersions.compare("1.81.0", sap.ui.version, ">")
+                        window.compareVersions.compare("1.81.0", window.wdi5.ui5Version, ">")
                     ) {
                         // attach the double leading /
                         // for UI5 < 1.81
                         oSelector.bindingPath.propertyPath = `/${oSelector.bindingPath.propertyPath}`
                     }
                 }
-                if (window.compareVersions.compare(oldAPIVersion, sap.ui.version, ">")) {
+                if (window.compareVersions.compare(oldAPIVersion, window.wdi5.ui5Version, ">")) {
                     oSelector.matchers = []
                     // for version < 1.72 declarative matchers are not available
                     if (oSelector.bindingPath) {
@@ -209,9 +227,11 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
              * extract the multi use function to get a UI5 Control from a JSON Webobejct
              */
             window.wdi5.getUI5CtlForWebObj = (ui5Control) => {
-                //> REVISIT: refactor to https://ui5.sap.com/#/api/sap.ui.core.Element%23methods/sap.ui.core.Element.closestTo for UI5 >= 1.106
-                // TODO: get rid of jquery
-                return jQuery(ui5Control).control(0)
+                if (window.compareVersions.compare(window.wdi5.ui5Version, "1.108.0", ">")) {
+                    return UI5ElementRef.closestTo(ui5Control)
+                } else {
+                    return jQuery(ui5Control).control(0)
+                }
             }
 
             /**

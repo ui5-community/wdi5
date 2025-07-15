@@ -1,9 +1,18 @@
+import type Opa from "sap/ui/test/Opa"
+import type Opa5 from "sap/ui/test/Opa5"
 import type RecordReplay from "sap/ui/test/RecordReplay"
 
 async function initOPA(pageObjectConfig, browserInstance) {
     return await browserInstance.execute(async (pageObjectConfig) => {
         try {
             await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
+            const [OpaRef, Opa5Ref] = await new Promise<[Opa, Opa5]>((resolve) => {
+                sap.ui.require(["sap/ui/test/Opa", "sap/ui/test/Opa5"], function () {
+                    // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                    // eslint-disable-next-line prefer-rest-params
+                    resolve(Array.from(arguments))
+                })
+            })
             const pageConfig = {}
             Object.keys(pageObjectConfig).map((pageKey) => {
                 Object.keys(pageObjectConfig[pageKey]).forEach((className) => {
@@ -13,17 +22,17 @@ async function initOPA(pageObjectConfig, browserInstance) {
             })
 
             // @ts-expect-error: Property 'Opa5' does not exist on type 'typeof sap.ui.test'
-            sap.ui.test.Opa5.createPageObjects(pageConfig)
+            Opa5Ref.createPageObjects(pageConfig)
             // @ts-expect-error: Property 'Opa' does not exist on type 'typeof sap.ui.test'
             // use the same timouts and intervals that wdi5 uses
-            sap.ui.test.Opa.extendConfig({
+            OpaRef.extendConfig({
                 timeout: Math.floor(window.wdi5.waitForUI5Options.timeout / 1000), // convert milliseconds to seconds
                 pollingInterval: window.wdi5.waitForUI5Options.interval
             })
 
             // @ts-expect-error: Property 'Opa5' does not exist on type 'typeof sap.ui.test'
             // mock the generic OK handler in order to support assertions
-            sap.ui.test.Opa5.assert = {
+            Opa5Ref.assert = {
                 ok: function (bSuccess, responseText) {
                     window.fe_bridge.Log.push(responseText)
                     return true
@@ -41,8 +50,14 @@ async function emptyQueue(browserInstance) {
     return await browserInstance.execute(async () => {
         try {
             await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
-            // @ts-expect-error: Property 'Opa' does not exist on type 'typeof sap.ui.test'
-            await sap.ui.test.Opa.emptyQueue()
+            const [OpaRef] = await new Promise<[Opa]>((resolve) => {
+                sap.ui.require(["sap/ui/test/Opa"], function () {
+                    // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                    // eslint-disable-next-line prefer-rest-params
+                    resolve(Array.from(arguments))
+                })
+            })
+            await OpaRef.emptyQueue()
             const feLogs = window.fe_bridge.Log
             window.fe_bridge.Log = []
             return { type: "success", feLogs: feLogs }
@@ -62,21 +77,28 @@ async function addToQueue(methodCalls, browserInstance) {
     return await browserInstance.execute(async (methodCalls) => {
         try {
             await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
+            const [OpaRef] = await new Promise<[Opa]>((resolve) => {
+                sap.ui.require(["sap/ui/test/Opa"], function () {
+                    // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                    // eslint-disable-next-line prefer-rest-params
+                    resolve(Array.from(arguments))
+                })
+            })
 
             for (const methodCall of methodCalls) {
                 let scope
                 switch (methodCall.type) {
                     case "Given":
                         // @ts-expect-error: Property 'Opa' does not exist on type 'typeof sap.ui.test'
-                        scope = sap.ui.test.Opa.config.arrangements
+                        scope = OpaRef.config.arrangements
                         break
                     case "When":
                         // @ts-expect-error: Property 'Opa' does not exist on type 'typeof sap.ui.test'
-                        scope = sap.ui.test.Opa.config.actions
+                        scope = OpaRef.config.actions
                         break
                     case "Then":
                         // @ts-expect-error: Property 'Opa' does not exist on type 'typeof sap.ui.test'
-                        scope = sap.ui.test.Opa.config.assertions
+                        scope = OpaRef.config.assertions
                         break
                 }
                 scope = scope[methodCall.target]

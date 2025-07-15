@@ -246,6 +246,7 @@ export interface wdi5Bridge {
         createControlIdMap: (aControls: Control[], controlType: string) => Record<string, any>
         createControlId: (aControl: Control | Control[]) => { id: string }
         isInitialized: boolean
+        ui5Version: string
         Log: Log
         waitForUI5Options: {
             timeout: number
