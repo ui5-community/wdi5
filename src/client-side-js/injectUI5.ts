@@ -1,3 +1,15 @@
+import type Log from "sap/base/Log"
+import type RecordReplay from "sap/ui/test/RecordReplay"
+import type Control from "sap/ui/core/Control"
+import type BindingPath from "sap/ui/test/matchers/BindingPath"
+import type I18NText from "sap/ui/test/matchers/I18NText"
+import type Properties from "sap/ui/test/matchers/Properties"
+import type Ancestor from "sap/ui/test/matchers/Ancestor"
+import type LabelFor from "sap/ui/test/matchers/LabelFor"
+import type UI5Element from "sap/ui/core/Element"
+import type { LibraryInfo } from "sap/ui/core/Core"
+import type VersionInfo from "sap/ui/VersionInfo"
+
 async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: WebdriverIO.Browser) {
     return await browserInstance.execute(async (waitForUI5Timeout) => {
         if (window.bridge) {
@@ -19,9 +31,7 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
             // @ts-expect-error: Starting wdi5 object in browser scope
             // create empty
             window.wdi5 = {
-                createMatcher: null,
                 isInitialized: false,
-                Log: null,
                 waitForUI5Options: {
                     timeout: waitForUI5Timeout,
                     interval: 400
@@ -34,6 +44,13 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                 ui5Version: ""
             }
 
+            window.wdi5.ui5Version = await new Promise<string>((resolve) => {
+                sap.ui.require(["sap/ui/VersionInfo"], async (VersionInfo: VersionInfo) => {
+                    const versionInfo = (await VersionInfo.load()) as LibraryInfo
+                    resolve(versionInfo.version)
+                })
+            })
+
             /**
              *
              * @param {sap.ui.base.Object} object
@@ -45,15 +62,15 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                 return uuid
             }
 
-            let LogUi5LocalRef
-            let RecordReplayUi5LocalRef
-            let ControlUi5LocalRef
-            let BindingPathUi5LocalRef
-            let I18NTextUi5LocalRef
-            let PropertiesUi5LocalRef
-            let AncestorUi5LocalRef
-            let LabelForUi5LocalRef
-            let UI5ElementRef
+            let LogUi5LocalRef: Log
+            let RecordReplayUi5LocalRef: RecordReplay
+            let ControlUi5LocalRef: Control
+            let BindingPathUi5LocalRef: BindingPath
+            let I18NTextUi5LocalRef: I18NText
+            let PropertiesUi5LocalRef: Properties
+            let AncestorUi5LocalRef: Ancestor
+            let LabelForUi5LocalRef: LabelFor
+            let UI5ElementRef: UI5Element
             await new Promise<void>((resolve) => {
                 sap.ui.require(
                     [
@@ -69,16 +86,16 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                         "sap/ui/VersionInfo"
                     ],
                     async (
-                        Log,
-                        RecordReplay,
-                        Control,
-                        BindingPath,
-                        I18NText,
-                        Properties,
-                        Ancestor,
-                        LabelFor,
-                        UI5Element,
-                        VersionInfo
+                        Log: Log,
+                        RecordReplay: RecordReplay,
+                        Control: Control,
+                        BindingPath: BindingPath,
+                        I18NText: I18NText,
+                        Properties: Properties,
+                        Ancestor: Ancestor,
+                        LabelFor: LabelFor,
+                        UI5Element: UI5Element,
+                        VersionInfo: VersionInfo
                     ) => {
                         LogUi5LocalRef = Log
                         RecordReplayUi5LocalRef = RecordReplay
@@ -89,7 +106,7 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                         AncestorUi5LocalRef = Ancestor
                         LabelForUi5LocalRef = LabelFor
                         UI5ElementRef = UI5Element
-                        const versionInfo = await VersionInfo.load()
+                        const versionInfo = (await VersionInfo.load()) as LibraryInfo
                         window.wdi5.ui5Version = versionInfo.version
                         resolve()
                     }
@@ -107,11 +124,12 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
             window.wdi5.isInitialized = true
 
             // make exec function available on all ui5 controls, so more complex evaluations can be done on browser side for better performance
+            // @ts-expect-error: Property 'prototype' does not exist on type 'Control'
             ControlUi5LocalRef.prototype.exec = function (funcToEval, ...args) {
                 try {
                     return new Function("return " + funcToEval).apply(this).apply(this, args)
                 } catch (error) {
-                    return { status: 1, message: error.toString() }
+                    return { status: 1, message: error?.toString() }
                 }
             }
 
@@ -173,22 +191,27 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                     oSelector.matchers = []
                     // for version < 1.72 declarative matchers are not available
                     if (oSelector.bindingPath) {
+                        // @ts-expect-error: This expression is not constructable. Type has no construct signatures
                         oSelector.matchers.push(new BindingPathUi5LocalRef(oSelector.bindingPath))
                         delete oSelector.bindingPath
                     }
                     if (oSelector.properties) {
+                        // @ts-expect-error: This expression is not constructable. Type has no construct signatures
                         oSelector.matchers.push(new PropertiesUi5LocalRef(oSelector.properties))
                         delete oSelector.properties
                     }
                     if (oSelector.i18NText) {
+                        // @ts-expect-error: This expression is not constructable. Type has no construct signatures
                         oSelector.matchers.push(new I18NTextUi5LocalRef(oSelector.i18NText))
                         delete oSelector.i18NText
                     }
                     if (oSelector.labelFor) {
+                        // @ts-expect-error: This expression is not constructable. Type has no construct signatures
                         oSelector.matchers.push(new LabelForUi5LocalRef(oSelector.labelFor))
                         delete oSelector.labelFor
                     }
                     if (oSelector.ancestor) {
+                        // @ts-expect-error: This expression is not constructable. Type has no construct signatures
                         oSelector.matchers.push(new AncestorUi5LocalRef(oSelector.ancestor))
                         delete oSelector.ancestor
                     }
@@ -228,6 +251,7 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
              */
             window.wdi5.getUI5CtlForWebObj = (ui5Control) => {
                 if (window.compareVersions.compare(window.wdi5.ui5Version, "1.108.0", ">")) {
+                    // @ts-expect-error: Property 'closestTo' does not exist on type 'UI5Element'. Did you mean to access the static member 'UI5Element.closestTo' instead?
                     return UI5ElementRef.closestTo(ui5Control)
                 } else {
                     return jQuery(ui5Control).control(0)

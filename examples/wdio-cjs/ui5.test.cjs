@@ -35,8 +35,13 @@ describe("ui5 basic", () => {
                 }
             }
         }
-        const dialogButton = await browser.asControl(selector2).press()
+        const dialogButton = await browser.asControl(selector2)
         expect(dialogButton.isInitialized()).toBeTruthy()
+        let isOpen = await dialogButton.isActive()
+        expect(isOpen).toBeTruthy()
+        await dialogButton.press()
+        isOpen = await dialogButton.isActive()
+        expect(isOpen).toBeFalsy()
     })
 
     it("wdi5 should search and return no results", async () => {

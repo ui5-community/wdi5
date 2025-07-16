@@ -617,11 +617,11 @@ function _getDateString() {
  * @param {Boolean} bReplace
  */
 async function _navTo(
-    sComponentId,
-    sName,
+    sComponentId: string,
+    sName: string,
     oParameters,
     oComponentTargetInfo,
-    bReplace,
+    bReplace: boolean,
     browserInstance: WebdriverIO.Browser
 ) {
     const result = (await clientSide__navTo(
