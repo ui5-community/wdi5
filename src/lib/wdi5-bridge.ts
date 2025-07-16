@@ -11,7 +11,7 @@ import type {
 import { resolve } from "node:path"
 import { writeFile } from "node:fs/promises"
 import { tmpdir } from "node:os"
-import * as semver from "semver"
+import { compare } from "compare-versions"
 import { mark as marky_mark, stop as marky_stop } from "marky"
 
 import { WDI5Control } from "./wdi5-control.js"
@@ -112,10 +112,11 @@ function initBrowser(browserInstance: WebdriverIO.Browser) {
 }
 
 function checkUI5Version(ui5Version: string) {
-    if (semver.lt(ui5Version, "1.60.0")) {
+    if (compare(ui5Version, "1.60.0", "<")) {
         // the record replay api is only available since 1.60
-        Logger.error("The UI5 version of your application is too low. Minimum required is 1.60!")
-        throw new Error("The UI5 version of your application is too low. Minimum required is 1.60!")
+        const message = "The UI5 version of your application is too low. Minimum required is 1.60!"
+        Logger.error(message)
+        throw new Error(message)
     }
 }
 
