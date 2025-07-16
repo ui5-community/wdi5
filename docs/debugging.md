@@ -12,7 +12,7 @@ In the `Terminal` are of VS Code, start a "JavaScript Debug Terminal"...
 - via `npm run wdi5` (or whatever npm script name you've chosen)
 - directly via the `wdio` binary
   (in `/examples/ui5-js-app` of this repo)
-  `$> ../../node_modules/.bin/wdio e2e-test-config/wdio-webserver.conf.js --spec /basic.test.js`
+  `$> npx wdio e2e-test-config/wdio-webserver.conf.js --spec /basic.test.js`
 
 Subsequently `wdi5` will halt execution at that breakpoint and allows inspecting things in the Debugger pane:
 
