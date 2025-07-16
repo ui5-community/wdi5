@@ -26,7 +26,7 @@ exports.baseConfig = {
     ],
     logLevel: "error",
     bail: 0,
-    baseUrl: "http://localhost:8888",
+    baseUrl: "http://localhost:8081/index.html",
 
     waitforTimeout: 20000,
     connectionRetryTimeout: process.argv.indexOf("--debug") > -1 ? 1200000 : 120000,
