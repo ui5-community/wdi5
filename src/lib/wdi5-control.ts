@@ -161,7 +161,7 @@ export class WDI5Control {
             return await this._getAggregation(name)
         } catch (error) {
             if (this._logging) {
-                Logger.error(`cannot get aggregation "${name}", because ${error.message}`)
+                Logger.error(`cannot get aggregation "${name}", because ${error?.message}`)
             }
         }
     }
@@ -191,7 +191,7 @@ export class WDI5Control {
             await this._interactWithControl(oOptions)
         } catch (error) {
             if (logging) {
-                Logger.error(`cannot call enterText(), because ${error.message}`)
+                Logger.error(`cannot call enterText(), because ${error?.message}`)
             }
         }
         return this
@@ -230,7 +230,7 @@ export class WDI5Control {
                 await this._interactWithControl(oOptions)
             } catch (error) {
                 if (logging) {
-                    Logger.error(`cannot issue OPA5-press() on control, because ${error.message}`)
+                    Logger.error(`cannot issue OPA5-press() on control, because ${error?.message}`)
                 }
             }
         } else {
@@ -239,7 +239,7 @@ export class WDI5Control {
                 await ((await this._getWebElement()) as unknown as WebdriverIO.Element).click()
             } catch (error) {
                 if (logging) {
-                    Logger.error(`cannot call press(), because ${error.message}`)
+                    Logger.error(`cannot call press(), because ${error?.message}`)
                 }
             }
         }
@@ -253,7 +253,7 @@ export class WDI5Control {
      * @param {any} oOptions
      * @param {WebdriverIO.Element} webElement
      */
-    async fireEvent(eventName, oOptions, webElement = this._webElement) {
+    async fireEvent(eventName: string, oOptions, webElement = this._webElement) {
         // Check the options have a eval property
         if (oOptions?.eval) {
             oOptions = "(" + oOptions.eval.toString() + ")"
@@ -470,7 +470,7 @@ export class WDI5Control {
                 this._webElement = await this._renewWebElementReference()
             } catch (error) {
                 if (this._logging) {
-                    Logger.error(`cannot execute ${methodName}(), because ${error.message}`)
+                    Logger.error(`cannot execute ${methodName}(), because ${error?.message}`)
                 }
             }
         }
@@ -672,7 +672,7 @@ export class WDI5Control {
 
         // When the WebDriver protocol is not used, the domElement is not set accordingly (via devtool protocol)
         // Therefore we get element reference by calling browser execute function manually
-        if (_result.status === 0 && !_result.domElement[ELEMENT_KEY]) {
+        if (_result.status === 0 && !_result?.domElement?.[ELEMENT_KEY]) {
             const elementReference = (await this._browserInstance.execute((id) => {
                 const webElement: Node = document.evaluate(
                     `//*[@id='${id}']`,

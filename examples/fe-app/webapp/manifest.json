@@ -50,7 +50,10 @@
       "minUI5Version": "1.76.0",
       "libs": {
         "sap.ui.core": {},
-        "sap.fe.templates": {}
+        "sap.fe.templates": {},
+        "sap.m": {},
+        "sap.f": {},
+        "sap.ui.fl": {}
       }
     },
     "models": {

@@ -1,0 +1,15 @@
+{
+  "name": "wdio-classic",
+  "version": "0.0.1",
+  "private": true,
+  "description": "sample ESM ui5 app for testing wdi5",
+  "license": "UNLICENSED",
+  "author": "j&s-soft GmbH",
+  "type": "module",
+  "scripts": {
+    "test": "wdio run wdio.conf.js --headless"
+  },
+  "devDependencies": {
+    "wdio-ui5-service": "*"
+  }
+}

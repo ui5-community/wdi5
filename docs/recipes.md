@@ -27,7 +27,6 @@ This being said, it restricts the scope of what to test with `wdi5` :
 > All other ways should be tested at a lower level (component or unit testing) where the goal is to assess that all sequences work in a cheaper environment (the backend being mocked).
 
 - ✅ User interface manipulations should be limited to the _simplest_ way to reach the testing goal. There are two main reasons for that :
-
   1. Performance : the End-to-End tests are slower by nature, every shortcut that makes the test faster _should_ be preferred.
   2. Maintainability : the application will evolve over time. Changing the user interface will necessarily have an impact on the existing tests. Hence, one should carefully automate the safest path to limit the impact of breaking changes.
 
@@ -209,7 +208,7 @@ See an example at [`/examples/ui5-js-app/jsconfig.json` in the wdi5 repository](
 }
 ```
 
-See an example at [`/examples/ui5-js-app-esm/jsconfig.json` in the wdi5 repository](https://github.com/ui5-community/wdi5/blob/main/examples/ui5-js-app-esm/jsconfig.json).
+See an example at [`/examples/ui5-v2-js-app/jsconfig.json` in the wdi5 repository](https://github.com/ui5-community/wdi5/blob/main/examples/ui5-v2-js-app/jsconfig.json).
 
 <!-- tabs:end -->
 

@@ -1,0 +1,25 @@
+{
+  "name": "ui5-v2-js-app",
+  "version": "0.8.15-notimportant",
+  "private": true,
+  "description": "sample ui5 app for testing wdi5",
+  "license": "UNLICENSED",
+  "author": "j&s-soft GmbH",
+  "main": "webapp/index.html",
+  "type": "module",
+  "scripts": {
+    "start": "ui5 serve -p 8082",
+    "test": "run-s test:**",
+    "test:lateInject": "wait-on tcp:8082 -t 15s && wdio run webapp/test/wdio-ui5-late.conf.js --headless",
+    "test:ui5tooling": "wait-on tcp:8082 -t 15s && wdio run webapp/test/wdio-ui5tooling.conf.js --headless",
+    "test:webserver": "wait-on tcp:8082 -t 15s && wdio run webapp/test/wdio-webserver.conf.js --headless",
+    "test:multiremote": "wait-on tcp:8082 -t 15s && wdio run webapp/test/wdio-multiremote.conf.js --headless",
+    "test:urlDeprecation": "wait-on tcp:8082 -t 15s && wdio run webapp/test/wdi5-urlDeprecation.conf.js --headless",
+    "start:test": "run-p -r start test"
+  },
+  "devDependencies": {
+    "@sap-ux/ui5-middleware-fe-mockserver": "latest",
+    "ui5-middleware-simpleproxy": "latest",
+    "wdio-ui5-service": "*"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "wdio-ui5-lts",
+  "version": "0.0.1",
+  "private": true,
+  "description": "sample ESM ui5 app for testing wdi5",
+  "license": "UNLICENSED",
+  "author": "j&s-soft GmbH",
+  "type": "module",
+  "scripts": {
+    "test": "run-p test:**",
+    "test:v1.71": "wdio run wdio.conf.js --headless --ui5=1.71",
+    "test:v1.84": "wdio run wdio.conf.js --headless --ui5=1.84",
+    "test:v1.96": "wdio run wdio.conf.js --headless --ui5=1.96",
+    "test:v1.108": "wdio run wdio.conf.js --headless --ui5=1.108",
+    "test:v1.120": "wdio run wdio.conf.js --headless --ui5=1.120",
+    "test:v1.136": "wdio run wdio.conf.js --headless --ui5=1.136"
+  },
+  "devDependencies": {
+    "wdio-ui5-service": "*"
+  }
+}

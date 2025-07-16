@@ -5,7 +5,6 @@ Prerequisite for all this is a working/running docker environment.
 ## variants
 
 1. Run a single container that holds:
-
    - sample UI5 JS app incl tests from `wdi5` repo as application under test
    - sample WebdriverIO setup and `wdi5` config
    - `Google Chrome` in included as web browser for running the UI5 app (can only run in `headless` mode from the image, due to missing X-environment)
@@ -42,7 +41,7 @@ $> docker run --rm -ti \
 # regular image name
 > ghcr.io/ui5-community/wdi5:0.9.10-node18 \
 # custom command to execute in the container (against Chrome only)
-> node_modules/.bin/wdio
+> npx wdio
 ```
 
 Note that as of now, only `Google Chrome` is inlcuded as a web browser for running the tests, which can only run in headless mode in the container.

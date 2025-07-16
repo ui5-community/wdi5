@@ -1,5 +1,5 @@
 {
   "compilerOptions": {
-    "types": ["node", "@wdio/globals/types", "@wdio/mocha-framework", "wdio-ui5-service/cjs", "expect-webdriverio"]
+    "types": ["node", "@wdio/globals/types", "@wdio/mocha-framework", "wdio-ui5-service/dist/cjs", "expect-webdriverio"]
   }
 }

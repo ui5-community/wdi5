@@ -1,0 +1,139 @@
+{
+  "_version": "2.0.0",
+  "sap.app": {
+    "id": "test.Sample",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "${version}"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "ach": "ach",
+    "dataSources": {
+      "BackendDataSource": {
+        "uri": "/V2/Northwind/Northwind.svc/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "2.0"
+        }
+      },
+      "LatestUI5Datasource": {
+        "uri": "",
+        "type": "JSON"
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "rootView": {
+      "viewName": "test.Sample.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "app"
+    },
+    "dependencies": {
+      "minUI5Version": "1.68.1",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.ui.layout": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "test.Sample.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "BackendDataSource",
+        "settings": {
+          "useBatch": false,
+          "autoExpandSelect": true,
+          "operationMode": "Server",
+          "groupId": "$direct",
+          "synchronizationMode": "None"
+        }
+      },
+      "LatestUI5": {
+        "type": "sap.ui.model.json.JSONModel",
+        "dataSource": "LatestUI5Datasource"
+      }
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "type": "View",
+        "viewType": "XML",
+        "async": true,
+        "path": "test.Sample.view",
+        "controlAggregation": "pages",
+        "controlId": "app"
+      },
+      "routes": [
+        {
+          "name": "RouteMain",
+          "pattern": "",
+          "target": ["TargetMain"]
+        },
+        {
+          "name": "RouteCalendar",
+          "pattern": "calendar",
+          "target": ["TargetCalendar"]
+        },
+        {
+          "name": "RouteMainNamed",
+          "pattern": "main",
+          "target": ["TargetMain"]
+        },
+        {
+          "name": "RouteOther",
+          "pattern": "other",
+          "target": ["TargetOther"]
+        }
+      ],
+      "targets": {
+        "TargetMain": {
+          "viewType": "XML",
+          "clearControlAggregation": false,
+          "id": "Main",
+          "name": "Main"
+        },
+        "TargetOther": {
+          "viewType": "XML",
+          "clearControlAggregation": false,
+          "id": "Other",
+          "name": "Other"
+        },
+        "TargetCalendar": {
+          "viewType": "XML",
+          "clearControlAggregation": false,
+          "id": "Calendar",
+          "name": "Calendar"
+        }
+      }
+    }
+  }
+}

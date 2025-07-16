@@ -7,14 +7,14 @@ describe("ui5 basic", () => {
         // native wdio functionality - navigates to the wdi5 github page
         await browser.$("#user-content-wdi5-").waitForExist()
         // open local app
-        await browser.url("http://localhost:8888")
+        await browser.url("http://localhost:8081/index.html")
         // do the late injection
         await ui5Service.injectUI5()
     })
 
     it("should verify the caching of the wdi5 config", async () => {
         // open local app
-        await browser.url("http://localhost:8888")
+        await browser.url("http://localhost:8081/index.html")
         // do the late injection
         await ui5Service.injectUI5()
         // check if config have been cached

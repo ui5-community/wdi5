@@ -1,7 +1,15 @@
+import type { LibraryInfo } from "sap/ui/core/Core"
+import type VersionInfo from "sap/ui/VersionInfo"
 import type { wdi5Config } from "../types/wdi5.types.js"
 
 async function clientSide_injectXHRPatch(wdi5Config: wdi5Config["wdi5"], browserInstance: WebdriverIO.Browser) {
     return await browserInstance.execute(async (wdi5Config) => {
+        const ui5Version = await new Promise<string>((resolve) => {
+            sap.ui.require(["sap/ui/VersionInfo"], async (VersionInfo: VersionInfo) => {
+                const versionInfo = (await VersionInfo.load()) as LibraryInfo
+                resolve(versionInfo.version)
+            })
+        })
         const originalFetch = window.fetch
 
         const ignoreAutoWaitUrls = wdi5Config.ignoreAutoWaitUrls
@@ -9,7 +17,7 @@ async function clientSide_injectXHRPatch(wdi5Config: wdi5Config["wdi5"], browser
             return ignoreAutoWaitUrls?.map((regex) => new RegExp(regex))?.some((regex) => url.match(regex)) || false
         }
         const imports = ["sap/ui/thirdparty/sinon", "sap/ui/test/autowaiter/_XHRWaiter"]
-        if (window.compareVersions.compare(sap.ui.version, "1.114.0", ">")) {
+        if (window.compareVersions.compare(ui5Version, "1.114.0", ">")) {
             imports.push("sap/ui/test/autowaiter/_fetchWaiter")
         }
 

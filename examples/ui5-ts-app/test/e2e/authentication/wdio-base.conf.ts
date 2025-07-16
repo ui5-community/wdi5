@@ -19,7 +19,7 @@ const _config: _wdi5Config = {
     bail: 0,
 
     waitforTimeout: 10000,
-    connectionRetryTimeout: process.argv.indexOf("--debug") > -1 ? 1200000 : 120000,
+    connectionRetryTimeout: process.argv.includes("--debug") ? 1200000 : 120000,
     connectionRetryCount: 3,
 
     reporters: ["spec"],
@@ -27,7 +27,7 @@ const _config: _wdi5Config = {
     framework: "mocha",
     mochaOpts: {
         ui: "bdd",
-        timeout: process.argv.indexOf("--debug") > -1 ? 600000 : 60000
+        timeout: process.argv.includes("--debug") ? 600000 : 60000
     }
 }
 

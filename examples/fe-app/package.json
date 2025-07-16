@@ -7,23 +7,16 @@
     "openui5",
     "sapui5"
   ],
+  "type": "commonjs",
   "main": "webapp/index.html",
   "scripts": {
-    "deploy": "npx -p @sap/ux-ui5-tooling fiori add deploy-config cf",
-    "test": "karma start --singleRun",
-    "test:wdi5": "wdio run wdio.conf.js --headless",
-    "serve": "ui5 serve --port 8088"
+    "start": "ui5 serve -p 8088",
+    "test": "wait-on tcp:8088 -t 15s && wdio run wdio.conf.js --headless",
+    "start:test": "run-p -r start test",
+    "deploy": "npx -p @sap/ux-ui5-tooling fiori add deploy-config cf"
   },
   "devDependencies": {
     "@sap-ux/ui5-middleware-fe-mockserver": "latest",
-    "detect-libc": "^2.0.3",
     "wdio-ui5-service": "*"
-  },
-  "peerDependencies": {
-    "@ui5/cli": "^4",
-    "@wdio/cli": "^9",
-    "@wdio/local-runner": "^9",
-    "@wdio/mocha-framework": "^9",
-    "@wdio/spec-reporter": "^9"
   }
 }
