@@ -14,6 +14,10 @@ class BasicAuthenticator extends Authenticator {
         const basicAuthUrls = this.options.basicAuthUrls || [this.baseUrl]
         await this.basicAuthLogin(basicAuthUrls)
         this.setIsLoggedIn(true)
+        // trick 17 ;)
+        // the preload flag of the OData models tries to load the $metadata to early for our authenticators.
+        // We have to reload the application to "force" the application to reload the requests after we are authenticated.
+        await this.browserInstance.url(this.baseUrl)
     }
 
     private async basicAuthLogin(basicAuthUrls: string[]) {
