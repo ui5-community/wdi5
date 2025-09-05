@@ -156,7 +156,7 @@ async function clientSide_executeControlMethod(
 ) {
     let result
     try {
-        result = executeControlMethod(webElement, methodName, browserInstance, args)
+        result = await executeControlMethod(webElement, methodName, browserInstance, args)
     } catch (err) {
         // devtools and webdriver protocol don't share the same error message
         if (err.message?.includes("is stale") || err.message?.includes("stale element reference")) {
