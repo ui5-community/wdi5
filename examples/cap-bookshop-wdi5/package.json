@@ -1,0 +1,84 @@
+{
+  "name": "@capire/bookshop",
+  "version": "1.0.0",
+  "description": "A simple self-contained bookshop service.",
+  "files": [
+    "app",
+    "srv",
+    "db",
+    "index.cds",
+    "index.js"
+  ],
+  "workspaces": [
+    "app",
+    "app/admin-books"
+  ],
+  "dependencies": {
+    "@sap/cds": "^9.1.0",
+    "@sap/cds-dk": "^9.1.0",
+    "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
+    "@sap/xssec": "^4",
+    "passport": ">=0.7.0"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^2.0.2",
+    "@sap/ux-specification": "^1.136.0",
+    "@wdio/cli": "^9.16.2",
+    "@wdio/local-runner": "^9.16.2",
+    "@wdio/mocha-framework": "^9.16.2",
+    "@wdio/spec-reporter": "^9.16.2",
+    "axios": "^1",
+    "chai": "^5.2.0",
+    "chai-as-promised": "^8.0.1",
+    "chai-subset": "^1.6.0",
+    "rimraf": "^6.0.1",
+    "semver": "^7",
+    "wdio-chromedriver-service": "^8.1.1",
+    "wdio-timeline-reporter": "^5.1.4",
+    "wdio-ui5-service": "*"
+  },
+  "scripts": {
+    "genres": "cds serve test/genres.cds",
+    "start": "cds deploy && cds run",
+    "watch": "cds watch",
+    "undeploy": "cf undeploy capire-bookshop --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources && mbt build -t gen --mtar mta.tar",
+    "deploy": "cf deploy gen/mta.tar -f",
+    "wdi5": "wdio app/admin-books/webapp/test/wdi5/wdio.conf.js --headless"
+  },
+  "engines": {
+    "node": "^22"
+  },
+  "cds": {
+    "features": {
+      "fiori_preview": true,
+      "fiori_routes": true
+    },
+    "requires": {
+      "db": "sql",
+      "[production]": {
+        "db": {
+          "kind": "sqlite",
+          "credentials": {
+            "url": ":memory:"
+          }
+        },
+        "auth": {
+          "kind": "dummy"
+        }
+      },
+      "[development]": {
+        "db": {
+          "kind": "sqlite",
+          "credentials": {
+            "url": ":memory:"
+          }
+        },
+        "auth": "mocked"
+      }
+    }
+  },
+  "sapux": [
+    "app/admin-books"
+  ]
+}
