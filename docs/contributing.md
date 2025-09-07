@@ -26,7 +26,7 @@ Then to work on a test:
 
 ```shell
 # start the sample js app
-$> npm run _startApp:js
+$> npm run start -w=ui5-app
 ```
 
 ...in terminal 2:
@@ -120,7 +120,7 @@ recommended approach:
 
   ```shell
   # start the sample js app
-  $> npm run _startApp:js
+  $> npm run start -w=ui5-app
   ```
 
 - run test(s) in terminal 2
