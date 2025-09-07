@@ -54,14 +54,14 @@ Note that as of now, only `Google Chrome` is inlcuded as a web browser for runni
 
 ### standalone docker image
 
-`/app` is the working directory:
+`/usr/src/app` is the working directory:
 
 - `/app/webapp` holds the UI5 app from the repo's `/examples/ui5-js-app/webapp`
 - `/app/ui5.yaml` the relevant `ui5-tooling` config
 - `/app/package.json` is a standalone `package.json` from the repo's `/docker/package-standalone.json`
 - WebdriverIO- + `wdi5`-config is composed of
-  - `wdio`: `/app/wdio.base.conf.js` from repo's `/examples/ui5-js-app/wdio.base.conf.js`
-  - `wdi5`: `/app/wdio.conf.js` as repo's `/examples/ui5-js-app/wdio-docker-standalone.conf.js`
+  - `wdio`: `/app/wdio.base.conf.js` from repo's `/examples/ui5-js-app/webapp/test/wdio.base.conf.js`
+  - `wdi5`: `/app/wdio.conf.js` as repo's `/examples/ui5-js-app/webapp/test/wdio-docker-standalone.conf.js`
 
 ### swarm
 
