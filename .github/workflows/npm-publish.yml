@@ -52,6 +52,6 @@ jobs:
       # b/c of missing personal access token here
       - run: git push --follow-tags origin main
       ## finally publish the npm package
-      - run: npm publish
+      - run: npm publish --provenance
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
