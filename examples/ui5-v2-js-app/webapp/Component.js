@@ -30,7 +30,6 @@ sap.ui.define(
 
                 const url = new URL(location.href)
                 if (url.searchParams.get("isui5toolingTest")?.toLocaleLowerCase() === "true") {
-                    return
                     const startXHR = () => {
                         this.getModel().read("/Categories", {
                             success: startXHR
