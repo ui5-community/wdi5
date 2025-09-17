@@ -65,7 +65,7 @@ if (process.env.BROWSERSTACK) {
 }
 
 const _config = {
-    baseUrl: "https://wdi5-sample-app.cfapps.eu20.hana.ondemand.com/xsuaa/",
+    baseUrl: "https://wdi5-sample-app.cfapps.eu10-004.hana.ondemand.com/xsuaa/",
     capabilities: multiRemoteCapability
 }
 

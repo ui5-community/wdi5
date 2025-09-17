@@ -8,7 +8,7 @@ const _config: _wdi5Config = {
         screenshotPath: join("test", "__screenshots__"),
         waitForUI5Timeout: 30000
     },
-    baseUrl: "https://wdi5-sample-app.cfapps.eu20.hana.ondemand.com/basic-auth/",
+    baseUrl: "https://wdi5-sample-app.cfapps.eu10-004.hana.ondemand.com/basic-auth/",
 
     // browserstack service gets injected later during merge of configs
     services: process.env.BROWSERSTACK ? [] : ["ui5"],

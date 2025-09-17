@@ -12,7 +12,7 @@ modules:
       disk-quota: 256M
       memory: 256M
       routes:
-        - route: wdi5-sample-app.cfapps.eu20.hana.ondemand.com
+        - route: wdi5-sample-app.cfapps.eu10-004.hana.ondemand.com
     requires:
       - name: html5-destination
       - name: html5-uaa
