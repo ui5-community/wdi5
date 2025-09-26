@@ -11,14 +11,14 @@ exports.baseConfig = {
         {
             maxInstances: 4,
             browserName: "chrome",
-            browserVersion: "stable",
+            // browserVersion: "stable",
             acceptInsecureCerts: true,
             // "wdio:enforceWebDriverClassic": true,
             "goog:chromeOptions": {
                 args: process.argv.includes("--headless")
                     ? ["window-size=1920,1280", "headless", "disable-gpu"]
                     : process.argv.includes("--debug")
-                      ? ["window-size=1920,1280", "auto-open-devtools-for-tabs"]
+                      ? ["window-size=1920,1280", "auto-open-devtools-for-tabs", "--start-fullscreen"]
                       : ["window-size=1920,1280"]
             }
         }
