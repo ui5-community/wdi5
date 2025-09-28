@@ -32,7 +32,7 @@ if (process.env.BROWSERSTACK) {
                     provider: "BTP"
                 },
                 browserName: "chrome",
-                browserVersion: "stable",
+                // browserVersion: "stable",
                 "goog:chromeOptions": {
                     args: process.argv.includes("--headless")
                         ? ["headless", "disable-gpu"]
@@ -49,7 +49,7 @@ if (process.env.BROWSERSTACK) {
                     provider: "BTP"
                 },
                 browserName: "chrome",
-                browserVersion: "stable",
+                // browserVersion: "stable",
                 "goog:chromeOptions": {
                     args: process.argv.includes("--headless")
                         ? ["headless", "disable-gpu"]

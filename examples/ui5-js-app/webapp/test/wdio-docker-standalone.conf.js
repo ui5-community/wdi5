@@ -14,7 +14,7 @@ const _config = {
         {
             maxInstances: 1,
             browserName: "chrome",
-            browserVersion: "stable",
+            // browserVersion: "stable",
             "goog:chromeOptions": {
                 args: [
                     process.env.HEADFUL === undefined ? "--headless" : "--dummy",

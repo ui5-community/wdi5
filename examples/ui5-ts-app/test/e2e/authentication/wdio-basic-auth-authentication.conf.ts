@@ -24,7 +24,7 @@ if (process.env.BROWSERSTACK) {
                 provider: "BasicAuth"
             },
             browserName: "chrome",
-            browserVersion: "stable",
+            // browserVersion: "stable",
             "goog:chromeOptions": {
                 args: process.argv.includes("--headless")
                     ? ["headless", "disable-gpu"]

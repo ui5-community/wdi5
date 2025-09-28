@@ -27,7 +27,7 @@ export const config: wdi5Config = {
         {
             maxInstances: 2,
             browserName: "chrome",
-            browserVersion: "stable",
+            // browserVersion: "stable",
             "goog:chromeOptions": {
                 args: process.argv.includes("--headless")
                     ? ["headless", "disable-gpu"]

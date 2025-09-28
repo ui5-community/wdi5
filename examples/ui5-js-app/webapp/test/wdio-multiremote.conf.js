@@ -13,7 +13,7 @@ const _config = {
         one: {
             capabilities: {
                 browserName: "chrome",
-                browserVersion: "stable",
+                // browserVersion: "stable",
                 acceptInsecureCerts: true,
                 "goog:chromeOptions": {
                     args: process.argv.includes("--headless")
@@ -27,7 +27,7 @@ const _config = {
         two: {
             capabilities: {
                 browserName: "chrome",
-                browserVersion: "stable",
+                // browserVersion: "stable",
                 acceptInsecureCerts: true,
                 "goog:chromeOptions": {
                     args: process.argv.includes("--headless")

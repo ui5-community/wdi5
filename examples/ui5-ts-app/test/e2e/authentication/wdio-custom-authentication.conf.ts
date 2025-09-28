@@ -35,7 +35,7 @@ if (process.env.BROWSERSTACK) {
         {
             "wdi5:authentication": authBlock,
             browserName: "chrome",
-            browserVersion: "stable",
+            // browserVersion: "stable",
             "goog:chromeOptions": {
                 args: process.argv.includes("--headless")
                     ? ["headless", "disable-gpu"]

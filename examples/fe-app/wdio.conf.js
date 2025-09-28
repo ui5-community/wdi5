@@ -17,7 +17,7 @@ exports.config = {
             // overwrite global "maxInstances"
             maxInstances: 5,
             browserName: "chrome",
-            browserVersion: "stable",
+            // browserVersion: "stable",
             acceptInsecureCerts: true,
             "wdio:enforceWebDriverClassic": true,
 

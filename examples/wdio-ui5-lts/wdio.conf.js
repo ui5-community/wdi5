@@ -16,7 +16,7 @@ export const config = {
         {
             maxInstances: 1,
             browserName: "chrome",
-            browserVersion: "stable",
+            // browserVersion: "stable",
             "goog:chromeOptions": {
                 args: process.argv.includes("--headless")
                     ? ["window-size=1440,800", "headless", "disable-gpu"]
