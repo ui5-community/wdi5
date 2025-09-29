@@ -12,8 +12,6 @@ import { resolve } from "node:path"
 import { writeFile } from "node:fs/promises"
 import { tmpdir } from "node:os"
 import { compare } from "compare-versions"
-import { mark as marky_mark, stop as marky_stop } from "marky"
-
 import { WDI5Control } from "./wdi5-control.js"
 import { WDI5FE } from "./wdi5-fe.js"
 import { clientSide_injectTools } from "../client-side-js/injectTools.js"
@@ -274,12 +272,17 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
             Logger.info(`creating internal control with id ${internalKey}`)
             wdi5Selector.wdio_ui5_key = internalKey
 
-            marky_mark("retrieveSingleControl") //> TODO: bind to debug log level
+            performance.mark("retrieveSingleControlStart") //> TODO: bind to debug log level
 
             const wdi5Control = await new WDI5Control({ browserInstance }).init(wdi5Selector, wdi5Selector.forceSelect)
 
-            const e = marky_stop("retrieveSingleControl") //> TODO: bind to debug log level
-            Logger.info(`_asControl() needed ${e.duration} for ${internalKey}`)
+            performance.mark("retrieveSingleControlEnd") //> TODO: bind to debug log level
+            const retrieveSingleControlMeasure = performance.measure(
+                "retrieveSingleControl",
+                "retrieveSingleControlStart",
+                "retrieveSingleControlEnd"
+            )
+            Logger.info(`_asControl() needed ${retrieveSingleControlMeasure.duration} for ${internalKey}`)
 
             browserInstance._controls[internalKey] = wdi5Control
         } else {

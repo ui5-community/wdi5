@@ -1,6 +1,5 @@
 import Main from "./pageObjects/Main"
 import Other from "./pageObjects/Other"
-import marky from "marky"
 import { wdi5 } from "wdio-ui5-service"
 
 describe("ui5 eval on control", () => {
@@ -143,18 +142,24 @@ describe("ui5 eval on control", () => {
 
         // *********
         // new approach -> run code in browser scope via wdi5/node-wormhole
-        marky.mark("execForListItemTitles")
+        performance.mark("execForListItemTitles_start")
         const peopleListNames = await list.exec(function () {
             return this.getItems().map((item) => item.getTitle())
         })
-        wdi5.getLogger().info(marky.stop("execForListItemTitles"))
+        performance.mark("execForListItemTitles_end")
+        const measure1 = performance.measure(
+            "execForListItemTitles",
+            "execForListItemTitles_start",
+            "execForListItemTitles_end"
+        )
+        wdi5.getLogger().info(measure1)
         // *********
 
         Other.allNames.forEach((name) => {
             expect(peopleListNames).toContain(name)
         })
 
-        marky.mark("regularGetAllItemTitles")
+        performance.mark("regularGetAllItemTitles_start")
 
         // UI5 API straight forward approach -> takes ~8.1sec
         const listItems = await list.getItems()
@@ -162,7 +167,14 @@ describe("ui5 eval on control", () => {
         for (const item of listItems) {
             regularPeopleListNames.push(await item.getTitle())
         }
-        wdi5.getLogger().info(marky.stop("regularGetAllItemTitles"))
+        performance.mark("execForListItemTitles_end")
+        const measure2 = performance.measure(
+            "execForListItemTitles",
+            "execForListItemTitles_start",
+            "execForListItemTitles_end"
+        )
+
+        wdi5.getLogger().info(measure2)
 
         Other.allNames.forEach((name) => {
             expect(regularPeopleListNames).toContain(name)

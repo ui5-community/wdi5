@@ -1,4 +1,3 @@
-import marky from "marky"
 import { wdi5 } from "wdio-ui5-service"
 import Main from "./pageObjects/Main"
 
@@ -128,11 +127,12 @@ describe("ui5 basic", () => {
     })
 
     it("test performance 1", async () => {
-        marky.mark("1_fluentAPI")
+        performance.mark("1_fluentAPI_start")
 
         const response = await browser.asControl(buttonSelector).press().getText()
 
-        const entry = marky.stop("1_fluentAPI")
+        performance.mark("1_fluentAPI_end")
+        const entry = performance.measure("1_fluentAPI", "1_fluentAPI_start", "1_fluentAPI_end")
 
         expect(response).toEqual("open Dialog")
         expect(entry.duration).toBeLessThan(3000)
@@ -146,13 +146,14 @@ describe("ui5 basic", () => {
     it("test performance 2", async () => {
         buttonSelector.forceSelect = true
 
-        marky.mark("2_fluentAPI")
+        performance.mark("2_fluentAPI_start")
 
         const button = await browser.asControl(buttonSelector)
         await button.press()
         const text = await button.getText()
 
-        const entry = marky.stop("2_fluentAPI")
+        performance.mark("2_fluentAPI_end")
+        const entry = performance.measure("2_fluentAPI", "2_fluentAPI_start", "2_fluentAPI_end")
 
         expect(text).toEqual("open Dialog")
         wdi5.getLogger().info(entry)

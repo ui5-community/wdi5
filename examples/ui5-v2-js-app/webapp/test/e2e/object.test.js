@@ -1,5 +1,4 @@
 import Main from "./pageObjects/Main"
-import marky from "marky"
 import { wdi5 } from "wdio-ui5-service"
 import Other from "./pageObjects/Other"
 
