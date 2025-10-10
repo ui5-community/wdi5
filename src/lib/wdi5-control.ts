@@ -501,7 +501,7 @@ export class WDI5Control {
                 methodName,
                 this._browserInstance,
                 args,
-                // to safeguard "stale" elements in the devtools protocol we pass the whole wdi5 object
+                // to safeguard "stale" elements in the bidi protocol we pass the whole wdi5 object
                 this
             )) as clientSide_ui5Response
         } catch (err) {

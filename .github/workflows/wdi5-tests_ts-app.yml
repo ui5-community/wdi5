@@ -67,5 +67,5 @@ jobs:
         run: npm run test-h:ts-app
 
       # this runs against the deployed wdi5 TS sample app
-      - name: test devtools support
+      - name: test webdriver + bidi support
         run: npm run test:protocol

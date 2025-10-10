@@ -1,10 +1,7 @@
 import { wdi5Selector, ELEMENT_KEY } from "wdio-ui5-service"
 
 describe("Bidi: ", async () => {
-    const staleElementId = {
-        // devtools does not care about the format of the value but webdriver does
-        [ELEMENT_KEY]: "C9B723AF0A50B0F6AE3AC61EB707675E_element_00"
-    }
+    const staleElementId = { [ELEMENT_KEY]: "C9B723AF0A50B0F6AE3AC61EB707675E_element_00" }
 
     beforeEach(() => {
         // clear cached wdi5Controls, so we can mock in each test seperately

@@ -58,7 +58,7 @@
     "//test:auth": "this runs either locally or on browserstack depending on the env variable BROWSERSTACK",
     "test:auth": "npm run test:authentication:bstack -w examples/ui5-ts-app",
     "test:capAuth": "run-p -r _startApp:cap _test:cap-app",
-    "//test:protocol": "runs the same test with webdriver and devtools protocol",
+    "//test:protocol": "runs the same test with webdriver and bidi protocol",
     "test:protocol": "npm run test:protocol -w examples/ui5-ts-app",
     "//test:wz": "specific tests for SAP Build Workzone, standard edition",
     "test:wz:testlib": "npm run test:wz --workspace=examples/ui5-ts-app -- --headless --spec test/e2e/workzone/testlib-journey.test.ts",
