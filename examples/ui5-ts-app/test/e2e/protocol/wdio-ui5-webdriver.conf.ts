@@ -13,10 +13,13 @@ export const config: wdi5Config = {
     capabilities: [
         {
             browserName: "chrome",
-            // browserVersion: "stable",
             "wdio:enforceWebDriverClassic": true,
             "goog:chromeOptions": {
-                args: process.argv.includes("--headless") ? ["headless", "disable-gpu"] : []
+                args: process.argv.includes("--headless")
+                    ? ["headless", "disable-gpu"]
+                    : process.argv.includes("--debug")
+                      ? ["auto-open-devtools-for-tabs"]
+                      : []
             },
             acceptInsecureCerts: true
         }
@@ -26,7 +29,7 @@ export const config: wdi5Config = {
     reporters: ["spec"],
     framework: "mocha",
     mochaOpts: {
-        timeout: 29000
+        timeout: process.env.DEBUG ? 290000 : 29000
     },
     beforeSession: () => {
         setDefaultResultOrder("ipv4first")
