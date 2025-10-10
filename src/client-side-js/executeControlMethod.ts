@@ -174,24 +174,26 @@ async function clientSide_executeControlMethod(
         result = executeControlMethod(webElement, methodName, browserInstance, args)
     } catch (err) {
         // devtools and webdriver protocol don't share the same error message
-        if (err?.message?.includes("is stale") || err?.message?.includes("stale element reference")) {
-            logger.debug(`webElement ${JSON.stringify(webElement)} stale, trying to renew reference...`)
-            const renewedWebElement = await wdi5Control.renewWebElementReference()
-            if (renewedWebElement) {
-                result = executeControlMethod(renewedWebElement, methodName, browserInstance, args)
-                logger.debug(`successfully renewed reference: ${JSON.stringify(renewedWebElement)}`)
-            } else {
-                logger.error(`failed renewing reference for webElement: ${JSON.stringify(webElement)}`)
-                result = {
-                    status: 1,
-                    message: `${methodName} could not be executed on control with selector: ${JSON.stringify(
-                        wdi5Control._controlSelector
-                    )}`
-                }
-            }
-        } else {
-            throw err
+        // if (err?.message?.includes("is stale") || err?.message?.includes("stale element reference")) {
+        //     logger.debug(`webElement ${JSON.stringify(webElement)} stale, trying to renew reference...`)
+        //     const renewedWebElement = await wdi5Control.renewWebElementReference()
+        //     if (renewedWebElement) {
+        //         result = executeControlMethod(renewedWebElement, methodName, browserInstance, args)
+        //         logger.debug(`successfully renewed reference: ${JSON.stringify(renewedWebElement)}`)
+        //     } else {
+        //         logger.error(`failed renewing reference for webElement: ${JSON.stringify(webElement)}`)
+
+        logger.error("failed executing control method", methodName, err)
+        result = {
+            status: 1,
+            message: `${methodName} could not be executed on control with selector: ${JSON.stringify(
+                wdi5Control._controlSelector
+            )}`
         }
+        //     }
+        // } else {
+        //     throw err
+        // }
     }
     return result
 }

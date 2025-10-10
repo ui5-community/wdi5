@@ -494,14 +494,30 @@ export class WDI5Control {
         }
 
         // regular browser-time execution of UI5 control method
-        const result = (await clientSide_executeControlMethod(
-            webElement,
-            methodName,
-            this._browserInstance,
-            args,
-            // to safeguard "stale" elements in the devtools protocol we pass the whole wdi5 object
-            this
-        )) as clientSide_ui5Response
+        let result
+        try {
+            result = (await clientSide_executeControlMethod(
+                webElement,
+                methodName,
+                this._browserInstance,
+                args,
+                // to safeguard "stale" elements in the devtools protocol we pass the whole wdi5 object
+                this
+            )) as clientSide_ui5Response
+        } catch (err) {
+            let message
+            if (err?.message?.includes("is stale") || err?.message?.includes("stale element reference")) {
+                Logger.debug(`error executing ${methodName}(): ${err?.message}`)
+                message = `stale element reference: ${methodName} could not be executed on control with selector: ${JSON.stringify(this._controlSelector)}`
+            } else {
+                Logger.error(`error executing ${methodName}(): ${err?.message}`)
+                message = `error: ${methodName} could not be executed on control with selector: ${JSON.stringify(this._controlSelector)}`
+            }
+            result = {
+                status: 1,
+                message
+            }
+        }
 
         // create logging
         this._writeObjectResultLog(result, methodName)
