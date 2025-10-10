@@ -53,7 +53,7 @@ describe("Bidi: ", async () => {
     })
 
     //> REVISIT: see first test in the suite for reasons - same thing here
-    it("safeguard 'stale' element handling with full selector", async () => {
+    it.skip("safeguard 'stale' element handling with full selector", async () => {
         const multiInput = await getMultiInputOnPage1()
 
         // mock a stale element
