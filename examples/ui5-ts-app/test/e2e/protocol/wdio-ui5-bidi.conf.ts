@@ -10,13 +10,15 @@ export const config: wdi5Config = {
         logLevel: "verbose",
         waitForUI5Timeout: 25000
     },
-    automationProtocol: "devtools",
     capabilities: [
         {
             browserName: "chrome",
-            // browserVersion: "stable",
             "goog:chromeOptions": {
-                args: process.argv.includes("--headless") ? ["headless", "disable-gpu"] : []
+                args: process.argv.includes("--headless")
+                    ? ["headless", "disable-gpu"]
+                    : process.argv.includes("--debug")
+                      ? ["auto-open-devtools-for-tabs"]
+                      : []
             },
             acceptInsecureCerts: true
         }
