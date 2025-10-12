@@ -1,0 +1,5 @@
+{
+  "compilerOptions": {
+    "types": ["node", "@wdio/globals/types", "@wdio/mocha-framework", "wdio-ui5-service/dist/esm", "expect-webdriverio"]
+  }
+}

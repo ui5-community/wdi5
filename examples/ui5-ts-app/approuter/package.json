@@ -4,6 +4,8 @@
     "@sap/approuter": "latest"
   },
   "scripts": {
-    "start": "node node_modules/@sap/approuter/approuter.js"
+    "start": "node node_modules/@sap/approuter/approuter.js",
+    "test": "exit 0;",
+    "test:lateInject": "exit 0;"
   }
 }

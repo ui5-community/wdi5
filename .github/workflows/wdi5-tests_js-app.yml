@@ -63,9 +63,29 @@ jobs:
         run: npm run build
 
       # run wdi5 tests within CJS app/env
-      - name: test cjs js-app
-        run: npm run test-h:js-app
+      - name: test CJS js-app
+        run: npm run test:cjs
 
       # run wdi5 tests within ESM app/env
-      - name: test esm js-app
-        run: npm run test-h:js-app:esm
+      - name: test ESM js-app
+        run: npm run test:mjs
+
+      # run wdi5 tests WebdriverIO Classic Protocol
+      - name: test wdio classic
+        run: npm run test:classic
+
+      # run wdi5 tests Cucumber
+      - name: test cucumber
+        run: npm run test:cucumber
+
+      # run wdi5 tests UI5 LTS versions
+      - name: test UI5 LTS versions
+        run: npm run test:ui5:lts
+
+      # run wdi5 tests for UI5 v1
+      - name: test UI5 v1 app
+        run: npm run test:ui5:app:v1
+
+      # run wdi5 tests for UI5 v2
+      - name: test UI5 v2 app
+        run: npm run test:ui5:app:v2

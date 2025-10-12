@@ -13,10 +13,10 @@ export const config: wdi5Config = {
     capabilities: [
         {
             browserName: "chrome",
-            browserVersion: "stable",
+            // browserVersion: "stable",
             "wdio:enforceWebDriverClassic": true,
             "goog:chromeOptions": {
-                args: process.argv.indexOf("--headless") > -1 ? ["headless", "disable-gpu"] : []
+                args: process.argv.includes("--headless") ? ["headless", "disable-gpu"] : []
             },
             acceptInsecureCerts: true
         }

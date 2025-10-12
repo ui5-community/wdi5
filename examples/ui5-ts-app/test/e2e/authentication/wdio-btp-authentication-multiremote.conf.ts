@@ -32,14 +32,13 @@ if (process.env.BROWSERSTACK) {
                     provider: "BTP"
                 },
                 browserName: "chrome",
-                browserVersion: "stable",
+                // browserVersion: "stable",
                 "goog:chromeOptions": {
-                    args:
-                        process.argv.indexOf("--headless") > -1
-                            ? ["headless", "disable-gpu"]
-                            : process.argv.indexOf("--debug") > -1
-                              ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
-                              : ["window-size=1440,800"]
+                    args: process.argv.includes("--headless")
+                        ? ["headless", "disable-gpu"]
+                        : process.argv.includes("--debug")
+                          ? ["window-size=1440,800", "auto-open-devtools-for-tabs"]
+                          : ["window-size=1440,800"]
                 },
                 acceptInsecureCerts: true
             }
@@ -50,14 +49,13 @@ if (process.env.BROWSERSTACK) {
                     provider: "BTP"
                 },
                 browserName: "chrome",
-                browserVersion: "stable",
+                // browserVersion: "stable",
                 "goog:chromeOptions": {
-                    args:
-                        process.argv.indexOf("--headless") > -1
-                            ? ["--headless"]
-                            : process.argv.indexOf("--debug") > -1
-                              ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
-                              : ["window-size=1440,800"]
+                    args: process.argv.includes("--headless")
+                        ? ["headless", "disable-gpu"]
+                        : process.argv.includes("--debug")
+                          ? ["window-size=1440,800", "auto-open-devtools-for-tabs"]
+                          : ["window-size=1440,800"]
                 },
                 acceptInsecureCerts: true
             }

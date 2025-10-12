@@ -1,6 +1,6 @@
 # base image
 ## pass this via docker build --build-arg node_version=17
-ARG node_version=16
+ARG node_version=22
 FROM node:${node_version}-bullseye-slim
 
 # basic tools
@@ -15,15 +15,16 @@ RUN apt install -y google-chrome-stable --no-install-recommends
 # see #599 https://github.com/ui5-community/wdi5/issues/599
 RUN apt install -y git
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # copy sample app to /app
-COPY ./examples/ui5-js-app/webapp webapp
+COPY ./examples/ui5-js-app/webapp/ webapp
+COPY ./examples/ui5-js-app/scripts scripts
 COPY ./examples/ui5-js-app/ui5.yaml ui5.yaml
 COPY ./docker/package-standalone.json package.json
 # this is the standard file and allows for a simple call like "wdio"
-COPY ./examples/ui5-js-app/e2e-test-config/wdio-docker-standalone.conf.js wdio.conf.js
-COPY ./examples/ui5-js-app/e2e-test-config/wdio.base.conf.js wdio.base.conf.js
+COPY ./examples/ui5-js-app/webapp/test/wdio-docker-standalone.conf.js wdio.conf.js
+COPY ./examples/ui5-js-app/webapp/test/wdio.base.conf.js wdio.base.conf.js
 RUN mkdir -p report/screenshots
 
 # install basic setup:
@@ -33,4 +34,4 @@ RUN mkdir -p report/screenshots
 RUN npm install
 
 # run wdio + wdi5
-CMD npm test
+CMD ["npm", "run", "start:test"]
