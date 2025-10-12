@@ -1,0 +1,10 @@
+node_modules
+target
+.DS_Store
+.vscode
+gen
+.cap**
+mta_archives
+resources
+wdi5.db
+.cdsrc-private.json
