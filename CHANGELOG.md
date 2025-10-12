@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/ui5-community/wdi5/compare/v3.0.0-rc.2...v3.0.0) (2025-10-12)
+
+
+### Features
+
+* support ui5 legacy free aka almost v2 ([341dbb1](https://github.com/ui5-community/wdi5/commit/341dbb1c0d9646faf606bbf3553630b45855bb53))
+* support UI5 legacy free, slim down deps, clean up ([85d2a25](https://github.com/ui5-community/wdi5/commit/85d2a254efbca7eb677382f593f1d1439a7e71ec))
+
+
+### Bug Fixes
+
+* add the trick17 again for basic authentication ([#685](https://github.com/ui5-community/wdi5/issues/685)) ([223b317](https://github.com/ui5-community/wdi5/commit/223b317d6b0d215ae2f5298b3404c6a7f779cfcf))
+* docker standalone ([4264944](https://github.com/ui5-community/wdi5/commit/42649444d79ec16557649d8f58c66a7575537d42))
+
 ## [3.0.0-rc.2](https://github.com/ui5-community/wdi5/compare/v3.0.0-rc.1...v3.0.0-rc.2) (2025-07-07)
 
 
