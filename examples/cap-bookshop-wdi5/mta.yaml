@@ -1,0 +1,45 @@
+_schema-version: "3.1"
+ID: capire.bookshop
+version: 1.0.0
+description: "A simple self-contained bookshop service."
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npx -p @sap/cds-dk cds build --production
+        # include the app in the deployment artifact
+        - cp -r app gen/srv/
+        # include the.cds for re-use in app
+        - cp srv/admin-service.cds gen/srv/srv/
+        - mkdir -p gen/srv/db
+        # includes initial data for the app
+        - cp -r db/data gen/srv/db/
+        - cp db/schema.cds gen/srv/db/
+        - rm gen/srv/srv/csn.json
+modules:
+  - name: bookshop-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm-ci
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: bookshop-auth
+
+resources:
+  - name: bookshop-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: bookshop-${org}-${space}
+        tenant-mode: dedicated

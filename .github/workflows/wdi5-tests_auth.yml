@@ -16,12 +16,12 @@ on:
       - "!*.cjs"
 
 env:
-  wdi5_username: ${{secrets.BTP_LOGIN}}
-  wdi5_one_username: ${{secrets.BTP_LOGIN}}
-  wdi5_two_username: ${{secrets.BTP_LOGIN}}
-  wdi5_password: ${{secrets.BTP_PASSWORD}}
-  wdi5_one_password: ${{secrets.BTP_PASSWORD}}
-  wdi5_two_password: ${{secrets.BTP_PASSWORD}}
+  wdi5_username: ${{secrets.AUTH_USER}}
+  wdi5_one_username: ${{secrets.AUTH_USER}}
+  wdi5_two_username: ${{secrets.AUTH_USER}}
+  wdi5_password: ${{secrets.AUTH_PWD}}
+  wdi5_one_password: ${{secrets.AUTH_PWD}}
+  wdi5_two_password: ${{secrets.AUTH_PWD}}
   wdi5_wz_username: ${{secrets.WZ_USER}}
   wdi5_wz_password: ${{secrets.WZ_PASSWORD}}
   BROWSERSTACK_USERNAME: ${{secrets.BROWSERSTACK_USERNAME}}
@@ -50,8 +50,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.ref }}
-          submodules: recursive
-
       - name: use node ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:

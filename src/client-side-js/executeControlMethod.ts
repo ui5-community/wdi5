@@ -171,7 +171,7 @@ async function clientSide_executeControlMethod(
 ) {
     let result
     try {
-        result = executeControlMethod(webElement, methodName, browserInstance, args)
+        result = await executeControlMethod(webElement, methodName, browserInstance, args)
     } catch (err) {
         logger.error("failed executing control method", methodName, err)
         result = {

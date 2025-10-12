@@ -1,4 +1,0 @@
-[submodule "examples/cap-bookshop-wdi5"]
-	path = examples/cap-bookshop-wdi5
-	url = git@github.com:SAP-samples/cap-bookshop-wdi5.git
-	branch = wdi5-tests
