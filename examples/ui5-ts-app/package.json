@@ -22,7 +22,7 @@
     "authentication:multiRemote": "wdio run test/e2e/authentication/wdio-btp-authentication-multiremote.conf.ts",
     "test:protocol": "run-p \"protocol:webdriver -- --headless\"",
     "//protocol:devtools": "with wdio v9, devtools is obsolete",
-    "protocol:devtools": "PROT=devtools wdio run test/e2e/protocol/wdio-ui5-devtools.conf.ts",
+    "protocol:bidi": "PROT=bidi wdio run test/e2e/protocol/wdio-ui5-bidi.conf.ts",
     "protocol:webdriver": "PROT=webdriver wdio run test/e2e/protocol/wdio-ui5-webdriver.conf.ts",
     "build:ui5": "ui5 build --clean-dest",
     "build:mtar": "mv dist approuter/webapp && mbt build",
@@ -33,15 +33,19 @@
     "@openui5/types": "latest",
     "@sap/approuter": "latest",
     "@types/jquery": "3.5.30",
-    "@ui5/cli": "^4",
-    "@wdio/browserstack-service": "^9.0.9",
-    "@wdio/sauce-service": "^9",
     "mbt": "latest",
-    "ts-deepmerge": "latest",
     "ui5-middleware-livereload": "latest",
     "ui5-middleware-simpleproxy": "latest",
     "ui5-tooling-transpile": "latest",
-    "@wdio/cli": "^9",
     "wdio-ui5-service": "*"
+  },
+  "peerDependencies": {
+    "@ui5/cli": "^4",
+    "@wdio/browserstack-service": "^9",
+    "@wdio/cli": "^9",
+    "@wdio/local-runner": "^9",
+    "@wdio/mocha-framework": "^9",
+    "@wdio/sauce-service": "^9",
+    "@wdio/spec-reporter": "^9"
   }
 }

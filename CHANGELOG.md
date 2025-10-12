@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-rc.2](https://github.com/ui5-community/wdi5/compare/v3.0.0-rc.1...v3.0.0-rc.2) (2025-07-07)
+
+
+### Bug Fixes
+
+* various thingies ([#673](https://github.com/ui5-community/wdi5/issues/673)) ([ded2aab](https://github.com/ui5-community/wdi5/commit/ded2aab372403718b4b5e7263e21265c99592941))
+
+## [3.0.0-rc.1](https://github.com/ui5-community/wdi5/compare/v3.0.0-rc.0...v3.0.0-rc.1) (2025-07-06)
+
+
+### Features
+
+* supporting multiple identity providers ([#510](https://github.com/ui5-community/wdi5/issues/510)) ([#671](https://github.com/ui5-community/wdi5/issues/671)) ([e85eed0](https://github.com/ui5-community/wdi5/commit/e85eed071a5d49e6036f8d155ad3ac2509df183b))
+
+
+### Bug Fixes
+
+* baseUrl is mandatory, must fail if missing ([fb9ccec](https://github.com/ui5-community/wdi5/commit/fb9ccec33edbac7bf3cfffdbb81372567ff911aa))
+* load ui5 libs at once ([f48f53d](https://github.com/ui5-community/wdi5/commit/f48f53d244556d377486f598e87fc09f8212673c))
+* Mostly any types ([c790e92](https://github.com/ui5-community/wdi5/commit/c790e92d4defa1e44a279e0f0bbc989a74d2cd64))
+* multiremote race condition where injectUI5 was not done ([feae101](https://github.com/ui5-community/wdi5/commit/feae101c16a9180b9ab1d80d9287ccce090766e8))
+* no console - use wdi5 Logger ([ac503b6](https://github.com/ui5-community/wdi5/commit/ac503b6d797680cc52f4b05703d80cccde664146))
+* performance ([#658](https://github.com/ui5-community/wdi5/issues/658)) ([49b7930](https://github.com/ui5-community/wdi5/commit/49b7930fef4d8e90e5b7b05bca7359aa5b246499)), closes [#665](https://github.com/ui5-community/wdi5/issues/665)
+* performance ([#658](https://github.com/ui5-community/wdi5/issues/658)) ([d63818d](https://github.com/ui5-community/wdi5/commit/d63818d41e9239cc718234a9dd2563f9b96ac25c)), closes [#665](https://github.com/ui5-community/wdi5/issues/665)
+* re-deployed sample app ([378acac](https://github.com/ui5-community/wdi5/commit/378acaca2848db7cc256b13c53c70926a25f6bef))
+* Remove deprecated browser.switchToFrame ([924fff4](https://github.com/ui5-community/wdi5/commit/924fff4f796d03b9a4748fe1ff4e49e32f546794))
+* remove devtools dep ([f97de73](https://github.com/ui5-community/wdi5/commit/f97de73082cc9eafe74da8f308b7b03fa9d489f4))
+* remove multiple any types ([f1517dc](https://github.com/ui5-community/wdi5/commit/f1517dc5f9fd8b65812a49080db0382d35e5c6d4))
+* revert ([19dd759](https://github.com/ui5-community/wdi5/commit/19dd759d131f11caf44fc2bd3605bdb5f0ea0182))
+* use browserInstance rather than global browser ([a323589](https://github.com/ui5-community/wdi5/commit/a3235898877026f397de1f5d49a9c45bca57e32f))
+* use control.getMetadata().getName() ([69d581c](https://github.com/ui5-community/wdi5/commit/69d581c07b18740ae402aa2d8a23257abe11499d))
+* use crypto.randomUUID ([6cb371e](https://github.com/ui5-community/wdi5/commit/6cb371ed2187b0b788bb96d58e9fe37df9df6f70))
+* use crypto.randomUUID ([9316c37](https://github.com/ui5-community/wdi5/commit/9316c372b3aa9347600a239679155c0cfe6c7f7e))
+
 ## [3.0.0-rc.0](https://github.com/ui5-community/wdi5/compare/v2.0.10...v3.0.0-rc.0) (2024-10-25)
 
 

@@ -1,5 +1,4 @@
 const Main = require("./pageObjects/Main")
-const marky = require("marky")
 const { wdi5 } = require("wdio-ui5-service")
 
 const titleSelector = { selector: { id: "container-Sample---Main--Title::NoAction.h1" } }
@@ -76,7 +75,7 @@ describe("ui5 basic", () => {
         const invalidControl = await browser.asControl(selector)
 
         // check if result contains the expected validation error
-        expect(invalidControl.getInitStatus()).toBeFalsy()
+        expect(invalidControl.isInitialized()).toBeFalsy()
     })
 
     /* it("check for Searchfield Properties", async () => {
@@ -128,11 +127,12 @@ describe("ui5 basic", () => {
     })
 
     it("test performance 1", async () => {
-        marky.mark("1_fluentAPI")
+        performance.mark("1_fluentAPI_start")
 
         const response = await browser.asControl(buttonSelector).press().getText()
 
-        const entry = marky.stop("1_fluentAPI")
+        performance.mark("1_fluentAPI_end")
+        const entry = performance.measure("1_fluentAPI", "1_fluentAPI_start", "1_fluentAPI_end")
 
         expect(response).toEqual("open Dialog")
         expect(entry.duration).toBeLessThan(3000)
@@ -146,13 +146,14 @@ describe("ui5 basic", () => {
     it("test performance 2", async () => {
         buttonSelector.forceSelect = true
 
-        marky.mark("2_fluentAPI")
+        performance.mark("2_fluentAPI_start")
 
         const button = await browser.asControl(buttonSelector)
         await button.press()
         const text = await button.getText()
 
-        const entry = marky.stop("2_fluentAPI")
+        performance.mark("2_fluentAPI_end")
+        const entry = performance.measure("2_fluentAPI", "2_fluentAPI_start", "2_fluentAPI_end")
 
         expect(text).toEqual("open Dialog")
         wdi5.getLogger().info(entry)

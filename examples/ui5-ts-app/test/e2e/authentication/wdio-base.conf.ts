@@ -1,5 +1,4 @@
 import { join, resolve } from "path"
-import { merge } from "ts-deepmerge"
 import { wdi5Config } from "wdio-ui5-service"
 import { config as bstackConfig, browser } from "../cloud-services/browserstack.conf.local.js"
 type _wdi5Config = Omit<wdi5Config, "capabilities">
@@ -8,7 +7,7 @@ const _config: _wdi5Config = {
         screenshotPath: join("test", "__screenshots__"),
         waitForUI5Timeout: 30000
     },
-    baseUrl: "https://wdi5-sample-app.cfapps.eu20.hana.ondemand.com/basic-auth/",
+    baseUrl: "https://wdi5-sample-app.cfapps.eu10-004.hana.ondemand.com/basic-auth/",
 
     // browserstack service gets injected later during merge of configs
     services: process.env.BROWSERSTACK ? [] : ["ui5"],
@@ -20,7 +19,7 @@ const _config: _wdi5Config = {
     bail: 0,
 
     waitforTimeout: 10000,
-    connectionRetryTimeout: process.argv.indexOf("--debug") > -1 ? 1200000 : 120000,
+    connectionRetryTimeout: process.argv.includes("--debug") ? 1200000 : 120000,
     connectionRetryCount: 3,
 
     reporters: ["spec"],
@@ -28,7 +27,7 @@ const _config: _wdi5Config = {
     framework: "mocha",
     mochaOpts: {
         ui: "bdd",
-        timeout: process.argv.indexOf("--debug") > -1 ? 600000 : 60000
+        timeout: process.argv.includes("--debug") ? 600000 : 60000
     }
 }
 
@@ -50,7 +49,7 @@ if (process.env.BROWSERSTACK) {
     })
 
     bstackConfig.capabilities = thinCapabilities
-    exportedConfig = merge(_config, bstackConfig)
+    exportedConfig = { ..._config, ...bstackConfig }
     exportedConfig.services = ["browserstack", "ui5"] // no need for "browserstackLocal" as we work against a deployed app
 } else {
     exportedConfig = _config

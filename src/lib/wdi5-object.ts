@@ -1,5 +1,5 @@
-import { clientSide_executeObjectMethod } from "../../client-side-js/executeObjectMethod.cjs"
-import { clientSide_ui5Response } from "../types/wdi5.types.js"
+import type { clientSide_ui5Response } from "../types/wdi5.types.js"
+import { clientSide_executeObjectMethod } from "../client-side-js/executeObjectMethod.js"
 import { Logger as _Logger } from "./Logger.js"
 
 const Logger = _Logger.getInstance()
@@ -7,11 +7,11 @@ const Logger = _Logger.getInstance()
  * equivalent representation of a sap.ui.base.Object in Node.js-scope
  */
 export class WDI5Object {
-    private _uuid: any
-    private _aProtoFunctions: []
-    private _baseObject: null
+    private _uuid: string
+    private _aProtoFunctions?: string[]
+    private _baseObject?: WDI5Object
 
-    constructor(uuid, aProtoFunctions, object) {
+    constructor(uuid: string, aProtoFunctions?: string[], object?: WDI5Object) {
         this._uuid = uuid
 
         if (aProtoFunctions) {
@@ -39,7 +39,7 @@ export class WDI5Object {
         }
     }
 
-    private async _excuteObjectMethod(methodName: string, uuid: string, ...args) {
+    private async _excuteObjectMethod(methodName: string, uuid: string, ...args: any[]) {
         // call browser scope
         // regular browser-time execution of UI5 object method
         const result = (await clientSide_executeObjectMethod(uuid, methodName, args)) as clientSide_ui5Response
@@ -48,7 +48,7 @@ export class WDI5Object {
         this._writeObjectResultLog(result, methodName)
 
         if (result.returnType === "object") {
-            return new WDI5Object(result.uuid, result.aProtoFunctions, result.object)
+            return new WDI5Object(result.uuid ?? "", result.aProtoFunctions, result.object)
         } else {
             return result.result
         }

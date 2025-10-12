@@ -1,6 +1,6 @@
-import Control from "sap/ui/core/Control"
-import { wdi5Config, wdi5Selector } from "./wdi5.types.js"
-import { WDI5Control } from "../lib/wdi5-control.js"
+import type Control from "sap/ui/core/Control"
+import type { wdi5Config, wdi5Selector } from "./wdi5.types.js"
+import type { WDI5Control } from "../lib/wdi5-control.js"
 
 /**
  * wdi5 control cache aka
@@ -15,6 +15,7 @@ declare global {
     namespace WebdriverIO {
         export interface Browser {
             config: wdi5Config
+            _asControl: <T extends Control = Control>(arg: wdi5Selector) => Promise<WDI5Control & T>
             asControl: <T extends Control = Control>(arg: wdi5Selector) => Promise<WDI5Control & T>
             allControls: <T extends Control = Control>(arg: wdi5Selector) => Promise<(WDI5Control & T)[]>
             screenshot: (arg: string) => Promise<void>
@@ -35,4 +36,8 @@ declare global {
         //     elementCustomCommand: (arg: any) => Promise<number>
         // }
     }
+}
+
+declare global {
+    var __wdi5Config: wdi5Config
 }

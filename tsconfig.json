@@ -1,9 +1,21 @@
 {
-  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "noEmit": false,
-    "outDir": "esm",
-    "module": "Node16",
-    "moduleResolution": "Node16"
-  }
+    "noEmit": true,
+    "module": "nodenext",
+    "target": "es2023",
+    "lib": ["ES2023", "DOM"],
+    "strict": false,
+    "moduleResolution": "nodenext",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "outDir": "dist",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "skipLibCheck": true,
+    "erasableSyntaxOnly": true,
+    "types": ["node", "@wdio/types", "@wdio/globals/types", "@wdio/mocha-framework", "openui5"]
+  },
+  "include": ["src"]
 }

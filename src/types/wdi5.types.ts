@@ -1,8 +1,18 @@
-import Log from "sap/base/Log"
-import RecordReplay from "sap/ui/test/RecordReplay"
-import { ControlSelector } from "sap/ui/test/RecordReplay"
-import { WDI5Object } from "../lib/wdi5-object.js"
-import { Capabilities } from "@wdio/types"
+import type { Capabilities } from "@wdio/types"
+import type Log from "sap/base/Log"
+import type RecordReplay from "sap/ui/test/RecordReplay"
+import type { $I18NTextSettings } from "sap/ui/test/matchers/I18NText"
+import type { $BindingPathSettings } from "sap/ui/test/matchers/BindingPath"
+import type { $LabelForSettings } from "sap/ui/test/matchers/LabelFor"
+import type { $PropertyStrictEqualsSettings } from "sap/ui/test/matchers/PropertyStrictEquals"
+import type { $AggregationLengthEqualsSettings } from "sap/ui/test/matchers/AggregationLengthEquals"
+import type { $AggregationFilledSettings } from "sap/ui/test/matchers/AggregationFilled"
+import type { $AggregationEmptySettings } from "sap/ui/test/matchers/AggregationEmpty"
+import type { $AggregationContainsPropertyEqualSettings } from "sap/ui/test/matchers/AggregationContainsPropertyEqual"
+import type { ControlsBaseSelector } from "sap/ui/test/Opa5"
+import type { ControlSelector } from "sap/ui/test/RecordReplay"
+import type Control from "sap/ui/core/Control"
+import type { WDI5Object } from "../lib/wdi5-object.js"
 
 // // copypasta from
 // // https://stackoverflow.com/questions/41285211/overriding-interface-property-type-defined-in-typescript-d-ts-file/65561287#65561287
@@ -64,6 +74,8 @@ export interface wdi5Config extends WebdriverIO.Config {
     // capabilities: wdi5Capabilities[] | wdi5MultiRemoteCapability
 }
 
+export type wdi5Authenticator = BTPAuthenticator | BasicAuthAuthenticator | CustomAuthenticator | Office365Authenticator
+
 /**
  * the "wdi5" prefix is to comply with W3C standards
  */
@@ -73,18 +85,22 @@ export type wdi5Capabilities = Capabilities.WithRequestedTestrunnerCapabilities 
      * that WebdriverIO issue is resolved allowing for extending the typed per-browser capability:
      * https://github.com/webdriverio/webdriverio/pull/11992
      */
-    maxInstances?: number
-    "wdi5:authentication"?: BTPAuthenticator | BasicAuthAuthenticator | CustomAuthenticator | Office365Authenticator
+    maxInstances?: number // TODO: still required?
+    "wdi5:authentication"?: wdi5Authenticator
 }
 export type wdi5MultiRemoteCapability = Capabilities.WithRequestedTestrunnerCapabilities & {
     [instanceName: string]: wdi5Capabilities
 }
 
-export type BTPAuthenticator = {
-    provider: "BTP"
+export type BaseAuthenticator = {
+    provider: string
     usernameSelector?: string
     passwordSelector?: string
     submitSelector?: string
+}
+
+export type BTPAuthenticator = BaseAuthenticator & {
+    provider: "BTP"
     /**
      * set this, when IAS is in use as custom IdP
      * IAS provides this biometric login option which wdi5 as of now does not support for authentication
@@ -97,27 +113,21 @@ export type BTPAuthenticator = {
     idpDomain?: string
 }
 
-export type BasicAuthAuthenticator = {
+export type BasicAuthAuthenticator = BaseAuthenticator & {
     provider: "BasicAuth"
     basicAuthUrls?: Array<string>
 }
 
-export type CustomAuthenticator = {
+export type CustomAuthenticator = BaseAuthenticator & {
     provider: "custom"
-    usernameSelector: string
-    passwordSelector: string
-    submitSelector: string
 }
 
-export type Office365Authenticator = {
+export type Office365Authenticator = BaseAuthenticator & {
     provider: "Office365"
-    usernameSelector?: string
-    passwordSelector?: string
-    submitSelector?: string
     staySignedIn?: boolean
 }
 
-interface wdi5ControlSelector {
+export interface wdi5ControlSelector extends ControlsBaseSelector {
     /**
      * Descendant matcher, {@link sap.ui.test.matchers.Descendant}
      */
@@ -126,38 +136,14 @@ interface wdi5ControlSelector {
      * ID of a control (global or within viewName, if viewName is defined)
      */
     id?: string | RegExp
-    /**
-     * Name of the control's view parent
-     */
-    viewName?: string
-    /**
-     * in Fiori Element land, this attribute is used in dynamic UI compositions
-     */
-    viewId?: string
-    /**
-     * Fully qualified control class name in dot notation, eg: "sap.m.ObjectHeader"
-     */
-    controlType?: string
-    /**
-     * Binding path matcher, {@link sap.ui.test.matchers.BindingPath}
-     */
-    bindingPath?: Record<string, unknown>
-    /**
-     * I18N Text matcher, {@link sap.ui.test.matchers.i18NText}
-     */
-    i18NText?: Record<string, unknown>
-    /**
-     * Label matcher, {@link sap.ui.test.matchers.LabelFor}
-     */
-    labelFor?: Record<string, unknown>
+    bindingPath?: $BindingPathSettings
+    i18NText?: $I18NTextSettings
+    labelFor?: $LabelForSettings
     /**
      * Properties matcher, {@link sap.ui.test.matchers.Properties}
      */
     properties?: Record<string, unknown>
-    /**
-     * Property strict equals matcher, {@link sap.ui.test.matchers.PropertyStrictEquals}
-     */
-    propertyStrictEquals?: { name: string; value: any }
+    propertyStrictEquals?: $PropertyStrictEqualsSettings
     /**
      * Ancestor matcher, {@link sap.ui.test.matchers.Ancestor}
      */
@@ -166,30 +152,10 @@ interface wdi5ControlSelector {
      * Sibling matcher, {@link sap.ui.test.matchers.Sibling}
      */
     sibling?: Record<string, unknown>
-    /**
-     * Interactable matcher, {@link sap.ui.test.matchers.Interactable}
-     */
-    interactable?: boolean
-    /**
-     * Aggregation length equals matcher, {@link sap.ui.test.matchers.AggregationLengthEquals}
-     */
-    aggregationLengthEquals?: { name: string; length: number }
-    /**
-     * Aggregation filled matcher, {@link sap.ui.test.matchers.AggregationFilled}
-     */
-    aggregationFilled?: { name: string }
-    /**
-     * Aggregation empty matcher, {@link sap.ui.test.matchers.AggregationEmpty}
-     */
-    aggregationEmpty?: { name: string }
-    /**
-     * Aggregation contains property equal matcher, {@link sap.ui.test.matchers.AggregationContainsPropertyEqual}
-     */
-    aggregationContainsPropertyEqual?: { aggregationName: string; propertyName: string; propertyValue: string }
-    /**
-     * search in dialogs
-     */
-    searchOpenDialogs?: boolean
+    aggregationLengthEquals?: $AggregationLengthEqualsSettings
+    aggregationFilled?: $AggregationFilledSettings
+    aggregationEmpty?: $AggregationEmptySettings
+    aggregationContainsPropertyEqual?: $AggregationContainsPropertyEqualSettings
     /**
      * interaction adapter
      */
@@ -215,6 +181,11 @@ export interface wdi5Selector {
      * disables the logging for the selector
      */
     logging?: boolean
+    /**
+     * skip the waitForUI5 check, only used internally
+     */
+    _skipWaitForUI5?: boolean
+    timeout?: number
 }
 
 /**
@@ -257,20 +228,63 @@ export interface wdi5ControlMetadata {
 }
 
 // yet unused
-export interface wdi5Bridge extends Window {
+export interface wdi5Bridge {
     bridge: RecordReplay
+    // bridge: RecordReplay & { waitForUI5: () => Promise<undefined | Error> }
+    // (this.constructor as typeof Foo)
+    fe_bridge: {
+        ListReport?: object
+        ObjectPage?: object
+        Shell?: object
+        Log?: string[]
+    }
     wdi5: {
-        createMatcher: (selector: ControlSelector) => ControlSelector
-        getUI5CtlForWebObj: (ui5Control: any) => any
-        retrieveControlMethods: (ui5Control: any) => string[]
-        isPrimitive: (value: any) => boolean
-        createControlIdMap: (ui5Controls: any[]) => Map<"id", string>
-        createControlId: (ui5Control: any) => { id: string }
+        createMatcher: (selector: wdi5ControlSelector) => wdi5ControlSelector
+        getUI5CtlForWebObj: (ui5Control: HTMLElement) => Control
+        retrieveControlMethods: (ui5Control: Control) => unknown[]
+        isPrimitive: (test: any) => boolean
+        createControlIdMap: (aControls: Control[], controlType: string) => Record<string, any>
+        createControlId: (aControl: Control | Control[]) => { id: string }
         isInitialized: boolean
+        ui5Version: string
         Log: Log
         waitForUI5Options: {
             timeout: number
             interval: number
+        }
+        objectMap: Record<string, Control>
+        bWaitStarted: false
+        asyncControlRetrievalQueue: []
+        saveObject: (object: any) => string
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+        exec: (fn: Function, ...args: any[]) => Promise<any>
+        collapseObject: (object: any) => any
+        getCircularReplacer: () => (key: string, value: any) => any
+        removeEmptyElements: (object: any, i?: number) => any
+        errorHandling: (error: any, reject?: any) => { status: wdi5StatusCode; message: string }
+    }
+}
+
+export type ControlSelectorByDOMElementOptions = Parameters<typeof RecordReplay.findControlSelectorByDOMElement>["0"]
+export type InteractWithControlOptions = Parameters<typeof RecordReplay.interactWithControl>["0"] & {
+    selector: ControlSelector
+}
+
+declare global {
+    // Patch Window interface to include wdi5Bridge and wdi5
+    interface Window {
+        bridge: wdi5Bridge["bridge"]
+        wdi5: wdi5Bridge["wdi5"]
+        fe_bridge: wdi5Bridge["fe_bridge"]
+        compareVersions: { compare: (version1: string, version2: string, operator: string) => boolean }
+    }
+
+    // Patch SAP namespace to include sap.ui.version
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace sap {
+        // eslint-disable-next-line @typescript-eslint/no-namespace
+        namespace ui {
+            let version: string
         }
     }
 }

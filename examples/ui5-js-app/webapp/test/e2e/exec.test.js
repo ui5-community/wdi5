@@ -1,6 +1,5 @@
 const Main = require("./pageObjects/Main")
 const Other = require("./pageObjects/Other")
-const marky = require("marky")
 const { wdi5 } = require("wdio-ui5-service")
 
 describe("ui5 eval on control", () => {
@@ -142,29 +141,39 @@ describe("ui5 eval on control", () => {
          */
 
         // *********
-        // new approach -> takes ~4.3sec
-        marky.mark("execForListItemTitles")
+        // new approach -> run code in browser scope via wdi5/node-wormhole
+        performance.mark("execForListItemTitles_start")
         const peopleListNames = await list.exec(function () {
             return this.getItems().map((item) => item.getTitle())
         })
-        wdi5.getLogger().info(marky.stop("execForListItemTitles"))
+        performance.mark("execForListItemTitles_end")
+        const measure1 = performance.measure(
+            "execForListItemTitles",
+            "execForListItemTitles_start",
+            "execForListItemTitles_end"
+        )
+        wdi5.getLogger().info(measure1)
         // *********
 
         Other.allNames.forEach((name) => {
             expect(peopleListNames).toContain(name)
         })
 
-        // *********
+        performance.mark("regularGetAllItemTitles_start")
+
         // UI5 API straight forward approach -> takes ~8.1sec
-        marky.mark("regularGetAllItemTitles")
-        const regularPeopleListNames = await Promise.all(
-            // prettier-ignore
-            (await list.getItems()).map(async (e) => {
-                return await e.getTitle()
-            })
+        const listItems = await list.getItems()
+        const regularPeopleListNames = []
+        for (const item of listItems) {
+            regularPeopleListNames.push(await item.getTitle())
+        }
+        performance.mark("regularGetAllItemTitles_end")
+        const measure2 = performance.measure(
+            "regularGetAllItemTitles",
+            "regularGetAllItemTitles_start",
+            "regularGetAllItemTitles_end"
         )
-        wdi5.getLogger().info(marky.stop("regularGetAllItemTitles"))
-        // *********
+        wdi5.getLogger().info(measure2)
 
         Other.allNames.forEach((name) => {
             expect(regularPeopleListNames).toContain(name)

@@ -1,13 +1,13 @@
-const { join } = require("path")
+const { join } = require("node:path")
 
 exports.config = {
     wdi5: {
-        screenshotPath: join("app", "incidents", "webapp", "wdi5-test", "__screenshots__"),
+        screenshotPath: join("app", "incidents", "webapp", "test", "e2e", "__screenshots__"),
         logLevel: "verbose", // error | verbose | silent
         waitForUI5Timeout: 30000
     },
     //// wdio runner config
-    specs: [join("webapp", "wdi5-test", "**/*.test.js")],
+    specs: ["webapp/test/**/*.test.js"],
     // Patterns to exclude.
     exclude: [],
     //// capabilities ("browser") config
@@ -17,16 +17,16 @@ exports.config = {
             // overwrite global "maxInstances"
             maxInstances: 5,
             browserName: "chrome",
+            // browserVersion: "stable",
             acceptInsecureCerts: true,
             "wdio:enforceWebDriverClassic": true,
 
             "goog:chromeOptions": {
-                args:
-                    process.argv.indexOf("--headless") > -1
-                        ? ["window-size=1440,800", "--headless"]
-                        : process.argv.indexOf("--debug") > -1
-                            ? ["window-size=1920,1280", "--auto-open-devtools-for-tabs"]
-                            : ["window-size=1440,800"]
+                args: process.argv.includes("--headless")
+                    ? ["window-size=1440,800", "headless", "disable-gpu"]
+                    : process.argv.includes("--debug")
+                      ? ["window-size=1920,1280", "auto-open-devtools-for-tabs"]
+                      : ["window-size=1440,800"]
             }
         }
     ],

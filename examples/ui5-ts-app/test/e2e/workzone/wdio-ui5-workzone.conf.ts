@@ -1,5 +1,5 @@
 import { wdi5Config } from "wdio-ui5-service"
-import { resolve } from "path"
+import { resolve } from "node:path"
 
 process.env.wdi5_username = process.env.wdi5_wz_username
 process.env.wdi5_password = process.env.wdi5_wz_password
@@ -27,13 +27,13 @@ export const config: wdi5Config = {
             },
             maxInstances: 2,
             browserName: "chrome",
+            // browserVersion: "stable",
             "goog:chromeOptions": {
-                args:
-                    process.argv.indexOf("--headless") > -1
-                        ? ["--headless"]
-                        : process.argv.indexOf("--debug") > -1
-                        ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
-                        : ["window-size=1440,800"]
+                args: process.argv.includes("--headless")
+                    ? ["headless", "disable-gpu"]
+                    : process.argv.includes("--debug")
+                      ? ["window-size=1440,800", "auto-open-devtools-for-tabs"]
+                      : ["window-size=1440,800"]
             },
             acceptInsecureCerts: true
         }
@@ -42,7 +42,7 @@ export const config: wdi5Config = {
     bail: 0,
 
     waitforTimeout: 10000,
-    connectionRetryTimeout: process.argv.indexOf("--debug") > -1 ? 1200000 : 120000,
+    connectionRetryTimeout: process.argv.includes("--debug") ? 1200000 : 120000,
     connectionRetryCount: 3,
 
     reporters: ["spec"],
@@ -50,6 +50,6 @@ export const config: wdi5Config = {
     framework: "mocha",
     mochaOpts: {
         ui: "bdd",
-        timeout: process.argv.indexOf("--debug") > -1 ? 600000 : 60000
+        timeout: process.argv.includes("--debug") ? 600000 : 60000
     }
 }

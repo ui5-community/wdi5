@@ -176,7 +176,7 @@ const wdioApi = [
     "startCastTabMirroring",
     "status",
     "stopCasting",
-    "switchToFrame",
+    "switchFrame",
     "switchToParentFrame",
     "switchToWindow",
     "switchWindow",
@@ -199,4 +199,4 @@ const wdioApi = [
     "waitUntil"
 ]
 
-export { wdioApi as wdioApi }
+export { wdioApi }

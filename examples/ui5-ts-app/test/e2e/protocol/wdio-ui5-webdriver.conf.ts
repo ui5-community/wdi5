@@ -1,9 +1,9 @@
 import { wdi5Config } from "wdio-ui5-service"
 import { setDefaultResultOrder } from "node:dns"
-import { resolve } from "path"
+import { resolve } from "node:path"
 
 export const config: wdi5Config = {
-    baseUrl: "https://wdi5-sample-app.cfapps.eu20.hana.ondemand.com/no-auth/",
+    baseUrl: "https://wdi5-sample-app.cfapps.eu10-004.hana.ondemand.com/no-auth/",
     services: ["ui5"],
     wdi5: {
         logLevel: "verbose",
@@ -15,7 +15,11 @@ export const config: wdi5Config = {
             browserName: "chrome",
             "wdio:enforceWebDriverClassic": true,
             "goog:chromeOptions": {
-                args: process.argv.indexOf("--headless") > -1 ? ["headless", "disable-gpu"] : []
+                args: process.argv.includes("--headless")
+                    ? ["headless", "disable-gpu"]
+                    : process.argv.includes("--debug")
+                      ? ["auto-open-devtools-for-tabs"]
+                      : []
             },
             acceptInsecureCerts: true
         }
@@ -25,7 +29,7 @@ export const config: wdi5Config = {
     reporters: ["spec"],
     framework: "mocha",
     mochaOpts: {
-        timeout: 29000
+        timeout: process.env.DEBUG ? 290000 : 29000
     },
     beforeSession: () => {
         setDefaultResultOrder("ipv4first")

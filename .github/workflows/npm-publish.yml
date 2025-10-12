@@ -28,10 +28,10 @@ jobs:
     ### if: "!contains(github.event.head_commit.author.name, 'wdi5 bot') && !startsWith(github.event.head_commit.message, 'chore(deps') && !startsWith(github.event.head_commit.message, 'docs') && !startsWith(github.event.head_commit.message, 'ci')"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           token: ${{secrets.ADMIN_WDI5}}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "npm"
@@ -52,6 +52,6 @@ jobs:
       # b/c of missing personal access token here
       - run: git push --follow-tags origin main
       ## finally publish the npm package
-      - run: npm publish
+      - run: npm publish --provenance
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

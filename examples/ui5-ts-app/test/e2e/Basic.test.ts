@@ -4,7 +4,7 @@ import Controller from "sap/ui/core/mvc/Controller"
 import View from "sap/ui/core/mvc/View"
 import { wdi5Selector } from "wdio-ui5-service"
 import { wdi5 } from "wdio-ui5-service"
-import * as sinon from "sinon"
+import { mock } from "node:test"
 
 const Logger = wdi5.getLogger()
 
@@ -37,8 +37,7 @@ describe("Basic", async () => {
     })
 
     it("should catch an erroneous async Controller function properly", async () => {
-        const sandbox = sinon.createSandbox()
-        sandbox.spy(Logger, "error")
+        const logSpy = mock.method(Logger, "error", () => {})
 
         const selector: wdi5Selector = {
             selector: {
@@ -51,10 +50,8 @@ describe("Basic", async () => {
 
         // @ts-expect-error this async fn lives in an not properly typed controller
         await controller.asyncRejectFn()
-        expect(
-            (Logger.error as sinon.SinonSpy).calledWith('call of asyncRejectFn failed because of: "meh"')
-        ).toBeTruthy()
+        expect(logSpy.mock.calls[0].arguments[0]).toEqual('call of asyncRejectFn failed because of: "meh"')
 
-        sandbox.restore()
+        logSpy.mock.restore()
     })
 })

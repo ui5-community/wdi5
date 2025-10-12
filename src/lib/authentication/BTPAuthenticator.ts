@@ -1,18 +1,20 @@
-import { BTPAuthenticator as BTPAuthenticatorType } from "../../types/wdi5.types.js"
+import type { BTPAuthenticator as BTPAuthenticatorType } from "../../types/wdi5.types.js"
 import Authenticator from "./Authenticator.js"
 
 class BTPAuthenticator extends Authenticator {
     private disableBiometricAuth: boolean
-    private idpDomain: string
+    private idpDomain?: string
+    private idpDomainOpt?: string
 
-    constructor(options: BTPAuthenticatorType, browserInstanceName) {
+    constructor(options: BTPAuthenticatorType, browserInstanceName: string) {
         super(browserInstanceName)
         this.usernameSelector = options.usernameSelector ?? "#j_username"
         this.passwordSelector = options.passwordSelector ?? "#j_password"
         this.submitSelector = options.submitSelector ?? "#logOnFormSubmit"
         this.disableBiometricAuth = options.disableBiometricAuthentication ?? false
+        this.idpDomainOpt = options.idpDomain?.trim() ?? ""
         if (this.disableBiometricAuth) {
-            if (!options.idpDomain) {
+            if (!options?.idpDomain) {
                 throw new Error(
                     "idpDomain is required when disableBiometricAuthentication is set to `true` your wdi5.conf.(j|t)s"
                 )
@@ -31,6 +33,12 @@ class BTPAuthenticator extends Authenticator {
 
     async login() {
         if (!(await this.getIsLoggedIn())) {
+            if (this.idpDomainOpt) {
+                const targetIdpEle = await this.browserInstance.$(`a[href*="idp=${this.idpDomainOpt}"]`)
+                if (targetIdpEle.elementId) {
+                    targetIdpEle.click()
+                }
+            }
             const usernameControl = await this.browserInstance.$(this.usernameSelector)
             const passwordControl = await this.browserInstance.$(this.passwordSelector)
             const submit = await this.browserInstance.$(this.submitSelector)

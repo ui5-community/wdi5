@@ -1,29 +1,22 @@
-const sinon = require("sinon")
+const { mock } = require("node:test")
 const { wdi5 } = require("wdio-ui5-service")
 const Logger = wdi5.getLogger()
 
 const expectDefaultErrorMessages = (wdi5Control, spy) => {
-    expect(spy.called).toBeTruthy()
-    expect(
-        spy
-            .getCall(0)
-            .calledWith(
-                sinon.match.string,
-                sinon.match.string,
-                `call of _getControl() failed because of: Error: No DOM element found using the control selector ${JSON.stringify(
-                    wdi5Control._controlSelector.selector
-                )}`
-            )
-    ).toBeTruthy()
-    expect(
-        spy
-            .getCall(1)
-            .calledWith(
-                sinon.match.string,
-                sinon.match.string,
-                `error retrieving control: ${wdi5Control._wdio_ui5_key}`
-            )
-    ).toBeTruthy()
+    expect(spy.mock.callCount()).toBeTruthy()
+    let message = `call of _getControl() failed because of: Error: No DOM element found using the control selector ${JSON.stringify(
+        wdi5Control._controlSelector.selector
+    )}`
+    let mockedCall = spy.mock.calls[0]
+    expect(typeof mockedCall.arguments[0]).toEqual("string")
+    expect(typeof mockedCall.arguments[1]).toEqual("string")
+    expect(mockedCall.arguments[2]).toEqual(message)
+
+    message = `error retrieving control: ${wdi5Control._wdio_ui5_key}`
+    mockedCall = spy.mock.calls[1]
+    expect(typeof mockedCall.arguments[0]).toEqual("string")
+    expect(typeof mockedCall.arguments[1]).toEqual("string")
+    expect(mockedCall.arguments[2]).toEqual(message)
 }
 
 /**
@@ -32,23 +25,14 @@ const expectDefaultErrorMessages = (wdi5Control, spy) => {
  * to use "forceSelect: true" all the time
  */
 describe("Error logging", () => {
-    const sandbox = sinon.createSandbox()
     let spy
 
     beforeEach(() => {
-        // instead of spying on the spy method,
-        // we need to double down on console.log
-        // b/c of some node process design no one understands
-        // that generates multiple instance of the Logger
-        // esm - cjs - ts-node - man...
-        // this is what you'd expect:
-        // spy = sandbox.spy(Logger, "error")
-        // instead we need to do:
-        spy = sandbox.spy(console, "log")
+        spy = mock.method(console, "log", () => {})
     })
 
     afterEach(() => {
-        sandbox.restore()
+        spy.mock.restore()
     })
 
     it("should log the correct error messages when control was not found", async () => {
@@ -60,7 +44,7 @@ describe("Error logging", () => {
         const wdi5ControlWithWrongId = await browser.asControl(selectorWithWrongId)
 
         expectDefaultErrorMessages(wdi5ControlWithWrongId, spy)
-        expect(spy.callCount).toEqual(2)
+        expect(spy.mock.callCount()).toEqual(2)
     })
 
     it("should log the correct error messages when 'press' is executed on an not found control; WITHOUT fluent async api", async () => {
@@ -73,16 +57,11 @@ describe("Error logging", () => {
         await wdi5ControlWithWrongId.press()
 
         expectDefaultErrorMessages(wdi5ControlWithWrongId, spy)
-        expect(spy.callCount).toEqual(3)
-        expect(
-            spy
-                .getCall(2)
-                .calledWith(
-                    sinon.match.string,
-                    sinon.match.string,
-                    "cannot call press(), because control could not be found"
-                )
-        ).toBeTruthy()
+        expect(spy.mock.callCount()).toEqual(3)
+        const mockedCall = spy.mock.calls[2]
+        expect(typeof mockedCall.arguments[0]).toEqual("string")
+        expect(typeof mockedCall.arguments[1]).toEqual("string")
+        expect(mockedCall.arguments[2]).toEqual("cannot call press(), because control could not be found")
     })
 
     it("should log the correct error messages when 'press' is executed on an not found control; WITH fluent async api", async () => {
@@ -95,16 +74,11 @@ describe("Error logging", () => {
         const wdi5ControlWithWrongId = await browser.asControl(selectorWithWrongId).press()
 
         expectDefaultErrorMessages(wdi5ControlWithWrongId, spy)
-        expect(spy.callCount).toEqual(3)
-        expect(
-            spy
-                .getCall(2)
-                .calledWith(
-                    sinon.match.string,
-                    sinon.match.string,
-                    "cannot call press(), because control could not be found"
-                )
-        ).toBeTruthy()
+        expect(spy.mock.callCount()).toEqual(3)
+        const mockedCall = spy.mock.calls[2]
+        expect(typeof mockedCall.arguments[0]).toEqual("string")
+        expect(typeof mockedCall.arguments[1]).toEqual("string")
+        expect(mockedCall.arguments[2]).toEqual("cannot call press(), because control could not be found")
     })
 
     it("should log the correct error messages when 'getAggregation' is executed on an not found control; WITHOUT fluent async api", async () => {
@@ -119,17 +93,13 @@ describe("Error logging", () => {
 
         expectDefaultErrorMessages(wdi5ControlWithWrongId, spy)
 
-        expect(spy.callCount).toEqual(3)
-        expect(
-            spy
-                .getCall(2)
-                .calledWith(
-                    sinon.match.string,
-                    sinon.match.string,
-                    `cannot get aggregation "items", because control could not be found`
-                )
-        ).toBeTruthy()
+        expect(spy.mock.callCount()).toEqual(3)
+        const mockedCall = spy.mock.calls[2]
+        expect(typeof mockedCall.arguments[0]).toEqual("string")
+        expect(typeof mockedCall.arguments[1]).toEqual("string")
+        expect(mockedCall.arguments[2]).toEqual(`cannot get aggregation "items", because control could not be found`)
     })
+
     it("should log the correct error messages when 'getAggregation' is executed on an not found control; WITH fluent async api", async () => {
         const selectorWithWrongId = {
             selector: {
@@ -142,16 +112,11 @@ describe("Error logging", () => {
         const wdi5ControlWithWrongId = await browser.asControl(selectorWithWrongId)
 
         expectDefaultErrorMessages(wdi5ControlWithWrongId, spy)
-        expect(spy.callCount).toEqual(3)
-        expect(
-            spy
-                .getCall(2)
-                .calledWith(
-                    sinon.match.string,
-                    sinon.match.string,
-                    `cannot get aggregation "items", because control could not be found`
-                )
-        ).toBeTruthy()
+        expect(spy.mock.callCount()).toEqual(3)
+        const mockedCall = spy.mock.calls[2]
+        expect(typeof mockedCall.arguments[0]).toEqual("string")
+        expect(typeof mockedCall.arguments[1]).toEqual("string")
+        expect(mockedCall.arguments[2]).toEqual(`cannot get aggregation "items", because control could not be found`)
     })
 
     it("should log the correct error messages when 'getAggregation' is executed on an control with a wrong aggregation; WITH fluent async api", async () => {
@@ -163,16 +128,13 @@ describe("Error logging", () => {
 
         await browser.asControl(selectorWithWrongId).getAggregation("tooltip")
 
-        expect(spy.callCount).toEqual(1)
-        expect(
-            spy
-                .getCall(0)
-                .calledWith(
-                    sinon.match.string,
-                    sinon.match.string,
-                    "call of _getAggregation() failed because of: Error: Aggregation was not found!"
-                )
-        ).toBeTruthy()
+        expect(spy.mock.callCount()).toEqual(1)
+        const mockedCall = spy.mock.calls[0]
+        expect(typeof mockedCall.arguments[0]).toEqual("string")
+        expect(typeof mockedCall.arguments[1]).toEqual("string")
+        expect(mockedCall.arguments[2]).toEqual(
+            "call of _getAggregation() failed because of: Error: Aggregation was not found!"
+        )
     })
 
     it("should log the correct error messages when 'enterText' is executed on an not found control; WITHOUT fluent async api", async () => {
@@ -187,17 +149,13 @@ describe("Error logging", () => {
 
         expectDefaultErrorMessages(wdi5ControlWithWrongId, spy)
 
-        expect(spy.callCount).toEqual(3)
-        expect(
-            spy
-                .getCall(2)
-                .calledWith(
-                    sinon.match.string,
-                    sinon.match.string,
-                    "cannot call enterText(), because control could not be found"
-                )
-        ).toBeTruthy()
+        expect(spy.mock.callCount()).toEqual(3)
+        const mockedCall = spy.mock.calls[2]
+        expect(typeof mockedCall.arguments[0]).toEqual("string")
+        expect(typeof mockedCall.arguments[1]).toEqual("string")
+        expect(mockedCall.arguments[2]).toEqual("cannot call enterText(), because control could not be found")
     })
+
     it("should log the correct error messages when 'enterText' is executed on an not found control WITH fluent async api", async () => {
         const selectorWithWrongId = {
             selector: {
@@ -209,16 +167,11 @@ describe("Error logging", () => {
 
         expectDefaultErrorMessages(wdi5ControlWithWrongId, spy)
 
-        expect(spy.callCount).toEqual(3)
-        expect(
-            spy
-                .getCall(2)
-                .calledWith(
-                    sinon.match.string,
-                    sinon.match.string,
-                    "cannot call enterText(), because control could not be found"
-                )
-        ).toBeTruthy()
+        expect(spy.mock.callCount()).toEqual(3)
+        const mockedCall = spy.mock.calls[2]
+        expect(typeof mockedCall.arguments[0]).toEqual("string")
+        expect(typeof mockedCall.arguments[1]).toEqual("string")
+        expect(mockedCall.arguments[2]).toEqual("cannot call enterText(), because control could not be found")
     })
 
     it("should log the correct error messages when multiple functions are executed on an control where an error in the queue occurrs; WITH fluent async api", async () => {
@@ -230,25 +183,17 @@ describe("Error logging", () => {
 
         await browser.asControl(selectorWithWrongId).getWrongFunction().getSecondWrongFunction()
 
-        expect(spy.callCount).toEqual(2)
-        expect(
-            spy
-                .getCall(0)
-                .calledWith(
-                    sinon.match.string,
-                    sinon.match.string,
-                    `One of the calls in the queue "getWrongFunction().getSecondWrongFunction()" previously failed!`
-                )
-        ).toBeTruthy()
-        expect(
-            spy
-                .getCall(1)
-                .calledWith(
-                    sinon.match.string,
-                    sinon.match.string,
-                    `Cannot read property 'getSecondWrongFunction' in the execution queue!`
-                )
-        ).toBeTruthy()
+        expect(spy.mock.callCount()).toEqual(2)
+        let mockedCall = spy.mock.calls[0]
+        expect(typeof mockedCall.arguments[0]).toEqual("string")
+        expect(typeof mockedCall.arguments[1]).toEqual("string")
+        expect(mockedCall.arguments[2]).toEqual(
+            `One of the calls in the queue "getWrongFunction().getSecondWrongFunction()" previously failed!`
+        )
+        mockedCall = spy.mock.calls[1]
+        expect(typeof mockedCall.arguments[0]).toEqual("string")
+        expect(typeof mockedCall.arguments[1]).toEqual("string")
+        expect(mockedCall.arguments[2]).toEqual(`Cannot read property 'getSecondWrongFunction' in the execution queue!`)
     })
 })
 
@@ -258,7 +203,6 @@ describe("Error logging", () => {
  * to use "foceSelect: true" all the time
  */
 describe("No error logging", () => {
-    const sandbox = sinon.createSandbox()
     let spy
 
     beforeEach(() => {
@@ -270,11 +214,11 @@ describe("No error logging", () => {
         // this is what you'd expect:
         // spy = sandbox.spy(Logger, "error")
         // instead we need to do:
-        spy = sandbox.spy(console, "log")
+        spy = mock.method(console, "log", () => {})
     })
 
     afterEach(() => {
-        sandbox.restore()
+        spy.mock.restore()
     })
     it("should log nothing when control was not found", async () => {
         const selectorWithWrongId = {
@@ -284,7 +228,7 @@ describe("No error logging", () => {
             }
         }
         await browser.asControl(selectorWithWrongId)
-        expect(spy.callCount).toEqual(0)
+        expect(spy.mock.callCount()).toEqual(0)
     })
 
     it("should log when control was not found with 'logging' explicitly set to 'true'", async () => {
@@ -297,7 +241,7 @@ describe("No error logging", () => {
         const wdi5ControlWithWrongId = await browser.asControl(selectorWithWrongId)
 
         expectDefaultErrorMessages(wdi5ControlWithWrongId, spy)
-        expect(spy.callCount).toEqual(2)
+        expect(spy.mock.callCount()).toEqual(2)
     })
 
     it("should log nothing when 'press' is executed on an not found control; WITHOUT fluent async api", async () => {
@@ -309,7 +253,7 @@ describe("No error logging", () => {
         }
         wdi5ControlWithWrongIdNoLog = await browser.asControl(selectorWithWrongId)
         await wdi5ControlWithWrongIdNoLog.press()
-        expect(spy.callCount).toEqual(0)
+        expect(spy.mock.callCount()).toEqual(0)
     })
 
     it("should log nothing when 'press' is executed on an not found control; WITH fluent async api", async () => {
@@ -321,7 +265,7 @@ describe("No error logging", () => {
         }
         wdi5ControlWithWrongIdNoLog = await browser.asControl(selectorWithWrongId).press()
 
-        expect(spy.callCount).toEqual(0)
+        expect(spy.mock.callCount()).toEqual(0)
     })
 
     it("should log nothing when 'enterText' is executed on an not found control; WITHOUT fluent async api", async () => {
@@ -335,7 +279,7 @@ describe("No error logging", () => {
         const wdi5ControlWithWrongId = await browser.asControl(selectorWithWrongId)
         await wdi5ControlWithWrongId.enterText("test")
 
-        expect(spy.callCount).toEqual(0)
+        expect(spy.mock.callCount()).toEqual(0)
     })
     it("should log nothing when 'enterText' is executed on an not found control; WITH fluent async api", async () => {
         const selectorWithWrongId = {
@@ -347,7 +291,7 @@ describe("No error logging", () => {
 
         await browser.asControl(selectorWithWrongId).enterText()
 
-        expect(spy.callCount).toEqual(0)
+        expect(spy.mock.callCount()).toEqual(0)
     })
 
     it("should log nothing when multiple functions are executed on an control where an error in the queue occurrs; WITH fluent async api", async () => {
@@ -361,7 +305,7 @@ describe("No error logging", () => {
 
         await browser.asControl(selectorWithWrongId).getWrongFunction().getSecondWrongFunction()
 
-        expect(spy.callCount).toEqual(0)
+        expect(spy.mock.callCount()).toEqual(0)
     })
 
     it("should log the first selector but not the second", async () => {
@@ -380,6 +324,6 @@ describe("No error logging", () => {
         await browser.asControl(secondSelectorNoLog)
 
         expectDefaultErrorMessages(wdi5ControlWithLogOutput, spy)
-        expect(spy.callCount).toEqual(2)
+        expect(spy.mock.callCount()).toEqual(2)
     })
 })

@@ -1,26 +1,31 @@
-import { resolve } from "path"
-import { writeFile } from "fs/promises"
-import { tmpdir } from "os"
-import * as semver from "semver"
-import { mark as marky_mark, stop as marky_stop } from "marky"
+import type {
+    clientSide_ui5Object,
+    clientSide_ui5Response,
+    wdi5Config,
+    wdi5Selector,
+    BTPAuthenticator as BTPAuthenticatorType,
+    wdi5Authenticator,
+    ControlSelectorByDOMElementOptions
+} from "../types/wdi5.types.js"
 
-import { clientSide_ui5Object, clientSide_ui5Response, wdi5Config, wdi5Selector } from "../types/wdi5.types.js"
-import { MultiRemoteBrowser } from "webdriverio"
+import { resolve } from "node:path"
+import { writeFile } from "node:fs/promises"
+import { tmpdir } from "node:os"
+import { compare } from "compare-versions"
 import { WDI5Control } from "./wdi5-control.js"
 import { WDI5FE } from "./wdi5-fe.js"
-import { clientSide_injectTools } from "../../client-side-js/injectTools.cjs"
-import { clientSide_injectUI5 } from "../../client-side-js/injectUI5.cjs"
-import { clientSide_injectXHRPatch } from "../../client-side-js/injectXHRPatch.cjs"
-import { clientSide_getSelectorForElement } from "../../client-side-js/getSelectorForElement.cjs"
-import { clientSide__checkForUI5Ready } from "../../client-side-js/_checkForUI5Ready.cjs"
-import { clientSide_getObject } from "../../client-side-js/getObject.cjs"
-import { clientSide_getUI5Version } from "../../client-side-js/getUI5Version.cjs"
-import { clientSide__navTo } from "../../client-side-js/_navTo.cjs"
-import { clientSide_allControls } from "../../client-side-js/allControls.cjs"
+import { clientSide_injectTools } from "../client-side-js/injectTools.js"
+import { clientSide_injectUI5 } from "../client-side-js/injectUI5.js"
+import { clientSide_injectXHRPatch } from "../client-side-js/injectXHRPatch.js"
+import { clientSide_getSelectorForElement } from "../client-side-js/getSelectorForElement.js"
+import { clientSide_checkForUI5Ready } from "../client-side-js/_checkForUI5Ready.js"
+import { clientSide_getObject } from "../client-side-js/getObject.js"
+import { clientSide_getUI5Version } from "../client-side-js/getUI5Version.js"
+import { clientSide__navTo } from "../client-side-js/_navTo.js"
+import { clientSide_allControls } from "../client-side-js/allControls.js"
 import { Logger as _Logger } from "./Logger.js"
 import { WDI5Object } from "./wdi5-object.js"
 import BTPAuthenticator from "./authentication/BTPAuthenticator.js"
-import { BTPAuthenticator as BTPAuthenticatorType } from "../types/wdi5.types.js"
 import BasicAuthenticator from "./authentication/BasicAuthenticator.js"
 import CustomAuthenticator from "./authentication/CustomAuthenticator.js"
 import Office365Authenticator from "./authentication/Office365Authenticator.js"
@@ -33,48 +38,51 @@ let _isInitialized = false
 /** stores the status of the setup process */
 let _setupComplete = false
 /** currently running sap.ui.version */
-let _sapUI5Version: string = null
+let _sapUI5Version: string
 /** relay runtime config options from Service */
-let _config: wdi5Config = null
+let _config: wdi5Config
 
-export async function setup(config: wdi5Config) {
+export async function setup(config: wdi5Config, browserInstance: WebdriverIO.Browser) {
     _config = config
     if (_setupComplete) {
         // already setup done
         return
     }
     // jump-start the desired log level
-    Logger.setLogLevel(config.wdi5.logLevel || "error")
+    Logger.setLogLevel(config?.wdi5?.logLevel || "error")
 
     if (browser.isMultiremote) {
-        ;(browser as any as MultiRemoteBrowser).instances.forEach((name) => {
-            initBrowser(browser[name])
-        })
-        initMultiRemoteBrowser()
+        for (const name of (browser as unknown as WebdriverIO.MultiRemoteBrowser).instances) {
+            initBrowser(browser[name as keyof typeof browser])
+        }
     } else {
-        initBrowser(browser)
+        initBrowser(browserInstance)
     }
 
     _setupComplete = true
 }
 
-export async function start(config: wdi5Config) {
-    if (config.wdi5.url) {
+export async function start(config: wdi5Config, browserInstance: WebdriverIO.Browser) {
+    if (config?.wdi5?.url) {
         // still support the old logic that we don't have breaking changes
         Logger.warn(`'url' property in config file deprecated: please use 'baseUrl' only!`)
         Logger.info(`open url: ${config.wdi5.url}`)
-        await browser.url(config.wdi5.url)
-    } else {
+        await browserInstance.url(config.wdi5.url)
+    } else if (config?.baseUrl) {
         Logger.info(`open url: ${config.baseUrl}`)
-        await browser.url(config.baseUrl)
+        await browserInstance.url(config.baseUrl)
+    } else {
+        const message = `wdi5 config is missing 'baseUrl' property! See https://ui5-community.github.io/wdi5/#/configuration?id=wdi5`
+        Logger.error(message)
+        throw new Error(message)
     }
 }
 
-function initMultiRemoteBrowser() {
+export function initMultiRemoteBrowser() {
     ;["asControl", "goTo", "screenshot", "waitForUI5", "getUI5Version", "getSelectorForElement", "allControls"].forEach(
         (command) => {
             browser.addCommand(command, async (...args) => {
-                const multiRemoteInstance = browser as any as MultiRemoteBrowser
+                const multiRemoteInstance = browser as unknown as WebdriverIO.MultiRemoteBrowser
                 const result = []
                 multiRemoteInstance.instances.forEach((name) => {
                     result.push(multiRemoteInstance[name][command].apply(this, args))
@@ -102,10 +110,11 @@ function initBrowser(browserInstance: WebdriverIO.Browser) {
 }
 
 function checkUI5Version(ui5Version: string) {
-    if (semver.lt(ui5Version, "1.60.0")) {
+    if (compare(ui5Version, "1.60.0", "<")) {
         // the record replay api is only available since 1.60
-        Logger.error("The UI5 version of your application is too low. Minimum required is 1.60!")
-        throw new Error("The UI5 version of your application is too low. Minimum required is 1.60!")
+        const message = "The UI5 version of your application is too low. Minimum required is 1.60!"
+        Logger.error(message)
+        throw new Error(message)
     }
 }
 
@@ -114,26 +123,26 @@ function checkUI5Version(ui5Version: string) {
  * make sap/ui/test/RecordReplay accessible via wdio
  * attach the sap/ui/test/RecordReplay object to the application context window object as 'bridge'
  */
-export async function injectUI5(config: wdi5Config, browserInstance) {
+export async function injectUI5(config: wdi5Config, browserInstance: WebdriverIO.Browser) {
     if (!config?.wdi5) {
         //Fetching config from global variable
         config.wdi5 = global.__wdi5Config.wdi5
     }
-    const waitForUI5Timeout = config.wdi5.waitForUI5Timeout || 15000
+    const waitForUI5Timeout = config?.wdi5?.waitForUI5Timeout || 15000
     let result = true
 
     // unify timeouts across Node.js- and browser-scope
     // align browser script timeout with wdi5 setting (+ leverage)
     // this mostly affects browser.execute()
     const timeout = waitForUI5Timeout + 1000
-    await (browserInstance as WebdriverIO.Browser).setTimeout({ script: timeout })
+    await browserInstance.setTimeout({ script: timeout })
 
     Logger.debug(`browser script timeout set to ${timeout}`)
     if (typeof browserInstance.getTimeouts === "function") {
         Logger.debug(`browser timeouts are ${JSON.stringify(await browserInstance.getTimeouts(), null, 2)}`)
     }
 
-    const version = await (browserInstance as WebdriverIO.Browser).getUI5Version()
+    const version = await browserInstance.getUI5Version()
     checkUI5Version(version)
     await clientSide_injectTools(browserInstance) // helpers for wdi5 browser scope
     // BIDI does not allow to pass functions inside of the browser scope
@@ -157,7 +166,7 @@ export async function injectUI5(config: wdi5Config, browserInstance) {
     return result
 }
 
-export async function checkForUI5Page(browserInstance) {
+export async function checkForUI5Page(browserInstance: WebdriverIO.Browser) {
     // wait till the loading finished and the state is "completed"
     await browserInstance.waitUntil(async () => {
         const checkState = await browserInstance.execute(() => {
@@ -171,15 +180,16 @@ export async function checkForUI5Page(browserInstance) {
     })
 }
 
-export async function authenticate(options, browserInstanceName?) {
+export async function authenticate(options: wdi5Authenticator, browserInstanceName: string) {
     switch (options.provider) {
-        case "BTP":
+        case "BTP": {
             const btp = new BTPAuthenticator(options, browserInstanceName)
             if ((options as BTPAuthenticatorType).disableBiometricAuthentication) {
                 await btp.disableBiometricAuthentication()
             }
             await btp.login()
             break
+        }
         case "BasicAuth":
             await new BasicAuthenticator(options, browserInstanceName, _config.baseUrl).login()
             break
@@ -188,6 +198,7 @@ export async function authenticate(options, browserInstanceName?) {
             break
         case "custom":
             await new CustomAuthenticator(options, browserInstanceName).login()
+            break
         default:
             break
     }
@@ -221,6 +232,7 @@ function _createWdioUI5KeyFromSelector(selector: wdi5Selector): string {
  * @returns {boolean} if the given selector is a valid selector
  */
 function _verifySelector(wdi5Selector: wdi5Selector) {
+    /* eslint-disable no-prototype-builtins */
     if (wdi5Selector.hasOwnProperty("selector")) {
         if (
             wdi5Selector.selector.hasOwnProperty("id") ||
@@ -234,6 +246,7 @@ function _verifySelector(wdi5Selector: wdi5Selector) {
             wdi5Selector.selector.hasOwnProperty("properties") ||
             wdi5Selector.selector.hasOwnProperty("sibling") ||
             wdi5Selector.selector.hasOwnProperty("interactable")
+            /* eslint-enable no-prototype-builtins */
         ) {
             return true
         }
@@ -259,12 +272,17 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
             Logger.info(`creating internal control with id ${internalKey}`)
             wdi5Selector.wdio_ui5_key = internalKey
 
-            marky_mark("retrieveSingleControl") //> TODO: bind to debug log level
+            performance.mark("retrieveSingleControlStart") //> TODO: bind to debug log level
 
             const wdi5Control = await new WDI5Control({ browserInstance }).init(wdi5Selector, wdi5Selector.forceSelect)
 
-            const e = marky_stop("retrieveSingleControl") //> TODO: bind to debug log level
-            Logger.info(`_asControl() needed ${e.duration} for ${internalKey}`)
+            performance.mark("retrieveSingleControlEnd") //> TODO: bind to debug log level
+            const retrieveSingleControlMeasure = performance.measure(
+                "retrieveSingleControl",
+                "retrieveSingleControlStart",
+                "retrieveSingleControlEnd"
+            )
+            Logger.info(`_asControl() needed ${retrieveSingleControlMeasure.duration} for ${internalKey}`)
 
             browserInstance._controls[internalKey] = wdi5Control
         } else {
@@ -273,8 +291,8 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
         return browserInstance._controls[internalKey]
     })
 
-    browser.addCommand("asObject", async (_uuid: string) => {
-        const _result = (await clientSide_getObject(_uuid)) as clientSide_ui5Object
+    browserInstance.addCommand("asObject", async (_uuid: string) => {
+        const _result = (await clientSide_getObject(_uuid, browserInstance)) as clientSide_ui5Object
         const { uuid, status, aProtoFunctions, className, object } = _result
         if (status === 0) {
             // create new wdi5-Object
@@ -313,14 +331,14 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
      * @param {object} oOptions.settings - ui5 settings object
      * @param {boolean} oOptions.settings.preferViewId
      */
-    browserInstance.addCommand("getSelectorForElement", async (oOptions) => {
+    browserInstance.addCommand("getSelectorForElement", async (oOptions: ControlSelectorByDOMElementOptions) => {
         const result = (await clientSide_getSelectorForElement(oOptions, browserInstance)) as clientSide_ui5Response
 
         if (result.status === 1) {
-            console.error("ERROR: getSelectorForElement() failed because of: " + result.message)
+            Logger.error("ERROR: getSelectorForElement() failed because of: " + result.message)
             return result.message
         } else if (result.status === 0) {
-            console.log(`SUCCESS: getSelectorForElement() returned:  ${JSON.stringify(result.result)}`)
+            Logger.log(`SUCCESS: getSelectorForElement() returned:  ${JSON.stringify(result.result)}`)
             return result.result
         }
     })
@@ -346,7 +364,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
      */
     browserInstance.addCommand("screenshot", async (fileAppendix) => {
         await _waitForUI5(browserInstance)
-        await _writeScreenshot(fileAppendix)
+        await _writeScreenshot(browserInstance, fileAppendix)
     })
 
     browserInstance.addCommand("goTo", async (oOptions) => {
@@ -364,7 +382,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
         if (sHash && sHash.length > 0) {
             // we need to still support the old url property
             // TODO: use type wdi5Config not any
-            if ((browserInstance.options as any).wdi5?.url) {
+            if ((browserInstance.options as wdi5Config)?.wdi5?.url) {
                 const url = (browserInstance.options as any).wdi5["url"] || (await browserInstance.getUrl())
 
                 // navigate via hash if defined
@@ -472,7 +490,6 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
 
                 return new Proxy(function () {}, handler)
             }
-            // @ts-ignore
             return makeFluent(browserInstance._asControl(ui5ControlSelector))
         }
     }
@@ -501,7 +518,7 @@ async function _allControls(controlSelector = this._controlSelector, browserInst
     }
 
     // pre retrive control information
-    const response = await clientSide_allControls(controlSelector, browserInstance)
+    const response = (await clientSide_allControls(controlSelector, browserInstance)) as clientSide_ui5Response
     _writeObjectResultLog(response, "allControls()")
 
     if (response.status === 0) {
@@ -535,7 +552,7 @@ async function _allControls(controlSelector = this._controlSelector, browserInst
  * can be called to make sure before you access any eg. DOM Node the ui5 framework is done loading
  * @returns {Boolean} if the UI5 page is fully loaded and ready to interact.
  */
-async function _waitForUI5(browserInstance) {
+async function _waitForUI5(browserInstance: WebdriverIO.Browser) {
     if (_isInitialized) {
         // injectUI5 was already called and was successful attached
         return await _checkForUI5Ready(browserInstance)
@@ -551,11 +568,11 @@ async function _waitForUI5(browserInstance) {
 /**
  * check for UI5 via the RecordReplay.waitForUI5 method
  */
-async function _checkForUI5Ready(browserInstance) {
+async function _checkForUI5Ready(browserInstance: WebdriverIO.Browser) {
     const ready = false
     if (_isInitialized) {
         // can only be executed when RecordReplay is attached
-        return await clientSide__checkForUI5Ready(browserInstance)
+        return await clientSide_checkForUI5Ready(browserInstance)
     }
     return ready
 }
@@ -563,15 +580,15 @@ async function _checkForUI5Ready(browserInstance) {
 /**
  * @param fileAppendix
  */
-async function _writeScreenshot(fileAppendix = "-screenshot") {
+async function _writeScreenshot(browserInstance: WebdriverIO.Browser, fileAppendix = "-screenshot") {
     // if config param screenshotsDisabled is set to true -> no screenshots will be taken
-    if (_config.wdi5["screenshotsDisabled"]) {
+    if (!_config?.wdi5 || _config.wdi5["screenshotsDisabled"]) {
         Logger.warn("screenshot skipped due to config parameter")
         return
     }
 
-    // browser.screenshot returns the screenshot as a base64 string
-    const screenshot = await browser.takeScreenshot()
+    // browserInstance.screenshot returns the screenshot as a base64 string
+    const screenshot = await browserInstance.takeScreenshot()
     const seed = _getDateString()
 
     const _path = _config.wdi5.screenshotPath || tmpdir()
@@ -602,7 +619,14 @@ function _getDateString() {
  * @param {Object} oComponentTargetInfo
  * @param {Boolean} bReplace
  */
-async function _navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace, browserInstance) {
+async function _navTo(
+    sComponentId: string,
+    sName: string,
+    oParameters,
+    oComponentTargetInfo,
+    bReplace: boolean,
+    browserInstance: WebdriverIO.Browser
+) {
     const result = (await clientSide__navTo(
         sComponentId,
         sName,

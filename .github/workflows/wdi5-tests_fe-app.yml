@@ -3,7 +3,7 @@ on:
   pull_request:
     branches:
       - main
-      - main-v2
+      - v9-support
     paths:
       # relevant
       - "client-side-js/**"
@@ -20,7 +20,8 @@ on:
 
 jobs:
   tests:
-    runs-on: ubuntu-latest
+    ### revisit: when chrome 138 does not make any more issues => go back to latest
+    runs-on: ubuntu-22.04
 
     strategy:
       matrix:
@@ -40,10 +41,10 @@ jobs:
       #     google-chrome --version
 
       - name: check out repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: use node ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
@@ -62,4 +63,4 @@ jobs:
       # run fiori elements-related wdi5 tests
       # explicit headless mode!
       - name: test fe-app
-        run: npm run test:fe-app
+        run: npm run test:fe:app

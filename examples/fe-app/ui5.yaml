@@ -1,4 +1,4 @@
-specVersion: "2.6"
+specVersion: "4.0"
 metadata:
   name: incidents
   # allowSapInternal: true # //> only for sap.fe.templates below

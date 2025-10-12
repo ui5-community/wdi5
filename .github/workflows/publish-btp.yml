@@ -11,8 +11,8 @@ jobs:
   build-sample-ts-app:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: "npm"
@@ -25,7 +25,7 @@ jobs:
       # let's check where we are
       - run: pwd
       - name: provide mtar
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mtar
           path: examples/ui5-ts-app/mta_archives/ui5-approuter_1.0.0.mtar
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: get mtar
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: mtar
       - name: deploy to BTP

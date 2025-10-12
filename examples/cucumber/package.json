@@ -1,13 +1,11 @@
 {
+  "name": "cucumber-app",
+  "type": "commonjs",
   "devDependencies": {
-    "@wdio/cli": "^9",
     "@wdio/cucumber-framework": "^9",
-    "@wdio/local-runner": "^9",
-    "@wdio/mocha-framework": "^9",
-    "@wdio/spec-reporter": "^9",
     "wdio-ui5-service": "*"
   },
   "scripts": {
-    "test": "wdio run ./wdio.conf.js"
+    "test": "wdio run wdio.conf.js --headless"
   }
 }

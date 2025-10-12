@@ -1,13 +1,14 @@
-import * as util from "util"
+import type { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types.js"
+import util from "node:util"
 export const ELEMENT_KEY = "element-6066-11e4-a52e-4f735466cecf"
 // TODO: import { ELEMENT_KEY } from "webdriverio/build/constants.js"
 // patch in webdriverio repo?
-import { clientSide_getControl } from "../../client-side-js/getControl.cjs"
-import { clientSide_interactWithControl } from "../../client-side-js/interactWithControl.cjs"
-import { clientSide_executeControlMethod } from "../../client-side-js/executeControlMethod.cjs"
-import { clientSide_getAggregation } from "../../client-side-js/_getAggregation.cjs"
-import { clientSide_fireEvent } from "../../client-side-js/fireEvent.cjs"
-import { clientSide_ui5Response, wdi5ControlMetadata, wdi5Selector } from "../types/wdi5.types.js"
+import { clientSide_getControl } from "../client-side-js/getControl.js"
+import { clientSide_interactWithControl } from "../client-side-js/interactWithControl.js"
+import { clientSide_executeControlMethod } from "../client-side-js/executeControlMethod.js"
+import { clientSide_getAggregation } from "../client-side-js/_getAggregation.js"
+import { clientSide_checkForUI5Ready } from "../client-side-js/_checkForUI5Ready.js"
+import { clientSide_fireEvent } from "../client-side-js/fireEvent.js"
 import { Logger as _Logger } from "./Logger.js"
 import { wdioApi } from "./wdioApi.js"
 import { WDI5Object } from "./wdi5-object.js"
@@ -18,22 +19,22 @@ const Logger = _Logger.getInstance()
  * can be seen as a generic representation of a UI5 control
  */
 export class WDI5Control {
-    _controlSelector: wdi5Selector = null
+    _controlSelector?: wdi5Selector
     // return value of Webdriver interface: JSON web token
-    _webElement: WebdriverIO.Element | string | undefined = null // TODO: type "org.openqa.selenium.WebElement"
+    _webElement?: WebdriverIO.Element
     // wdio element retrieved separately via $()
-    _webdriverRepresentation: WebdriverIO.Element = null
+    _webdriverRepresentation?: WebdriverIO.Element
     _metadata: wdi5ControlMetadata = {}
 
     // TODO: move to _metadata
-    _wdio_ui5_key: string = null
-    _generatedUI5Methods: Array<string>
+    _wdio_ui5_key?: string
+    _generatedUI5Methods?: string[]
     _initialisation = false
     _forceSelect = false
     _logging: boolean
-    _wdioBridge = <WebdriverIO.Element>{}
-    _generatedWdioMethods: Array<string>
-    _domId: string | undefined
+    _wdioBridge: WebdriverIO.Element
+    _generatedWdioMethods?: string[]
+    _domId?: string
 
     _browserInstance: WebdriverIO.Browser
     constructor(oOptions) {
@@ -48,6 +49,7 @@ export class WDI5Control {
             domId
         } = oOptions
 
+        this._wdioBridge = {} as WebdriverIO.Element
         this._controlSelector = controlSelector
         this._wdio_ui5_key = wdio_ui5_key
         this._forceSelect = forceSelect
@@ -56,12 +58,13 @@ export class WDI5Control {
         this._webElement = webElement
         this._webdriverRepresentation = webdriverRepresentation
         this._domId = domId
+        this._logging = false
 
         if (this._generatedUI5Methods && this._generatedUI5Methods.length > 0) {
-            this._attachControlBridge(this._generatedUI5Methods as Array<string>)
+            this._attachControlBridge(this._generatedUI5Methods)
         }
         if (this._generatedWdioMethods && this._generatedWdioMethods.length > 0) {
-            this._attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
+            this._attachWdioControlBridge(this._generatedWdioMethods)
         }
 
         this.setControlInfo()
@@ -71,7 +74,7 @@ export class WDI5Control {
 
     async init(controlSelector = this._controlSelector, forceSelect = this._forceSelect) {
         this._controlSelector = controlSelector
-        this._wdio_ui5_key = controlSelector.wdio_ui5_key
+        this._wdio_ui5_key = controlSelector?.wdio_ui5_key
         this._forceSelect = forceSelect
         this._logging = this._controlSelector?.logging ?? true
 
@@ -88,8 +91,8 @@ export class WDI5Control {
 
             // dynamic function bridge
             this._generatedUI5Methods = controlResult.aProtoFunctions
-            this._attachControlBridge(this._generatedUI5Methods as Array<string>)
-            this._attachWdioControlBridge(this._generatedWdioMethods as Array<string>)
+            this._attachControlBridge(this._generatedUI5Methods)
+            this._attachWdioControlBridge(this._generatedWdioMethods)
 
             this.setControlInfo()
         }
@@ -135,7 +138,7 @@ export class WDI5Control {
             return await this._getWebElement()
         } catch (error) {
             if (this._logging) {
-                Logger.error(`cannot call "getWebElement()", because ${error.message}`)
+                Logger.error(`cannot call "getWebElement()", because ${error?.message}`)
             }
         }
     }
@@ -158,7 +161,7 @@ export class WDI5Control {
             return await this._getAggregation(name)
         } catch (error) {
             if (this._logging) {
-                Logger.error(`cannot get aggregation "${name}", because ${error.message}`)
+                Logger.error(`cannot get aggregation "${name}", because ${error?.message}`)
             }
         }
     }
@@ -169,13 +172,13 @@ export class WDI5Control {
      */
     async enterText(text: string) {
         let selector
-        let logging
+        let logging: boolean
         if (util.types.isProxy(this._controlSelector)) {
             const _controlSelector = await Promise.resolve(this._controlSelector)
-            selector = await Promise.resolve(_controlSelector.selector)
+            selector = await Promise.resolve(_controlSelector?.selector)
             logging = await Promise.resolve(this._logging)
         } else {
-            selector = this._controlSelector.selector
+            selector = this._controlSelector?.selector
             logging = this._logging
         }
         const oOptions = {
@@ -188,7 +191,7 @@ export class WDI5Control {
             await this._interactWithControl(oOptions)
         } catch (error) {
             if (logging) {
-                Logger.error(`cannot call enterText(), because ${error.message}`)
+                Logger.error(`cannot call enterText(), because ${error?.message}`)
             }
         }
         return this
@@ -215,7 +218,7 @@ export class WDI5Control {
         }
 
         // when the interaction locator is existing we want to use the RecordReplay press (interactWithControl)
-        if (controlSelector.selector.interaction) {
+        if (controlSelector?.selector?.interaction) {
             if (logging) {
                 Logger.info(`using OPA5 Press action to interact with this ${className}...`)
             }
@@ -227,7 +230,7 @@ export class WDI5Control {
                 await this._interactWithControl(oOptions)
             } catch (error) {
                 if (logging) {
-                    Logger.error(`cannot issue OPA5-press() on control, because ${error.message}`)
+                    Logger.error(`cannot issue OPA5-press() on control, because ${error?.message}`)
                 }
             }
         } else {
@@ -236,7 +239,7 @@ export class WDI5Control {
                 await ((await this._getWebElement()) as unknown as WebdriverIO.Element).click()
             } catch (error) {
                 if (logging) {
-                    Logger.error(`cannot call press(), because ${error.message}`)
+                    Logger.error(`cannot call press(), because ${error?.message}`)
                 }
             }
         }
@@ -250,7 +253,7 @@ export class WDI5Control {
      * @param {any} oOptions
      * @param {WebdriverIO.Element} webElement
      */
-    async fireEvent(eventName, oOptions, webElement = this._webElement) {
+    async fireEvent(eventName: string, oOptions, webElement = this._webElement) {
         // Check the options have a eval property
         if (oOptions?.eval) {
             oOptions = "(" + oOptions.eval.toString() + ")"
@@ -343,7 +346,10 @@ export class WDI5Control {
     private async _renewWebElement(id: string = this._domId) {
         if (this._domId) {
             // TODO: fix type issue
-            this._webdriverRepresentation = (await this._browserInstance.$(`//*[@id="${id}"]`)) as any
+            const idAttribute = `//*[@id="${id}"]`
+            this._webdriverRepresentation = (await this._browserInstance.$(
+                idAttribute
+            )) as unknown as WebdriverIO.Element
             return this._webdriverRepresentation
         } else {
             throw Error("control could not be found")
@@ -362,20 +368,23 @@ export class WDI5Control {
         // check the validity of param
         if (aControls) {
             // loop through items
-            aControls.forEach((item) => {
+            for (const control of aControls) {
                 // item id -> create selector
                 const selector = {
-                    wdio_ui5_key: item.id, // plugin-internal, not part of RecordReplay.ControlSelector
+                    wdio_ui5_key: control.id, // plugin-internal, not part of RecordReplay.ControlSelector
                     forceSelect: this._forceSelect,
                     selector: {
-                        id: item.id
-                    }
+                        id: control.id
+                    },
+                    // skip the waitForUI5 check. We will do this manually once before the actual control retrieval
+                    _skipWaitForUI5: true
                 }
 
                 // get wdi5 control
                 aResultOfPromises.push(this._browserInstance.asControl(selector))
-            })
-
+            }
+            // waitForUI5 check manually
+            await clientSide_checkForUI5Ready(this._browserInstance)
             return await Promise.all(aResultOfPromises)
         } else {
             if (this._logging) {
@@ -420,7 +429,7 @@ export class WDI5Control {
      *
      * @param sReplFunctionNames
      */
-    private _attachControlBridge(sReplFunctionNames: Array<string>) {
+    private _attachControlBridge(sReplFunctionNames?: string[]) {
         // check the validity of param
         if (sReplFunctionNames) {
             sReplFunctionNames.forEach(async (sMethodName) => {
@@ -433,7 +442,7 @@ export class WDI5Control {
         }
     }
 
-    private _attachWdioControlBridge(sReplFunctionNames: Array<string>) {
+    private _attachWdioControlBridge(sReplFunctionNames?: string[]) {
         // check the validity of param
         if (sReplFunctionNames) {
             sReplFunctionNames.forEach(async (sMethodName) => {
@@ -455,17 +464,13 @@ export class WDI5Control {
      * @param webElement representation of selected UI5 control in wdio
      * @param args proxied arguments to UI5 control method at runtime
      */
-    private async _executeControlMethod(
-        methodName: string,
-        webElement: WebdriverIO.Element | string = this._webElement,
-        ...args
-    ) {
+    private async _executeControlMethod(methodName: string, webElement = this._webElement, ...args) {
         if (this._forceSelect) {
             try {
                 this._webElement = await this._renewWebElementReference()
             } catch (error) {
                 if (this._logging) {
-                    Logger.error(`cannot execute ${methodName}(), because ${error.message}`)
+                    Logger.error(`cannot execute ${methodName}(), because ${error?.message}`)
                 }
             }
         }
@@ -489,14 +494,30 @@ export class WDI5Control {
         }
 
         // regular browser-time execution of UI5 control method
-        const result = (await clientSide_executeControlMethod(
-            webElement,
-            methodName,
-            this._browserInstance,
-            args,
-            // to safeguard "stale" elements in the devtools protocol we pass the whole wdi5 object
-            this
-        )) as clientSide_ui5Response
+        let result
+        try {
+            result = (await clientSide_executeControlMethod(
+                webElement,
+                methodName,
+                this._browserInstance,
+                args,
+                // to safeguard "stale" elements in the bidi protocol we pass the whole wdi5 object
+                this
+            )) as clientSide_ui5Response
+        } catch (err) {
+            let message
+            if (err?.message?.includes("is stale") || err?.message?.includes("stale element reference")) {
+                Logger.debug(`error executing ${methodName}(): ${err?.message}`)
+                message = `stale element reference: ${methodName} could not be executed on control with selector: ${JSON.stringify(this._controlSelector)}`
+            } else {
+                Logger.error(`error executing ${methodName}(): ${err?.message}`)
+                message = `error: ${methodName} could not be executed on control with selector: ${JSON.stringify(this._controlSelector)}`
+            }
+            result = {
+                status: 1,
+                message
+            }
+        }
 
         // create logging
         this._writeObjectResultLog(result, methodName)
@@ -512,7 +533,7 @@ export class WDI5Control {
                 return result.nonCircularResultObject ? result.nonCircularResultObject : result.result
             case "object":
                 // enhance with uuid
-                return new WDI5Object(result.uuid, result.aProtoFunctions, result.object)
+                return new WDI5Object(result.uuid ?? "", result.aProtoFunctions, result.object)
             case "empty":
                 if (this._logging) {
                     Logger.warn("No data found in property or aggregation")
@@ -531,7 +552,7 @@ export class WDI5Control {
                         const wdioElement = result.result[args[0]]
                         return await this._retrieveElement(wdioElement)
                     } else {
-                        console.error(
+                        Logger.error(
                             `tried to get an control at index: ${args[0]} of an aggregation outside of aggregation length: ${result.result.length}`
                         )
                     }
@@ -539,7 +560,7 @@ export class WDI5Control {
                     // return wdio elements
                     return result.result
                 }
-            case "unknown":
+            case "unknown": // eslint-disable-line no-fallthrough
                 Logger.warn(`${methodName} returned unknown status`)
                 return null
             case "none":
@@ -557,10 +578,7 @@ export class WDI5Control {
      * @throws will throw an error when no webElement was found
      * @return {any}
      */
-    private async _getAggregation(
-        aggregationName: string,
-        webElement: WebdriverIO.Element | string = this._webElement
-    ) {
+    private async _getAggregation(aggregationName: string, webElement = this._webElement) {
         const _forceSelect: boolean = util.types.isProxy(this._forceSelect)
             ? await Promise.resolve(this._forceSelect)
             : this._forceSelect
@@ -587,7 +605,7 @@ export class WDI5Control {
             this._writeObjectResultLog(result, "_getAggregation()")
         }
 
-        let wdiItems = []
+        let wdiItems: WDI5Control[] = []
         if (result.status === 0) {
             wdiItems = await this._retrieveElements(result.result)
         }
@@ -637,7 +655,7 @@ export class WDI5Control {
      */
     private async _getControl(controlSelector = this._controlSelector) {
         // check whether we have a "by id regex" locator request
-        if (controlSelector.selector.id && typeof controlSelector.selector.id === "object") {
+        if (controlSelector?.selector?.id && typeof controlSelector.selector.id === "object") {
             // make it a string for serializing into browser-scope and
             // further processing there
             controlSelector.selector.id = controlSelector.selector.id.toString()
@@ -658,7 +676,7 @@ export class WDI5Control {
         //     }
         // }
         if (
-            typeof controlSelector.selector.properties?.text === "object" &&
+            typeof controlSelector?.selector?.properties?.text === "object" &&
             controlSelector.selector.properties?.text instanceof RegExp
         ) {
             // make it a string for serializing into browser-scope and
@@ -670,7 +688,7 @@ export class WDI5Control {
 
         // When the WebDriver protocol is not used, the domElement is not set accordingly (via devtool protocol)
         // Therefore we get element reference by calling browser execute function manually
-        if (_result.status === 0 && !_result.domElement[ELEMENT_KEY]) {
+        if (_result.status === 0 && !_result?.domElement?.[ELEMENT_KEY]) {
             const elementReference = (await this._browserInstance.execute((id) => {
                 const webElement: Node = document.evaluate(
                     `//*[@id='${id}']`,

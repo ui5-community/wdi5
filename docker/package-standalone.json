@@ -3,24 +3,15 @@
   "version": "0.0.1",
   "scripts": {
     "start": "ui5 serve",
-    "wdi5": "wdio run wdio.conf.js --spec basic.test",
-    "test": "run-p -r start wdi5"
+    "test": "wdio run wdio.conf.js --spec basic",
+    "start:test": "run-p -r start test"
   },
   "devDependencies": {
+    "@sap-ux/ui5-middleware-fe-mockserver": "latest",
     "@ui5/cli": "latest",
-    "@wdio/cli": ">=8.14.0",
-    "@wdio/mocha-framework": "^8",
-    "@wdio/spec-reporter": "^8",
-    "@wdio/local-runner": "^8",
-    "fs-extra": "latest",
-    "mocha": "latest",
     "npm-run-all": "latest",
     "ui5-middleware-simpleproxy": "latest",
     "wait-on": "latest",
-    "wdio-ui5-service": "latest",
-    "webdriverio": ">8.32.2"
-  },
-  "ui5": {
-    "dependencies": ["ui5-middleware-simpleproxy"]
+    "wdio-ui5-service": "latest"
   }
 }

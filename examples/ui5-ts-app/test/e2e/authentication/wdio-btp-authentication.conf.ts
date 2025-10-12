@@ -1,8 +1,7 @@
-import { merge } from "ts-deepmerge"
 import { config as baseConf } from "./wdio-base.conf.js"
 
 const _config = {
-    baseUrl: "https://wdi5-sample-app.cfapps.eu20.hana.ondemand.com/xsuaa/",
+    baseUrl: "https://wdi5-sample-app.cfapps.eu10-004.hana.ondemand.com/xsuaa/",
     capabilities: baseConf.capabilities ? [...baseConf.capabilities] : []
 }
 
@@ -25,17 +24,17 @@ if (process.env.BROWSERSTACK) {
                 provider: "BTP"
             },
             browserName: "chrome",
+            // browserVersion: "stable",
             "goog:chromeOptions": {
-                args:
-                    process.argv.indexOf("--headless") > -1
-                        ? ["headless", "disable-gpu"]
-                        : process.argv.indexOf("--debug") > -1
-                          ? ["window-size=1440,800", "--auto-open-devtools-for-tabs"]
-                          : ["window-size=1440,800"]
+                args: process.argv.includes("--headless")
+                    ? ["headless", "disable-gpu"]
+                    : process.argv.includes("--debug")
+                      ? ["window-size=1440,800", "auto-open-devtools-for-tabs"]
+                      : ["window-size=1440,800"]
             },
             acceptInsecureCerts: true
         }
     ]
 }
 
-export const config = merge(baseConf, _config)
+export const config = { ...baseConf, ..._config }
