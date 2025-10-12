@@ -1,7 +1,0 @@
-{
-  "/V2/": {
-    "target": "https://services.odata.org/V2/",
-    "secure": false,
-    "changeOrigin": true
-  }
-}

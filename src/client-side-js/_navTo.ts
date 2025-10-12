@@ -1,3 +1,6 @@
+import type Core from "sap/ui/core/Core"
+import type Component from "sap/ui/core/Component"
+import type HashChanger from "sap/ui/core/routing/HashChanger"
 import type RecordReplay from "sap/ui/test/RecordReplay"
 
 async function clientSide__navTo(
@@ -18,12 +21,26 @@ async function clientSide__navTo(
 
             window.wdi5.Log.info(`[browser wdi5] navigation to ${sName} triggered`)
 
-            // TODO: get rid of deprectaed function
-            // @ts-expect-error: Property 'getRouter' does not exist on type 'Component'
-            const router = sap.ui.getCore().getComponent(sComponentId).getRouter()
-            const hashChanger = window.compareVersions.compare("1.75.0", sap.ui.version, ">")
+            const [CoreRef, ComponentRef, HashChangerRef] = await new Promise<[Core, Component, HashChanger]>(
+                (resolve) => {
+                    sap.ui.require(
+                        ["sap/ui/core/Core", "sap/ui/core/Component", "sap/ui/core/routing/HashChanger"],
+                        function () {
+                            // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                            // eslint-disable-next-line prefer-rest-params
+                            resolve(Array.from(arguments))
+                        }
+                    )
+                }
+            )
+            const router = window.compareVersions.compare(window.wdi5.ui5Version, "1.120.0", ">")
+                ? // @ts-expect-error: Property 'getRouter' does not exist on type 'Component'
+                  ComponentRef.getComponentById(sComponentId).getRouter()
+                : // @ts-expect-error: Property 'getRouter' does not exist on type 'Component'
+                  CoreRef.getComponent(sComponentId).getRouter()
+            const hashChanger = window.compareVersions.compare("1.75.0", window.wdi5.ui5Version, ">")
                 ? // @ts-expect-error: Property 'core' does not exist on type 'typeof ui'
-                  sap.ui.core.routing.HashChanger.getInstance()
+                  HashChangerRef.getInstance()
                 : router.getHashChanger()
 
             // create hashChanged promise
@@ -40,7 +57,7 @@ async function clientSide__navTo(
             await hashChangedPromise
             return {
                 status: 0,
-                result: window.compareVersions.compare("1.75.0", sap.ui.version, ">")
+                result: window.compareVersions.compare("1.75.0", window.wdi5.ui5Version, ">")
                     ? hashChanger.getHash()
                     : hashChanger.hash
             }

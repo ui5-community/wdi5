@@ -63,4 +63,4 @@ jobs:
       # run fiori elements-related wdi5 tests
       # explicit headless mode!
       - name: test fe-app
-        run: npm run test:fe-app
+        run: npm run test:fe:app

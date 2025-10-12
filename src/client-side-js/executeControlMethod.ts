@@ -1,3 +1,6 @@
+import type Control from "sap/ui/core/Control"
+import type Item from "sap/ui/core/Item"
+import type UI5Object from "sap/ui/base/Object"
 import type RecordReplay from "sap/ui/test/RecordReplay"
 import type { wdi5Control } from "../types/wdi5.types.js"
 import { Logger } from "../lib/Logger.js"
@@ -46,6 +49,18 @@ function executeControlMethod(
                         return { status: 0, result: result, returnType: "result" }
                     }
                 } else {
+                    const [ControlRef, ItemRef, UI5ObjectRef] = await new Promise<[Control, Item, UI5Object]>(
+                        (resolve) => {
+                            sap.ui.require(
+                                ["sap/ui/core/Control", "sap/ui/core/Item", "sap/ui/base/Object"],
+                                function () {
+                                    // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                                    // eslint-disable-next-line prefer-rest-params
+                                    resolve(Array.from(arguments))
+                                }
+                            )
+                        }
+                    )
                     // ui5 api <control>.focus() doesn't have return value
                     if (methodName === "focus" && result === undefined) {
                         return {
@@ -72,9 +87,9 @@ function executeControlMethod(
                             typeof result === "object" &&
                             result !== null &&
                             // @ts-expect-error: Property 'core' does not exist on type 'typeof ui'
-                            !(result instanceof sap.ui.core.Control) &&
+                            !(result instanceof ControlRef) &&
                             // @ts-expect-error: Property 'core' does not exist on type 'typeof ui'
-                            !(result instanceof sap.ui.core.Item)
+                            !(result instanceof ItemRef)
                         ) {
                             // save before manipulate
                             const uuid = window.wdi5.saveObject(result)
@@ -106,7 +121,7 @@ function executeControlMethod(
                             // wdi5 returns a wdi5 control if the UI5 api return its control
                             // allows method chaining
                             // @ts-expect-error: Property 'base' does not exist on type 'typeof ui'
-                            !(result instanceof sap.ui.base.Object)
+                            !(result instanceof UI5ObjectRef)
                         ) {
                             return {
                                 status: 2,
@@ -158,24 +173,12 @@ async function clientSide_executeControlMethod(
     try {
         result = await executeControlMethod(webElement, methodName, browserInstance, args)
     } catch (err) {
-        // devtools and webdriver protocol don't share the same error message
-        if (err.message?.includes("is stale") || err.message?.includes("stale element reference")) {
-            logger.debug(`webElement ${JSON.stringify(webElement)} stale, trying to renew reference...`)
-            const renewedWebElement = await wdi5Control.renewWebElementReference()
-            if (renewedWebElement) {
-                result = executeControlMethod(renewedWebElement, methodName, browserInstance, args)
-                logger.debug(`successfully renewed reference: ${JSON.stringify(renewedWebElement)}`)
-            } else {
-                logger.error(`failed renewing reference for webElement: ${JSON.stringify(webElement)}`)
-                result = {
-                    status: 1,
-                    message: `${methodName} could not be executed on control with selector: ${JSON.stringify(
-                        wdi5Control._controlSelector
-                    )}`
-                }
-            }
-        } else {
-            throw err
+        logger.error("failed executing control method", methodName, err)
+        result = {
+            status: 1,
+            message: `${methodName} could not be executed on control with selector: ${JSON.stringify(
+                wdi5Control._controlSelector
+            )}`
         }
     }
     return result

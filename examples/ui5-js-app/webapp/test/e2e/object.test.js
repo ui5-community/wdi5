@@ -1,5 +1,4 @@
 const Main = require("./pageObjects/Main")
-const marky = require("marky")
 const { wdi5 } = require("wdio-ui5-service")
 const Other = require("./pageObjects/Other")
 

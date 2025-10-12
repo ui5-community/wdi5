@@ -4,13 +4,25 @@
 
 Version >= 3 of `wdi5` is WebdriverIO v9 compatible.
 
-Major, potentially breaking, changes:
+Major, **potentially breaking**, changes:
 
 - [`BiDi`](https://developer.chrome.com/blog/webdriver-bidi) is the default automation protocol now. If you want to continue using `Webdriver`, use `'wdio:enforceWebDriverClassic': true` in your `wdio`/`wdi5` config file.  
   Find config examples in:
   - `examples/ui5-ts-app/test/e2e/protocol/wdio-ui5-webdriver.conf.ts`
   - `examples/ui5-js-app/e2e-test-config/wdio.base.conf.js`
 - deprecation of `devtools` protocol: it is no more included in Webdriver.IO and thus also not available in `wdi5`. Yet `BiDi` should be a drop-in replacement for it, without the need for changing config files or rewrite tests.
+
+- stale element handling has changed with the `BiDi` (yet remains the same for `Webdriver`). It is more intuitive towards what "you'd expect", for example:
+
+  ```js
+  const button = await ...()
+  await button.setVisible(false)
+  // was and is `null` with Webdriver,
+  // but semantically more correct `false` with BiDi
+  expect(await button.getVisible()).toBe(false)
+  ```
+
+  This change in stale element handling requires you to refactor your tests in that domain when using `BiDi`.
 
 Notable changes:
 
@@ -74,8 +86,8 @@ Config file change:
 
 ```diff
 const config = {
-- specs: [join("webapp", "test", "e2e", "ui5-late.test.js")],
-+ specs: [join("..", "webapp", "test", "e2e", "ui5-late.test.js")],
+- specs: ["webapp/test/e2e/ui5-late.test.js"],
++ specs: ["../webapp/test/e2e/ui5-late.test.js"],
   // ...
 }
 ```
@@ -119,7 +131,7 @@ Now requires using the `devtools` package (which is now a dependency of `wdi5`) 
 
 ### use `wdi5` as ESM module
 
-With `wdi5` v2, it is possible to write tests in an ESM module environment (see [/examples/ui5-js-app-esm](https://github.com/ui5-community/wdi5/blob/main/examples/ui5-js-app-esm)). The `describe` and `it` syntax remains the same as in an CJS environment. The major difference is in the way `wdi5` and third party modules are imported in ESM-style JavaScript files.
+With `wdi5` v2, it is possible to write tests in an ESM module environment (see [/examples/wdio-ui5-lts](https://github.com/ui5-community/wdi5/blob/main/examples/wdio-ui5-lts)). The `describe` and `it` syntax remains the same as in an CJS environment. The major difference is in the way `wdi5` and third party modules are imported in ESM-style JavaScript files.
 
 Sample excerpt:
 

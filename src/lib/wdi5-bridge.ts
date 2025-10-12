@@ -11,9 +11,7 @@ import type {
 import { resolve } from "node:path"
 import { writeFile } from "node:fs/promises"
 import { tmpdir } from "node:os"
-import * as semver from "semver"
-import { mark as marky_mark, stop as marky_stop } from "marky"
-
+import { compare } from "compare-versions"
 import { WDI5Control } from "./wdi5-control.js"
 import { WDI5FE } from "./wdi5-fe.js"
 import { clientSide_injectTools } from "../client-side-js/injectTools.js"
@@ -112,10 +110,11 @@ function initBrowser(browserInstance: WebdriverIO.Browser) {
 }
 
 function checkUI5Version(ui5Version: string) {
-    if (semver.lt(ui5Version, "1.60.0")) {
+    if (compare(ui5Version, "1.60.0", "<")) {
         // the record replay api is only available since 1.60
-        Logger.error("The UI5 version of your application is too low. Minimum required is 1.60!")
-        throw new Error("The UI5 version of your application is too low. Minimum required is 1.60!")
+        const message = "The UI5 version of your application is too low. Minimum required is 1.60!"
+        Logger.error(message)
+        throw new Error(message)
     }
 }
 
@@ -273,12 +272,17 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
             Logger.info(`creating internal control with id ${internalKey}`)
             wdi5Selector.wdio_ui5_key = internalKey
 
-            marky_mark("retrieveSingleControl") //> TODO: bind to debug log level
+            performance.mark("retrieveSingleControlStart") //> TODO: bind to debug log level
 
             const wdi5Control = await new WDI5Control({ browserInstance }).init(wdi5Selector, wdi5Selector.forceSelect)
 
-            const e = marky_stop("retrieveSingleControl") //> TODO: bind to debug log level
-            Logger.info(`_asControl() needed ${e.duration} for ${internalKey}`)
+            performance.mark("retrieveSingleControlEnd") //> TODO: bind to debug log level
+            const retrieveSingleControlMeasure = performance.measure(
+                "retrieveSingleControl",
+                "retrieveSingleControlStart",
+                "retrieveSingleControlEnd"
+            )
+            Logger.info(`_asControl() needed ${retrieveSingleControlMeasure.duration} for ${internalKey}`)
 
             browserInstance._controls[internalKey] = wdi5Control
         } else {
@@ -616,11 +620,11 @@ function _getDateString() {
  * @param {Boolean} bReplace
  */
 async function _navTo(
-    sComponentId,
-    sName,
+    sComponentId: string,
+    sName: string,
     oParameters,
     oComponentTargetInfo,
-    bReplace,
+    bReplace: boolean,
     browserInstance: WebdriverIO.Browser
 ) {
     const result = (await clientSide__navTo(

@@ -39,7 +39,7 @@ export default class Service implements Services.ServiceInstance {
 
         if (browserInstance.isMultiremote) {
             for (const name of (browserInstance as unknown as WebdriverIO.MultiRemoteBrowser).instances) {
-                if (this._capabilities[name].capabilities["wdi5:authentication"]) {
+                if (this?._capabilities[name].capabilities["wdi5:authentication"]) {
                     await authenticate(this._capabilities[name].capabilities["wdi5:authentication"], name)
                 }
 
@@ -54,7 +54,7 @@ export default class Service implements Services.ServiceInstance {
             }
             initMultiRemoteBrowser()
         } else {
-            if (this._capabilities["wdi5:authentication"]) {
+            if (this?._capabilities["wdi5:authentication"]) {
                 await authenticate(this._capabilities["wdi5:authentication"], "")
             }
 

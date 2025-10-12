@@ -22,7 +22,7 @@
     "authentication:multiRemote": "wdio run test/e2e/authentication/wdio-btp-authentication-multiremote.conf.ts",
     "test:protocol": "run-p \"protocol:webdriver -- --headless\"",
     "//protocol:devtools": "with wdio v9, devtools is obsolete",
-    "protocol:devtools": "PROT=devtools wdio run test/e2e/protocol/wdio-ui5-devtools.conf.ts",
+    "protocol:bidi": "PROT=bidi wdio run test/e2e/protocol/wdio-ui5-bidi.conf.ts",
     "protocol:webdriver": "PROT=webdriver wdio run test/e2e/protocol/wdio-ui5-webdriver.conf.ts",
     "build:ui5": "ui5 build --clean-dest",
     "build:mtar": "mv dist approuter/webapp && mbt build",

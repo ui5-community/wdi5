@@ -246,6 +246,7 @@ export interface wdi5Bridge {
         createControlIdMap: (aControls: Control[], controlType: string) => Record<string, any>
         createControlId: (aControl: Control | Control[]) => { id: string }
         isInitialized: boolean
+        ui5Version: string
         Log: Log
         waitForUI5Options: {
             timeout: number
@@ -275,7 +276,7 @@ declare global {
         bridge: wdi5Bridge["bridge"]
         wdi5: wdi5Bridge["wdi5"]
         fe_bridge: wdi5Bridge["fe_bridge"]
-        compareVersions?: { compare?: (version1: string, version2: string, operator: string) => boolean }
+        compareVersions: { compare: (version1: string, version2: string, operator: string) => boolean }
     }
 
     // Patch SAP namespace to include sap.ui.version
