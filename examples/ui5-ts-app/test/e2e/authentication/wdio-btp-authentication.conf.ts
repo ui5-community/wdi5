@@ -12,7 +12,8 @@ if (process.env.BROWSERSTACK) {
         const enhancedCapability = {
             ...capability,
             "wdi5:authentication": {
-                provider: "BTP"
+                provider: "BTP",
+                idpDomain: "aumjbebdf.accounts.ondemand.com"
             }
         }
         return enhancedCapability

@@ -10,7 +10,8 @@ if (process.env.BROWSERSTACK) {
         one: {
             capabilities: {
                 "wdi5:authentication": {
-                    provider: "BTP"
+                    provider: "BTP",
+                    idpDomain: "aumjbebdf.accounts.ondemand.com"
                 },
                 ...browser[0] // Edge - Win 11
             }
@@ -18,7 +19,8 @@ if (process.env.BROWSERSTACK) {
         two: {
             capabilities: {
                 "wdi5:authentication": {
-                    provider: "BTP"
+                    provider: "BTP",
+                    idpDomain: "aumjbebdf.accounts.ondemand.com"
                 },
                 ...browser[6] // Chrome - macOS
             }
