@@ -7,7 +7,7 @@
   "author": "j&s-soft GmbH",
   "type": "module",
   "scripts": {
-    "test": "run-p test:**",
+    "test": "run-s test:**",
     "test:v1.71": "wdio run wdio.conf.js --headless --ui5=1.71",
     "test:v1.84": "wdio run wdio.conf.js --headless --ui5=1.84",
     "test:v1.96": "wdio run wdio.conf.js --headless --ui5=1.96",
