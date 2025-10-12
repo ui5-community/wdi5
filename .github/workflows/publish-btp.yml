@@ -41,7 +41,7 @@ jobs:
       - name: deploy to BTP
         uses: elliottpope/cloudfoundry-cli-action@v6
         with:
-          CF_API: https://api.cf.eu20.hana.ondemand.com
+          CF_API: https://api.cf.eu10-004.hana.ondemand.com
           USERNAME: ${{ secrets.BTP_LOGIN }}
           PASSWORD: ${{ secrets.BTP_PASSWORD }}
           ORG: ${{secrets.BTP_ORG}}
