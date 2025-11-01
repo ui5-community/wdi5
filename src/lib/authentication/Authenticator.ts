@@ -19,7 +19,11 @@ export default class Authenticator {
         if (browser.isMultiremote) {
             envName = `wdi5_${this.browserInstanceName}_username`
         }
-        return process.env[envName] || ""
+        const sUserName = process.env[envName]
+        if (!sUserName) {
+            throw new Error(`Environment variable ${envName} for username is not set!`)
+        }
+        return sUserName
     }
 
     getPassword(): string {
@@ -27,7 +31,11 @@ export default class Authenticator {
         if (browser.isMultiremote) {
             envName = `wdi5_${this.browserInstanceName}_password`
         }
-        return process.env[envName] || ""
+        const sPassword = process.env[envName]
+        if (!sPassword) {
+            throw new Error(`Environment variable ${envName} for password is not set!`)
+        }
+        return sPassword
     }
 
     async getIsLoggedIn(): Promise<boolean> {
