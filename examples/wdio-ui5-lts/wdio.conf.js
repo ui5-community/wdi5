@@ -5,7 +5,9 @@ const url = `https://ui5.sap.com/${ui5Version}/test-resources/sap/m/demokit/orde
 
 export const config = {
     wdi5: {
-        logLevel: "verbose"
+        logLevel: "verbose",
+        // Increase timeout to handle "waitAsync is already running" errors
+        waitforui5Timeout: 30000
     },
     baseUrl: url,
 
