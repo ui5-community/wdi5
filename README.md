@@ -8,7 +8,7 @@ It is used for end-to-end tests of a UI5 web-application.
 :raising_hand: Please use GitHub's [Issues](https://github.com/ui5-community/wdi5/issues) for community support and questions  
 :raised_hand: Get [commercial support from wdi5 experts](https://github.com/ui5-community/wdi5/blob/main/SUPPORT.md#commercial-support)      
 :speech_balloon: The [#wdi5 slack channel](https://openui5.slack.com/) is a place for friendly curiosity-driven talk about `wdi5` ([sign-up link](https://ui5-slack-invite.cfapps.eu10.hana.ondemand.com/))  
-:mega: watch the [Discussions](https://github.com/ui5-community/wdi5/discussions), the [@\_wdi5\_ twitter account](https://twitter.com/_wdi5_) and the [@\_wdi5\_ FOSStodon account](https://fosstodon.org/@_wdi5_) for announcements  
+:mega: watch the [Discussions](https://github.com/ui5-community/wdi5/discussions), the [@\_wdi5\_ Bluesky account](https://web-cdn.bsky.app/profile/wdi5.bsky.social) and the [@\_wdi5\_ FOSStodon account](https://fosstodon.org/@_wdi5_) for announcements  
 
 ## Steering Committee
 
