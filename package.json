@@ -17,11 +17,18 @@
   "license": "(Apache-2.0 or DERIVED BEER-WARE)",
   "author": "the UI5 community <do_not_use@openui5.org> (https://github.com/ui5-community)",
   "type": "module",
-  "main": "./dist/esm/index.js",
-  "types": "./dist/esm/index.d.ts",
+  "main": "./dist/cjs/index.js",
   "exports": {
-    "import": "./dist/esm/index.js",
-    "require": "./dist/cjs/index.js"
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    }
   },
   "files": [
     "dist"
@@ -42,6 +49,8 @@
     "// test time": "refers to testing wdio-ui5-service",
     "test:cjs": "npm test -w=wdio-cjs",
     "test:mjs": "npm test -w=wdio-mjs",
+    "test:cjs:ts": "npm test -w=wdio-cjs-ts",
+    "test:mjs:ts": "npm test -w=wdio-mjs-ts",
     "test:classic": "npm test -w=wdio-classic",
     "test:ui5:lts": "npm test -w=wdio-ui5-lts",
     "test:cucumber": "npm test -w=cucumber-app",
@@ -82,34 +91,33 @@
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@eslint/js": "^9.36.0",
-    "@openui5/types": "^1.140.0",
-    "@sap-ux/ui5-middleware-fe-mockserver": "^2.3.5",
-    "@sap/approuter": "20.6.0",
+    "@sap-ux/ui5-middleware-fe-mockserver": "^2.3.19",
+    "@sap/approuter": "20.8.2",
     "@sap/ux-ui5-fe-mockserver-middleware": "^1.6.5",
-    "@types/node": "^22.18.6",
-    "@types/openui5": "^1.140.0",
-    "@ui5/cli": "^4.0.26",
+    "@sapui5/types": "^1.142.0",
+    "@types/node": "^22.19.0",
+    "@types/openui5": "^1.142.0",
+    "@ui5/cli": "^4.0.34",
     "@wdio/browserstack-service": "^9.20.0",
     "@wdio/sauce-service": "^9.20.0",
     "@wdio/types": "^9.20.0",
-    "cross-env": "^10.0.0",
+    "cross-env": "^10.1.0",
     "docsify-cli": "4.4.4",
-    "eslint": "^9.36.0",
-    "eslint-plugin-mocha": "^11.1.0",
+    "eslint": "^9.39.1",
+    "eslint-plugin-mocha": "^11.2.0",
     "eslint-plugin-wdio": "^9.16.2",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.1",
+    "lint-staged": "^16.2.6",
     "mbt": "^1.2.34",
-    "mocha": "^11.7.2",
+    "mocha": "^11.7.5",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.6.2",
-    "replace-in-file": "^8.3.0",
-    "rimraf": "^6.0.1",
+    "rimraf": "^6.1.0",
     "soerver": "^0.0.3",
     "standard-version": "^9.5.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.2",
-    "typescript-eslint": "^8.44.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.3",
     "wait-on": "^9.0.1"
   },
   "peerDependencies": {

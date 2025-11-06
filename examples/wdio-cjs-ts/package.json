@@ -1,0 +1,16 @@
+{
+  "name": "wdio-cjs-ts",
+  "version": "0.0.1",
+  "private": true,
+  "description": "sample ESM ui5 app for testing wdi5",
+  "license": "UNLICENSED",
+  "author": "j&s-soft GmbH",
+  "type": "commonjs",
+  "scripts": {
+    "test": "wdio run wdio.conf.ts --headless"
+  },
+  "devDependencies": {
+    "@openui5/types": "^1.142.0",
+    "wdio-ui5-service": "^3"
+  }
+}

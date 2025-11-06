@@ -1,10 +1,11 @@
 import globals from "globals"
 import tseslint from "typescript-eslint"
+import { defineConfig } from "eslint/config"
 import js from "@eslint/js"
 import { configs as wdioConfigs } from "eslint-plugin-wdio"
 import mochaPlugin from "eslint-plugin-mocha"
 
-export default tseslint.config([
+export default defineConfig([
     {
         ignores: ["esm/", "cjs/", "dist/", "node_modules/", "docker/", "docs/", "examples/"]
     },

@@ -1,7 +1,7 @@
 import type RecordReplay from "sap/ui/test/RecordReplay"
 
 async function clientSide_checkForUI5Ready(browserInstance: WebdriverIO.Browser) {
-    return await browserInstance.execute(async () => {
+    return await browserInstance.execute(async function wdi5_checkForUI5Ready() {
         try {
             await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
         } catch (error) {

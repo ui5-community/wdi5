@@ -9,7 +9,7 @@ async function clientSide_fireEvent(
     browserInstance: WebdriverIO.Browser
 ) {
     return await browserInstance.execute(
-        async (webElement, eventName, oOptions) => {
+        async function wdi5_fireEvent(webElement, eventName, oOptions) {
             try {
                 await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
             } catch (error) {

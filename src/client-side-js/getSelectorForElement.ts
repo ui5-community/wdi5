@@ -6,7 +6,7 @@ async function clientSide_getSelectorForElement(
     oOptions: ControlSelectorByDOMElementOptions,
     browserInstance: WebdriverIO.Browser
 ) {
-    return await browserInstance.execute(async (oOptions) => {
+    return await browserInstance.execute(async function wdi5_getSelectorForElement(oOptions) {
         try {
             await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
         } catch (error) {

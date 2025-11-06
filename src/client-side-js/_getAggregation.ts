@@ -9,7 +9,7 @@ async function clientSide_getAggregation(
     webElement = await Promise.resolve(webElement) // to plug into fluent async api
     browserInstance = await Promise.resolve(browserInstance)
     return await browserInstance.execute(
-        async (webElement, aggregationName) => {
+        async function wdi5_getAggregation(webElement, aggregationName) {
             try {
                 await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
                 const oControl = window.wdi5.getUI5CtlForWebObj(webElement)

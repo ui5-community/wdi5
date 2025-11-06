@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "strict": false,
+    "skipLibCheck": true,
+    "target": "es2023",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "types": ["node", "@openui5/types", "@wdio/globals/types", "@wdio/mocha-framework", "wdio-ui5-service"]
+  },
+  "include": ["."]
+}

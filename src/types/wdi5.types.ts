@@ -12,6 +12,9 @@ import type { $AggregationContainsPropertyEqualSettings } from "sap/ui/test/matc
 import type { ControlsBaseSelector } from "sap/ui/test/Opa5"
 import type { ControlSelector } from "sap/ui/test/RecordReplay"
 import type Control from "sap/ui/core/Control"
+import type ListReport from "sap/fe/test/ListReport"
+import type ObjectPage from "sap/fe/test/ObjectPage"
+import type Shell from "sap/fe/test/Shell"
 import type { WDI5Object } from "../lib/wdi5-object.js"
 
 // // copypasta from
@@ -233,9 +236,9 @@ export interface wdi5Bridge {
     // bridge: RecordReplay & { waitForUI5: () => Promise<undefined | Error> }
     // (this.constructor as typeof Foo)
     fe_bridge: {
-        ListReport?: object
-        ObjectPage?: object
-        Shell?: object
+        ListReport?: ListReport
+        ObjectPage?: ObjectPage
+        Shell?: Shell
         Log?: string[]
     }
     wdi5: {

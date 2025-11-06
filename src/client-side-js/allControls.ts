@@ -3,7 +3,7 @@ import type { wdi5Selector } from "../types/wdi5.types.js"
 
 async function clientSide_allControls(controlSelector: wdi5Selector, browserInstance: WebdriverIO.Browser) {
     controlSelector = await Promise.resolve(controlSelector) // to plug into fluent async api
-    return await browserInstance.execute(async (controlSelector) => {
+    return await browserInstance.execute(async function wdi5_allControls(controlSelector) {
         const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options)
         if (controlSelector.timeout) {
             waitForUI5Options.timeout = controlSelector.timeout

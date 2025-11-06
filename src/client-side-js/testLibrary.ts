@@ -1,17 +1,23 @@
 import type Opa from "sap/ui/test/Opa"
 import type Opa5 from "sap/ui/test/Opa5"
 import type RecordReplay from "sap/ui/test/RecordReplay"
+import type ListReport from "sap/fe/test/ListReport"
+import type ObjectPage from "sap/fe/test/ObjectPage"
+import type Shell from "sap/fe/test/Shell"
 
 async function initOPA(pageObjectConfig, browserInstance: WebdriverIO.Browser) {
-    return await browserInstance.execute(async (pageObjectConfig) => {
+    return await browserInstance.execute(async function wdi5_initOPA(pageObjectConfig) {
         try {
             await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
-            const [OpaRef, Opa5Ref] = await new Promise<[Opa, Opa5]>((resolve) => {
-                sap.ui.require(["sap/ui/test/Opa", "sap/ui/test/Opa5"], function () {
-                    // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
-                    // eslint-disable-next-line prefer-rest-params
-                    resolve(Array.from(arguments))
-                })
+            const [OpaRef, Opa5Ref] = await new Promise<[Opa, Opa5]>((resolve, reject) => {
+                sap.ui.require(
+                    ["sap/ui/test/Opa", "sap/ui/test/Opa5"],
+                    function (...args) {
+                        // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                        resolve(args)
+                    },
+                    reject
+                )
             })
             const pageConfig = {}
             Object.keys(pageObjectConfig).map((pageKey) => {
@@ -47,15 +53,18 @@ async function initOPA(pageObjectConfig, browserInstance: WebdriverIO.Browser) {
     }, pageObjectConfig)
 }
 async function emptyQueue(browserInstance: WebdriverIO.Browser) {
-    return await browserInstance.execute(async () => {
+    return await browserInstance.execute(async function wdi5_emptyQueue() {
         try {
             await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
-            const [OpaRef] = await new Promise<[Opa]>((resolve) => {
-                sap.ui.require(["sap/ui/test/Opa"], function () {
-                    // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
-                    // eslint-disable-next-line prefer-rest-params
-                    resolve(Array.from(arguments))
-                })
+            const [OpaRef] = await new Promise<[Opa]>((resolve, reject) => {
+                sap.ui.require(
+                    ["sap/ui/test/Opa"],
+                    function (...args) {
+                        // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                        resolve(args)
+                    },
+                    reject
+                )
             })
             await OpaRef.emptyQueue()
             const feLogs = window.fe_bridge.Log
@@ -74,15 +83,18 @@ async function emptyQueue(browserInstance: WebdriverIO.Browser) {
 }
 
 async function addToQueue(methodCalls, browserInstance: WebdriverIO.Browser) {
-    return await browserInstance.execute(async (methodCalls) => {
+    return await browserInstance.execute(async function wdi5_addToQueue(methodCalls) {
         try {
             await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
-            const [OpaRef] = await new Promise<[Opa]>((resolve) => {
-                sap.ui.require(["sap/ui/test/Opa"], function () {
-                    // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
-                    // eslint-disable-next-line prefer-rest-params
-                    resolve(Array.from(arguments))
-                })
+            const [OpaRef] = await new Promise<[Opa]>((resolve, reject) => {
+                sap.ui.require(
+                    ["sap/ui/test/Opa"],
+                    function (...args) {
+                        // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                        resolve(args)
+                    },
+                    reject
+                )
             })
 
             // @ts-expect-error: Type 'HTMLElement' must have a '[Symbol.iterator]()' method that returns an iterator.
@@ -125,20 +137,24 @@ async function addToQueue(methodCalls, browserInstance: WebdriverIO.Browser) {
 }
 
 async function loadFELibraries(browserInstance: WebdriverIO.Browser) {
-    return await browserInstance.execute(async () => {
-        return await new Promise<void>((resolve) => {
-            sap.ui.require(
-                ["sap/fe/test/ListReport", "sap/fe/test/ObjectPage", "sap/fe/test/Shell"],
-                (ListReport, ObjectPage, Shell) => {
-                    window.fe_bridge.ListReport = ListReport
-                    window.fe_bridge.ObjectPage = ObjectPage
-                    window.fe_bridge.Shell = Shell
-                    // logs for the FE Testlib responses
-                    window.fe_bridge.Log = []
-                    resolve()
-                }
-            )
-        })
+    return await browserInstance.execute(async function wdi5_loadFELibraries() {
+        const [ListReport, ObjectPage, Shell] = await new Promise<[ListReport, ObjectPage, Shell]>(
+            (resolve, reject) => {
+                sap.ui.require(
+                    ["sap/fe/test/ListReport", "sap/fe/test/ObjectPage", "sap/fe/test/Shell"],
+                    function (...args) {
+                        // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                        resolve(args)
+                    },
+                    reject
+                )
+            }
+        )
+        window.fe_bridge.ListReport = ListReport
+        window.fe_bridge.ObjectPage = ObjectPage
+        window.fe_bridge.Shell = Shell
+        // logs for the FE Testlib responses
+        window.fe_bridge.Log = []
     })
 }
 
