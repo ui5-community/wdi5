@@ -8,12 +8,12 @@
   "type": "module",
   "scripts": {
     "test": "run-s test:**",
-    "test:v1.71": "wdio run wdio.conf.js --headless --ui5=1.71",
-    "test:v1.84": "wdio run wdio.conf.js --headless --ui5=1.84",
-    "test:v1.96": "wdio run wdio.conf.js --headless --ui5=1.96",
-    "test:v1.108": "wdio run wdio.conf.js --headless --ui5=1.108",
-    "test:v1.120": "wdio run wdio.conf.js --headless --ui5=1.120",
-    "test:v1.136": "wdio run wdio.conf.js --headless --ui5=1.136"
+    "test:v1.71": "wdio run wdio.conf.js --headless --ui5=1.71.77",
+    "test:v1.84": "wdio run wdio.conf.js --headless --ui5=1.84.56",
+    "test:v1.96": "wdio run wdio.conf.js --headless --ui5=1.96.44",
+    "test:v1.108": "wdio run wdio.conf.js --headless --ui5=1.108.48",
+    "test:v1.120": "wdio run wdio.conf.js --headless --ui5=1.120.39",
+    "test:v1.136": "wdio run wdio.conf.js --headless --ui5=1.136.10"
   },
   "devDependencies": {
     "wdio-ui5-service": "*"

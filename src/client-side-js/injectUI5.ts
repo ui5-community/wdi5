@@ -11,7 +11,7 @@ import type { LibraryInfo } from "sap/ui/core/Core"
 import type VersionInfo from "sap/ui/VersionInfo"
 
 async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: WebdriverIO.Browser) {
-    return await browserInstance.execute(async (waitForUI5Timeout) => {
+    return await browserInstance.execute(async function wdi5_injectUI5(waitForUI5Timeout) {
         if (window.bridge) {
             // setup sap testing already done
             return true
@@ -44,13 +44,6 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                 ui5Version: ""
             }
 
-            window.wdi5.ui5Version = await new Promise<string>((resolve) => {
-                sap.ui.require(["sap/ui/VersionInfo"], async (VersionInfo: VersionInfo) => {
-                    const versionInfo = (await VersionInfo.load()) as LibraryInfo
-                    resolve(versionInfo.version)
-                })
-            })
-
             /**
              *
              * @param {sap.ui.base.Object} object
@@ -62,16 +55,31 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                 return uuid
             }
 
-            let LogUi5LocalRef: Log
-            let RecordReplayUi5LocalRef: RecordReplay
-            let ControlUi5LocalRef: Control
-            let BindingPathUi5LocalRef: BindingPath
-            let I18NTextUi5LocalRef: I18NText
-            let PropertiesUi5LocalRef: Properties
-            let AncestorUi5LocalRef: Ancestor
-            let LabelForUi5LocalRef: LabelFor
-            let UI5ElementRef: UI5Element
-            await new Promise<void>((resolve) => {
+            const [
+                LogUi5LocalRef,
+                RecordReplayUi5LocalRef,
+                ControlUi5LocalRef,
+                BindingPathUi5LocalRef,
+                I18NTextUi5LocalRef,
+                PropertiesUi5LocalRef,
+                AncestorUi5LocalRef,
+                LabelForUi5LocalRef,
+                UI5ElementRef,
+                VersionInfo
+            ] = await new Promise<
+                [
+                    Log,
+                    RecordReplay,
+                    Control,
+                    BindingPath,
+                    I18NText,
+                    Properties,
+                    Ancestor,
+                    LabelFor,
+                    UI5Element,
+                    VersionInfo
+                ]
+            >((resolve, reject) => {
                 sap.ui.require(
                     [
                         "sap/base/Log",
@@ -85,33 +93,15 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                         "sap/ui/core/Element",
                         "sap/ui/VersionInfo"
                     ],
-                    async (
-                        Log: Log,
-                        RecordReplay: RecordReplay,
-                        Control: Control,
-                        BindingPath: BindingPath,
-                        I18NText: I18NText,
-                        Properties: Properties,
-                        Ancestor: Ancestor,
-                        LabelFor: LabelFor,
-                        UI5Element: UI5Element,
-                        VersionInfo: VersionInfo
-                    ) => {
-                        LogUi5LocalRef = Log
-                        RecordReplayUi5LocalRef = RecordReplay
-                        ControlUi5LocalRef = Control
-                        BindingPathUi5LocalRef = BindingPath
-                        I18NTextUi5LocalRef = I18NText
-                        PropertiesUi5LocalRef = Properties
-                        AncestorUi5LocalRef = Ancestor
-                        LabelForUi5LocalRef = LabelFor
-                        UI5ElementRef = UI5Element
-                        const versionInfo = (await VersionInfo.load()) as LibraryInfo
-                        window.wdi5.ui5Version = versionInfo.version
-                        resolve()
-                    }
+                    function (...args) {
+                        // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                        resolve(args)
+                    },
+                    reject
                 )
             })
+            const versionInfo = (await VersionInfo.load()) as LibraryInfo
+            window.wdi5.ui5Version = versionInfo.version
 
             // Logger is loaded -> can be use internally attach logger to wdi5 to be able to use it globally
             window.wdi5.Log = LogUi5LocalRef

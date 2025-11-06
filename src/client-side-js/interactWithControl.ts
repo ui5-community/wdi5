@@ -6,7 +6,7 @@ async function clientSide_interactWithControl(
     browserInstance: WebdriverIO.Browser
 ) {
     browserInstance = await Promise.resolve(browserInstance)
-    return await browserInstance.execute(async (oOptions) => {
+    return await browserInstance.execute(async function wdi5_interactWithControl(oOptions) {
         try {
             await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
         } catch (error) {

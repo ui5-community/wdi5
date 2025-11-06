@@ -12,7 +12,7 @@ async function clientSide__navTo(
     browserInstance: WebdriverIO.Browser
 ) {
     return await browserInstance.execute(
-        async (sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) => {
+        async function wdi5__navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) {
             try {
                 await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
             } catch (error) {
@@ -22,14 +22,14 @@ async function clientSide__navTo(
             window.wdi5.Log.info(`[browser wdi5] navigation to ${sName} triggered`)
 
             const [CoreRef, ComponentRef, HashChangerRef] = await new Promise<[Core, Component, HashChanger]>(
-                (resolve) => {
+                (resolve, reject) => {
                     sap.ui.require(
                         ["sap/ui/core/Core", "sap/ui/core/Component", "sap/ui/core/routing/HashChanger"],
-                        function () {
+                        function (...args) {
                             // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
-                            // eslint-disable-next-line prefer-rest-params
-                            resolve(Array.from(arguments))
-                        }
+                            resolve(args)
+                        },
+                        reject
                     )
                 }
             )
