@@ -16,6 +16,7 @@ It is used for end-to-end tests of a UI5 web-application.
 
 - Simon Coen [@Siolto](https://github.com/Siolto)
 - Dominik Feininger [@dominikfeininger](https://github.com/dominikfeininger)
+- Mauricio Lauffer [@mauriciolauffer](https://github.com/mauriciolauffer) 
 - Constantin Lebrecht [@monavari-lebrecht](https://github.com/monavari-lebrecht)
 - Hristo Manchev [@hmanchev](https://github.com/hmanchev)
 - Nicolai Schoenteich [@nicoschoenteich](https://github.com/nicoschoenteich)
