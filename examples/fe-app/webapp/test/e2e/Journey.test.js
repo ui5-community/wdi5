@@ -1,6 +1,9 @@
+const { wdi5 } = require("wdio-ui5-service")
+
 describe("FE basics", () => {
     let FioriElementsFacade
     before(async () => {
+        wdi5.goTo("#fe-lrop-v4")
         FioriElementsFacade = await browser.fe.initialize({
             onTheMainPage: {
                 ListReport: {

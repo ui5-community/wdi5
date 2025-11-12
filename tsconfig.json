@@ -15,7 +15,7 @@
     "declarationMap": true,
     "skipLibCheck": true,
     "erasableSyntaxOnly": true,
-    "types": ["node", "@wdio/types", "@wdio/globals/types", "@wdio/mocha-framework", "openui5"]
+    "types": ["node", "@wdio/types", "@wdio/globals/types", "@wdio/mocha-framework", "@sapui5/types", "openui5"]
   },
   "include": ["src"]
 }

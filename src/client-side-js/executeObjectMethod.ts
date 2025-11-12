@@ -4,7 +4,7 @@ import type RecordReplay from "sap/ui/test/RecordReplay"
 async function clientSide_executeObjectMethod(uuid: string, methodName: string, args: any[]) {
     // TODO: no access to global browser
     return await browser.execute(
-        async (uuid, methodName, args) => {
+        async function wdi5_executeObjectMethod(uuid, methodName, args) {
             try {
                 await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
 

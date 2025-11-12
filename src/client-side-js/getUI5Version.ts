@@ -5,13 +5,19 @@ import type VersionInfo from "sap/ui/VersionInfo"
  * @returns {string} UI5 version number in string form
  */
 async function clientSide_getUI5Version(browserInstance: WebdriverIO.Browser) {
-    return await browserInstance.execute(async () => {
-        return await new Promise<string>((resolve) => {
-            sap.ui.require(["sap/ui/VersionInfo"], async (VersionInfo: VersionInfo) => {
-                const versionInfo = (await VersionInfo.load({ library: "sap.ui.core" })) as LibraryInfo
-                resolve(versionInfo.version)
-            })
+    return await browserInstance.execute(async function wdi5_getUI5Version() {
+        const [VersionInfo] = await new Promise<[VersionInfo]>((resolve, reject) => {
+            sap.ui.require(
+                ["sap/ui/VersionInfo"],
+                function (...args) {
+                    // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                    resolve(args)
+                },
+                reject
+            )
         })
+        const versionInfo = (await VersionInfo.load({ library: "sap.ui.core" })) as LibraryInfo
+        return versionInfo.version
     })
 }
 

@@ -19,7 +19,7 @@ exports.config = {
             browserName: "chrome",
             // browserVersion: "stable",
             acceptInsecureCerts: true,
-            "wdio:enforceWebDriverClassic": true,
+            // "wdio:enforceWebDriverClassic": true,
 
             "goog:chromeOptions": {
                 args: process.argv.includes("--headless")
@@ -34,7 +34,7 @@ exports.config = {
     // Level of logging verbosity: trace | debug | info | warn | error | silent
     logLevel: "error",
     bail: 0,
-    baseUrl: "http://localhost:8088/index.html#fe-lrop-v4",
+    baseUrl: "http://localhost:8088/index.html",
 
     waitforTimeout: 20000,
     connectionRetryTimeout: 120000,

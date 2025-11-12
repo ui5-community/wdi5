@@ -21,7 +21,7 @@ function executeControlMethod(
     args: unknown
 ) {
     return browserInstance.execute(
-        async (webElement, methodName, args) => {
+        async function wdi5_executeControlMethod(webElement, methodName, args) {
             try {
                 await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
 
@@ -50,14 +50,14 @@ function executeControlMethod(
                     }
                 } else {
                     const [ControlRef, ItemRef, UI5ObjectRef] = await new Promise<[Control, Item, UI5Object]>(
-                        (resolve) => {
+                        (resolve, reject) => {
                             sap.ui.require(
                                 ["sap/ui/core/Control", "sap/ui/core/Item", "sap/ui/base/Object"],
-                                function () {
+                                function (...args) {
                                     // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
-                                    // eslint-disable-next-line prefer-rest-params
-                                    resolve(Array.from(arguments))
-                                }
+                                    resolve(args)
+                                },
+                                reject
                             )
                         }
                     )

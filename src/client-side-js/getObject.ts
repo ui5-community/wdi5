@@ -1,7 +1,7 @@
 import type RecordReplay from "sap/ui/test/RecordReplay"
 
 async function clientSide_getObject(uuid: string, browserInstance: WebdriverIO.Browser) {
-    return await browserInstance.execute(async (uuid) => {
+    return await browserInstance.execute(async function wdi5_getObject(uuid) {
         const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options)
 
         try {

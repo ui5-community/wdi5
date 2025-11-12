@@ -6,7 +6,7 @@ const { resolve } = createRequire(getFilename())
 async function clientSide_injectTools(browserInstance: WebdriverIO.Browser) {
     const compareVersionsFilename = resolve("compare-versions/lib/umd/index.js")
     const compareVersionsStringfied = await readFile(compareVersionsFilename, "utf-8")
-    return await browserInstance.execute((compareVersionsStringfied) => {
+    return await browserInstance.execute(function wdi5_injectTools(compareVersionsStringfied) {
         // Injects the compare-versions library into the browser context
         if (window?.compareVersions?.compare) {
             return true

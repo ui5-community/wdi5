@@ -69,6 +69,16 @@ export default class Service implements Services.ServiceInstance {
         }
     }
 
+    afterCommand(commandName: string, args: any[], result: any) {
+        if (commandName === "url" && result?.redirectChain?.length > 0) {
+            Logger.warn(
+                "Navigation redirect was detected! The requested URL might differ from the actual URL loaded in the browser."
+            )
+            Logger.warn("Redirects may break tests due to the loss of WDI5 browser context!")
+            Logger.warn("Redirected to:", result?.url)
+        }
+    }
+
     /**
      * waits until btp's wz std ed iframe containing the target app is available,
      * switches the browser context into the iframe
