@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 3.0.2 (2025-11-12)
+
+
+### Bug Fixes
+
+* typos ([faeff8c](https://github.com/ui5-community/wdi5/commit/faeff8c497e514910980c60f0ad42fb3be739708))
+
 ### 3.0.1 (2025-11-12)
 
 
