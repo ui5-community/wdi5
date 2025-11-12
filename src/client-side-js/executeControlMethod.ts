@@ -39,7 +39,7 @@ function executeControlMethod(
                     } else if (result[0]?.getParent) {
                         // expect the method call delivers non-primitive results (like getId())
                         // but delivers a complex/structured type
-                        // -> currenlty, only getAggregation(...) is supported
+                        // -> currently, only getAggregation(...) is supported
                         // read classname eg. sap.m.ComboBox
                         const controlType = oControl.getMetadata().getName()
 
@@ -94,7 +94,7 @@ function executeControlMethod(
                             // save before manipulate
                             const uuid = window.wdi5.saveObject(result)
 
-                            // FIXME: extract, collapse and remove cylic in 1 step
+                            // FIXME: extract, collapse and remove cyclic in 1 step
                             // extract the methods first
                             const aProtoFunctions = window.wdi5.retrieveControlMethods(result)
 
@@ -104,7 +104,7 @@ function executeControlMethod(
                             const collapsedAndNonCyclic = JSON.parse(
                                 JSON.stringify(collapsed, window.wdi5.getCircularReplacer())
                             )
-                            // remove all empty Array elements, inlcuding private keys (starting with "_")
+                            // remove all empty Array elements, including private keys (starting with "_")
                             const semanticCleanedElements = window.wdi5.removeEmptyElements(collapsedAndNonCyclic)
 
                             return {
