@@ -5,9 +5,7 @@ on:
       - main
     paths:
       # relevant
-      - "client-side-js/**"
       - "examples/**"
-      - "scripts/**"
       - "src/**"
       # don't run on changes to these
       - "!.husky/**"

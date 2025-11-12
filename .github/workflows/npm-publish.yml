@@ -6,7 +6,6 @@ on:
       - main
     paths:
       # relevant
-      - "client-side-js/**"
       - "src/**"
       - "docker/**"
       # irrevelant
