@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 3.0.1 (2025-11-12)
+
+
+### Bug Fixes
+
+* improve dx + fix hanging promise in browser ([#700](https://github.com/ui5-community/wdi5/issues/700)) ([070c0f0](https://github.com/ui5-community/wdi5/commit/070c0f0f8c914095df2b6db2fa73d6502c456911))
+
 ## [3.0.0](https://github.com/ui5-community/wdi5/compare/v3.0.0-rc.2...v3.0.0) (2025-10-12)
 
 
