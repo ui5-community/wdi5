@@ -38,7 +38,7 @@ export class WDI5FE {
                 iNavigateBack: async () => {
                     await this.toShell()
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    await this.shell.execute((Given, When, Then) => {
+                    await this.execute((Given, When, Then) => {
                         When.onTheShell.iNavigateBack()
                     })
                     await this.toApp()
@@ -52,7 +52,7 @@ export class WDI5FE {
     }
 
     async toApp() {
-        await browser.switchFrame(null)
+        await browser.switchFrame($("iframe"))
     }
 
     static async initialize(appConfig, browserInstance = browser) {
@@ -79,7 +79,7 @@ export class WDI5FE {
 
             // back to app
             try {
-                await browserInstance.switchFrame(null)
+                await browserInstance.switchFrame($("iframe"))
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (err) {
                 // This try-catch block is a fail-safe code to make sure the execution continues if browser fails to switch to app's frame.
@@ -88,7 +88,7 @@ export class WDI5FE {
             }
         } else {
             // revert back to app context
-            await browserInstance.switchFrame(null)
+            await browserInstance.switchFrame($("iframe"))
         }
         return new WDI5FE(appConfig, browserInstance, shell)
     }

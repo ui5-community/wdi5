@@ -33,7 +33,7 @@ export class wdi5 {
      * so that all methods of the browser object will be executed in the context of the WorkZone app
      */
     static async toWorkZoneApp() {
-        await browser.switchFrame(null)
+        await browser.switchFrame($("iframe"))
         await browser.pause(100) // let the browsing context settle
     }
 

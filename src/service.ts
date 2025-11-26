@@ -95,7 +95,7 @@ export default class Service implements Services.ServiceInstance {
             Logger.debug("injected wdi5 into the WorkZone std ed's shell!")
         }
 
-        await browserInstance.switchFrame(null)
+        await browser.switchFrame($("iframe"))
         if (this?._config?.wdi5?.skipInjectUI5OnStart) {
             Logger.warn("also skipped wdi5 injection in application iframe!")
         } else {
