@@ -87,8 +87,8 @@ export class WDI5FE {
                 Logger.info("Failed to switch to app's frame - you're probably in a Launchpad env. Continuing...")
             }
         } else {
-            // revert back to app context
-            await browserInstance.switchFrame($("iframe"))
+            // if iframe not found or errored goto parent or null
+            await browserInstance.switchFrame(null)
         }
         return new WDI5FE(appConfig, browserInstance, shell)
     }
