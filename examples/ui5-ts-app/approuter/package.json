@@ -7,6 +7,8 @@
     "start": "node node_modules/@sap/approuter/approuter.js",
     "test": "exit 0;",
     "test:lateInject": "exit 0;",
-    "test:protocol": "exit 0;"
+    "test:protocol": "exit 0;",
+    "//": " workspace: ['examples/**'] in root means this is a workspace too",
+    "test:wz": "echo 'no tests in approuter'"
   }
 }

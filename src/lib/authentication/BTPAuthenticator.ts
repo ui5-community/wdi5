@@ -25,9 +25,10 @@ class BTPAuthenticator extends Authenticator {
 
     async disableBiometricAuthentication() {
         await this.browserInstance.setCookies({
-            name: "skipPasswordlessAuthnDeviceConfig",
+            name: "__HOST-skipPasswordlessAuthnDeviceConfig",
             value: "true",
-            domain: this.idpDomain
+            path: "/",
+            secure: true
         })
     }
 
