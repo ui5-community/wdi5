@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 3.0.3 (2025-11-27)
+
+
+### Bug Fixes
+
+* **switchFrame:** restore compatibility for workzone tests ([#706](https://github.com/ui5-community/wdi5/issues/706)) ([10ac956](https://github.com/ui5-community/wdi5/commit/10ac9568b95488aa1217d4d976dfa33a43f19ec4))
+
 ### 3.0.2 (2025-11-12)
 
 
