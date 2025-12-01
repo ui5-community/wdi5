@@ -53,8 +53,7 @@ function executeControlMethod(
                         (resolve, reject) => {
                             sap.ui.require(
                                 ["sap/ui/core/Control", "sap/ui/core/Item", "sap/ui/base/Object"],
-                                function (...args) {
-                                    // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                                function (...args: [Control, Item, UI5Object]) {
                                     resolve(args)
                                 },
                                 reject

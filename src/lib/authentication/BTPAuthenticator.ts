@@ -40,9 +40,9 @@ class BTPAuthenticator extends Authenticator {
                     targetIdpEle.click()
                 }
             }
-            const usernameControl = await this.browserInstance.$(this.usernameSelector)
-            const passwordControl = await this.browserInstance.$(this.passwordSelector)
-            const submit = await this.browserInstance.$(this.submitSelector)
+            const usernameControl = await this.browserInstance.$(this.usernameSelector || "")
+            const passwordControl = await this.browserInstance.$(this.passwordSelector || "")
+            const submit = await this.browserInstance.$(this.submitSelector || "")
             const wdi5Username = this.getUsername()
             const wdi5Password = this.getPassword()
 
@@ -53,7 +53,7 @@ class BTPAuthenticator extends Authenticator {
             } else {
                 await usernameControl.setValue(wdi5Username)
                 await submit.click()
-                const password = await this.browserInstance.$(this.passwordSelector)
+                const password = await this.browserInstance.$(this.passwordSelector || "")
                 await password.setValue(wdi5Password)
                 await submit.click()
             }

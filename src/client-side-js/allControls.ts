@@ -17,7 +17,7 @@ async function clientSide_allControls(controlSelector: wdi5Selector, browserInst
 
         window.wdi5.Log.info("[browser wdi5] locating " + JSON.stringify(controlSelector))
         controlSelector.selector = window.wdi5.createMatcher(controlSelector.selector)
-        let domElements
+        let domElements: HTMLElement[]
 
         try {
             // @ts-expect-error: Property 'findAllDOMElementsByControlSelector' does not exist on type 'Bridge'

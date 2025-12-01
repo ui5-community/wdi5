@@ -93,8 +93,20 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                         "sap/ui/core/Element",
                         "sap/ui/VersionInfo"
                     ],
-                    function (...args) {
-                        // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                    function (
+                        ...args: [
+                            Log,
+                            RecordReplay,
+                            Control,
+                            BindingPath,
+                            I18NText,
+                            Properties,
+                            Ancestor,
+                            LabelFor,
+                            UI5Element,
+                            VersionInfo
+                        ]
+                    ) {
                         resolve(args)
                     },
                     reject
@@ -170,14 +182,14 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                     if (
                         hasNamedModel &&
                         isRootProperty &&
-                        window.compareVersions.compare("1.81.0", window.wdi5.ui5Version, ">")
+                        window.compareVersions?.compare("1.81.0", window.wdi5.ui5Version, ">")
                     ) {
                         // attach the double leading /
                         // for UI5 < 1.81
                         oSelector.bindingPath.propertyPath = `/${oSelector.bindingPath.propertyPath}`
                     }
                 }
-                if (window.compareVersions.compare(oldAPIVersion, window.wdi5.ui5Version, ">")) {
+                if (window.compareVersions?.compare(oldAPIVersion, window.wdi5.ui5Version, ">")) {
                     oSelector.matchers = []
                     // for version < 1.72 declarative matchers are not available
                     if (oSelector.bindingPath) {
@@ -240,7 +252,7 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
              * extract the multi use function to get a UI5 Control from a JSON Webobejct
              */
             window.wdi5.getUI5CtlForWebObj = (ui5Control) => {
-                if (window.compareVersions.compare(window.wdi5.ui5Version, "1.108.0", ">")) {
+                if (window.compareVersions?.compare(window.wdi5.ui5Version, "1.108.0", ">")) {
                     // @ts-expect-error: Property 'closestTo' does not exist on type 'UI5Element'. Did you mean to access the static member 'UI5Element.closestTo' instead?
                     return UI5ElementRef.closestTo(ui5Control)
                 } else {
@@ -436,6 +448,8 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
 
             return true
         }
+        // Last resort, return default false
+        return false
     }, waitForUI5Timeout)
 }
 

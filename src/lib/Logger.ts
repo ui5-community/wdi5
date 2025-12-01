@@ -23,8 +23,8 @@ const translate = (color: string) => {
 }
 
 const colored =
-    (color) =>
-    (prefix, msg, ...other) =>
+    (color: string) =>
+    (prefix: string, msg: string, ...other: string[]) =>
         typeof msg === "string"
             ? console.log(`\x1b[${translate(color)}m%s\x1b[0m`, prefix, msg, ...other)
             : console.log(prefix, msg, ...other)

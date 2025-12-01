@@ -12,8 +12,7 @@ async function initOPA(pageObjectConfig, browserInstance: WebdriverIO.Browser) {
             const [OpaRef, Opa5Ref] = await new Promise<[Opa, Opa5]>((resolve, reject) => {
                 sap.ui.require(
                     ["sap/ui/test/Opa", "sap/ui/test/Opa5"],
-                    function (...args) {
-                        // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                    function (...args: [Opa, Opa5]) {
                         resolve(args)
                     },
                     reject
@@ -59,20 +58,20 @@ async function emptyQueue(browserInstance: WebdriverIO.Browser) {
             const [OpaRef] = await new Promise<[Opa]>((resolve, reject) => {
                 sap.ui.require(
                     ["sap/ui/test/Opa"],
-                    function (...args) {
-                        // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                    function (...args: [Opa]) {
                         resolve(args)
                     },
                     reject
                 )
             })
             await OpaRef.emptyQueue()
-            const feLogs = window.fe_bridge.Log
+            const feLogs = window.fe_bridge.Log || []
             window.fe_bridge.Log = []
             return { type: "success", feLogs: feLogs }
         } catch (error) {
             return {
                 type: "error",
+                feLogs: [],
                 message:
                     error instanceof Error
                         ? `The execution of the test library probably took to long. Try to increase the UI5 Timeout or reduce the individual steps. ${error.message}`
@@ -89,8 +88,7 @@ async function addToQueue(methodCalls, browserInstance: WebdriverIO.Browser) {
             const [OpaRef] = await new Promise<[Opa]>((resolve, reject) => {
                 sap.ui.require(
                     ["sap/ui/test/Opa"],
-                    function (...args) {
-                        // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                    function (...args: [Opa]) {
                         resolve(args)
                     },
                     reject
@@ -142,8 +140,7 @@ async function loadFELibraries(browserInstance: WebdriverIO.Browser) {
             (resolve, reject) => {
                 sap.ui.require(
                     ["sap/fe/test/ListReport", "sap/fe/test/ObjectPage", "sap/fe/test/Shell"],
-                    function (...args) {
-                        // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                    function (...args: [ListReport, ObjectPage, Shell]) {
                         resolve(args)
                     },
                     reject

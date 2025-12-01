@@ -279,7 +279,7 @@ declare global {
         bridge: wdi5Bridge["bridge"]
         wdi5: wdi5Bridge["wdi5"]
         fe_bridge: wdi5Bridge["fe_bridge"]
-        compareVersions: { compare: (version1: string, version2: string, operator: string) => boolean }
+        compareVersions?: { compare: (version1: string, version2: string, operator: string) => boolean }
     }
 
     // Patch SAP namespace to include sap.ui.version

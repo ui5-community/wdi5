@@ -9,8 +9,7 @@ async function clientSide_getUI5Version(browserInstance: WebdriverIO.Browser) {
         const [VersionInfo] = await new Promise<[VersionInfo]>((resolve, reject) => {
             sap.ui.require(
                 ["sap/ui/VersionInfo"],
-                function (...args) {
-                    // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                function (...args: [VersionInfo]) {
                     resolve(args)
                 },
                 reject

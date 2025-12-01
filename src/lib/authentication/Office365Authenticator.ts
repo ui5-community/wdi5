@@ -13,23 +13,23 @@ class Office365Authenticator extends Authenticator {
 
     async login() {
         if (!(await this.getIsLoggedIn())) {
-            const usernameControl = await $(this.usernameSelector)
+            const usernameControl = await $(this.usernameSelector || "")
             await usernameControl.setValue(this.getUsername())
-            await $(this.submitSelector).click()
-            await browser.waitUntil(async () => await (await $(this.passwordSelector)).isClickable(), {
+            await $(this.submitSelector || "").click()
+            await browser.waitUntil(async () => await (await $(this.passwordSelector || "")).isClickable(), {
                 timeout: 5000,
                 timeoutMsg: "Password field is not visible"
             })
-            const passwordControl = await $(this.passwordSelector)
+            const passwordControl = await $(this.passwordSelector || "")
             await passwordControl.setValue(this.getPassword())
-            await $(this.submitSelector).click()
+            await $(this.submitSelector || "").click()
             if (this.staySignedIn) {
                 await browser.waitUntil(async () => await (await $("#KmsiDescription")).isClickable(), {
                     timeout: 5000,
                     timeoutMsg:
                         "StaySignedIn step is not visible. If this step doesn't exist, set in wdi5 configuration 'staySignedIn' option to false."
                 })
-                await $(this.submitSelector).click()
+                await $(this.submitSelector || "").click()
             }
             this.setIsLoggedIn(true)
         }

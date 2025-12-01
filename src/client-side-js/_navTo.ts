@@ -25,20 +25,19 @@ async function clientSide__navTo(
                 (resolve, reject) => {
                     sap.ui.require(
                         ["sap/ui/core/Core", "sap/ui/core/Component", "sap/ui/core/routing/HashChanger"],
-                        function (...args) {
-                            // @ts-expect-error: Argument of type 'any[]' is not assignable to parameter of type...
+                        function (...args: [Core, Component, HashChanger]) {
                             resolve(args)
                         },
                         reject
                     )
                 }
             )
-            const router = window.compareVersions.compare(window.wdi5.ui5Version, "1.120.0", ">")
+            const router = window.compareVersions?.compare(window.wdi5.ui5Version, "1.120.0", ">")
                 ? // @ts-expect-error: Property 'getRouter' does not exist on type 'Component'
                   ComponentRef.getComponentById(sComponentId).getRouter()
                 : // @ts-expect-error: Property 'getRouter' does not exist on type 'Component'
                   CoreRef.getComponent(sComponentId).getRouter()
-            const hashChanger = window.compareVersions.compare("1.75.0", window.wdi5.ui5Version, ">")
+            const hashChanger = window.compareVersions?.compare("1.75.0", window.wdi5.ui5Version, ">")
                 ? // @ts-expect-error: Property 'core' does not exist on type 'typeof ui'
                   HashChangerRef.getInstance()
                 : router.getHashChanger()
@@ -57,7 +56,7 @@ async function clientSide__navTo(
             await hashChangedPromise
             return {
                 status: 0,
-                result: window.compareVersions.compare("1.75.0", window.wdi5.ui5Version, ">")
+                result: window.compareVersions?.compare("1.75.0", window.wdi5.ui5Version, ">")
                     ? hashChanger.getHash()
                     : hashChanger.hash
             }
