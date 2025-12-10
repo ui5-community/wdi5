@@ -33,16 +33,16 @@ export class WDI5Object {
         return this._uuid
     }
 
-    private _attachObjectProperties(oObject: any) {
+    private _attachObjectProperties(oObject: WDI5Object) {
         for (const [key, value] of Object.entries(oObject)) {
-            this[key] = value
+            this[key as keyof WDI5Object] = value
         }
     }
 
     private async _excuteObjectMethod(methodName: string, uuid: string, ...args: any[]) {
         // call browser scope
         // regular browser-time execution of UI5 object method
-        const result = (await clientSide_executeObjectMethod(uuid, methodName, args)) as clientSide_ui5Response
+        const result = await clientSide_executeObjectMethod(uuid, methodName, args)
 
         // create logging
         this._writeObjectResultLog(result, methodName)
@@ -54,12 +54,16 @@ export class WDI5Object {
         }
     }
 
-    private _attachObjectMethods(sReplFunctionNames: Array<string>) {
+    private _attachObjectMethods(sReplFunctionNames: string[]) {
         // loop over methods and attach
         // check the validity of param
         if (sReplFunctionNames) {
             sReplFunctionNames.forEach(async (sMethodName) => {
-                this[sMethodName] = await this._excuteObjectMethod.bind(this, sMethodName, this._uuid)
+                this[sMethodName as keyof WDI5Object] = await this._excuteObjectMethod.bind(
+                    this,
+                    sMethodName,
+                    this._uuid
+                )
             })
         } else {
             Logger.warn(`${this._uuid} has no sReplFunctionNames`)

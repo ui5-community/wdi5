@@ -268,14 +268,14 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
              */
             window.wdi5.retrieveControlMethods = (control) => {
                 // create keys of all parent prototypes
-                const properties = new Set()
+                const properties = new Set<string>()
                 let currentObj = control
                 do {
                     Object.getOwnPropertyNames(currentObj).map((item) => properties.add(item))
                 } while ((currentObj = Object.getPrototypeOf(currentObj)))
 
                 // filter for:
-                const controlMethodsToProxy = [...properties.keys()].filter((item: string) => {
+                const controlMethodsToProxy = [...properties.keys()].filter((item: keyof typeof control) => {
                     if (typeof control[item] === "function") {
                         // function
 

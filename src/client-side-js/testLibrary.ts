@@ -4,6 +4,7 @@ import type RecordReplay from "sap/ui/test/RecordReplay"
 import type ListReport from "sap/fe/test/ListReport"
 import type ObjectPage from "sap/fe/test/ObjectPage"
 import type Shell from "sap/fe/test/Shell"
+import { ProxyMethodCall, FETestLibraryResponse } from "../types/wdi5.types.js"
 
 async function initOPA(pageObjectConfig, browserInstance: WebdriverIO.Browser) {
     return await browserInstance.execute(async function wdi5_initOPA(pageObjectConfig) {
@@ -51,8 +52,9 @@ async function initOPA(pageObjectConfig, browserInstance: WebdriverIO.Browser) {
         }
     }, pageObjectConfig)
 }
-async function emptyQueue(browserInstance: WebdriverIO.Browser) {
+async function emptyQueue(browserInstance: WebdriverIO.Browser): Promise<FETestLibraryResponse> {
     return await browserInstance.execute(async function wdi5_emptyQueue() {
+        let feLogs: FETestLibraryResponse["feLogs"] = []
         try {
             await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
             const [OpaRef] = await new Promise<[Opa]>((resolve, reject) => {
@@ -65,13 +67,13 @@ async function emptyQueue(browserInstance: WebdriverIO.Browser) {
                 )
             })
             await OpaRef.emptyQueue()
-            const feLogs = window.fe_bridge.Log || []
+            feLogs = window.fe_bridge.Log || []
             window.fe_bridge.Log = []
             return { type: "success", feLogs: feLogs }
         } catch (error) {
             return {
                 type: "error",
-                feLogs: [],
+                feLogs: feLogs,
                 message:
                     error instanceof Error
                         ? `The execution of the test library probably took to long. Try to increase the UI5 Timeout or reduce the individual steps. ${error.message}`
@@ -81,7 +83,10 @@ async function emptyQueue(browserInstance: WebdriverIO.Browser) {
     })
 }
 
-async function addToQueue(methodCalls, browserInstance: WebdriverIO.Browser) {
+async function addToQueue(
+    methodCalls: ProxyMethodCall[],
+    browserInstance: WebdriverIO.Browser
+): Promise<FETestLibraryResponse> {
     return await browserInstance.execute(async function wdi5_addToQueue(methodCalls) {
         try {
             await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
@@ -95,7 +100,6 @@ async function addToQueue(methodCalls, browserInstance: WebdriverIO.Browser) {
                 )
             })
 
-            // @ts-expect-error: Type 'HTMLElement' must have a '[Symbol.iterator]()' method that returns an iterator.
             for (const methodCall of methodCalls) {
                 let scope
                 switch (methodCall.type) {

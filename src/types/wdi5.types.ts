@@ -196,6 +196,7 @@ export interface wdi5Selector {
  * 1 = error
  */
 export type wdi5StatusCode = 0 | 1
+type wdi5ReturnType = "newElement" | "element" | "result" | "object" | "empty" | "aggregation" | "unknown" | "none"
 
 export interface clientSide_ui5Response {
     status: wdi5StatusCode
@@ -203,20 +204,21 @@ export interface clientSide_ui5Response {
     message?: string // case of error (status: 1)
     domElement?: WebdriverIO.Element // getControl
     id?: string // getControl
-    aProtoFunctions?: Array<string> // getControl
+    aProtoFunctions?: string[] // getControl
     className?: string // getControl
-    returnType?: string // executeControlMethod
+    returnType?: wdi5ReturnType // executeControlMethod
     nonCircularResultObject?: any
     uuid?: string // unique sap.ui.base.Object id
-    object: WDI5Object
+    object?: WDI5Object
 }
 
 export interface clientSide_ui5Object {
-    uuid: string
+    uuid?: string
     status: wdi5StatusCode
-    aProtoFunctions?: []
+    aProtoFunctions?: string[]
     className?: string
-    object: WDI5Object
+    object?: WDI5Object
+    message?: string // case of error (status: 1)
 }
 
 /**
@@ -244,7 +246,7 @@ export interface wdi5Bridge {
     wdi5: {
         createMatcher: (selector: wdi5ControlSelector) => wdi5ControlSelector
         getUI5CtlForWebObj: (ui5Control: HTMLElement) => Control
-        retrieveControlMethods: (ui5Control: Control) => unknown[]
+        retrieveControlMethods: (ui5Control: Control) => string[]
         isPrimitive: (test: any) => boolean
         createControlIdMap: (aControls: Control[], controlType: string) => Record<string, any>
         createControlId: (aControl: Control | Control[]) => { id: string }
@@ -269,8 +271,18 @@ export interface wdi5Bridge {
 }
 
 export type ControlSelectorByDOMElementOptions = Parameters<typeof RecordReplay.findControlSelectorByDOMElement>["0"]
-export type InteractWithControlOptions = Parameters<typeof RecordReplay.interactWithControl>["0"] & {
-    selector: ControlSelector
+
+type InteractWithControlParametersOmit = Omit<Parameters<typeof RecordReplay.interactWithControl>["0"], "selector">
+export type InteractWithControlOptions = InteractWithControlParametersOmit & {
+    selector: Partial<ControlSelector>
+}
+
+type ProxyMethodDetails = { name: string; accessor: boolean; args: any[] }
+export type ProxyMethodCall = { type: string; target: string; methods: ProxyMethodDetails[] }
+export type FETestLibraryResponse = {
+    type: "success" | "error"
+    feLogs?: string[]
+    message?: string
 }
 
 declare global {

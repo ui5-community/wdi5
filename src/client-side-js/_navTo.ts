@@ -1,16 +1,18 @@
 import type Core from "sap/ui/core/Core"
 import type Component from "sap/ui/core/Component"
 import type HashChanger from "sap/ui/core/routing/HashChanger"
+import type { ComponentTargetParameters } from "sap/ui/core/routing/Router"
 import type RecordReplay from "sap/ui/test/RecordReplay"
+import type { clientSide_ui5Response } from "../types/wdi5.types.js"
 
 async function clientSide__navTo(
     sComponentId: string,
     sName: string,
-    oParameters: any,
-    oComponentTargetInfo: any,
+    oParameters: ComponentTargetParameters["parameters"],
+    oComponentTargetInfo: ComponentTargetParameters["componentTargetInfo"],
     bReplace: boolean,
     browserInstance: WebdriverIO.Browser
-) {
+): Promise<clientSide_ui5Response> {
     return await browserInstance.execute(
         async function wdi5__navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) {
             try {

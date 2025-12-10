@@ -1,11 +1,11 @@
 import type RecordReplay from "sap/ui/test/RecordReplay"
-import type { ControlSelectorByDOMElementOptions } from "../types/wdi5.types.js"
+import type { ControlSelectorByDOMElementOptions, clientSide_ui5Response } from "../types/wdi5.types.js"
 
 // TODO: Test is missing!
 async function clientSide_getSelectorForElement(
     oOptions: ControlSelectorByDOMElementOptions,
     browserInstance: WebdriverIO.Browser
-) {
+): Promise<clientSide_ui5Response> {
     return await browserInstance.execute(async function wdi5_getSelectorForElement(oOptions) {
         try {
             await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)

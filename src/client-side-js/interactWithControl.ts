@@ -1,10 +1,10 @@
 import type RecordReplay from "sap/ui/test/RecordReplay"
-import type { InteractWithControlOptions } from "../types/wdi5.types.js"
+import type { InteractWithControlOptions, clientSide_ui5Response } from "../types/wdi5.types.js"
 
 async function clientSide_interactWithControl(
     oOptions: InteractWithControlOptions,
     browserInstance: WebdriverIO.Browser
-) {
+): Promise<clientSide_ui5Response> {
     browserInstance = await Promise.resolve(browserInstance)
     return await browserInstance.execute(async function wdi5_interactWithControl(oOptions) {
         try {

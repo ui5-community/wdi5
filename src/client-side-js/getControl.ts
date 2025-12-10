@@ -1,7 +1,10 @@
 import type RecordReplay from "sap/ui/test/RecordReplay"
-import type { wdi5Selector } from "../types/wdi5.types.js"
+import type { wdi5Selector, clientSide_ui5Response } from "../types/wdi5.types.js"
 
-async function clientSide_getControl(controlSelector: wdi5Selector, browserInstance: WebdriverIO.Browser) {
+async function clientSide_getControl(
+    controlSelector: wdi5Selector,
+    browserInstance: WebdriverIO.Browser
+): Promise<clientSide_ui5Response> {
     controlSelector = await Promise.resolve(controlSelector) // to plug into fluent async api
     return await browserInstance.execute(async function wdi5_getControl(controlSelector) {
         const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options)

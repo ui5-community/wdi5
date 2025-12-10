@@ -2,7 +2,7 @@ import type Control from "sap/ui/core/Control"
 import type Item from "sap/ui/core/Item"
 import type UI5Object from "sap/ui/base/Object"
 import type RecordReplay from "sap/ui/test/RecordReplay"
-import type { wdi5Control } from "../types/wdi5.types.js"
+import type { wdi5Control, clientSide_ui5Response } from "../types/wdi5.types.js"
 import { Logger } from "../lib/Logger.js"
 
 const logger = Logger.getInstance()
@@ -14,13 +14,13 @@ const logger = Logger.getInstance()
  * @param {WebdriverIO.Browser} browserInstance
  * @param {Object} args proxied arguments to UI5 control method at runtime
  */
-function executeControlMethod(
+async function executeControlMethod(
     webElement: WebdriverIO.Element,
     methodName: string,
     browserInstance: WebdriverIO.Browser,
-    args: unknown
-) {
-    return browserInstance.execute(
+    args: unknown[]
+): Promise<clientSide_ui5Response> {
+    return await browserInstance.execute(
         async function wdi5_executeControlMethod(webElement, methodName, args) {
             try {
                 await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
@@ -30,7 +30,7 @@ function executeControlMethod(
 
                 // execute the function
                 // eslint-disable-next-line prefer-spread
-                let result = oControl[methodName].apply(oControl, args)
+                let result = oControl[methodName as keyof typeof oControl].apply(oControl, args)
                 const metadata = oControl.getMetadata()
 
                 if (Array.isArray(result)) {
@@ -123,7 +123,7 @@ function executeControlMethod(
                             !(result instanceof UI5ObjectRef)
                         ) {
                             return {
-                                status: 2,
+                                status: 1,
                                 returnType: "unknown"
                             }
                         } else {
@@ -145,6 +145,10 @@ function executeControlMethod(
                 }
             } catch (error) {
                 window.wdi5.errorHandling.bind(error)
+                return {
+                    status: 0,
+                    message: "ERROR"
+                }
             }
         },
         webElement,
@@ -165,10 +169,10 @@ async function clientSide_executeControlMethod(
     webElement: WebdriverIO.Element,
     methodName: string,
     browserInstance: WebdriverIO.Browser,
-    args: unknown,
+    args: unknown[],
     wdi5Control: wdi5Control
 ) {
-    let result
+    let result: clientSide_ui5Response
     try {
         result = await executeControlMethod(webElement, methodName, browserInstance, args)
     } catch (err) {

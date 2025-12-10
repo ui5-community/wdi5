@@ -1,11 +1,12 @@
 import type RecordReplay from "sap/ui/test/RecordReplay"
 import type Control from "sap/ui/core/Control"
+import type { clientSide_ui5Response } from "../types/wdi5.types.js"
 
 async function clientSide_getAggregation(
     webElement: WebdriverIO.Element,
     aggregationName: string,
     browserInstance: WebdriverIO.Browser
-) {
+): Promise<clientSide_ui5Response> {
     webElement = await Promise.resolve(webElement) // to plug into fluent async api
     browserInstance = await Promise.resolve(browserInstance)
     return await browserInstance.execute(

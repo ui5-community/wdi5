@@ -1,7 +1,10 @@
 import type RecordReplay from "sap/ui/test/RecordReplay"
-import type { wdi5Selector } from "../types/wdi5.types.js"
+import type { wdi5Selector, clientSide_ui5Response } from "../types/wdi5.types.js"
 
-async function clientSide_allControls(controlSelector: wdi5Selector, browserInstance: WebdriverIO.Browser) {
+async function clientSide_allControls(
+    controlSelector: wdi5Selector,
+    browserInstance: WebdriverIO.Browser
+): Promise<clientSide_ui5Response> {
     controlSelector = await Promise.resolve(controlSelector) // to plug into fluent async api
     return await browserInstance.execute(async function wdi5_allControls(controlSelector) {
         const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options)
@@ -27,7 +30,7 @@ async function clientSide_allControls(controlSelector: wdi5Selector, browserInst
         }
 
         // ui5 control
-        const returnElements = []
+        const returnElements: Partial<clientSide_ui5Response>[] = []
         domElements.forEach((domElement) => {
             const ui5Control = window.wdi5.getUI5CtlForWebObj(domElement)
             const id = ui5Control.getId()
@@ -35,7 +38,7 @@ async function clientSide_allControls(controlSelector: wdi5Selector, browserInst
             const aProtoFunctions = window.wdi5.retrieveControlMethods(ui5Control)
             // @type [String, String?, String, "Array of Strings"]
             returnElements.push({
-                domElement: domElement,
+                domElement: domElement as unknown as clientSide_ui5Response["domElement"],
                 id: id,
                 aProtoFunctions: aProtoFunctions
             })
