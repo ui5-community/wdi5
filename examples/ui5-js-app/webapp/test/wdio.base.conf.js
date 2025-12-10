@@ -1,4 +1,6 @@
 const { join } = require("node:path")
+const { cpus } = require("node:os")
+const maxInstances = Math.max(1, Math.floor(cpus().length / 2))
 
 exports.baseConfig = {
     wdi5: {
@@ -6,10 +8,10 @@ exports.baseConfig = {
         logLevel: "error",
         waitForUI5Timeout: 29000
     },
-    maxInstances: 10,
+    maxInstances: maxInstances,
     capabilities: [
         {
-            maxInstances: 4,
+            maxInstances: maxInstances,
             browserName: "chrome",
             // browserVersion: "stable",
             acceptInsecureCerts: true,
@@ -27,7 +29,7 @@ exports.baseConfig = {
     bail: 0,
     baseUrl: "http://localhost:8081/index.html",
 
-    waitforTimeout: 20000,
+    waitforTimeout: 30000,
     connectionRetryTimeout: process.argv.includes("--debug") ? 1200000 : 120000,
     connectionRetryCount: 3,
 
