@@ -1,5 +1,4 @@
 import type EventProvider from "sap/ui/base/EventProvider"
-import type RecordReplay from "sap/ui/test/RecordReplay"
 import type { clientSide_ui5Response } from "../types/wdi5.types.js"
 
 //> REVISIT: do we need this at all?
@@ -13,7 +12,7 @@ async function clientSide_fireEvent(
     return await browserInstance.execute(
         async function wdi5_fireEvent(webElement, eventName, oOptions) {
             try {
-                await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
+                await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
             } catch (error) {
                 return window.wdi5.errorHandling(error)
             }

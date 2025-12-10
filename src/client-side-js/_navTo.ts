@@ -2,7 +2,6 @@ import type Core from "sap/ui/core/Core"
 import type Component from "sap/ui/core/Component"
 import type HashChanger from "sap/ui/core/routing/HashChanger"
 import type { ComponentTargetParameters } from "sap/ui/core/routing/Router"
-import type RecordReplay from "sap/ui/test/RecordReplay"
 import type { clientSide_ui5Response } from "../types/wdi5.types.js"
 
 async function clientSide__navTo(
@@ -16,7 +15,7 @@ async function clientSide__navTo(
     return await browserInstance.execute(
         async function wdi5__navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) {
             try {
-                await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
+                await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
             } catch (error) {
                 return window.wdi5.errorHandling(error)
             }

@@ -1,4 +1,3 @@
-import type RecordReplay from "sap/ui/test/RecordReplay"
 import type { wdi5Selector, clientSide_ui5Response } from "../types/wdi5.types.js"
 
 async function clientSide_getControl(
@@ -14,7 +13,7 @@ async function clientSide_getControl(
         // skip waitForUI5 (only used internally!)
         if (!controlSelector._skipWaitForUI5) {
             try {
-                await (window.bridge as unknown as typeof RecordReplay).waitForUI5(waitForUI5Options)
+                await window.bridge.waitForUI5(waitForUI5Options)
             } catch (error) {
                 return window.wdi5.errorHandling(error)
             }

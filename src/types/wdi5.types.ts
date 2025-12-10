@@ -234,7 +234,7 @@ export interface wdi5ControlMetadata {
 
 // yet unused
 export interface wdi5Bridge {
-    bridge: RecordReplay
+    bridge: typeof RecordReplay
     // bridge: RecordReplay & { waitForUI5: () => Promise<undefined | Error> }
     // (this.constructor as typeof Foo)
     fe_bridge: {

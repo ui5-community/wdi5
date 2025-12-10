@@ -1,5 +1,4 @@
 import { browser } from "@wdio/globals"
-import type RecordReplay from "sap/ui/test/RecordReplay"
 import type { clientSide_ui5Response } from "../types/wdi5.types.js"
 
 async function clientSide_executeObjectMethod(
@@ -11,7 +10,7 @@ async function clientSide_executeObjectMethod(
     return await browser.execute(
         async function wdi5_executeObjectMethod(uuid, methodName, args) {
             try {
-                await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
+                await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
 
                 // DOM to UI5
                 const oObject = window.wdi5.objectMap[uuid]

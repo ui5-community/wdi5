@@ -1,6 +1,5 @@
 import type Opa from "sap/ui/test/Opa"
 import type Opa5 from "sap/ui/test/Opa5"
-import type RecordReplay from "sap/ui/test/RecordReplay"
 import type ListReport from "sap/fe/test/ListReport"
 import type ObjectPage from "sap/fe/test/ObjectPage"
 import type Shell from "sap/fe/test/Shell"
@@ -9,7 +8,7 @@ import { ProxyMethodCall, FETestLibraryResponse } from "../types/wdi5.types.js"
 async function initOPA(pageObjectConfig, browserInstance: WebdriverIO.Browser) {
     return await browserInstance.execute(async function wdi5_initOPA(pageObjectConfig) {
         try {
-            await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
+            await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
             const [OpaRef, Opa5Ref] = await new Promise<[Opa, Opa5]>((resolve, reject) => {
                 sap.ui.require(
                     ["sap/ui/test/Opa", "sap/ui/test/Opa5"],
@@ -56,7 +55,7 @@ async function emptyQueue(browserInstance: WebdriverIO.Browser): Promise<FETestL
     return await browserInstance.execute(async function wdi5_emptyQueue() {
         let feLogs: FETestLibraryResponse["feLogs"] = []
         try {
-            await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
+            await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
             const [OpaRef] = await new Promise<[Opa]>((resolve, reject) => {
                 sap.ui.require(
                     ["sap/ui/test/Opa"],
@@ -89,7 +88,7 @@ async function addToQueue(
 ): Promise<FETestLibraryResponse> {
     return await browserInstance.execute(async function wdi5_addToQueue(methodCalls) {
         try {
-            await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
+            await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
             const [OpaRef] = await new Promise<[Opa]>((resolve, reject) => {
                 sap.ui.require(
                     ["sap/ui/test/Opa"],

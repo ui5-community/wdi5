@@ -69,7 +69,7 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
             ] = await new Promise<
                 [
                     Log,
-                    RecordReplay,
+                    typeof RecordReplay,
                     Control,
                     BindingPath,
                     I18NText,
@@ -96,7 +96,7 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                     function (
                         ...args: [
                             Log,
-                            RecordReplay,
+                            typeof RecordReplay,
                             Control,
                             BindingPath,
                             I18NText,

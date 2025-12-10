@@ -1,7 +1,6 @@
 import type Control from "sap/ui/core/Control"
 import type Item from "sap/ui/core/Item"
 import type UI5Object from "sap/ui/base/Object"
-import type RecordReplay from "sap/ui/test/RecordReplay"
 import type { wdi5Control, clientSide_ui5Response } from "../types/wdi5.types.js"
 import { Logger } from "../lib/Logger.js"
 
@@ -23,7 +22,7 @@ async function executeControlMethod(
     return await browserInstance.execute(
         async function wdi5_executeControlMethod(webElement, methodName, args) {
             try {
-                await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
+                await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
 
                 // DOM to UI5
                 const oControl = window.wdi5.getUI5CtlForWebObj(webElement)
