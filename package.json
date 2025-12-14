@@ -92,7 +92,7 @@
     "@commitlint/config-conventional": "^19.8.1",
     "@eslint/js": "^9.36.0",
     "@sap-ux/ui5-middleware-fe-mockserver": "^2.3.23",
-    "@sap/approuter": "20.8.2",
+    "@sap/approuter": "20.8.5",
     "@sap/ux-ui5-fe-mockserver-middleware": "^1.6.5",
     "@sapui5/types": "^1.143.0",
     "@types/node": "^22.19.2",
