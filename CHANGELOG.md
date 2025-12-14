@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 3.0.4 (2025-12-14)
+
+
+### Bug Fixes
+
+* **devx:** strict types ([#715](https://github.com/ui5-community/wdi5/issues/715)) ([306cb95](https://github.com/ui5-community/wdi5/commit/306cb957f9d4055b237b2d8284190a6346211d01))
+
 ### 3.0.3 (2025-11-27)
 
 
