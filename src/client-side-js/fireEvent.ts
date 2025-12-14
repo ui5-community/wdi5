@@ -1,17 +1,18 @@
-import type RecordReplay from "sap/ui/test/RecordReplay"
+import type EventProvider from "sap/ui/base/EventProvider"
+import type { clientSide_ui5Response } from "../types/wdi5.types.js"
 
 //> REVISIT: do we need this at all?
 // -> as .fireEvent on a UI5 control in Node.js-scope is discouraged
 async function clientSide_fireEvent(
     webElement: WebdriverIO.Element,
-    eventName: string,
-    oOptions: object,
+    eventName: Parameters<EventProvider["fireEvent"]>["0"],
+    oOptions: Parameters<EventProvider["fireEvent"]>["1"],
     browserInstance: WebdriverIO.Browser
-) {
+): Promise<clientSide_ui5Response> {
     return await browserInstance.execute(
         async function wdi5_fireEvent(webElement, eventName, oOptions) {
             try {
-                await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
+                await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
             } catch (error) {
                 return window.wdi5.errorHandling(error)
             }

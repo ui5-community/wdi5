@@ -1,5 +1,8 @@
 import { join } from "node:path"
+import { cpus } from "node:os"
 import { wdi5Config } from "wdio-ui5-service"
+
+const maxInstances = Math.max(1, Math.floor(cpus().length / 2))
 
 export const config: wdi5Config = {
     wdi5: {
@@ -22,10 +25,10 @@ export const config: wdi5Config = {
         "./test/e2e/workzone/**/*.test.ts"
     ],
 
-    maxInstances: 10,
+    maxInstances: maxInstances,
     capabilities: [
         {
-            maxInstances: 2,
+            maxInstances: maxInstances,
             browserName: "chrome",
             // browserVersion: "stable",
             "goog:chromeOptions": {
@@ -41,7 +44,7 @@ export const config: wdi5Config = {
     logLevel: "error",
     bail: 0,
 
-    waitforTimeout: 10000,
+    waitforTimeout: 31000,
     connectionRetryTimeout: process.argv.includes("--debug") ? 1200000 : 120000,
     connectionRetryCount: 3,
 

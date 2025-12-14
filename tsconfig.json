@@ -5,6 +5,7 @@
     "target": "es2023",
     "lib": ["ES2023", "DOM"],
     "strict": false,
+    "noImplicitAny": false,
     "moduleResolution": "nodenext",
     "esModuleInterop": true,
     "isolatedModules": true,

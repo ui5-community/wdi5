@@ -6,12 +6,12 @@ async function clientSide_injectXHRPatch(wdi5Config: wdi5Config["wdi5"], browser
         async function wdi5_injectXHRPatch(wdi5Config, ui5Version) {
             const originalFetch = window.fetch
 
-            const ignoreAutoWaitUrls = wdi5Config.ignoreAutoWaitUrls
+            const ignoreAutoWaitUrls = wdi5Config?.ignoreAutoWaitUrls
             function checkURL(url) {
                 return ignoreAutoWaitUrls?.map((regex) => new RegExp(regex))?.some((regex) => url.match(regex)) || false
             }
             const imports = ["sap/ui/thirdparty/sinon", "sap/ui/test/autowaiter/_XHRWaiter"]
-            if (window.compareVersions.compare(ui5Version, "1.114.0", ">")) {
+            if (window.compareVersions?.compare(ui5Version, "1.114.0", ">")) {
                 imports.push("sap/ui/test/autowaiter/_fetchWaiter")
             }
 
@@ -34,7 +34,10 @@ async function clientSide_injectXHRPatch(wdi5Config: wdi5Config["wdi5"], browser
                             return fnOriginalOpen.apply(this, hooktoXHROpen.apply(this, arguments))
                         }
 
-                        function hooktoXHROpen(method, url) {
+                        function hooktoXHROpen(
+                            method: Parameters<typeof XMLHttpRequest.prototype.open>["0"],
+                            url: Parameters<typeof XMLHttpRequest.prototype.open>["1"]
+                        ) {
                             //The ignore property will force the OPA5 _XHRWaiter to ignore certain calls for auto waiting
                             //https://github.com/SAP/openui5/blob/45e49887f632d0a8a8ef195bd3edf10eb0be9015/src/sap.ui.core/src/sap/ui/test/autowaiter/_XHRWaiter.js
                             //This ist the XHR request instance so setting it here will only affect the specific request

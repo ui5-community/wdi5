@@ -1,7 +1,7 @@
 import Authenticator from "./lib/authentication/Authenticator.js"
 import { Logger } from "./lib/Logger.js"
 
-const authenticatorInstances = {}
+const authenticatorInstances: Record<string, Authenticator> = {}
 
 /**
  * a (static) helper class named after the tool
@@ -57,7 +57,7 @@ export class wdi5 {
      * @returns the current authentication status
      */
     static async isLoggedIn(browserInstanceName?: string): Promise<boolean> {
-        let authenticatorInstance
+        let authenticatorInstance: Authenticator
         if (!browserInstanceName) {
             return new Authenticator().getIsLoggedIn()
         }
@@ -89,12 +89,12 @@ export class wdi5 {
      * @param target either a string hash (e.g. "#/accounts/create") or a router descriptor object (e.g. { sHash:"#/accounts/create"} or UI5 router object)
      * @param browserInstance the currently remote controlled browser
      */
-    static async goTo(target: string | Record<string, any>, browserInstance?: WebdriverIO.Browser)
+    static async goTo(target: string | Record<string, any>, browserInstance?: WebdriverIO.Browser): Promise<void>
 
     /**
      * @deprecated please supply only a single parameter to .goTo() and optionally a browser instance
      */
-    static async goTo(param: any, oRoute: any, browserInstance?: WebdriverIO.Browser)
+    static async goTo(param: any, oRoute: any, browserInstance?: WebdriverIO.Browser): Promise<void>
     static async goTo(
         byWhat: string | Record<string, any>,
         oRoute?: any,

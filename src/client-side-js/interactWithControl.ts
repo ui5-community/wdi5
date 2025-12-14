@@ -1,14 +1,13 @@
-import type RecordReplay from "sap/ui/test/RecordReplay"
-import type { InteractWithControlOptions } from "../types/wdi5.types.js"
+import type { InteractWithControlOptions, clientSide_ui5Response } from "../types/wdi5.types.js"
 
 async function clientSide_interactWithControl(
     oOptions: InteractWithControlOptions,
     browserInstance: WebdriverIO.Browser
-) {
+): Promise<clientSide_ui5Response> {
     browserInstance = await Promise.resolve(browserInstance)
     return await browserInstance.execute(async function wdi5_interactWithControl(oOptions) {
         try {
-            await (window.bridge as unknown as typeof RecordReplay).waitForUI5(window.wdi5.waitForUI5Options)
+            await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
         } catch (error) {
             return window.wdi5.errorHandling(error)
         }
@@ -18,7 +17,7 @@ async function clientSide_interactWithControl(
         oOptions.selector = window.wdi5.createMatcher(oOptions.selector)
 
         try {
-            const result = await (window.bridge as unknown as typeof RecordReplay).interactWithControl(oOptions)
+            const result = await window.bridge.interactWithControl(oOptions)
             window.wdi5.Log.info("[browser wdi5] interaction complete! - Message: " + result)
             return { status: 0, result }
         } catch (error) {

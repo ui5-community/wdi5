@@ -14,7 +14,7 @@ function createProxy(myObj: any, type: string, methodCalls: any[], pageKeys: str
                 myObj.currentMethodCall.methods.push({ name: prop, accessor: true })
                 return thisProxy
             }
-            return function (...fnArgs) {
+            return function (...fnArgs: unknown[]) {
                 myObj.currentMethodCall.methods.push({ name: prop, args: fnArgs })
                 return thisProxy
             }

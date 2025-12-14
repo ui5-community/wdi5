@@ -1,5 +1,4 @@
 import type {
-    clientSide_ui5Object,
     clientSide_ui5Response,
     wdi5Config,
     wdi5Selector,
@@ -7,12 +6,13 @@ import type {
     wdi5Authenticator,
     ControlSelectorByDOMElementOptions
 } from "../types/wdi5.types.js"
+import type { ComponentTargetParameters } from "sap/ui/core/routing/Router"
 
 import { resolve } from "node:path"
 import { writeFile } from "node:fs/promises"
 import { tmpdir } from "node:os"
 import { compare } from "compare-versions"
-import { WDI5Control } from "./wdi5-control.js"
+import { WDI5Control, WDI5ControlParams } from "./wdi5-control.js"
 import { WDI5FE } from "./wdi5-fe.js"
 import { clientSide_injectTools } from "../client-side-js/injectTools.js"
 import { clientSide_injectUI5 } from "../client-side-js/injectUI5.js"
@@ -213,7 +213,7 @@ export async function authenticate(options: wdi5Authenticator, browserInstanceNa
  * @returns wdio_ui5_key
  */
 function _createWdioUI5KeyFromSelector(selector: wdi5Selector): string {
-    const orEmpty = (string) => string || ""
+    const orEmpty = (string: string | any) => string || ""
 
     const _selector = selector.selector
     const wdi5_ui5_key = `${orEmpty(_selector.id)}${orEmpty(_selector.viewName)}${orEmpty(
@@ -292,7 +292,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
     })
 
     browserInstance.addCommand("asObject", async (_uuid: string) => {
-        const _result = (await clientSide_getObject(_uuid, browserInstance)) as clientSide_ui5Object
+        const _result = await clientSide_getObject(_uuid, browserInstance)
         const { uuid, status, aProtoFunctions, className, object } = _result
         if (status === 0) {
             // create new wdi5-Object
@@ -332,7 +332,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
      * @param {boolean} oOptions.settings.preferViewId
      */
     browserInstance.addCommand("getSelectorForElement", async (oOptions: ControlSelectorByDOMElementOptions) => {
-        const result = (await clientSide_getSelectorForElement(oOptions, browserInstance)) as clientSide_ui5Response
+        const result = await clientSide_getSelectorForElement(oOptions, browserInstance)
 
         if (result.status === 1) {
             Logger.error("ERROR: getSelectorForElement() failed because of: " + result.message)
@@ -500,7 +500,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
  * @param {sap.ui.test.RecordReplay.ControlSelector} controlSelector
  * @return {[WebdriverIO.Element | String, [aProtoFunctions]]} UI5 control or error message, array of function names of this control
  */
-async function _allControls(controlSelector = this._controlSelector, browserInstance = browser) {
+async function _allControls(controlSelector: wdi5Selector = this._controlSelector, browserInstance = browser) {
     // check whether we have a "by id regex" locator request
     if (controlSelector.selector.id && typeof controlSelector.selector.id === "object") {
         // make it a string for serializing into browser-scope and
@@ -518,17 +518,17 @@ async function _allControls(controlSelector = this._controlSelector, browserInst
     }
 
     // pre retrive control information
-    const response = (await clientSide_allControls(controlSelector, browserInstance)) as clientSide_ui5Response
+    const response = await clientSide_allControls(controlSelector, browserInstance)
     _writeObjectResultLog(response, "allControls()")
 
     if (response.status === 0) {
         const retrievedElements = response.result
-        const resultWDi5Elements = []
+        const resultWDi5Elements: WDI5Control[] = []
 
         // domElement: domElement, id: id, aProtoFunctions
         for await (const cControl of retrievedElements) {
-            const oOptions = {
-                controlSelector: controlSelector,
+            const oOptions: WDI5ControlParams = {
+                // controlSelector: controlSelector,
                 wdio_ui5_key: controlSelector.wdio_ui5_key,
                 forceSelect: controlSelector.forceSelect,
                 generatedUI5Methods: cControl.aProtoFunctions,
@@ -622,19 +622,19 @@ function _getDateString() {
 async function _navTo(
     sComponentId: string,
     sName: string,
-    oParameters,
-    oComponentTargetInfo,
+    oParameters: ComponentTargetParameters["parameters"],
+    oComponentTargetInfo: ComponentTargetParameters["componentTargetInfo"],
     bReplace: boolean,
     browserInstance: WebdriverIO.Browser
 ) {
-    const result = (await clientSide__navTo(
+    const result = await clientSide__navTo(
         sComponentId,
         sName,
         oParameters,
         oComponentTargetInfo,
         bReplace,
         browserInstance
-    )) as clientSide_ui5Response
+    )
     if (result.status === 1) {
         Logger.error("ERROR: navigation using UI5 router failed because of: " + result.message)
         return result.result
