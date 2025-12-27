@@ -3,7 +3,7 @@ import type Opa5 from "sap/ui/test/Opa5"
 import type ListReport from "sap/fe/test/ListReport"
 import type ObjectPage from "sap/fe/test/ObjectPage"
 import type Shell from "sap/fe/test/Shell"
-import { ProxyMethodCall, FETestLibraryResponse } from "../types/wdi5.types.js"
+import type { ProxyMethodCall, FETestLibraryResponse } from "../types/wdi5.types.js"
 
 async function initOPA(pageObjectConfig, browserInstance: WebdriverIO.Browser) {
     return await browserInstance.execute(async function wdi5_initOPA(pageObjectConfig) {
