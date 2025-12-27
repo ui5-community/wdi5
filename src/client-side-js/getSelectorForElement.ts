@@ -1,10 +1,12 @@
 import type { ControlSelectorByDOMElementOptions, clientSide_ui5Response } from "../types/wdi5.types.js"
+import { clientSide_checkForWdi5BrowserReady } from "./checkForWdi5BrowserReady.js"
 
 // TODO: Test is missing!
 async function clientSide_getSelectorForElement(
     oOptions: ControlSelectorByDOMElementOptions,
     browserInstance: WebdriverIO.Browser
 ): Promise<clientSide_ui5Response> {
+    await clientSide_checkForWdi5BrowserReady(browserInstance)
     return await browserInstance.execute(async function wdi5_getSelectorForElement(oOptions) {
         try {
             await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)

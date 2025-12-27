@@ -3,6 +3,7 @@ import type Component from "sap/ui/core/Component"
 import type HashChanger from "sap/ui/core/routing/HashChanger"
 import type { ComponentTargetParameters } from "sap/ui/core/routing/Router"
 import type { clientSide_ui5Response } from "../types/wdi5.types.js"
+import { clientSide_checkForWdi5BrowserReady } from "./checkForWdi5BrowserReady.js"
 
 async function clientSide__navTo(
     sComponentId: string,
@@ -12,6 +13,7 @@ async function clientSide__navTo(
     bReplace: boolean,
     browserInstance: WebdriverIO.Browser
 ): Promise<clientSide_ui5Response> {
+    await clientSide_checkForWdi5BrowserReady(browserInstance)
     return await browserInstance.execute(
         async function wdi5__navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) {
             try {

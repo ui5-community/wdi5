@@ -4,8 +4,10 @@ import type ListReport from "sap/fe/test/ListReport"
 import type ObjectPage from "sap/fe/test/ObjectPage"
 import type Shell from "sap/fe/test/Shell"
 import type { ProxyMethodCall, FETestLibraryResponse } from "../types/wdi5.types.js"
+import { clientSide_checkForWdi5BrowserReady } from "./checkForWdi5BrowserReady.js"
 
 async function initOPA(pageObjectConfig, browserInstance: WebdriverIO.Browser) {
+    await clientSide_checkForWdi5BrowserReady(browserInstance)
     return await browserInstance.execute(async function wdi5_initOPA(pageObjectConfig) {
         try {
             await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
@@ -138,6 +140,7 @@ async function addToQueue(
 }
 
 async function loadFELibraries(browserInstance: WebdriverIO.Browser) {
+    await clientSide_checkForWdi5BrowserReady(browserInstance)
     return await browserInstance.execute(async function wdi5_loadFELibraries() {
         const [ListReport, ObjectPage, Shell] = await new Promise<[ListReport, ObjectPage, Shell]>(
             (resolve, reject) => {
