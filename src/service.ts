@@ -85,7 +85,9 @@ export default class Service implements Services.ServiceInstance {
      * and eventually injects the wdi5 into the target app
      */
     async enableBTPWorkZoneStdEdition(browserInstance: WebdriverIO.Browser) {
-        await $("iframe").waitForExist() //> wz only has a single iframe (who's id is also not updated upon subsequent app navigation)
+        //> wz may have many iframe, one per opened app, we need the active one
+        const iframe = await browserInstance.$("iframe[data-sap-ushell-active='true']")
+        await iframe.waitForExist()
 
         await browserInstance.switchFrame(null)
         if (this?._config?.wdi5?.skipInjectUI5OnStart) {
@@ -95,7 +97,7 @@ export default class Service implements Services.ServiceInstance {
             Logger.debug("injected wdi5 into the WorkZone std ed's shell!")
         }
 
-        await browserInstance.switchFrame($("iframe"))
+        await browserInstance.switchFrame(iframe)
         if (this?._config?.wdi5?.skipInjectUI5OnStart) {
             Logger.warn("also skipped wdi5 injection in application iframe!")
         } else {
