@@ -1,0 +1,14 @@
+{
+  "name": "btp-sbwz-std",
+  "version": "0.0.1",
+  "private": true,
+  "description": "wdi5 test app",
+  "author": "Mauricio Lauffer",
+  "type": "module",
+  "scripts": {
+    "test": "wdio run wdio.conf.js --headless"
+  },
+  "devDependencies": {
+    "wdio-ui5-service": "*"
+  }
+}
