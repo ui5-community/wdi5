@@ -48,11 +48,11 @@ export class WDI5FE {
     }
 
     async toShell() {
-        await browser.switchToParentFrame()
+        await browser.switchFrame(null)
     }
 
     async toApp() {
-        await browser.switchFrame($("iframe"))
+        await browser.switchFrame($("iframe[data-sap-ushell-active='true']"))
     }
 
     static async initialize(appConfig, browserInstance = browser) {
@@ -61,11 +61,10 @@ export class WDI5FE {
         await initOPA(appConfig, browserInstance)
 
         // second magic wand wave -> shell context
-        // yet only wave the wand when there's an iframe somewhere,
+        // yet only wave the wand when there's an iframe with attribute data-sap-ushell-active='true',
         // indicating BTP WorkZone territory
-        await browserInstance.switchToParentFrame()
-        // @ts-expect-error TODO: fix types
-        const iframe: WebdriverIO.Element = await browserInstance.findElement("css selector", "iframe")
+        await browserInstance.switchFrame(null)
+        const iframe = await browserInstance.$("iframe[data-sap-ushell-active='true']")
         let shell
         if (!iframe.error) {
             const shellConfig = {
@@ -79,7 +78,7 @@ export class WDI5FE {
 
             // back to app
             try {
-                await browserInstance.switchFrame($("iframe"))
+                await browserInstance.switchFrame(iframe)
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (err) {
                 // This try-catch block is a fail-safe code to make sure the execution continues if browser fails to switch to app's frame.

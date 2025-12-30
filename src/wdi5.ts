@@ -23,8 +23,7 @@ export class wdi5 {
      * so that all methods of the browser object will be executed in the context of the WorkZone shell
      */
     static async toWorkZoneShell() {
-        await browser.switchToParentFrame()
-        await browser.pause(100) // let the browsing context settle
+        await browser.switchFrame(null)
     }
 
     /**
@@ -33,8 +32,9 @@ export class wdi5 {
      * so that all methods of the browser object will be executed in the context of the WorkZone app
      */
     static async toWorkZoneApp() {
-        await browser.switchFrame($("iframe"))
-        await browser.pause(100) // let the browsing context settle
+        const iframe = await $("iframe[data-sap-ushell-active='true']")
+        await iframe.waitForExist()
+        await browser.switchFrame(iframe)
     }
 
     //// REVISIT: not yet/if still needed :)

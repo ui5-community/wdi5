@@ -1,6 +1,8 @@
 import type { clientSide_ui5Object } from "../types/wdi5.types.js"
+import { clientSide_checkForWdi5BrowserReady } from "./checkForWdi5BrowserReady.js"
 
 async function clientSide_getObject(uuid: string, browserInstance: WebdriverIO.Browser): Promise<clientSide_ui5Object> {
+    await clientSide_checkForWdi5BrowserReady(browserInstance)
     return await browserInstance.execute(async function wdi5_getObject(uuid) {
         const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options)
 
