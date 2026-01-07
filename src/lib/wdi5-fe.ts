@@ -1,5 +1,7 @@
 import { initOPA, addToQueue, emptyQueue, loadFELibraries } from "../client-side-js/testLibrary.js"
+import { checkForUI5Page, injectUI5 } from "./wdi5-bridge.js"
 import { Logger as _Logger } from "./Logger.js"
+import type { wdi5Config } from "../types/wdi5.types.js"
 const Logger = _Logger.getInstance()
 
 const commonFunctions = ["and", "when", "then"]
@@ -56,6 +58,24 @@ export class WDI5FE {
     }
 
     static async initialize(appConfig, browserInstance = browser) {
+        // Ensure wdi5 bridge is injected before loading FE libraries
+        // This handles cases where browser context was lost (e.g., due to redirects)
+        const isUI5Page = await checkForUI5Page(browserInstance)
+        if (!isUI5Page) {
+            throw new Error(
+                "[wdi5] No UI5 page detected. Cannot initialize FE test library. " +
+                    "Make sure you have navigated to a UI5 application before calling browser.fe.initialize()."
+            )
+        }
+
+        // Check if wdi5 bridge is present, re-inject if needed
+        const bridgePresent = await browserInstance.execute(() => !!window.bridge && !!window.fe_bridge)
+        if (!bridgePresent) {
+            Logger.warn("[wdi5] Browser context lost (possibly due to a redirect). Re-injecting wdi5 bridge...")
+            const config: wdi5Config = global.__wdi5Config || (browserInstance.options as wdi5Config)
+            await injectUI5(config, browserInstance)
+        }
+
         // first magic wand wave -> app context
         await loadFELibraries(browserInstance)
         await initOPA(appConfig, browserInstance)

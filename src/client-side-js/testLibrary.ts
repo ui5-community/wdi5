@@ -150,6 +150,8 @@ async function loadFELibraries(browserInstance: WebdriverIO.Browser) {
                 )
             }
         )
+        // Ensure fe_bridge exists (defensive check in case browser context was lost)
+        window.fe_bridge = window.fe_bridge || {}
         window.fe_bridge.ListReport = ListReport
         window.fe_bridge.ObjectPage = ObjectPage
         window.fe_bridge.Shell = Shell
