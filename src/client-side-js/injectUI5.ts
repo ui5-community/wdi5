@@ -121,7 +121,8 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
 
             // attach new bridge
             window.bridge = RecordReplayUi5LocalRef
-            window.fe_bridge = {} // empty init for fiori elements test api
+            // Use conditional assignment to avoid overwriting existing fe_bridge (e.g., if re-injecting)
+            window.fe_bridge = window.fe_bridge || {}
             window.wdi5.Log.info("[browser wdi5] APIs injected!")
             window.wdi5.isInitialized = true
 
