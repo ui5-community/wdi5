@@ -1,5 +1,7 @@
+import type { WDI5FE } from "wdio-ui5-service/dist/cjs/lib/wdi5-fe"
+
 describe("drive in Work Zone with testlib support", () => {
-    let FioriElementsFacade
+    let FioriElementsFacade: WDI5FE
     before(async () => {
         FioriElementsFacade = await browser.fe.initialize({
             onTheMainPage: {

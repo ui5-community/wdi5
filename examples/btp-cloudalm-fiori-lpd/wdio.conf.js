@@ -11,7 +11,7 @@ const config = {
     baseUrl: "https://calm-demo.eu10.alm.cloud.sap/launchpad#Shell-home",
 
     services: ["ui5"],
-    specs: ["./*.test.js"],
+    specs: ["./*.test.js", "./*.test.ts"],
     maxInstances: maxInstances,
     capabilities: [
         {
