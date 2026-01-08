@@ -15,6 +15,9 @@ import type Control from "sap/ui/core/Control"
 import type ListReport from "sap/fe/test/ListReport"
 import type ObjectPage from "sap/fe/test/ObjectPage"
 import type Shell from "sap/fe/test/Shell"
+import type BaseArrangements from "sap/fe/test/BaseArrangements"
+import type { actions as ListReportActions, assertions as ListReportAssertions } from "sap/fe/test/ListReport"
+import type { actions as ObjectPageActions, assertions as ObjectPageAssertions } from "sap/fe/test/ObjectPage"
 import type { WDI5Object } from "../lib/wdi5-object.js"
 
 // // copypasta from
@@ -284,6 +287,18 @@ export type FETestLibraryResponse = {
     feLogs?: string[]
     message?: string
 }
+
+export type OpaGWTKeywords = "Given" | "When" | "Then"
+export type OpaGiven = Record<string, BaseArrangements>
+export type OpaWhen = Record<string, ListReportActions & ObjectPageActions & Shell>
+export type OpaThen = Record<string, ListReportAssertions & ObjectPageAssertions & Shell>
+
+type OpaPageNames = "ListReport" | "ObjectPage" | "Shell"
+export type OpaPageDefinition = Partial<ConstructorParameters<typeof ObjectPage>["0"]>
+type OpaPages = {
+    [key in OpaPageNames]?: OpaPageDefinition
+}
+export type FEOpaPageCollection = Record<string, OpaPages>
 
 declare global {
     // Patch Window interface to include wdi5Bridge and wdi5

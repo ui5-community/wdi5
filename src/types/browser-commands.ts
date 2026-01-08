@@ -1,6 +1,7 @@
 import type Control from "sap/ui/core/Control"
 import type { wdi5Config, wdi5Selector } from "./wdi5.types.js"
 import type { WDI5Control } from "../lib/wdi5-control.js"
+import type { WDI5FE } from "../lib/wdi5-fe.js"
 
 /**
  * wdi5 control cache aka
@@ -24,7 +25,7 @@ declare global {
              * adding the wdi5 control cache to the global browser object
              */
             _controls: cachedControl[]
-
+            fe: typeof WDI5FE
             getUI5Version: () => Promise<string>
         }
 

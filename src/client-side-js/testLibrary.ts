@@ -3,18 +3,18 @@ import type Opa5 from "sap/ui/test/Opa5"
 import type ListReport from "sap/fe/test/ListReport"
 import type ObjectPage from "sap/fe/test/ObjectPage"
 import type Shell from "sap/fe/test/Shell"
-import type { ProxyMethodCall, FETestLibraryResponse } from "../types/wdi5.types.js"
+import type { ProxyMethodCall, FETestLibraryResponse, FEOpaPageCollection } from "../types/wdi5.types.js"
 import { clientSide_checkForWdi5BrowserReady } from "./checkForWdi5BrowserReady.js"
 
-async function initOPA(pageObjectConfig, browserInstance: WebdriverIO.Browser) {
+async function initOPA(pageObjectConfig: FEOpaPageCollection, browserInstance: WebdriverIO.Browser) {
     await clientSide_checkForWdi5BrowserReady(browserInstance)
     return await browserInstance.execute(async function wdi5_initOPA(pageObjectConfig) {
         try {
             await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
-            const [OpaRef, Opa5Ref] = await new Promise<[Opa, Opa5]>((resolve, reject) => {
+            const [OpaRef, Opa5Ref] = await new Promise<[typeof Opa, typeof Opa5]>((resolve, reject) => {
                 sap.ui.require(
                     ["sap/ui/test/Opa", "sap/ui/test/Opa5"],
-                    function (...args: [Opa, Opa5]) {
+                    function (...args: [typeof Opa, typeof Opa5]) {
                         resolve(args)
                     },
                     reject
@@ -28,9 +28,7 @@ async function initOPA(pageObjectConfig, browserInstance: WebdriverIO.Browser) {
                 })
             })
 
-            // @ts-expect-error: Property 'Opa5' does not exist on type 'typeof sap.ui.test'
             Opa5Ref.createPageObjects(pageConfig)
-            // @ts-expect-error: Property 'Opa' does not exist on type 'typeof sap.ui.test'
             // use the same timouts and intervals that wdi5 uses
             OpaRef.extendConfig({
                 timeout: Math.floor(window.wdi5.waitForUI5Options.timeout / 1000), // convert milliseconds to seconds
@@ -91,10 +89,10 @@ async function addToQueue(
     return await browserInstance.execute(async function wdi5_addToQueue(methodCalls) {
         try {
             await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
-            const [OpaRef] = await new Promise<[Opa]>((resolve, reject) => {
+            const [OpaRef] = await new Promise<[typeof Opa]>((resolve, reject) => {
                 sap.ui.require(
                     ["sap/ui/test/Opa"],
-                    function (...args: [Opa]) {
+                    function (...args: [typeof Opa]) {
                         resolve(args)
                     },
                     reject
@@ -105,15 +103,12 @@ async function addToQueue(
                 let scope
                 switch (methodCall.type) {
                     case "Given":
-                        // @ts-expect-error: Property 'Opa' does not exist on type 'typeof sap.ui.test'
                         scope = OpaRef.config.arrangements
                         break
                     case "When":
-                        // @ts-expect-error: Property 'Opa' does not exist on type 'typeof sap.ui.test'
                         scope = OpaRef.config.actions
                         break
                     case "Then":
-                        // @ts-expect-error: Property 'Opa' does not exist on type 'typeof sap.ui.test'
                         scope = OpaRef.config.assertions
                         break
                 }

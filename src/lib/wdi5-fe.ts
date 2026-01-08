@@ -1,9 +1,10 @@
+import type { FEOpaPageCollection, OpaGWTKeywords, OpaGiven, OpaWhen, OpaThen } from "../types/wdi5.types.js"
 import { initOPA, addToQueue, emptyQueue, loadFELibraries } from "../client-side-js/testLibrary.js"
 import { Logger as _Logger } from "./Logger.js"
 const Logger = _Logger.getInstance()
 
 const commonFunctions = ["and", "when", "then"]
-function createProxy(myObj: any, type: string, methodCalls: any[], pageKeys: string[]) {
+function createProxy(myObj: any, type: OpaGWTKeywords, methodCalls: any[], pageKeys: string[]) {
     const thisProxy = new Proxy(myObj, {
         get: function (obj, prop: string) {
             if (pageKeys.indexOf(prop) !== -1) {
@@ -23,12 +24,12 @@ function createProxy(myObj: any, type: string, methodCalls: any[], pageKeys: str
     return thisProxy
 }
 export class WDI5FE {
-    private appConfig: any
+    private appConfig: FEOpaPageCollection
     private browserInstance: WebdriverIO.Browser
     private shell?: any
     onTheShell: any
 
-    constructor(appConfig: any, browserInstance: WebdriverIO.Browser, shell?: any) {
+    constructor(appConfig: FEOpaPageCollection, browserInstance: WebdriverIO.Browser, shell?: any) {
         this.appConfig = appConfig
         this.browserInstance = browserInstance
         // only in the workzone context
@@ -55,7 +56,7 @@ export class WDI5FE {
         await browser.switchFrame($("iframe[data-sap-ushell-active='true']"))
     }
 
-    static async initialize(appConfig, browserInstance = browser) {
+    static async initialize(appConfig: FEOpaPageCollection, browserInstance = browser) {
         // first magic wand wave -> app context
         await loadFELibraries(browserInstance)
         await initOPA(appConfig, browserInstance)
@@ -92,7 +93,7 @@ export class WDI5FE {
         return new WDI5FE(appConfig, browserInstance, shell)
     }
 
-    async execute(fnFunction) {
+    async execute(fnFunction: (Given: OpaGiven, When: OpaWhen, Then: OpaThen) => void) {
         const methodCalls = []
         const reservedPages = Object.keys(this.appConfig).concat()
         const Given = createProxy({}, "Given", methodCalls, reservedPages)
