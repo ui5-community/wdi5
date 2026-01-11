@@ -1,5 +1,6 @@
 import type { FEOpaPageCollection, OpaGWTKeywords, OpaGiven, OpaWhen, OpaThen } from "../types/wdi5.types.js"
 import { initOPA, addToQueue, emptyQueue, loadFELibraries } from "../client-side-js/testLibrary.js"
+import { wdi5 as _wdi5 } from "../wdi5.js"
 import { Logger as _Logger } from "./Logger.js"
 const Logger = _Logger.getInstance()
 
@@ -53,7 +54,7 @@ export class WDI5FE {
     }
 
     async toApp() {
-        await browser.switchFrame($("iframe[data-sap-ushell-active='true']"))
+        await browser.switchFrame($(_wdi5.getBtpWorkZoneIframeSelector()))
     }
 
     static async initialize(appConfig: FEOpaPageCollection, browserInstance = browser) {
@@ -65,7 +66,7 @@ export class WDI5FE {
         // yet only wave the wand when there's an iframe with attribute data-sap-ushell-active='true',
         // indicating BTP WorkZone territory
         await browserInstance.switchFrame(null)
-        const iframe = await browserInstance.$("iframe[data-sap-ushell-active='true']")
+        const iframe = await browserInstance.$(_wdi5.getBtpWorkZoneIframeSelector())
         let shell
         if (!iframe.error) {
             const shellConfig = {

@@ -8,6 +8,10 @@ const authenticatorInstances: Record<string, Authenticator> = {}
  */
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class wdi5 {
+    static getBtpWorkZoneIframeSelector() {
+        return "iframe[data-sap-ushell-active='true']"
+    }
+
     /**
      * get an instance of wdi5's logger for some pretty looking console output
      * @param sPrefix displayed within "[ ]" prepending the log message
@@ -32,7 +36,7 @@ export class wdi5 {
      * so that all methods of the browser object will be executed in the context of the WorkZone app
      */
     static async toWorkZoneApp() {
-        const iframe = await $("iframe[data-sap-ushell-active='true']")
+        const iframe = await $(this.getBtpWorkZoneIframeSelector())
         await iframe.waitForExist()
         await browser.switchFrame(iframe)
     }

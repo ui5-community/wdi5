@@ -2,6 +2,7 @@ import type { Capabilities, Services } from "@wdio/types"
 import type { wdi5Capabilities, wdi5Config, wdi5MultiRemoteCapability } from "./types/wdi5.types.js"
 
 import { start, injectUI5, setup, checkForUI5Page, authenticate, initMultiRemoteBrowser } from "./lib/wdi5-bridge.js"
+import { wdi5 as _wdi5 } from "./wdi5.js"
 import { Logger as _Logger } from "./lib/Logger.js"
 const Logger = _Logger.getInstance()
 
@@ -86,7 +87,7 @@ export default class Service implements Services.ServiceInstance {
      */
     async enableBTPWorkZoneStdEdition(browserInstance: WebdriverIO.Browser) {
         //> wz may have many iframe, one per opened app, we need the active one
-        const iframe = await browserInstance.$("iframe[data-sap-ushell-active='true']")
+        const iframe = await browserInstance.$(_wdi5.getBtpWorkZoneIframeSelector())
         await iframe.waitForExist()
 
         await browserInstance.switchFrame(null)
