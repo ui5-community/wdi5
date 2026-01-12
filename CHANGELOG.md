@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 3.0.5 (2026-01-12)
+
+
+### Bug Fixes
+
+* iframe context ([#719](https://github.com/ui5-community/wdi5/issues/719)) ([6954f86](https://github.com/ui5-community/wdi5/commit/6954f86dca2eb7bcf1f4056a5897e609cb144057))
+
 ### 3.0.4 (2025-12-14)
 
 
