@@ -6,6 +6,14 @@ async function clientSide_getControl(
 ): Promise<clientSide_ui5Response> {
     controlSelector = await Promise.resolve(controlSelector) // to plug into fluent async api
     return await browserInstance.execute(async function wdi5_getControl(controlSelector) {
+        if (!window.wdi5 || !window.bridge) {
+            // Local checkForWdi5BrowserReady.js for better performance
+            const wdi5MissingErr = new Error(
+                `WDI5 is not available in the browser context! window.wdi5: ${!!window.wdi5} | window.bridge: ${!!window.bridge}`
+            )
+            console.error(wdi5MissingErr) // eslint-disable-line no-console
+            throw wdi5MissingErr
+        }
         const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options)
         if (controlSelector.timeout) {
             waitForUI5Options.timeout = controlSelector.timeout

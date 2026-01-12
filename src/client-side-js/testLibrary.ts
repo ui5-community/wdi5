@@ -3,16 +3,24 @@ import type Opa5 from "sap/ui/test/Opa5"
 import type ListReport from "sap/fe/test/ListReport"
 import type ObjectPage from "sap/fe/test/ObjectPage"
 import type Shell from "sap/fe/test/Shell"
-import { ProxyMethodCall, FETestLibraryResponse } from "../types/wdi5.types.js"
+import type { ProxyMethodCall, FETestLibraryResponse, FEOpaPageCollection } from "../types/wdi5.types.js"
 
-async function initOPA(pageObjectConfig, browserInstance: WebdriverIO.Browser) {
+async function initOPA(pageObjectConfig: FEOpaPageCollection, browserInstance: WebdriverIO.Browser) {
     return await browserInstance.execute(async function wdi5_initOPA(pageObjectConfig) {
+        if (!window.wdi5 || !window.bridge) {
+            // Local checkForWdi5BrowserReady.js for better performance
+            const wdi5MissingErr = new Error(
+                `WDI5 is not available in the browser context! window.wdi5: ${!!window.wdi5} | window.bridge: ${!!window.bridge}`
+            )
+            console.error(wdi5MissingErr) // eslint-disable-line no-console
+            throw wdi5MissingErr
+        }
         try {
             await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
-            const [OpaRef, Opa5Ref] = await new Promise<[Opa, Opa5]>((resolve, reject) => {
+            const [OpaRef, Opa5Ref] = await new Promise<[typeof Opa, typeof Opa5]>((resolve, reject) => {
                 sap.ui.require(
                     ["sap/ui/test/Opa", "sap/ui/test/Opa5"],
-                    function (...args: [Opa, Opa5]) {
+                    function (...args: [typeof Opa, typeof Opa5]) {
                         resolve(args)
                     },
                     reject
@@ -26,9 +34,7 @@ async function initOPA(pageObjectConfig, browserInstance: WebdriverIO.Browser) {
                 })
             })
 
-            // @ts-expect-error: Property 'Opa5' does not exist on type 'typeof sap.ui.test'
             Opa5Ref.createPageObjects(pageConfig)
-            // @ts-expect-error: Property 'Opa' does not exist on type 'typeof sap.ui.test'
             // use the same timouts and intervals that wdi5 uses
             OpaRef.extendConfig({
                 timeout: Math.floor(window.wdi5.waitForUI5Options.timeout / 1000), // convert milliseconds to seconds
@@ -89,10 +95,10 @@ async function addToQueue(
     return await browserInstance.execute(async function wdi5_addToQueue(methodCalls) {
         try {
             await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
-            const [OpaRef] = await new Promise<[Opa]>((resolve, reject) => {
+            const [OpaRef] = await new Promise<[typeof Opa]>((resolve, reject) => {
                 sap.ui.require(
                     ["sap/ui/test/Opa"],
-                    function (...args: [Opa]) {
+                    function (...args: [typeof Opa]) {
                         resolve(args)
                     },
                     reject
@@ -103,15 +109,12 @@ async function addToQueue(
                 let scope
                 switch (methodCall.type) {
                     case "Given":
-                        // @ts-expect-error: Property 'Opa' does not exist on type 'typeof sap.ui.test'
                         scope = OpaRef.config.arrangements
                         break
                     case "When":
-                        // @ts-expect-error: Property 'Opa' does not exist on type 'typeof sap.ui.test'
                         scope = OpaRef.config.actions
                         break
                     case "Then":
-                        // @ts-expect-error: Property 'Opa' does not exist on type 'typeof sap.ui.test'
                         scope = OpaRef.config.assertions
                         break
                 }
@@ -139,6 +142,14 @@ async function addToQueue(
 
 async function loadFELibraries(browserInstance: WebdriverIO.Browser) {
     return await browserInstance.execute(async function wdi5_loadFELibraries() {
+        if (!window.wdi5 || !window.bridge) {
+            // Local checkForWdi5BrowserReady.js for better performance
+            const wdi5MissingErr = new Error(
+                `WDI5 is not available in the browser context! window.wdi5: ${!!window.wdi5} | window.bridge: ${!!window.bridge}`
+            )
+            console.error(wdi5MissingErr) // eslint-disable-line no-console
+            throw wdi5MissingErr
+        }
         const [ListReport, ObjectPage, Shell] = await new Promise<[ListReport, ObjectPage, Shell]>(
             (resolve, reject) => {
                 sap.ui.require(

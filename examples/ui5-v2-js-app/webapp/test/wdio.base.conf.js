@@ -1,5 +1,5 @@
 import { join } from "node:path"
-const { cpus } = require("node:os")
+import { cpus } from "node:os"
 const maxInstances = Math.max(1, Math.floor(cpus().length / 2))
 
 const baseConfig = {

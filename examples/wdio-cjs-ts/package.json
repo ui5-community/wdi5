@@ -11,6 +11,6 @@
   },
   "devDependencies": {
     "@openui5/types": "^1.142.0",
-    "wdio-ui5-service": "^3"
+    "wdio-ui5-service": "*"
   }
 }

@@ -11,10 +11,15 @@ async function clientSide_injectTools(browserInstance: WebdriverIO.Browser) {
         if (window?.compareVersions?.compare) {
             return true
         }
-        // eval is bad, but it's coming from a trusted source, it's better than manually copying the code
-        eval(compareVersionsStringfied)
-        // @ts-expect-error: compareVersions is not defined in the browser context (yet)
-        window.compareVersions = compareVersions
+        // If browser context is an iframe, we get the library from the parent window. Eval doesn't work there.
+        if (window?.frameElement?.nodeName === "IFRAME") {
+            window.compareVersions = window.parent.compareVersions
+        } else {
+            // eval() is bad, but it's coming from a trusted source, it's better than manually copying the code
+            eval(compareVersionsStringfied)
+            // @ts-expect-error: compareVersions is not defined in the browser context (yet)
+            window.compareVersions = compareVersions
+        }
         if (!window.compareVersions) {
             throw new Error("compare-versions library could not be injected into the browser context")
         }
