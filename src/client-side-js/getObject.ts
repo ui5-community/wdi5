@@ -1,9 +1,15 @@
 import type { clientSide_ui5Object } from "../types/wdi5.types.js"
-import { clientSide_checkForWdi5BrowserReady } from "./checkForWdi5BrowserReady.js"
 
 async function clientSide_getObject(uuid: string, browserInstance: WebdriverIO.Browser): Promise<clientSide_ui5Object> {
-    await clientSide_checkForWdi5BrowserReady(browserInstance)
     return await browserInstance.execute(async function wdi5_getObject(uuid) {
+        if (!window.wdi5 || !window.bridge) {
+            // Local checkForWdi5BrowserReady.js for better performance
+            const wdi5MissingErr = new Error(
+                `WDI5 is not available in the browser context! window.wdi5: ${!!window.wdi5} | window.bridge: ${!!window.bridge}`
+            )
+            console.error(wdi5MissingErr) // eslint-disable-line no-console
+            throw wdi5MissingErr
+        }
         const waitForUI5Options = Object.assign({}, window.wdi5.waitForUI5Options)
 
         try {

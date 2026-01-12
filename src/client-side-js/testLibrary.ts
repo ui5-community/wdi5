@@ -4,11 +4,17 @@ import type ListReport from "sap/fe/test/ListReport"
 import type ObjectPage from "sap/fe/test/ObjectPage"
 import type Shell from "sap/fe/test/Shell"
 import type { ProxyMethodCall, FETestLibraryResponse, FEOpaPageCollection } from "../types/wdi5.types.js"
-import { clientSide_checkForWdi5BrowserReady } from "./checkForWdi5BrowserReady.js"
 
 async function initOPA(pageObjectConfig: FEOpaPageCollection, browserInstance: WebdriverIO.Browser) {
-    await clientSide_checkForWdi5BrowserReady(browserInstance)
     return await browserInstance.execute(async function wdi5_initOPA(pageObjectConfig) {
+        if (!window.wdi5 || !window.bridge) {
+            // Local checkForWdi5BrowserReady.js for better performance
+            const wdi5MissingErr = new Error(
+                `WDI5 is not available in the browser context! window.wdi5: ${!!window.wdi5} | window.bridge: ${!!window.bridge}`
+            )
+            console.error(wdi5MissingErr) // eslint-disable-line no-console
+            throw wdi5MissingErr
+        }
         try {
             await window.bridge.waitForUI5(window.wdi5.waitForUI5Options)
             const [OpaRef, Opa5Ref] = await new Promise<[typeof Opa, typeof Opa5]>((resolve, reject) => {
@@ -135,8 +141,15 @@ async function addToQueue(
 }
 
 async function loadFELibraries(browserInstance: WebdriverIO.Browser) {
-    await clientSide_checkForWdi5BrowserReady(browserInstance)
     return await browserInstance.execute(async function wdi5_loadFELibraries() {
+        if (!window.wdi5 || !window.bridge) {
+            // Local checkForWdi5BrowserReady.js for better performance
+            const wdi5MissingErr = new Error(
+                `WDI5 is not available in the browser context! window.wdi5: ${!!window.wdi5} | window.bridge: ${!!window.bridge}`
+            )
+            console.error(wdi5MissingErr) // eslint-disable-line no-console
+            throw wdi5MissingErr
+        }
         const [ListReport, ObjectPage, Shell] = await new Promise<[ListReport, ObjectPage, Shell]>(
             (resolve, reject) => {
                 sap.ui.require(
