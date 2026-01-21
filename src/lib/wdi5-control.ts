@@ -190,29 +190,21 @@ export class WDI5Control {
     async enterText(text: string) {
         let selector: wdi5ControlSelector
         let logging: boolean
-        let domId: string
         if (util.types.isProxy(this._controlSelector)) {
             const _controlSelector = await Promise.resolve(this._controlSelector)
             selector = await Promise.resolve(_controlSelector?.selector)
             logging = await Promise.resolve(this._logging)
-            domId = await Promise.resolve(this._domId)
         } else {
             selector = this._controlSelector?.selector
             logging = this._logging
-            domId = this._domId
         }
         const oOptions: InteractWithControlOptions = {
             enterText: text,
-            selector: structuredClone(selector),
+            selector: selector,
             // @ts-expect-error: Property 'clearTextFirst' does not exist on type 'RecordReplay.InteractWithControlOptions'.
             clearTextFirst: true,
             // @ts-expect-error: Property 'ENTER_TEXT' does not exist on type 'RecordReplay.InteractionType'.
             interactionType: "ENTER_TEXT"
-        }
-        // Add the specific control's id to ensure we target the correct control
-        // This is crucial when using allControls to avoid always interacting with the first control
-        if (domId) {
-            oOptions.selector.id = domId
         }
         try {
             await this._interactWithControl(oOptions)
@@ -233,18 +225,15 @@ export class WDI5Control {
         let className
         let controlSelector
         let logging
-        let domId
         if (util.types.isProxy(this._domId)) {
             const _controlInfo = await Promise.resolve(this._metadata)
             className = _controlInfo.className
             controlSelector = await Promise.resolve(this._controlSelector)
             logging = await Promise.resolve(this._logging)
-            domId = await Promise.resolve(this._domId)
         } else {
             className = this.getControlInfo().className
             controlSelector = this._controlSelector
             logging = this._logging
-            domId = this._domId
         }
 
         // when the interaction locator is existing we want to use the RecordReplay press (interactWithControl)
@@ -253,14 +242,9 @@ export class WDI5Control {
                 Logger.info(`using OPA5 Press action to interact with this ${className}...`)
             }
             const oOptions: InteractWithControlOptions = {
-                selector: structuredClone(controlSelector.selector),
+                selector: controlSelector.selector,
                 // @ts-expect-error: Property 'PRESS' does not exist on type 'RecordReplay.InteractionType'.
                 interactionType: "PRESS"
-            }
-            // Add the specific control's id to ensure we target the correct control
-            // This is crucial when using allControls to avoid always interacting with the first control
-            if (domId) {
-                oOptions.selector.id = domId
             }
             try {
                 await this._interactWithControl(oOptions)
@@ -332,6 +316,7 @@ export class WDI5Control {
             : this._browserInstance
 
         if (domId) {
+            oOptions.selector = Object.assign(oOptions.selector, { id: domId })
             const result = await clientSide_interactWithControl(oOptions, browserInstance)
             if (logging) {
                 this._writeObjectResultLog(result, "interactWithControl()")
