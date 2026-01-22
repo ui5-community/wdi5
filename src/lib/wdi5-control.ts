@@ -225,15 +225,18 @@ export class WDI5Control {
         let className
         let controlSelector
         let logging
+        let domId
         if (util.types.isProxy(this._domId)) {
             const _controlInfo = await Promise.resolve(this._metadata)
             className = _controlInfo.className
             controlSelector = await Promise.resolve(this._controlSelector)
             logging = await Promise.resolve(this._logging)
+            domId = await Promise.resolve(this._domId)
         } else {
             className = this.getControlInfo().className
             controlSelector = this._controlSelector
             logging = this._logging
+            domId = this._domId
         }
 
         // when the interaction locator is existing we want to use the RecordReplay press (interactWithControl)
@@ -242,9 +245,12 @@ export class WDI5Control {
                 Logger.info(`using OPA5 Press action to interact with this ${className}...`)
             }
             const oOptions: InteractWithControlOptions = {
-                selector: controlSelector.selector,
+                selector: structuredClone(controlSelector.selector),
                 // @ts-expect-error: Property 'PRESS' does not exist on type 'RecordReplay.InteractionType'.
                 interactionType: "PRESS"
+            }
+            if (domId) {
+                oOptions.selector.id = domId
             }
             try {
                 await this._interactWithControl(oOptions)
@@ -316,7 +322,6 @@ export class WDI5Control {
             : this._browserInstance
 
         if (domId) {
-            oOptions.selector = Object.assign(oOptions.selector, { id: domId })
             const result = await clientSide_interactWithControl(oOptions, browserInstance)
             if (logging) {
                 this._writeObjectResultLog(result, "interactWithControl()")

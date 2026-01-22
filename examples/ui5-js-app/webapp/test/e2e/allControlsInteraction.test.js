@@ -9,7 +9,7 @@ const oCheckboxSelector = {
     }
 }
 
-describe("ui5 basic, get all buttons", () => {
+describe("ui5 basic, press all buttons", () => {
     before(async () => {
         await Other.open()
     })
@@ -23,9 +23,6 @@ describe("ui5 basic, get all buttons", () => {
             const selected = await oCheckbox.getSelected()
             wdi5.getLogger().log(`oCheckbox: ${oCheckbox.getControlInfo().id} isSelected: ${selected} `)
             await oCheckbox.press()
-        }
-
-        for await (let oCheckbox of aCheckbox) {
             expect(await oCheckbox.getSelected()).toEqual(!selected)
         }
     })
