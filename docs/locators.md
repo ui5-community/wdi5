@@ -33,7 +33,7 @@ Here are couple of samples to get you comfortable with `wdi5`'s/OPA5's locators/
 
 Get a "child" control from a "parent" (ancestor).
 
-?> the optional parameter `direct` as described [in the API](https://sapui5.hana.ondemand.com/#/api/sap.ui.test.matchers.Ancestor) is currently not possible. So the locator searches all parents/descendents in the hierarchy and not only the next one in the DOM Tree
+?> the optional parameter `direct` as described [in the API](https://ui5.sap.com/#/api/sap.ui.test.matchers.Ancestor) is currently not possible. So the locator searches all parents/descendents in the hierarchy and not only the next one in the DOM Tree
 
 ```javascript
 it("get the child", async () => {
@@ -103,7 +103,7 @@ it("get a specific list item", async () => {
 
 Get a "parent" with the help of a "child" (aka the descendant) control.
 
-?> the optional parameter `direct` as described [in the API](https://sapui5.hana.ondemand.com/#/api/sap.ui.test.matchers.Ancestor) is currently not possible. So the locator searches all parents/descendents in the hierarchy and not only the next one in the DOM Tree
+?> the optional parameter `direct` as described [in the API](https://ui5.sap.com/#/api/sap.ui.test.matchers.Ancestor) is currently not possible. So the locator searches all parents/descendents in the hierarchy and not only the next one in the DOM Tree
 
 ```javascript
 it("get the parent", async () => {

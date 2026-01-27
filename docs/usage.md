@@ -512,7 +512,7 @@ If an item has a custom attribute defined (eg. `data:key="exampleKey"`) which is
 Can be accessed in standard UI5 manner `(await oEvent.getParameter("listItem")).data("key")`.
 
 ```javascript
-// example for the [sap.m.List](https://sapui5.hana.ondemand.com/#/api/sap.m.ListBase%23events/itemPress) event `itemPress`
+// example for the [sap.m.List](https://ui5.sap.com/#/api/sap.m.ListBase%23events/itemPress) event `itemPress`
 const control = await browser.asControl(listSelector)
 await control.fireEvent("itemPress", {
   eval: () => {
