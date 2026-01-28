@@ -149,6 +149,13 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                     const [sTarget, sRegEx, sFlags] = oSelector.id.match(/\/(.*)\/(.*)/)
                     oSelector.id = new RegExp(sRegEx, sFlags)
                 }
+                
+                // also check if ancestor uses regex
+                if (oSelector.ancestor && typeof oSelector.ancestor.id === "string" && (oSelector.ancestor.id as string).startsWith("/", 0)) {
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    const [sTarget, sRegEx, sFlags] = (oSelector.ancestor.id as string).match(/\/(.*)\/(.*)/)
+                    oSelector.ancestor.id = new RegExp(sRegEx, sFlags)
+                }
 
                 // match a regular regex as (partial) matcher
                 // properties: {

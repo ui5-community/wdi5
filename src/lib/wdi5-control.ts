@@ -667,6 +667,10 @@ export class WDI5Control {
             controlSelector.selector.id = controlSelector.selector.id.toString()
         }
 
+        // also allow regex for ancestors
+        if (controlSelector.selector.ancestor && typeof controlSelector.selector.ancestor.id === "object") {
+            controlSelector.selector.ancestor.id = controlSelector.selector.ancestor.id.toString();
+        }
         // check whether we have a (partial) text matcher
         // that should match:
         // properties: {
