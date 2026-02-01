@@ -4,7 +4,7 @@ A test library provides test functions that can be used to safeguard your Fiori 
 
 ## Why should you use the SAP Fiori elements for OData V4 test library?
 
-The SAP Fiori elements for OData V4 test library (hereinafter referred to as **test library**) provides a set of test functions that can be reused within [OPA5](https://sapui5.hana.ondemand.com/#/topic/2696ab50faad458f9b4027ec2f9b884d) or [wdi5](https://github.com/ui5-community/wdi5) tests of [SAP Fiori elements](https://experience.sap.com/fiori-design-web/smart-templates/) OData V4 applications. When you write such tests, you only need to test the application-specific functionalities, e.g. a custom action. The core functionalities provided by SAP Fiori elements are already tested by the framework itself.
+The [SAP Fiori elements for OData V4 test library](https://ui5.sap.com/#/api/sap.fe.test) (hereinafter referred to as **test library**) provides a set of test functions that can be reused within [OPA5](https://ui5.sap.com/#/topic/2696ab50faad458f9b4027ec2f9b884d) or [wdi5](https://github.com/ui5-community/wdi5) tests of [SAP Fiori elements](https://experience.sap.com/fiori-design-web/smart-templates/) OData V4 applications. When you write such tests, you only need to test the application-specific functionalities, e.g. a custom action. The core functionalities provided by SAP Fiori elements are already tested by the framework itself.
 
 Nevertheless, you need to implement certain steps to test the specific functionalities of the app, e.g. loading data into the list-report, navigating between a list-report and an object-page, saving business objects, etc. To implement these steps within a wdi5 test, you can reuse the test functions of the test library and you don´t need to re-implement these functions. This saves time and avoids redundancy.
 
@@ -19,7 +19,7 @@ Another advantage of using the test library is that updates for the test functio
 
 ### What to test / not to test in a Fiori Elements app?
 
-- [Custom Actions](https://sapui5.hana.ondemand.com/sdk/#/topic/7619517a92414e27b71f02094bd08d06), Complex UI annotations
+- [Custom Actions](https://ui5.sap.com/sdk/#/topic/7619517a92414e27b71f02094bd08d06), Complex UI annotations
 - Code under your responsibility
 - Do NOT test framework functionality
 
@@ -46,7 +46,7 @@ Unified expressions improve the readability.
 
 ### API documentation
 
-🔗 [https://sapui5.hana.ondemand.com/#/api/sap.fe.test](https://sapui5.hana.ondemand.com/#/api/sap.fe.test)
+🔗 [https://ui5.sap.com/#/api/sap.fe.test](https://ui5.sap.com/#/api/sap.fe.test)
 
 ## How to integrate the test library?
 
