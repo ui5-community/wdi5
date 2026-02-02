@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 3.0.8 (2026-02-02)
+
+
+### Bug Fixes
+
+* **type:** aggregationContainsPropertyEqual now allows array ([#730](https://github.com/ui5-community/wdi5/issues/730)) ([fce0731](https://github.com/ui5-community/wdi5/commit/fce0731aa8682283de3467af855ea7f58a0781c2))
+
 ### 3.0.7 (2026-01-13)
 
 ### 3.0.6 (2026-01-13)
