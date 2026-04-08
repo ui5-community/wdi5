@@ -93,6 +93,13 @@ export class WDI5Control {
         this._controlSelector = controlSelector
         this._wdio_ui5_key = controlSelector?.wdio_ui5_key
         this._forceSelect = forceSelect
+
+        // Auto-enable forceSelect when searchOpenDialogs is set. We only do that when this is not explicitly set by the
+        // user. Dialogs destroy/recreate DOM on close/open, causing stale element references.
+        if (forceSelect === undefined && this._controlSelector?.selector?.searchOpenDialogs) {
+            this._forceSelect = true
+        }
+
         this._logging = this._controlSelector?.logging ?? true
 
         const controlResult = await this._getControl()
