@@ -210,7 +210,7 @@ The `forceSelect` (default: `false`) property can be set to `true` to force `wdi
 
 The `forceSelect` option also updates the `wdio` control reference each time a method is executed on a `wdi5` control.
 
-?> When `searchOpenDialogs` is set in the selector and `forceSelect` is not explicitly provided, `wdi5` will automatically enable `forceSelect` under the hood. This is because UI5 dialogs destroy and recreate their DOM on close/open, which would otherwise cause stale element references.
+?> When `searchOpenDialogs` is set in the selector and `forceSelect` is not explicitly provided, `wdi5` will automatically bypass the internal control cache for that selector. This ensures a fresh control lookup each time `browser.asControl()` is called, which is necessary because UI5 dialogs destroy and recreate their DOM on close/open. Note that this does not enable the per-method re-retrieval behavior of explicit `forceSelect: true`.
 
 The `timeout` option (default based on the global configuration `waitForUI5Timeout` [setting](wdio-ui5-service/README.md#installation)) controls the maximum waiting time while checking for UI5 availability _(meaning no pending requests / promises / timeouts)_.
 
