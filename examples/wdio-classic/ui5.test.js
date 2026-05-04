@@ -44,8 +44,8 @@ describe("ui5 basic", () => {
         expect(isOpen).toBeFalsy()
     })
 
-    // NOTE: no forceSelect set — wdi5 should auto-enable it because searchOpenDialogs is present
-    it("should auto-enable forceSelect for searchOpenDialogs on dialog reopen", async () => {
+    // NOTE: no forceSelect set — wdi5 should auto-bypass cache because searchOpenDialogs is present
+    it("should bypass cache for searchOpenDialogs on dialog reopen", async () => {
         const filterButtonSelector = {
             selector: {
                 id: "container-orderbrowser---master--filterButton",
@@ -71,7 +71,7 @@ describe("ui5 basic", () => {
         // close the dialog
         await dialogButton.press()
 
-        // reopen — without auto forceSelect, this would fail due to stale cached reference
+        // reopen — without auto cache bypass, this would fail due to stale cached reference
         await browser.asControl(filterButtonSelector).press()
         const dialogButton2 = await browser.asControl(dialogOkButtonSelector)
         expect(dialogButton2.isInitialized()).toBeTruthy()
