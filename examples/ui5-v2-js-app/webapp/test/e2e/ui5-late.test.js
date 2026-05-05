@@ -8,6 +8,14 @@ describe("ui5 basic", () => {
         await browser.$("#user-content-wdi5-").waitForExist()
         // open local app
         await browser.url("http://localhost:8082/index.html")
+
+        // FIXME: UI5 legacy-free CDN build has broken resource root detection — remove once fixed upstream.
+        await browser.execute(() => {
+            if (sap?.ui?.loader) {
+                sap.ui.loader.config({ paths: { "": "https://ui5.sap.com/1.142.2-legacy-free/resources/" } })
+            }
+        })
+
         // do the late injection
         await ui5Service.injectUI5()
     })
