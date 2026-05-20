@@ -527,8 +527,12 @@ async function _allControls(controlSelector: wdi5Selector = this._controlSelecto
 
         // domElement: domElement, id: id, aProtoFunctions
         for await (const cControl of retrievedElements) {
+            const _controlSelector = {
+                ...controlSelector,
+                selector: { ...controlSelector.selector, id: cControl.id }
+            }
             const oOptions: WDI5ControlParams = {
-                // controlSelector: controlSelector,
+                controlSelector: _controlSelector,
                 wdio_ui5_key: controlSelector.wdio_ui5_key,
                 forceSelect: controlSelector.forceSelect,
                 generatedUI5Methods: cControl.aProtoFunctions,
