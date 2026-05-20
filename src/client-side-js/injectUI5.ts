@@ -5,6 +5,7 @@ import type BindingPath from "sap/ui/test/matchers/BindingPath"
 import type I18NText from "sap/ui/test/matchers/I18NText"
 import type Properties from "sap/ui/test/matchers/Properties"
 import type Ancestor from "sap/ui/test/matchers/Ancestor"
+import type Descendant from "sap/ui/test/matchers/Descendant"
 import type LabelFor from "sap/ui/test/matchers/LabelFor"
 import type UI5Element from "sap/ui/core/Element"
 import type { LibraryInfo } from "sap/ui/core/Core"
@@ -63,6 +64,7 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                 I18NTextUi5LocalRef,
                 PropertiesUi5LocalRef,
                 AncestorUi5LocalRef,
+                DescendantUi5LocalRef,
                 LabelForUi5LocalRef,
                 UI5ElementRef,
                 VersionInfo
@@ -71,11 +73,12 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                     Log,
                     typeof RecordReplay,
                     Control,
-                    BindingPath,
-                    I18NText,
-                    Properties,
-                    Ancestor,
-                    LabelFor,
+                    typeof BindingPath,
+                    typeof I18NText,
+                    typeof Properties,
+                    typeof Ancestor,
+                    typeof Descendant,
+                    typeof LabelFor,
                     UI5Element,
                     VersionInfo
                 ]
@@ -89,6 +92,7 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                         "sap/ui/test/matchers/I18NText",
                         "sap/ui/test/matchers/Properties",
                         "sap/ui/test/matchers/Ancestor",
+                        "sap/ui/test/matchers/Descendant",
                         "sap/ui/test/matchers/LabelFor",
                         "sap/ui/core/Element",
                         "sap/ui/VersionInfo"
@@ -98,11 +102,12 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                             Log,
                             typeof RecordReplay,
                             Control,
-                            BindingPath,
-                            I18NText,
-                            Properties,
-                            Ancestor,
-                            LabelFor,
+                            typeof BindingPath,
+                            typeof I18NText,
+                            typeof Properties,
+                            typeof Ancestor,
+                            typeof Descendant,
+                            typeof LabelFor,
                             UI5Element,
                             VersionInfo
                         ]
@@ -193,7 +198,6 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                     oSelector.matchers = []
                     // for version < 1.72 declarative matchers are not available
                     if (oSelector.bindingPath) {
-                        // @ts-expect-error: This expression is not constructable. Type has no construct signatures
                         oSelector.matchers.push(new BindingPathUi5LocalRef(oSelector.bindingPath))
                         delete oSelector.bindingPath
                     }
@@ -203,19 +207,22 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                         delete oSelector.properties
                     }
                     if (oSelector.i18NText) {
-                        // @ts-expect-error: This expression is not constructable. Type has no construct signatures
                         oSelector.matchers.push(new I18NTextUi5LocalRef(oSelector.i18NText))
                         delete oSelector.i18NText
                     }
                     if (oSelector.labelFor) {
-                        // @ts-expect-error: This expression is not constructable. Type has no construct signatures
                         oSelector.matchers.push(new LabelForUi5LocalRef(oSelector.labelFor))
                         delete oSelector.labelFor
                     }
                     if (oSelector.ancestor) {
-                        // @ts-expect-error: This expression is not constructable. Type has no construct signatures
+                        // @ts-expect-error: Argument of type 'Ancestor' is not assignable to parameter of type 'Matcher'.
                         oSelector.matchers.push(new AncestorUi5LocalRef(oSelector.ancestor))
                         delete oSelector.ancestor
+                    }
+                    if (oSelector.descendant) {
+                        // @ts-expect-error: Argument of type 'Descendant' is not assignable to parameter of type 'Matcher'.
+                        oSelector.matchers.push(new DescendantUi5LocalRef(oSelector.descendant))
+                        delete oSelector.descendant
                     }
                 }
 
