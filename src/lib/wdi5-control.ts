@@ -258,6 +258,14 @@ export class WDI5Control {
                 if (logging) {
                     Logger.error(`cannot issue OPA5-press() on control, because ${error?.message}`)
                 }
+                // fall back to direct click when OPA5 press fails
+                try {
+                    await ((await this._getWebElement()) as unknown as WebdriverIO.Element).click()
+                } catch (clickError) {
+                    if (logging) {
+                        Logger.error(`cannot call press() fallback click, because ${clickError?.message}`)
+                    }
+                }
             }
         } else {
             // interact via wdio
@@ -326,7 +334,9 @@ export class WDI5Control {
             if (logging) {
                 this._writeObjectResultLog(result, "interactWithControl()")
             }
-            // return result.result
+            if (result.status !== 0) {
+                throw Error(result.message || "interactWithControl failed")
+            }
             return this
         } else {
             throw Error("control could not be found")
