@@ -61,6 +61,14 @@
 					<SearchField id="idSearchfield" value="{testModel>/searchValue}" placeholder="Search..." search="onSearch" />
 					<Text id="idSearchResult" text="" />
 
+					<Label text="keepFocus Input" />
+					<Input id="idKeepFocusInput" value="" change="onKeepFocusInputChange" />
+					<Text id="idKeepFocusResult" text="" />
+
+					<Label text="clearTextFirst Input" />
+					<Input id="idClearTextInput" value="Hello" liveChange="onClearTextInputChange" />
+					<Text id="idClearTextResult" text="" />
+
 					<Label text="sap.m.Select" />
 					<Select id="select" items="{
 						path: 'Countries>/CountriesCollection',
