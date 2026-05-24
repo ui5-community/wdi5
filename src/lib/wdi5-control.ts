@@ -1,3 +1,4 @@
+import type { $EnterTextSettings } from "sap/ui/test/actions/EnterText"
 import type {
     clientSide_ui5Response,
     wdi5ControlMetadata,
@@ -186,31 +187,38 @@ export class WDI5Control {
     /**
      * enters a text into a UI5 control
      * @param text
+     * @param oOptions options for the interaction
      */
-    async enterText(text: string) {
+    async enterText(text: string, oOptions?: $EnterTextSettings) {
         let selector: wdi5ControlSelector
         let logging: boolean
+        let domId: string
         if (util.types.isProxy(this._controlSelector)) {
             const _controlSelector = await Promise.resolve(this._controlSelector)
             selector = await Promise.resolve(_controlSelector?.selector)
             logging = await Promise.resolve(this._logging)
+            domId = await Promise.resolve(this._domId)
         } else {
             selector = this._controlSelector?.selector
             logging = this._logging
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            domId = this._domId
         }
-        const oOptions: InteractWithControlOptions = {
+        const _oOptions: InteractWithControlOptions = {
             enterText: text,
-            selector: {
-                ...selector,
-                id: this._domId
-            },
-            // @ts-expect-error: Property 'clearTextFirst' does not exist on type 'RecordReplay.InteractWithControlOptions'.
-            clearTextFirst: true,
+            selector: { ...selector },
+            clearTextFirst: !!(oOptions?.clearTextFirst ?? true),
+            pressEnterKey: !!oOptions?.pressEnterKey,
+            keepFocus: !!oOptions?.keepFocus,
             // @ts-expect-error: Property 'ENTER_TEXT' does not exist on type 'RecordReplay.InteractionType'.
-            interactionType: "ENTER_TEXT"
+            interactionType: "ENTER_TEXT" // RecordReplay.InteractionType.EnterText
         }
+        /* Not required like in press(), it breaks interaction, see examples\ui5-js-app\webapp\test\e2e\interaction.test.js 
+        if (domId) {
+            _oOptions.selector.id = domId
+        } */
         try {
-            await this._interactWithControl(oOptions)
+            await this._interactWithControl(_oOptions)
         } catch (error) {
             if (logging) {
                 Logger.error(`cannot call enterText(), because ${error?.message}`)
@@ -225,18 +233,21 @@ export class WDI5Control {
      */
     async press() {
         // support fluent async api
-        let className
-        let controlSelector
-        let logging
+        let className: string
+        let controlSelector: wdi5Selector
+        let logging: boolean
+        let domId: string
         if (util.types.isProxy(this._domId)) {
             const _controlInfo = await Promise.resolve(this._metadata)
             className = _controlInfo.className
             controlSelector = await Promise.resolve(this._controlSelector)
             logging = await Promise.resolve(this._logging)
+            domId = await Promise.resolve(this._domId)
         } else {
             className = this.getControlInfo().className
             controlSelector = this._controlSelector
             logging = this._logging
+            domId = this._domId
         }
 
         // when the interaction locator is existing we want to use the RecordReplay press (interactWithControl)
@@ -246,11 +257,13 @@ export class WDI5Control {
             }
             const oOptions: InteractWithControlOptions = {
                 selector: {
-                    ...controlSelector.selector,
-                    id: this._domId
+                    ...controlSelector.selector
                 },
                 // @ts-expect-error: Property 'PRESS' does not exist on type 'RecordReplay.InteractionType'.
-                interactionType: "PRESS"
+                interactionType: "PRESS" // RecordReplay.InteractionType.Press
+            }
+            if (domId) {
+                oOptions.selector.id = domId
             }
             try {
                 await this._interactWithControl(oOptions)
