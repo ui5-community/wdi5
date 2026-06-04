@@ -5,7 +5,7 @@ const _config = {
         skipInjectUI5OnStart: true,
         waitForUI5Timeout: 654321
     },
-    specs: ["e2e/ui5-late.test.js"],
+    specs: ["e2e/ui5-late.test.js", "e2e/compare-versions-tool-injection.test.js"],
     baseUrl: "https://github.com/ui5-community/wdi5/"
 }
 

@@ -3,28 +3,61 @@ import { createRequire } from "node:module"
 import { getFilename } from "cross-dirname"
 const { resolve } = createRequire(getFilename())
 
-async function clientSide_injectTools(browserInstance: WebdriverIO.Browser) {
+async function getCompareVersionsScript() {
     const compareVersionsFilename = resolve("compare-versions/lib/umd/index.js")
-    const compareVersionsStringfied = await readFile(compareVersionsFilename, "utf-8")
-    return await browserInstance.execute(function wdi5_injectTools(compareVersionsStringfied) {
-        // Injects the compare-versions library into the browser context
-        if (window?.compareVersions?.compare) {
-            return true
-        }
-        // If browser context is an iframe, we get the library from the parent window. Eval doesn't work there.
-        if (window?.frameElement?.nodeName === "IFRAME") {
-            window.compareVersions = window.parent.compareVersions
-        } else {
-            // eval() is bad, but it's coming from a trusted source, it's better than manually copying the code
-            eval(compareVersionsStringfied)
-            // @ts-expect-error: compareVersions is not defined in the browser context (yet)
-            window.compareVersions = compareVersions
-        }
-        if (!window.compareVersions) {
-            throw new Error("compare-versions library could not be injected into the browser context")
-        }
-        return true
-    }, compareVersionsStringfied)
+    return await readFile(compareVersionsFilename, "utf-8")
 }
 
-export { clientSide_injectTools }
+/**
+ * Injects compare-versions library into the browser context.
+ * UI5 may set window.define and window.define.amd, if they're set, compare-versions UMD may fail. Injecting with "addInitScript" fix it.
+ * However, we also added "tempDefineAmd" + "window.define.amd = undefined" as a fallback workaround.
+ */
+function wdi5_injectTools(compareVersionsStringfied) {
+    if (window?.compareVersions?.compare) {
+        return
+    }
+    // If browser context is an iframe, we get the library from the parent window. JS eval() doesn't work there.
+    if (window?.frameElement?.nodeName === "IFRAME") {
+        window.compareVersions = window.parent.compareVersions
+    } else {
+        // @ts-expect-error: Property 'define' does not exist on type 'Window & typeof globalThis'
+        const tempDefineAmd = window.define?.amd
+        if (tempDefineAmd) {
+            // Set workaround, variable tempDefineAmd holds window.define.amd content before eval()
+            // @ts-expect-error: Property 'define' does not exist on type 'Window & typeof globalThis'
+            window.define.amd = undefined
+        }
+        // eval() is bad, but it's coming from a trusted source, it's better than manually copying the code
+        eval(compareVersionsStringfied)
+        // @ts-expect-error: compareVersions is not defined in the browser context (yet)
+        window.compareVersions = compareVersions
+        if (tempDefineAmd) {
+            // Set workaround, return window.define.amd original content after eval()
+            // @ts-expect-error: Property 'define' does not exist on type 'Window & typeof globalThis'
+            window.define.amd = tempDefineAmd
+        }
+    }
+    if (!window.compareVersions) {
+        throw new Error("compare-versions library could not be injected into the browser context")
+    }
+}
+
+/**
+ * Injects compare-versions with addInitScript to ensure this is included before any other script is executed.
+ * It doesn't have any dependencies on UI5, so it's safe to inject it before all.
+ */
+async function clientSide_injectInitScript(browserInstance: WebdriverIO.Browser) {
+    const compareVersionsStringfied = await getCompareVersionsScript()
+    await browserInstance.addInitScript(wdi5_injectTools, compareVersionsStringfied)
+}
+
+/**
+ * Injects compare-versions on-demand at any given time
+ */
+async function clientSide_injectTools(browserInstance: WebdriverIO.Browser) {
+    const compareVersionsStringfied = await getCompareVersionsScript()
+    return await browserInstance.execute(wdi5_injectTools, compareVersionsStringfied)
+}
+
+export { clientSide_injectTools, clientSide_injectInitScript }
