@@ -624,12 +624,17 @@ async function _navTo(
     bReplace: boolean,
     browserInstance: WebdriverIO.Browser
 ) {
+    const ui5Version = await browserInstance.getUI5Version()
+    const useComponentById = compare(ui5Version, "1.120.0", ">")
+    const useOldHashChanger = compare("1.75.0", ui5Version, ">")
     const result = await clientSide__navTo(
         sComponentId,
         sName,
         oParameters,
         oComponentTargetInfo,
         bReplace,
+        useComponentById,
+        useOldHashChanger,
         browserInstance
     )
     if (result.status === 1) {

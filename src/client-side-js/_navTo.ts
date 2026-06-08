@@ -10,10 +10,20 @@ async function clientSide__navTo(
     oParameters: ComponentTargetParameters["parameters"],
     oComponentTargetInfo: ComponentTargetParameters["componentTargetInfo"],
     bReplace: boolean,
+    useComponentById: boolean,
+    useOldHashChanger: boolean,
     browserInstance: WebdriverIO.Browser
 ): Promise<clientSide_ui5Response> {
     return await browserInstance.execute(
-        async function wdi5__navTo(sComponentId, sName, oParameters, oComponentTargetInfo, bReplace) {
+        async function wdi5__navTo(
+            sComponentId,
+            sName,
+            oParameters,
+            oComponentTargetInfo,
+            bReplace,
+            useComponentById,
+            useOldHashChanger
+        ) {
             if (!window.wdi5 || !window.bridge) {
                 // Local checkForWdi5BrowserReady.js for better performance
                 const wdi5MissingErr = new Error(
@@ -41,12 +51,12 @@ async function clientSide__navTo(
                     )
                 }
             )
-            const router = window.compareVersions?.compare(window.wdi5.ui5Version, "1.120.0", ">")
+            const router = useComponentById
                 ? // @ts-expect-error: Property 'getRouter' does not exist on type 'Component'
                   ComponentRef.getComponentById(sComponentId).getRouter()
                 : // @ts-expect-error: Property 'getRouter' does not exist on type 'Component'
                   CoreRef.getComponent(sComponentId).getRouter()
-            const hashChanger = window.compareVersions?.compare("1.75.0", window.wdi5.ui5Version, ">")
+            const hashChanger = useOldHashChanger
                 ? // @ts-expect-error: Property 'core' does not exist on type 'typeof ui'
                   HashChangerRef.getInstance()
                 : router.getHashChanger()
@@ -65,16 +75,16 @@ async function clientSide__navTo(
             await hashChangedPromise
             return {
                 status: 0,
-                result: window.compareVersions?.compare("1.75.0", window.wdi5.ui5Version, ">")
-                    ? hashChanger.getHash()
-                    : hashChanger.hash
+                result: useOldHashChanger ? hashChanger.getHash() : hashChanger.hash
             }
         },
         sComponentId,
         sName,
         oParameters,
         oComponentTargetInfo,
-        bReplace
+        bReplace,
+        useComponentById,
+        useOldHashChanger
     )
 }
 export { clientSide__navTo }
