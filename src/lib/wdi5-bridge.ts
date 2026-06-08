@@ -14,7 +14,6 @@ import { tmpdir } from "node:os"
 import { compare } from "compare-versions"
 import { WDI5Control, WDI5ControlParams } from "./wdi5-control.js"
 import { WDI5FE } from "./wdi5-fe.js"
-import { clientSide_injectTools } from "../client-side-js/injectTools.js"
 import { clientSide_injectUI5 } from "../client-side-js/injectUI5.js"
 import { clientSide_injectXHRPatch } from "../client-side-js/injectXHRPatch.js"
 import { clientSide_getSelectorForElement } from "../client-side-js/getSelectorForElement.js"
@@ -144,8 +143,6 @@ export async function injectUI5(config: wdi5Config, browserInstance: WebdriverIO
 
     const version = await browserInstance.getUI5Version()
     checkUI5Version(version)
-    await clientSide_injectTools(browserInstance) // helpers for wdi5 browser scope
-    // BIDI does not allow to pass functions inside of the browser scope
     await clientSide_injectXHRPatch(config.wdi5, browserInstance)
     result = result && (await clientSide_injectUI5(waitForUI5Timeout, browserInstance))
 

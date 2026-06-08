@@ -1,9 +1,11 @@
 import type { wdi5Config } from "../types/wdi5.types.js"
+import { compare } from "compare-versions"
 
 async function clientSide_injectXHRPatch(wdi5Config: wdi5Config["wdi5"], browserInstance: WebdriverIO.Browser) {
     const version = await browserInstance.getUI5Version()
+    const hasFetchWaiter = compare(version, "1.114.0", ">")
     return await browserInstance.execute(
-        async function wdi5_injectXHRPatch(wdi5Config, ui5Version) {
+        async function wdi5_injectXHRPatch(wdi5Config, hasFetchWaiter) {
             const originalFetch = window.fetch
 
             const ignoreAutoWaitUrls = wdi5Config?.ignoreAutoWaitUrls
@@ -11,7 +13,7 @@ async function clientSide_injectXHRPatch(wdi5Config: wdi5Config["wdi5"], browser
                 return ignoreAutoWaitUrls?.map((regex) => new RegExp(regex))?.some((regex) => url.match(regex)) || false
             }
             const imports = ["sap/ui/thirdparty/sinon", "sap/ui/test/autowaiter/_XHRWaiter"]
-            if (window.compareVersions?.compare(ui5Version, "1.114.0", ">")) {
+            if (hasFetchWaiter) {
                 imports.push("sap/ui/test/autowaiter/_fetchWaiter")
             }
 
@@ -67,7 +69,7 @@ async function clientSide_injectXHRPatch(wdi5Config: wdi5Config["wdi5"], browser
             })
         },
         wdi5Config,
-        version
+        hasFetchWaiter
     )
 }
 
