@@ -62,7 +62,8 @@ describe("custom wdi5 press event", async () => {
                 id: "container-Sample---Main--idDateTime-icon"
             }
         })
-        await element.fireEvent("press")
+        // await element.fireEvent("press")
+        await element.press()
 
         startDate.setDate(startDate.getDate() + 1) // add one day to the start date
         const tomorrowSuffix = startDate.toJSON().substring(0, 10).replaceAll("-", "")
