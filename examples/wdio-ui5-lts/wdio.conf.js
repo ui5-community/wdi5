@@ -30,5 +30,8 @@ export const config = {
 
     reporters: ["spec"],
 
-    framework: "mocha"
+    framework: "mocha",
+    mochaOpts: {
+        timeout: 120000
+    }
 }
