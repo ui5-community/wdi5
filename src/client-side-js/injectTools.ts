@@ -1,7 +1,10 @@
 import { readFile } from "node:fs/promises"
 import { createRequire } from "node:module"
 import { getFilename } from "cross-dirname"
+import { Logger } from "../lib/Logger.js"
+
 const { resolve } = createRequire(getFilename())
+const logger = Logger.getInstance()
 
 async function getCompareVersionsScript() {
     const compareVersionsFilename = resolve("compare-versions/lib/umd/index.js")
@@ -48,8 +51,13 @@ function wdi5_injectTools(compareVersionsStringfied) {
  * It doesn't have any dependencies on UI5, so it's safe to inject it before all.
  */
 async function clientSide_injectInitScript(browserInstance: WebdriverIO.Browser) {
-    const compareVersionsStringfied = await getCompareVersionsScript()
-    await browserInstance.addInitScript(wdi5_injectTools, compareVersionsStringfied)
+    if (browserInstance.isBidi) {
+        const compareVersionsStringfied = await getCompareVersionsScript()
+        await browserInstance.addInitScript(wdi5_injectTools, compareVersionsStringfied)
+    } else {
+        logger.warn("WDI5 did not inject tools before starting.")
+        logger.warn("The 'browser.addInitScript' command is only supported when using WebDriver Bidi protocol.")
+    }
 }
 
 /**

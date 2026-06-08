@@ -1,7 +1,14 @@
+import { browser, expect } from "@wdio/globals"
 import { mock } from "node:test"
 import { wdi5 } from "wdio-ui5-service"
 
+const logSpyInjectTools = mock.method(console, "log")
+
 describe("ui5 basic", () => {
+    after(() => {
+        logSpyInjectTools.mock.restore()
+    })
+
     it("should use the ESM style logger", () => {
         const logSpy = mock.method(console, "log", () => {})
         const Logger = wdi5.getLogger("esm!")
@@ -62,5 +69,14 @@ describe("ui5 basic", () => {
         const headerTitle = await browser.asControl(selector2)
         const title = await headerTitle.getText()
         expect(title).toMatch("(0)")
+    })
+
+    it.only("should log warnings when browser is not running in BiDi mode", async () => {
+        const messages = logSpyInjectTools.mock.calls.map((call) => call.arguments.flat()).flat()
+        expect(browser.isBidi).toBeFalsy()
+        expect(messages).toContain("WDI5 did not inject tools before starting.")
+        expect(messages).toContain(
+            "The 'browser.addInitScript' command is only supported when using WebDriver Bidi protocol."
+        )
     })
 })
