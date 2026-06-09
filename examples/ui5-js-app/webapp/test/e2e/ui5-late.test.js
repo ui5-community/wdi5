@@ -5,11 +5,17 @@ const ui5Service = new _ui5Service()
 describe("ui5 basic", () => {
     it('should show a non UI5 page, then advance to a UI5 page and late init "wdi5"', async () => {
         // native wdio functionality - navigates to the wdi5 github page
-        await browser.$("#user-content-wdi5-").waitForExist()
+        const link = await $("=wdi5")
+        await expect(link).toHaveText("wdi5")
         // open local app
         await browser.url("http://localhost:8081/index.html")
+        let hasWdi5InBrowser = await browser.execute(() => !!window.wdi5)
+        expect(hasWdi5InBrowser).toBeFalsy()
+
         // do the late injection
         await ui5Service.injectUI5()
+        hasWdi5InBrowser = await browser.execute(() => !!window.wdi5)
+        expect(hasWdi5InBrowser).toBeTruthy()
     })
 
     it("should verify the caching of the wdi5 config", async () => {
