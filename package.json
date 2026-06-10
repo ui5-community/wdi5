@@ -51,7 +51,7 @@
     "test:mjs": "npm test -w=wdio-mjs",
     "test:cjs:ts": "npm test -w=wdio-cjs-ts",
     "test:mjs:ts": "npm test -w=wdio-mjs-ts",
-    "test:classic": "npm test -w=wdio-classic",
+    "test:classic": "npm test -w=wdio-classic && npm run test:latest -w=wdio-classic",
     "test:ui5:lts": "npm test -w=wdio-ui5-lts",
     "test:cucumber": "npm test -w=cucumber-app",
     "test:fe:app": "npm run start:test -w=incidents",
