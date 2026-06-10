@@ -38,7 +38,7 @@ jobs:
 
     strategy:
       matrix:
-        node_version: [18, 20]
+        node_version: [18, 20, 22, 24]
 
     env:
       REGISTRY: ghcr.io
