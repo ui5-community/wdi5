@@ -144,9 +144,6 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
              * used to dynamically create new control matchers when searching for elements
              */
             window.wdi5.createMatcher = (oSelector) => {
-                // since 1.72.0 the declarative matchers are available. Before that
-                // you had to instantiate the matchers manually
-                const oldAPIVersion = "1.72.0"
                 // check whether we're looking for a control via regex
                 // hint: no IE support here :)
                 if (oSelector.id && typeof oSelector.id === "string" && oSelector.id.startsWith("/", 0)) {
@@ -184,17 +181,14 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                     const isRootProperty =
                         typeof oSelector?.bindingPath?.propertyPath === "string" &&
                         oSelector.bindingPath.propertyPath.charAt(0) === "/"
-                    if (
-                        hasNamedModel &&
-                        isRootProperty &&
-                        window.compareVersions?.compare("1.81.0", window.wdi5.ui5Version, ">")
-                    ) {
+                    if (hasNamedModel && isRootProperty && window.wdi5Ui5FeaturesAvailable.useOldDoubleLeadingSlash) {
                         // attach the double leading /
                         // for UI5 < 1.81
                         oSelector.bindingPath.propertyPath = `/${oSelector.bindingPath.propertyPath}`
                     }
                 }
-                if (window.compareVersions?.compare(oldAPIVersion, window.wdi5.ui5Version, ">")) {
+                // since 1.72.0 the declarative matchers are available. Before that you had to instantiate the matchers manually
+                if (window.wdi5Ui5FeaturesAvailable.useOldMatcherAPI) {
                     oSelector.matchers = []
                     // for version < 1.72 declarative matchers are not available
                     if (oSelector.bindingPath) {
@@ -259,7 +253,7 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
              * extract the multi use function to get a UI5 Control from a JSON Webobejct
              */
             window.wdi5.getUI5CtlForWebObj = (ui5Control) => {
-                if (window.compareVersions?.compare(window.wdi5.ui5Version, "1.108.0", ">")) {
+                if (window.wdi5Ui5FeaturesAvailable.useUI5ElementClosestTo) {
                     // @ts-expect-error: Property 'closestTo' does not exist on type 'UI5Element'. Did you mean to access the static member 'UI5Element.closestTo' instead?
                     return UI5ElementRef.closestTo(ui5Control)
                 } else {

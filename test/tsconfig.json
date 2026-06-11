@@ -18,6 +18,7 @@
   },
   "compilerOptions": {
     // typescript options here
-    "noEmitOnError": false
+    "noEmitOnError": false,
+    "types": ["node", "@wdio/types", "@wdio/globals/types", "@wdio/mocha-framework"]
   }
 }

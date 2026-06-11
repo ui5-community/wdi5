@@ -2,7 +2,6 @@ import type { Capabilities, Services } from "@wdio/types"
 import type { wdi5Capabilities, wdi5Config, wdi5MultiRemoteCapability } from "./types/wdi5.types.js"
 
 import { start, injectUI5, setup, checkForUI5Page, authenticate, initMultiRemoteBrowser } from "./lib/wdi5-bridge.js"
-import { clientSide_injectInitScript } from "./client-side-js/injectTools.js"
 import { wdi5 as _wdi5 } from "./wdi5.js"
 import { Logger as _Logger } from "./lib/Logger.js"
 const Logger = _Logger.getInstance()
@@ -42,7 +41,6 @@ export default class Service implements Services.ServiceInstance {
         if (browserInstance.isMultiremote) {
             for (const name of (browserInstance as unknown as WebdriverIO.MultiRemoteBrowser).instances) {
                 // TODO: browserInstance[name as keyof typeof browserInstance] repeated multiple times
-                await clientSide_injectInitScript(browserInstance[name as keyof typeof browserInstance])
                 if (this?._capabilities[name].capabilities["wdi5:authentication"]) {
                     await authenticate(this._capabilities[name].capabilities["wdi5:authentication"], name)
                 }
@@ -58,7 +56,6 @@ export default class Service implements Services.ServiceInstance {
             }
             initMultiRemoteBrowser()
         } else {
-            await clientSide_injectInitScript(browserInstance)
             if (this?._capabilities["wdi5:authentication"]) {
                 await authenticate(this._capabilities["wdi5:authentication"], "")
             }
