@@ -4,7 +4,8 @@ import type {
     wdi5Selector,
     BTPAuthenticator as BTPAuthenticatorType,
     wdi5Authenticator,
-    ControlSelectorByDOMElementOptions
+    ControlSelectorByDOMElementOptions,
+    ui5FeaturesAvailable
 } from "../types/wdi5.types.js"
 import type { ComponentTargetParameters } from "sap/ui/core/routing/Router"
 
@@ -14,7 +15,6 @@ import { tmpdir } from "node:os"
 import { compare } from "compare-versions"
 import { WDI5Control, WDI5ControlParams } from "./wdi5-control.js"
 import { WDI5FE } from "./wdi5-fe.js"
-import { clientSide_injectTools } from "../client-side-js/injectTools.js"
 import { clientSide_injectUI5 } from "../client-side-js/injectUI5.js"
 import { clientSide_injectXHRPatch } from "../client-side-js/injectXHRPatch.js"
 import { clientSide_getSelectorForElement } from "../client-side-js/getSelectorForElement.js"
@@ -23,6 +23,7 @@ import { clientSide_getObject } from "../client-side-js/getObject.js"
 import { clientSide_getUI5Version } from "../client-side-js/getUI5Version.js"
 import { clientSide__navTo } from "../client-side-js/_navTo.js"
 import { clientSide_allControls } from "../client-side-js/allControls.js"
+import { clientSide_setUI5FeaturesAvailable } from "../client-side-js/setUI5FeaturesAvailable.js"
 import { Logger as _Logger } from "./Logger.js"
 import { WDI5Object } from "./wdi5-object.js"
 import BTPAuthenticator from "./authentication/BTPAuthenticator.js"
@@ -109,6 +110,19 @@ function initBrowser(browserInstance: WebdriverIO.Browser) {
     _setupComplete = true
 }
 
+async function setUi5FeaturesAvailable(ui5Version: string, browserInstance: WebdriverIO.Browser) {
+    const ui5FeaturesAvailable: ui5FeaturesAvailable = {
+        version: ui5Version,
+        useFetchWaiter: compare(ui5Version, "1.114.0", ">"),
+        useGetComponentById: compare(ui5Version, "1.120.0", ">"),
+        useUI5ElementClosestTo: compare(ui5Version, "1.108.0", ">"),
+        useOldHashChanger: compare("1.75.0", ui5Version, ">"),
+        useOldDoubleLeadingSlash: compare("1.81.0", ui5Version, ">"),
+        useOldMatcherAPI: compare("1.72.0", ui5Version, ">")
+    }
+    return await clientSide_setUI5FeaturesAvailable(ui5FeaturesAvailable, browserInstance)
+}
+
 function checkUI5Version(ui5Version: string) {
     if (compare(ui5Version, "1.60.0", "<")) {
         // the record replay api is only available since 1.60
@@ -144,7 +158,7 @@ export async function injectUI5(config: wdi5Config, browserInstance: WebdriverIO
 
     const version = await browserInstance.getUI5Version()
     checkUI5Version(version)
-    await clientSide_injectTools(browserInstance) // helpers for wdi5 browser scope
+    await setUi5FeaturesAvailable(version, browserInstance)
     // BIDI does not allow to pass functions inside of the browser scope
     await clientSide_injectXHRPatch(config.wdi5, browserInstance)
     result = result && (await clientSide_injectUI5(waitForUI5Timeout, browserInstance))

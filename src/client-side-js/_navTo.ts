@@ -41,12 +41,12 @@ async function clientSide__navTo(
                     )
                 }
             )
-            const router = window.compareVersions?.compare(window.wdi5.ui5Version, "1.120.0", ">")
+            const router = window.wdi5Ui5FeaturesAvailable.useGetComponentById
                 ? // @ts-expect-error: Property 'getRouter' does not exist on type 'Component'
                   ComponentRef.getComponentById(sComponentId).getRouter()
                 : // @ts-expect-error: Property 'getRouter' does not exist on type 'Component'
                   CoreRef.getComponent(sComponentId).getRouter()
-            const hashChanger = window.compareVersions?.compare("1.75.0", window.wdi5.ui5Version, ">")
+            const hashChanger = window.wdi5Ui5FeaturesAvailable.useOldHashChanger
                 ? // @ts-expect-error: Property 'core' does not exist on type 'typeof ui'
                   HashChangerRef.getInstance()
                 : router.getHashChanger()
@@ -65,9 +65,7 @@ async function clientSide__navTo(
             await hashChangedPromise
             return {
                 status: 0,
-                result: window.compareVersions?.compare("1.75.0", window.wdi5.ui5Version, ">")
-                    ? hashChanger.getHash()
-                    : hashChanger.hash
+                result: window.wdi5Ui5FeaturesAvailable.useOldHashChanger ? hashChanger.getHash() : hashChanger.hash
             }
         },
         sComponentId,

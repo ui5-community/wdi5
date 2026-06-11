@@ -70,13 +70,4 @@ describe("ui5 basic", () => {
         const title = await headerTitle.getText()
         expect(title).toMatch("(0)")
     })
-
-    it.only("should log warnings when browser is not running in BiDi mode", async () => {
-        const messages = logSpyInjectTools.mock.calls.map((call) => call.arguments.flat()).flat()
-        expect(browser.isBidi).toBeFalsy()
-        expect(messages).toContain("WDI5 did not inject tools before starting.")
-        expect(messages).toContain(
-            "The 'browser.addInitScript' command is only supported when using WebDriver Bidi protocol."
-        )
-    })
 })

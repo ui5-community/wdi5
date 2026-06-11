@@ -239,6 +239,16 @@ export interface wdi5ControlMetadata {
     key?: string // wdio_ui_key
 }
 
+export type ui5FeaturesAvailable = {
+    version: string
+    useFetchWaiter: boolean
+    useGetComponentById: boolean
+    useUI5ElementClosestTo: boolean
+    useOldHashChanger: boolean
+    useOldMatcherAPI: boolean
+    useOldDoubleLeadingSlash: boolean
+}
+
 // yet unused
 export interface wdi5Bridge {
     bridge: typeof RecordReplay
@@ -310,7 +320,7 @@ declare global {
         bridge: wdi5Bridge["bridge"]
         wdi5: wdi5Bridge["wdi5"]
         fe_bridge: wdi5Bridge["fe_bridge"]
-        compareVersions?: { compare: (version1: string, version2: string, operator: string) => boolean }
+        wdi5Ui5FeaturesAvailable: ui5FeaturesAvailable
     }
 
     // Patch SAP namespace to include sap.ui.version
