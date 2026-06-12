@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "node",
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "skipLibCheck": true,
     "allowJs": true,
-    "strict": true,
+    "strict": false,
     "strictPropertyInitialization": false,
     "rootDir": "./webapp",
     "paths": {

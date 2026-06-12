@@ -41,8 +41,8 @@ export default abstract class BaseController extends Controller {
      * @param [sName] The model name
      * @returns The model instance
      */
-    public getModel(sName?: string): Model {
-        return this.getView().getModel(sName)
+    public getModel(sName?: string): Model | undefined {
+        return this.getView()?.getModel(sName)
     }
 
     /**
@@ -52,7 +52,7 @@ export default abstract class BaseController extends Controller {
      * @returns The current base controller instance
      */
     public setModel(oModel: Model, sName?: string): BaseController {
-        this.getView().setModel(oModel, sName)
+        this.getView()?.setModel(oModel, sName)
         return this
     }
 

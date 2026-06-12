@@ -1,5 +1,5 @@
 import UIComponent from "sap/ui/core/UIComponent"
-import support from "sap/ui/Device"
+import Device from "sap/ui/Device"
 
 /**
  * @namespace test.Sample.tsapp
@@ -34,7 +34,8 @@ export default class Component extends UIComponent {
                 document.body.classList.contains("sapUiSizeCompact")
             ) {
                 this.contentDensityClass = ""
-            } else if (!support.touch) {
+                // @ ts-expect-error: Property 'touch' does not exist on type 'Device'
+            } else if (!Device.support.touch) {
                 // apply "compact" mode if touch is not supported
                 this.contentDensityClass = "sapUiSizeCompact"
             } else {
