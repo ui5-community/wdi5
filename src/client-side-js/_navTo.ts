@@ -65,7 +65,7 @@ async function clientSide__navTo(
             await hashChangedPromise
             return {
                 status: 0,
-                result: window.wdi5Ui5FeaturesAvailable.useOldHashChanger ? hashChanger.getHash() : hashChanger.hash
+                result: hashChanger.getHash()
             }
         },
         sComponentId,
