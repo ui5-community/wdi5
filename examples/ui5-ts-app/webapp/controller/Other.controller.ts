@@ -8,12 +8,12 @@ import BaseController from "./BaseController"
  */
 export default class Main extends BaseController {
     onItemClick(oEvent): void {
-        ;(this.getView().byId("idTextFieldClickResult") as Text).setText(
+        ;(this.getView()?.byId("idTextFieldClickResult") as Text).setText(
             (oEvent.getParameter("item") as StandardListItem).getText()
         )
     }
 
     onAddLineItem(/* oEvent */): void {
-        ;(this.getView().byId("PeopleList") as List).addItem(new StandardListItem({ text: "Peter Parker" }))
+        ;(this.getView()?.byId("PeopleList") as List).addItem(new StandardListItem({ text: "Peter Parker" }))
     }
 }
