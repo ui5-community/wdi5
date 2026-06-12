@@ -12,8 +12,8 @@ import type { $AggregationContainsPropertyEqualSettings } from "sap/ui/test/matc
 import type { ControlsBaseSelector } from "sap/ui/test/Opa5"
 import type { ControlSelector } from "sap/ui/test/RecordReplay"
 import type Control from "sap/ui/core/Control"
-import type Ancestor from "sap/ui/test/matchers/Ancestor"
-import type Descendant from "sap/ui/test/matchers/Descendant"
+/* import type Ancestor from "sap/ui/test/matchers/Ancestor"
+import type Descendant from "sap/ui/test/matchers/Descendant" */
 import type ListReport from "sap/fe/test/ListReport"
 import type ObjectPage from "sap/fe/test/ObjectPage"
 import type Shell from "sap/fe/test/Shell"
@@ -139,7 +139,7 @@ export interface wdi5ControlSelector extends ControlsBaseSelector {
     /**
      * Descendant matcher, {@link sap.ui.test.matchers.Descendant}
      */
-    descendant?: typeof Descendant
+    descendant?: Record<string, unknown>
     /**
      * ID of a control (global or within viewName, if viewName is defined)
      */
@@ -155,7 +155,7 @@ export interface wdi5ControlSelector extends ControlsBaseSelector {
     /**
      * Ancestor matcher, {@link sap.ui.test.matchers.Ancestor}
      */
-    ancestor?: typeof Ancestor
+    ancestor?: Record<string, unknown>
     /**
      * Sibling matcher, {@link sap.ui.test.matchers.Sibling}
      */
