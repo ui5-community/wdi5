@@ -52,7 +52,7 @@ jobs:
         uses: martinbeentjes/npm-get-version-action@main
 
       - name: Log in to gh packages registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           # username: ${{ github.actor }}
