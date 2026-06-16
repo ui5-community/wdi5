@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 3.0.10 (2026-06-16)
+
+
+### Bug Fixes
+
+* change to more generic types ([03ea5bf](https://github.com/ui5-community/wdi5/commit/03ea5bffa47614a28dfe0e52e7b14a658b4ef151))
+
 ### 3.0.9 (2026-06-13)
 
 ### 3.0.8 (2026-02-02)
