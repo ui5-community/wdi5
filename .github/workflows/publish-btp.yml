@@ -39,7 +39,7 @@ jobs:
         with:
           name: mtar
       - name: deploy to BTP
-        uses: elliottpope/cloudfoundry-cli-action@v6
+        uses: elliottpope/cloudfoundry-cli-action@v7
         with:
           CF_API: https://api.cf.eu10-004.hana.ondemand.com
           USERNAME: ${{ secrets.BTP_LOGIN }}
