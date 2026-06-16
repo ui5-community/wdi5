@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: check out repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: use node ${{ matrix.node-version }}
         uses: actions/setup-node@v4

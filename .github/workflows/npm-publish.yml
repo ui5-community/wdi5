@@ -30,7 +30,7 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           token: ${{secrets.ADMIN_WDI5}}
       - uses: actions/setup-node@v4
