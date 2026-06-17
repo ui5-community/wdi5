@@ -227,18 +227,21 @@ export async function authenticate(options: wdi5Authenticator, browserInstanceNa
  * @returns wdio_ui5_key
  */
 function _createWdioUI5KeyFromSelector(selector: wdi5Selector): string {
-    const orEmpty = (string: string | any) => string || ""
-
     const _selector = selector.selector
-    const wdi5_ui5_key = `${orEmpty(_selector.id)}${orEmpty(_selector.viewName)}${orEmpty(
-        _selector.controlType
-    )}${orEmpty(JSON.stringify(_selector.bindingPath))}${orEmpty(JSON.stringify(_selector.i18NText))}${orEmpty(
-        JSON.stringify(_selector.descendant)
-    )}${orEmpty(JSON.stringify(_selector.labelFor))}${orEmpty(JSON.stringify(_selector.properties))}${orEmpty(
-        JSON.stringify(_selector.ancestor)
-    )}`.replace(/[^0-9a-zA-Z]+/, "")
-
+    const wdi5_ui5_key = []
+    wdi5_ui5_key.push(_selector.id)
+    wdi5_ui5_key.push(_selector.viewName)
+    wdi5_ui5_key.push(_selector.controlType)
+    wdi5_ui5_key.push(JSON.stringify(_selector.bindingPath))
+    wdi5_ui5_key.push(JSON.stringify(_selector.i18NText))
+    wdi5_ui5_key.push(JSON.stringify(_selector.descendant))
+    wdi5_ui5_key.push(JSON.stringify(_selector.labelFor))
+    wdi5_ui5_key.push(JSON.stringify(_selector.properties))
+    wdi5_ui5_key.push(JSON.stringify(_selector.ancestor))
     return wdi5_ui5_key
+        .filter((data) => !!data)
+        .join("")
+        .replace(/[^0-9a-zA-Z]+/, "")
 }
 /**
  * does a basic validation of a wdi5ControlSelector
