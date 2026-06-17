@@ -550,7 +550,9 @@ async function _allControls(controlSelector: wdi5Selector = this._controlSelecto
             }
             const oOptions: WDI5ControlParams = {
                 controlSelector: _controlSelector,
-                wdio_ui5_key: controlSelector.wdio_ui5_key,
+                wdio_ui5_key: controlSelector.wdio_ui5_key
+                    ? `${controlSelector.wdio_ui5_key}__${cControl.id}`
+                    : undefined,
                 forceSelect: controlSelector.forceSelect,
                 generatedUI5Methods: cControl.aProtoFunctions,
                 webdriverRepresentation: null,
