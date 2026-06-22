@@ -51,6 +51,43 @@ describe("ui5 basic", () => {
         expect(isOpen).toBeFalsy()
     })
 
+    // NOTE: no forceSelect set — wdi5 should auto-bypass cache because searchOpenDialogs is present
+    it("should bypass cache for searchOpenDialogs on dialog reopen", async () => {
+        const filterButtonSelector = {
+            selector: {
+                id: "container-orderbrowser---master--filterButton",
+                viewName: "sap.ui.demo.orderbrowser.view.Master"
+            }
+        }
+        const dialogOkButtonSelector = {
+            selector: {
+                id: "container-orderbrowser---master--viewSettingsDialog-acceptbutton",
+                searchOpenDialogs: true,
+                interaction: {
+                    idSuffix: "BDI-content"
+                }
+            }
+        }
+
+        // first open
+        await browser.asControl(filterButtonSelector).press()
+        const dialogButton = await browser.asControl(dialogOkButtonSelector)
+        expect(dialogButton.isInitialized()).toBeTruthy()
+        expect(await dialogButton.isActive()).toBeTruthy()
+
+        // close the dialog
+        await dialogButton.press()
+
+        // reopen — without auto cache bypass, this would fail due to stale cached reference
+        await browser.asControl(filterButtonSelector).press()
+        const dialogButton2 = await browser.asControl(dialogOkButtonSelector)
+        expect(dialogButton2.isInitialized()).toBeTruthy()
+        expect(await dialogButton2.isActive()).toBeTruthy()
+
+        // close again
+        await dialogButton2.press()
+    })
+
     it("wdi5 should search and return no results", async () => {
         const selector1 = {
             selector: {

@@ -279,10 +279,23 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
             return "ERROR: Specified selector is not valid -> abort"
         }
 
+        // When searchOpenDialogs is set and forceSelect is not explicitly provided by the user,
+        // bypass the control cache (so each asControl() call fetches fresh from browser),
+        // but do NOT propagate forceSelect to the control instance (which would cause per-method
+        // re-retrieval and timeout when the dialog is closed and the element no longer exists).
+        const skipCache = !!(wdi5Selector.selector?.searchOpenDialogs && wdi5Selector.forceSelect === undefined)
+        if (skipCache) {
+            Logger.info(`bypassing cache for selector (searchOpenDialogs is set)`)
+        }
+
         const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
         // either retrieve and cache a UI5 control
         // or return a cached version
-        if (!browserInstance._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
+        if (
+            !browserInstance._controls?.[internalKey] ||
+            wdi5Selector.forceSelect ||
+            skipCache /* always retrieve control */
+        ) {
             Logger.info(`creating internal control with id ${internalKey}`)
             wdi5Selector.wdio_ui5_key = internalKey
 
@@ -325,8 +338,20 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
         }
 
         const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
+
+        // When searchOpenDialogs is set and forceSelect is not explicitly provided by the user,
+        // bypass the control cache but do NOT propagate forceSelect to control instances.
+        const skipCache = !!(wdi5Selector.selector?.searchOpenDialogs && wdi5Selector.forceSelect === undefined)
+        if (skipCache) {
+            Logger.info(`bypassing cache for allControls selector (searchOpenDialogs is set)`)
+        }
+
         // REVISIT all elements receive the same! internal key
-        if (!browserInstance._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
+        if (
+            !browserInstance._controls?.[internalKey] ||
+            wdi5Selector.forceSelect ||
+            skipCache /* always retrieve control */
+        ) {
             wdi5Selector.wdio_ui5_key = internalKey
             Logger.info(`creating internal controls with id ${internalKey}`)
             browserInstance._controls[internalKey] = await _allControls(wdi5Selector, browserInstance)

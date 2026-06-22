@@ -94,6 +94,7 @@ export class WDI5Control {
         this._controlSelector = controlSelector
         this._wdio_ui5_key = controlSelector?.wdio_ui5_key
         this._forceSelect = forceSelect
+
         this._logging = this._controlSelector?.logging ?? true
 
         const controlResult = await this._getControl()
