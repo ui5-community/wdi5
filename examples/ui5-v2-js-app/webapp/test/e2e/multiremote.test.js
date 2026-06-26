@@ -16,7 +16,7 @@ describe("Multi Remote", () => {
 
         expect(metadata.id).toEqual("container-Sample---Main--openDialogButton")
         expect(metadata.className).toEqual("sap.m.Button")
-        expect(metadata.key).toEqual("openDialogButtontestSample.view.Main")
+        expect(metadata.key).toEqual("openDialogButton|test.Sample.view.Main")
 
         await button.press()
 
