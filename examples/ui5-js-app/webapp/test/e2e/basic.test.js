@@ -100,7 +100,7 @@ describe("ui5 basic", () => {
 
         expect(metadata.id).toEqual("container-Sample---Main--openDialogButton")
         expect(metadata.className).toEqual("sap.m.Button")
-        expect(metadata.key).toEqual("openDialogButtontestSample.view.Main")
+        expect(metadata.key).toEqual("openDialogButton|test.Sample.view.Main")
     })
 
     it("check getBinding returns a proper object", async () => {
