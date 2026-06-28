@@ -15,26 +15,13 @@
   ],
   "dependencies": {
     "@sap/cds": "^9.1.0",
-    "@sap/cds-dk": "^9.1.0",
-    "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
-    "@sap/xssec": "^4",
-    "passport": ">=0.7.0"
+    "@sap/xssec": "^4"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^2.0.2",
+    "@sap/cds-dk": "^9.1.0",
     "@sap/ux-specification": "^1.136.0",
-    "@wdio/cli": "^9.16.2",
-    "@wdio/local-runner": "^9.16.2",
-    "@wdio/mocha-framework": "^9.16.2",
-    "@wdio/spec-reporter": "^9.16.2",
-    "axios": "^1",
-    "chai": "^5.2.0",
-    "chai-as-promised": "^8.0.1",
-    "chai-subset": "^1.6.0",
     "rimraf": "^6.0.1",
-    "semver": "^7",
-    "wdio-chromedriver-service": "^8.1.1",
-    "wdio-timeline-reporter": "^5.1.4",
     "wdio-ui5-service": "*"
   },
   "scripts": {

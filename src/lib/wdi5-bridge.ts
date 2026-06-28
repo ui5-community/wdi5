@@ -226,19 +226,18 @@ export async function authenticate(options: wdi5Authenticator, browserInstanceNa
  * @param selector
  * @returns wdio_ui5_key
  */
-function _createWdioUI5KeyFromSelector(selector: wdi5Selector): string {
-    const orEmpty = (string: string | any) => string || ""
-
-    const _selector = selector.selector
-    const wdi5_ui5_key = `${orEmpty(_selector.id)}${orEmpty(_selector.viewName)}${orEmpty(
-        _selector.controlType
-    )}${orEmpty(JSON.stringify(_selector.bindingPath))}${orEmpty(JSON.stringify(_selector.i18NText))}${orEmpty(
-        JSON.stringify(_selector.descendant)
-    )}${orEmpty(JSON.stringify(_selector.labelFor))}${orEmpty(JSON.stringify(_selector.properties))}${orEmpty(
-        JSON.stringify(_selector.ancestor)
-    )}`.replace(/[^0-9a-zA-Z]+/, "")
-
-    return wdi5_ui5_key
+function _createWdioUI5KeyFromSelector(selector: wdi5Selector["selector"]): string {
+    const wdi5_ui5_key = []
+    wdi5_ui5_key.push(selector.id)
+    wdi5_ui5_key.push(selector.viewName)
+    wdi5_ui5_key.push(selector.controlType)
+    wdi5_ui5_key.push(JSON.stringify(selector.bindingPath))
+    wdi5_ui5_key.push(JSON.stringify(selector.i18NText))
+    wdi5_ui5_key.push(JSON.stringify(selector.descendant))
+    wdi5_ui5_key.push(JSON.stringify(selector.labelFor))
+    wdi5_ui5_key.push(JSON.stringify(selector.properties))
+    wdi5_ui5_key.push(JSON.stringify(selector.ancestor))
+    return wdi5_ui5_key.filter((data) => !!data).join("|")
 }
 /**
  * does a basic validation of a wdi5ControlSelector
@@ -279,7 +278,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
             return "ERROR: Specified selector is not valid -> abort"
         }
 
-        const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
+        const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector.selector)
         // either retrieve and cache a UI5 control
         // or return a cached version
         if (!browserInstance._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
@@ -324,7 +323,7 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
             return "ERROR: Specified selector is not valid -> abort"
         }
 
-        const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector)
+        const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector.selector)
         // REVISIT all elements receive the same! internal key
         if (!browserInstance._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
             wdi5Selector.wdio_ui5_key = internalKey
@@ -547,7 +546,9 @@ async function _allControls(controlSelector: wdi5Selector = this._controlSelecto
             }
             const oOptions: WDI5ControlParams = {
                 controlSelector: _controlSelector,
-                wdio_ui5_key: controlSelector.wdio_ui5_key,
+                wdio_ui5_key: controlSelector.wdio_ui5_key
+                    ? `${controlSelector.wdio_ui5_key}__${cControl.id}`
+                    : undefined,
                 forceSelect: controlSelector.forceSelect,
                 generatedUI5Methods: cControl.aProtoFunctions,
                 webdriverRepresentation: null,

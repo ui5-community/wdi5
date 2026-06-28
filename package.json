@@ -102,6 +102,7 @@
     "@wdio/browserstack-service": "^9.29.0",
     "@wdio/sauce-service": "^9.29.0",
     "@wdio/types": "^9.29.0",
+    "conventional-commits-filter": "^5.0.0",
     "cross-env": "^10.1.0",
     "docsify-cli": "4.4.4",
     "eslint": "^9.39.4",
