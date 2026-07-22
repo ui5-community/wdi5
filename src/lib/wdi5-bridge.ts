@@ -98,7 +98,7 @@ function initBrowser(browserInstance: WebdriverIO.Browser) {
     // init control cache
     if (!browserInstance._controls) {
         Logger.info("creating internal control map")
-        browserInstance._controls = []
+        browserInstance._controls = Object.create(null)
     }
 
     _addWdi5Commands(browserInstance)
@@ -167,7 +167,7 @@ export async function injectUI5(config: wdi5Config, browserInstance: WebdriverIO
     // is not updated right away: https://stackoverflow.com/a/4424026
     if (Object.keys(browserInstance._controls).length > 0) {
         Logger.info("invalidating control map!")
-        browserInstance._controls = []
+        browserInstance._controls = Object.create(null)
     }
 
     if (result) {
