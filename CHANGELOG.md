@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 3.0.11 (2026-08-01)
+
+
+### Bug Fixes
+
+* no prototype pollution ([87d901c](https://github.com/ui5-community/wdi5/commit/87d901cf297a19bd89e9d8fd9401aabe2385306e))
+
 ### 3.0.10 (2026-06-16)
 
 
