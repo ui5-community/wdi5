@@ -40,9 +40,10 @@
   "scripts": {
     "// build time": "refers to developing wdi5/wdio-ui5-service itself",
     "clean": "rimraf cjs esm dist",
-    "build": "run-s -c clean _build:cjs _build:esm",
+    "build": "run-s -c clean _build:cjs _build:esm _finalize:dist",
     "_build:cjs": "tsc --p tsconfig-cjs.json",
     "_build:esm": "tsc --p tsconfig-esm.json",
+    "_finalize:dist": "node ./scripts/finalize-dist.cjs",
     "build:watch": "npm-run-all clean --parallel _build:watch:cjs _build:watch:esm",
     "_build:watch:cjs": "tsc -w --p tsconfig-cjs.json",
     "_build:watch:esm": "tsc -w --p tsconfig-esm.json",
