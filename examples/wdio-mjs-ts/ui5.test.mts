@@ -1,4 +1,4 @@
-const { wdi5 } = require("wdio-ui5-service")
+import { wdi5 } from "wdio-ui5-service"
 
 describe("ui5 basic", () => {
     it("window should have the right title", async () => {

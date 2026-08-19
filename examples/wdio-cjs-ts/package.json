@@ -7,7 +7,9 @@
   "author": "j&s-soft GmbH",
   "type": "commonjs",
   "scripts": {
-    "test": "wdio run wdio.conf.ts --headless"
+    "test": "run-s test:**",
+    "test:ts": "wdio run wdio.conf.ts --headless",
+    "test:cts": "wdio run wdio.conf.cts --headless"
   },
   "devDependencies": {
     "@openui5/types": "^1.142.0",
