@@ -7,7 +7,9 @@
   "author": "j&s-soft GmbH",
   "type": "commonjs",
   "scripts": {
-    "test": "wdio run wdio.conf.cjs --headless"
+    "test": "run-s test:**",
+    "test:js": "wdio run wdio.conf.js --headless",
+    "test:cjs": "wdio run wdio.conf.cjs --headless"
   },
   "devDependencies": {
     "wdio-ui5-service": "*"

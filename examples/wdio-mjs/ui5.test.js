@@ -1,6 +1,15 @@
-const { wdi5 } = require("wdio-ui5-service")
+import { mock } from "node:test"
+import { wdi5 } from "wdio-ui5-service"
 
 describe("ui5 basic", () => {
+    it("should use the ESM style logger", () => {
+        const logSpy = mock.method(console, "log", () => {})
+        const Logger = wdi5.getLogger("esm!")
+        Logger.log("Hello ESM World!")
+        expect(logSpy.mock.calls[0].arguments[1]).toContain("esm!")
+        logSpy.mock.restore()
+    })
+
     it("window should have the right title", async () => {
         const title = await browser.getTitle()
         expect(title).toEqual("Browse Orders")
@@ -35,25 +44,23 @@ describe("ui5 basic", () => {
         expect(isOpen).toBeFalsy()
     })
 
-    it("wdi5 should navigate to not found then nav to root # main page again", async () => {
-        await wdi5.goTo("#wdi5ShouldBeNotFound")
+    it("wdi5 should search and return no results", async () => {
         const selector1 = {
             selector: {
-                controlType: "sap.m.Title",
-                viewName: "sap.ui.demo.orderbrowser.view.NotFound"
+                id: "container-orderbrowser---master--searchField"
             }
         }
-        const text = await browser.asControl(selector1).getText()
-        expect(text).toBeTruthy()
+        const search = await browser.asControl(selector1).enterText("NOTHING HERE").press()
+        const text = await search.getValue()
+        expect(text).toEqual("NOTHING HERE")
 
-        await wdi5.goTo("#")
         const selector2 = {
             selector: {
-                id: "container-orderbrowser---master--filterButton",
-                viewName: "sap.ui.demo.orderbrowser.view.Master"
+                id: "container-orderbrowser---master--masterHeaderTitle"
             }
         }
-        const icon = await browser.asControl(selector2).getIcon()
-        expect(icon).toEqual("sap-icon://filter")
+        const headerTitle = await browser.asControl(selector2)
+        const title = await headerTitle.getText()
+        expect(title).toMatch("(0)")
     })
 })

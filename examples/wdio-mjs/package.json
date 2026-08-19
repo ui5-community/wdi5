@@ -7,7 +7,9 @@
   "author": "j&s-soft GmbH",
   "type": "module",
   "scripts": {
-    "test": "wdio run wdio.conf.mjs --headless"
+    "test": "run-s test:**",
+    "test:js": "wdio run wdio.conf.js --headless",
+    "test:mjs": "wdio run wdio.conf.mjs --headless"
   },
   "devDependencies": {
     "wdio-ui5-service": "*"
