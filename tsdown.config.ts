@@ -7,6 +7,9 @@ const sharedConfig: UserConfig = {
     unbundle: true,
     dts: true,
     clean: true,
+    deps: {
+        neverBundle: true
+    },
     outputOptions: {
         exports: "named"
     }
