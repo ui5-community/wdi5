@@ -17,7 +17,7 @@
   "license": "(Apache-2.0 or DERIVED BEER-WARE)",
   "author": "the UI5 community <do_not_use@openui5.org> (https://github.com/ui5-community)",
   "type": "module",
-  "main": "./dist/esm/index.js",
+  "main": "./dist/cjs/index.cjs",
   "exports": {
     ".": {
       "import": {
