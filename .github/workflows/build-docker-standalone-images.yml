@@ -75,7 +75,7 @@ jobs:
       #     echo ${{ steps.meta.outputs.labels }}
 
       - name: Build and push wdi5 docker image for node${{ matrix.node_version }}
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v7.2.0
         with:
           context: .
           file: ./docker/Dockerfile.standalone
