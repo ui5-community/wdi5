@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 3.0.12 (2026-09-11)
+
+
+### Bug Fixes
+
+* main entry points to .cjs ([9a423b4](https://github.com/ui5-community/wdi5/commit/9a423b473969fc863425ff11047c1d1a5479243b))
+
 ### 3.0.11 (2026-08-01)
 
 
