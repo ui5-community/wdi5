@@ -41,7 +41,6 @@ async function initOPA(pageObjectConfig: FEOpaPageCollection, browserInstance: W
                 pollingInterval: window.wdi5.waitForUI5Options.interval
             })
 
-            // @ts-expect-error: Property 'Opa5' does not exist on type 'typeof sap.ui.test'
             // mock the generic OK handler in order to support assertions
             Opa5Ref.assert = {
                 ok: function (bSuccess: boolean, responseText: string) {

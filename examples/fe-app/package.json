@@ -16,7 +16,7 @@
     "deploy": "npx -p @sap/ux-ui5-tooling fiori add deploy-config cf"
   },
   "devDependencies": {
-    "@sap-ux/ui5-middleware-fe-mockserver": "latest",
+    "@sap-ux/ui5-middleware-fe-mockserver": "^2",
     "wdio-ui5-service": "*"
   }
 }

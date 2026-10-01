@@ -12,6 +12,12 @@ sap.ui.define(
                 MessageToast.show(oEvent.getParameter("listItem").data("key"))
             },
 
+            onSelect(oEvent) {
+                const selectedProperty = oEvent.getSource().getProperty("selected")
+                const selectedParameter = oEvent.getParameter("selected")
+                MessageToast.show(`selectedProperty: ${selectedProperty} selectedParameter: ${selectedParameter}`)
+            },
+
             onAddLineItem(oEvent) {
                 this.getView()
                     .byId("PeopleList")

@@ -1,28 +1,13 @@
-export const config = {
-    wdi5: {
-        logLevel: "verbose"
-    },
-    baseUrl: "https://ui5.sap.com/test-resources/sap/m/demokit/orderbrowser/webapp/test/mockServer.html",
+import { baseConfig } from "../wdio.root-base.conf.cjs"
 
-    services: ["ui5"],
-    specs: ["./**/*.test.js"],
-    maxInstances: 1,
+export const config = {
+    ...baseConfig,
+    specs: ["../reusable-test-scripts/dist/esm/ui5-remote-apps/*.test.js"],
+    baseUrl: "https://ui5.sap.com/test-resources/sap/m/demokit/orderbrowser/webapp/test/mockServer.html",
     capabilities: [
         {
-            maxInstances: 1,
-            "wdio:enforceWebDriverClassic": true,
-            browserName: "chrome",
-            browserVersion: "stable",
-            "goog:chromeOptions": {
-                args: process.argv.includes("--headless")
-                    ? ["window-size=1440,800", "headless", "disable-gpu"]
-                    : ["window-size=1440,800"]
-            }
+            ...baseConfig.capabilities[0],
+            "wdio:enforceWebDriverClassic": true
         }
-    ],
-    logLevel: "error",
-
-    reporters: ["spec"],
-
-    framework: "mocha"
+    ]
 }

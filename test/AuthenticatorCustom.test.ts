@@ -1,5 +1,6 @@
-import CustomAuthenticator from "../src/lib/authentication/CustomAuthenticator"
-import { ok, throws } from "assert"
+import { describe, it } from "node:test"
+import { ok, throws } from "node:assert"
+import CustomAuthenticator from "../src/lib/authentication/CustomAuthenticator.js"
 
 describe("custom auth", function () {
     it("should successfully inject a custom authentiator", function () {

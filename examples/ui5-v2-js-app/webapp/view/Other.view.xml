@@ -34,7 +34,8 @@
 				<CustomListItem>
 					<HBox>
 						<CheckBox
-							text="{FirstName} {LastName}"/>
+							text="{FirstName} {LastName}"
+							select="onSelect" />
 					</HBox>
 				</CustomListItem>
 			</List>

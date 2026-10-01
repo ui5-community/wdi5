@@ -1,5 +1,6 @@
-import Authenticator from "../src/lib/authentication/Authenticator.js"
+import { describe, it, before, after } from "node:test"
 import { throws } from "node:assert"
+import Authenticator from "../src/lib/authentication/Authenticator.js"
 
 describe("base authenticator", function () {
     before(function () {

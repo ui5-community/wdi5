@@ -1,6 +1,5 @@
 import type { assertions as ObjectPageAssertions } from "sap/fe/test/ObjectPage"
-import type { WDI5FE } from "wdio-ui5-service/dist/cjs/lib/wdi5-fe.js"
-import { wdi5 } from "wdio-ui5-service"
+import { wdi5, WDI5FE } from "wdio-ui5-service"
 
 describe("FE basics", () => {
     let FioriElementsFacade: WDI5FE
@@ -42,6 +41,7 @@ describe("FE basics", () => {
         await FioriElementsFacade.execute((Given, When, Then) => {
             When.onTheMainPage.onFilterBar().iChangeFilterField("Project", "_ TPH S4H Cloud, public edition")
             //.and.iExecuteSearch()
+            // @ts-expect-error
             When.onTheMainPage.onTable().iPressRow(1)
             Then.onTheDetailPage.iSeeThisPage()
         })

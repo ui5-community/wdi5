@@ -16,7 +16,7 @@
 # use reference node version
 $> nvm use
 # will also install all deps in workspaces + setup pre-commit hooks
-$> npm i
+$> npm ci
 # turn on build watcher for both esm and cjs
 $> npm run build:watch
 ```
@@ -35,12 +35,12 @@ $> npm run start -w=ui5-app
 # run a single test with wdi5/wdio
 ### runs the "test:websever" script from /examples/ui5-js-app/package.json
 ### in workspace "examples/ui5-js-app"
-### but only  the one test file (./webapp/test/e2e/basic.test.js)
+### but only  the one test file: basic.test.js
 ### in watch mode (browser stays open, test reruns when file changes)
 ### for true TDD
 $> npm run test:webserver \
 -w examples/ui5-js-app \
--- --spec ./webapp/test/e2e/basic.test.js \
+-- --spec basic.test.js \
 --watch
 ```
 
@@ -114,42 +114,45 @@ Not the difference between the generic [`browser.asControl($selector)`](/usage#a
 
 ## work on a test
 
-recommended approach:
+See [Test Structure](test-structure.md) for the full picture. The short version:
 
-- run the UI5 app under test in terminal 1
+**1. Build the shared test scripts** (once per checkout, and after any change to `examples/reusable-test-scripts/`):
 
-  ```shell
-  # start the sample js app
-  $> npm run start -w=ui5-app
-  ```
+```shell
+$> npm run build:ui5:tests
+```
 
-- run test(s) in terminal 2
+**2. Start the app** in terminal 1:
 
-  ```shell
-  # run a single test with wdi5/wdio
-  ### in workspace "examples/ui5-js-app"
-  ### but only  the one test file (./webapp/test/e2e/basic.test.js)
-  ### in watch mode (browser stays open, test reruns when file changes)
-  ### for true TDD
-  $> npm run test:webserver \
-  -w examples/ui5-js-app \
-  -- --spec ./webapp/test/e2e/basic.test.js \
-  --watch
-  ```
+```shell
+# UI5 v1, CJS app (port 8081)
+$> npm run start -w examples/ui5-js-app
 
-  or use `wdio` directly for executing the test(s):
+# UI5 v2, ESM app (port 8082)
+$> npm run start -w examples/ui5-v2-js-app
 
-  ```shell
-  $> cd examples/ui5-js-app
-  # run with locally installed wdio (./../node_modules/.bin/)
-  $> npx wdio run wdio-ui5tooling.conf.js --spec ./webapp/test/e2e/basic.test.js
-  ```
+# UI5 v1, TypeScript app (port 8083)
+$> npm run start -w examples/ui5-ts-app
+```
 
-Also [utilize `mocha`'s `.only`](https://mochajs.org/#exclusive-tests) for isolating one or more single test(s) or suite(s) to run.
+**3. Run a single test file** in terminal 2:
 
-?> when working on tests in one of the sample apps (`/examples/...`) and you don't seem to be getting the latest changes you did in `wdi5`,  
+```shell
+# CJS app — narrow to one test file, keep the browser open for TDD
+$> npm run test:webserver -w ui5-js-app -- --spec basic.test.cjs --watch
+```
+
+**Or start app + run all tests in one command** from the repo root:
+
+```shell
+$> npm run test:ui5:app:v1   # ui5-js-app
+$> npm run test:ui5:app:v2   # ui5-v2-js-app
+$> npm run test:ui5:app:ts   # ui5-ts-app
+```
+
+?> when working on tests and you don't seem to be getting the latest `wdi5` changes,  
 first make sure a build is still running (`npm run build:watch`)  
-and eventually "reinstall" `wdi5` (`wdio-ui5-service`) in the respective `npm` workspace by doing `$> npm i` in the project root.
+and eventually "reinstall" `wdi5` in the workspace by doing `$> npm i` in the project root.
 
 ## commiting changes
 

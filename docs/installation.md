@@ -52,7 +52,8 @@ This will
   look for tests to run in `$ui5-app/test/**/*`
   that follow the name pattern `*.test.js`
 - set an `npm` script named "wdi5" to run `wdi5`
-so you can immediately do `npm run wdi5`
+  so you can immediately do `npm run wdi5`
+
 <!-- tabs:end -->
 
 Note this is a _minimal_ install for running `wdi5`

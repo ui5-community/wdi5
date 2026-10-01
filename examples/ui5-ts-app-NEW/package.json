@@ -1,0 +1,31 @@
+{
+  "name": "ui5-ts-app-NEW",
+  "version": "0.8.15-notimportant",
+  "private": true,
+  "description": "sample ui5 app for testing wdi5",
+  "license": "UNLICENSED",
+  "author": "j&s-soft GmbH",
+  "main": "webapp/index.html",
+  "type": "module",
+  "scripts": {
+    "start": "ui5 serve -p 8083",
+    "test": "run-s test:**",
+    "test:lateInject": "wait-on tcp:8083 -t 15s && wdio run webapp/test/wdio-ui5-late.conf.ts --headless",
+    "test:ui5tooling": "wait-on tcp:8083 -t 15s && wdio run webapp/test/wdio-ui5tooling.conf.ts --headless",
+    "test:multiremote": "wait-on tcp:8083 -t 15s && wdio run webapp/test/wdio-multiremote.conf.ts --headless",
+    "test:urlDeprecation": "wait-on tcp:8083 -t 15s && wdio run webapp/test/wdi5-urlDeprecation.conf.ts --headless",
+    "test:classic": "wait-on tcp:8083 -t 15s && wdio run webapp/test/wdio-classic.conf.ts --headless",
+    "test:webserver": "wait-on tcp:8083 -t 15s && wdio run webapp/test/wdio-webserver.conf.ts --headless",
+    "start:test": "run-p -r start test",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@sap-ux/ui5-middleware-fe-mockserver": "^2",
+    "ui5-middleware-simpleproxy": "^3",
+    "ui5-tooling-transpile": "^3",
+    "wdio-ui5-service": "*"
+  },
+  "peerDependencies": {
+    "@wdio/sauce-service": "^9"
+  }
+}

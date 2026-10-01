@@ -64,6 +64,7 @@ typings/
 cjs/**/*
 esm/**/*
 dist/**/*
+**/dist/
 
 # Gitkeep generally
 !**/.gitkeep

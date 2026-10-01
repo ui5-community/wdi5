@@ -12,7 +12,6 @@
     "test:cts": "wdio run wdio.conf.cts --headless"
   },
   "devDependencies": {
-    "@openui5/types": "^1.142.0",
     "wdio-ui5-service": "*"
   }
 }

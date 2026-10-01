@@ -1,45 +1,22 @@
-import { baseConfig } from "./wdio.base.conf.js"
 import { join } from "node:path"
+import { baseConfig, reusableTestScriptsPath } from "./wdio.base.conf.js"
 
 // avoid multiple chrome sessions
-baseConfig.capabilities = null
+const baseCapabilities = structuredClone(baseConfig.capabilities)
+baseConfig.capabilities = []
 
-const _config = {
+export const config = {
+    ...baseConfig,
     wdi5: {
         screenshotPath: join("report", "screenshots")
     },
-    maxInstances: 1,
     capabilities: {
         one: {
-            capabilities: {
-                browserName: "chrome",
-                browserVersion: "stable",
-                acceptInsecureCerts: true,
-                "goog:chromeOptions": {
-                    args: process.argv.includes("--headless")
-                        ? ["window-size=1440,800", "headless", "disable-gpu"]
-                        : process.argv.includes("--debug")
-                          ? ["window-size=1920,1280", "auto-open-devtools-for-tabs"]
-                          : ["window-size=1440,800"]
-                }
-            }
+            capabilities: { ...structuredClone(baseCapabilities[0]) }
         },
         two: {
-            capabilities: {
-                browserName: "chrome",
-                browserVersion: "stable",
-                acceptInsecureCerts: true,
-                "goog:chromeOptions": {
-                    args: process.argv.includes("--headless")
-                        ? ["window-size=1440,800", "headless", "disable-gpu"]
-                        : process.argv.includes("--debug")
-                          ? ["window-size=1920,1280", "auto-open-devtools-for-tabs"]
-                          : ["window-size=1440,800"]
-                }
-            }
+            capabilities: { ...structuredClone(baseCapabilities[0]) }
         }
     },
-    specs: ["e2e/multiremote.test.js"]
+    specs: [`${reusableTestScriptsPath}/multiremote.test.js`]
 }
-
-export const config = { ...baseConfig, ..._config }

@@ -1,18 +1,13 @@
+import type { wdi5Config } from "wdio-ui5-service"
 import { join } from "node:path"
-import { cpus } from "node:os"
-import { wdi5Config } from "wdio-ui5-service"
-
-const maxInstances = Math.max(1, Math.floor(cpus().length / 2))
+import { baseConfig } from "./wdio.base.conf.js"
 
 export const config: wdi5Config = {
+    ...baseConfig,
     wdi5: {
         screenshotPath: join("test", "__screenshots__"),
         waitForUI5Timeout: 30000
     },
-    baseUrl: "http://localhost:8080/index.html",
-
-    services: ["ui5"],
-
     specs: ["./test/e2e/**/*.test.ts"],
     // these are for authentication tests only
     exclude: [
@@ -23,36 +18,5 @@ export const config: wdi5Config = {
         "./test/e2e/ui5-late.test.ts",
         "./test/e2e/protocol/**/*.test.ts",
         "./test/e2e/workzone/**/*.test.ts"
-    ],
-
-    maxInstances: maxInstances,
-    capabilities: [
-        {
-            maxInstances: maxInstances,
-            browserName: "chrome",
-            // browserVersion: "stable",
-            "goog:chromeOptions": {
-                args: process.argv.includes("--headless")
-                    ? ["headless", "disable-gpu"]
-                    : process.argv.includes("--debug")
-                      ? ["window-size=1440,800", "auto-open-devtools-for-tabs"]
-                      : ["window-size=1440,800"]
-            },
-            acceptInsecureCerts: true
-        }
-    ],
-    logLevel: "error",
-    bail: 0,
-
-    waitforTimeout: 31000,
-    connectionRetryTimeout: process.argv.includes("--debug") ? 1200000 : 120000,
-    connectionRetryCount: 3,
-
-    reporters: ["spec"],
-
-    framework: "mocha",
-    mochaOpts: {
-        ui: "bdd",
-        timeout: process.argv.includes("--debug") ? 600000 : 60000
-    }
+    ]
 }

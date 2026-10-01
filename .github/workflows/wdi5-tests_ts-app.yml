@@ -56,7 +56,9 @@ jobs:
 
       # build things
       - name: build
-        run: npm run build
+        run: |
+          npm run build
+          npm run build:ui5:tests
 
       # run wdi5 tests within app(s)
       # this includes test for late-injecting wdi5

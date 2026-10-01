@@ -7,7 +7,6 @@ on:
     paths:
       # relevant
       - "src/**"
-      - "docker/**"
       - ".github/**"
       # irrevelant
       - "!.husky/**"

@@ -1,6 +1,7 @@
 import type Control from "sap/ui/core/Control"
 import type { wdi5Config, wdi5Selector } from "./wdi5.types.js"
 import type { WDI5Control } from "../lib/wdi5-control.js"
+import type { WDI5Object } from "../lib/wdi5-object.js"
 import type { WDI5FE } from "../lib/wdi5-fe.js"
 
 /**
@@ -16,6 +17,7 @@ declare global {
     namespace WebdriverIO {
         export interface Browser {
             config: wdi5Config
+            asObject: <T extends Control = Control>(_uuid: string) => Promise<WDI5Object & T>
             _asControl: <T extends Control = Control>(arg: wdi5Selector) => Promise<WDI5Control & T>
             asControl: <T extends Control = Control>(arg: wdi5Selector) => Promise<WDI5Control & T>
             allControls: <T extends Control = Control>(arg: wdi5Selector) => Promise<(WDI5Control & T)[]>
