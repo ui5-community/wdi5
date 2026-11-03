@@ -54,6 +54,8 @@
     "test:btp:sbwz": "npm test -w=btp-sbwz-std",
     "test:ui5:app:v1": "npm run start:test -w=ui5-app",
     "test:ui5:app:v2": "npm run start:test -w=ui5-v2-js-app",
+    "test:wdio9": "bash scripts/test-wdio.sh 9",
+    "test:wdio10": "bash scripts/test-wdio.sh 10",
     "_startApp:ts": "npm run start --workspace=examples/ui5-ts-app",
     "_startApp:cap": "npm run start --workspace=examples/cap-bookshop-wdi5",
     "_test:ts-app": "wait-on tcp:8080 && npm run test --workspace=examples/ui5-ts-app",
@@ -119,12 +121,12 @@
     "wait-on": "^9.0.10"
   },
   "peerDependencies": {
-    "@wdio/cli": "^9",
-    "@wdio/globals": "^9",
-    "@wdio/local-runner": "^9",
-    "@wdio/mocha-framework": "^9",
-    "@wdio/spec-reporter": "^9",
-    "webdriverio": "^9"
+    "@wdio/cli": "^9 || ^10",
+    "@wdio/globals": "^9 || ^10",
+    "@wdio/local-runner": "^9 || ^10",
+    "@wdio/mocha-framework": "^9 || ^10",
+    "@wdio/spec-reporter": "^9 || ^10",
+    "webdriverio": "^9 || ^10"
   },
   "engines": {
     "node": ">=20",

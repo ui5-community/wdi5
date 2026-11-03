@@ -3,7 +3,7 @@ import { throws } from "node:assert"
 
 describe("base authenticator", function () {
     before(function () {
-        globalThis.browser = { isMultiremote: false }
+        globalThis.browser = { isMultiremote: false, getInstance: (name) => ({ name }) }
     })
 
     after(function () {

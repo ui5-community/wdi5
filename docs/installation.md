@@ -1,6 +1,6 @@
 # Installation
 
-With `wdi5` [being a service to WebdriverIO](https://webdriver.io/docs/wdio-ui5-service), installation of both is required.
+With `wdi5` [being a service to WebdriverIO](https://webdriver.io/docs/wdio-ui5-service), installation of both is required. `wdi5` supports WebdriverIO v9 and v10.
 
 `wdi5` can be used both in a [CJS-](https://nodejs.org/docs/latest/api/modules.html) and an [ESM-](https://nodejs.org/docs/latest/api/esm.html)environment.
 
@@ -153,6 +153,11 @@ services: [
 ```
 
 :tada: Done! Proceed to [configuring wdi5](configuration) now.
+
+## WebdriverIO v10
+
+- v10 BiDi has no frame switching, so BTP WorkZone needs `'wdio:enforceWebDriverClassic': true` in the capability. `browser.fe.initialize()` on non-WorkZone apps works on both protocols.
+- `$` is strict in v10 and throws on a selector that matches more than one element. The `usernameSelector`, `passwordSelector` and `submitSelector` of a [custom IdP](authentication#custom-idp) must each match exactly one element.
 
 ## reinitialize setup
 

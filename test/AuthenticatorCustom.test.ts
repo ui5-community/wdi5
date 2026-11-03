@@ -3,7 +3,7 @@ import { ok, throws } from "assert"
 
 describe("custom auth", function () {
     it("should successfully inject a custom authentiator", function () {
-        globalThis.browser = { dummy: true }
+        globalThis.browser = { dummy: true, getInstance: (name) => ({ name }) }
 
         const Auth = new CustomAuthenticator(
             {
