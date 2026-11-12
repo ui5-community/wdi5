@@ -184,6 +184,11 @@ export interface wdi5Selector {
      */
     forceSelect?: boolean
     /**
+     * makes asControl throw if the selector is invalid or the control cannot be resolved
+     * defaults to false
+     */
+    strict?: boolean
+    /**
      * OPA5-style selectors from RecordReplay
      */
     selector: wdi5ControlSelector

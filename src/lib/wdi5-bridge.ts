@@ -275,19 +275,23 @@ function _verifySelector(wdi5Selector: wdi5Selector) {
 export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
     browserInstance.addCommand("_asControl", async (wdi5Selector: wdi5Selector) => {
         if (!_verifySelector(wdi5Selector)) {
+            if (wdi5Selector.strict) {
+                throw new Error("asControl(): Specified selector is not valid -> abort")
+            }
             return "ERROR: Specified selector is not valid -> abort"
         }
 
         const internalKey = wdi5Selector.wdio_ui5_key || _createWdioUI5KeyFromSelector(wdi5Selector.selector)
+        let wdi5Control = browserInstance._controls?.[internalKey]
         // either retrieve and cache a UI5 control
         // or return a cached version
-        if (!browserInstance._controls?.[internalKey] || wdi5Selector.forceSelect /* always retrieve control */) {
+        if (!wdi5Control || wdi5Selector.forceSelect /* always retrieve control */) {
             Logger.info(`creating internal control with id ${internalKey}`)
             wdi5Selector.wdio_ui5_key = internalKey
 
             performance.mark("retrieveSingleControlStart") //> TODO: bind to debug log level
 
-            const wdi5Control = await new WDI5Control({ browserInstance }).init(wdi5Selector, wdi5Selector.forceSelect)
+            wdi5Control = await new WDI5Control({ browserInstance }).init(wdi5Selector, wdi5Selector.forceSelect)
 
             performance.mark("retrieveSingleControlEnd") //> TODO: bind to debug log level
             const retrieveSingleControlMeasure = performance.measure(
@@ -296,12 +300,16 @@ export async function _addWdi5Commands(browserInstance: WebdriverIO.Browser) {
                 "retrieveSingleControlEnd"
             )
             Logger.info(`_asControl() needed ${retrieveSingleControlMeasure.duration} for ${internalKey}`)
-
-            browserInstance._controls[internalKey] = wdi5Control
         } else {
             Logger.info(`reusing internal control with id ${internalKey}`)
         }
-        return browserInstance._controls[internalKey]
+        if (wdi5Selector.strict && !wdi5Control.isInitialized()) {
+            throw new Error(
+                `asControl() could not resolve a control using selector ${JSON.stringify(wdi5Selector.selector)}`
+            )
+        }
+        browserInstance._controls[internalKey] = wdi5Control
+        return wdi5Control
     })
 
     browserInstance.addCommand("asObject", async (_uuid: string) => {

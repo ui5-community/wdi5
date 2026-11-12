@@ -144,6 +144,12 @@ const property = await control.getProperty("...")
 const text = await browser.asControl(selector).getText()
 ```
 
+Set `strict: true` to make `asControl` throw when the selector is invalid or the control cannot be resolved. This also applies to fluent calls and cached unresolved controls. The default is `false`; failed strict lookups are not cached.
+
+```js
+await browser.asControl({ strict: true, selector: { id: "saveButton" } }).press()
+```
+
 ### allControls
 
 The alternative [to `browser.asControl`](#asControl) is `await browser.allControls(selector)` to retrieve all controls of a certain type.
@@ -202,7 +208,7 @@ expect(bindingTypeName).toEqual("sap.ui.model.resource.ResourcePropertyBinding")
 
 The entry point to retrieve a control is always awaiting the `async` function `browser.asControl(oSelector)`.
 
-`oSelector` re-uses the [OPA5 control selectors](https://ui5.sap.com/#/api/sap.ui.test.Opa5%23methods/waitFor), supplemented by the optional `wdio_ui5_key` and `forceSelect` properties.
+`oSelector` re-uses the [OPA5 control selectors](https://ui5.sap.com/#/api/sap.ui.test.Opa5%23methods/waitFor), supplemented by the optional `wdio_ui5_key`, `forceSelect` and `strict` properties.
 
 `wdi5` stores control references internally in order to save browser roundtrip time on repeatedly using a control across different test cases. For that, `wdi5` computes unique identifiers for controls - but providing a `wdio_ui5_key` in the selector, you can assign such an ID manually if required.
 
