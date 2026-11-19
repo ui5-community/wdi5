@@ -6,6 +6,12 @@ import { Logger } from "../lib/Logger.js"
 
 const logger = Logger.getInstance()
 
+// press-type methods whose side effect (navigation, full re-render) may tear down the browser realm
+const PRESS_METHODS = /^(firePress|press|\$press|tap|click|dblclick|doubleClick)$/i
+// errors thrown (mostly by WebDriver BiDi) when the realm/document the result promise lived in is gone
+const REALM_TORN_DOWN_ERRORS =
+    /Promise was collected|Cannot find context with specified id|belongs to different document|no such node/i
+
 /**
  * Execute method on the ui5 control through the browser. Here the real magic happens :)
  * @param {Object} webElement representation of a webElement in node depending on the protocol
@@ -175,6 +181,17 @@ async function clientSide_executeControlMethod(
     try {
         result = await executeControlMethod(webElement, methodName, browserInstance, args)
     } catch (err) {
+        // a press that navigates away destroys the realm before the result promise settles,
+        // the press itself was dispatched successfully though -> don't report it as failed
+        if (PRESS_METHODS.test(methodName) && REALM_TORN_DOWN_ERRORS.test(String(err?.message || err))) {
+            logger.debug(`${methodName} fired, browser realm was torn down (e.g. by navigation): ${err?.message}`)
+            result = {
+                status: 0,
+                result: `${methodName} fired (browser realm torn down by navigation)`,
+                returnType: "element"
+            }
+            return result
+        }
         logger.error("failed executing control method", methodName, err)
         result = {
             status: 1,
