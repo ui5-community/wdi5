@@ -9,6 +9,7 @@
 - [Locators](locators.md)
 - [Recipes](recipes.md)
 - [Test Library Integration](fe-testlib.md)
+- [Writing tests with AI](ai.md)
 - [Docker](docker.md)
 - [Contributing](contributing.md)
 - [Resources](resources.md)
