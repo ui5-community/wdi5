@@ -1,3 +1,5 @@
+import { isMultiRemote } from "../multiRemote.js"
+
 export default class Authenticator {
     usernameSelector?: string
     passwordSelector?: string
@@ -8,17 +10,20 @@ export default class Authenticator {
     constructor(browserInstanceName?: string) {
         this.browserInstanceName = browserInstanceName
         if (browserInstanceName) {
-            this.browserInstance = browser[browserInstanceName as keyof typeof browser]
+            this.browserInstance = (browser as unknown as WebdriverIO.MultiRemoteBrowser).getInstance(
+                browserInstanceName
+            )
         } else {
             this.browserInstance = browser
         }
     }
 
+    private envName(key: "username" | "password"): string {
+        return isMultiRemote(browser) ? `wdi5_${this.browserInstanceName}_${key}` : `wdi5_${key}`
+    }
+
     getUsername(): string {
-        let envName = "wdi5_username"
-        if (browser.isMultiremote) {
-            envName = `wdi5_${this.browserInstanceName}_username`
-        }
+        const envName = this.envName("username")
         const sUserName = process.env[envName]
         if (!sUserName) {
             throw new Error(`Environment variable ${envName} for username is not set!`)
@@ -27,10 +32,7 @@ export default class Authenticator {
     }
 
     getPassword(): string {
-        let envName = "wdi5_password"
-        if (browser.isMultiremote) {
-            envName = `wdi5_${this.browserInstanceName}_password`
-        }
+        const envName = this.envName("password")
         const sPassword = process.env[envName]
         if (!sPassword) {
             throw new Error(`Environment variable ${envName} for password is not set!`)
