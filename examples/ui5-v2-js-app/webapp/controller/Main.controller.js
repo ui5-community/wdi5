@@ -49,12 +49,17 @@ sap.ui.define(
             onSearch(oEvent) {
                 this.getView().byId("idSearchResult").setText(oEvent.getSource().getValue())
             },
+            onKeepFocusInputChange(oEvent) {
+                this.getView().byId("idKeepFocusResult").setText(oEvent.getSource().getValue())
+            },
+            onClearTextInputChange(oEvent) {
+                console.log(oEvent.getSource().getValue())
+                this.getView().byId("idClearTextResult").setText(oEvent.getSource().getValue())
+            },
             onTest(oEvent) {
                 this.onBoo(oEvent)
             },
             onSelect(oEvent) {
-                console.dir(oEvent.getSource().getId())
-                console.dir(oEvent.getSource())
                 const selectedProperty = oEvent.getSource().getProperty("selected")
                 const selectedParameter = oEvent.getParameter("selected")
                 MessageToast.show(`selectedProperty: ${selectedProperty} selectedParameter: ${selectedParameter}`)

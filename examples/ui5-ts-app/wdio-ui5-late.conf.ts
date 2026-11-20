@@ -1,8 +1,12 @@
-import { config as baseConfig } from "./wdio-ui5.conf.js"
+import type { wdi5Config } from "wdio-ui5-service"
+import { baseConfig } from "./wdio.base.conf.js"
 
-baseConfig.wdi5 = { skipInjectUI5OnStart: true, waitForUI5Timeout: 654321 }
-baseConfig.specs = ["./test/e2e/ui5-late.test.ts"]
-delete baseConfig.exclude
-baseConfig.baseUrl = "https://github.com/ui5-community/wdi5/"
-
-export const config = { ...baseConfig }
+export const config: wdi5Config = {
+    ...baseConfig,
+    wdi5: {
+        skipInjectUI5OnStart: true,
+        waitForUI5Timeout: 654321
+    },
+    specs: ["./test/e2e/ui5-late.test.ts"],
+    baseUrl: "https://github.com/ui5-community/wdi5/"
+}

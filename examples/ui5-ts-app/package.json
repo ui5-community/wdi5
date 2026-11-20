@@ -8,13 +8,11 @@
   "license": "Apache-2.0",
   "scripts": {
     "start": "ui5 serve --port 8080 --accept-remote-connections",
-    "//test": "run-s test:*",
-    "test": "wdio run wdio-ui5.conf.ts",
+    "test": "run-s test:webserver test:lateInject",
     "test:browserstack": "wdio run test/e2e/cloud-services/browserstack.conf.ts",
     "test:authentication": "run-s authentication:*",
     "//test-h:authentication": "run-s \"authentication:* -- --headless\"",
     "test:authentication:bstack": "BROWSERSTACK=true run-s authentication:*",
-    "test:lateInject": "wdio run wdio-ui5-late.conf.ts",
     "test:wz": "wdio run test/e2e/workzone/wdio-ui5-workzone.conf.ts",
     "authentication:btp": "wdio run test/e2e/authentication/wdio-btp-authentication.conf.ts",
     "authentication:basic-auth": "wdio run test/e2e/authentication/wdio-basic-auth-authentication.conf.ts",
@@ -27,7 +25,11 @@
     "build:ui5": "ui5 build --clean-dest",
     "build:mtar": "mv dist approuter/webapp && mbt build",
     "clean": "rimraf dist approuter/webapp",
-    "build:cf": "npm-run-all --sequential clean build:ui5 build:mtar"
+    "build:cf": "npm-run-all --sequential clean build:ui5 build:mtar",
+    "test:lateInject": "wait-on tcp:8080 -t 15s && wdio run wdio-ui5-late.conf.ts --headless",
+    "test:webserver": "wait-on tcp:8080 -t 15s && wdio run wdio-ui5.conf.ts --headless",
+    "start:test": "run-p -r start test",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@openui5/types": "latest",

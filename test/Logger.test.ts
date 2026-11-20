@@ -1,6 +1,6 @@
-import { mock } from "node:test"
+import { describe, it, mock } from "node:test"
 import { notStrictEqual, strictEqual } from "node:assert"
-import { wdi5 } from "../src/wdi5"
+import { wdi5 } from "../src/wdi5.js"
 
 describe("wdi5 logger", function () {
     it("empty scope results in default 'wdi5'", function () {

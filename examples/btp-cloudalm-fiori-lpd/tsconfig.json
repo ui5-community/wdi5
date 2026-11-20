@@ -1,8 +1,7 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "moduleResolution": "node",
-    "types": ["node", "@sapui5/types", "@wdio/globals/types", "@wdio/mocha-framework", "wdio-ui5-service"],
-    "target": "es2019",
-    "noEmit": true
-  }
+    "rootDir": "../../"
+  },
+  "include": ["."]
 }

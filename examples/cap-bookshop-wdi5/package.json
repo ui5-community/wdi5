@@ -31,7 +31,9 @@
     "undeploy": "cf undeploy capire-bookshop --delete-services --delete-service-keys --delete-service-brokers",
     "build": "rimraf resources && mbt build -t gen --mtar mta.tar",
     "deploy": "cf deploy gen/mta.tar -f",
-    "wdi5": "wdio app/admin-books/webapp/test/wdi5/wdio.conf.js --headless"
+    "test": "run-s test:**",
+    "test:wdi5": "wait-on tcp:4004 -t 15s && wdio app/admin-books/webapp/test/wdi5/wdio.conf.js --headless",
+    "start:test": "run-p -r start test"
   },
   "engines": {
     "node": "^22"

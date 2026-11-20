@@ -9,7 +9,7 @@ Major, **potentially breaking**, changes:
 - [`BiDi`](https://developer.chrome.com/blog/webdriver-bidi) is the default automation protocol now. If you want to continue using `Webdriver`, use `'wdio:enforceWebDriverClassic': true` in your `wdio`/`wdi5` config file.  
   Find config examples in:
   - `examples/ui5-ts-app/test/e2e/protocol/wdio-ui5-webdriver.conf.ts`
-  - `examples/ui5-js-app/e2e-test-config/wdio.base.conf.js`
+  - `examples/ui5-js-app/webapp/test/wdio.base.conf.js`
 - deprecation of `devtools` protocol: it is no more included in Webdriver.IO and thus also not available in `wdi5`. Yet `BiDi` should be a drop-in replacement for it, without the need for changing config files or rewrite tests.
 
 - stale element handling has changed with the `BiDi` (yet remains the same for `Webdriver`). It is more intuitive towards what "you'd expect", for example:

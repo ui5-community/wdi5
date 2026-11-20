@@ -1,46 +1,19 @@
-import { join } from "node:path"
-import { cpus } from "node:os"
-const maxInstances = Math.max(1, Math.floor(cpus().length / 2))
+import { baseConfig as rootBaseConfig } from "../../../wdio.root-base.conf.cjs"
 
-const baseConfig = {
-    wdi5: {
-        screenshotPath: join("webapp", "test", "__screenshots__"),
-        logLevel: "error",
-        waitForUI5Timeout: 29000
-    },
-    maxInstances: maxInstances,
-    capabilities: [
-        {
-            maxInstances: maxInstances,
-            browserName: "chrome",
-            // browserVersion: "stable",
-            acceptInsecureCerts: true,
-            // "wdio:enforceWebDriverClassic": true,
-            "goog:chromeOptions": {
-                args: process.argv.includes("--headless")
-                    ? ["window-size=1920,1280", "headless", "disable-gpu"]
-                    : process.argv.includes("--debug")
-                      ? ["window-size=1920,1280", "auto-open-devtools-for-tabs"]
-                      : ["window-size=1920,1280"]
-            }
-        }
-    ],
-    logLevel: "error",
-    bail: 0,
-    baseUrl: "http://localhost:8082/index.html",
+/**
+ * The new test structure shares test scripts among many apps
+ * Localhost port is dynamic and vary per app
+ * injectUI5 tests need to navigate to localhost
+ * Variable browser.config.baseUrl cannot be used as it starts with an external URL
+ * Variable globalThis.localhostUrl is used to set localhost URL
+ * Dynamic tests get localhost URL from globalThis.localhostUrl if required
+ * This allows multiple apps to reuse the same test scripts at once
+ */
+globalThis.localhostUrl = "http://localhost:8082/index.html"
 
-    waitforTimeout: 30000,
-    connectionRetryTimeout: process.argv.includes("--debug") ? 1200000 : 120000,
-    connectionRetryCount: 3,
+export const reusableTestScriptsPath = "../../../reusable-test-scripts/dist/esm/ui5-local-apps"
 
-    services: ["ui5"],
-
-    framework: "mocha",
-    mochaOpts: {
-        ui: "bdd",
-        timeout: process.argv.includes("--debug") ? 600000 : 90000
-    },
-    reporters: ["spec"]
+export const baseConfig = {
+    ...rootBaseConfig,
+    baseUrl: "http://localhost:8082/index.html"
 }
-
-export { baseConfig }

@@ -12,14 +12,18 @@
     "test": "run-s test:**",
     "test:lateInject": "wait-on tcp:8082 -t 15s && wdio run webapp/test/wdio-ui5-late.conf.js --headless",
     "test:ui5tooling": "wait-on tcp:8082 -t 15s && wdio run webapp/test/wdio-ui5tooling.conf.js --headless",
-    "test:webserver": "wait-on tcp:8082 -t 15s && wdio run webapp/test/wdio-webserver.conf.js --headless",
     "test:multiremote": "wait-on tcp:8082 -t 15s && wdio run webapp/test/wdio-multiremote.conf.js --headless",
     "test:urlDeprecation": "wait-on tcp:8082 -t 15s && wdio run webapp/test/wdi5-urlDeprecation.conf.js --headless",
+    "test:classic": "wait-on tcp:8082 -t 15s && wdio run webapp/test/wdio-classic.conf.js --headless",
+    "test:webserver": "wait-on tcp:8082 -t 15s && wdio run webapp/test/wdio-webserver.conf.js --headless",
     "start:test": "run-p -r start test"
   },
   "devDependencies": {
-    "@sap-ux/ui5-middleware-fe-mockserver": "latest",
-    "ui5-middleware-simpleproxy": "latest",
+    "@sap-ux/ui5-middleware-fe-mockserver": "^2",
+    "ui5-middleware-simpleproxy": "^3",
     "wdio-ui5-service": "*"
+  },
+  "peerDependencies": {
+    "@wdio/sauce-service": "^9"
   }
 }

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "skipLibCheck": true,
+    "allowJs": true,
+    "strict": true,
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false,
+    "outDir": "./dist",
+    "rootDir": "./webapp",
+    "types": ["@sapui5/types", "node"]
+  },
+  "include": ["./webapp"],
+  "exclude": ["./webapp/test"]
+}

@@ -1,0 +1,36 @@
+{
+  "CountriesCollection": [
+    {
+      "key": "DZ",
+      "text": "Algeria"
+    },
+    {
+      "key": "AR",
+      "text": "Argentina"
+    },
+    {
+      "key": "AU",
+      "text": "Australia"
+    },
+    {
+      "key": "AT",
+      "text": "Austria"
+    },
+    {
+      "key": "BH",
+      "text": "Bahrain"
+    },
+    {
+      "key": "BE",
+      "text": "Belgium"
+    },
+    {
+      "key": "BA",
+      "text": "Bosnia and Herzegovina"
+    },
+    {
+      "key": "BR",
+      "text": "Brazil"
+    }
+  ]
+}

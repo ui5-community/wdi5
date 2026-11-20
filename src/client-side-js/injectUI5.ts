@@ -79,7 +79,7 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                     typeof Ancestor,
                     typeof Descendant,
                     typeof LabelFor,
-                    UI5Element,
+                    typeof UI5Element,
                     VersionInfo
                 ]
             >((resolve, reject) => {
@@ -108,7 +108,7 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                             typeof Ancestor,
                             typeof Descendant,
                             typeof LabelFor,
-                            UI5Element,
+                            typeof UI5Element,
                             VersionInfo
                         ]
                     ) {
@@ -117,7 +117,7 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
                     reject
                 )
             })
-            const versionInfo = (await VersionInfo.load()) as LibraryInfo
+            const versionInfo = (await VersionInfo.load({ library: "sap.ui.core" })) as LibraryInfo
             window.wdi5.ui5Version = versionInfo.version
 
             // Logger is loaded -> can be use internally attach logger to wdi5 to be able to use it globally
@@ -254,8 +254,7 @@ async function clientSide_injectUI5(waitForUI5Timeout: number, browserInstance: 
              */
             window.wdi5.getUI5CtlForWebObj = (ui5Control) => {
                 if (window.wdi5Ui5FeaturesAvailable.useUI5ElementClosestTo) {
-                    // @ts-expect-error: Property 'closestTo' does not exist on type 'UI5Element'. Did you mean to access the static member 'UI5Element.closestTo' instead?
-                    return UI5ElementRef.closestTo(ui5Control)
+                    return UI5ElementRef.closestTo(ui5Control) as Control
                 } else {
                     return jQuery(ui5Control).control(0)
                 }
