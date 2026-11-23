@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 3.2.0 (2026-11-23)
+
+
+### Features
+
+* **v10:** support webdriverio v10 alongside v9 ([#791](https://github.com/ui5-community/wdi5/issues/791)) ([07e26e6](https://github.com/ui5-community/wdi5/commit/07e26e6af953842ec6ab66fd3b39766a4b0becdf))
+
 ## 3.1.0 (2026-11-19)
 
 
