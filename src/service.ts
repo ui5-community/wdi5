@@ -1,7 +1,8 @@
-import type { Capabilities, Services } from "@wdio/types"
+import type { Services } from "@wdio/types"
 import type { wdi5Capabilities, wdi5Config, wdi5MultiRemoteCapability } from "./types/wdi5.types.js"
 
 import { start, injectUI5, setup, checkForUI5Page, authenticate, initMultiRemoteBrowser } from "./lib/wdi5-bridge.js"
+import { isMultiRemote } from "./lib/multiRemote.js"
 import { wdi5 as _wdi5 } from "./wdi5.js"
 import { Logger as _Logger } from "./lib/Logger.js"
 const Logger = _Logger.getInstance()
@@ -22,7 +23,7 @@ export default class Service implements Services.ServiceInstance {
     } // the Service is instantiated by wdio with the capabilities and config passed on to
 
     async before(
-        capabilities: Capabilities.RequestedMultiremoteCapabilities,
+        capabilities: Parameters<NonNullable<Services.ServiceInstance["before"]>>[0],
         specs: string[],
         browserInstance: WebdriverIO.Browser
     ) {
@@ -38,9 +39,9 @@ export default class Service implements Services.ServiceInstance {
         await setup(this._config, browserInstance)
         Logger.info("setup complete")
 
-        if (browserInstance.isMultiremote) {
-            for (const name of (browserInstance as unknown as WebdriverIO.MultiRemoteBrowser).instances) {
-                // TODO: browserInstance[name as keyof typeof browserInstance] repeated multiple times
+        if (isMultiRemote(browserInstance)) {
+            const multiRemoteInstance = browserInstance as unknown as WebdriverIO.MultiRemoteBrowser
+            for (const name of multiRemoteInstance.instances) {
                 if (this?._capabilities[name].capabilities["wdi5:authentication"]) {
                     await authenticate(this._capabilities[name].capabilities["wdi5:authentication"], name)
                 }
@@ -49,9 +50,9 @@ export default class Service implements Services.ServiceInstance {
                     Logger.warn("skipped wdi5 injection!")
                 } else if (this._config?.wdi5?.btpWorkZoneEnablement) {
                     Logger.info("delegating wdi5 injection to WorkZone enablement...")
-                    await this.enableBTPWorkZoneStdEdition(browserInstance[name as keyof typeof browserInstance])
+                    await this.enableBTPWorkZoneStdEdition(multiRemoteInstance.getInstance(name))
                 } else {
-                    await this.injectUI5(browserInstance[name as keyof typeof browserInstance])
+                    await this.injectUI5(multiRemoteInstance.getInstance(name))
                 }
             }
             initMultiRemoteBrowser()
@@ -72,12 +73,13 @@ export default class Service implements Services.ServiceInstance {
     }
 
     afterCommand(commandName: string, args: any[], result: any) {
-        if (commandName === "url" && result?.redirectChain?.length > 0) {
+        const request = result?.request ?? result
+        if (commandName === "url" && request?.redirectChain?.length > 0) {
             Logger.warn(
                 "Navigation redirect was detected! The requested URL might differ from the actual URL loaded in the browser."
             )
             Logger.warn("Redirects may break tests due to the loss of WDI5 browser context!")
-            Logger.warn("Redirected to:", result?.url)
+            Logger.warn("Redirected to:", request?.url)
         }
     }
 

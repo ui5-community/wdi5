@@ -1,0 +1,50 @@
+name: wdio-compat
+
+on:
+  pull_request:
+    branches:
+      - main
+
+    paths:
+      - "examples/**"
+      - "src/**"
+      - "scripts/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/wdi5-tests_wdio-compat.yml"
+
+concurrency:
+  group: wdio-compat-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+
+    strategy:
+      fail-fast: false
+      matrix:
+        wdio: [9, 10]
+
+    steps:
+      - name: check out repo
+        uses: actions/checkout@v7
+
+      - name: use node 24
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
+
+      - name: install packages
+        run: |
+          npm pkg delete scripts.prepare
+          npm ci
+
+      - name: build
+        run: npm run build
+
+      - name: run example suite against WebdriverIO ${{ matrix.wdio }}
+        run: npm run test:wdio${{ matrix.wdio }}

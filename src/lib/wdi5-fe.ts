@@ -2,6 +2,7 @@ import type { FEOpaPageCollection, OpaGWTKeywords, OpaGiven, OpaWhen, OpaThen } 
 import { initOPA, addToQueue, emptyQueue, loadFELibraries } from "../client-side-js/testLibrary.js"
 import { wdi5 as _wdi5 } from "../wdi5.js"
 import { Logger as _Logger } from "./Logger.js"
+import { switchToTopFrame } from "./frames.js"
 const Logger = _Logger.getInstance()
 
 const commonFunctions = ["and", "when", "then"]
@@ -65,7 +66,7 @@ export class WDI5FE {
         // second magic wand wave -> shell context
         // yet only wave the wand when there's an iframe with attribute data-sap-ushell-active='true',
         // indicating BTP WorkZone territory
-        await browserInstance.switchFrame(null)
+        await switchToTopFrame(browserInstance)
         const iframe = await browserInstance.$(_wdi5.getBtpWorkZoneIframeSelector())
         let shell
         if (!iframe.error) {
@@ -89,7 +90,7 @@ export class WDI5FE {
             }
         } else {
             // if iframe not found or errored goto parent or null
-            await browserInstance.switchFrame(null)
+            await switchToTopFrame(browserInstance)
         }
         return new WDI5FE(appConfig, browserInstance, shell)
     }

@@ -25,6 +25,7 @@ import { clientSide__navTo } from "../client-side-js/_navTo.js"
 import { clientSide_allControls } from "../client-side-js/allControls.js"
 import { clientSide_setUI5FeaturesAvailable } from "../client-side-js/setUI5FeaturesAvailable.js"
 import { Logger as _Logger } from "./Logger.js"
+import { isMultiRemote } from "./multiRemote.js"
 import { WDI5Object } from "./wdi5-object.js"
 import BTPAuthenticator from "./authentication/BTPAuthenticator.js"
 import BasicAuthenticator from "./authentication/BasicAuthenticator.js"
@@ -52,9 +53,10 @@ export async function setup(config: wdi5Config, browserInstance: WebdriverIO.Bro
     // jump-start the desired log level
     Logger.setLogLevel(config?.wdi5?.logLevel || "error")
 
-    if (browser.isMultiremote) {
-        for (const name of (browser as unknown as WebdriverIO.MultiRemoteBrowser).instances) {
-            initBrowser(browser[name as keyof typeof browser])
+    if (isMultiRemote(browser)) {
+        const multiRemoteInstance = browser as unknown as WebdriverIO.MultiRemoteBrowser
+        for (const name of multiRemoteInstance.instances) {
+            initBrowser(multiRemoteInstance.getInstance(name))
         }
     } else {
         initBrowser(browserInstance)
@@ -86,7 +88,7 @@ export function initMultiRemoteBrowser() {
                 const multiRemoteInstance = browser as unknown as WebdriverIO.MultiRemoteBrowser
                 const result = []
                 multiRemoteInstance.instances.forEach((name) => {
-                    result.push(multiRemoteInstance[name][command].apply(this, args))
+                    result.push(multiRemoteInstance.getInstance(name)[command].apply(this, args))
                 })
                 return Promise.all(result)
             })
