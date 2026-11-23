@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 3.1.0 (2026-11-19)
+
+
+### Features
+
+* add strict mode to asControl ([#795](https://github.com/ui5-community/wdi5/issues/795)) ([b8e6789](https://github.com/ui5-community/wdi5/commit/b8e6789aed4e826397021a19b50e2ddbbda3b861)), closes [#625](https://github.com/ui5-community/wdi5/issues/625) [ui5-community/wdi5#625](https://github.com/ui5-community/wdi5/issues/625)
+
 ### 3.0.12 (2026-09-11)
 
 
